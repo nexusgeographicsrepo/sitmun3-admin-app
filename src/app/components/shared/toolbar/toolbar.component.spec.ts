@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FmeExtractionComponent } from './fme-extraction.component';
+import { ToolbarComponent } from './toolbar.component';
 
-describe('FmeExtractionComponent', () => {
-  let component: FmeExtractionComponent;
-  let fixture: ComponentFixture<FmeExtractionComponent>;
+describe('ToolbarComponent', () => {
+  let component: ToolbarComponent;
+  let fixture: ComponentFixture<ToolbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FmeExtractionComponent ]
+      declarations: [ ToolbarComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FmeExtractionComponent);
+    fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

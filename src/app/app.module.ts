@@ -12,17 +12,10 @@ import { UserComponent } from './components/user/user.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { IndexComponent } from './components/index/index.component';
 import { RouterModule } from '@angular/router';
-import { APP_ROUTES } from './app-routing.module';
+import { APP_ROUTES } from './app-routes';
 import { RoleComponent } from './components/role/role.component';
-import { TasksComponent } from './components/tasks/tasks.component';
-import { DownloadComponent } from './components/download/download.component';
-import { DocumentComponent } from './components/document/document.component';
-import { MoreInformationComponent } from './components/more-information/more-information.component';
-import { LocatorComponent } from './components/locator/locator.component';
-import { ReportComponent } from './components/report/report.component';
-import { EditionComponent } from './components/edition/edition.component';
-import { ThematicComponent } from './components/thematic/thematic.component';
-import { FmeExtractionComponent } from './components/fme-extraction/fme-extraction.component';
+import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
+import { ToolbarComponent } from './components/shared/toolbar/toolbar.component';
 
 
 //
@@ -39,16 +32,8 @@ import { FmeExtractionComponent } from './components/fme-extraction/fme-extracti
     UserComponent,
     ApplicationComponent,
     IndexComponent,
-    RoleComponent,
-    TasksComponent,
-    DownloadComponent,
-    DocumentComponent,
-    MoreInformationComponent,
-    LocatorComponent,
-    ReportComponent,
-    EditionComponent,
-    ThematicComponent,
-    FmeExtractionComponent   
+    SideMenuComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,

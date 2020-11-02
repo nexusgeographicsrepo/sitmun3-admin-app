@@ -16,6 +16,7 @@ import { APP_ROUTES } from './app-routes';
 import { RoleComponent } from './components/role/role.component';
 import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
 import { ToolbarComponent } from './components/shared/toolbar/toolbar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 //
@@ -33,10 +34,12 @@ import { ToolbarComponent } from './components/shared/toolbar/toolbar.component'
     ApplicationComponent,
     IndexComponent,
     SideMenuComponent,
+    RoleComponent,
     ToolbarComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(APP_ROUTES, {useHash: true})
   ],
   providers: [],

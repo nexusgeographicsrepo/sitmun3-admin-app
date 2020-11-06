@@ -11,6 +11,7 @@ import { TerritoryComponent } from './components/territory/territory.component';
 import { RoleComponent } from './components/role/role.component';
 import { UserComponent } from './components/user/user.component';
 import { ApplicationComponent } from './components/application/application.component';
+import { ProvesComponent } from './components/proves/proves.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -24,8 +25,9 @@ export const APP_ROUTES: Routes = [
     {path: 'role', component: RoleComponent},
     {path: 'user', component: UserComponent},
     {path: 'application', component: ApplicationComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'index' },
-    {path: '**', pathMatch: 'full', redirectTo: 'index' }
+    {path: 'proves', component: ProvesComponent},
+    {path: '', pathMatch: 'full', redirectTo: 'proves' },
+    {path: '**', pathMatch: 'full', redirectTo: 'proves' }
 
 ];
 

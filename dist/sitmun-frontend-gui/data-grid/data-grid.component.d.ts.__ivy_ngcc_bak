@@ -1,0 +1,17 @@
+import { OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Module } from '@ag-grid-community/all-modules';
+export declare class DataGridComponent implements OnInit {
+    modules: Module[];
+    searchValue: string;
+    private gridApi;
+    private gridColumnApi;
+    columnDefs: any[];
+    rowData: any[];
+    getAll: () => Observable<any>;
+    constructor();
+    ngOnInit(): void;
+    onGridReady(params: any): void;
+    quickSearch(): void;
+    getElements(): void;
+}

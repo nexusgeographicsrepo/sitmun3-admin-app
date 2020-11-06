@@ -22,14 +22,16 @@ export class ProvesComponent implements OnInit {
 
   /*
     El columnDefs correspon a les columnes que tindrà la taula (a cada component serà diferent suposo),
-    el sortable es per si cliques al costat del nom de la columna, poder ordenar-ho de més gran a més petit o al revés! 
+    el sortable es per si cliques al costat del nom de la columna, poder ordenar-ho de més gran a més petit o al revés,
+    i el filter es pel filtre a sota del nom de la columna! Si ho volguessim desactivar a alguna columna només caldrà treure-ho
+    de la fila del columnDefs corresponent.
     El passarem al component del dataGrid a través de l'html!
   */
   
   columnDefs = [
-    { field: 'id', sortable: true},
-    { field: 'description', sortable: true },
-    { field: 'name', sortable: true},
+    { field: 'id', sortable: true, filter:true},
+    { field: 'description', sortable: true, filter:true },
+    { field: 'name', sortable: true, filter:true},
   ];
 
   constructor(private http: HttpClient,

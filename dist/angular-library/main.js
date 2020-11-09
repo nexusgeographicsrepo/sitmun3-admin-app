@@ -18,7 +18,7 @@ module.exports = "label {\r\n    display: inline-block;\r\n    margin-right: 5px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"margin: 50px;\">\n\n\n    \n    <!-- <button class=\"btn btn-primary\" (click)=\"removeElement()\" > borrar </button> -->\n\n    <div class=\"row\">\n        <div class=\"col-12 text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"ag-theme-balham col-12\" id=\"myGrid\">\n            <ag-grid-angular\n            style=\" width: 750px; height: 750px;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"\n            (gridReady)=\"onGridReady($event)\">\n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"container\" style=\"margin: 50px;\">\n\n\n    \n    <!-- <button class=\"btn btn-primary\" (click)=\"removeElement()\" > borrar </button> -->\n    <button (click)=\"removeData()\">Remove</button>\n    <button (click)=\"newData()\">New</button>\n    <div class=\"row\">\n        <div class=\"col-12 text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"ag-theme-balham col-12\" id=\"myGrid\">\n            <ag-grid-angular\n            style=\" width: 750px; height: 750px;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"            \n            rowSelection=\"multiple\"\n            (gridReady)=\"onGridReady($event)\">\n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -46,29 +46,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var DataGridComponent = /** @class */ (function () {
-    // @Input() removeFunction: (item: any) => Observable<any>;
     function DataGridComponent() {
         this.modules = _ag_grid_community_all_modules__WEBPACK_IMPORTED_MODULE_1__["AllCommunityModules"];
-        var gridOptions = {
-            defaultColDef: {
-                editable: true,
-                enableRowGroup: true,
-                enablePivot: true,
-                enableValue: true,
-                sortable: true,
-                resizable: true,
-                flex: 1,
-                minWidth: 100,
-            },
-            suppressRowClickSelection: true,
-            groupSelectsChildren: true,
-            debug: true,
-            rowSelection: 'multiple',
-            rowGroupPanelShow: 'always',
-            pivotPanelShow: 'always',
-            pagination: false,
-            enableRangeSelection: true,
-        };
+        this.remove = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.new = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     DataGridComponent.prototype.ngOnInit = function () {
     };
@@ -76,7 +57,6 @@ var DataGridComponent = /** @class */ (function () {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
         this.gridApi.rowHeight = 100;
-        // this.gridApi.setRowData(this.getAll);
         this.getElements();
         params.api.sizeColumnsToFit();
     };
@@ -92,6 +72,15 @@ var DataGridComponent = /** @class */ (function () {
             // this.gridApi.setRowData(items);
         });
     };
+    DataGridComponent.prototype.removeData = function () {
+        var selectedNodes = this.gridApi.getSelectedNodes();
+        var selectedData = selectedNodes.map(function (node) { return node.data; });
+        console.log(selectedData);
+        this.remove.emit(selectedData);
+    };
+    DataGridComponent.prototype.newData = function () {
+        this.new.emit(true);
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Array)
@@ -100,6 +89,14 @@ var DataGridComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Function)
     ], DataGridComponent.prototype, "getAll", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], DataGridComponent.prototype, "remove", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], DataGridComponent.prototype, "new", void 0);
     DataGridComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-data-grid',

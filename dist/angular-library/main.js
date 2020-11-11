@@ -18,7 +18,7 @@ module.exports = "label {\r\n    display: inline-block;\r\n    margin-right: 5px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"margin: 50px;\"  >\n\n\n    \n\n    <div class=\"row\">\n        <div class=\"text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n\n\n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-danger\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">Delete Changes</button>\n            <button class=\"btn btn-warning\" (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >Undo</button>\n            <button class=\"btn btn-warning\" (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">Redo</button>\n            <button class=\"btn btn-success\" (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >Apply Changes</button>\n        </div>\n\n        \n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-secondary\" (click)=\"removeData()\">Remove</button>\n            <button class=\"btn btn-success\" (click)=\"newData()\">New</button>\n        </div>\n\n\n    </div>\n\n    <div class=\"row\">\n        <div class=\"ag-theme-balham\" id=\"myGrid\" >\n            <ag-grid-angular\n            style=\" width: 750px; height: 500px;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"     \n            [undoRedoCellEditing]=\"true\"    \n            [undoRedoCellEditingLimit]= 200\n            [suppressRowClickSelection]=true\n            [enableCellChangeFlash]=true\n            rowSelection=\"multiple\"\n            (cellEditingStopped)=\"onCellEditingStopped($event)\"\n            (gridReady)=\"onGridReady($event)\">\n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"container\" style=\"margin: 50px;\"  >\n\n\n    \n\n    <div class=\"row\">\n        <div class=\"text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n\n\n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-danger\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">Delete Changes</button>\n            <button class=\"btn btn-warning\" (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >Undo</button>\n            <button class=\"btn btn-warning\" (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">Redo</button>\n            <button class=\"btn btn-success\" (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >Apply Changes</button>\n        </div>\n\n        \n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-secondary\" (click)=\"removeData()\">Remove</button>\n            <button class=\"btn btn-success\" (click)=\"newData()\">New</button>\n        </div>\n\n\n    </div>\n\n    <div class=\"row\">\n        <div class=\"ag-theme-balham\" id=\"myGrid\" >\n            <ag-grid-angular\n            style=\" width: 750px; height: 500px;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [gridOptions]=\"gridOptions\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"     \n            [undoRedoCellEditing]=\"true\"    \n            [undoRedoCellEditingLimit]= 200\n            [suppressRowClickSelection]=true\n            [enableCellChangeFlash]=true\n            rowSelection=\"multiple\"\n            (cellEditingStopped) =\"onCellEditingStopped($event)\"\n            (cellValueChanged)=\"onCellValueChanged($event)\"\n            (gridReady)=\"onGridReady($event)\">\n            \n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -43,21 +43,41 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __values = (undefined && undefined.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
 
 
 var DataGridComponent = /** @class */ (function () {
     function DataGridComponent() {
         this.modules = _ag_grid_community_all_modules__WEBPACK_IMPORTED_MODULE_1__["AllCommunityModules"];
-        this.set = new Set();
+        this.map = new Map(); // Guardarem l'id de les celes modificades i el nº d'edicions sobre aquestes
         this.remove = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.new = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.sendChanges = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.comptadorCanvis = 0;
+        this.comptadorCanvisAnterior = 0;
         this.comptadorRedo = 0;
+        this.gridOptions = {
+            defaultColDef: {
+                flex: 1,
+                filter: true,
+                editable: true,
+                minWidth: 100,
+                cellStyle: { backgroundColor: '#FFFFFF' },
+            },
+            rowSelection: 'multiple',
+        };
     }
-    DataGridComponent.prototype.ngOnInit = function () {
-    };
     DataGridComponent.prototype.onGridReady = function (params) {
+        this.params = params;
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
         this.gridApi.rowHeight = 100;
@@ -79,48 +99,101 @@ var DataGridComponent = /** @class */ (function () {
         this.gridApi.stopEditing(false);
         var selectedNodes = this.gridApi.getSelectedNodes();
         var selectedData = selectedNodes.map(function (node) { return node.data; });
+        console.log(selectedData);
         this.remove.emit(selectedData);
     };
     DataGridComponent.prototype.newData = function () {
+        console.log(this.comptadorCanvis);
         this.gridApi.stopEditing(false);
         this.new.emit(true);
     };
     DataGridComponent.prototype.applyChanges = function () {
-        var _this = this;
         var itemsChanged = [];
         this.gridApi.stopEditing(false);
-        this.set.forEach(function (id) { return itemsChanged.push(_this.gridApi.getRowNode(id).data); });
+        try {
+            for (var _a = __values(this.map.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var key = _b.value;
+                itemsChanged.push(this.gridApi.getRowNode(key).data);
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
         this.sendChanges.emit(itemsChanged);
-        this.set.clear();
+        this.map.clear();
         this.comptadorCanvis = 0;
+        this.comptadorCanvisAnterior = 0;
         this.comptadorRedo = 0;
-    };
-    DataGridComponent.prototype.onCellEditingStopped = function (e) {
-        this.set.add(e.node.id);
-        this.comptadorCanvis += 1;
-        this.comptadorRedo = 0;
+        this.params.colDef.cellStyle = { backgroundColor: '#FFFFFF' };
+        this.gridApi.redrawRows();
+        var e_1, _c;
     };
     DataGridComponent.prototype.deleteChanges = function () {
-        for (var i = 0; i <= this.comptadorCanvis; i++) {
+        console.log(this.comptadorCanvis);
+        for (var i = 0; i < this.comptadorCanvis; i++) {
             this.gridApi.undoCellEditing();
         }
-        this.set.clear();
+        this.map.clear();
+        this.comptadorCanvisAnterior = 0;
         this.comptadorCanvis = 0;
         this.comptadorRedo = 0;
+        this.params.colDef.cellStyle = { backgroundColor: '#FFFFFF' };
+        this.gridApi.redrawRows();
     };
     DataGridComponent.prototype.undo = function () {
         this.gridApi.stopEditing(false);
         this.gridApi.undoCellEditing();
-        if (this.comptadorCanvis > 0) {
-            this.comptadorCanvis -= 1;
-            this.comptadorRedo += 1;
-        }
+        this.comptadorCanvis -= 1;
+        this.comptadorRedo += 1;
     };
     DataGridComponent.prototype.redo = function () {
         this.gridApi.stopEditing(false);
         this.gridApi.redoCellEditing();
         this.comptadorCanvis += 1;
         this.comptadorRedo -= 1;
+    };
+    DataGridComponent.prototype.onCellEditingStopped = function (e) {
+        this.comptadorCanvis++;
+        this.comptadorRedo = 0;
+        this.onCellValueChanged(e);
+    };
+    DataGridComponent.prototype.onCellValueChanged = function (params) {
+        this.params = params; // Guardarem els paramatres actuals per si hem de fer un apply changes
+        if (this.comptadorCanvis > this.comptadorCanvisAnterior) 
+        // Aquesta condició serà certa si venim d'editar o de fer un redo , però no si venim d'un undo
+        {
+            if (!this.map.has(params.node.id)) {
+                this.map.set(params.node.id, 1);
+                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex);
+                params.colDef.cellStyle = { backgroundColor: '#17AB4D' };
+                this.gridApi.redrawRows({ rowNodes: [row] });
+                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Li posarem un altre cop el background blanc
+            }
+            else {
+                var modificacionsActuals = this.map.get(params.node.id);
+                this.map.set(params.node.id, (modificacionsActuals + 1));
+            }
+            this.comptadorCanvisAnterior++;
+        }
+        if (this.comptadorCanvis < this.comptadorCanvisAnterior) {
+            // Com sabem que ja haviem editat la cela, agafem el nombre de modificacions que l'hem fet
+            var modificacionsActuals = this.map.get(params.node.id);
+            if (modificacionsActuals === 1) {
+                // Si només te una modificació, vol dir que amb l'undo hem deixat la cela com a l'estat inicial, pel que l'hem de borrar del map
+                this.map.delete(params.node.id);
+                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex);
+                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Li posarem un altre cop el background blanc
+                this.gridApi.redrawRows({ rowNodes: [row] });
+            }
+            else {
+                this.map.set(params.node.id, (modificacionsActuals - 1));
+            }
+            this.comptadorCanvisAnterior--; // Com veniem d'undo, hem de decrementar el comptador de canvisAnterior
+        }
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),

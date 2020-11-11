@@ -1,2 +1,2 @@
 
-<app-data-grid  class="ag-theme-balham " [columnDefs]="columnDefs"  [getAll]='getAllRoles'  (remove)="removeData($event)" (new)='newData()'> </app-data-grid>
+<app-data-grid  class="ag-theme-balham " [columnDefs]="columnDefs"  [getAll]='getAllRoles'  (remove)="removeData($event)" (new)='newData()' (sendChanges)='applyChanges($event)'> </app-data-grid>

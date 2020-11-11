@@ -7,11 +7,15 @@ export declare class DataGridComponent implements OnInit {
     searchValue: string;
     private gridApi;
     private gridColumnApi;
-    columnDefs: any[];
+    set: Set<string>;
     rowData: any[];
+    comptadorCanvis: number;
+    comptadorRedo: number;
+    columnDefs: any[];
     getAll: () => Observable<any>;
     remove: EventEmitter<any[]>;
     new: EventEmitter<boolean>;
+    sendChanges: EventEmitter<any[]>;
     constructor();
     ngOnInit(): void;
     onGridReady(params: any): void;
@@ -19,8 +23,13 @@ export declare class DataGridComponent implements OnInit {
     getElements(): void;
     removeData(): void;
     newData(): void;
+    applyChanges(): void;
+    onCellEditingStopped(e: any): void;
+    deleteChanges(): void;
+    undo(): void;
+    redo(): void;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<DataGridComponent, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "columnDefs": "columnDefs"; "getAll": "getAll"; }, { "remove": "remove"; "new": "new"; }, never, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "columnDefs": "columnDefs"; "getAll": "getAll"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
 }
 
 //# sourceMappingURL=data-grid.component.d.ts.map

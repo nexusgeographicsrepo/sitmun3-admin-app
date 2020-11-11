@@ -18,7 +18,7 @@ module.exports = "label {\r\n    display: inline-block;\r\n    margin-right: 5px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"margin: 50px;\">\n\n\n    \n    <!-- <button class=\"btn btn-primary\" (click)=\"removeElement()\" > borrar </button> -->\n    <button (click)=\"removeData()\">Remove</button>\n    <button (click)=\"newData()\">New</button>\n    <div class=\"row\">\n        <div class=\"col-12 text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"ag-theme-balham col-12\" id=\"myGrid\">\n            <ag-grid-angular\n            style=\" width: 750px; height: 750px;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"            \n            rowSelection=\"multiple\"\n            (gridReady)=\"onGridReady($event)\">\n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"container\" style=\"margin: 50px;\"  >\n\n\n    \n\n    <div class=\"row\">\n        <div class=\"text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n\n\n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-danger\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">Delete Changes</button>\n            <button class=\"btn btn-warning\" (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >Undo</button>\n            <button class=\"btn btn-warning\" (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">Redo</button>\n            <button class=\"btn btn-success\" (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >Apply Changes</button>\n        </div>\n\n        \n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-secondary\" (click)=\"removeData()\">Remove</button>\n            <button class=\"btn btn-success\" (click)=\"newData()\">New</button>\n        </div>\n\n\n    </div>\n\n    <div class=\"row\">\n        <div class=\"ag-theme-balham\" id=\"myGrid\" >\n            <ag-grid-angular\n            style=\" width: 750px; height: 500px;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"     \n            [undoRedoCellEditing]=\"true\"    \n            [undoRedoCellEditingLimit]= 200\n            [suppressRowClickSelection]=true\n            [enableCellChangeFlash]=true\n            rowSelection=\"multiple\"\n            (cellEditingStopped)=\"onCellEditingStopped($event)\"\n            (gridReady)=\"onGridReady($event)\">\n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -48,8 +48,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var DataGridComponent = /** @class */ (function () {
     function DataGridComponent() {
         this.modules = _ag_grid_community_all_modules__WEBPACK_IMPORTED_MODULE_1__["AllCommunityModules"];
+        this.set = new Set();
         this.remove = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.new = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.sendChanges = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.comptadorCanvis = 0;
+        this.comptadorRedo = 0;
     }
     DataGridComponent.prototype.ngOnInit = function () {
     };
@@ -58,7 +62,7 @@ var DataGridComponent = /** @class */ (function () {
         this.gridColumnApi = params.columnApi;
         this.gridApi.rowHeight = 100;
         this.getElements();
-        params.api.sizeColumnsToFit();
+        this.gridApi.sizeColumnsToFit();
     };
     DataGridComponent.prototype.quickSearch = function () {
         this.gridApi.setQuickFilter(this.searchValue);
@@ -69,17 +73,54 @@ var DataGridComponent = /** @class */ (function () {
             .subscribe(function (items) {
             console.log(items);
             _this.rowData = items;
-            // this.gridApi.setRowData(items);
         });
     };
     DataGridComponent.prototype.removeData = function () {
+        this.gridApi.stopEditing(false);
         var selectedNodes = this.gridApi.getSelectedNodes();
         var selectedData = selectedNodes.map(function (node) { return node.data; });
-        console.log(selectedData);
         this.remove.emit(selectedData);
     };
     DataGridComponent.prototype.newData = function () {
+        this.gridApi.stopEditing(false);
         this.new.emit(true);
+    };
+    DataGridComponent.prototype.applyChanges = function () {
+        var _this = this;
+        var itemsChanged = [];
+        this.gridApi.stopEditing(false);
+        this.set.forEach(function (id) { return itemsChanged.push(_this.gridApi.getRowNode(id).data); });
+        this.sendChanges.emit(itemsChanged);
+        this.set.clear();
+        this.comptadorCanvis = 0;
+        this.comptadorRedo = 0;
+    };
+    DataGridComponent.prototype.onCellEditingStopped = function (e) {
+        this.set.add(e.node.id);
+        this.comptadorCanvis += 1;
+        this.comptadorRedo = 0;
+    };
+    DataGridComponent.prototype.deleteChanges = function () {
+        for (var i = 0; i <= this.comptadorCanvis; i++) {
+            this.gridApi.undoCellEditing();
+        }
+        this.set.clear();
+        this.comptadorCanvis = 0;
+        this.comptadorRedo = 0;
+    };
+    DataGridComponent.prototype.undo = function () {
+        this.gridApi.stopEditing(false);
+        this.gridApi.undoCellEditing();
+        if (this.comptadorCanvis > 0) {
+            this.comptadorCanvis -= 1;
+            this.comptadorRedo += 1;
+        }
+    };
+    DataGridComponent.prototype.redo = function () {
+        this.gridApi.stopEditing(false);
+        this.gridApi.redoCellEditing();
+        this.comptadorCanvis += 1;
+        this.comptadorRedo -= 1;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -97,6 +138,10 @@ var DataGridComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
     ], DataGridComponent.prototype, "new", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], DataGridComponent.prototype, "sendChanges", void 0);
     DataGridComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-data-grid',

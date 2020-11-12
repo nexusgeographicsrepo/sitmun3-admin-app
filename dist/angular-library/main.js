@@ -164,19 +164,20 @@ var DataGridComponent = /** @class */ (function () {
     DataGridComponent.prototype.onCellValueChanged = function (params) {
         this.params = params; // Guardarem els paramatres actuals per si hem de fer un apply changes
         if (this.comptadorCanvis > this.comptadorCanvisAnterior) 
-        // Aquesta condició serà certa si venim d'editar o de fer un redo , però no si venim d'un undo
+        // Aquesta condició serà certa si venim d'editar o de fer un redo (comptador canvis >), però no si venim d'un undo
         {
             if (!this.map.has(params.node.id)) {
                 this.map.set(params.node.id, 1);
-                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex);
-                params.colDef.cellStyle = { backgroundColor: '#17AB4D' };
-                this.gridApi.redrawRows({ rowNodes: [row] });
-                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Li posarem un altre cop el background blanc
             }
             else {
+                // Si ja estava modificada, incrementarem el nombre de canvis d'aquesta cela al map
                 var modificacionsActuals = this.map.get(params.node.id);
                 this.map.set(params.node.id, (modificacionsActuals + 1));
             }
+            var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com ha estat modificada la linea, la pintarem de verd
+            params.colDef.cellStyle = { backgroundColor: '#17AB4D' };
+            this.gridApi.redrawRows({ rowNodes: [row] });
+            params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definirem el cellStyle blanc per proximes celes
             this.comptadorCanvisAnterior++;
         }
         if (this.comptadorCanvis < this.comptadorCanvisAnterior) {
@@ -191,6 +192,10 @@ var DataGridComponent = /** @class */ (function () {
             }
             else {
                 this.map.set(params.node.id, (modificacionsActuals - 1));
+                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com encara te modificacions, ha de tenir el background verd
+                params.colDef.cellStyle = { backgroundColor: '#17AB4D' };
+                this.gridApi.redrawRows({ rowNodes: [row] });
+                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definirem el cellStyle blanc per proximes celes
             }
             this.comptadorCanvisAnterior--; // Com veniem d'undo, hem de decrementar el comptador de canvisAnterior
         }

@@ -73,11 +73,5 @@ export class ProvesComponent implements OnInit {
     console.log(data);
   }
 
-
-
-  /*Encara es una versió primitiva, pero per veure les dades que et retorna y eso ja va bé,
-    a mesura que ho vagi actualitzant aniré avisant, només s'haurà de canviar la carpeta dist,
-    que segurament ja la canvii jo, pero avisaré igualment!
-  */
 }
 

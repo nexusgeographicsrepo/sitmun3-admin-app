@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "label {\r\n    display: inline-block;\r\n    margin-right: 5px;\r\n    margin-left: 5px;\r\n    margin-top: 5px;\r\n}\r\n\r\n"
+module.exports = "label, input {\r\n    display: inline-block;\r\n    margin-right: 5px;\r\n    margin-left: 10px;\r\n    margin-top: 5px;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n#botoNou{\r\n  \r\n    color: white;\r\n    background: #68A225 0% 0% no-repeat padding-box;\r\n    margin-left: 3px\r\n\r\n}\r\n\r\n#botoElimina{\r\n\r\n    background: #FFFFFF 0% 0% no-repeat padding-box;\r\n    margin-left: 3px\r\n\r\n}\r\n\r\n#aplicarCanvis{\r\n    background: #68A225 0% 0% no-repeat padding-box;\r\n    margin-left: 3px\r\n}\r\n\r\n#redo{\r\n\r\n     background: #FF9300;\r\n     margin-left: 3px\r\n \r\n}\r\n\r\n#undo{\r\n\r\n     background: #FF9300;\r\n     margin-left: 3px\r\n    \r\n}\r\n\r\n#borrarCanvis{\r\n    background: #DF3133;\r\n \r\n}\r\n\r\n#grup1 {\r\n    text-align: start;\r\n    width: 40%\r\n }\r\n\r\n#grup2 {\r\n    text-align: end;  \r\n    width: 60%\r\n }\r\n\r\n#grup1, #grup2\r\n{\r\n    display:inline-block;\r\n}"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = "label {\r\n    display: inline-block;\r\n    margin-right: 5px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\" width:100%; height: 100%;\"  >\n\n\n    \n\n    <div class=\"row\">\n        <div class=\"text-left\" >\n            <label>Search </label>\n            <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n            \n        </div>\n\n\n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-danger\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">Delete Changes</button>\n            <button class=\"btn btn-warning\" (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >Undo</button>\n            <button class=\"btn btn-warning\" (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">Redo</button>\n            <button class=\"btn btn-success\" (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >Apply Changes</button>\n        </div>\n\n        \n        <div class=\" text-right btn-group-sm\">\n            <button class=\"btn btn-secondary\" (click)=\"removeData()\">Remove</button>\n            <button class=\"btn btn-success\" (click)=\"newData()\">New</button>\n        </div>\n\n\n    </div>\n\n    <div class=\"row\" style=\"width:100%; height: 100%\">\n        <div class=\"ag-theme-balham\" id=\"myGrid\" style=\" width:100%; height: 100%\" >\n            <ag-grid-angular\n            style=\" width: 100%; height: 100%;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [gridOptions]=\"gridOptions\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"     \n            [undoRedoCellEditing]=\"true\"    \n            [undoRedoCellEditingLimit]= 200\n            [suppressRowClickSelection]=true\n            [enableCellChangeFlash]=true\n            rowSelection=\"multiple\"\n            (cellEditingStopped) =\"onCellEditingStopped($event)\"\n            (cellValueChanged)=\"onCellValueChanged($event)\"\n            (gridReady)=\"onGridReady($event)\">\n            \n            </ag-grid-angular>\n        </div>\n    </div>\n</div>\n\n"
+module.exports = "\n   <div id=grup1 >\n    <button  mat-mini-fab  id=\"borrarCanvis\" type=\"button\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">\n        <mat-icon fontSet=\"material-icons-round\" > close </mat-icon>\n    </button>\n    <button mat-mini-fab  id=\"undo\"  (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >\n        <mat-icon fontSet=\"material-icons-round\" > undo </mat-icon>\n    </button>\n    <button mat-mini-fab  id=\"redo\"  (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">\n        <mat-icon fontSet=\"material-icons-round\" > redo </mat-icon>\n    </button>\n    <button mat-mini-fab  id=\"aplicarCanvis\"  (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >\n        <mat-icon fontSet=\"material-icons-round\" > check </mat-icon>\n    </button>\n</div>\n\n<div id=grup2 >\n    <label>Search </label>\n    <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n    <button mat-stroked-button id=\"botoElimina\"  (click)=\"removeData()\">\n        <mat-icon fontSet=\"material-icons-round\" > delete </mat-icon>\n        Elimina\n    </button>\n    <button mat-stroked-button id=\"botoNou\"  (click)=\"newData()\">\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>                 \n        Nou\n    </button>\n\n\n    \n</div>\n\n\n\n<div class=\"row\" style=\" height: 100%\">\n    <div class=\"ag-theme-balham\" id=\"myGrid\" style=\" width:100%; height: 100%\" >\n        <ag-grid-angular\n        style=\" width: 100%; height: 100%;\"\n        class=\"ag-theme-balham\"\n        [floatingFilter]=\"true\"\n        [rowData]=\"rowData\"\n        [columnDefs]=\"columnDefs\"\n        [gridOptions]=\"gridOptions\"\n        [animateRows]=\"true\"\n        [pagination]=\"false\"\n        [modules]=\"modules\"     \n        [undoRedoCellEditing]=\"true\"    \n        [undoRedoCellEditingLimit]= 200\n        [suppressRowClickSelection]=true\n        [enableCellChangeFlash]=true\n        rowSelection=\"multiple\"\n        (cellEditingStopped) =\"onCellEditingStopped($event)\"\n        (cellValueChanged)=\"onCellValueChanged($event)\"\n        (gridReady)=\"onGridReady($event)\">\n        \n        </ag-grid-angular>\n    </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -175,7 +175,7 @@ var DataGridComponent = /** @class */ (function () {
                 this.map.set(params.node.id, (modificacionsActuals + 1));
             }
             var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com ha estat modificada la linea, la pintarem de verd
-            params.colDef.cellStyle = { backgroundColor: '#17AB4D' };
+            params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
             this.gridApi.redrawRows({ rowNodes: [row] });
             params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definirem el cellStyle blanc per proximes celes
             this.comptadorCanvisAnterior++;
@@ -193,7 +193,7 @@ var DataGridComponent = /** @class */ (function () {
             else {
                 this.map.set(params.node.id, (modificacionsActuals - 1));
                 var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com encara te modificacions, ha de tenir el background verd
-                params.colDef.cellStyle = { backgroundColor: '#17AB4D' };
+                params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
                 this.gridApi.redrawRows({ rowNodes: [row] });
                 params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definirem el cellStyle blanc per proximes celes
             }
@@ -280,6 +280,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_grid_data_grid_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./data-grid/data-grid.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/data-grid/data-grid.component.ts");
 /* harmony import */ var _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ag-grid-community/angular */ "./node_modules/@ag-grid-community/angular/main.js");
 /* harmony import */ var _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -293,6 +295,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 //import * as ol from 'openlayers';
+
+
 
 
 
@@ -316,6 +320,8 @@ var SitmunFrontendGuiModule = /** @class */ (function () {
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"],
                 _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_9__["AgGridModule"].withComponents([]),
                 _sitmun_frontend_core__WEBPACK_IMPORTED_MODULE_7__["SitmunFrontendCoreModule"],
+                _angular_material_button__WEBPACK_IMPORTED_MODULE_10__["MatButtonModule"],
+                _angular_material_icon__WEBPACK_IMPORTED_MODULE_11__["MatIconModule"],
             ],
             declarations: [
                 _data_grid_data_grid_component__WEBPACK_IMPORTED_MODULE_8__["DataGridComponent"]
@@ -560,12 +566,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ngx-translate/http-loader */ "./node_modules/@ngx-translate/http-loader/esm5/ngx-translate-http-loader.js");
 /* harmony import */ var _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @ag-grid-community/angular */ "./node_modules/@ag-grid-community/angular/main.js");
 /* harmony import */ var _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -607,6 +619,7 @@ var AppModule = /** @class */ (function () {
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__["BrowserAnimationsModule"],
                 _sitmun_frontend_core__WEBPACK_IMPORTED_MODULE_5__["SitmunFrontendCoreModule"].forRoot(),
                 sitmun_frontend_gui__WEBPACK_IMPORTED_MODULE_7__["SitmunFrontendGuiModule"],
                 _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_14__["AgGridModule"].withComponents([]),
@@ -617,6 +630,8 @@ var AppModule = /** @class */ (function () {
                         deps: [_angular_common_http__WEBPACK_IMPORTED_MODULE_11__["HttpClient"]]
                     }
                 }),
+                _angular_material_button__WEBPACK_IMPORTED_MODULE_15__["MatButtonModule"],
+                _angular_material_icon__WEBPACK_IMPORTED_MODULE_16__["MatIconModule"],
                 _sitmun_frontend_core__WEBPACK_IMPORTED_MODULE_5__["AngularHalModule"].forRoot(),
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes)
             ],

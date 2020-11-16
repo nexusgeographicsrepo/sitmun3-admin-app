@@ -7,7 +7,7 @@ import { RoleService } from 'dist/sitmun-frontend-core/';
 @Component({
   selector: 'app-proves',
   templateUrl: './proves.component.html',
-  styleUrls: ['./proves.component.css']
+  styleUrls: ['./proves.component.scss']
 })
 export class ProvesComponent implements OnInit {
 

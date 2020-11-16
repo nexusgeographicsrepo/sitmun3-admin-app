@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-layers',
   templateUrl: './layers.component.html',
-  styleUrls: ['./layers.component.css']
+  styleUrls: ['./layers.component.scss']
 })
 export class LayersComponent implements OnInit {
 

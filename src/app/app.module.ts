@@ -25,6 +25,8 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { ProvesComponent } from './components/proves/proves.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material-module';
+import { SidenavService } from './services/sidenav.service';
 //
 @NgModule({
   declarations: [
@@ -50,12 +52,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     AngularHalModule,
     SitmunFrontendGuiModule,
+    MaterialModule,
     AgGridModule.withComponents([]),
-    RouterModule.forRoot(APP_ROUTES, {useHash: true}),
+    RouterModule.forRoot(APP_ROUTES, { useHash: true }),
     BrowserAnimationsModule
   ],
-  providers: [{ provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
-  RoleService],
+  providers: [SidenavService, { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
+    RoleService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

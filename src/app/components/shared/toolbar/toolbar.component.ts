@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
+import { SidenavService } from '../../../services/sidenav.service';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css']
+  styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent{
+  langList: any = [];
+  constructor(private sidenav: SidenavService) { }
 
-  constructor() { }
+  @Output()
+  open: EventEmitter<boolean> = new EventEmitter()
 
-  ngOnInit(): void {
+  clickMenu(){ 
+    this.open.emit(true);
   }
 
 }

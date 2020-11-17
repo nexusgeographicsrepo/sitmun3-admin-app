@@ -15,7 +15,10 @@ export class IconsService {
 
   loadOptions() {
     this.menuOptions = [
-
+      {
+        id: 'connection',
+        icon: 'menu_connexio',
+      },
       {
         id: 'service',
         icon: 'menu_servei',
@@ -23,10 +26,6 @@ export class IconsService {
       {
         id: 'layers',
         icon: 'menu_capes',
-      },
-      {
-        id: 'connection',
-        icon: 'menu_connexio',
       },
       {
         id: 'trees',

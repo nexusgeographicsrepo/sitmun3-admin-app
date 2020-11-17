@@ -6,6 +6,7 @@ export declare class DataGridComponent {
     searchValue: string;
     private gridApi;
     private gridColumnApi;
+    columnaEstat: boolean;
     map: Map<number, number>;
     private params;
     rowData: any[];
@@ -15,6 +16,13 @@ export declare class DataGridComponent {
     gridOptions: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
+    botoDescartarCanvis: boolean;
+    botoUndo: boolean;
+    botoRedo: boolean;
+    botoAplicarCanvis: boolean;
+    botoElimina: boolean;
+    botoNou: boolean;
+    searchGeneral: boolean;
     remove: EventEmitter<any[]>;
     new: EventEmitter<boolean>;
     sendChanges: EventEmitter<any[]>;
@@ -26,6 +34,7 @@ export declare class DataGridComponent {
     newData(): void;
     applyChanges(): void;
     deleteChanges(): void;
+    onFilterModified(): void;
     undo(): void;
     redo(): void;
     onCellEditingStopped(e: any): void;

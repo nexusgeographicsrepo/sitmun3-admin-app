@@ -27,11 +27,12 @@ export class ProvesComponent implements OnInit {
     El passarem al component del dataGrid a través de l'html!
   */
   
-  columnDefs = [
-    { field: 'id', checkboxSelection: true},
-    { field: 'description' },
-    { field: 'name'},
-  ];
+ columnDefs = [
+  { field: 'id', checkboxSelection: true,},
+  { field: 'description' },
+  { field: 'name'},
+  { field: 'estat'},
+];
 
   constructor(private http: HttpClient,
               public roleService: RoleService,

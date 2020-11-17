@@ -18,7 +18,7 @@ module.exports = "label, input {\r\n    display: inline-block;\r\n    margin-rig
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n   <div id=grup1 >\n    <button  mat-mini-fab  id=\"borrarCanvis\" type=\"button\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">\n        <mat-icon fontSet=\"material-icons-round\" > close </mat-icon>\n    </button>\n    <button mat-mini-fab  id=\"undo\"  (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >\n        <mat-icon fontSet=\"material-icons-round\" > undo </mat-icon>\n    </button>\n    <button mat-mini-fab  id=\"redo\"  (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">\n        <mat-icon fontSet=\"material-icons-round\" > redo </mat-icon>\n    </button>\n    <button mat-mini-fab  id=\"aplicarCanvis\"  (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >\n        <mat-icon fontSet=\"material-icons-round\" > check </mat-icon>\n    </button>\n</div>\n\n<div id=grup2 >\n    <label>Search </label>\n    <input type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n    <button mat-stroked-button id=\"botoElimina\"  (click)=\"removeData()\">\n        <mat-icon fontSet=\"material-icons-round\" > delete </mat-icon>\n        Elimina\n    </button>\n    <button mat-stroked-button id=\"botoNou\"  (click)=\"newData()\">\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>                 \n        Nou\n    </button>\n\n\n    \n</div>\n\n\n\n<div class=\"row\" style=\" height: 100%\">\n    <div class=\"ag-theme-balham\" id=\"myGrid\" style=\" width:100%; height: 100%\" >\n        <ag-grid-angular\n        style=\" width: 100%; height: 100%;\"\n        class=\"ag-theme-balham\"\n        [floatingFilter]=\"true\"\n        [rowData]=\"rowData\"\n        [columnDefs]=\"columnDefs\"\n        [gridOptions]=\"gridOptions\"\n        [animateRows]=\"true\"\n        [pagination]=\"false\"\n        [modules]=\"modules\"     \n        [undoRedoCellEditing]=\"true\"    \n        [undoRedoCellEditingLimit]= 200\n        [suppressRowClickSelection]=true\n        [enableCellChangeFlash]=true\n        rowSelection=\"multiple\"\n        (cellEditingStopped) =\"onCellEditingStopped($event)\"\n        (cellValueChanged)=\"onCellValueChanged($event)\"\n        (gridReady)=\"onGridReady($event)\">\n        \n        </ag-grid-angular>\n    </div>\n</div>\n\n\n"
+module.exports = "\n\n\n    <div id=grup1 >\n        <button  mat-mini-fab *ngIf=\"botoDescartarCanvis\"  id=\"borrarCanvis\" type=\"button\"  (click)=\"deleteChanges()\" [disabled]=\"comptadorCanvis <= 0\">\n            <mat-icon fontSet=\"material-icons-round\" > close </mat-icon>\n        </button>\n        <button mat-mini-fab *ngIf=\"botoUndo\"  id=\"undo\"  (click)=\"undo()\" [disabled]=\"comptadorCanvis <= 0\" >\n            <mat-icon fontSet=\"material-icons-round\" > undo </mat-icon>\n        </button>\n        <button mat-mini-fab *ngIf=\"botoRedo\"  id=\"redo\"  (click)=\"redo()\" [disabled]=\"comptadorRedo <= 0\">\n            <mat-icon fontSet=\"material-icons-round\" > redo </mat-icon>\n        </button>\n        <button mat-mini-fab  *ngIf=\"botoAplicarCanvis\"  id=\"aplicarCanvis\"  (click)=\"applyChanges()\" [disabled]=\"comptadorCanvis <= 0\" >\n            <mat-icon fontSet=\"material-icons-round\" > check </mat-icon>\n        </button>\n    </div>\n\n    <div id=grup2 >\n        <label *ngIf=\"searchGeneral\" >Search </label>\n        <input *ngIf=\"searchGeneral\"type=\"text\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\n        <button *ngIf=\"botoElimina\"  mat-stroked-button id=\"botoElimina\"  (click)=\"removeData()\">\n            <mat-icon fontSet=\"material-icons-round\" > delete </mat-icon>\n            Elimina\n        </button>\n        <button  *ngIf=\"botoNou\" mat-stroked-button id=\"botoNou\"  (click)=\"newData()\">\n            <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>                 \n            Nou\n        </button>\n\n\n        \n    </div>\n\n\n\n    <div class=\"row\" style=\" height: 100%\">\n        <div class=\"ag-theme-balham\" id=\"myGrid\" style=\" width:100%; height: 100%\" >\n            <ag-grid-angular\n            style=\" width: 100%; height: 100%;\"\n            class=\"ag-theme-balham\"\n            [floatingFilter]=\"true\"\n            [rowData]=\"rowData\"\n            [columnDefs]=\"columnDefs\"\n            [gridOptions]=\"gridOptions\"\n            [animateRows]=\"true\"\n            [pagination]=\"false\"\n            [modules]=\"modules\"     \n            [undoRedoCellEditing]=\"true\"    \n            [undoRedoCellEditingLimit]= 200\n            [suppressRowClickSelection]=true\n            [enableCellChangeFlash]=true\n            rowSelection=\"multiple\"\n            (filterModified)=\"onFilterModified()\"\n            (cellEditingStopped) =\"onCellEditingStopped($event)\"\n            (cellValueChanged)=\"onCellValueChanged($event)\"\n            (gridReady)=\"onGridReady($event)\">\n            \n            </ag-grid-angular>\n        </div>\n    </div>\n\n\n"
 
 /***/ }),
 
@@ -58,6 +58,7 @@ var __values = (undefined && undefined.__values) || function (o) {
 var DataGridComponent = /** @class */ (function () {
     function DataGridComponent() {
         this.modules = _ag_grid_community_all_modules__WEBPACK_IMPORTED_MODULE_1__["AllCommunityModules"];
+        this.columnaEstat = false;
         this.map = new Map(); // Guardarem l'id de les celes modificades i el nº d'edicions sobre aquestes
         this.remove = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.new = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
@@ -70,7 +71,6 @@ var DataGridComponent = /** @class */ (function () {
                 flex: 1,
                 filter: true,
                 editable: true,
-                minWidth: 100,
                 cellStyle: { backgroundColor: '#FFFFFF' },
             },
             rowSelection: 'multiple',
@@ -80,9 +80,24 @@ var DataGridComponent = /** @class */ (function () {
         this.params = params;
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
-        this.gridApi.rowHeight = 100;
         this.getElements();
         this.gridApi.sizeColumnsToFit();
+        try {
+            for (var _a = __values(this.columnDefs), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var col = _b.value;
+                if (col.field === 'estat') {
+                    this.columnaEstat = true;
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        var e_1, _c;
     };
     DataGridComponent.prototype.quickSearch = function () {
         this.gridApi.setQuickFilter(this.searchValue);
@@ -99,11 +114,27 @@ var DataGridComponent = /** @class */ (function () {
         this.gridApi.stopEditing(false);
         var selectedNodes = this.gridApi.getSelectedNodes();
         var selectedData = selectedNodes.map(function (node) { return node.data; });
-        console.log(selectedData);
         this.remove.emit(selectedData);
+        if (this.columnaEstat) {
+            var selectedRows = selectedNodes.map(function (node) { return node.rowIndex; });
+            try {
+                for (var selectedRows_1 = __values(selectedRows), selectedRows_1_1 = selectedRows_1.next(); !selectedRows_1_1.done; selectedRows_1_1 = selectedRows_1.next()) {
+                    var id = selectedRows_1_1.value;
+                    this.gridApi.getRowNode(id).data.estat = 'Eliminat';
+                }
+            }
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            finally {
+                try {
+                    if (selectedRows_1_1 && !selectedRows_1_1.done && (_a = selectedRows_1.return)) _a.call(selectedRows_1);
+                }
+                finally { if (e_2) throw e_2.error; }
+            }
+            this.gridOptions.api.refreshCells();
+        }
+        var e_2, _a;
     };
     DataGridComponent.prototype.newData = function () {
-        console.log(this.comptadorCanvis);
         this.gridApi.stopEditing(false);
         this.new.emit(true);
     };
@@ -116,12 +147,12 @@ var DataGridComponent = /** @class */ (function () {
                 itemsChanged.push(this.gridApi.getRowNode(key).data);
             }
         }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        catch (e_3_1) { e_3 = { error: e_3_1 }; }
         finally {
             try {
                 if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
             }
-            finally { if (e_1) throw e_1.error; }
+            finally { if (e_3) throw e_3.error; }
         }
         this.sendChanges.emit(itemsChanged);
         this.map.clear();
@@ -130,10 +161,9 @@ var DataGridComponent = /** @class */ (function () {
         this.comptadorRedo = 0;
         this.params.colDef.cellStyle = { backgroundColor: '#FFFFFF' };
         this.gridApi.redrawRows();
-        var e_1, _c;
+        var e_3, _c;
     };
     DataGridComponent.prototype.deleteChanges = function () {
-        console.log(this.comptadorCanvis);
         for (var i = 0; i < this.comptadorCanvis; i++) {
             this.gridApi.undoCellEditing();
         }
@@ -143,6 +173,9 @@ var DataGridComponent = /** @class */ (function () {
         this.comptadorRedo = 0;
         this.params.colDef.cellStyle = { backgroundColor: '#FFFFFF' };
         this.gridApi.redrawRows();
+    };
+    DataGridComponent.prototype.onFilterModified = function () {
+        this.deleteChanges();
     };
     DataGridComponent.prototype.undo = function () {
         this.gridApi.stopEditing(false);
@@ -208,6 +241,34 @@ var DataGridComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Function)
     ], DataGridComponent.prototype, "getAll", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "botoDescartarCanvis", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "botoUndo", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "botoRedo", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "botoAplicarCanvis", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "botoElimina", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "botoNou", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], DataGridComponent.prototype, "searchGeneral", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])

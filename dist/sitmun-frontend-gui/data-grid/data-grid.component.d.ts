@@ -7,6 +7,7 @@ export declare class DataGridComponent {
     searchValue: string;
     private gridApi;
     private gridColumnApi;
+    columnaEstat: boolean;
     map: Map<number, number>;
     private params;
     rowData: any[];
@@ -16,6 +17,13 @@ export declare class DataGridComponent {
     gridOptions: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
+    botoDescartarCanvis: boolean;
+    botoUndo: boolean;
+    botoRedo: boolean;
+    botoAplicarCanvis: boolean;
+    botoElimina: boolean;
+    botoNou: boolean;
+    searchGeneral: boolean;
     remove: EventEmitter<any[]>;
     new: EventEmitter<boolean>;
     sendChanges: EventEmitter<any[]>;
@@ -27,12 +35,13 @@ export declare class DataGridComponent {
     newData(): void;
     applyChanges(): void;
     deleteChanges(): void;
+    onFilterModified(): void;
     undo(): void;
     redo(): void;
     onCellEditingStopped(e: any): void;
     onCellValueChanged(params: any): void;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<DataGridComponent, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "columnDefs": "columnDefs"; "getAll": "getAll"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "columnDefs": "columnDefs"; "getAll": "getAll"; "botoDescartarCanvis": "botoDescartarCanvis"; "botoUndo": "botoUndo"; "botoRedo": "botoRedo"; "botoAplicarCanvis": "botoAplicarCanvis"; "botoElimina": "botoElimina"; "botoNou": "botoNou"; "searchGeneral": "searchGeneral"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
 }
 
 //# sourceMappingURL=data-grid.component.d.ts.map

@@ -108,6 +108,7 @@ var DataGridComponent = /** @class */ (function () {
             .subscribe(function (items) {
             console.log(items);
             _this.rowData = items;
+            setTimeout(function () { _this.gridApi.sizeColumnsToFit(); }, 30);
         });
     };
     DataGridComponent.prototype.removeData = function () {

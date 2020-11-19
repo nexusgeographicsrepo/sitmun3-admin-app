@@ -17,6 +17,18 @@
   border: 0px black;
 }
 
+.mat-expansion-panel{
+
+  width: 230px;
+  background-color: #F5F5F5;
+  border: 0px #F5F5F5;
+  
+}
+
+mat-expansion-panel-header{
+  padding: 10px 10px 10px 15px;
+}
+
 .sidenav ul {
   padding-left: 0px;
 }
@@ -51,7 +63,7 @@
 }
 
 .sidenav-content {
-	padding-left: 3px; //canviat de default
+	padding-left: default; //canviat de default
 }
 
 .sidenav-margin-div{
@@ -72,7 +84,16 @@
   color: $black !important;
 }
 
+.altresMenus{
+  border-top: 1px solid #DDDDDD;
+}
 
-  
+.span{
+  font-size: normal;
+  text-align: left;
+}
 
+.opcio{
+  margin-top: 10px;
+}
  

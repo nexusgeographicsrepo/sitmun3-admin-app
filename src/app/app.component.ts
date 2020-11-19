@@ -1,6 +1,7 @@
 import { ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from './services/sidenav.service';
 
 @Component({
@@ -12,7 +13,9 @@ export class AppComponent   {
   title = 'admin-app';
 
   isOpen: boolean;
-  constructor() { }
+  constructor(private translate: TranslateService) { 
+    translate.setDefaultLang('ca');
+  }
 
   navOpen($event): void {
     // toggle condition here

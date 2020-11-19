@@ -17,6 +17,18 @@
   border: 0px black;
 }
 
+.mat-expansion-panel{
+
+  width: 230px;
+  background-color: #F5F5F5;
+  border: 0px #F5F5F5;
+  
+}
+
+mat-expansion-panel-header{
+  padding: 10px 10px 10px 15px;
+}
+
 .sidenav ul {
   padding-left: 0px;
 }

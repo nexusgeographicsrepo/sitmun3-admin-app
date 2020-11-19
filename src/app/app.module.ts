@@ -27,6 +27,15 @@ import { ProvesComponent } from './components/proves/proves.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
 import { SidenavService } from './services/sidenav.service';
+import { TasksDownloadComponent } from './components/tasks-download/tasks-download.component';
+import { TasksDocumentComponent } from './components/tasks-document/tasks-document.component';
+import { TasksConsultationComponent } from './components/tasks-consultation/tasks-consultation.component';
+import { TasksMoreInfoComponent } from './components/tasks-more-info/tasks-more-info.component';
+import { TasksLocatorComponent } from './components/tasks-locator/tasks-locator.component';
+import { TasksReportComponent } from './components/tasks-report/tasks-report.component';
+import { TasksEditionComponent } from './components/tasks-edition/tasks-edition.component';
+import { TasksThematicComponent } from './components/tasks-thematic/tasks-thematic.component';
+import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/tasks-extraction-fme.component';
 //
 @NgModule({
   declarations: [
@@ -44,7 +53,16 @@ import { SidenavService } from './services/sidenav.service';
     SideMenuComponent,
     RoleComponent,
     ToolbarComponent,
-    ProvesComponent
+    ProvesComponent,
+    TasksDownloadComponent,
+    TasksDocumentComponent,
+    TasksConsultationComponent,
+    TasksMoreInfoComponent,
+    TasksLocatorComponent,
+    TasksReportComponent,
+    TasksEditionComponent,
+    TasksThematicComponent,
+    TasksExtractionFmeComponent
   ],
   imports: [
     BrowserModule,

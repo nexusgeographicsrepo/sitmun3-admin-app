@@ -7,14 +7,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class IconsService {
 
-  menuOptions: any = [];
+  menuOptions1: any = [];
+  menuOptions2: any = [];
+  menuOptions3: any = [];
+  menuOptions4: any = [];
+  menus: any = [[]];
   extraImg: any = [];
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer) { }
 
   loadOptions() {
-    this.menuOptions = [
+    this.menuOptions1 = [
       {
         id: 'connection',
         icon: 'menu_connexio',
@@ -34,50 +38,110 @@ export class IconsService {
       {
         id: 'backgroundLayers',
         icon: 'menu_capes_fons',
-      },
-      {
-        id: 'layersPermits',
-        icon: 'menu_permisos',
-      },
-      {
-        id: 'territory',
-        icon: 'menu_territori',
-      },
-      {
-        id: 'role',
-        icon: 'menu_rol',
-      },
-      {
-        id: 'user',
-        icon: 'menu_usuari',
-      },
-      {
-        id: 'tasks',
-        icon: 'menu_tasques',
-      },
+      }
+      ];
+
+    this.menuOptions2 = [
+        {
+          id: 'layersPermits',
+          icon: 'menu_permisos',
+        },
+        {
+          id: 'territory',
+          icon: 'menu_territori',
+        },
+        {
+          id: 'role',
+          icon: 'menu_rol',
+        },
+        {
+          id: 'user',
+          icon: 'menu_usuari',
+        },
+      ];
+
+    this.menuOptions3 = [
+        {
+          id: 'tasks',
+          icon: 'menu_tasques',
+          children: [
+            {
+              id: 'tasksDownload',
+            },
+
+            {
+              id: 'tasksDocument',
+            },
+
+            {
+              id: 'tasksConsultation',
+            },
+
+            {
+              id: 'tasksMoreInformation',
+            },
+
+            {
+              id: 'tasksLocator',
+            },
+
+            {
+              id: 'tasksReport',
+            },
+
+            {
+              id: 'tasksEdition',
+            },
+
+            {
+              id: 'tasksThematic',
+            },
+
+            {
+              id: 'tasksExtractionFME',
+            },
+
+          ]
+        }
+      ];
+
+    this.menuOptions4 = [
       {
         id: 'application',
         icon: 'menu_aplicacio',
       }
-      ];
+    ];
+
     this.extraImg = [
         {
           id: 'ic_arrow_down_black',
           icon: 'ic_arrow_down_black',
         }
       ];
+
+    this.menus[0] = this.menuOptions1;
+    this.menus[1] = this.menuOptions2;
+    this.menus[2] = this.menuOptions3;
+    this.menus[3] = this.menuOptions4;
+
     }
 
     loadSVGs(){
       // tslint:disable-next-line: forin
-      for (const key in this.menuOptions) {
-        const option = this.menuOptions[key];
-        const icon = option.icon;
+      // tslint:disable-next-line: one-variable-per-declaration
+      let menuOptions: any;
+      for ( menuOptions of this.menus)
+      {
+        // tslint:disable-next-line: forin
+        for (const key in menuOptions) {
+          const option = menuOptions[key];
+          const icon = option.icon;
 
-        this.matIconRegistry.addSvgIcon(
-          icon,
-          this.domSanitizer.bypassSecurityTrustResourceUrl('assets/img/' + icon + '.svg')
-        );
+          this.matIconRegistry.addSvgIcon(
+            icon,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/img/' + icon + '.svg')
+          );
+        }
       }
       // tslint:disable-next-line: forin
       for ( const key in this.extraImg ) {
@@ -93,7 +157,7 @@ export class IconsService {
 
     getMenuOption() {
       this.loadOptions();
-      return this.menuOptions;
+      return this.menus;
     }
 
 }

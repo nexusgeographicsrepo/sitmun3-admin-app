@@ -13,7 +13,7 @@ import { SidenavService } from '../../../services/sidenav.service';
 })
 export class SideMenuComponent implements OnChanges {
 
-  menuOptions: any = [];
+  menus: any = [[]];
 
   @Input()
   openNav: boolean;
@@ -25,7 +25,7 @@ export class SideMenuComponent implements OnChanges {
     private domSanitizer: DomSanitizer,
     private iconsservice: IconsService) {
       this.iconsservice.loadOptions();
-      this.menuOptions = this.iconsservice.getMenuOption();
+      this.menus = this.iconsservice.getMenuOption();
       this.iconsservice.loadSVGs();
       }
 

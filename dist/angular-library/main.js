@@ -205,19 +205,21 @@ var DataGridComponent = /** @class */ (function () {
         if (this.comptadorCanvis > this.comptadorCanvisAnterior) 
         // Esta condición será cierta si venimos de editar la cela o de hacer un redo
         {
-            if (!this.map.has(params.node.id)) {
-                this.map.set(params.node.id, 1);
+            if (params.oldValue !== params.value && !(params.oldValue == null && params.value === '')) {
+                if (!this.map.has(params.node.id)) {
+                    this.map.set(params.node.id, 1);
+                }
+                else {
+                    // Si ya habíamos modificado la cela, aumentamos el numero de cambios en esta
+                    var modificacionsActuals = this.map.get(params.node.id);
+                    this.map.set(params.node.id, (modificacionsActuals + 1));
+                }
+                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com ha estado modificada la linia, la pintamos de verde
+                params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
+                this.gridApi.redrawRows({ rowNodes: [row] });
+                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definiremos el cellStyle blanco para futuras modificaciones internas (ej: filtro)
+                this.comptadorCanvisAnterior++;
             }
-            else {
-                // Si ya habíamos modificado la cela, aumentamos el numero de cambios en esta
-                var modificacionsActuals = this.map.get(params.node.id);
-                this.map.set(params.node.id, (modificacionsActuals + 1));
-            }
-            var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com ha estado modificada la linia, la pintamos de verde
-            params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
-            this.gridApi.redrawRows({ rowNodes: [row] });
-            params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definiremos el cellStyle blanco para futuras modificaciones internas (ej: filtro)
-            this.comptadorCanvisAnterior++;
         }
         else if (this.comptadorCanvis < this.comptadorCanvisAnterior) {
             var modificacionsActuals = this.map.get(params.node.id);

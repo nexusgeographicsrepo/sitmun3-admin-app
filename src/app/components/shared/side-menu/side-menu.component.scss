@@ -63,7 +63,7 @@ mat-expansion-panel-header{
 }
 
 .sidenav-content {
-	padding-left: 3px; //canviat de default
+	padding-left: default; //canviat de default
 }
 
 .sidenav-margin-div{
@@ -84,7 +84,5 @@ mat-expansion-panel-header{
   color: $black !important;
 }
 
-
-  
 
  

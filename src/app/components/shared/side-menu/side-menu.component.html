@@ -5,7 +5,7 @@
                 <li  *ngFor="let option of menuOptions" class="side-nav-option">
                     <a *ngIf="option.children == null" [routerLink]="[option.id]" routerLinkActive="active"> 
                         <mat-icon aria-hidden="false" aria-label="Example home icon" svgIcon="{{ option.icon }}"></mat-icon>
-                        <span [translate]=" option.id"> </span>
+                        <span class="opcio" [translate]=" option.id"> </span>
                     </a>
                     <!-- [routerLink]="[option.id]" routerLinkActive="active" -->
                

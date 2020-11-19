@@ -14,6 +14,7 @@ export declare class DataGridComponent {
     comptadorCanvis: number;
     comptadorCanvisAnterior: number;
     comptadorRedo: number;
+    canviAmbModificacions: boolean;
     gridOptions: any;
     columnDefs: any[];
     getAll: () => Observable<any>;

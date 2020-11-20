@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, ConnectionService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,10 +49,10 @@ import { TasksEditionComponent } from './components/tasks-edition/tasks-edition.
 import { TasksThematicComponent } from './components/tasks-thematic/tasks-thematic.component';
 import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/tasks-extraction-fme.component';
 
-
 //Services
 import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
+import { UserService } from '@sitmun/frontend-core';
 
 
 @NgModule({
@@ -105,7 +105,7 @@ import { RoleService } from 'dist/sitmun-frontend-core/';
   ],
   providers: [SidenavService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
-    RoleService],
+    RoleService, ConnectionService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

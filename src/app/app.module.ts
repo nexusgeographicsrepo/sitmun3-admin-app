@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -53,6 +53,7 @@ import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/t
 import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from '@sitmun/frontend-core';
+import { UtilsService } from './services/utils.service';
 
 
 @NgModule({
@@ -103,8 +104,9 @@ import { UserService } from '@sitmun/frontend-core';
     RouterModule.forRoot(APP_ROUTES, { useHash: true }),
     BrowserAnimationsModule
   ],
-  providers: [SidenavService,
+  providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
+     { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService],
   bootstrap: [AppComponent]
 })

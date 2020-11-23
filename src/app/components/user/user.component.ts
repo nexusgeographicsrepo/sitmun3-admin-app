@@ -1,29 +1,50 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from 'dist/sitmun-frontend-core/user/user.model';
 import { UserService } from 'dist/sitmun-frontend-core/';
+import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent  {
+export class UserComponent implements OnInit  {
 
+  headerNameColumnUser: string;
+  headerNameColumnFirstName: string;
+  headerNameColumnLastName: string;
+  headerNameColumnStatus: string;
+  columnDefs: any[];
 
-  columnDefs = [
-    { field: 'username', checkboxSelection: true, },
-    { field: 'firstName' },
-    { field: 'lastName'},
-    { field: 'estat'},
-  ];
 
     constructor(private http: HttpClient,
                 public userService: UserService,
+                private utils: UtilsService
+                // private translate: TranslateService
                 ) {
 
     }
 
+    
+    ngOnInit()  {
+      // this.headerNameColumnUser = await this.translate.get('user').toPromise();
+      // this.headerNameColumnFirstName = await this.translate.get('firstname').toPromise();
+      // this.headerNameColumnLastName = await this.translate.get('lastname').toPromise();
+      // this.headerNameColumnStatus = await this.translate.get('status').toPromise();
+
+      this.columnDefs = [
+        { headerName: this.utils.getTranslate('user'), field: 'username', checkboxSelection: true, },
+        { headerName: this.utils.getTranslate('firstname'),  field: 'firstName' },
+        { headerName: this.utils.getTranslate('lastname'),  field: 'lastName'},
+        { headerName: this.utils.getTranslate('status'), field: 'estat'},
+        // { headerName: this.translate.instant, field: 'username', checkboxSelection: true, },
+        // { headerName: this.headerNameColumnFirstName,  field: 'firstName' },
+        // { headerName: this.headerNameColumnLastName,  field: 'lastName'},
+        // { headerName: this.headerNameColumnStatus, field: 'estat'},
+      ];
+    }
 
 
       /*
@@ -48,6 +69,7 @@ export class UserComponent  {
 
     newData()
     {
+      console.log(this.utils.getTranslate('user'));
       console.log('Crear nou objecte!');
     }
 

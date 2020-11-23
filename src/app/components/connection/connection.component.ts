@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { ConnectionService } from 'dist/sitmun-frontend-core/';
+import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from '../../services/utils.service';
 
 
 @Component({
@@ -9,21 +11,27 @@ import { ConnectionService } from 'dist/sitmun-frontend-core/';
   templateUrl: './connection.component.html',
   styleUrls: ['./connection.component.scss']
 })
-export class ConnectionComponent {
+export class ConnectionComponent implements OnInit {
 
-  columnDefs = [
-    { field: 'id', checkboxSelection: true, },
-    { field: 'name' },
-    { field: 'user'},
-    { field: 'driver'},
-    { field: 'url'},
-    { field: 'estat'},
-  ];
+
+  columnDefs: any[];
 
     constructor(private http: HttpClient,
                 public connectionService: ConnectionService,
+                private utils: UtilsService
                 ) {
 
+    }
+
+     ngOnInit()  {
+      this.columnDefs = [
+        { headerName: 'ID', field: 'id', checkboxSelection: true, },
+        { headerName: this.utils.getTranslate('name'), field: 'name' },
+        { headerName: this.utils.getTranslate('user'), field: 'user'},
+        { headerName: 'Driver', field: 'driver'},
+        { headerName: this.utils.getTranslate('connection'), field: 'url'},
+        { headerName: this.utils.getTranslate('status'), field: 'estat'},
+      ];
     }
 
 

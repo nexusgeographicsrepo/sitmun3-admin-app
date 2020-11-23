@@ -18,5 +18,13 @@
   "tasksEdition": "Edició",
   "tasksThematic": "Temàtica",
   "tasksExtractionFME": "Extracció FME",
-  "application": "Aplicació"
+  "application": "Aplicació",
+  "Remove": "Elimina",
+  "Search": "Cerca",
+  "New": "Nou",
+  "name": "Nom",
+  "description": "Descripció",
+  "status": "Estat",
+  "firstname": "Nom",
+  "lastname" : "Cognom"
 }

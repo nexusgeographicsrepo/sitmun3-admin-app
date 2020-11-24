@@ -5,6 +5,7 @@ import { ConnectionService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,6 @@ import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-r
 })
 export class ConnectionComponent implements OnInit {
 
-
   columnDefs: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -22,7 +22,8 @@ export class ConnectionComponent implements OnInit {
 
     constructor(private http: HttpClient,
                 public connectionService: ConnectionService,
-                private utils: UtilsService
+                private utils: UtilsService,
+                private router: Router,
                 ) {
 
     }
@@ -38,9 +39,7 @@ export class ConnectionComponent implements OnInit {
           width: 130,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
-            clicked: function(field: any) {
-              console.log(field);
-            }
+            clicked: this.newData.bind(this)
           },
         },
         { headerName: 'ID', field: 'id' },
@@ -50,6 +49,9 @@ export class ConnectionComponent implements OnInit {
         { headerName: this.utils.getTranslate('connection'), field: 'url'},
         { headerName: this.utils.getTranslate('status'), field: 'estat'},
       ];
+
+      
+
     }
 
 
@@ -74,9 +76,9 @@ export class ConnectionComponent implements OnInit {
       console.log(data);
     }
 
-    newData(id: number)
+    newData(id: any)
     {
-      console.log(id);
+      this.router.navigate(['connection', id, 'connectionForm']);
     }
 
     applyChanges( data: Connection[])

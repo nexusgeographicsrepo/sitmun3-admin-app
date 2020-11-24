@@ -21,10 +21,14 @@ import { TasksReportComponent } from './components/tasks-report/tasks-report.com
 import { TasksEditionComponent } from './components/tasks-edition/tasks-edition.component';
 import { TasksThematicComponent } from './components/tasks-thematic/tasks-thematic.component';
 import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/tasks-extraction-fme.component';
+import { ConnectionFormComponent } from './components/connection/connection-form.component';
+import { RoleFormComponent } from './components/role/role-form.component';
+import { UserFormComponent } from './components/user/user-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
     {path: 'connection', component: ConnectionComponent},
+    {path: 'connection/:id/connectionForm', component: ConnectionFormComponent},
     {path: 'service', component: ServiceComponent},
     {path: 'layers', component: LayersComponent},
     {path: 'trees', component: TreesComponent},
@@ -41,7 +45,9 @@ export const APP_ROUTES: Routes = [
     {path: 'tasksExtractionFME', component: TasksExtractionFmeComponent },
     {path: 'territory', component: TerritoryComponent},
     {path: 'role', component: RoleComponent},
+    {path: 'role/:id/roleForm', component: RoleFormComponent},
     {path: 'user', component: UserComponent},
+    {path: 'user/:id/userForm', component: UserFormComponent},
     {path: 'application', component: ApplicationComponent},
     {path: 'proves', component: ProvesComponent},
     {path: '', pathMatch: 'full', redirectTo: 'proves' },

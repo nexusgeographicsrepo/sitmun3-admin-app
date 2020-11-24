@@ -5,6 +5,7 @@ import { RoleService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class RoleComponent implements OnInit{
 
     constructor(private http: HttpClient,
                 public roleService: RoleService,
-                private utils: UtilsService
+                private utils: UtilsService,
+                private router: Router,
                 )
                 { }
 
@@ -39,9 +41,7 @@ export class RoleComponent implements OnInit{
           width: 100,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
-            clicked: function(field: any) {
-              console.log(field);
-            }
+            clicked: this.newData.bind(this)
           },
         },
         { headerName: 'ID',  field: 'id'},
@@ -70,12 +70,12 @@ export class RoleComponent implements OnInit{
   {
     console.log(data);
   }
-  
-  newData(id: number)
+
+  newData(id: any)
   {
-    console.log(id);
+    this.router.navigate(['role', id, 'roleForm']);
   }
-  
+
   applyChanges( data: Role[])
   {
         console.log(data);

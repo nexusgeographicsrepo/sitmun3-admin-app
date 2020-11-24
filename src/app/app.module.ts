@@ -55,6 +55,9 @@ import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
 import { BtnEditRenderedComponent } from './components/shared/btn-edit-rendered/btn-edit-rendered.component';
+import { ConnectionFormComponent } from './components/connection/connection-form.component';
+import { RoleFormComponent } from './components/role/role-form.component';
+import { UserFormComponent } from './components/user/user-form.component';
 
 
 @NgModule({
@@ -83,7 +86,10 @@ import { BtnEditRenderedComponent } from './components/shared/btn-edit-rendered/
     TasksEditionComponent,
     TasksThematicComponent,
     TasksExtractionFmeComponent,
-    BtnEditRenderedComponent
+    BtnEditRenderedComponent,
+    ConnectionFormComponent,
+    RoleFormComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,

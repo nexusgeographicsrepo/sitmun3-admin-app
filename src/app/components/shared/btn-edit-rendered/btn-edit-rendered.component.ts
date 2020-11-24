@@ -22,6 +22,10 @@ export class BtnEditRenderedComponent implements ICellRendererAngularComp, OnDes
     this.params.clicked(this.params.value);
   }
 
+  getParams(){
+    return this.params;
+  }
+
   ngOnDestroy() {
     // no need to remove the button click handler 
   }

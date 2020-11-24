@@ -5,6 +5,7 @@ import { UserService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -21,7 +22,8 @@ export class UserComponent implements OnInit  {
 
     constructor(private http: HttpClient,
                 public userService: UserService,
-                private utils: UtilsService
+                private utils: UtilsService,
+                private router: Router
                 // private translate: TranslateService
                 ) {
 
@@ -44,9 +46,7 @@ export class UserComponent implements OnInit  {
           width: 100,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
-            clicked: function(field: any) {
-              console.log(field);
-            }
+            clicked: this.newData.bind(this)
           },
         },
         { headerName: this.utils.getTranslate('user'), field: 'username' },
@@ -81,9 +81,9 @@ export class UserComponent implements OnInit  {
       console.log(data);
     }
 
-    newData(id: number)
+    newData(id: any)
     {
-      console.log(id);
+      this.router.navigate(['user', id, 'userForm']);
     }
 
     applyChanges( data: User[])

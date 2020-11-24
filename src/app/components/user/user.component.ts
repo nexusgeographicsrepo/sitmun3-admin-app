@@ -45,7 +45,7 @@ export class UserComponent implements OnInit  {
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: function(field: any) {
-              alert(`${field} was clicked`);
+              console.log(field);
             }
           },
         },
@@ -81,10 +81,9 @@ export class UserComponent implements OnInit  {
       console.log(data);
     }
 
-    newData()
+    newData(id: number)
     {
-      console.log(this.utils.getTranslate('user'));
-      console.log('Crear nou objecte!');
+      console.log(id);
     }
 
     applyChanges( data: User[])

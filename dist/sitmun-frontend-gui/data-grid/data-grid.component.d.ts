@@ -27,7 +27,7 @@ export declare class DataGridComponent {
     botoNou: boolean;
     searchGeneral: boolean;
     remove: EventEmitter<any[]>;
-    new: EventEmitter<boolean>;
+    new: EventEmitter<number>;
     sendChanges: EventEmitter<any[]>;
     constructor();
     onGridReady(params: any): void;

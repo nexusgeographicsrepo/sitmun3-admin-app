@@ -40,7 +40,7 @@ export class RoleComponent implements OnInit{
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: function(field: any) {
-              alert(`${field} was clicked`);
+              console.log(field);
             }
           },
         },
@@ -71,10 +71,10 @@ export class RoleComponent implements OnInit{
     console.log(data);
   }
   
-  newData()
+  newData(id: number)
   {
-    console.log(`el ID es`);
-  }  
+    console.log(id);
+  }
   
   applyChanges( data: Role[])
   {

@@ -39,7 +39,7 @@ export class ConnectionComponent implements OnInit {
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: function(field: any) {
-              alert(`${field} was clicked`);
+              console.log(field);
             }
           },
         },
@@ -74,9 +74,9 @@ export class ConnectionComponent implements OnInit {
       console.log(data);
     }
 
-    newData()
+    newData(id: number)
     {
-      console.log('Crear nou objecte!');
+      console.log(id);
     }
 
     applyChanges( data: Connection[])

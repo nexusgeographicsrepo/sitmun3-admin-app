@@ -139,7 +139,7 @@ var DataGridComponent = /** @class */ (function () {
     };
     DataGridComponent.prototype.newData = function () {
         this.gridApi.stopEditing(false);
-        this.new.emit(true);
+        this.new.emit(-1);
     };
     DataGridComponent.prototype.applyChanges = function () {
         var itemsChanged = [];

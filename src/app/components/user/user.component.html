@@ -2,5 +2,5 @@
 <div style="width: 750px; height: 430px;  margin: 50px;" >
     <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllUsers' [searchGeneral]=true [frameworkComponents]="frameworkComponents"
     [botoDescartarCanvis]=true [botoRedo]=true [botoUndo]=true [botoAplicarCanvis]=true  [botoElimina]=true [botoNou]=true 
-    (remove)="removeData($event)" (new)='newData()' (sendChanges)='applyChanges($event)' > </app-data-grid>
+    (remove)="removeData($event)" (new)='newData($event)' (sendChanges)='applyChanges($event)' > </app-data-grid>
 </div>

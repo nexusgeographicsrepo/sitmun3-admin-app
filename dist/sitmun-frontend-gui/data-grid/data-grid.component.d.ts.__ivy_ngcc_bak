@@ -15,6 +15,7 @@ export declare class DataGridComponent {
     comptadorRedo: number;
     canviAmbModificacions: boolean;
     gridOptions: any;
+    frameworkComponents: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
     botoDescartarCanvis: boolean;

@@ -4,6 +4,7 @@ import { Role } from 'dist/sitmun-frontend-core/role/role.model';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
+import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
 
 
 @Component({
@@ -14,7 +15,9 @@ import { UtilsService } from '../../services/utils.service';
 export class RoleComponent implements OnInit{
 
     columnDefs: any[];
-
+    public frameworkComponents = {
+      btnEditRendererComponent: BtnEditRenderedComponent
+    };
 
 
     constructor(private http: HttpClient,
@@ -27,7 +30,21 @@ export class RoleComponent implements OnInit{
     ngOnInit()  {
 
       this.columnDefs = [
-        { headerName: 'ID',  field: 'id', checkboxSelection: true, },
+        {
+          headerName: '',
+          field: 'id',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          filter: false,
+          width: 100,
+          cellRenderer: 'btnEditRendererComponent',
+          cellRendererParams: {
+            clicked: function(field: any) {
+              alert(`${field} was clicked`);
+            }
+          },
+        },
+        { headerName: 'ID',  field: 'id'},
         { headerName: this.utils.getTranslate('description'),  field: 'description' },
         { headerName: this.utils.getTranslate('name'),  field: 'name'},
         { headerName: this.utils.getTranslate('status'), field: 'estat'},
@@ -51,13 +68,13 @@ export class RoleComponent implements OnInit{
 
   removeData( data: Role[])
   {
-        console.log(data);
-      }
+    console.log(data);
+  }
   
   newData()
   {
-        console.log('Crear nou objecte!');
-      }  
+    console.log(`el ID es`);
+  }  
   
   applyChanges( data: Role[])
   {

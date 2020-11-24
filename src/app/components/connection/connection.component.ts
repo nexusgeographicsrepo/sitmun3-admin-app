@@ -4,6 +4,7 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { ConnectionService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
+import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
 
 
 @Component({
@@ -15,6 +16,9 @@ export class ConnectionComponent implements OnInit {
 
 
   columnDefs: any[];
+  public frameworkComponents = {
+    btnEditRendererComponent: BtnEditRenderedComponent
+  };
 
     constructor(private http: HttpClient,
                 public connectionService: ConnectionService,
@@ -25,7 +29,21 @@ export class ConnectionComponent implements OnInit {
 
      ngOnInit()  {
       this.columnDefs = [
-        { headerName: 'ID', field: 'id', checkboxSelection: true, },
+        {
+          headerName: '',
+          field: 'id',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          filter: false,
+          width: 130,
+          cellRenderer: 'btnEditRendererComponent',
+          cellRendererParams: {
+            clicked: function(field: any) {
+              alert(`${field} was clicked`);
+            }
+          },
+        },
+        { headerName: 'ID', field: 'id' },
         { headerName: this.utils.getTranslate('name'), field: 'name' },
         { headerName: this.utils.getTranslate('user'), field: 'user'},
         { headerName: 'Driver', field: 'driver'},

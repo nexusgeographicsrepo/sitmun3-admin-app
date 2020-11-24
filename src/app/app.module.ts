@@ -54,6 +54,7 @@ import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
+import { BtnEditRenderedComponent } from './components/shared/btn-edit-rendered/btn-edit-rendered.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { UtilsService } from './services/utils.service';
     TasksReportComponent,
     TasksEditionComponent,
     TasksThematicComponent,
-    TasksExtractionFmeComponent
+    TasksExtractionFmeComponent,
+    BtnEditRenderedComponent
   ],
   imports: [
     BrowserModule,

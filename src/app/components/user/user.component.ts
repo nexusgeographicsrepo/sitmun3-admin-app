@@ -4,6 +4,7 @@ import { User } from 'dist/sitmun-frontend-core/user/user.model';
 import { UserService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
+import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
 
 @Component({
   selector: 'app-user',
@@ -12,12 +13,11 @@ import { UtilsService } from '../../services/utils.service';
 })
 export class UserComponent implements OnInit  {
 
-  headerNameColumnUser: string;
-  headerNameColumnFirstName: string;
-  headerNameColumnLastName: string;
-  headerNameColumnStatus: string;
-  columnDefs: any[];
 
+  columnDefs: any[];
+  public frameworkComponents = {
+    btnEditRendererComponent: BtnEditRenderedComponent
+  };
 
     constructor(private http: HttpClient,
                 public userService: UserService,
@@ -35,7 +35,21 @@ export class UserComponent implements OnInit  {
       // this.headerNameColumnStatus = await this.translate.get('status').toPromise();
 
       this.columnDefs = [
-        { headerName: this.utils.getTranslate('user'), field: 'username', checkboxSelection: true, },
+        {
+          headerName: '',
+          field: 'id',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          filter: false,
+          width: 100,
+          cellRenderer: 'btnEditRendererComponent',
+          cellRendererParams: {
+            clicked: function(field: any) {
+              alert(`${field} was clicked`);
+            }
+          },
+        },
+        { headerName: this.utils.getTranslate('user'), field: 'username' },
         { headerName: this.utils.getTranslate('firstname'),  field: 'firstName' },
         { headerName: this.utils.getTranslate('lastname'),  field: 'lastName'},
         { headerName: this.utils.getTranslate('status'), field: 'estat'},

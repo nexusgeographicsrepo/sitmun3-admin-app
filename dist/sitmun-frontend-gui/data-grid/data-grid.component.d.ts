@@ -16,6 +16,7 @@ export declare class DataGridComponent {
     comptadorRedo: number;
     canviAmbModificacions: boolean;
     gridOptions: any;
+    frameworkComponents: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
     botoDescartarCanvis: boolean;
@@ -42,7 +43,7 @@ export declare class DataGridComponent {
     onCellEditingStopped(e: any): void;
     onCellValueChanged(params: any): void;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<DataGridComponent, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "columnDefs": "columnDefs"; "getAll": "getAll"; "botoDescartarCanvis": "botoDescartarCanvis"; "botoUndo": "botoUndo"; "botoRedo": "botoRedo"; "botoAplicarCanvis": "botoAplicarCanvis"; "botoElimina": "botoElimina"; "botoNou": "botoNou"; "searchGeneral": "searchGeneral"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "frameworkComponents": "frameworkComponents"; "columnDefs": "columnDefs"; "getAll": "getAll"; "botoDescartarCanvis": "botoDescartarCanvis"; "botoUndo": "botoUndo"; "botoRedo": "botoRedo"; "botoAplicarCanvis": "botoAplicarCanvis"; "botoElimina": "botoElimina"; "botoNou": "botoNou"; "searchGeneral": "searchGeneral"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
 }
 
 //# sourceMappingURL=data-grid.component.d.ts.map

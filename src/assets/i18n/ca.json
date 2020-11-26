@@ -26,5 +26,6 @@
   "description": "Descripció",
   "status": "Estat",
   "firstname": "Nom",
-  "lastname" : "Cognom"
+  "lastname" : "Cognom",
+  "code" : "Codi"
 }

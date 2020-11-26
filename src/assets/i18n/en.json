@@ -26,5 +26,6 @@
   "description": "Description",
   "status": "Status",
   "firstname": "FirstName",
-  "lastname" : "LastName"
+  "lastname" : "LastName",
+  "code" : "Code"
 }

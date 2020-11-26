@@ -24,6 +24,7 @@ import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/t
 import { ConnectionFormComponent } from './components/connection/connection-form.component';
 import { RoleFormComponent } from './components/role/role-form.component';
 import { UserFormComponent } from './components/user/user-form.component';
+import { TerritoryFormComponent } from './components/territory/territory-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -44,6 +45,7 @@ export const APP_ROUTES: Routes = [
     {path: 'tasksThematic', component: TasksThematicComponent },
     {path: 'tasksExtractionFME', component: TasksExtractionFmeComponent },
     {path: 'territory', component: TerritoryComponent},
+    {path: 'territory/:id/territoryForm', component: TerritoryFormComponent},
     {path: 'role', component: RoleComponent},
     {path: 'role/:id/roleForm', component: RoleFormComponent},
     {path: 'user', component: UserComponent},

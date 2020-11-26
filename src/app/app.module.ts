@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule, ConnectionService } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -58,6 +58,7 @@ import { BtnEditRenderedComponent } from './components/shared/btn-edit-rendered/
 import { ConnectionFormComponent } from './components/connection/connection-form.component';
 import { RoleFormComponent } from './components/role/role-form.component';
 import { UserFormComponent } from './components/user/user-form.component';
+import { TerritoryFormComponent } from './components/territory/territory-form.component';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { UserFormComponent } from './components/user/user-form.component';
     BtnEditRenderedComponent,
     ConnectionFormComponent,
     RoleFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    TerritoryFormComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +117,7 @@ import { UserFormComponent } from './components/user/user-form.component';
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService],
+    RoleService, ConnectionService, UserService, TerritoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

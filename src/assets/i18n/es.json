@@ -26,5 +26,6 @@
   "description": "Descripción",
   "status": "Estado",
   "firstname": "Nombre",
-  "lastname" : "Apellido"
+  "lastname" : "Apellido",
+  "code" : "Código"
 }

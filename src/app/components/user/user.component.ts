@@ -42,6 +42,7 @@ export class UserComponent implements OnInit  {
           field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
+          editable: false,
           filter: false,
           width: 100,
           cellRenderer: 'btnEditRendererComponent',
@@ -49,6 +50,7 @@ export class UserComponent implements OnInit  {
             clicked: this.newData.bind(this)
           },
         },
+        { headerName: 'ID',  field: 'id', editable: false},
         { headerName: this.utils.getTranslate('user'), field: 'username' },
         { headerName: this.utils.getTranslate('firstname'),  field: 'firstName' },
         { headerName: this.utils.getTranslate('lastname'),  field: 'lastName'},

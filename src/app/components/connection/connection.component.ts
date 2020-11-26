@@ -35,6 +35,7 @@ export class ConnectionComponent implements OnInit {
           field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
+          editable: false,
           filter: false,
           width: 130,
           cellRenderer: 'btnEditRendererComponent',
@@ -42,7 +43,7 @@ export class ConnectionComponent implements OnInit {
             clicked: this.newData.bind(this)
           },
         },
-        { headerName: 'ID', field: 'id' },
+        { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('name'), field: 'name' },
         { headerName: this.utils.getTranslate('user'), field: 'user'},
         { headerName: 'Driver', field: 'driver'},

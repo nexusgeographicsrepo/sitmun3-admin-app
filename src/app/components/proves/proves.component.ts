@@ -37,6 +37,7 @@ export class ProvesComponent implements OnInit {
         field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
+        editable: false,
         filter: false,
         width: 100,
         cellRenderer: 'btnEditRendererComponent',
@@ -44,7 +45,7 @@ export class ProvesComponent implements OnInit {
           clicked: this.newData.bind(this)
         },
       },
-      { headerName: 'ID',  field: 'id'},
+      { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('description'),  field: 'description' },
       { headerName: this.utils.getTranslate('name'),  field: 'name'},
       { headerName: this.utils.getTranslate('status'), field: 'estat'},

@@ -21,10 +21,10 @@ import { TasksReportComponent } from './components/tasks-report/tasks-report.com
 import { TasksEditionComponent } from './components/tasks-edition/tasks-edition.component';
 import { TasksThematicComponent } from './components/tasks-thematic/tasks-thematic.component';
 import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/tasks-extraction-fme.component';
-import { ConnectionFormComponent } from './components/connection/connection-form.component';
-import { RoleFormComponent } from './components/role/role-form.component';
-import { UserFormComponent } from './components/user/user-form.component';
-import { TerritoryFormComponent } from './components/territory/territory-form.component';
+import { ConnectionFormComponent } from './components/connection/connection-form/connection-form.component';
+import { RoleFormComponent } from './components/role/role-form/role-form.component';
+import { UserFormComponent } from './components/user/user-form/user-form.component';
+import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},

@@ -2,7 +2,7 @@
 <h3>{{ "role" | translate }}</h3>
 <span class="divider"></span>
 <div class="appDataGridDiv">
-    <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles' [searchGeneral]=true [frameworkComponents]="frameworkComponents"
-    [botoDescartarCanvis]=true [botoRedo]=true [botoUndo]=true [botoAplicarCanvis]=true  [botoElimina]=true [botoNou]=true 
+    <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles' [globalSearch]=true [frameworkComponents]="frameworkComponents"
+    [discardChangesButton]=true [redoButton]=true [undoButton]=true [applyChangesButton]=true  [deleteButton]=true [newButton]=true 
     (remove)="removeData($event)" (new)='newData($event)' (sendChanges)='applyChanges($event)' > </app-data-grid>
 </div>

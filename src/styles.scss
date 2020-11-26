@@ -149,11 +149,14 @@ html, body { height: 100%; }
 body { margin: 0; font-family: 'Open Sans', sans-serif; }
 
 h2 {
-    margin-bottom: 10px;
     width: calc(100% - 100px);
     display: inline-block;
 }
 
+.appDataGridDiv{
+  height: calc(100% - 230px);
+  margin: 50px;
+}
 .divider {
     height: 3px;
     background: #ddd;

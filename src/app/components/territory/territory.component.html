@@ -1,6 +1,7 @@
-
-<h3>{{ "territory" | translate }}</h3>
-<span class="divider"></span>
+<div class="titleDiv">
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_territori"></mat-icon> {{ "territory" | translate }}</h4>
+    <span class="divider"></span>
+</div>
 <div class="appDataGridDiv">
     <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllTerritories' [searchGeneral]=true [frameworkComponents]="frameworkComponents"
     [botoDescartarCanvis]=true [botoRedo]=true [botoUndo]=true [botoAplicarCanvis]=true  [botoElimina]=true [botoNou]=true 

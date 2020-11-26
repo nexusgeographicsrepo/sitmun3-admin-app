@@ -1,4 +1,7 @@
-<div style="width: 850px; height: 430px;  margin: 50px;" >
+
+<h3>{{ "role" | translate }}</h3>
+<span class="divider"></span>
+<div class="appDataGridDiv">
     <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles' [searchGeneral]=true [frameworkComponents]="frameworkComponents"
     [botoDescartarCanvis]=true [botoRedo]=true [botoUndo]=true [botoAplicarCanvis]=true  [botoElimina]=true [botoNou]=true 
     (remove)="removeData($event)" (new)='newData($event)' (sendChanges)='applyChanges($event)' > </app-data-grid>

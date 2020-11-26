@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConnectionFormComponent } from './connection-form.component';
+import { ConnectionFormComponent } from '../connection-form/connection-form.component';
 
 describe('ConnectionFormComponent', () => {
   let component: ConnectionFormComponent;

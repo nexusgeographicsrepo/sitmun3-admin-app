@@ -1,5 +1,77 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
+/***/ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.css":
+/*!*************************************************************************************************************************!*\
+  !*** ./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.css ***!
+  \*************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".buttonEdit {\r\n    color: #000000;\r\n    background-color: #DDDDDD;\r\n    width: 24px;\r\n    height: 24px;\r\n}\r\n.iconEdit {\r\n    font-size: 16px;\r\n    margin-top: -8px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.html":
+/*!**************************************************************************************************************************!*\
+  !*** ./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.html ***!
+  \**************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<button mat-mini-fab class=\"buttonEdit\"  type=\"button\"  (click)=\"btnClickedHandler($event)\" >\n  <mat-icon class=\"iconEdit\"   fontSet=\"material-icons-round\" > edit </mat-icon>\n</button> "
+
+/***/ }),
+
+/***/ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.ts":
+/*!************************************************************************************************************************!*\
+  !*** ./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.ts ***!
+  \************************************************************************************************************************/
+/*! exports provided: BtnEditRenderedComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BtnEditRenderedComponent", function() { return BtnEditRenderedComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var BtnEditRenderedComponent = /** @class */ (function () {
+    function BtnEditRenderedComponent() {
+    }
+    BtnEditRenderedComponent.prototype.agInit = function (params) {
+        this.params = params;
+    };
+    BtnEditRenderedComponent.prototype.refresh = function (params) {
+        return true;
+    };
+    BtnEditRenderedComponent.prototype.btnClickedHandler = function ($event) {
+        this.params.clicked(this.params.value);
+    };
+    BtnEditRenderedComponent.prototype.getParams = function () {
+        return this.params;
+    };
+    BtnEditRenderedComponent.prototype.ngOnDestroy = function () {
+        // no need to remove the button click handler 
+    };
+    BtnEditRenderedComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-btn-edit-rendered',
+            template: __webpack_require__(/*! ./btn-edit-rendered.component.html */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.html"),
+            styles: [__webpack_require__(/*! ./btn-edit-rendered.component.css */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.css")]
+        })
+    ], BtnEditRenderedComponent);
+    return BtnEditRenderedComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/data-grid/data-grid.component.css":
 /*!*********************************************************************************************************!*\
   !*** ./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/data-grid/data-grid.component.css ***!
@@ -330,7 +402,7 @@ var DataGridComponent = /** @class */ (function () {
 /*!*************************************************************************************!*\
   !*** ./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/public_api.ts ***!
   \*************************************************************************************/
-/*! exports provided: DataGridComponent, SitmunFrontendGuiModule */
+/*! exports provided: DataGridComponent, SitmunFrontendGuiModule, BtnEditRenderedComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -341,9 +413,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sitmun_frontend_gui_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sitmun-frontend-gui.module */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/sitmun-frontend-gui.module.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SitmunFrontendGuiModule", function() { return _sitmun_frontend_gui_module__WEBPACK_IMPORTED_MODULE_1__["SitmunFrontendGuiModule"]; });
 
+/* harmony import */ var _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./btn-edit-rendered/btn-edit-rendered.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BtnEditRenderedComponent", function() { return _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_2__["BtnEditRenderedComponent"]; });
+
 /*
  * Public API Surface of sitmun-frontend-gui
  */
+
 
 
 
@@ -373,6 +449,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
 /* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
+/* harmony import */ var _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./btn-edit-rendered/btn-edit-rendered.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -386,6 +463,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 //import * as ol from 'openlayers';
+
 
 
 
@@ -415,7 +493,8 @@ var SitmunFrontendGuiModule = /** @class */ (function () {
                 _angular_material_icon__WEBPACK_IMPORTED_MODULE_11__["MatIconModule"],
             ],
             declarations: [
-                _data_grid_data_grid_component__WEBPACK_IMPORTED_MODULE_8__["DataGridComponent"]
+                _data_grid_data_grid_component__WEBPACK_IMPORTED_MODULE_8__["DataGridComponent"],
+                _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_12__["BtnEditRenderedComponent"],
             ],
             entryComponents: [],
             providers: [],
@@ -706,7 +785,7 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-                _home_home_component__WEBPACK_IMPORTED_MODULE_6__["HomeComponent"]
+                _home_home_component__WEBPACK_IMPORTED_MODULE_6__["HomeComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],

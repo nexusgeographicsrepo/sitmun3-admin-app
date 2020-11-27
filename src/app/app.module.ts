@@ -54,11 +54,10 @@ import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
-import { BtnEditRenderedComponent } from './components/shared/btn-edit-rendered/btn-edit-rendered.component';
-import { ConnectionFormComponent } from './components/connection/connection-form.component';
-import { RoleFormComponent } from './components/role/role-form.component';
-import { UserFormComponent } from './components/user/user-form.component';
-import { TerritoryFormComponent } from './components/territory/territory-form.component';
+import { ConnectionFormComponent } from './components/connection/connection-form/connection-form.component';
+import { RoleFormComponent } from './components/role/role-form/role-form.component';
+import { UserFormComponent } from './components/user/user-form/user-form.component';
+import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 
 
 @NgModule({
@@ -87,7 +86,6 @@ import { TerritoryFormComponent } from './components/territory/territory-form.co
     TasksEditionComponent,
     TasksThematicComponent,
     TasksExtractionFmeComponent,
-    BtnEditRenderedComponent,
     ConnectionFormComponent,
     RoleFormComponent,
     UserFormComponent,

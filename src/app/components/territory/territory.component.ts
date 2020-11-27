@@ -4,7 +4,7 @@ import { Territory } from 'dist/sitmun-frontend-core/territory/territory.model';
 import { TerritoryService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
-import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
+import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 
 

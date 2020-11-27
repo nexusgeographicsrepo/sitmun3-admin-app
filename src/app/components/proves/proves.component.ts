@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Role } from 'dist/sitmun-frontend-core/role/role.model';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
-import { BtnEditRenderedComponent } from '../shared/btn-edit-rendered/btn-edit-rendered.component';
+import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 
 

@@ -43,3 +43,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+/dist/sitmun-frontend-gui/
+/dist/sitmun-frontend-core/

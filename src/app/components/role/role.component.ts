@@ -39,16 +39,25 @@ export class RoleComponent implements OnInit{
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 100,
+          lockPosition:true,
+          width: 15,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 20,
+          lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: this.newData.bind(this)
           },
         },
         { headerName: 'ID',  field: 'id', editable: false},
-        { headerName: this.utils.getTranslate('description'),  field: 'description' },
-        { headerName: this.utils.getTranslate('name'),  field: 'name'},
-        { headerName: this.utils.getTranslate('status'), field: 'estat'},
+        { headerName: this.utils.getTranslate('roleEntity.name'),  field: 'name'},
+        { headerName: this.utils.getTranslate('roleEntity.note'),  field: 'description' },
+       // { headerName: this.utils.getTranslate('application'),  field: 'application' },
       ];
     }
 

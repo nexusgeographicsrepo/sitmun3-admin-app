@@ -44,11 +44,10 @@ export class ConnectionComponent implements OnInit {
           },
         },
         { headerName: 'ID', field: 'id', editable: false },
-        { headerName: this.utils.getTranslate('name'), field: 'name' },
-        { headerName: this.utils.getTranslate('user'), field: 'user'},
-        { headerName: 'Driver', field: 'driver'},
-        { headerName: this.utils.getTranslate('connection'), field: 'url'},
-        { headerName: this.utils.getTranslate('status'), field: 'estat'},
+        { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
+        { headerName: this.utils.getTranslate('connectionEntity.user'), field: 'user'},
+        { headerName: this.utils.getTranslate('connectionEntity.driver'), field: 'driver'},
+        { headerName: this.utils.getTranslate('connectionEntity.connection'), field: 'url'}
       ];
 
       

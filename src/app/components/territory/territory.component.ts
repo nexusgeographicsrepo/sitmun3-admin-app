@@ -46,9 +46,16 @@ export class TerritoryComponent implements OnInit {
         },
       },
       { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('code'),  field: 'code' },
-      { headerName: this.utils.getTranslate('name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('status'), field: 'estat'},
+      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('territoryEntity.scope'),  field: 'scope'},
+      { headerName: this.utils.getTranslate('territoryEntity.createdDate'),  field: 'createdDate'},
+      { headerName: this.utils.getTranslate('territoryEntity.administrator'),  field: 'territorialAuthorityName'},
+      { headerName: this.utils.getTranslate('territoryEntity.email'),  field: 'territorialAuthorityEmail'},
+      { headerName: this.utils.getTranslate('territoryEntity.address'),  field: 'territorialAuthorityAddress'},
+      { headerName: this.utils.getTranslate('territoryEntity.extent'),  field: 'extent'},
+      { headerName: this.utils.getTranslate('territoryEntity.note'),  field: 'note'},
+      { headerName: this.utils.getTranslate('territoryEntity.blocked'),  field: 'blocked'},
     ];
   }
 

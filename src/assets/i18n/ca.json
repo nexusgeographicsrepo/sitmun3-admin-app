@@ -1,31 +1,64 @@
 {
-  "connection": "Connexió",
-  "service": "Servei",
-  "layers": "Capes",
-  "trees": "Arbres",
-  "backgroundLayers": "Capes de fons",
-  "layersPermits": "Permisos sobre les capes",
-  "territory": "Territori",
-  "role": "Rol",
-  "user": "Usuari",
-  "tasks": "Tasques",
-  "tasksDownload": "Descàrrega",
-  "tasksDocument": "Document",
-  "tasksConsultation": "Consulta",
-  "tasksMoreInformation": "Més informació",
-  "tasksLocator": "Llocalitzador",
-  "tasksReport": "Informe",
-  "tasksEdition": "Edició",
-  "tasksThematic": "Temàtica",
-  "tasksExtractionFME": "Extracció FME",
-  "application": "Aplicació",
   "Remove": "Elimina",
   "Search": "Cerca",
   "New": "Nou",
-  "name": "Nom",
-  "description": "Descripció",
-  "status": "Estat",
-  "firstname": "Nom",
-  "lastname" : "Cognom",
-  "code" : "Codi"
+
+  
+  "sideMenu":{
+    "connection": "Connexió",
+    "service": "Servei",
+    "layers": "Capes",
+    "trees": "Arbres",
+    "backgroundLayers": "Capes de fons",
+    "layersPermits": "Permisos sobre les capes",
+    "territory": "Territori",
+    "role": "Rol",
+    "user": "Usuari",
+    "tasks": "Tasques",
+    "tasksDownload": "Descàrrega",
+    "tasksDocument": "Document",
+    "tasksConsultation": "Consulta",
+    "tasksMoreInformation": "Més informació",
+    "tasksLocator": "Llocalitzador",
+    "tasksReport": "Informe",
+    "tasksEdition": "Edició",
+    "tasksThematic": "Temàtica",
+    "tasksExtractionFME": "Extracció FME",
+    "application": "Aplicació"
+  },
+  "userEntity":{
+    "user":"Usuari",
+    "firstname":"Nom",
+    "lastname" : "Cognom",
+    "administrator": "Administrador",
+    "blocked":"Bloquejat"
+  },
+  "connectionEntity":{
+    "user":"Usuari",
+    "name": "Nom",
+    "driver": "Driver",
+    "connection":"Connexió"
+  },
+  "territoryEntity":{
+    "territory": "Territori",
+    "code" : "Codi",
+    "name" : "Nom",
+    "scope": "Àmbit",
+    "createdDate": "Data alta",
+    "administrator": "Administrador",
+    "email": "Correu",
+    "address":"Direcció",
+    "extent":"Extensió",
+    "note":"Observacions",
+    "blocked":"Bloquejat"
+  },
+  "roleEntity":{
+    "role":"Rol",
+    "note":"Observacions",
+    "name":"Nom",
+    "application":"Aplicació"
+  }
+
+
+
 }

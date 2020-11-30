@@ -79,7 +79,7 @@ var BtnEditRenderedComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "label,\r\ninput {\r\n  display: inline-block;\r\n  margin-right: 5px;\r\n  margin-left: 10px;\r\n  margin-top: 5px;\r\n  margin-bottom: 5px;\r\n}\r\n\r\n#botoNou {\r\n  color: white;\r\n  background: #68a225 0% 0% no-repeat padding-box;\r\n  margin-left: 3px;\r\n}\r\n\r\n#botoElimina {\r\n  background: #ffffff 0% 0% no-repeat padding-box;\r\n  margin-left: 3px;\r\n}\r\n\r\n#aplicarCanvis {\r\n  color: white !important;\r\n  background: #68a225 0% 0% no-repeat padding-box;\r\n  margin-left: 3px;\r\n}\r\n\r\n#aplicarCanvis[disabled]\r\n{\r\n  background: #83976c 0% 0% no-repeat padding-box;\r\n}\r\n\r\n#redo {\r\n  color: white !important;\r\n  background: #ff9300;\r\n  margin-left: 3px;\r\n}\r\n\r\n#redo[disabled] {\r\n  background: #ffc97f;\r\n  margin-left: 3px;\r\n}\r\n\r\n#undo {\r\n  color: white !important;\r\n  background: #ff9300;\r\n  margin-left: 3px;\r\n}\r\n\r\n#undo[disabled] {\r\n  background: #ffc97f;\r\n  margin-left: 3px;\r\n}\r\n\r\n#borrarCanvis {\r\n  color: white !important;\r\n  background: #df3133;\r\n}\r\n\r\n#borrarCanvis[disabled] {\r\n  color: white !important;\r\n  background: #da8c8e;\r\n}\r\n\r\n.editDivBtns {\r\n  text-align: start;\r\n  display: inline-block;\r\n  width: 20%;\r\n  height: 30px !important;\r\n  line-height: 30px !important;\r\n}\r\n\r\n.actionsDivBtns {\r\n  text-align: end;\r\n  width:80%;\r\n  height: 60px;\r\n}\r\n\r\n.actionsDivBtns,\r\n.editDivBtns {\r\n  display: inline-block !important;\r\n}\r\n\r\n.actionsDivBtns .mat-stroked-button{\r\n padding: 5px 20px!important;\r\n}\r\n\r\n.editDivBtns .mat-mini-fab .mat-button-wrapper {\r\n  padding: inherit !important;\r\n  display: inherit !important;\r\n}\r\n\r\n.editDivBtns .mat-icon{\r\n  height: 30px !important;\r\n  bottom: 5px;\r\n  position: relative;\r\n}\r\n\r\n.editDivBtns .mat-mini-fab {\r\n  width: 30px;\r\n  height: 30px;\r\n}\r\n\r\n.actionsDivBtns .searchGenericInput{\r\n  height: 45px!important;\r\n  width: 50% !important;\r\n}"
+module.exports = "label,\r\ninput {\r\n  display: inline-block;\r\n  margin-right: 5px;\r\n  margin-left: 10px;\r\n  margin-top: 5px;\r\n  margin-bottom: 5px;\r\n}\r\n\r\n#botoNou {\r\n  color: white;\r\n  background: #68a225 0% 0% no-repeat padding-box;\r\n  margin-left: 3px;\r\n}\r\n\r\n#botoElimina {\r\n  background: #ffffff 0% 0% no-repeat padding-box;\r\n  margin-left: 3px;\r\n}\r\n\r\n#aplicarCanvis {\r\n  color: white !important;\r\n  background: #68a225 0% 0% no-repeat padding-box;\r\n  margin-left: 3px;\r\n}\r\n\r\n#aplicarCanvis[disabled]\r\n{\r\n  background: #83976c 0% 0% no-repeat padding-box;\r\n}\r\n\r\n#redo {\r\n  color: white !important;\r\n  background: #ff9300;\r\n  margin-left: 3px;\r\n}\r\n\r\n#redo[disabled] {\r\n  background: #ffc97f;\r\n  margin-left: 3px;\r\n}\r\n\r\n#undo {\r\n  color: white !important;\r\n  background: #ff9300;\r\n  margin-left: 3px;\r\n}\r\n\r\n#undo[disabled] {\r\n  background: #ffc97f;\r\n  margin-left: 3px;\r\n}\r\n\r\n#borrarCanvis {\r\n  color: white !important;\r\n  background: #df3133;\r\n}\r\n\r\n#borrarCanvis[disabled] {\r\n  color: white !important;\r\n  background: #da8c8e;\r\n}\r\n\r\n.editDivBtns {\r\n  text-align: start;\r\n  display: inline-block;\r\n  width: 20%;\r\n  height: 30px !important;\r\n  line-height: 30px !important;\r\n}\r\n\r\n.actionsDivBtns {\r\n  text-align: end;\r\n  width:80%;\r\n  height: 60px;\r\n}\r\n\r\n.actionsDivBtns,\r\n.editDivBtns {\r\n  display: inline-block !important;\r\n}\r\n\r\n.actionsDivBtns .mat-stroked-button{\r\n padding: 5px 20px!important;\r\n}\r\n\r\n.editDivBtns .mat-mini-fab .mat-button-wrapper {\r\n  padding: inherit !important;\r\n  display: inherit !important;\r\n}\r\n\r\n.editDivBtns .mat-icon{\r\n  height: 30px !important;\r\n  bottom: 5px;\r\n  position: relative;\r\n}\r\n\r\n.editDivBtns .mat-mini-fab {\r\n  width: 30px;\r\n  height: 30px;\r\n}\r\n\r\n.actionsDivBtns .searchGenericInput{\r\n  height: 45px!important;\r\n  width: 50% !important;\r\n}\r\n\r\n.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar-thumb {\r\n  background: #eee;\r\n}\r\n\r\n​\r\n.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar {\r\n  width: 2em;\r\n  height: 2em;\r\n}\r\n\r\n.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar-button {\r\n  background: #ccc;\r\n}\r\n\r\n.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track-piece {\r\n  background: #888;\r\n}\r\n"
 
 /***/ }),
 
@@ -131,8 +131,9 @@ var DataGridComponent = /** @class */ (function () {
     function DataGridComponent() {
         this.modules = _ag_grid_community_all_modules__WEBPACK_IMPORTED_MODULE_1__["AllCommunityModules"];
         this.statusColumn = false;
-        this.map = new Map(); // Guardaremos el id de las celas modificadas i el nº de ediciones hechas sobre estas
+        this.changesMap = new Map();
         this.modificationChange = false;
+        this.undoNoChanges = false; // Booleano para saber si es un undo provocado por un cambio sin modificaciones
         this.remove = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.new = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.sendChanges = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
@@ -218,7 +219,7 @@ var DataGridComponent = /** @class */ (function () {
         var itemsChanged = [];
         this.gridApi.stopEditing(false);
         try {
-            for (var _a = __values(this.map.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
+            for (var _a = __values(this.changesMap.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
                 var key = _b.value;
                 itemsChanged.push(this.gridApi.getRowNode(key).data);
             }
@@ -231,7 +232,7 @@ var DataGridComponent = /** @class */ (function () {
             finally { if (e_3) throw e_3.error; }
         }
         this.sendChanges.emit(itemsChanged);
-        this.map.clear();
+        this.changesMap.clear();
         this.changeCounter = 0;
         this.previousChangeCounter = 0;
         this.redoCounter = 0;
@@ -243,7 +244,7 @@ var DataGridComponent = /** @class */ (function () {
         for (var i = 0; i < this.changeCounter; i++) {
             this.gridApi.undoCellEditing();
         }
-        this.map.clear();
+        this.changesMap.clear();
         this.previousChangeCounter = 0;
         this.changeCounter = 0;
         this.redoCounter = 0;
@@ -279,57 +280,102 @@ var DataGridComponent = /** @class */ (function () {
         // Esta condición será cierta si venimos de editar la cela o de hacer un redo
         {
             if (params.oldValue !== params.value && !(params.oldValue == null && params.value === '')) {
-                if (!this.map.has(params.node.id)) {
-                    this.map.set(params.node.id, 1);
+                if (!this.changesMap.has(params.node.id)) {
+                    var addMap = new Map();
+                    addMap.set(params.colDef.field, 1);
+                    this.changesMap.set(params.node.id, addMap);
                 }
                 else {
-                    // Si ya habíamos modificado la cela, aumentamos el numero de cambios en esta
-                    var currentChanges = this.map.get(params.node.id);
-                    this.map.set(params.node.id, (currentChanges + 1));
+                    if (!this.changesMap.get(params.node.id).has(params.colDef.field)) {
+                        this.changesMap.get(params.node.id).set(params.colDef.field, 1);
+                    }
+                    else {
+                        // Si ya habíamos modificado la cela, aumentamos el numero de cambios en esta
+                        var currentChanges = this.changesMap.get(params.node.id).get(params.colDef.field);
+                        this.changesMap.get(params.node.id).set(params.colDef.field, (currentChanges + 1));
+                    }
                 }
-                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com ha estado modificada la linia, la pintamos de verde
-                params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
-                this.gridApi.redrawRows({ rowNodes: [row] });
-                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definiremos el cellStyle blanco para futuras modificaciones internas (ej: filtro)
-                this.previousChangeCounter++;
+                this.paintCells(params, this.changesMap); // Com ha estado modificada la linia, la pintamos de verde
+                this.previousChangeCounter++; //Igualamos el contador de cambios anterior al actual
             }
         }
         else if (this.changeCounter < this.previousChangeCounter) {
-            var currentChanges = this.map.get(params.node.id);
+            var currentChanges = -1;
+            if (this.changesMap.has(params.node.id)) {
+                currentChanges = this.changesMap.get(params.node.id).get(params.colDef.field);
+            }
             if (currentChanges === 1) {
-                // Si solo tiene una modificacion, quiere decir que la cela está en su estado inicial, por lo que la pintamos de blanco
-                this.map.delete(params.node.id);
-                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex);
-                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Li posarem un altre cop el background blanc
-                this.gridApi.redrawRows({ rowNodes: [row] });
+                this.changesMap.get(params.node.id).delete(params.colDef.field);
+                if (this.changesMap.get(params.node.id).size === 0) {
+                    this.changesMap.delete(params.node.id);
+                    var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex);
+                    // Si solo tiene una modificacion, quiere decir que la cela está en su estado inicial, por lo que la pintamos de blanco
+                    this.gridApi.redrawRows({ rowNodes: [row] });
+                }
+                else {
+                    this.paintCells(params, this.changesMap);
+                }
             }
             else if (currentChanges > 1) {
-                this.map.set(params.node.id, (currentChanges - 1));
-                var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Como aun tiene cambios, el background tiene que seguir verde
-                params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
-                this.gridApi.redrawRows({ rowNodes: [row] });
-                params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definirem el cellStyle blanc per proximes celes
+                this.changesMap.get(params.node.id).set(params.colDef.field, (currentChanges - 1));
+                this.paintCells(params, this.changesMap); // Como aun tiene cambios, el background tiene que seguir verde
             }
             this.previousChangeCounter--; // Com veniem d'undo, hem de decrementar el comptador de canvisAnterior
         }
         else {
-            console.log(params);
             if (params.oldValue !== params.value && !(params.oldValue == null && params.value === '')) {
                 this.modificationChange = true;
             }
             else {
-                if (this.map.has(params.node.id)) {
-                    var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex); // Com encara te modificacions, ha de tenir el background verd
-                    params.colDef.cellStyle = { backgroundColor: '#E8F1DE' };
-                    this.gridApi.redrawRows({ rowNodes: [row] });
-                    params.colDef.cellStyle = { backgroundColor: '#FFFFFF' }; // Definiremos el cellStyle blanco para futuras modificaciones internas (ej: filtro)
+                if (this.changesMap.has(params.node.id)) {
+                    if (!this.undoNoChanges) {
+                        this.gridApi.undoCellEditing(); // Undo para deshacer el cambio sin modificaciones internamente
+                        this.undoNoChanges = true;
+                        this.paintCells(params, this.changesMap); // Como aun tiene modificaciones, el background sigue siendo verde
+                    }
+                    else {
+                        this.undoNoChanges = false;
+                    }
                 }
                 else {
-                    this.previousChangeCounter++; // Como al hacer undo volverá a entrar a esta misma función, hay que enviarlo a su if correspondiente
-                    this.gridApi.undoCellEditing(); //Undo para deshacer el cambio sin modificaciones internamente
+                    // Como al hacer undo volverá a entrar a esta misma función, hay que enviarlo a su if correspondiente
+                    if (!this.undoNoChanges) {
+                        this.gridApi.undoCellEditing(); // Undo para deshacer el cambio sin modificaciones internamente
+                        this.undoNoChanges = true;
+                    }
+                    else {
+                        this.undoNoChanges = false;
+                    }
                 }
             }
         }
+    };
+    DataGridComponent.prototype.getColumnIndexByColId = function (api, colId) {
+        return api.getAllColumns().findIndex(function (col) { return col.getColId() === colId; });
+    };
+    DataGridComponent.prototype.paintCells = function (params, changesMap) {
+        var row = this.gridApi.getDisplayedRowAtIndex(params.rowIndex);
+        this.changeCellStyleColumns(params, changesMap, '#E8F1DE');
+        this.gridApi.redrawRows({ rowNodes: [row] });
+        this.changeCellStyleColumns(params, changesMap, '#FFFFFF');
+        // Definiremos el cellStyle blanco para futuras modificaciones internas (ej: filtro)
+    };
+    DataGridComponent.prototype.changeCellStyleColumns = function (params, changesMap, color) {
+        try {
+            for (var _a = __values(changesMap.get(params.node.id).keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var key = _b.value;
+                var columnNumber = this.getColumnIndexByColId(this.gridColumnApi, key);
+                this.gridColumnApi.columnController.gridColumns[columnNumber].colDef.cellStyle = { backgroundColor: color };
+            }
+        }
+        catch (e_4_1) { e_4 = { error: e_4_1 }; }
+        finally {
+            try {
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+            }
+            finally { if (e_4) throw e_4.error; }
+        }
+        var e_4, _c;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),

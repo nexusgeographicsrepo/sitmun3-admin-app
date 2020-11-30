@@ -25,12 +25,14 @@ import { ConnectionFormComponent } from './components/connection/connection-form
 import { RoleFormComponent } from './components/role/role-form/role-form.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
+import { ServiceFormComponent } from './components/service/service-form/service-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
     {path: 'connection', component: ConnectionComponent},
     {path: 'connection/:id/connectionForm', component: ConnectionFormComponent},
     {path: 'service', component: ServiceComponent},
+    {path: 'service/:id/serviceForm', component: ServiceFormComponent},
     {path: 'layers', component: LayersComponent},
     {path: 'trees', component: TreesComponent},
     {path: 'backgroundLayers', component: BackgroundLayersComponent},

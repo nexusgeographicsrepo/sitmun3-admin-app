@@ -39,6 +39,13 @@
     "driver": "Driver",
     "connection":"Connexió"
   },
+  "serviceEntity":{
+    "name": "Nom",
+    "type": "Tipus",
+    "serviceURL": "Url",
+    "supportedSRS": "Projeccions",
+    "createdDate":"Alta"
+  },
   "territoryEntity":{
     "territory": "Territori",
     "code" : "Codi",

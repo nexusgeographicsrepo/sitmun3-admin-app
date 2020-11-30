@@ -54,11 +54,12 @@ import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
+import { ServiceService } from 'dist/sitmun-frontend-core/';
 import { ConnectionFormComponent } from './components/connection/connection-form/connection-form.component';
 import { RoleFormComponent } from './components/role/role-form/role-form.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
-
+import { ServiceFormComponent } from './components/service/service-form/service-form.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { TerritoryFormComponent } from './components/territory/territory-form/te
     ConnectionFormComponent,
     RoleFormComponent,
     UserFormComponent,
-    TerritoryFormComponent
+    TerritoryFormComponent,
+    ServiceFormComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +117,7 @@ import { TerritoryFormComponent } from './components/territory/territory-form/te
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService],
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

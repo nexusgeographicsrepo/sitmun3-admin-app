@@ -26,6 +26,10 @@ import { RoleFormComponent } from './components/role/role-form/role-form.compone
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
+import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
+import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
+import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
+import { LayersPermitsFormComponent } from './components/layers-permits/layers-permits-form/layers-permits-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -34,9 +38,13 @@ export const APP_ROUTES: Routes = [
     {path: 'service', component: ServiceComponent},
     {path: 'service/:id/serviceForm', component: ServiceFormComponent},
     {path: 'layers', component: LayersComponent},
+    {path: 'layers/:id/layersForm', component: LayersPermitsFormComponent},
     {path: 'trees', component: TreesComponent},
+    {path: 'trees/:id/treesForm', component: TreesFormComponent},
     {path: 'backgroundLayers', component: BackgroundLayersComponent},
+    {path: 'backgroundLayers/:id/backgroundLayersForm', component: BackgroundLayersFormComponent},
     {path: 'layersPermits', component: LayersPermitsComponent},
+    {path: 'layersPermits/:id/layersPermitsForm', component: LayersPermitsFormComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},
     {path: 'tasksDocument', component: TasksDocumentComponent},
     {path: 'tasksConsultation', component: TasksConsultationComponent},
@@ -53,6 +61,7 @@ export const APP_ROUTES: Routes = [
     {path: 'user', component: UserComponent},
     {path: 'user/:id/userForm', component: UserFormComponent},
     {path: 'application', component: ApplicationComponent},
+    {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
     {path: 'proves', component: ProvesComponent},
     {path: '', pathMatch: 'full', redirectTo: 'proves' },
     {path: '**', pathMatch: 'full', redirectTo: 'proves' }

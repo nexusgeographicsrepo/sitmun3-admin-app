@@ -40,10 +40,49 @@
     "connection":"Connexió"
   },
   "serviceEntity":{
+    "service": "Servei",
     "name": "Nom",
     "type": "Tipus",
     "serviceURL": "Url",
     "supportedSRS": "Projeccions",
+    "createdDate":"Alta"
+  },
+  "layersEntity":{
+    "layers": "Capes",
+    "name": "Nom",
+    "serverName": "Servei",
+    "order": "Ordre",
+    "layers": "Capes",
+    "createdDate": "Alta",
+    "minScale": "Escala Min",
+    "maxScale": "Escala Max",
+    "infoUrl":"URL dades"
+  },
+  "layersPermitsEntity":{
+    "layersPermits": "Permisos sobre les capes",
+    "name": "Nom",
+    "type": "Tipus",
+    "serviceURL": "Url",
+    "supportedSRS": "Projeccions",
+    "createdDate":"Alta"
+  },
+  "treesEntity":{
+    "trees":"Arbres",
+    "name": "Nom"
+  },
+  "backgroundEntity":{
+    "backgroundLayers":"Capes de fons",
+    "name": "Nom",
+    "description": "Descripció",
+    "active": "Actiu",
+    "cartographyGroup": "Grup cartografia"
+  },
+  "applicationEntity":{
+    "application":"Aplicació",
+    "name": "Nom",
+    "type": "Tipus",
+    "theme": "Tema",
+    "srs": "Projeccio",
     "createdDate":"Alta"
   },
   "territoryEntity":{

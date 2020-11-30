@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, BackgroundService, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -52,14 +52,21 @@ import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/t
 //Services
 import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
-import { UserService } from '@sitmun/frontend-core';
+import { UserService } from 'dist/sitmun-frontend-core/';
+import { TreeService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
 import { ServiceService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { ConnectionFormComponent } from './components/connection/connection-form/connection-form.component';
 import { RoleFormComponent } from './components/role/role-form/role-form.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
+import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
+import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
+import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
+import { LayersPermitsFormComponent } from './components/layers-permits/layers-permits-form/layers-permits-form.component';
+import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +98,12 @@ import { ServiceFormComponent } from './components/service/service-form/service-
     RoleFormComponent,
     UserFormComponent,
     TerritoryFormComponent,
-    ServiceFormComponent
+    ServiceFormComponent,
+    ApplicationFormComponent,
+    TreesFormComponent,
+    BackgroundLayersFormComponent,
+    LayersPermitsFormComponent,
+    LayersFormComponent
   ],
   imports: [
     BrowserModule,
@@ -117,7 +129,7 @@ import { ServiceFormComponent } from './components/service/service-form/service-
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService, ServiceService],
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService, BackgroundService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

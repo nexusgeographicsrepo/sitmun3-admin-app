@@ -45,6 +45,7 @@ export class UserComponent implements OnInit  {
           editable: false,
           filter: false,
           width: 100,
+          lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: this.newData.bind(this)

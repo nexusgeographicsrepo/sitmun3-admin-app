@@ -7,7 +7,6 @@ import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router, ActivatedRoute } from '@angular/router';
 
-
 @Component({
   selector: 'app-background-layers',
   templateUrl: './background-layers.component.html',
@@ -38,6 +37,7 @@ export class BackgroundLayersComponent implements OnInit {
           editable: false,
           filter: false,
           width: 130,
+          lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: this.newData.bind(this)

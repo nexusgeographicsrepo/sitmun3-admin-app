@@ -37,6 +37,7 @@ export class TreesComponent implements OnInit {
           editable: false,
           filter: false,
           width: 130,
+          lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: this.newData.bind(this)

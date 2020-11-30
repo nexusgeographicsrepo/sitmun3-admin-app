@@ -46,6 +46,13 @@
     "supportedSRS": "Projeccions",
     "createdDate":"Alta"
   },
+  "layersPermitsEntity":{
+    "name": "Nom",
+    "type": "Tipus",
+    "serviceURL": "Url",
+    "supportedSRS": "Projeccions",
+    "createdDate":"Alta"
+  },
   "treesEntity":{
     "name": "Nom"
   },

@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import {  ActivatedRoute,  Router} from '@angular/router';
 
-
 @Component({
-  selector: 'app-service-form',
-  templateUrl: './service-form.component.html',
-  styleUrls: ['./service-form.component.scss']
+  selector: 'app-application-form',
+  templateUrl: './application-form.component.html',
+  styleUrls: ['./application-form.component.scss']
 })
-export class ServiceFormComponent implements OnInit {
+export class ApplicationFormComponent implements OnInit {
 
-  serviceID: number = -1;
+  applicationID: number = -1;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     ) {
       this.activatedRoute.params.subscribe(params => {
-        this.serviceID = +params.id;
-        console.log(this.serviceID);
+        this.applicationID = +params.id;
+        console.log(this.applicationID);
       });
     }
 

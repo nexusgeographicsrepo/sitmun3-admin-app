@@ -26,6 +26,7 @@ import { RoleFormComponent } from './components/role/role-form/role-form.compone
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
+import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -53,6 +54,7 @@ export const APP_ROUTES: Routes = [
     {path: 'user', component: UserComponent},
     {path: 'user/:id/userForm', component: UserFormComponent},
     {path: 'application', component: ApplicationComponent},
+    {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
     {path: 'proves', component: ProvesComponent},
     {path: '', pathMatch: 'full', redirectTo: 'proves' },
     {path: '**', pathMatch: 'full', redirectTo: 'proves' }

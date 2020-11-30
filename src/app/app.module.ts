@@ -55,11 +55,13 @@ import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
 import { ServiceService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { ConnectionFormComponent } from './components/connection/connection-form/connection-form.component';
 import { RoleFormComponent } from './components/role/role-form/role-form.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
+import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,8 @@ import { ServiceFormComponent } from './components/service/service-form/service-
     RoleFormComponent,
     UserFormComponent,
     TerritoryFormComponent,
-    ServiceFormComponent
+    ServiceFormComponent,
+    ApplicationFormComponent
   ],
   imports: [
     BrowserModule,
@@ -117,7 +120,7 @@ import { ServiceFormComponent } from './components/service/service-form/service-
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService, ServiceService],
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

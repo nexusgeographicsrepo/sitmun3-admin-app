@@ -46,6 +46,13 @@
     "supportedSRS": "Projeccions",
     "createdDate":"Alta"
   },
+  "applicationEntity":{
+    "name": "Nom",
+    "type": "Tipus",
+    "theme": "Tema",
+    "srs": "Projeccio",
+    "createdDate":"Alta"
+  },
   "territoryEntity":{
     "territory": "Territori",
     "code" : "Codi",

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, BackgroundService, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -64,6 +64,7 @@ import { TerritoryFormComponent } from './components/territory/territory-form/te
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
 import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
 import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
+import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { TreesFormComponent } from './components/trees/trees-form/trees-form.com
     TerritoryFormComponent,
     ServiceFormComponent,
     ApplicationFormComponent,
-    TreesFormComponent
+    TreesFormComponent,
+    BackgroundLayersFormComponent
   ],
   imports: [
     BrowserModule,
@@ -123,7 +125,7 @@ import { TreesFormComponent } from './components/trees/trees-form/trees-form.com
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService],
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService, BackgroundService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

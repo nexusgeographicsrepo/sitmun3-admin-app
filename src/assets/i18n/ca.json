@@ -49,6 +49,12 @@
   "treesEntity":{
     "name": "Nom"
   },
+  "backgroundEntity":{
+    "name": "Nom",
+    "description": "Descripció",
+    "active": "Actiu",
+    "cartographyGroup": "Grup cartografia"
+  },
   "applicationEntity":{
     "name": "Nom",
     "type": "Tipus",

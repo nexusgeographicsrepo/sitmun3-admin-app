@@ -28,6 +28,7 @@ import { TerritoryFormComponent } from './components/territory/territory-form/te
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
 import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
 import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
+import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -39,6 +40,7 @@ export const APP_ROUTES: Routes = [
     {path: 'trees', component: TreesComponent},
     {path: 'trees/:id/treesForm', component: TreesFormComponent},
     {path: 'backgroundLayers', component: BackgroundLayersComponent},
+    {path: 'backgroundLayers/:id/backgroundLayersForm', component: BackgroundLayersFormComponent},
     {path: 'layersPermits', component: LayersPermitsComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},
     {path: 'tasksDocument', component: TasksDocumentComponent},

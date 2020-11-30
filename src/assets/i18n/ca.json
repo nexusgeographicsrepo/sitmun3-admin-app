@@ -46,6 +46,9 @@
     "supportedSRS": "Projeccions",
     "createdDate":"Alta"
   },
+  "treesEntity":{
+    "name": "Nom"
+  },
   "applicationEntity":{
     "name": "Nom",
     "type": "Tipus",

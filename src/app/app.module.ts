@@ -52,7 +52,8 @@ import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/t
 //Services
 import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
-import { UserService } from '@sitmun/frontend-core';
+import { UserService } from 'dist/sitmun-frontend-core/';
+import { TreeService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
 import { ServiceService } from 'dist/sitmun-frontend-core/';
 import { ApplicationService } from 'dist/sitmun-frontend-core/';
@@ -62,6 +63,7 @@ import { UserFormComponent } from './components/user/user-form/user-form.compone
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
 import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
+import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,8 @@ import { ApplicationFormComponent } from './components/application/application-f
     UserFormComponent,
     TerritoryFormComponent,
     ServiceFormComponent,
-    ApplicationFormComponent
+    ApplicationFormComponent,
+    TreesFormComponent
   ],
   imports: [
     BrowserModule,
@@ -120,7 +123,7 @@ import { ApplicationFormComponent } from './components/application/application-f
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService],
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

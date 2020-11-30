@@ -27,6 +27,7 @@ import { UserFormComponent } from './components/user/user-form/user-form.compone
 import { TerritoryFormComponent } from './components/territory/territory-form/territory-form.component';
 import { ServiceFormComponent } from './components/service/service-form/service-form.component';
 import { ApplicationFormComponent } from './components/application/application-form/application-form.component';
+import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -36,6 +37,7 @@ export const APP_ROUTES: Routes = [
     {path: 'service/:id/serviceForm', component: ServiceFormComponent},
     {path: 'layers', component: LayersComponent},
     {path: 'trees', component: TreesComponent},
+    {path: 'trees/:id/treesForm', component: TreesFormComponent},
     {path: 'backgroundLayers', component: BackgroundLayersComponent},
     {path: 'layersPermits', component: LayersPermitsComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},

@@ -59,7 +59,7 @@ export class BackgroundLayersComponent implements OnInit {
     de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
     pel que de moment hem dit de deixar-ho així!
     */
-    getAllConnections = () => {
+    getAllBackgroundLayers = () => {
 
       return this.backgroundService.getAll();
     }

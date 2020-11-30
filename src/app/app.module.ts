@@ -66,6 +66,7 @@ import { ApplicationFormComponent } from './components/application/application-f
 import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
 import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
 import { LayersPermitsFormComponent } from './components/layers-permits/layers-permits-form/layers-permits-form.component';
+import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { LayersPermitsFormComponent } from './components/layers-permits/layers-p
     ApplicationFormComponent,
     TreesFormComponent,
     BackgroundLayersFormComponent,
-    LayersPermitsFormComponent
+    LayersPermitsFormComponent,
+    LayersFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,44 @@
-<p>layers-permits-form works!</p>
+<div class="titleDiv" *ngIf="layersPermitsID==-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_permisos"></mat-icon> {{ "layersPermitsEntity.layersPermits" | translate }}-{{"layersPermitsEntity.new" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="titleDiv" *ngIf="layersPermitsID!=-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_permisos"></mat-icon>{{ "layersPermitsEntity.layersPermits" | translate }}-{{"layersPermitsEntity.edit" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="formHeader">
+    <h5> Dades generals  </h5>
+    <button   mat-flat-button class="saveButton"  >
+      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+      {{ "layersPermitsEntity.save" | translate }}
+    </button>
+  </div>
+  <span class="divider"></span>
+  <form [formGroup]='formLayersPermits' #f="ngForm"> 
+  
+      <div class="rowFormDiv">
+          <div class="MidColFormDiv">
+            <label class="formLabel">
+              {{'layersPermitsEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+ 
+            <div class="MidColFormDiv" >
+              <label class="formLabel">
+                {{'layersPermitsEntity.type' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="type">
+              </mat-form-field>
+            </div>
+
+            <button *ngIf="layersPermitsID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "layersPermitsEntity.validate" | translate }}</button>
+            <button *ngIf="layersPermitsID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "layersPermitsEntity.update" | translate }}</button>
+
+      </div>
+
+  
+  </form>

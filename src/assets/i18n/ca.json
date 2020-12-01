@@ -71,7 +71,12 @@
     "type": "Tipus",
     "serviceURL": "Url",
     "supportedSRS": "Projeccions",
-    "createdDate":"Alta"
+    "createdDate":"Alta",
+    "edit": "Edita",
+    "new": "Nou",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza"
   },
   "treesEntity":{
     "trees":"Arbres",
@@ -109,7 +114,12 @@
     "role":"Rol",
     "note":"Observacions",
     "name":"Nom",
-    "application":"Aplicació"
+    "application":"Aplicació",
+    "edit": "Edita",
+    "new": "Nou",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza"
   }
 
 

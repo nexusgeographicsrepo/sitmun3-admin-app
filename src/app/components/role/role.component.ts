@@ -34,12 +34,19 @@ export class RoleComponent implements OnInit{
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 70,
+          width: 20,
+          lockPosition:true,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 26,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

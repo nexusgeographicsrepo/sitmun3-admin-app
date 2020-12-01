@@ -36,7 +36,15 @@ export class BackgroundLayersComponent implements OnInit {
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 130,
+          width: 40,
+          lockPosition:true,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 46,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

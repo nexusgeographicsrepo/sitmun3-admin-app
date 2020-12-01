@@ -39,12 +39,19 @@ export class UserComponent implements OnInit  {
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 100,
+          width: 35,
+          lockPosition:true,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 46,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

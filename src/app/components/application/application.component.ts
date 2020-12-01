@@ -31,12 +31,19 @@ export class ApplicationComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 130,
+          width: 30,
+          lockPosition:true,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 41,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

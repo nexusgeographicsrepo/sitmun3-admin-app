@@ -33,17 +33,25 @@ export class LayersPermitsComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
+
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 130,
+          width: 20,
+          lockPosition:true,
+        }, 
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 20,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: this.newData.bind(this)
-          },
+          }, 
         },
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('layersPermitsEntity.name'), field: 'name' },

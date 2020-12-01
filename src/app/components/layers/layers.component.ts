@@ -32,12 +32,19 @@ export class LayersComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 170,
+          width: 65,
+          lockPosition:true,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 81,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

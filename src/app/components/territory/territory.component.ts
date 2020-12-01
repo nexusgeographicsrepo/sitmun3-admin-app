@@ -34,12 +34,19 @@ export class TerritoryComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 100,
+        width: 70,
+        lockPosition:true,
+      },
+      {
+        headerName: '',
+        field: 'id',
+        editable: false,
+        filter: false,
+        width: 91,
         lockPosition:true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

@@ -24,7 +24,8 @@
     "tasksEdition": "Edició",
     "tasksThematic": "Temàtica",
     "tasksExtractionFME": "Extracció FME",
-    "application": "Aplicació"
+    "application": "Aplicació",
+    "taskGroup": "Grup tasca"
   },
   "userEntity":{
     "user":"Usuari",

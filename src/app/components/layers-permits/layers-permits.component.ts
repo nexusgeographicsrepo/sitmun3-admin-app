@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { MapConfigurationManagerService } from 'dist/sitmun-frontend-core/';
+import { CartographyGroupService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
@@ -22,7 +22,7 @@ export class LayersPermitsComponent implements OnInit {
   };
 
     constructor(private http: HttpClient,
-                public mapConfigurationManagerService: MapConfigurationManagerService,
+                public cartographyGroupService: CartographyGroupService,
                 private utils: UtilsService,
                 private router: Router,
                 ) {
@@ -61,7 +61,7 @@ export class LayersPermitsComponent implements OnInit {
     */
     getAllLayersPermits = () => {
 
-      return this.mapConfigurationManagerService.getLayers();
+      return this.cartographyGroupService.getAll();
     }
 
     /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,

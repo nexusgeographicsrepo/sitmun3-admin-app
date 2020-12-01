@@ -74,7 +74,9 @@ export class ConnectionComponent implements OnInit {
 
     removeData( data: Connection[])
     {
-      console.log(data);
+      data.forEach(connection => {
+        this.connectionService.delete(connection);
+      });
     }
 
     newData(id: any)

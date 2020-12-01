@@ -1,1 +1,86 @@
-<p>connection-form works!</p>
+<h3 *ngIf="connectionID==-1" >{{ "connection" | translate }}-{{"new" | translate}}</h3>
+<h3 *ngIf="connectionID!=-1" >{{ "connection" | translate }}-{{"edit" | translate}}</h3>
+<span class="divider"></span>
+<div class="formHeader">
+  <h4> Dades generals  </h4>
+  <button   mat-flat-button class="saveButton"  >
+    <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+    {{ "desa" | translate }}
+  </button>
+</div>
+<span class="divider"></span>
+<form [formGroup]='formConnection' #f="ngForm"> 
+
+    <div class="rowFormDiv">
+        <div class="colFormDiv">
+          <label class="formLabel">
+            {{'name' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="name">
+          </mat-form-field>
+        </div>
+
+        <div class="colFormDiv" >
+          <label class="formLabel">
+            {{'driver' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="driver">
+          </mat-form-field>
+        </div>
+
+        <div class="colFormDiv">
+            <label class="formLabel">
+              {{'user' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="user">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" id="right-column">
+            <label class="formLabel">
+              {{'password' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="password">
+            </mat-form-field>
+          </div>
+    </div>
+
+    <div class="rowFormDiv">
+    
+        <div class="colFormDiv" >
+          <label class="formLabel">
+            {{'connexio' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="url">
+          </mat-form-field>
+        </div>
+
+        <button *ngIf="connectionID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "validate" | translate }}</button>
+        <button *ngIf="connectionID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "update" | translate }}</button>
+  </div>
+
+
+</form>
+
+<mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+  <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+    <mat-panel-title  >
+      Consultes
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+
+<div class="appDataGridDiv">
+    <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllConnections' [globalSearch]=true [frameworkComponents]="frameworkComponents"
+    [discardChangesButton]=true [redoButton]=true [undoButton]=true [applyChangesButton]=true  [deleteButton]=true [newButton]=true 
+    (remove)="removeData($event)" (new)='newData($event)' (sendChanges)='applyChanges($event)' > </app-data-grid>
+</div>
+
+
+</mat-expansion-panel>
+

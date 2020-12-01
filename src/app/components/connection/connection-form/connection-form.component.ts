@@ -72,12 +72,19 @@ export class ConnectionFormComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 130,
+        width: 50,
+        lockPosition:true,
+      },
+      {
+        headerName: '',
+        field: 'id',
+        editable: false,
+        filter: false,
+        width: 65,
         lockPosition:true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

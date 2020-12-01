@@ -36,7 +36,7 @@ export class ConnectionComponent implements OnInit {
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 30,
+          width: 50,
           lockPosition:true,
         },
         {
@@ -44,7 +44,7 @@ export class ConnectionComponent implements OnInit {
           field: 'id',
           editable: false,
           filter: false,
-          width: 45,
+          width: 55,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

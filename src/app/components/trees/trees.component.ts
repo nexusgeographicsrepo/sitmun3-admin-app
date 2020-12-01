@@ -31,12 +31,19 @@ export class TreesComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 130,
+          width: 50,
+          lockPosition:true,
+        },
+        {
+          headerName: '',
+          field: 'id',
+          editable: false,
+          filter: false,
+          width: 55,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

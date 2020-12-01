@@ -33,20 +33,18 @@ export class ServiceComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
-
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 35,
+          width: 50,
           lockPosition:true,
         },
         {
           headerName: '',
-          field: 'id',
           editable: false,
           filter: false,
-          width: 56,
+          width: 55,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

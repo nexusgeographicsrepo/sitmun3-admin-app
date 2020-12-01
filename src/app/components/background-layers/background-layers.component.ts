@@ -31,12 +31,11 @@ export class BackgroundLayersComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
-          field: 'id',
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 40,
+          width: 50,
           lockPosition:true,
         },
         {
@@ -44,7 +43,7 @@ export class BackgroundLayersComponent implements OnInit {
           field: 'id',
           editable: false,
           filter: false,
-          width: 46,
+          width: 55,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

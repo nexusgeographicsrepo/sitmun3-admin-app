@@ -76,7 +76,7 @@ export class LayersPermitsComponent implements OnInit {
 
     newData(id: any)
     {
-      this.router.navigate(['application', id, 'applicationForm']);
+      this.router.navigate(['layersPermits', id, 'layersPermitsForm']);
     }
 
     applyChanges( data: Connection[])

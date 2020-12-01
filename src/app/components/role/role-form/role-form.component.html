@@ -1,1 +1,44 @@
-<p>role-form works!</p>
+<div class="titleDiv" *ngIf="stopID==-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon> {{ "roleEntity.role" | translate }}-{{"roleEntity.new" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="titleDiv" *ngIf="stopID!=-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon>{{ "roleEntity.role" | translate }}-{{"roleEntity.edit" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="formHeader">
+    <h5> Dades generals  </h5>
+    <button   mat-flat-button class="saveButton"  >
+      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+      {{ "roleEntity.save" | translate }}
+    </button>
+  </div>
+  <span class="divider"></span>
+  <form [formGroup]='formRole' #f="ngForm"> 
+  
+      <div class="rowFormDiv">
+          <div class="MidColFormDiv">
+            <label class="formLabel">
+              {{'roleEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+ 
+            <div class="MidColFormDiv" >
+              <label class="formLabel">
+                {{'roleEntity.note' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="description">
+              </mat-form-field>
+            </div>
+
+            <button *ngIf="stopID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "roleEntity.validate" | translate }}</button>
+            <button *ngIf="stopID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "roleEntity.update" | translate }}</button>
+
+      </div>
+
+  
+  </form>

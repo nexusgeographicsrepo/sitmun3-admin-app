@@ -71,21 +71,21 @@
 
 
 </form>
-
-<mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
-  <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-    <mat-panel-title  >
-      Consultes
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-
-
-<div class="appDataGridDiv">
-    <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllConnections' [globalSearch]=true [frameworkComponents]="frameworkComponents"
-    [discardChangesButton]=true [redoButton]=true [undoButton]=true [applyChangesButton]=true  [deleteButton]=true [newButton]=true 
-    (remove)="removeData($event)" (new)='newData($event)' (sendChanges)='applyChanges($event)' > </app-data-grid>
-</div>
+<mat-accordion>
+  <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+      <mat-panel-title  >
+        Consultes
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
 
-</mat-expansion-panel>
+  <div class="appDataGridEditDiv">
+      <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllConnections'  [frameworkComponents]="frameworkComponents"
+      [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+      (remove)="removeData($event)" (new)='newData($event)' (sendChanges)='applyChanges($event)' > </app-data-grid>
+  </div>
 
+
+  </mat-expansion-panel>
+</mat-accordion>

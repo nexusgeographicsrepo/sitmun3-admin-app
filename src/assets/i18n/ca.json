@@ -37,7 +37,14 @@
     "user":"Usuari",
     "name": "Nom",
     "driver": "Driver",
-    "connection":"Connexió"
+    "connection":"Connexió",
+    "password": "Contrasenya",
+    "new": "Nova",
+    "edit": "Edita",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "save": "Desa"
+
   },
   "serviceEntity":{
     "service": "Servei",

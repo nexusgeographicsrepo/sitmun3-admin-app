@@ -1,11 +1,16 @@
-<h3 *ngIf="connectionID==-1" >{{ "connection" | translate }}-{{"new" | translate}}</h3>
-<h3 *ngIf="connectionID!=-1" >{{ "connection" | translate }}-{{"edit" | translate}}</h3>
-<span class="divider"></span>
+<div class="titleDiv" *ngIf="connectionID==-1" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon> {{ "connectionEntity.connection" | translate }}-{{"connectionEntity.new" | translate}}</h4>
+  <span class="divider"></span>
+</div>
+<div class="titleDiv" *ngIf="connectionID!=-1" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon>{{ "connectionEntity.connection" | translate }}-{{"connectionEntity.edit" | translate}}</h4>
+  <span class="divider"></span>
+</div>
 <div class="formHeader">
-  <h4> Dades generals  </h4>
+  <h5> Dades generals  </h5>
   <button   mat-flat-button class="saveButton"  >
     <mat-icon fontSet="material-icons-round"  > save </mat-icon>
-    {{ "desa" | translate }}
+    {{ "connectionEntity.save" | translate }}
   </button>
 </div>
 <span class="divider"></span>
@@ -14,7 +19,7 @@
     <div class="rowFormDiv">
         <div class="colFormDiv">
           <label class="formLabel">
-            {{'name' | translate}}
+            {{'connectionEntity.name' | translate}}
           </label>
           <mat-form-field appearance="outline">
             <input matInput type="text" formControlName="name">
@@ -23,7 +28,7 @@
 
         <div class="colFormDiv" >
           <label class="formLabel">
-            {{'driver' | translate}}
+            {{'connectionEntity.driver' | translate}}
           </label>
           <mat-form-field appearance="outline">
             <input matInput type="text" formControlName="driver">
@@ -32,7 +37,7 @@
 
         <div class="colFormDiv">
             <label class="formLabel">
-              {{'user' | translate}}
+              {{'connectionEntity.user' | translate}}
             </label>
             <mat-form-field appearance="outline">
               <input matInput type="text" formControlName="user">
@@ -41,7 +46,7 @@
 
           <div class="colFormDiv" id="right-column">
             <label class="formLabel">
-              {{'password' | translate}}
+              {{'connectionEntity.password' | translate}}
             </label>
             <mat-form-field appearance="outline">
               <input matInput type="text" formControlName="password">
@@ -53,15 +58,15 @@
     
         <div class="colFormDiv" >
           <label class="formLabel">
-            {{'connexio' | translate}}
+            {{'connectionEntity.connection' | translate}}
           </label>
           <mat-form-field appearance="outline">
             <input matInput type="text" formControlName="url">
           </mat-form-field>
         </div>
 
-        <button *ngIf="connectionID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "validate" | translate }}</button>
-        <button *ngIf="connectionID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "update" | translate }}</button>
+        <button *ngIf="connectionID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "connectionEntity.validate" | translate }}</button>
+        <button *ngIf="connectionID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "connectionEntity.update" | translate }}</button>
   </div>
 
 

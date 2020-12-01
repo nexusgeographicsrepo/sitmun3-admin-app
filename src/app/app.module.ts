@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule, BackgroundService, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, BackgroundService, CartographyService, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -129,7 +129,7 @@ import { LayersFormComponent } from './components/layers/layers-form/layers-form
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService, BackgroundService],
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService, BackgroundService, CartographyService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

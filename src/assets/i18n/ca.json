@@ -57,13 +57,13 @@
   "layersEntity":{
     "layers": "Capes",
     "name": "Nom",
-    "serverName": "Servei",
+    "source": "Servei",
     "order": "Ordre",
     "layers": "Capes",
     "createdDate": "Alta",
-    "minScale": "Escala Min",
-    "maxScale": "Escala Max",
-    "infoUrl":"URL dades"
+    "minimumScale": "Escala Min",
+    "maximumScale": "Escala Max",
+    "metadataURL":"URL dades"
   },
   "layersPermitsEntity":{
     "layersPermits": "Permisos sobre les capes",

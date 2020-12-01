@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { MapConfigurationManagerService } from 'dist/sitmun-frontend-core/';
+import { CartographyService } from 'dist/sitmun-frontend-core/';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
@@ -21,7 +21,7 @@ export class LayersComponent implements OnInit {
   };
 
     constructor(private http: HttpClient,
-                public mapConfigurationManagerService: MapConfigurationManagerService,
+                public cartographyService: CartographyService,
                 private utils: UtilsService,
                 private router: Router,
                 ) {
@@ -37,7 +37,7 @@ export class LayersComponent implements OnInit {
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 130,
+          width: 170,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
@@ -46,13 +46,13 @@ export class LayersComponent implements OnInit {
         },
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
-        { headerName: this.utils.getTranslate('layersEntity.serverName'), field: 'serverName'}, //service
+        { headerName: this.utils.getTranslate('layersEntity.source'), field: 'source'}, //service
         { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order'},
         { headerName: this.utils.getTranslate('layersEntity.layers'), field: 'layers'},
         { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'createdDate'},
-        { headerName: this.utils.getTranslate('layersEntity.minScale'), field: 'minScale'},
-        { headerName: this.utils.getTranslate('layersEntity.maxScale'), field: 'maxScale'},
-        { headerName: this.utils.getTranslate('layersEntity.infoUrl'), field: 'infoUrl'},
+        { headerName: this.utils.getTranslate('layersEntity.minimumScale'), field: 'minimumScale'},
+        { headerName: this.utils.getTranslate('layersEntity.maximumScale'), field: 'maximumScale'},
+        { headerName: this.utils.getTranslate('layersEntity.metadataURL'), field: 'metadataURL'},
       ];
 
     }
@@ -66,7 +66,7 @@ export class LayersComponent implements OnInit {
     */
     getAllLayers = () => {
 
-      return this.mapConfigurationManagerService.getLayers();
+      return this.cartographyService.getAll();
     }
 
     /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,

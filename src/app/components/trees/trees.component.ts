@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Component, OnInit } from '@angular/core';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { TreeService } from 'dist/sitmun-frontend-core/';
-import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trees',
@@ -19,7 +18,7 @@ export class TreesComponent implements OnInit {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
 
-    constructor(private http: HttpClient,
+    constructor(
                 public treesService: TreeService,
                 private utils: UtilsService,
                 private router: Router,

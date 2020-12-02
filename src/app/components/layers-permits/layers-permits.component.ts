@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { CartographyGroupService } from 'dist/sitmun-frontend-core/';
-import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,8 +19,7 @@ export class LayersPermitsComponent implements OnInit {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
 
-    constructor(private http: HttpClient,
-                public cartographyGroupService: CartographyGroupService,
+    constructor(public cartographyGroupService: CartographyGroupService,
                 private utils: UtilsService,
                 private router: Router,
                 ) {

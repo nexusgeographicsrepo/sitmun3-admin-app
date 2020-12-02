@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'dist/sitmun-frontend-core/user/user.model';
 import { UserService } from 'dist/sitmun-frontend-core/';
-import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
@@ -20,11 +18,9 @@ export class UserComponent implements OnInit  {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
 
-    constructor(private http: HttpClient,
-                public userService: UserService,
+    constructor(public userService: UserService,
                 private utils: UtilsService,
                 private router: Router
-                // private translate: TranslateService
                 ) {
 
     }

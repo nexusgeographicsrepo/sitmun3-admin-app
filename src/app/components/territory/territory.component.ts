@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Territory } from 'dist/sitmun-frontend-core/territory/territory.model';
 import { TerritoryService } from 'dist/sitmun-frontend-core/';
-import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
@@ -21,8 +19,7 @@ export class TerritoryComponent implements OnInit {
   };
 
 
-  constructor(private http: HttpClient,
-              public territoryService: TerritoryService,
+  constructor(public territoryService: TerritoryService,
               private utils: UtilsService,
               private router: Router,
               )

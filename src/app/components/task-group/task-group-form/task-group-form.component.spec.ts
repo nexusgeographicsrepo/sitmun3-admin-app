@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskGroupFormComponent } from './task-group-form.component';
+import { RouterModule } from '@angular/router';
 
 describe('TaskGroupFormComponent', () => {
   let component: TaskGroupFormComponent;
@@ -8,7 +9,8 @@ describe('TaskGroupFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskGroupFormComponent ]
+      declarations: [ TaskGroupFormComponent ],
+      imports: [ RouterModule.forRoot([]),]
     })
     .compileComponents();
   });

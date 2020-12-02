@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TerritoryFormComponent } from './territory-form.component';
+import { RouterModule } from '@angular/router';
 
 describe('TerritoryFormComponent', () => {
   let component: TerritoryFormComponent;
@@ -8,7 +9,8 @@ describe('TerritoryFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TerritoryFormComponent ]
+      declarations: [ TerritoryFormComponent ],
+      imports: [ RouterModule.forRoot([]),]
     })
     .compileComponents();
   });

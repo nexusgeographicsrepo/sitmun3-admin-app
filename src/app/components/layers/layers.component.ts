@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { CartographyService } from 'dist/sitmun-frontend-core/';
-import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layers',
@@ -20,8 +18,7 @@ export class LayersComponent implements OnInit {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
 
-    constructor(private http: HttpClient,
-                public cartographyService: CartographyService,
+    constructor(public cartographyService: CartographyService,
                 private utils: UtilsService,
                 private router: Router,
                 ) {

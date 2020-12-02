@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Role } from 'dist/sitmun-frontend-core/role/role.model';
 import { RoleService } from 'dist/sitmun-frontend-core/';
-import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
@@ -21,8 +19,7 @@ export class RoleComponent implements OnInit{
     };
 
 
-    constructor(private http: HttpClient,
-                public roleService: RoleService,
+    constructor(public roleService: RoleService,
                 private utils: UtilsService,
                 private router: Router,
                 )

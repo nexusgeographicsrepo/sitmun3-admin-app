@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConnectionFormComponent } from '../connection-form/connection-form.component';
+import { RouterModule } from '@angular/router';
 
 describe('ConnectionFormComponent', () => {
   let component: ConnectionFormComponent;
@@ -8,7 +9,8 @@ describe('ConnectionFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnectionFormComponent ]
+      declarations: [ ConnectionFormComponent ],
+      imports: [ RouterModule.forRoot([]),]
     })
     .compileComponents();
   });

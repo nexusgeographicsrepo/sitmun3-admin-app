@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoleFormComponent } from './role-form.component';
+import { RouterModule } from '@angular/router';
 
 describe('RoleFormComponent', () => {
   let component: RoleFormComponent;
@@ -8,7 +9,8 @@ describe('RoleFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoleFormComponent ]
+      declarations: [ RoleFormComponent ],
+      imports: [ RouterModule.forRoot([]),]
     })
     .compileComponents();
   });

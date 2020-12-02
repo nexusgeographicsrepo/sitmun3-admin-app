@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ApplicationService } from 'dist/sitmun-frontend-core/';
 
 import { ApplicationComponent } from './application.component';
+import { HttpClientModule } from '@angular/common/http';
+import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
+
+
 
 describe('ApplicationComponent', () => {
   let component: ApplicationComponent;
@@ -8,7 +13,9 @@ describe('ApplicationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApplicationComponent ]
+      declarations: [ ApplicationComponent ],
+      imports : [HttpClientModule, SitmunFrontendGuiModule],
+      providers: [ApplicationService]
     })
     .compileComponents();
   });

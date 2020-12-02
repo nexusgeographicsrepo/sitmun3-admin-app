@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BackgroundLayersFormComponent } from './background-layers-form.component';
+import { RouterModule } from '@angular/router';
 
 describe('BackgroundLayersFormComponent', () => {
   let component: BackgroundLayersFormComponent;
@@ -8,7 +9,8 @@ describe('BackgroundLayersFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BackgroundLayersFormComponent ]
+      declarations: [ BackgroundLayersFormComponent ],
+      imports: [ RouterModule.forRoot([]),]
     })
     .compileComponents();
   });

@@ -55,7 +55,7 @@ export class ApplicationComponent implements OnInit {
         { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type'},
         { headerName: this.utils.getTranslate('serviceEntity.serviceURL'), field: 'theme'},
         { headerName: this.utils.getTranslate('serviceEntity.supportedSRS'), field: 'srs'},
-        { headerName: this.utils.getTranslate('serviceEntity.createdDate'), field: 'createdDate'}
+        { headerName: this.utils.getTranslate('serviceEntity.createdDate'), field: 'createdDate'} // type: 'dateColumn'
       ];
 
     }

@@ -57,7 +57,7 @@ export class TerritoryComponent implements OnInit {
       { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('territoryEntity.scope'),  field: 'scope'},
-      { headerName: this.utils.getTranslate('territoryEntity.createdDate'),  field: 'createdDate'},
+      { headerName: this.utils.getTranslate('territoryEntity.createdDate'),  field: 'createdDate', }, // type: 'dateColumn'
       { headerName: this.utils.getTranslate('territoryEntity.administrator'),  field: 'territorialAuthorityName'},
       { headerName: this.utils.getTranslate('territoryEntity.email'),  field: 'territorialAuthorityEmail'},
       { headerName: this.utils.getTranslate('territoryEntity.address'),  field: 'territorialAuthorityAddress'},

@@ -116,7 +116,6 @@ import { TaskGroupFormComponent } from './components/task-group/task-group-form/
     AngularHalModule,
     SitmunFrontendGuiModule,
     MaterialModule,
-    HttpClientModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

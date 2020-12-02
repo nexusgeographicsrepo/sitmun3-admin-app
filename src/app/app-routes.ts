@@ -32,6 +32,7 @@ import { BackgroundLayersFormComponent } from './components/background-layers/ba
 import { LayersPermitsFormComponent } from './components/layers-permits/layers-permits-form/layers-permits-form.component';
 import { TaskGroupComponent } from './components/task-group/task-group.component';
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
+import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -40,7 +41,7 @@ export const APP_ROUTES: Routes = [
     {path: 'service', component: ServiceComponent},
     {path: 'service/:id/serviceForm', component: ServiceFormComponent},
     {path: 'layers', component: LayersComponent},
-    {path: 'layers/:id/layersForm', component: LayersPermitsFormComponent},
+    {path: 'layers/:id/layersForm', component: LayersFormComponent},
     {path: 'trees', component: TreesComponent},
     {path: 'trees/:id/treesForm', component: TreesFormComponent},
     {path: 'backgroundLayers', component: BackgroundLayersComponent},

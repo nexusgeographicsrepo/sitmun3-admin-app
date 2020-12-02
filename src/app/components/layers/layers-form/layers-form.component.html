@@ -1,1 +1,72 @@
-<p>layers-form works!</p>
+<div class="titleDiv" *ngIf="layerID==-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon> {{ "layersEntity.layers" | translate }}-{{"layersEntity.new" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="titleDiv" *ngIf="layerID!=-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon>{{ "layersEntity.layers" | translate }}-{{"layersEntity.edit" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="formHeader">
+    <h5> Dades generals  </h5>
+    <button   mat-flat-button class="saveButton"  >
+      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+      {{ "layersEntity.save" | translate }}
+    </button>
+  </div>
+  <span class="divider"></span>
+  <form [formGroup]='layerForm' #f="ngForm"> 
+  
+      <div class="rowFormDiv">
+          <div class="colFormDiv">
+            <label class="formLabel">
+              {{'layersEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+  
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'layersEntity.driver' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="driver">
+            </mat-form-field>
+          </div>
+  
+          <div class="colFormDiv">
+              <label class="formLabel">
+                {{'layersEntity.user' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="user">
+              </mat-form-field>
+            </div>
+  
+            <div class="colFormDiv" id="right-column">
+              <label class="formLabel">
+                {{'layersEntity.password' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="password">
+              </mat-form-field>
+            </div>
+      </div>
+  
+      <div class="rowFormDiv">
+      
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'layersEntity.connection' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="url">
+            </mat-form-field>
+          </div>
+  
+          <button *ngIf="layerID==-1" (click)="addNewLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.validate" | translate }}</button>
+          <button *ngIf="layerID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.update" | translate }}</button>
+    </div>
+  
+  

@@ -64,7 +64,12 @@
     "createdDate": "Alta",
     "minimumScale": "Escala Min",
     "maximumScale": "Escala Max",
-    "metadataURL":"URL dades"
+    "metadataURL":"URL dades",
+    "edit": "Edita",
+    "new": "Nova",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza"
   },
   "layersPermitsEntity":{
     "layersPermits": "Permisos sobre les capes",

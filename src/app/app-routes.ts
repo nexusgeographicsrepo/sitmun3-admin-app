@@ -30,6 +30,8 @@ import { ApplicationFormComponent } from './components/application/application-f
 import { TreesFormComponent } from './components/trees/trees-form/trees-form.component';
 import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
 import { LayersPermitsFormComponent } from './components/layers-permits/layers-permits-form/layers-permits-form.component';
+import { TaskGroupComponent } from './components/task-group/task-group.component';
+import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -45,6 +47,8 @@ export const APP_ROUTES: Routes = [
     {path: 'backgroundLayers/:id/backgroundLayersForm', component: BackgroundLayersFormComponent},
     {path: 'layersPermits', component: LayersPermitsComponent},
     {path: 'layersPermits/:id/layersPermitsForm', component: LayersPermitsFormComponent},
+    {path: 'taskGroup', component: TaskGroupComponent},
+    {path: 'taskGroup/:id/taskGroupForm', component: TaskGroupFormComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},
     {path: 'tasksDocument', component: TasksDocumentComponent},
     {path: 'tasksConsultation', component: TasksConsultationComponent},

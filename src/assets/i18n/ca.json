@@ -83,6 +83,10 @@
     "trees":"Arbres",
     "name": "Nom"
   },
+  "taskGroupEntity":{
+    "taskGroup":"Grup tasca",
+    "name": "Nom"
+  },
   "backgroundEntity":{
     "backgroundLayers":"Capes de fons",
     "name": "Nom",

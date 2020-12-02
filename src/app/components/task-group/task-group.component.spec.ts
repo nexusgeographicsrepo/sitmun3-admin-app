@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskGroupComponent } from './task-group.component';
+import { TaskGroupService } from 'dist/sitmun-frontend-core/';
+import { HttpClientModule } from '@angular/common/http';
+import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
+import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
+import { RouterTestingModule } from '@angular/router/testing';
+
 
 describe('TaskGroupComponent', () => {
   let component: TaskGroupComponent;
@@ -8,7 +14,10 @@ describe('TaskGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskGroupComponent ]
+      declarations: [ TaskGroupComponent ],
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule],
+      providers: [TaskGroupService,
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();
   });

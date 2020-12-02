@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
+import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
+import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ConnectionService } from 'dist/sitmun-frontend-core/';
 import { ConnectionFormComponent } from '../connection-form/connection-form.component';
-import { RouterModule } from '@angular/router';
 
 describe('ConnectionFormComponent', () => {
   let component: ConnectionFormComponent;
@@ -10,7 +13,9 @@ describe('ConnectionFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ConnectionFormComponent ],
-      imports: [ RouterModule.forRoot([]),]
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule],
+      providers: [ConnectionService,
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();
   });

@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserComponent } from './user.component';
-import { RouterModule } from '@angular/router';
+import { UserService } from 'dist/sitmun-frontend-core/';
+import { HttpClientModule } from '@angular/common/http';
+import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
+import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
+import { RouterTestingModule } from '@angular/router/testing';
+
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -10,11 +15,12 @@ describe('UserComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ UserComponent ],
-      imports: [ RouterModule.forRoot([]),]
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule],
+      providers: [UserService,
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();
   });
-
   beforeEach(() => {
     fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;

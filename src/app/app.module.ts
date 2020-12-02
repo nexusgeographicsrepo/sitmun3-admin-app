@@ -9,6 +9,7 @@ import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
+import { APP_ROUTING } from './app-routes';
 
 
 //i18n
@@ -116,6 +117,7 @@ import { TaskGroupFormComponent } from './components/task-group/task-group-form/
     AngularHalModule,
     SitmunFrontendGuiModule,
     MaterialModule,
+    RouterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -125,8 +127,8 @@ import { TaskGroupFormComponent } from './components/task-group/task-group-form/
         deps: [HttpClient]
       }
     }),
+    APP_ROUTING,
     AgGridModule.withComponents([]),
-    RouterModule.forRoot(APP_ROUTES, { useHash: true }),
     BrowserAnimationsModule
   ],
   providers: [SidenavService, UtilsService,

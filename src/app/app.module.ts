@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService, ConnectionService, TerritoryService } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService, ConnectionService, TaskGroupService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -67,6 +67,8 @@ import { TreesFormComponent } from './components/trees/trees-form/trees-form.com
 import { BackgroundLayersFormComponent } from './components/background-layers/background-layers-form/background-layers-form.component';
 import { LayersPermitsFormComponent } from './components/layers-permits/layers-permits-form/layers-permits-form.component';
 import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
+import { TaskGroupComponent } from './components/task-group/task-group.component';
+import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,9 @@ import { LayersFormComponent } from './components/layers/layers-form/layers-form
     TreesFormComponent,
     BackgroundLayersFormComponent,
     LayersPermitsFormComponent,
-    LayersFormComponent
+    LayersFormComponent,
+    TaskGroupComponent,
+    TaskGroupFormComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +134,7 @@ import { LayersFormComponent } from './components/layers/layers-form/layers-form
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService,
-    BackgroundService, CartographyService, CartographyGroupService],
+    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

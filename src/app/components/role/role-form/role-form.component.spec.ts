@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoleFormComponent } from './role-form.component';
 import { RouterModule } from '@angular/router';
-import { RoleService } from 'dist/sitmun-frontend-core/';
+import { RoleService, UserService } from 'dist/sitmun-frontend-core/';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
@@ -20,7 +20,7 @@ describe('RoleFormComponent', () => {
       declarations: [ RoleFormComponent ],
       imports: [HttpClientTestingModule, RouterModule.forRoot([]),HttpClientModule,
       SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
-      providers: [RoleService,
+      providers: [RoleService, UserService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

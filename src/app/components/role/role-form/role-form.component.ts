@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators  } from '@angular/forms';
 import {  ActivatedRoute,  Router} from '@angular/router';
-import { RoleService } from 'dist/sitmun-frontend-core/';
+import { RoleService, UserService, User } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -15,6 +15,12 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 })
 export class RoleFormComponent implements OnInit {
 
+  columnDefs: any[];
+  public frameworkComponents = {
+    btnEditRendererComponent: BtnEditRenderedComponent
+  };
+
+
   formRole: FormGroup;
   roleToEdit;
   stopID: number = -1;
@@ -22,6 +28,7 @@ export class RoleFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private roleService: RoleService,
+    private userService: UserService,
     private http: HttpClient,
     private utils: UtilsService,
     ) {
@@ -57,6 +64,41 @@ export class RoleFormComponent implements OnInit {
     error => {
 
     });
+
+
+    this.columnDefs = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      {
+        headerName: '',
+        field: 'id',
+        editable: false,
+        filter: false,
+        width: 70,
+        lockPosition:true,
+        cellRenderer: 'btnEditRendererComponent',
+        cellRendererParams: {
+          clicked: this.newDataUsers.bind(this)
+        },
+      },
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('userEntity.user'), field: 'username' },
+      { headerName: this.utils.getTranslate('userEntity.firstname'),  field: 'firstName' },
+      { headerName: this.utils.getTranslate('userEntity.lastname'),  field: 'lastName'},
+      { headerName: this.utils.getTranslate('userEntity.administrator'), field: 'administrator'},
+      { headerName: this.utils.getTranslate('userEntity.blocked'), field: 'blocked'}
+      // { headerName: this.translate.instant, field: 'username', checkboxSelection: true, },
+      // { headerName: this.headerNameColumnFirstName,  field: 'firstName' },
+      // { headerName: this.headerNameColumnLastName,  field: 'lastName'},
+      // { headerName: this.headerNameColumnStatus, field: 'estat'},
+    ];
 
   }
 
@@ -99,6 +141,35 @@ export class RoleFormComponent implements OnInit {
       });
 
   }
+
+
+  //AG GRID
+
+     /*
+      Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+      de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+      pel que de moment hem dit de deixar-ho així!
+    */
+   getAllUsers = () => {
+
+    return this.userService.getAll();
+  }
+
+  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+    corresponent!
+  */
+
+  removeDataUsers( data: User[])
+  {
+    console.log(data);
+  }
+
+  newDataUsers(id: any)
+  {
+    this.router.navigate(['user', id, 'userForm']);
+  }
+
 
 
 }

@@ -9,6 +9,7 @@ import { ToolbarComponent } from './components/shared/toolbar/toolbar.component'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MaterialModule } from './material-module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -19,6 +20,7 @@ describe('AppComponent', () => {
         RouterTestingModule,
         MatIconTestingModule,
         MaterialModule,
+        BrowserAnimationsModule,
         TranslateModule.forRoot({ 
           loader: {
             provide: TranslateLoader,

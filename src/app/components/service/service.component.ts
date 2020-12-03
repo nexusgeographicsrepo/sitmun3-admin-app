@@ -30,23 +30,25 @@ export class ServiceComponent implements OnInit {
       this.columnDefs = [
         {
           headerName: '',
+
           checkboxSelection: true,
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
           width: 50,
           lockPosition:true,
-        },
+        }, 
         {
           headerName: '',
+          field: 'id',
           editable: false,
           filter: false,
-          width: 55,
+          width: 60,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {
             clicked: this.newData.bind(this)
-          },
+          }, 
         },
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },

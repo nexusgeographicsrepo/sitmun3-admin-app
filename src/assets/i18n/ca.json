@@ -89,7 +89,8 @@
     "new": "Nou",
     "save": "Desa",
     "validate": "Valida",
-    "update": "Actualitza"
+    "update": "Actualitza",
+    "roles" : "Rols"
   },
   "treesEntity":{
     "trees":"Arbres",

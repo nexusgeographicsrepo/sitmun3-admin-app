@@ -42,3 +42,22 @@
 
   
   </form>
+
+<mat-accordion>
+  <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+      <mat-panel-title  >
+        {{ "layersPermitsEntity.roles" | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+
+  <div class="appDataGridEditDiv">
+      <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
+      [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+      (remove)="removeDataRole($event)" (new)='newDataRole($event)' (sendChanges)='applyChangesRole($event)' > </app-data-grid>
+  </div>
+
+
+  </mat-expansion-panel>
+</mat-accordion>

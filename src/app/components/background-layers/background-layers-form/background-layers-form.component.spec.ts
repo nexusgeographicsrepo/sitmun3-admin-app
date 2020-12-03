@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BackgroundLayersFormComponent } from './background-layers-form.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('BackgroundLayersFormComponent', () => {
   let component: BackgroundLayersFormComponent;
@@ -11,7 +12,7 @@ describe('BackgroundLayersFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ BackgroundLayersFormComponent ],
-      imports: [ RouterModule.forRoot([]),MaterialModule]
+      imports: [ RouterModule.forRoot([]),MaterialModule, MatIconTestingModule]
     })
     .compileComponents();
   });

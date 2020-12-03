@@ -8,6 +8,7 @@ import { ExternalConfigurationService } from 'src/app/ExternalConfigurationServi
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../../material-module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('LayersPermitsFormComponent', () => {
   let component: LayersPermitsFormComponent;
@@ -16,8 +17,8 @@ describe('LayersPermitsFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ LayersPermitsFormComponent ],
-      imports: [ RouterModule.forRoot([]), HttpClientTestingModule, SitmunFrontendGuiModule, 
-      RouterTestingModule, MaterialModule, RouterModule],
+      imports: [ RouterModule.forRoot([]), HttpClientTestingModule, SitmunFrontendGuiModule,
+      RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
       providers: [CartographyGroupService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../material-module';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 
 describe('UserComponent', () => {
@@ -18,7 +19,7 @@ describe('UserComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ UserComponent ],
-      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
+      imports : [HttpClientTestingModule, MatIconTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [UserService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

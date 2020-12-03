@@ -19,7 +19,7 @@ describe('SideMenuComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ SideMenuComponent ],
       imports: [HttpClientTestingModule, MatIconTestingModule, MaterialModule, RouterModule.forRoot(APP_ROUTES),
-         BrowserAnimationsModule, TranslateModule.forRoot({
+         BrowserAnimationsModule, MatIconTestingModule, TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
           useFactory: (http: HttpClient) => {

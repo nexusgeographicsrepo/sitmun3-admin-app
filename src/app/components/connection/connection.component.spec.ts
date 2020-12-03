@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../material-module';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('ConnectionComponent', () => {
   let component: ConnectionComponent;
@@ -16,7 +17,7 @@ describe('ConnectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ConnectionComponent ],
-      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
+      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, MatIconTestingModule, RouterModule],
       providers: [ConnectionService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

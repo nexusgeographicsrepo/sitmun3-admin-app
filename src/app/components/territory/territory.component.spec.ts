@@ -18,7 +18,7 @@ describe('TerritoryComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TerritoryComponent ],
       imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MatIconTestingModule,
-         MaterialModule, RouterModule],
+         MaterialModule, RouterModule, MatIconTestingModule],
       providers: [TerritoryService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

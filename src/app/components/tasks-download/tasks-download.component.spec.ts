@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TasksDownloadComponent } from './tasks-download.component';
 import { RouterModule } from '@angular/router';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TasksDownloadComponent', () => {
   let component: TasksDownloadComponent;
@@ -10,7 +11,7 @@ describe('TasksDownloadComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TasksDownloadComponent ],
-      imports: [ RouterModule]
+      imports: [ RouterModule, MatIconTestingModule]
     })
     .compileComponents();
   });

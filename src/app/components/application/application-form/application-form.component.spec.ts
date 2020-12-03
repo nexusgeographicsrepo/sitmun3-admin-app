@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { ApplicationFormComponent } from './application-form.component';
 import { MaterialModule } from '../../../material-module';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('ApplicationFormComponent', () => {
   let component: ApplicationFormComponent;
@@ -10,7 +11,7 @@ describe('ApplicationFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ApplicationFormComponent ],
-      imports: [ RouterModule.forRoot([]),MaterialModule]
+      imports: [ RouterModule.forRoot([]),MaterialModule, MatIconTestingModule]
     })
     .compileComponents();
   });

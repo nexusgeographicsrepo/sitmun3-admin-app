@@ -12,7 +12,7 @@ describe('TerritoryFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TerritoryFormComponent ],
-      imports: [ RouterModule.forRoot([]), MaterialModule, MatIconTestingModule ]
+      imports: [ RouterModule.forRoot([]), MaterialModule, MatIconTestingModule, MatIconTestingModule ]
     })
     .compileComponents();
   });

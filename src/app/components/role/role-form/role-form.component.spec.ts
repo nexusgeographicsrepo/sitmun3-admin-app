@@ -9,6 +9,7 @@ import { ExternalConfigurationService } from 'src/app/ExternalConfigurationServi
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../../material-module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('RoleFormComponent', () => {
   let component: RoleFormComponent;
@@ -17,8 +18,8 @@ describe('RoleFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleFormComponent ],
-      imports: [HttpClientTestingModule, RouterModule.forRoot([]),HttpClientModule, 
-      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
+      imports: [HttpClientTestingModule, RouterModule.forRoot([]),HttpClientModule,
+      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
       providers: [RoleService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { ApplicationFormComponent } from './application-form.component';
+import { MaterialModule } from '../../../material-module';
 
 describe('ApplicationFormComponent', () => {
   let component: ApplicationFormComponent;
@@ -9,7 +10,7 @@ describe('ApplicationFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ApplicationFormComponent ],
-      imports: [ RouterModule.forRoot([]),]
+      imports: [ RouterModule.forRoot([]),MaterialModule]
     })
     .compileComponents();
   });

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from '../../material-module';
 
 
 describe('TaskGroupComponent', () => {
@@ -15,7 +16,7 @@ describe('TaskGroupComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskGroupComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule],
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule],
       providers: [TaskGroupService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

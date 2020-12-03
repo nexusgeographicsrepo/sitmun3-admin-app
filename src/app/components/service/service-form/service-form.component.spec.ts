@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ServiceFormComponent } from '../service-form/service-form.component';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../../../material-module';
 
 describe('ServiceFormComponent', () => {
   let component: ServiceFormComponent;
@@ -10,7 +11,7 @@ describe('ServiceFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ServiceFormComponent ],
-      imports: [ RouterModule.forRoot([]),]
+      imports: [ RouterModule.forRoot([]), MaterialModule]
     })
     .compileComponents();
   });

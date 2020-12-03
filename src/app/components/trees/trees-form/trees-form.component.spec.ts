@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreesFormComponent } from './trees-form.component';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../../../material-module';
 
 describe('TreesFormComponent', () => {
   let component: TreesFormComponent;
@@ -10,7 +11,7 @@ describe('TreesFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TreesFormComponent ],
-      imports: [ RouterModule.forRoot([]),]
+      imports: [ RouterModule.forRoot([]), MaterialModule]
     })
     .compileComponents();
   });

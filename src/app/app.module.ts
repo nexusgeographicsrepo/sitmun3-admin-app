@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
-import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService, ConnectionService, TaskGroupService, TerritoryService } from 'dist/sitmun-frontend-core/';
+import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService,
+   ConnectionService, TaskGroupService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

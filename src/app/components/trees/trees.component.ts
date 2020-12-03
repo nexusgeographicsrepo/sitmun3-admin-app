@@ -34,7 +34,7 @@ export class TreesComponent implements OnInit {
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 50,
+          width: 25,
           lockPosition:true,
         },
         {
@@ -42,7 +42,7 @@ export class TreesComponent implements OnInit {
           field: 'id',
           editable: false,
           filter: false,
-          width: 55,
+          width: 25,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

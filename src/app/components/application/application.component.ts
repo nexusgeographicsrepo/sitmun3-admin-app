@@ -32,7 +32,7 @@ export class ApplicationComponent implements OnInit {
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 30,
+          width: 45,
           lockPosition:true,
         },
         {
@@ -40,7 +40,7 @@ export class ApplicationComponent implements OnInit {
           field: 'id',
           editable: false,
           filter: false,
-          width: 41,
+          width: 65,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

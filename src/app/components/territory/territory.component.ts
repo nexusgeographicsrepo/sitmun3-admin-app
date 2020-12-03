@@ -35,7 +35,7 @@ export class TerritoryComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 70,
+        width: 105,
         lockPosition:true,
       },
       {
@@ -43,7 +43,7 @@ export class TerritoryComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 91,
+        width: 120,
         lockPosition:true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

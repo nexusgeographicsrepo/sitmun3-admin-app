@@ -34,7 +34,7 @@ export class TaskGroupComponent implements OnInit {
           headerCheckboxSelection: true,
           editable: false,
           filter: false,
-          width: 30,
+          width: 25,
           lockPosition:true,
         },
         {
@@ -42,7 +42,7 @@ export class TaskGroupComponent implements OnInit {
           field: 'id',
           editable: false,
           filter: false,
-          width: 41,
+          width: 25,
           lockPosition:true,
           cellRenderer: 'btnEditRendererComponent',
           cellRendererParams: {

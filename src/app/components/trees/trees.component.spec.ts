@@ -6,6 +6,7 @@ import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../material-module';
+import { RouterModule } from '@angular/router';
 
 describe('TreesComponent', () => {
   let component: TreesComponent;
@@ -14,7 +15,7 @@ describe('TreesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TreesComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule],
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [TreeService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

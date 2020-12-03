@@ -6,6 +6,7 @@ import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../material-module';
+import { RouterModule } from '@angular/router';
 
 describe('TerritoryComponent', () => {
   let component: TerritoryComponent;
@@ -14,7 +15,7 @@ describe('TerritoryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TerritoryComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule],
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [TerritoryService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

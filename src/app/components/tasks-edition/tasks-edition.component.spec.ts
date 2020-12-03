@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TasksEditionComponent } from './tasks-edition.component';
+import { RouterModule } from '@angular/router';
 
 describe('TasksEditionComponent', () => {
   let component: TasksEditionComponent;
@@ -8,7 +9,8 @@ describe('TasksEditionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TasksEditionComponent ]
+      declarations: [ TasksEditionComponent ],
+      imports: [ RouterModule]
     })
     .compileComponents();
   });

@@ -16,7 +16,7 @@ describe('RoleFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleFormComponent ],
-      imports: [ RouterModule.forRoot([]),HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule],
+      imports: [ RouterModule.forRoot([]),HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [RoleService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

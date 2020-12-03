@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ConnectionService } from 'dist/sitmun-frontend-core/';
 import { ConnectionFormComponent } from '../connection-form/connection-form.component';
 import { MaterialModule } from '../../../material-module';
+import { RouterModule } from '@angular/router';
 
 describe('ConnectionFormComponent', () => {
   let component: ConnectionFormComponent;
@@ -14,7 +15,7 @@ describe('ConnectionFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ConnectionFormComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule],
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [ConnectionService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from '../../../material-module';
 
 describe('LayersPermitsFormComponent', () => {
   let component: LayersPermitsFormComponent;
@@ -15,7 +16,7 @@ describe('LayersPermitsFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ LayersPermitsFormComponent ],
-      imports: [ RouterModule.forRoot([]), HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule],
+      imports: [ RouterModule.forRoot([]), HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [CartographyGroupService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

@@ -11,7 +11,7 @@ describe('TreesFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TreesFormComponent ],
-      imports: [ RouterModule.forRoot([]), MaterialModule]
+      imports: [ RouterModule.forRoot([]), MaterialModule, RouterModule]
     })
     .compileComponents();
   });

@@ -8,6 +8,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { MaterialModule } from '../../material-module';
+import { RouterModule } from '@angular/router';
 
 
 describe('LayersPermitsComponent', () => {
@@ -17,7 +19,7 @@ describe('LayersPermitsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ LayersPermitsComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule,
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,

@@ -8,6 +8,8 @@ import { ExternalConfigurationService } from 'src/app/ExternalConfigurationServi
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MaterialModule } from '../../material-module';
+import { RouterModule } from '@angular/router';
 
 describe('LayersComponent', () => {
   let component: LayersComponent;
@@ -16,7 +18,7 @@ describe('LayersComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ LayersComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule,
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,

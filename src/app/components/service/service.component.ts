@@ -22,7 +22,7 @@ export class ServiceComponent implements OnInit {
     constructor(public serviceService: ServiceService,
                 private utils: UtilsService,
                 private router: Router,
-                ) {
+                ) { 
 
     }
 

@@ -8,6 +8,7 @@ import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../../material-module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('RoleFormComponent', () => {
   let component: RoleFormComponent;
@@ -16,7 +17,8 @@ describe('RoleFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleFormComponent ],
-      imports: [ RouterModule.forRoot([]),HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
+      imports: [HttpClientTestingModule, RouterModule.forRoot([]),HttpClientModule, 
+      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [RoleService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

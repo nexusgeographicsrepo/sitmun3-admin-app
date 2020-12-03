@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskGroupFormComponent } from './task-group-form.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TaskGroupFormComponent', () => {
   let component: TaskGroupFormComponent;
@@ -11,7 +12,7 @@ describe('TaskGroupFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TaskGroupFormComponent ],
-      imports: [ RouterModule.forRoot([]), MaterialModule]
+      imports: [ RouterModule.forRoot([]), MaterialModule, HttpClientTestingModule]
     })
     .compileComponents();
   });

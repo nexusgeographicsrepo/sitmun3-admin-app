@@ -8,6 +8,7 @@ import { MaterialModule } from '../../../material-module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from '../../../app-routes';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -16,7 +17,8 @@ describe('SideMenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SideMenuComponent ],
-      imports: [MaterialModule, RouterModule.forRoot(APP_ROUTES), BrowserAnimationsModule, TranslateModule.forRoot({
+      imports: [HttpClientTestingModule, MaterialModule, RouterModule.forRoot(APP_ROUTES),
+         BrowserAnimationsModule, TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
           useFactory: (http: HttpClient) => {

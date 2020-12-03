@@ -32,7 +32,14 @@
     "firstname":"Nom",
     "lastname" : "Cognom",
     "administrator": "Administrador",
-    "blocked":"Bloquejat"
+    "blocked":"Bloquejat",
+    "password": "Contrasenya",
+    "confirmPassword": "Confirmació contrasenya",
+    "new": "Nou",
+    "edit": "Edita",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "save": "Desa"
   },
   "connectionEntity":{
     "user":"Usuari",

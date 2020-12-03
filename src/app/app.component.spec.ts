@@ -6,13 +6,19 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
 import { ToolbarComponent } from './components/shared/toolbar/toolbar.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MaterialModule } from './material-module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         HttpClientModule,
         RouterTestingModule,
+        MatIconTestingModule,
+        MaterialModule,
         TranslateModule.forRoot({ 
           loader: {
             provide: TranslateLoader,

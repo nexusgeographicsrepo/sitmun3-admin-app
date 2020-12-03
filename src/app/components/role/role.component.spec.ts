@@ -7,6 +7,7 @@ import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../material-module';
+import { RouterModule } from '@angular/router';
 
 describe('RoleComponent', () => {
   let component: RoleComponent;
@@ -15,7 +16,7 @@ describe('RoleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleComponent ],
-      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule],
+      imports : [HttpClientModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [RoleService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

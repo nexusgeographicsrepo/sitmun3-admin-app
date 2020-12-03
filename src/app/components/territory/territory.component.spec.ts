@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../material-module';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TerritoryComponent', () => {
   let component: TerritoryComponent;
@@ -16,7 +17,8 @@ describe('TerritoryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TerritoryComponent ],
-      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule],
+      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MatIconTestingModule,
+         MaterialModule, RouterModule],
       providers: [TerritoryService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

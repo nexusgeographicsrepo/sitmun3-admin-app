@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TerritoryFormComponent } from './territory-form.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TerritoryFormComponent', () => {
   let component: TerritoryFormComponent;
@@ -11,7 +12,7 @@ describe('TerritoryFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TerritoryFormComponent ],
-      imports: [ RouterModule.forRoot([]), MaterialModule ]
+      imports: [ RouterModule.forRoot([]), MaterialModule, MatIconTestingModule ]
     })
     .compileComponents();
   });

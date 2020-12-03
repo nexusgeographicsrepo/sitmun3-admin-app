@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
+import { ToolbarComponent } from './components/shared/toolbar/toolbar.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -22,7 +24,9 @@ describe('AppComponent', () => {
         })
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        SideMenuComponent,
+        ToolbarComponent
       ],
     }).compileComponents();
   });

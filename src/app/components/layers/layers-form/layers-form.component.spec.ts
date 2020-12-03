@@ -20,7 +20,7 @@ describe('LayersFormComponent', () => {
       declarations: [ LayersFormComponent ],
       imports: [ RouterModule.forRoot([]), HttpClientTestingModule, SitmunFrontendGuiModule, 
       RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
-      providers: [CartographyService, TerritoryService
+      providers: [CartographyService, TerritoryService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

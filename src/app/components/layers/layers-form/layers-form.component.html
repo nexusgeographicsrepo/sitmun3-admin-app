@@ -69,4 +69,22 @@
           <button *ngIf="layerID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.update" | translate }}</button>
     </div>
   
-  
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+          <mat-panel-title  >
+            {{ "layersEntity.territory" | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+    
+      <div class="appDataGridEditDiv">
+          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllTerritories'  [frameworkComponents]="frameworkComponents"
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+          (remove)="removeDataTerritories($event)" (new)='newDataTerritories($event)'  > </app-data-grid>
+      </div>
+    
+    
+      </mat-expansion-panel>
+    </mat-accordion>
+    

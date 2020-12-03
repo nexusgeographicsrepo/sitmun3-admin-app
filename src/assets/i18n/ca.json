@@ -76,7 +76,8 @@
     "new": "Nova",
     "save": "Desa",
     "validate": "Valida",
-    "update": "Actualitza"
+    "update": "Actualitza",
+    "territory": "Territori"
   },
   "layersPermitsEntity":{
     "layersPermits": "Permisos sobre les capes",

@@ -83,7 +83,7 @@
     </div>
 
 
-    <mat-accordion>
+    <mat-accordion *ngIf="userID!=-1">
       <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
         <mat-expansion-panel-header class="agGridExpansionPanelTitle">
           <mat-panel-title  >

@@ -148,7 +148,6 @@ export class LayersFormComponent implements OnInit {
    getAllParameters = (): Observable<any> => {
     return (this.http.get(`http://localhost:8080/api/cartographies/${this.layerID}/parameters`))
     .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
-    console.log(this.http.get('http://localhost:8080/api/cartographies/0/parameters'));
   }
 
   /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,

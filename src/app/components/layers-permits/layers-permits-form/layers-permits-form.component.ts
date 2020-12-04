@@ -7,6 +7,7 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-layers-permits-form',
   templateUrl: './layers-permits-form.component.html',
@@ -143,8 +144,9 @@ export class LayersPermitsFormComponent implements OnInit {
       pel que de moment hem dit de deixar-ho així!
     */
     getAllRoles = () => {
-    return this.roleService.getAll();
-  };
+      return (this.http.get(`http://localhost:8080/api/cartography-groups/${this.layersPermitsID}/roles`))
+      .pipe( map( data =>  data['_embedded']['roles']) );
+  }
   
     /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
       si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció

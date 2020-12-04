@@ -80,9 +80,29 @@
             </label>
             <mat-checkbox formControlName="blocked"> </mat-checkbox>
           </div>
-  
-          <!-- <button *ngIf="userID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "connectionEntity.validate" | translate }}</button>
-          <button *ngIf="userID!=-1" (click)="updateUser()" mat-flat-button class="validateButton" >{{ "connectionEntity.update" | translate }}</button> -->
     </div>
+
+
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+          <mat-panel-title  >
+            {{ "userEntity.permissions" | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+    
+      <div class="appDataGridEditDiv">
+          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsPermissions"  [getAll]='getAllPermissions'  [frameworkComponents]="frameworkComponents"
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+          (remove)="removeDataPermissions($event)" (new)='newDataPermissions($event)'  > </app-data-grid>
+      </div>
+    
+    
+      </mat-expansion-panel>
+    </mat-accordion>
+
+
+  
   
   

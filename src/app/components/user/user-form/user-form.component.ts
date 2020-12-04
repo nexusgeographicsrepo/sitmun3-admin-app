@@ -7,6 +7,8 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -16,6 +18,7 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 })
 export class UserFormComponent implements OnInit {
 
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -31,7 +34,7 @@ export class UserFormComponent implements OnInit {
   userToEdit;
   userID = -1;
 
-  columnDefs: any[];
+  columnDefsPermissions: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -72,6 +75,17 @@ export class UserFormComponent implements OnInit {
     error => {
 
     });
+
+
+    this.columnDefsPermissions = [
+
+      // { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('layersEntity.territory'),  field: 'territory'},
+      { headerName: this.utils.getTranslate('layersEntity.role'),  field: 'role', },
+
+    ];
+
   }
 
 
@@ -153,5 +167,34 @@ export class UserFormComponent implements OnInit {
       });
 
   }
+
+  // AG-GRID
+
+      /*
+    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+    pel que de moment hem dit de deixar-ho així!
+  */
+   getAllPermissions = (): Observable<any> => {
+    return (this.http.get(`http://localhost:8080/api/users/${this.userID}/permissions`))
+    .pipe( map( data =>  data['_embedded']['user-configurations']) );
+  }
+  
+  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+    corresponent!
+  */
+  
+  removeDataPermissions( data)
+  {
+    console.log(data);
+  }
+  
+  newDataPermissions(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+  
 
 }

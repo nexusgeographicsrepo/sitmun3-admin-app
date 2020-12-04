@@ -39,7 +39,9 @@
     "edit": "Edita",
     "validate": "Valida",
     "update": "Actualitza",
-    "save": "Desa"
+    "save": "Desa",
+    "permissions": "Permisos",
+    "role": "Rol"
   },
   "connectionEntity":{
     "user":"Usuari",

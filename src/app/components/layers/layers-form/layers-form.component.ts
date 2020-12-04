@@ -7,8 +7,9 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
- 
 @Component({
   selector: 'app-layers-form',
   templateUrl: './layers-form.component.html',
@@ -20,7 +21,7 @@ export class LayersFormComponent implements OnInit {
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
-
+  private parametersUrl: string;
 
   layerForm: FormGroup;
   layerToEdit;
@@ -36,79 +37,62 @@ export class LayersFormComponent implements OnInit {
     private utils: UtilsService,
     ) {
         this.initializeConnectionForm();
+
+        this.activatedRoute.params.subscribe(params => {
+          this.layerID = +params.id;
+          if (this.layerID !== -1){
+            this.cartographyService.get(this.layerID).subscribe(
+              resp => {
+                console.log(resp);
+                this.layerToEdit = resp;
+                this.parametersUrl = this.layerToEdit._links.parameters.href;
+                this.layerForm.setValue({
+                    id:       this.layerID,
+                    name:     this.layerToEdit.name,
+                    source:   this.layerToEdit.source,
+                    minimumScale:     this.layerToEdit.minimumScale,
+                    maximumScale: this.layerToEdit.maximumScale,
+                    geometryType:      this.layerToEdit.geometryType,
+                    order:      this.layerToEdit.order,
+                    transparency:      this.layerToEdit.transparency,
+                    metadataURL:      this.layerToEdit.metadataURL,
+                    legendType:      this.layerToEdit.legendType,
+                    description:      this.layerToEdit.description,
+                    datasetURL:      this.layerToEdit.datasetURL,
+                    _links:   this.layerToEdit._links
+                  });
+
+
+              },
+              error => {
+
+              }
+            );
+          }
+
+        },
+        error => {
+
+        });
+
+
     }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
-      this.layerID = +params.id;
-      if (this.layerID !== -1){
-        console.log(this.layerID);
 
-        this.cartographyService.get(this.layerID).subscribe(
-          resp => {
-            console.log(resp);
-            this.layerToEdit=resp;
-            this.layerForm.setValue({
-                id:       this.layerID,
-                name:     this.layerToEdit.name,
-                driver:   this.layerToEdit.driver,
-                user:     this.layerToEdit.user,
-                password: this.layerToEdit.password,
-                url:      this.layerToEdit.url,
-                _links:   this.layerToEdit._links
-              });
-
-
-          },
-          error => {
-
-          }
-        );
-      }
-
-    },
-    error => {
-
-    });
 
 
     this.columnDefs = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 105,
-        lockPosition:true,
-      },
-      {
-        headerName: '',
-        field: 'id',
-        editable: false,
-        filter: false,
-        width: 130,
-        lockPosition:true,
-        cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: {
-          clicked: this.newDataTerritories.bind(this)
-        },
-      },
+
       { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
-      { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('territoryEntity.scope'),  field: 'scope'},
-      { headerName: this.utils.getTranslate('territoryEntity.createdDate'),  field: 'createdDate', }, // type: 'dateColumn'
-      { headerName: this.utils.getTranslate('territoryEntity.administrator'),  field: 'territorialAuthorityName'},
-      { headerName: this.utils.getTranslate('territoryEntity.email'),  field: 'territorialAuthorityEmail'},
-      { headerName: this.utils.getTranslate('territoryEntity.address'),  field: 'territorialAuthorityAddress'},
-      { headerName: this.utils.getTranslate('territoryEntity.extent'),  field: 'extent'},
-      { headerName: this.utils.getTranslate('territoryEntity.note'),  field: 'note'},
-      { headerName: this.utils.getTranslate('territoryEntity.blocked'),  field: 'blocked'},
+      { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('layersEntity.createdDate'),  field: 'format', },
+      { headerName: this.utils.getTranslate('layersEntity.administrator'),  field: 'order'},
+
     ];
 
   }
-
 
   initializeConnectionForm(): void {
 
@@ -117,15 +101,22 @@ export class LayersFormComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
       ]),
-      driver: new FormControl(null),
-      user: new FormControl(null, []),
-      password: new FormControl(null, []),
-      url: new FormControl(null, []),
+      source: new FormControl(null),
+      minimumScale: new FormControl(null, []),
+      maximumScale: new FormControl(null, []),
+      geometryType: new FormControl(null, []),
+      order: new FormControl(null, []),
+      transparency: new FormControl(null, []),
+      metadataURL: new FormControl(null, []),
+      legendType: new FormControl(null, []),
+      description: new FormControl(null, []),
+      datasetURL: new FormControl(null, []),
       _links: new FormControl(null, []),
-
-    })
+    });
 
   }
+
+
 
   addNewLayer() {
     this.cartographyService.create(this.layerForm.value)
@@ -154,8 +145,10 @@ export class LayersFormComponent implements OnInit {
     de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
     pel que de moment hem dit de deixar-ho així!
   */
-   getAllTerritories = () => {
-    return this.territoryService.getAll();
+   getAllParameters = (): Observable<any> => {
+    return (this.http.get(`http://localhost:8080/api/cartographies/${this.layerID}/parameters`))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    console.log(this.http.get('http://localhost:8080/api/cartographies/0/parameters'));
   }
 
   /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
@@ -163,14 +156,15 @@ export class LayersFormComponent implements OnInit {
     corresponent!
   */
 
-  removeDataTerritories( data: Territory[])
+  removeDataParameters( data: Territory[])
   {
   console.log(data);
   }
 
-  newDataTerritories(id: any)
+  newDataParameters(id: any)
   {
-  this.router.navigate(['territory', id, 'territoryForm']);
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
   }
 
 }

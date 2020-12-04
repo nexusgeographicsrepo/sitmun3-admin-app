@@ -72,12 +72,20 @@
     "minimumScale": "Escala Min",
     "maximumScale": "Escala Max",
     "metadataURL":"URL dades",
+    "geometryType": "Tipus Geometria",
+    "transparency": "Transparència",
+    "legendType": "Tipus llegenda",
+    "description": "Descripció",
+    "datasetURL": "Url de dades",
     "edit": "Edita",
     "new": "Nova",
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza",
-    "territory": "Territori"
+    "territory": "Territori",
+    "code": "Codi",
+    "administrator": "Administrador",
+    "parametersConfiguration": "Configuració de paràmetres"
   },
   "layersPermitsEntity":{
     "layersPermits": "Permisos sobre les capes",

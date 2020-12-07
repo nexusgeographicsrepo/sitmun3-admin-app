@@ -9,6 +9,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 
 @Component({
@@ -27,7 +28,11 @@ export class ServiceFormComponent implements OnInit {
   serviceForm: FormGroup;
   serviceToEdit;
   serviceID = -1;
-
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  projections: Array<string>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,7 +42,7 @@ export class ServiceFormComponent implements OnInit {
     private utils: UtilsService,
     ) {
         this.initializeConnectionForm();
-
+        this.projections = [];
         this.activatedRoute.params.subscribe(params => {
           this.serviceID = +params.id;
           if (this.serviceID !== -1){
@@ -45,14 +50,18 @@ export class ServiceFormComponent implements OnInit {
               resp => {
                 console.log(resp);
                 this.serviceToEdit = resp;
+                this.serviceToEdit.supportedSRS.forEach( (projection) => {
+                  this.projections.push(projection);
+                });
+                // this.projections = this.serviceToEdit.supportedSRS.split(';');
                 this.parametersUrl = this.serviceToEdit._links.parameters.href;
                 this.serviceForm.setValue({
                     id:       this.serviceID,
                     name:     this.serviceToEdit.name,
                     type:     this.serviceToEdit.type,
-                    url:   this.serviceToEdit.serviceURL,
+                    serviceURL:   this.serviceToEdit.serviceURL,
                     connection:   ' ',
-                    projections:     this.serviceToEdit.supportedSRS, //ei
+                    supportedSRS:     ' ',
                     metadataURL:      this.serviceToEdit.getInformationURL,
                     _links:   this.serviceToEdit._links
                   });
@@ -99,13 +108,13 @@ export class ServiceFormComponent implements OnInit {
       type: new FormControl(null, [
         Validators.required,
       ]),
-      url: new FormControl(null, [
+      serviceURL: new FormControl(null, [
         Validators.required,
       ]),
       connection: new FormControl(null, [
         Validators.required,
       ]),
-      projections: new FormControl(null, [
+      supportedSRS: new FormControl(null, [
         Validators.required,
       ]),
       metadataURL: new FormControl(null, [
@@ -116,9 +125,39 @@ export class ServiceFormComponent implements OnInit {
 
   }
 
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.projections.push(value);
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(projection: string): void {
+    const index = this.projections.indexOf(projection);
+
+    if (index >= 0) {
+      this.projections.splice(index, 1);
+    }
+  }
+
 
 
   addNewLayer() {
+    // this.serviceForm.patchValue({
+    //   supportedSRS: this.projections.join(';')
+    // })
+    this.serviceForm.patchValue({
+      supportedSRS: this.projections
+    });
+    console.log(this.serviceForm.value);
     this.serviceService.create(this.serviceForm.value)
       .subscribe(resp => {
         console.log(resp);
@@ -129,6 +168,13 @@ export class ServiceFormComponent implements OnInit {
   }
 
   updateLayer() {
+    // this.serviceForm.patchValue({
+    //   supportedSRS: this.projections.join(';')
+    // })
+    this.serviceForm.patchValue({
+      supportedSRS: this.projections
+    });
+    console.log(this.serviceForm.value);
     this.serviceService.update(this.serviceForm.value)
       .subscribe(resp => {
         console.log(resp);

@@ -71,7 +71,8 @@
     "edit": "Edita",
     "validate": "Valida",
     "update": "Actualitza",
-    "save": "Desa"
+    "save": "Desa",
+    "getData": "Obtenir dades"
   },
   "layersEntity":{
     "layers": "Capes",

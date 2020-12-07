@@ -61,8 +61,18 @@
     "name": "Nom",
     "type": "Tipus",
     "serviceURL": "Url",
+    "url": "Url",
+    "connection":"Connexió",
     "supportedSRS": "Projeccions",
-    "createdDate":"Alta"
+    "projections": "Projeccions",
+    "metadataURL": "URL metadades associades",
+    "createdDate":"Alta",
+    "new": "Nou",
+    "edit": "Edita",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "save": "Desa",
+    "getData": "Obtenir dades"
   },
   "layersEntity":{
     "layers": "Capes",

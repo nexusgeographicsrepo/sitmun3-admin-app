@@ -1,1 +1,94 @@
-<p>service-form works!</p>
+<div class="titleDiv" *ngIf="serviceID==-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon> {{ "serviceEntity.service" | translate }}-{{"serviceEntity.new" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="titleDiv" *ngIf="serviceID!=-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon>{{ "serviceEntity.service" | translate }}-{{"serviceEntity.edit" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="formHeader">
+    <h5> Dades generals  </h5>
+    <button   mat-flat-button class="saveButton"  >
+      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+      {{ "serviceEntity.save" | translate }}
+    </button>
+  </div>
+  <span class="divider"></span>
+  <form [formGroup]='serviceForm' #f="ngForm"> 
+
+
+      <div class="rowFormDiv">
+      
+          <div class="thirdColumnColFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+  
+          <div class="thirdColumnColFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.type' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="type">
+            </mat-form-field>
+          </div>
+  
+          <div class="thirdColumnColFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.url' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="serviceURL">
+            </mat-form-field>
+          </div>
+          
+            <button *ngIf="serviceID==-1" (click)="addNewLayer()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
+            <button *ngIf="serviceID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "serviceEntity.update" | translate }}</button>
+     </div>
+
+      <div class="rowFormDiv">
+      
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.connection' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="connection">
+            </mat-form-field>
+          </div>
+  
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.projections' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+                <mat-chip-list #chipList aria-label="Fruit selection">
+                    <mat-chip *ngFor="let projection of projections " [selectable]="selectable"
+                    [removable]="removable" (removed)="remove(projection)">
+                      {{projection}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                  <input
+                  [matChipInputFor]="chipList"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+              <!-- <input matInput type="text" formControlName="projections"> -->
+            </mat-form-field>
+          </div>
+  
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.metadataURL' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="metadataURL">
+            </mat-form-field>
+
+        </div>
+  
+    </div>

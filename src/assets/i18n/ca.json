@@ -121,7 +121,12 @@
     "name": "Nom",
     "description": "Descripció",
     "active": "Actiu",
-    "cartographyGroup": "Grup cartografia"
+    "cartographyGroup": "Grup cartografia",
+    "edit":"Edita",
+    "new": "Nou",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza"
   },
   "applicationEntity":{
     "application":"Aplicació",

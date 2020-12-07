@@ -109,7 +109,12 @@
   },
   "taskGroupEntity":{
     "taskGroup":"Grup tasca",
-    "name": "Nom"
+    "name": "Nom",
+    "edit":"Edita",
+    "new": "Nou",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza"
   },
   "backgroundEntity":{
     "backgroundLayers":"Capes de fons",

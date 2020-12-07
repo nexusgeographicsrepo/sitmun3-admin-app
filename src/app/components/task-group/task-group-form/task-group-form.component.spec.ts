@@ -20,7 +20,7 @@ describe('TaskGroupFormComponent', () => {
       declarations: [ TaskGroupFormComponent ],
       imports: [HttpClientTestingModule, RouterModule.forRoot([]), HttpClientModule,
       SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
-      providers: [TaskGroupService
+      providers: [TaskGroupService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

@@ -69,7 +69,13 @@
                 {{'territoryEntity.groupType' | translate}}
               </label>
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="groupType">
+                <mat-select matInput formControlName="groupType" class="form-control">
+                <mat-option [value]="territoryGroup"  *ngFor="let territoryGroup of territoryGroups">
+                    {{territoryGroup.name}}
+                </mat-option>
+                </mat-select>
+
+                <!-- <input matInput type="text" formControlName="groupType"> -->
               </mat-form-field>
             </div>
   

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators  } from '@angular/forms';
 import {  ActivatedRoute,  Router} from '@angular/router';
-import { TerritoryService } from 'dist/sitmun-frontend-core/';
+import { Territory, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -21,6 +21,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryForm: FormGroup;
   territoryToEdit;
   territoryID = -1;
+  territoryGroups: Territory[];
   extensions: Array<string>;
   columnDefsMemberOf: any[];
   public frameworkComponents = {
@@ -38,6 +39,14 @@ export class TerritoryFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    
+
+    this.getTerritoryGroups().subscribe(
+      resp => {
+          this.territoryGroups = resp;
+      }
+    )
+
     this.activatedRoute.params.subscribe(params => {
       this.territoryID = +params.id;
       if (this.territoryID !== -1){
@@ -141,6 +150,12 @@ export class TerritoryFormComponent implements OnInit {
 
     })
 
+  }
+
+  getTerritoryGroups()
+  {
+    return (this.http.get(`http://localhost:8080/api/territory-group-types`))
+    .pipe( map( data => data['_embedded']['territory-group-types']) );
   }
 
   addNewTerritory() {

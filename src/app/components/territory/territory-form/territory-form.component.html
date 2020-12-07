@@ -1,1 +1,136 @@
-<p>territory-form works!</p>
+<div class="titleDiv" *ngIf="territoryID==-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_territori"></mat-icon> {{ "territoryEntity.territory" | translate }}-{{"territoryEntity.new" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="titleDiv" *ngIf="territoryID!=-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_territori"></mat-icon>{{ "territoryEntity.territory" | translate }}-{{"territoryEntity.edit" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="formHeader">
+    <h5> Dades generals  </h5>
+    <button   mat-flat-button class="saveButton" >
+      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+      {{ "territoryEntity.save" | translate }}
+    </button>
+  </div>
+  <span class="divider"></span>
+  <form [formGroup]='territoryForm' #f="ngForm"> 
+  
+      <div class="rowFormDiv">
+          <div class="HalfMidLargeColFormDiv">
+            <label class="formLabel">
+              {{'territoryEntity.code' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="code">
+            </mat-form-field>
+          </div>
+  
+          <div class="HalfMidLargeColFormDiv" >
+            <label class="formLabel">
+              {{'territoryEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+  
+          <div class="LastMidLargeColFormDiv"  >
+              <label class="formLabel">
+                {{'territoryEntity.address' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="territorialAuthorityAddress">
+              </mat-form-field>
+            </div>
+  
+      </div>
+      <div class="rowFormDiv">
+        <div class="HalfMidLargeColFormDiv">
+            <label class="formLabel">
+              {{'territoryEntity.logo' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="territorialAuthorityLogo">
+            </mat-form-field>
+          </div>
+  
+          <div class="HalfMidLargeColFormDiv" >
+            <label class="formLabel">
+              {{'territoryEntity.scope' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="scope">
+            </mat-form-field>
+          </div>
+  
+          <div class="HalfMidLargeColFormDiv" >
+              <label class="formLabel">
+                {{'territoryEntity.groupType' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="groupType">
+              </mat-form-field>
+            </div>
+  
+      </div>
+      <div class="rowFormDiv">
+          <div class="HalfMidLargeColFormDiv">
+            <label class="formLabel">
+              {{'territoryEntity.extent' | translate}} X0
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="extensionX0">
+            </mat-form-field>
+          </div>
+  
+          <div class="HalfMidLargeColFormDiv" >
+            <label class="formLabel">
+              {{'territoryEntity.extent' | translate}} X1
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="extensionX1">
+            </mat-form-field>
+          </div>
+  
+          <div class="HalfMidLargeColFormDiv">
+              <label class="formLabel">
+                {{'territoryEntity.extent' | translate}} Y0
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="extensionY0">
+              </mat-form-field>
+            </div>
+  
+            <div class="HalfMidLargeColFormDiv" id="right-column">
+              <label class="formLabel">
+                {{'territoryEntity.extent' | translate}} Y1
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="extensionY1">
+              </mat-form-field>
+            </div>
+      </div>
+  
+      <div class="rowFormDiv">
+      
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'territoryEntity.note' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="note">
+            </mat-form-field>
+          </div>
+
+          <div class="MidColFormDiv" >
+            <label class="formLabel" id="right-column">
+              {{'territoryEntity.blocked' | translate}}
+            </label>
+            <mat-checkbox formControlName="blocked"> </mat-checkbox>
+          </div>
+  
+    </div>
+  
+  
+  </form>

@@ -155,9 +155,16 @@
     "administrator": "Administrador",
     "email": "Correu",
     "address":"Direcció",
+    "groupType": "Grup tipus",
     "extent":"Extensió",
     "note":"Observacions",
-    "blocked":"Bloquejat"
+    "logo": "Logo",
+    "blocked":"Bloquejat",
+    "edit":"Edita",
+    "new": "Nou",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza"
   },
   "roleEntity":{
     "role":"Rol",

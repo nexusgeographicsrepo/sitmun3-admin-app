@@ -7,6 +7,8 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
  
 @Component({
@@ -20,7 +22,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryToEdit;
   territoryID = -1;
   extensions: Array<string>;
-  columnDefs: any[];
+  columnDefsMemberOf: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -82,6 +84,17 @@ export class TerritoryFormComponent implements OnInit {
     error => {
 
     });
+
+
+
+    this.columnDefsMemberOf = [
+
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
+
+    ];
+
   }
 
 
@@ -158,6 +171,34 @@ export class TerritoryFormComponent implements OnInit {
     this.territoryForm.patchValue({
       extent: extensionToUpdate
     });
+  }
+
+ // AG-GRID
+
+      /*
+    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+    pel que de moment hem dit de deixar-ho així!
+  */
+ getAllMembersOf = (): Observable<any> => {
+  return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+  .pipe( map( data =>  data['_embedded']['territories']) );
+}
+
+/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+  corresponent!
+*/
+
+  removeMembersOf( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataMembersOf(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
   }
 
 

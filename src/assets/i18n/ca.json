@@ -164,7 +164,8 @@
     "new": "Nou",
     "save": "Desa",
     "validate": "Valida",
-    "update": "Actualitza"
+    "update": "Actualitza",
+    "memberOfTerritories": "Territoris pares"
   },
   "roleEntity":{
     "role":"Rol",

@@ -70,6 +70,12 @@ export class UserFormComponent implements OnInit {
           }
         );
       }
+      else {
+        this.userForm.patchValue({
+          administrator: false,
+          blocked: false
+        });
+      }
 
     },
     error => {
@@ -130,20 +136,18 @@ export class UserFormComponent implements OnInit {
 
   addNewUser() {
   
-
     if(this.userForm.get('password').value === this.userForm.get('confirmPassword').value)
     {
-      console.log(this.userForm.get('administrator'));
-      if(this.userForm.get('administrator')==null) {
-        this.userForm.patchValue({
-            administrator: false
-        })
-      }
-      if(this.userForm.get('blocked')==null) {
-        this.userForm.patchValue({
-            blocked: false
-        })
-      }
+      // if(this.userForm.get('administrator')==null) {
+      //   this.userForm.patchValue({
+      //       administrator: false
+      //   })
+      // }
+      // if(this.userForm.get('blocked')==null) {
+      //   this.userForm.patchValue({
+      //       blocked: false
+      //   })
+      // }
       console.log(this.userForm.value);
       this.userService.create(this.userForm.value)
         .subscribe(resp => {

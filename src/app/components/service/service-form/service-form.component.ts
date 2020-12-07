@@ -7,6 +7,7 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -32,6 +33,7 @@ export class ServiceFormComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   projections: Array<string>;
 
   constructor(
@@ -125,13 +127,13 @@ export class ServiceFormComponent implements OnInit {
 
   }
 
-  add(event: MatChipInputEvent): void {
+  addProjection(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.projections.push(value);
+      this.projections.push(value.trim());
     }
 
     // Reset the input value
@@ -140,7 +142,7 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  remove(projection: string): void {
+  removeProjection(projection: string): void {
     const index = this.projections.indexOf(projection);
 
     if (index >= 0) {

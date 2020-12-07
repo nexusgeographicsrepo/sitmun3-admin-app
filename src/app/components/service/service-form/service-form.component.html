@@ -66,18 +66,26 @@
               {{'serviceEntity.projections' | translate}}
             </label>
             <mat-form-field appearance="outline">
-                <mat-chip-list #chipList aria-label="Fruit selection">
-                    <mat-chip *ngFor="let projection of projections " [selectable]="selectable"
-                    [removable]="removable" (removed)="remove(projection)">
-                      {{projection}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                    </mat-chip>
+                <mat-chip-list #chipList aria-label="Selecció de projecció">
+                  <mat-chip
+                    *ngFor="let projection of projections"
+                    [selectable]="selectable"
+                    [removable]="removable"
+                    (removed)="removeProjection(projection)"
+                  >
+                    {{ projection }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
                   <input
-                  [matChipInputFor]="chipList"
-                  [matChipInputAddOnBlur]="addOnBlur"
-                  (matChipInputTokenEnd)="add($event)">
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addProjection($event)"
+                  />
                 </mat-chip-list>
-              <!-- <input matInput type="text" formControlName="projections"> -->
+  
+
+
             </mat-form-field>
           </div>
   

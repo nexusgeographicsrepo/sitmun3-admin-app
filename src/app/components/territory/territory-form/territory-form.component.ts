@@ -22,7 +22,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryForm: FormGroup;
   territoryToEdit;
   territoryID = -1;
-  territoryGroups: Territory[];
+  territoryGroups: Array<any> = [];
   extensions: Array<string>;
   columnDefsMemberOf: any[];
   public frameworkComponents = {
@@ -41,10 +41,16 @@ export class TerritoryFormComponent implements OnInit {
 
   ngOnInit(): void {
     
-
+    let territoryDefecte = {
+      id: -1,
+      name: 'Selecciona el grup del territory'
+    }
+    this.territoryGroups.push(territoryDefecte);
+    this.groupTypeOfThisTerritory = territoryDefecte;
+    console.log(this.groupTypeOfThisTerritory);
     this.getTerritoryGroups().subscribe(
       resp => {
-          this.territoryGroups = resp;
+          this.territoryGroups.push(...resp);
       }
     );
 
@@ -54,15 +60,14 @@ export class TerritoryFormComponent implements OnInit {
       this.territoryID = +params.id;
       if (this.territoryID !== -1){
 
-        if (this.territoryID !== -1)
-        {
-          this.getTerritoryGroupOfThisTerritory().subscribe(
+        this.getTerritoryGroupOfThisTerritory().subscribe(
           resp => {
               console.log(resp);
               this.groupTypeOfThisTerritory = resp;
+              this.territoryForm.patchValue({
+                groupType: this.groupTypeOfThisTerritory[`id`]
+              });
           });
-        }
-
 
 
         this.territoryService.get(this.territoryID).subscribe(
@@ -79,7 +84,7 @@ export class TerritoryFormComponent implements OnInit {
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
                 territorialAuthorityLogo:    this.territoryToEdit.territorialAuthorityLogo,
                 scope:                       this.territoryToEdit.scope,
-                groupType:                   this.groupTypeOfThisTerritory,
+                groupType:                   this.groupTypeOfThisTerritory[`id`],
                 extent:                      ' ',
                 extensionX0:                 this.extensions[0],
                 extensionX1:                 this.extensions[1],
@@ -99,7 +104,8 @@ export class TerritoryFormComponent implements OnInit {
       }
       else {
         this.territoryForm.patchValue({
-          blocked: false
+          blocked: false,
+          groupType: this.groupTypeOfThisTerritory[`id`]
         });
       }
 
@@ -107,6 +113,9 @@ export class TerritoryFormComponent implements OnInit {
     error => {
 
     });
+
+
+
 
 
 
@@ -174,13 +183,29 @@ export class TerritoryFormComponent implements OnInit {
 
   getTerritoryGroupOfThisTerritory()
   {
-    return (this.http.get(`http://localhost:8080/api/territory-group-types/${this.territoryID}`))
-    .pipe( map( data => data[`name`] ));
+    return (this.http.get(`http://localhost:8080/api/territory-group-types/${this.territoryID}`));
   }
 
   addNewTerritory() {
     this.updateExtent();
     console.log(this.territoryForm.value);
+
+    // const newTerritory: Territory = {
+    //   blocked: this.territoryForm.value.blocked,
+    //   code: this.territoryForm.value.code,
+    //   createdDate: null,
+    //   extent: this.territoryForm.value.extent,
+    //   id: this.territoryID,
+    //   name: this.territoryForm.value.name,
+    //   // note: this.territoryForm.value.note,
+    //   scope: this.territoryForm.value.scope,
+    //   territorialAuthorityAddress: this.territoryForm.value.territorialAuthorityAddress,
+    //   territorialAuthorityLogo: this.territoryForm.value.territorialAuthorityLogo,
+    //   territorialAuthorityEmail: null,
+    //   territorialAuthorityName: null,
+
+    // };
+
     this.territoryService.create(this.territoryForm.value)
       .subscribe(resp => {
         console.log(resp);
@@ -192,11 +217,18 @@ export class TerritoryFormComponent implements OnInit {
 
   updateTerritory() {
     this.updateExtent();
+    const idGroupTerritory= this.territoryForm.get('groupType')[`value`];
+    if(idGroupTerritory !== -1)
+    {
+      this.territoryToEdit._links.groupType.href= `http://localhost:8080/api/territory-group-types/${idGroupTerritory}`;
+    }
+    else{
+      this.territoryToEdit._links.groupType.href = ``;
+    }
     console.log(this.territoryForm.value);
     this.territoryService.update(this.territoryForm.value)
       .subscribe(resp => {
         console.log(resp);
-
       });
 
   }

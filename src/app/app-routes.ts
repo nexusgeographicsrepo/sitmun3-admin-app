@@ -33,6 +33,7 @@ import { LayersPermitsFormComponent } from './components/layers-permits/layers-p
 import { TaskGroupComponent } from './components/task-group/task-group.component';
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -48,6 +49,7 @@ export const APP_ROUTES: Routes = [
     {path: 'backgroundLayers/:id/backgroundLayersForm', component: BackgroundLayersFormComponent},
     {path: 'layersPermits', component: LayersPermitsComponent},
     {path: 'layersPermits/:id/layersPermitsForm', component: LayersPermitsFormComponent},
+    {path: 'tasks', component: TasksComponent},
     {path: 'taskGroup', component: TaskGroupComponent},
     {path: 'taskGroup/:id/taskGroupForm', component: TaskGroupFormComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},

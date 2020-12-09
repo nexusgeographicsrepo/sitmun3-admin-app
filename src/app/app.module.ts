@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
 import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService,
-   ConnectionService, TaskGroupService, TerritoryService } from 'dist/sitmun-frontend-core/';
+   ConnectionService, TaskGroupService, TaskService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -71,6 +71,7 @@ import { LayersPermitsFormComponent } from './components/layers-permits/layers-p
 import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
 import { TaskGroupComponent } from './components/task-group/task-group.component';
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { TaskGroupFormComponent } from './components/task-group/task-group-form/
     LayersPermitsFormComponent,
     LayersFormComponent,
     TaskGroupComponent,
-    TaskGroupFormComponent
+    TaskGroupFormComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule,
@@ -136,7 +138,7 @@ import { TaskGroupFormComponent } from './components/task-group/task-group-form/
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService,
-    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService],
+    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService, TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

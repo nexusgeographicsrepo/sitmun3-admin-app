@@ -248,8 +248,10 @@ export class TerritoryFormComponent implements OnInit {
     pel que de moment hem dit de deixar-ho així!
   */
  getAllMembersOf = (): Observable<any> => {
-  return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
-  .pipe( map( data =>  data['_embedded']['territories']) );
+  return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
+  .pipe( map( data =>  data[`_embedded`][`territories`]) );
+  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+  // .pipe( map( data =>  data['_embedded']['territories']) );
 }
 
 /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,

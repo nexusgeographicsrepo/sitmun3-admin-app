@@ -18,6 +18,7 @@ import { map } from 'rxjs/operators';
 })
 export class TerritoryFormComponent implements OnInit {
 
+  groupTypeOfThisTerritory;
   territoryForm: FormGroup;
   territoryToEdit;
   territoryID = -1;
@@ -45,11 +46,24 @@ export class TerritoryFormComponent implements OnInit {
       resp => {
           this.territoryGroups = resp;
       }
-    )
+    );
+
+
 
     this.activatedRoute.params.subscribe(params => {
       this.territoryID = +params.id;
       if (this.territoryID !== -1){
+
+        if (this.territoryID !== -1)
+        {
+          this.getTerritoryGroupOfThisTerritory().subscribe(
+          resp => {
+              console.log(resp);
+              this.groupTypeOfThisTerritory = resp;
+          });
+        }
+
+
 
         this.territoryService.get(this.territoryID).subscribe(
           resp => {
@@ -65,7 +79,7 @@ export class TerritoryFormComponent implements OnInit {
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
                 territorialAuthorityLogo:    this.territoryToEdit.territorialAuthorityLogo,
                 scope:                       this.territoryToEdit.scope,
-                groupType:                   ' ',
+                groupType:                   this.groupTypeOfThisTerritory,
                 extent:                      ' ',
                 extensionX0:                 this.extensions[0],
                 extensionX1:                 this.extensions[1],
@@ -155,7 +169,13 @@ export class TerritoryFormComponent implements OnInit {
   getTerritoryGroups()
   {
     return (this.http.get(`http://localhost:8080/api/territory-group-types`))
-    .pipe( map( data => data['_embedded']['territory-group-types']) );
+    .pipe( map( data => data[`_embedded`][`territory-group-types`]) );
+  }
+
+  getTerritoryGroupOfThisTerritory()
+  {
+    return (this.http.get(`http://localhost:8080/api/territory-group-types/${this.territoryID}`))
+    .pipe( map( data => data[`name`] ));
   }
 
   addNewTerritory() {

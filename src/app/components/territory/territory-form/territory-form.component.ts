@@ -197,7 +197,7 @@ export class TerritoryFormComponent implements OnInit {
     //   extent: this.territoryForm.value.extent,
     //   id: this.territoryID,
     //   name: this.territoryForm.value.name,
-    //   // note: this.territoryForm.value.note,
+      // note: this.territoryForm.value.note,
     //   scope: this.territoryForm.value.scope,
     //   territorialAuthorityAddress: this.territoryForm.value.territorialAuthorityAddress,
     //   territorialAuthorityLogo: this.territoryForm.value.territorialAuthorityLogo,

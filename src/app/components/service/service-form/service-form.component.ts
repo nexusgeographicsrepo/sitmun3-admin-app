@@ -52,9 +52,13 @@ export class ServiceFormComponent implements OnInit {
               resp => {
                 console.log(resp);
                 this.serviceToEdit = resp;
-                this.serviceToEdit.supportedSRS.forEach( (projection) => {
-                  this.projections.push(projection);
-                });
+                if(this.serviceToEdit.supportedSRS !== null)
+                {
+                  this.serviceToEdit.supportedSRS.forEach( (projection) => {
+                    this.projections.push(projection);
+                  });
+
+                }
                 // this.projections = this.serviceToEdit.supportedSRS.split(';');
                 this.parametersUrl = this.serviceToEdit._links.parameters.href;
                 this.serviceForm.setValue({

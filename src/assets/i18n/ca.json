@@ -178,6 +178,11 @@
     "validate": "Valida",
     "update": "Actualitza",
     "users": "Usuaris"
+  },
+  "tasksEntity":{
+    "tasks":"Tasques",
+    "task":"Tasca",
+    "informationType":"Tipus d'informació"
   }
 
 

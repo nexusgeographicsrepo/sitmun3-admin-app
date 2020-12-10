@@ -1,1 +1,168 @@
-<p>application-form works!</p>
+<div class="titleDiv" *ngIf="applicationID==-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_aplicacio"></mat-icon> {{ "applicationEntity.application" | translate }}-{{"applicationEntity.new" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="titleDiv" *ngIf="applicationID!=-1" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_aplicacio"></mat-icon>{{ "applicationEntity.application" | translate }}-{{"applicationEntity.edit" | translate}}</h4>
+    <span class="divider"></span>
+  </div>
+  <div class="formHeader">
+    <h5> Dades generals  </h5>
+    <button   mat-flat-button class="saveButton" (click)="updateApplication()" >
+      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+      {{ "applicationEntity.save" | translate }}
+    </button>
+  </div>
+  <span class="divider"></span>
+  <form [formGroup]='applicationForm' #f="ngForm"> 
+  
+
+      <div class="rowFormDiv">
+      
+          
+        <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.user' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="user">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.type' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="type">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.title' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="title">
+            </mat-form-field>
+          </div>
+
+    </div>
+      <div class="rowFormDiv">
+      
+          
+        <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.tree' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="tree">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.desktopUrl' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="desktopUrl">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.desktopCSS' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="desktopCSS">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.mobileUrl' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="mobileUrl">
+            </mat-form-field>
+          </div>
+
+    </div>
+      <div class="rowFormDiv">
+      
+          
+        <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.mobileCSS' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="mobileCSS">
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.defaultTool' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="defaultTool">
+            </mat-form-field>
+          </div>
+
+          
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.desplacamentSupramunicipal' | translate}}
+            </label>
+            <mat-checkbox formControlName="desplacamentSupramunicipal"> </mat-checkbox>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.situationMap' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="situationMap">
+            </mat-form-field>
+          </div>
+
+
+    </div>
+      <div class="rowFormDiv">
+      
+          
+        <div class="lastColFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.scales' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="scales">
+            </mat-form-field>
+          </div>
+
+          <div class="lastColFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.srs' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="srs">
+            </mat-form-field>
+          </div>
+
+          <div class="lastColFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.treeAutoRefresh' | translate}}
+            </label>
+            <mat-checkbox formControlName="treeAutoRefresh"> </mat-checkbox>
+          </div>
+
+    </div>

@@ -25,6 +25,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
   columnDefsMemberOf: any[];
+  columnDefsMembers: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -120,6 +121,14 @@ export class TerritoryFormComponent implements OnInit {
 
 
     this.columnDefsMemberOf = [
+
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
+
+    ];
+
+    this.columnDefsMembers = [
 
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
@@ -265,6 +274,29 @@ export class TerritoryFormComponent implements OnInit {
   }
   
   newDataMembersOf(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+ getAllMembers = (): Observable<any> => {
+  return (this.http.get(`${this.territoryForm.value._links.members.href}`))
+  .pipe( map( data =>  data[`_embedded`][`territories`]) );
+  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+  // .pipe( map( data =>  data['_embedded']['territories']) );
+}
+
+/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+  corresponent!
+*/
+
+  removeMembers( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataMembers(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');

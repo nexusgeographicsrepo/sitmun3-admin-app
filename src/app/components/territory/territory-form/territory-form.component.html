@@ -142,21 +142,48 @@
   </form>
 
   <mat-accordion *ngIf="territoryID!=-1">
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-        <mat-panel-title  >
-          {{ "territoryEntity.memberOfTerritories" | translate }}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-  
-    <ng-template matExpansionPanelContent>  
-        <div class="appDataGridEditDiv">
-            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsMemberOf"  [getAll]='getAllMembersOf'  [frameworkComponents]="frameworkComponents"
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-            (remove)="removeMembersOf($event)" (new)='newDataMembersOf($event)'  > </app-data-grid>
-        </div>
-    </ng-template>
-  
-    </mat-expansion-panel>
+
+    <div *ngIf="territoryForm.value.scope =='M' ">
+        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+          <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+            <mat-panel-title  >
+              {{ "territoryEntity.memberOfTerritories" | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+      
+        <ng-template matExpansionPanelContent>  
+            <div class="appDataGridEditDiv">
+                <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsMemberOf"  [getAll]='getAllMembersOf'  [frameworkComponents]="frameworkComponents"
+                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+                (remove)="removeMembersOf($event)" (new)='newDataMembersOf($event)'  > </app-data-grid>
+            </div>
+            
+        </ng-template>
+        </mat-expansion-panel>
+    </div>
+
+
+      <div  *ngIf="territoryForm.value.scope =='R' ">
+
+        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+          <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+            <mat-panel-title  >
+              {{ "territoryEntity.members" | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>  
+            <div class="appDataGridEditDiv">
+              <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsMembers"  [getAll]='getAllMembers'  [frameworkComponents]="frameworkComponents"
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+              (remove)="removeMembersOf($event)" (new)='newDataMembers($event)'  > </app-data-grid>
+            </div>   
+        </ng-template>
+
+      </mat-expansion-panel>
+    </div>
+
+
   </mat-accordion>
+  
   

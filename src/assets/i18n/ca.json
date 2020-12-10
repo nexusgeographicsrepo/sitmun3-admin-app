@@ -189,7 +189,8 @@
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza",
-    "memberOfTerritories": "Territoris pares"
+    "memberOfTerritories": "Territoris pares",
+    "members": "Territoris fills"
   },
   "roleEntity":{
     "role":"Rol",

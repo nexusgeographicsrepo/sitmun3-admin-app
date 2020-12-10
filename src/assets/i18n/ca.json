@@ -165,7 +165,10 @@
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza",
-    "parametersConfiguration": "Configuració de paràmetres"
+    "parametersConfiguration": "Configuració de paràmetres",
+    "roles": "Rols",
+    "background": "Fons",
+    "selectedBackground": "Fons seleccionat"
   },
   "territoryEntity":{
     "territory": "Territori",

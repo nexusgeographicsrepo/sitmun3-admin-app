@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 export class ApplicationFormComponent implements OnInit {
 
   columnDefsParameters: any[];
+  columnDefsBackgrounds: any[];
   columnDefsRoles: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -124,6 +125,23 @@ export class ApplicationFormComponent implements OnInit {
       }, 
       { headerName: "ID",  field: 'id'},
       { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
+
+    ];
+
+    this.columnDefsBackgrounds = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('serviceEntity.background'),  field: 'background'},
+      { headerName: this.utils.getTranslate('serviceEntity.selectedBackground'),  field: 'selectedBackground'},
 
     ];
 
@@ -265,6 +283,30 @@ export class ApplicationFormComponent implements OnInit {
   }
   
   newDataRoles(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+
+  getAllBackgrounds = (): Observable<any> => {
+    return (this.http.get(`${this.applicationForm.value._links.backgrounds.href}`))
+    .pipe( map( data =>  data[`_embedded`][`application-backgrounds`]) );
+    // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+    // .pipe( map( data =>  data['_embedded']['territories']) );
+  }
+  
+  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+    corresponent!
+  */
+  
+  removeBackgrounds( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataBackgrounds(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');

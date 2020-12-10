@@ -72,7 +72,10 @@
     "validate": "Valida",
     "update": "Actualitza",
     "save": "Desa",
-    "getData": "Obtenir dades"
+    "getData": "Obtenir dades",
+    "parameter": "Paràmetre",
+    "value": "Valor",
+    "configurationParameters": "Paràmetres de configuració"
   },
   "layersEntity":{
     "layers": "Capes",

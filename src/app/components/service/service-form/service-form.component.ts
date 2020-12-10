@@ -20,7 +20,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class ServiceFormComponent implements OnInit {
 
-  columnDefs: any[];
+  columnDefsParameters: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -36,6 +36,8 @@ export class ServiceFormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   projections: Array<string>;
 
+  
+ 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -92,13 +94,21 @@ export class ServiceFormComponent implements OnInit {
 
 
 
-    this.columnDefs = [
+    this.columnDefsParameters = [
 
-      { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'code' },
-      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('layersEntity.createdDate'),  field: 'format', },
-      { headerName: this.utils.getTranslate('layersEntity.administrator'),  field: 'order'},
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('serviceEntity.parameter'),  field: 'type', },
+      { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value'},
 
     ];
 
@@ -188,4 +198,37 @@ export class ServiceFormComponent implements OnInit {
       });
 
   }
+
+  // AG-GRID
+
+      /*
+    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+    pel que de moment hem dit de deixar-ho així!
+  */
+ getAllParameters = (): Observable<any> => {
+  return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
+  .pipe( map( data =>  data[`_embedded`][`service-parameters`]) );
+  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+  // .pipe( map( data =>  data['_embedded']['territories']) );
 }
+
+/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+  corresponent!
+*/
+
+  removeParameters( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataParameters(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+
+}
+

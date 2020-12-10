@@ -164,7 +164,8 @@
     "new": "Nova",
     "save": "Desa",
     "validate": "Valida",
-    "update": "Actualitza"
+    "update": "Actualitza",
+    "parametersConfiguration": "Configuració de paràmetres"
   },
   "territoryEntity":{
     "territory": "Territori",

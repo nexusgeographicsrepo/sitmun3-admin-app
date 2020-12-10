@@ -19,6 +19,11 @@ import { Observable } from 'rxjs';
 })
 export class ApplicationFormComponent implements OnInit {
 
+  columnDefsParameters: any[];
+  public frameworkComponents = {
+    btnEditRendererComponent: BtnEditRenderedComponent
+  };
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -84,6 +89,25 @@ export class ApplicationFormComponent implements OnInit {
     error => {
 
     });
+
+
+    this.columnDefsParameters = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value', },
+      { headerName: this.utils.getTranslate('serviceEntity.type'),  field: 'type'},
+
+    ];
 
 
   }
@@ -173,4 +197,37 @@ export class ApplicationFormComponent implements OnInit {
       });
 
   }
+
+
+   // AG-GRID
+
+      /*
+    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+    pel que de moment hem dit de deixar-ho així!
+  */
+ getAllParameters = (): Observable<any> => {
+  return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
+  .pipe( map( data =>  data[`_embedded`][`application-parameters`]) );
+  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+  // .pipe( map( data =>  data['_embedded']['territories']) );
+}
+
+/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+  corresponent!
+*/
+
+  removeParameters( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataParameters(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+
 }

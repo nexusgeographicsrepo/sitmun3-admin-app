@@ -51,7 +51,7 @@ export class BackgroundLayersComponent implements OnInit {
         { headerName: this.utils.getTranslate('backgroundEntity.name'), field: 'name' },
         { headerName: this.utils.getTranslate('backgroundEntity.description'), field: 'description'},
         { headerName: this.utils.getTranslate('backgroundEntity.active'), field: 'active'},
-        { headerName: this.utils.getTranslate('backgroundEntity.cartographyGroup'), field: 'cartographyGroup'}
+        { headerName: this.utils.getTranslate('backgroundEntity.cartographyGroup'), field: 'cartographyGroup.name'}
       ];
 
     }
@@ -65,7 +65,7 @@ export class BackgroundLayersComponent implements OnInit {
     */
     getAllBackgroundLayers = () => {
 
-      return this.backgroundService.getAll();
+      return this.backgroundService.getAll()
     }
 
     /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,

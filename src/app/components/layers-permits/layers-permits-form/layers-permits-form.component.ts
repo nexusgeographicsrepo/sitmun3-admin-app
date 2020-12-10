@@ -144,7 +144,7 @@ export class LayersPermitsFormComponent implements OnInit {
       pel que de moment hem dit de deixar-ho així!
     */
     getAllRoles = () => {
-      return (this.http.get(`http://localhost:8080/api/cartography-groups/${this.layersPermitsID}/roles`))
+      return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
       .pipe( map( data =>  data['_embedded']['roles']) );
   }
   

@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 export class ApplicationFormComponent implements OnInit {
 
   columnDefsParameters: any[];
+  columnDefsRoles: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -106,6 +107,23 @@ export class ApplicationFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value', },
       { headerName: this.utils.getTranslate('serviceEntity.type'),  field: 'type'},
+
+    ];
+
+    this.columnDefsRoles = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: "ID",  field: 'id'},
+      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
 
     ];
 
@@ -224,6 +242,29 @@ export class ApplicationFormComponent implements OnInit {
   }
   
   newDataParameters(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+ getAllRoles = (): Observable<any> => {
+    return (this.http.get(`${this.applicationForm.value._links.availableRoles.href}`))
+    .pipe( map( data =>  data[`_embedded`][`roles`]) );
+    // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
+    // .pipe( map( data =>  data['_embedded']['territories']) );
+  }
+  
+  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
+    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
+    corresponent!
+  */
+
+  removeRoles( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataRoles(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');

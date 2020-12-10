@@ -51,13 +51,13 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-
-  <div class="appDataGridEditDiv">
-      <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
-      [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-      (remove)="removeDataRole($event)" (new)='newDataRole($event)' (sendChanges)='applyChangesRole($event)' > </app-data-grid>
-  </div>
-
+    <ng-template matExpansionPanelContent>  
+      <div class="appDataGridEditDiv">
+          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+          (remove)="removeDataRole($event)" (new)='newDataRole($event)' (sendChanges)='applyChangesRole($event)' > </app-data-grid>
+      </div>
+  </ng-template>
 
   </mat-expansion-panel>
 </mat-accordion>

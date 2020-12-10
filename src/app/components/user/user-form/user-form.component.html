@@ -91,12 +91,13 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
     
-    
-      <div class="appDataGridEditDiv">
-          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsPermissions"  [getAll]='getAllPermissions'  [frameworkComponents]="frameworkComponents"
-          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-          (remove)="removeDataPermissions($event)" (new)='newDataPermissions($event)'  > </app-data-grid>
-      </div>
+      <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsPermissions"  [getAll]='getAllPermissions'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+            (remove)="removeDataPermissions($event)" (new)='newDataPermissions($event)'  > </app-data-grid>
+        </div>
+      </ng-template>
     
     
       </mat-expansion-panel>

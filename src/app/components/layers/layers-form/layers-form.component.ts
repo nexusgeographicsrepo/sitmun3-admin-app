@@ -146,7 +146,7 @@ export class LayersFormComponent implements OnInit {
     pel que de moment hem dit de deixar-ho així!
   */
    getAllParameters = (): Observable<any> => {
-    return (this.http.get(`http://localhost:8080/api/cartographies/${this.layerID}/parameters`))
+    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
     .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
   }
 

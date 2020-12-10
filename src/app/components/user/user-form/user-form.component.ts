@@ -182,6 +182,7 @@ export class UserFormComponent implements OnInit {
    getAllPermissions = (): Observable<any> => {
     return (this.http.get(`http://localhost:8080/api/users/${this.userID}/permissions`))
     .pipe( map( data =>  data['_embedded']['user-configurations']) );
+    //    return (this.http.get(`${this.userForm.value._links.permissions.href}`))
   }
   
   /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,

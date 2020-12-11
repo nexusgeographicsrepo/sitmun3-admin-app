@@ -42,7 +42,14 @@
     "update": "Actualitza",
     "save": "Desa",
     "permissions": "Permisos",
-    "role": "Rol"
+    "role": "Rol",
+    "territory": "Territori",
+    "dataOfTerritory": "Dades associades al territori",
+    "position": "Position",
+    "organization": "Organització",
+    "mail": "Correu",
+    "field": "Camp",
+    "dataCreated": "Alta"
   },
   "connectionEntity":{
     "user":"Usuari",

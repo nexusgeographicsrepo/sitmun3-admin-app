@@ -35,6 +35,7 @@ export class UserFormComponent implements OnInit {
   userID = -1;
 
   columnDefsPermissions: any[];
+  columnDefsData: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -85,10 +86,38 @@ export class UserFormComponent implements OnInit {
 
     this.columnDefsPermissions = [
 
-      // { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'code' },
-      { headerName: this.utils.getTranslate('layersEntity.territory'),  field: 'territory'},
-      { headerName: this.utils.getTranslate('layersEntity.role'),  field: 'role', },
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('userEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
+      { headerName: this.utils.getTranslate('userEntity.role'),  field: 'role', },
+
+    ];
+
+    this.columnDefsData = [
+
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
+      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'position', },
+      { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization', },
+      { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'mail', },
+      { headerName: this.utils.getTranslate('userEntity.field'),  field: 'caducity', },
+      { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'dataCreated', },
 
     ];
 
@@ -174,28 +203,35 @@ export class UserFormComponent implements OnInit {
 
   // AG-GRID
 
-      /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
+  // ******** Permits ******** //
    getAllPermissions = (): Observable<any> => {
-    return (this.http.get(`http://localhost:8080/api/users/${this.userID}/permissions`))
+    return (this.http.get(`${this.userForm.value._links.permissions.href}`))
     .pipe( map( data =>  data['_embedded']['user-configurations']) );
-    //    return (this.http.get(`${this.userForm.value._links.permissions.href}`))
   }
-  
-  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-    corresponent!
-  */
-  
+
   removeDataPermissions( data)
   {
     console.log(data);
   }
   
   newDataPermissions(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+  // ******** Data of Territory ******** //
+   getAllData = (): Observable<any> => {
+    return (this.http.get(`${this.userForm.value._links.permissions.href}`))
+    .pipe( map( data =>  data['_embedded']['user-configurations']) );
+  }
+
+  removeDataData( data)
+  {
+    console.log(data);
+  }
+  
+  newDataData(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');

@@ -84,6 +84,8 @@
 
 
     <mat-accordion *ngIf="userID!=-1">
+
+      <!-- Permits table -->
       <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
         <mat-expansion-panel-header class="agGridExpansionPanelTitle">
           <mat-panel-title  >
@@ -101,6 +103,27 @@
     
     
       </mat-expansion-panel>
+
+
+       <!-- Territory data table -->     
+      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+          <mat-panel-title  >
+            {{ "userEntity.dataOfTerritory" | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+      <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsData"  [getAll]='getAllData'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+            (remove)="removeDataData($event)" (new)='newDataData($event)'  > </app-data-grid>
+        </div>
+      </ng-template>
+    
+    
+      </mat-expansion-panel>
+
     </mat-accordion>
 
 

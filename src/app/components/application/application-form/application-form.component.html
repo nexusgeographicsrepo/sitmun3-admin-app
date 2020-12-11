@@ -168,6 +168,7 @@
     </div>
 
 <mat-accordion>
+  <!-- Parameters configuration table -->
   <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
     <mat-expansion-panel-header class="agGridExpansionPanelTitle">
       <mat-panel-title  >
@@ -184,7 +185,24 @@
     </ng-template>
       </mat-expansion-panel>
 
+  <!-- Template table -->
+      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+          <mat-panel-title  >
+            {{ "applicationEntity.templateConfiguration" | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <ng-template matExpansionPanelContent>    
+            <div class="appDataGridEditDiv">
+                <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsTemplates"  [getAll]='getAllTemplates'  [frameworkComponents]="frameworkComponents"
+                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+                (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
+            </div>
+        </ng-template>
+        </mat-expansion-panel>
 
+  <!-- Rols table -->
       <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
         <mat-expansion-panel-header class="agGridExpansionPanelTitle">
           <mat-panel-title  >
@@ -201,6 +219,7 @@
         </ng-template>
         </mat-expansion-panel>
 
+   <!-- Background table -->
       <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
         <mat-expansion-panel-header class="agGridExpansionPanelTitle">
           <mat-panel-title  >

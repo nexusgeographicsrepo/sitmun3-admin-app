@@ -20,8 +20,9 @@ import { Observable } from 'rxjs';
 export class ApplicationFormComponent implements OnInit {
 
   columnDefsParameters: any[];
-  columnDefsBackgrounds: any[];
+  columnDefsTemplates: any[];
   columnDefsRoles: any[];
+  columnDefsBackgrounds: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -92,7 +93,7 @@ export class ApplicationFormComponent implements OnInit {
 
     });
 
-
+    
     this.columnDefsParameters = [
 
       {
@@ -109,6 +110,22 @@ export class ApplicationFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value', },
       { headerName: this.utils.getTranslate('serviceEntity.type'),  field: 'type'},
 
+    ];
+
+    this.columnDefsTemplates = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value', },
     ];
 
     this.columnDefsRoles = [
@@ -237,22 +254,13 @@ export class ApplicationFormComponent implements OnInit {
 
    // AG-GRID
 
-      /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
- getAllParameters = (): Observable<any> => {
-  return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
-  .pipe( map( data =>  data[`_embedded`][`application-parameters`]) );
-  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
-  // .pipe( map( data =>  data['_embedded']['territories']) );
-}
 
-/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-  corresponent!
-*/
+  // ******** Parameters configuration ******** //
+
+   getAllParameters = (): Observable<any> => {
+    return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data[`_embedded`][`application-parameters`]) );
+  }
 
   removeParameters( data: any[])
   {
@@ -265,18 +273,33 @@ export class ApplicationFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
- getAllRoles = (): Observable<any> => {
-    return (this.http.get(`${this.applicationForm.value._links.availableRoles.href}`))
-    .pipe( map( data =>  data[`_embedded`][`roles`]) );
-    // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
-    // .pipe( map( data =>  data['_embedded']['territories']) );
+  // ******** Template configuration ******** //
+
+   getAllTemplates = (): Observable<any> => {
+     //TODO Change the link when available
+    return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data[`_embedded`][`application-parameters`]) );
+  }
+
+  removeTemplates( data: any[])
+  {
+  console.log(data);
   }
   
-  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-    corresponent!
-  */
+  newDataTemplates(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
 
+
+    // ******** Roles ******** //
+
+  getAllRoles = (): Observable<any> => {
+    return (this.http.get(`${this.applicationForm.value._links.availableRoles.href}`))
+    .pipe( map( data =>  data[`_embedded`][`roles`]) );
+  }
+  
   removeRoles( data: any[])
   {
   console.log(data);
@@ -288,6 +311,8 @@ export class ApplicationFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+
+    // ******** Background ******** //
 
   getAllBackgrounds = (): Observable<any> => {
     return (this.http.get(`${this.applicationForm.value._links.backgrounds.href}`))

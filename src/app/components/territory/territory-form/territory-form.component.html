@@ -154,7 +154,7 @@
         <ng-template matExpansionPanelContent>  
             <div class="appDataGridEditDiv">
                 <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsMemberOf"  [getAll]='getAllMembersOf'  [frameworkComponents]="frameworkComponents"
-                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
                 (remove)="removeMembersOf($event)" (new)='newDataMembersOf($event)'  > </app-data-grid>
             </div>
             
@@ -175,7 +175,7 @@
         <ng-template matExpansionPanelContent>  
             <div class="appDataGridEditDiv">
               <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsMembers"  [getAll]='getAllMembers'  [frameworkComponents]="frameworkComponents"
-              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
               (remove)="removeMembersOf($event)" (new)='newDataMembers($event)'  > </app-data-grid>
             </div>   
         </ng-template>

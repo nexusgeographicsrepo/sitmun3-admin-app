@@ -24,8 +24,13 @@ export class TerritoryFormComponent implements OnInit {
   territoryID = -1;
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
+
+
+  columnDefsPermits: any[];
   columnDefsMemberOf: any[];
   columnDefsMembers: any[];
+  columnDefsCartographies: any[];
+  columnDefsTasks: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -120,6 +125,15 @@ export class TerritoryFormComponent implements OnInit {
 
 
 
+    this.columnDefsPermits = [
+
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.user'),  field: 'user'},
+      { headerName: this.utils.getTranslate('territoryEntity.role'),  field: 'role'},
+
+    ];
+
     this.columnDefsMemberOf = [
 
       { headerName: 'ID',  field: 'id', editable: false},
@@ -133,6 +147,22 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
+
+    ];
+
+    this.columnDefsCartographies = [
+
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name' },
+      { headerName: this.utils.getTranslate('territoryEntity.layers'),  field: 'layers'},
+
+    ];
+
+    this.columnDefsTasks = [
+
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'),  field: 'taskGroup'},
 
     ];
 
@@ -199,22 +229,6 @@ export class TerritoryFormComponent implements OnInit {
     this.updateExtent();
     console.log(this.territoryForm.value);
 
-    // const newTerritory: Territory = {
-    //   blocked: this.territoryForm.value.blocked,
-    //   code: this.territoryForm.value.code,
-    //   createdDate: null,
-    //   extent: this.territoryForm.value.extent,
-    //   id: this.territoryID,
-    //   name: this.territoryForm.value.name,
-      // note: this.territoryForm.value.note,
-    //   scope: this.territoryForm.value.scope,
-    //   territorialAuthorityAddress: this.territoryForm.value.territorialAuthorityAddress,
-    //   territorialAuthorityLogo: this.territoryForm.value.territorialAuthorityLogo,
-    //   territorialAuthorityEmail: null,
-    //   territorialAuthorityName: null,
-
-    // };
-
     this.territoryService.create(this.territoryForm.value)
       .subscribe(resp => {
         console.log(resp);
@@ -251,22 +265,29 @@ export class TerritoryFormComponent implements OnInit {
 
  // AG-GRID
 
-      /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
- getAllMembersOf = (): Observable<any> => {
-  return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
-  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
-  // .pipe( map( data =>  data['_embedded']['territories']) );
-}
+  // ******** Permits ******** //
+  getAllPermits = (): Observable<any> => {
+    //TODO Change the link when available
+    return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
+    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+  }
 
-/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-  corresponent!
-*/
+  removePermits( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataPermits(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+  // ******** MembersOf ******** //
+  getAllMembersOf = (): Observable<any> => {
+    return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
+    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+  }
 
   removeMembersOf( data: any[])
   {
@@ -279,21 +300,17 @@ export class TerritoryFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
- getAllMembers = (): Observable<any> => {
-  return (this.http.get(`${this.territoryForm.value._links.members.href}`))
-  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
-  // .pipe( map( data =>  data['_embedded']['territories']) );
-}
 
-/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-  corresponent!
-*/
+  // ******** Members ******** //
+  getAllMembers = (): Observable<any> => {
 
+    return (this.http.get(`${this.territoryForm.value._links.members.href}`))
+    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+
+  }
   removeMembers( data: any[])
   {
-  console.log(data);
+    console.log(data);
   }
   
   newDataMembers(id: any)
@@ -301,6 +318,44 @@ export class TerritoryFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+    // ******** Cartography ******** //
+  getAllCartographies = (): Observable<any> => {
+     //TODO Change the link when available
+    return (this.http.get(`${this.territoryForm.value._links.members.href}`))
+    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+
+  }
+  removeCartographies( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataCartographies(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+    // ******** Task ******** //
+  getAllTasks = (): Observable<any> => {
+     //TODO Change the link when available
+    return (this.http.get(`${this.territoryForm.value._links.members.href}`))
+    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+
+  }
+  removeTasks( data: any[])
+  {
+  console.log(data);
+  }
+  
+  newDataTasks(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+
 
 
 }

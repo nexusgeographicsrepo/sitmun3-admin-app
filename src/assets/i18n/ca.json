@@ -203,7 +203,14 @@
     "validate": "Valida",
     "update": "Actualitza",
     "memberOfTerritories": "Territoris pares",
-    "members": "Territoris fills"
+    "members": "Territoris fills",
+    "permits": "Permisos",
+    "cartography": "Cartografia",
+    "task": "Tasca",
+    "user": "Usuari",
+    "role": "Rol",
+    "taskGroup":"Grup tasca",
+    "layers": "Capes"
   },
   "roleEntity":{
     "role":"Rol",

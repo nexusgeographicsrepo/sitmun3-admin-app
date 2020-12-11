@@ -49,11 +49,13 @@ export class ApplicationFormComponent implements OnInit {
       this.applicationID = +params.id;
       if (this.applicationID !== -1){
         console.log(this.applicationID);
-
+        
         this.applicationService.get(this.applicationID).subscribe(
           resp => {
             console.log(resp);
             this.applicationToEdit=resp;
+            let situationMapValue= ' ';
+            if(this.applicationToEdit.situationMap !== null) { situationMapValue= this.applicationToEdit.situationMap.name }
             this.applicationForm.setValue({
                 id:                          this.applicationID,
                 name:                        this.applicationToEdit.name,
@@ -67,7 +69,7 @@ export class ApplicationFormComponent implements OnInit {
                 mobileCSS:                   ' ',
                 defaultTool:                 ' ',
                 desplacamentSupramunicipal:  false,
-                situationMap:                this.applicationToEdit.situationMap.name,
+                situationMap:                situationMapValue,
                 scales:                      this.applicationToEdit.scales,
                 srs:                         this.applicationToEdit.srs,
                 treeAutoRefresh:             this.applicationToEdit.treeAutoRefresh,

@@ -44,6 +44,25 @@
   </form>
 
 <mat-accordion *ngIf="layersPermitsID!=-1">
+
+     <!-- Cartography configuration table -->
+  <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+      <mat-panel-title  >
+        {{ "layersPermitsEntity.cartographiesConfiguration" | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>  
+      <div class="appDataGridEditDiv">
+          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsCartographies"  [getAll]='getAllCartographies'  [frameworkComponents]="frameworkComponents"
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+          (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
+      </div>
+    </ng-template>
+  </mat-expansion-panel>
+
+     <!-- Rols table -->
   <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
     <mat-expansion-panel-header class="agGridExpansionPanelTitle">
       <mat-panel-title  >
@@ -53,11 +72,13 @@
 
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
+          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
           (remove)="removeDataRole($event)" (new)='newDataRole($event)' (sendChanges)='applyChangesRole($event)' > </app-data-grid>
       </div>
   </ng-template>
 
   </mat-expansion-panel>
+
+
 </mat-accordion>

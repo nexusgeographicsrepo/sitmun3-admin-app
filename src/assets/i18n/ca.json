@@ -125,7 +125,8 @@
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza",
-    "roles" : "Rols"
+    "roles" : "Rols",
+    "cartographiesConfiguration": "Configuració de cartografies"
   },
   "treesEntity":{
     "trees":"Arbres",

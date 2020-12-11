@@ -15,7 +15,8 @@ import { map } from 'rxjs/operators';
 })
 export class LayersPermitsFormComponent implements OnInit {
 
-  columnDefs: any[];
+  columnDefsCartographies: any[];
+  columnDefsRoles: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -66,32 +67,33 @@ export class LayersPermitsFormComponent implements OnInit {
 
 
 
-    this.columnDefs = [
+    this.columnDefsCartographies = [
       {
         headerName: '',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 40,
+        width: 20,
         lockPosition:true,
-      },
-      {
-        headerName: '',
-        field: 'id',
-        editable: false,
-        filter: false,
-        width: 40,
-        lockPosition:true,
-        cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: {
-          clicked: this.newDataRole.bind(this)
-        },
       },
       { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('roleEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('roleEntity.note'),  field: 'description' },
-     // { headerName: this.utils.getTranslate('application'),  field: 'application' },
+      { headerName: this.utils.getTranslate('layersPermitsEntity.name'),  field: 'name'},
+    ];
+
+
+    this.columnDefsRoles = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 20,
+        lockPosition:true,
+      },
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('layersPermitsEntity.name'),  field: 'name'},
     ];
   }
 
@@ -138,35 +140,49 @@ export class LayersPermitsFormComponent implements OnInit {
 
   // AG GRID
 
-       /*
-      Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-      de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-      pel que de moment hem dit de deixar-ho així!
-    */
+  // ******** Cartographies configuration ******** //
+    getAllCartographies = () => {
+      //TODO Change the link when available
+      return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+      .pipe( map( data =>  data['_embedded']['roles']) );
+    }
+  
+    removeDataCartographies( data: Role[])
+    {
+      console.log(data);
+    }
+    
+    newDataCartographies(id: any)
+    {
+      this.router.navigate(['role', id, 'roleForm']);
+    }
+    
+    applyChangesCartographies( data: Role[])
+    {
+          console.log(data);
+    }
+
+
+    // ******** Roles  ******** //
     getAllRoles = () => {
       return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
       .pipe( map( data =>  data['_embedded']['roles']) );
-  }
+    }
   
-    /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-      si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-      corresponent!
-    */
-  
-  removeDataRole( data: Role[])
-  {
-    console.log(data);
-  }
-  
-  newDataRole(id: any)
-  {
-    this.router.navigate(['role', id, 'roleForm']);
-  }
-  
-  applyChangesRole( data: Role[])
-  {
-        console.log(data);
-  }
+    removeDataRole( data: Role[])
+    {
+      console.log(data);
+    }
+    
+    newDataRole(id: any)
+    {
+      this.router.navigate(['role', id, 'roleForm']);
+    }
+    
+    applyChangesRole( data: Role[])
+    {
+          console.log(data);
+    }
 
 }
 

@@ -20,6 +20,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class ServiceFormComponent implements OnInit {
 
+  columnDefsLayers: any[];
   columnDefsParameters: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -112,6 +113,25 @@ export class ServiceFormComponent implements OnInit {
 
     ];
 
+    this.columnDefsLayers = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: 'ID',  field: 'id'},
+      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('serviceEntity.description'),  field: 'description', },
+      { headerName: this.utils.getTranslate('serviceEntity.status'),  field: 'status'},
+
+    ];
+
   }
 
   initializeConnectionForm(): void {
@@ -201,29 +221,35 @@ export class ServiceFormComponent implements OnInit {
 
   // AG-GRID
 
-      /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
- getAllParameters = (): Observable<any> => {
-  return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
-  .pipe( map( data =>  data[`_embedded`][`service-parameters`]) );
-  // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
-  // .pipe( map( data =>  data['_embedded']['territories']) );
-}
-
-/*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-  si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-  corresponent!
-*/
+    // ******** Parameters configuration ******** //
+  getAllParameters = (): Observable<any> => {
+    return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data[`_embedded`][`service-parameters`]) );
+  }
 
   removeParameters( data: any[])
   {
-  console.log(data);
+    console.log(data);
   }
   
   newDataParameters(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+    // ******** Layers ******** //
+  getAllLayers = (): Observable<any> => {
+    return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data[`_embedded`][`service-parameters`]) );
+  }
+
+  removeLayers( data: any[])
+  {
+    console.log(data);
+  }
+  
+  newDataLayers(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');

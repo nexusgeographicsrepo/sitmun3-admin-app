@@ -102,6 +102,8 @@
     </div>
 
     <mat-accordion *ngIf="serviceID!=-1">
+
+      <!-- Configuration parameters table -->
       <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
         <mat-expansion-panel-header class="agGridExpansionPanelTitle">
           <mat-panel-title  >
@@ -114,6 +116,24 @@
               <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsParameters"  [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
               [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
               (remove)="removeParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
+          </div>
+      </ng-template>
+    
+      </mat-expansion-panel>
+
+      <!-- Layers -->
+      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+          <mat-panel-title  >
+            {{ "serviceEntity.layersToRegister" | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+      <ng-template matExpansionPanelContent>  
+          <div class="appDataGridEditDiv">
+              <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsLayers"  [getAll]='getAllLayers'  [frameworkComponents]="frameworkComponents"
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+              (remove)="removeLayers($event)" (new)='newDataLayers($event)'  > </app-data-grid>
           </div>
       </ng-template>
     

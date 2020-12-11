@@ -83,7 +83,10 @@
     "getData": "Obtenir dades",
     "parameter": "Paràmetre",
     "value": "Valor",
-    "configurationParameters": "Paràmetres de configuració"
+    "configurationParameters": "Paràmetres de configuració",
+    "layersToRegister": "Selecciona les capes que vols donar d'alta",
+    "description": "Descripció",
+    "status": "Estat"
   },
   "layersEntity":{
     "layers": "Capes",

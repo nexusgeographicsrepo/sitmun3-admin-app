@@ -101,7 +101,17 @@
     "territory": "Territori",
     "code": "Codi",
     "administrator": "Administrador",
-    "parametersConfiguration": "Configuració de paràmetres"
+    "parametersConfiguration": "Configuració de paràmetres",
+    "spatialSelection": "Selecció espacial",
+    "groupCartographyLayersConfiguration": "Configuració de capes per grups de cartografia",
+    "nodes": "Nodes",
+    "column": "Columna",
+    "label": "Etiqueta",
+    "type": "Tipus",
+    "help": "Ajuda",
+    "selectPath": "Select/Path",
+    "field": "Camp",
+    "format": "Format"
   },
   "layersPermitsEntity":{
     "layersPermits": "Permisos sobre les capes",

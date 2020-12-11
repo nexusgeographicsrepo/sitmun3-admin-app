@@ -17,7 +17,12 @@ import { Observable } from 'rxjs';
 })
 export class LayersFormComponent implements OnInit {
 
-  columnDefs: any[];
+  columnDefsParameters: any[];
+  columnDefsSpatialConfigurations: any[];
+  columnDefsTerritories: any[];
+  columnDefsLayersConfiguration: any[];
+  columnDefsNodes: any[];
+
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -82,14 +87,97 @@ export class LayersFormComponent implements OnInit {
 
 
 
-    this.columnDefs = [
+    this.columnDefsParameters = [
 
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 45,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('layersEntity.field'),  field: 'field' },
+      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'alias'},
+      { headerName: this.utils.getTranslate('layersEntity.format'),  field: 'format', },
+      { headerName: this.utils.getTranslate('layersEntity.order'),  field: 'order'},
+      { headerName: this.utils.getTranslate('layersEntity.type'),  field: 'type'},
+
+    ];
+
+    this.columnDefsSpatialConfigurations = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 45,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('layersEntity.column'),  field: 'column' },
+      { headerName: this.utils.getTranslate('layersEntity.label'),  field: 'label'},
+      { headerName: this.utils.getTranslate('layersEntity.type'),  field: 'type', },
+      { headerName: this.utils.getTranslate('layersEntity.help'),  field: 'help'},
+      { headerName: this.utils.getTranslate('layersEntity.selectPath'),  field: 'selectPath'},
+
+    ];
+
+    this.columnDefsTerritories = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'code' },
       { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('layersEntity.createdDate'),  field: 'format', },
-      { headerName: this.utils.getTranslate('layersEntity.administrator'),  field: 'order'},
 
+    ];
+
+    this.columnDefsLayersConfiguration = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition:true,
+      }, 
+      { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'code' },
+      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'name'},
+
+    ];
+
+    this.columnDefsNodes = [
+
+      {
+        headerName: '',
+        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 45,
+        lockPosition:true,
+      }, 
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('layersEntity.code'),  field: 'nodeName' },
+      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'description'},
+      { headerName: this.utils.getTranslate('layersEntity.createdDate'),  field: 'tree', },
     ];
 
   }
@@ -140,20 +228,12 @@ export class LayersFormComponent implements OnInit {
 
   // AG-GRID
 
-      /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
+
+  // ******** Parameters configuration ******** //
    getAllParameters = (): Observable<any> => {
     return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
     .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
   }
-
-  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-    corresponent!
-  */
 
   removeDataParameters( data: Territory[])
   {
@@ -161,6 +241,78 @@ export class LayersFormComponent implements OnInit {
   }
 
   newDataParameters(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+  // ******** Spatial configuration ******** //
+   getAllSpatialConfigurations = (): Observable<any> => {
+    //TODO Change the link when available
+    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+  }
+
+  removeDataSpatialConfigurations( data: Territory[])
+  {
+  console.log(data);
+  }
+
+  newDataSpatialConfigurations(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+  // ******** Territories ******** //
+   getAllTerritories = (): Observable<any> => {
+     //TODO Change the link when available
+    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+  }
+
+  removeDataTerritories( data: Territory[])
+  {
+  console.log(data);
+  }
+
+  newDataTerritories(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+  // ******** Layers configuration ******** //
+   getAllLayersConfiguration = (): Observable<any> => {
+     //TODO Change the link when available
+    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+  }
+
+  removeDataLayersConfiguration( data: Territory[])
+  {
+  console.log(data);
+  }
+
+  newDataLayersConfiguration(id: any)
+  {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
+  // ******** Nodes configuration ******** //
+   getAllNodes = (): Observable<any> => {
+     //TODO Change the link when available
+    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+  }
+
+  removeDataNodes( data: Territory[])
+  {
+  console.log(data);
+  }
+
+  newDataNodes(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');

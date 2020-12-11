@@ -222,7 +222,15 @@
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza",
-    "users": "Usuaris"
+    "users": "Usuaris",
+    "cartography": "Cartografia",
+    "tasks": "Tasques",
+    "username": "Nom d'usuari",
+    "territory": "Territori",
+    "layers": "Capes",
+    "code": "Codi",
+    "groupTask": "Grup tasca"
+
   },
   "tasksEntity":{
     "tasks":"Tasques",

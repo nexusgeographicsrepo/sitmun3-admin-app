@@ -7,6 +7,8 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-role-form',
@@ -15,7 +17,9 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 })
 export class RoleFormComponent implements OnInit {
 
-  columnDefs: any[];
+  columnDefsUsers: any[];
+  columnDefsTasks: any[];
+  columnDefsCartography: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -66,7 +70,7 @@ export class RoleFormComponent implements OnInit {
     });
 
 
-    this.columnDefs = [
+    this.columnDefsUsers = [
       {
         headerName: '',
         checkboxSelection: true,
@@ -76,28 +80,39 @@ export class RoleFormComponent implements OnInit {
         width: 50,
         lockPosition:true,
       },
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username' },
+      { headerName: this.utils.getTranslate('roleEntity.territory'),  field: 'territory' },
+    ];
+
+    this.columnDefsTasks = [
       {
         headerName: '',
-        field: 'id',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 70,
+        width: 50,
         lockPosition:true,
-        cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: {
-          clicked: this.newDataUsers.bind(this)
-        },
       },
       { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('userEntity.user'), field: 'username' },
-      { headerName: this.utils.getTranslate('userEntity.firstname'),  field: 'firstName' },
-      { headerName: this.utils.getTranslate('userEntity.lastname'),  field: 'lastName'},
-      { headerName: this.utils.getTranslate('userEntity.administrator'), field: 'administrator'},
-      { headerName: this.utils.getTranslate('userEntity.blocked'), field: 'blocked'}
-      // { headerName: this.translate.instant, field: 'username', checkboxSelection: true, },
-      // { headerName: this.headerNameColumnFirstName,  field: 'firstName' },
-      // { headerName: this.headerNameColumnLastName,  field: 'lastName'},
-      // { headerName: this.headerNameColumnStatus, field: 'estat'},
+      { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('roleEntity.groupTask'),  field: 'groupTask' },
+    ];
+
+    this.columnDefsCartography = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('roleEntity.layers'),  field: 'layers' },
     ];
 
   }
@@ -145,31 +160,61 @@ export class RoleFormComponent implements OnInit {
 
   //AG GRID
 
-     /*
-      Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-      de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-      pel que de moment hem dit de deixar-ho així!
-    */
-   getAllUsers = () => {
+  
+  // ******** Users ******** //
+   getAllUsers = (): Observable<any> => {
+      //TODO Change the link when available
+     return (this.http.get(`${this.formRole.value._links.members.href}`))
+     .pipe( map( data =>  data[`_embedded`][`territories`]) );
+ 
+   }
+   removeUsers( data: any[])
+   {
+   console.log(data);
+   }
+   
+   newDataUsers(id: any)
+   {
+     // this.router.navigate(['territory', id, 'territoryForm']);
+     console.log('screen in progress');
+   }
+  
+  // ******** Task ******** //
+   getAllTasks = (): Observable<any> => {
+      //TODO Change the link when available
+     return (this.http.get(`${this.formRole.value._links.members.href}`))
+     .pipe( map( data =>  data[`_embedded`][`territories`]) );
+ 
+   }
+   removeTasks( data: any[])
+   {
+   console.log(data);
+   }
+   
+   newDataTasks(id: any)
+   {
+     // this.router.navigate(['territory', id, 'territoryForm']);
+     console.log('screen in progress');
+   }
 
-    return this.userService.getAll();
+  // ******** Cartography ******** //
+  getAllCartographies = (): Observable<any> => {
+    //TODO Change the link when available
+   return (this.http.get(`${this.formRole.value._links.members.href}`))
+   .pipe( map( data =>  data[`_embedded`][`territories`]) );
+
   }
 
-  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-    corresponent!
-  */
-
-  removeDataUsers( data: User[])
+  removeCartographies( data: any[])
   {
     console.log(data);
   }
-
-  newDataUsers(id: any)
-  {
-    this.router.navigate(['user', id, 'userForm']);
-  }
-
+ 
+ newDataCartographies(id: any)
+ {
+   // this.router.navigate(['territory', id, 'territoryForm']);
+   console.log('screen in progress');
+ }
 
 
 }

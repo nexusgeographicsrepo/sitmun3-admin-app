@@ -43,7 +43,9 @@
   
   </form>
 
-  <!-- <mat-accordion>
+  <mat-accordion *ngIf="stopID!=-1">
+
+    <!-- Users table -->
     <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
@@ -51,14 +53,51 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
   
-  
-    <div class="appDataGridEditDiv">
-        <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefs"  [getAll]='getAllUsers'  [frameworkComponents]="frameworkComponents"
-        [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-        (remove)="removeDataUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
-    </div>
-  
-  
+    <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsUsers"  [getAll]='getAllUsers'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
+        </div>
+        
+    </ng-template>
     </mat-expansion-panel>
+
+    <!-- Cartography table -->
+    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "roleEntity.cartography" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+    <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsCartography"  [getAll]='getAllCartographies'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeCartographies($event)" (new)='newDataCartographies($event)'  > </app-data-grid>
+        </div>
+        
+    </ng-template>
+    </mat-expansion-panel>
+
+     <!-- Tasks table -->
+    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "roleEntity.tasks" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+    <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsTasks"  [getAll]='getAllTasks'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeTasks($event)" (new)='newDataTasks($event)'  > </app-data-grid>
+        </div>
+        
+    </ng-template>
+    </mat-expansion-panel>
+
   </mat-accordion>
-   -->
+

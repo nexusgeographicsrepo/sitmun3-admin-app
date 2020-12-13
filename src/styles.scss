@@ -145,13 +145,12 @@ $sitmun-theme: mat-light-theme($sitmun-primary,$sitmun-accent,$sitmun-warn);
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
 body { margin: 0; font-family: 'Open Sans', sans-serif; }
 
 //Button validate of forms
 
 .formHeader{
-  display: inline-block;
+  //display: inline-block;
 }
 
 .validateButton{
@@ -167,7 +166,14 @@ body { margin: 0; font-family: 'Open Sans', sans-serif; }
   color: white;
   width: 85px;
   height: 40px;
+  
+  top: 100px;
+  /* float: right; */
+  position: absolute !important;
+  right: 10px;
+  bottom: 40px;
 }
+
 
 h4 {
   display: inline-block;
@@ -186,6 +192,8 @@ h2 {
   margin-left: 10px;
 }
 
+.formDiv
+
 .agGridExpansionPanel{
   // box-sizing: inherit !important;
   margin-bottom: 15px !important;
@@ -202,7 +210,7 @@ h2 {
 .appDataGridEditDiv{
 
   height: 200px;
-  margin: 50px;
+  margin: 20px 0px 60px 0px;
 }
 
 .divider {
@@ -281,8 +289,17 @@ h2 {
 }
 
 .formDiv{
-    margin-top: 20px;
+    margin-left: 10px;
   }
+
+  .tableDiv{
+    margin-left: 10px;
+    padding-right: 20px;
+  }
+
+.tableDiv .mat-expansion-panel-header.mat-expanded {
+    height: 50px;
+}
 
 .formLabel{
     display: block;
@@ -628,30 +645,6 @@ h2 {
 .mat-header-cell:nth-child(2) {
     flex: 0 0 60px;
 }*/
-// .e-calendar .e-content td.e-selected span.e-day,
-// .e-calendar .e-content td.e-selected:hover span.e-day,
-// .e-calendar .e-content td.e-today.e-selected span.e-day,
-// .e-calendar .e-content.e-year td.e-selected:hover span.e-day,
-// .e-calendar .e-content.e-decade td.e-selected:hover span.e-day{
-//   background: transparent;
-//   border: transparent;
-// }
-
-// .e-calendar .e-header {
-//   text-align: left !important;
-// }
-
-// .e-calendar .e-icon-container {
-//   float:none !important;
-//   margin-left: 12px;
-// }
-
-// .e-calendar .e-title {
-//   border:1px solid #ccc !important;
-//   padding: 0 10px;
-//   border-radius: 4px;
-//   line-height: 32px !important;
-// }
 
 
 .sample-wrapper {
@@ -744,12 +737,6 @@ h2 {
   overflow-y: auto;
 }
 
-// .calendar-wrapper {
-//   max-width: 700px;
-//   min-width: 200px;
-//   border: 1px solid #0494F7;
-//   text-align: center;
-// }
 
 .item-container {
   display: flex;
@@ -766,124 +753,14 @@ h2 {
   line-height: 1rem;
   text-align: center;
 }
-// .yearCalendar .igx-calendar-picker__next, .yearCalendar .igx-calendar-picker__prev{
-//   display: none !important;
-// }
-// .yearCalendar .igx-calendar-picker__dates,
-// .monthCalendar .igx-calendar-picker__dates span:nth-child(2),
-// .igx-calendar__date--single, .igx-calendar__date--selected.igx-calendar__date--first.igx-calendar__date--last {
-// }
-
-// .igx-calendar__date--selected .igx-calendar__date-content {
-//   color: white;
-//   background: #0375be;
-//   border-radius: 0px;
-// }
-
-/*.igx-calendar__date--current .igx-calendar__date-content {
-  color: #0375be;
-  font-weight: 600;
-  background: transparent;
-}*/
-
-/*.igx-calendar__date--current .igx-calendar__date-content{
-  color: black !important;
-}*/
-
-// .yearCalendar .igx-calendar-picker__next, .yearCalendar .igx-calendar-picker__prev{
-//   display: none !important;
-// }
-// .yearCalendar .igx-calendar-picker__dates,.igx-calendar__date--single,
-// .igx-calendar__date--selected.igx-calendar__date--first.igx-calendar__date--last {
-//   pointer-events: none !important;
-// }
-
-// .contentDivCalendar .matFormField {
-//   margin-bottom: 20px;
-// }
-
-// .contentDivCalendar .btnCalendarForm {
-//   margin-bottom: 15px;
-// }
 
 
-/**********************************
- *  ZEBRA LIST
- *********************************/
-.zebra-list {
-  list-style: none;
-  margin: 20px 0;
-  padding: 5px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.zebra-list li {
-  padding: 10px 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  min-height: 48px;
-}
-
-.zebra-list li:nth-child(even) {
-  background: rgb(236, 236, 236);
-}
-
-.zebra-list li.modified {
-  background-color: #fff8ea;
-}
-
-.zebra-list li.saved {
-  animation-name: zebraListConfirmation;
-  animation-duration: 1s;
-}
-
-.zebra-list li:last-child {
-  border-bottom: 0;
-}
-
-.zebra-list li span {
-  flex-grow: 1;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.zebra-list li .input input {
-  width: 250px;
-  text-align: right;
-  padding-right: 5px;
-}
 
 .align-right {
   text-align: right;
 }
 
-.zebra-list li .mat-form-field-wrapper {
-  padding-bottom: 0;
-}
 
-.zebra-list li .mat-form-field-appearance-outline .mat-form-field-flex {
-  align-items: center;
-}
-
-.zebra-list li .mat-form-field-appearance-outline .mat-form-field-suffix {
-  padding-top: 6px;
-}
-
-.zebra-list li .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: white;
-}
-
-.zebra-list li .mat-checkbox {
-  margin-right: 10px;
-}
-
-@keyframes zebraListConfirmation {
-  from {background-color: green;}
-  to {background-color: initial;}
-}
 
 //select styles
 .mat-form-field.mat-focused .mat-form-field-ripple{
@@ -899,44 +776,6 @@ h2 {
   font-weight: bold !important;
 }
 
-$my-calendar-theme: igx-calendar-theme(
-  $header-background: #888,
-  $content-background: #fdfdfd,
-  $header-text-color: #ffffff,
-  $date-current-text-color: #BF0000,
-  $picker-arrow-color: #BF0000,
-  $picker-arrow-hover-color: #BF0000,
-  $year-current-text-color: #BF0000,
-  $year-hover-text-color: #BF0000,
-  $month-current-text-color: #BF0000,
-  $month-hover-text-color: #BF0000,
-  $picker-text-color: #BF0000,
-  $picker-text-hover-color: #BF0000
-);
-
-@include igx-calendar($my-calendar-theme);
-
-.yearCalendar .igx-calendar-picker__date {
-  color:black;
-}
-
-.igx-calendar__date--current .igx-calendar__date-content{
-  position: relative;
-}
-
-.igx-calendar__date--current .igx-calendar__date-content::before{
-  content: '';
-  display: block;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-}
 
 .error-snackbar {
   background-color: #BF0000;
@@ -986,6 +825,22 @@ $my-calendar-theme: igx-calendar-theme(
 .dialog div.mat-dialog-content {
   padding: 24px;
   margin: 0;
+}
+//CUSTOM SCROLLBAR 
+::-webkit-scrollbar-track {
+  padding: 2px 0;
+
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #737272;
+  
 }
 
 @media print {

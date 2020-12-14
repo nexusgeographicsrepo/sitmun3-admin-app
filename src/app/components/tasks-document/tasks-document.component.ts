@@ -58,7 +58,7 @@ export class TasksDocumentComponent implements OnInit {
 
 
 
-  getAllTasksDownload = () => {
+  getAllTasksDocument = () => {
     const aux:Array<any> = [];
     return of(aux);
   }

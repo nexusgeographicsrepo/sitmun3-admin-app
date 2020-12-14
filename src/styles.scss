@@ -209,6 +209,7 @@ h2 {
 
 .agGridExpansionPanelTitle{
   background-color: #FFE9CC !important;
+  font-weight: bold;
 }
 
 .appDataGridDiv{
@@ -850,7 +851,11 @@ h2 {
   background-color: #737272;
   
 }
-
+.ag-header{
+  background-color: #F5F5F5 !important;
+  font-weight: bold !important;
+  font-size: 14px !important; 
+}
 @media print {
   app-toolbar,
   mat-sidenav,
@@ -877,5 +882,4 @@ h2 {
     padding-left: unset !important;
     margin-left: unset !important;
   }
-
 }

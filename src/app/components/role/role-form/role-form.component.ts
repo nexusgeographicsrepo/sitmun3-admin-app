@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators  } from '@angular/forms';
-import {  ActivatedRoute,  Router} from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoleService, UserService, User } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
@@ -26,7 +26,7 @@ export class RoleFormComponent implements OnInit {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
   dataLoaded: Boolean = false;
-  themeGrid:any=environment.agGridTheme;
+  themeGrid: any = environment.agGridTheme;
 
 
   formRole: FormGroup;
@@ -39,28 +39,28 @@ export class RoleFormComponent implements OnInit {
     private userService: UserService,
     private http: HttpClient,
     private utils: UtilsService,
-    ) {
-        this.initializeRoleForm();
-    }
+  ) {
+    this.initializeRoleForm();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.roleID = +params.id;
-      if (this.roleID !== -1){
+      if (this.roleID !== -1) {
         console.log(this.roleID);
 
         this.roleService.get(this.roleID).subscribe(
           resp => {
             console.log(resp);
-            this.roleToEdit=resp;
+            this.roleToEdit = resp;
             this.formRole.setValue({
-                id:           this.roleID,
-                name:         this.roleToEdit.name,
-                description:  this.roleToEdit.description,
-                _links:       this.roleToEdit._links
-              });
+              id: this.roleID,
+              name: this.roleToEdit.name,
+              description: this.roleToEdit.description,
+              _links: this.roleToEdit._links
+            });
 
-            this.dataLoaded=true;
+            this.dataLoaded = true;
           },
           error => {
 
@@ -69,9 +69,9 @@ export class RoleFormComponent implements OnInit {
       }
 
     },
-    error => {
+      error => {
 
-    });
+      });
 
 
     this.columnDefsUsers = [
@@ -82,11 +82,11 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username' },
-      { headerName: this.utils.getTranslate('roleEntity.territory'),  field: 'territory' },
+      { headerName: this.utils.getTranslate('roleEntity.territory'), field: 'territory' },
     ];
 
     this.columnDefsTasks = [
@@ -97,11 +97,11 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
-      { headerName: this.utils.getTranslate('roleEntity.groupTask'),  field: 'groupTask' },
+      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
     ];
 
     this.columnDefsCartography = [
@@ -112,11 +112,11 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID',  field: 'id', editable: false},
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('roleEntity.layers'),  field: 'layers' },
+      { headerName: this.utils.getTranslate('roleEntity.layers'), field: 'layers' },
     ];
 
   }
@@ -164,67 +164,61 @@ export class RoleFormComponent implements OnInit {
 
   //AG GRID
 
-  
+
   // ******** Users ******** //
-   getAllUsers = (): Observable<any> => {
-      //TODO Change the link when available
+  getAllUsers = (): Observable<any> => {
+    //TODO Change the link when available
     //  return (this.http.get(`${this.formRole.value._links.members.href}`))
     //  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-    const aux:Array<any> = [];
+    const aux: Array<any> = [];
     return of(aux);
- 
-   }
-   removeUsers( data: any[])
-   {
-   console.log(data);
-   }
-   
-   newDataUsers(id: any)
-   {
-     // this.router.navigate(['territory', id, 'territoryForm']);
-     console.log('screen in progress');
-   }
-  
+
+  }
+  removeUsers(data: any[]) {
+    console.log(data);
+  }
+
+  newDataUsers(id: any) {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
+
   // ******** Task ******** //
-   getAllTasks = (): Observable<any> => {
-      //TODO Change the link when available
+  getAllTasks = (): Observable<any> => {
+    //TODO Change the link when available
     //  return (this.http.get(`${this.formRole.value._links.members.href}`))
     //  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-    const aux:Array<any> = [];
+    const aux: Array<any> = [];
     return of(aux);
- 
-   }
-   removeTasks( data: any[])
-   {
-   console.log(data);
-   }
-   
-   newDataTasks(id: any)
-   {
-     // this.router.navigate(['territory', id, 'territoryForm']);
-     console.log('screen in progress');
-   }
+
+  }
+  removeTasks(data: any[]) {
+    console.log(data);
+  }
+
+  newDataTasks(id: any) {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
 
   // ******** Cartography ******** //
   getAllCartographies = (): Observable<any> => {
     //TODO Change the link when available
     //  return (this.http.get(`${this.formRole.value._links.members.href}`))
     //  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-    const aux:Array<any> = [];
+    const aux: Array<any> = [];
     return of(aux);
 
   }
 
-  removeCartographies( data: any[])
-  {
+  removeCartographies(data: any[]) {
     console.log(data);
   }
- 
- newDataCartographies(id: any)
- {
-   // this.router.navigate(['territory', id, 'territoryForm']);
-   console.log('screen in progress');
- }
+
+  newDataCartographies(id: any) {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
 
 
 }

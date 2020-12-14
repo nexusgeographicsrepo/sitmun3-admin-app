@@ -12,8 +12,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-  
-  themeGrid:any=environment.agGridTheme;
+
+  themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -21,13 +21,12 @@ export class TasksComponent implements OnInit {
 
 
   constructor(public tasksService: TaskService,
-              private utils: UtilsService,
-              private router: Router,
-              )
-              { }
+    private utils: UtilsService,
+    private router: Router,
+  ) { }
 
 
-  ngOnInit()  {
+  ngOnInit() {
 
     this.columnDefs = [
       {
@@ -37,7 +36,7 @@ export class TasksComponent implements OnInit {
         editable: false,
         filter: false,
         width: 35,
-        lockPosition:true,
+        lockPosition: true,
       },
       {
         headerName: '',
@@ -45,24 +44,24 @@ export class TasksComponent implements OnInit {
         editable: false,
         filter: false,
         width: 40,
-        lockPosition:true,
+        lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {
           clicked: this.newData.bind(this)
         },
       },
-      { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('tasksEntity.task'),  field: 'name'},
-      { headerName: this.utils.getTranslate('tasksEntity.informationType'),  field: 'type',  editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('tasksEntity.task'), field: 'name' },
+      { headerName: this.utils.getTranslate('tasksEntity.informationType'), field: 'type', editable: false },
     ];
   }
 
 
-    /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
+  /*
+  Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+  de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+  pel que de moment hem dit de deixar-ho així!
+*/
   getAllTasks = () => {
     return this.tasksService.getAll();
   };
@@ -72,19 +71,16 @@ export class TasksComponent implements OnInit {
     corresponent!
   */
 
-  removeData( data: Role[])
-  {
+  removeData(data: Role[]) {
     console.log(data);
   }
-  
-  newData(id: any)
-  {
+
+  newData(id: any) {
     // this.router.navigate(['tasks', id, 'tasksForm']);
   }
-  
-  applyChanges( data: Role[])
-  {
-        console.log(data);
+
+  applyChanges(data: Role[]) {
+    console.log(data);
   }
 
 }

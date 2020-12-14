@@ -94,7 +94,6 @@
     "name": "Nom",
     "source": "Servei",
     "order": "Ordre",
-    "layers": "Capes",
     "createdDate": "Alta",
     "minimumScale": "Escala Min",
     "maximumScale": "Escala Max",

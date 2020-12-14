@@ -25,7 +25,7 @@ export class ApplicationFormComponent implements OnInit {
   columnDefsRoles: any[];
   columnDefsBackgrounds: any[];
   dataLoaded: Boolean = false;
-  themeGrid:any=environment.agGridTheme;
+  themeGrid: any = environment.agGridTheme;
 
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -83,7 +83,7 @@ export class ApplicationFormComponent implements OnInit {
             this.dataLoaded = true;
           },
           error => {
-            
+
           }
         );
       }
@@ -146,7 +146,7 @@ export class ApplicationFormComponent implements OnInit {
         width: 25,
         lockPosition: true,
       },
-      { headerName: "ID", field: 'id' },
+      { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
 
     ];
@@ -283,7 +283,7 @@ export class ApplicationFormComponent implements OnInit {
     //TODO Change the link when available
     // return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
     //   .pipe(map(data => data[`_embedded`][`application-parameters`]));
-    const aux:Array<any> = [];
+    const aux: Array<any> = [];
     return of(aux);
   }
 

@@ -18,9 +18,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-
+import localeCa from '@angular/common/locales/ca';
 registerLocaleData(localeEs, 'es-ES');
-
+registerLocaleData(localeCa, 'ca-ES');
 
 //Rutes
 import { APP_ROUTES } from './app-routes';

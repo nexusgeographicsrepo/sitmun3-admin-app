@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators  } from '@angular/forms';
-import {  ActivatedRoute,  Router} from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConnectionService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
@@ -25,29 +25,29 @@ export class ConnectionFormComponent implements OnInit {
     private connectionService: ConnectionService,
     private http: HttpClient,
     private utils: UtilsService,
-    ) {
-        this.initializeConnectionForm();
-    }
+  ) {
+    this.initializeConnectionForm();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.connectionID = +params.id;
-      if (this.connectionID !== -1){
+      if (this.connectionID !== -1) {
         console.log(this.connectionID);
 
         this.connectionService.get(this.connectionID).subscribe(
           resp => {
             console.log(resp);
-            this.connectionToEdit=resp;
+            this.connectionToEdit = resp;
             this.formConnection.setValue({
-                id:       this.connectionID,
-                name:     this.connectionToEdit.name,
-                driver:   this.connectionToEdit.driver,
-                user:     this.connectionToEdit.user,
-                password: this.connectionToEdit.password,
-                url:      this.connectionToEdit.url,
-                _links:   this.connectionToEdit._links
-              });
+              id: this.connectionID,
+              name: this.connectionToEdit.name,
+              driver: this.connectionToEdit.driver,
+              user: this.connectionToEdit.user,
+              password: this.connectionToEdit.password,
+              url: this.connectionToEdit.url,
+              _links: this.connectionToEdit._links
+            });
 
 
           },
@@ -58,9 +58,9 @@ export class ConnectionFormComponent implements OnInit {
       }
 
     },
-    error => {
+      error => {
 
-    });
+      });
 
   }
 
@@ -106,10 +106,4 @@ export class ConnectionFormComponent implements OnInit {
       });
 
   }
-
-
-
-
-
-
 }

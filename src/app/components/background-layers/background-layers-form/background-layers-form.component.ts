@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators  } from '@angular/forms';
-import {  ActivatedRoute,  Router} from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackgroundService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
@@ -25,36 +25,36 @@ export class BackgroundLayersFormComponent implements OnInit {
     private backgroundService: BackgroundService,
     private http: HttpClient,
     private utils: UtilsService,
-    ) {
-        this.initializeBackgroundForm();
-    }
+  ) {
+    this.initializeBackgroundForm();
+  }
 
 
   backgroundForm: FormGroup;
   backgroundToEdit;
   backgroundID = -1;
-  
+
 
 
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.backgroundID = +params.id;
-      if (this.backgroundID !== -1){
+      if (this.backgroundID !== -1) {
         console.log(this.backgroundID);
 
         this.backgroundService.get(this.backgroundID).subscribe(
           resp => {
             console.log(resp);
-            this.backgroundToEdit=resp;
+            this.backgroundToEdit = resp;
             this.backgroundForm.setValue({
-                id:            this.backgroundID,
-                name:          this.backgroundToEdit.name,
-                description:     this.backgroundToEdit.description,
-                cartographyGroup:     "",
-                active:      this.backgroundToEdit.active,
-                _links:        this.backgroundToEdit._links
-              });
+              id: this.backgroundID,
+              name: this.backgroundToEdit.name,
+              description: this.backgroundToEdit.description,
+              cartographyGroup: "",
+              active: this.backgroundToEdit.active,
+              _links: this.backgroundToEdit._links
+            });
 
 
           },
@@ -70,9 +70,9 @@ export class BackgroundLayersFormComponent implements OnInit {
       }
 
     },
-    error => {
+      error => {
 
-    });
+      });
 
 
   }

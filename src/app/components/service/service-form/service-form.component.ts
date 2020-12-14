@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators  } from '@angular/forms';
-import {  ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ServiceFormComponent implements OnInit {
 
-  themeGrid:any=environment.agGridTheme;
+  themeGrid: any = environment.agGridTheme;
   columnDefsLayers: any[];
   columnDefsParameters: any[];
   public frameworkComponents = {
@@ -39,59 +39,58 @@ export class ServiceFormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   projections: Array<string>;
 
-  
- 
+
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private serviceService: ServiceService,
     private http: HttpClient,
     private utils: UtilsService,
-    ) {
-        this.initializeServiceForm();
-        this.projections = [];
-        this.activatedRoute.params.subscribe(params => {
-          this.serviceID = +params.id;
-          if (this.serviceID !== -1){
-            this.serviceService.get(this.serviceID).subscribe(
-              resp => {
-                console.log(resp);
-                this.serviceToEdit = resp;
-                if(this.serviceToEdit.supportedSRS !== null)
-                {
-                  this.serviceToEdit.supportedSRS.forEach( (projection) => {
-                    this.projections.push(projection);
-                  });
+  ) {
+    this.initializeServiceForm();
+    this.projections = [];
+    this.activatedRoute.params.subscribe(params => {
+      this.serviceID = +params.id;
+      if (this.serviceID !== -1) {
+        this.serviceService.get(this.serviceID).subscribe(
+          resp => {
+            console.log(resp);
+            this.serviceToEdit = resp;
+            if (this.serviceToEdit.supportedSRS !== null) {
+              this.serviceToEdit.supportedSRS.forEach((projection) => {
+                this.projections.push(projection);
+              });
 
-                }
-                // this.projections = this.serviceToEdit.supportedSRS.split(';');
-                this.parametersUrl = this.serviceToEdit._links.parameters.href;
-                this.serviceForm.setValue({
-                    id:       this.serviceID,
-                    name:     this.serviceToEdit.name,
-                    type:     this.serviceToEdit.type,
-                    serviceURL:   this.serviceToEdit.serviceURL,
-                    connection:   ' ',
-                    supportedSRS:     ' ',
-                    metadataURL:      this.serviceToEdit.getInformationURL,
-                    _links:   this.serviceToEdit._links
-                  });
+            }
+            // this.projections = this.serviceToEdit.supportedSRS.split(';');
+            this.parametersUrl = this.serviceToEdit._links.parameters.href;
+            this.serviceForm.setValue({
+              id: this.serviceID,
+              name: this.serviceToEdit.name,
+              type: this.serviceToEdit.type,
+              serviceURL: this.serviceToEdit.serviceURL,
+              connection: ' ',
+              supportedSRS: ' ',
+              metadataURL: this.serviceToEdit.getInformationURL,
+              _links: this.serviceToEdit._links
+            });
 
-                this.dataLoaded=true;
-              },
-              error => {
+            this.dataLoaded = true;
+          },
+          error => {
 
-              }
-            );
           }
+        );
+      }
 
-        },
-        error => {
+    },
+      error => {
 
-        });
+      });
 
 
-    }
+  }
 
   ngOnInit(): void {
 
@@ -107,11 +106,11 @@ export class ServiceFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 25,
-        lockPosition:true,
-      }, 
-      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('serviceEntity.parameter'),  field: 'type', },
-      { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value'},
+        lockPosition: true,
+      },
+      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'type', },
+      { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
 
     ];
 
@@ -125,12 +124,12 @@ export class ServiceFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 35,
-        lockPosition:true,
-      }, 
-      { headerName: 'ID',  field: 'id'},
-      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('serviceEntity.description'),  field: 'description', },
-      { headerName: this.utils.getTranslate('serviceEntity.status'),  field: 'status'},
+        lockPosition: true,
+      },
+      { headerName: 'Id', field: 'id' },
+      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('serviceEntity.description'), field: 'description', },
+      { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
 
     ];
 
@@ -223,40 +222,33 @@ export class ServiceFormComponent implements OnInit {
 
   // AG-GRID
 
-    // ******** Parameters configuration ******** //
+  // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
     return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data[`_embedded`][`service-parameters`]) );
+      .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 
-  removeParameters( data: any[])
-  {
+  removeParameters(data: any[]) {
     console.log(data);
   }
-  
-  newDataParameters(id: any)
-  {
+
+  newDataParameters(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
 
-    // ******** Layers ******** //
+  // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
     return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data[`_embedded`][`service-parameters`]) );
+      .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 
-  removeLayers( data: any[])
-  {
+  removeLayers(data: any[]) {
     console.log(data);
   }
-  
-  newDataLayers(id: any)
-  {
+
+  newDataLayers(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
-
-
 }
-

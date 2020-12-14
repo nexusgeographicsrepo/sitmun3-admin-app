@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators  } from '@angular/forms';
-import {  ActivatedRoute,  Router} from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartographyGroupService, RoleService, Role } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LayersPermitsFormComponent implements OnInit {
 
-  themeGrid:any=environment.agGridTheme;
+  themeGrid: any = environment.agGridTheme;
   columnDefsCartographies: any[];
   columnDefsRoles: any[];
   dataLoaded: Boolean = false;
@@ -34,28 +34,28 @@ export class LayersPermitsFormComponent implements OnInit {
     private roleService: RoleService,
     private http: HttpClient,
     private utils: UtilsService,
-    ) {
-        this.initializeLayersPermitsForm();
-    }
+  ) {
+    this.initializeLayersPermitsForm();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.layersPermitsID = +params.id;
-      if (this.layersPermitsID !== -1){
+      if (this.layersPermitsID !== -1) {
         console.log(this.layersPermitsID);
 
         this.cartographyGroupService.get(this.layersPermitsID).subscribe(
           resp => {
             console.log(resp);
-            this.layersPermitsToEdit=resp;
+            this.layersPermitsToEdit = resp;
             this.formLayersPermits.setValue({
-                id:       this.layersPermitsID,
-                name:     this.layersPermitsToEdit.name,
-                type:   this.layersPermitsToEdit.type,
-                _links:   this.layersPermitsToEdit._links
-              });
+              id: this.layersPermitsID,
+              name: this.layersPermitsToEdit.name,
+              type: this.layersPermitsToEdit.type,
+              _links: this.layersPermitsToEdit._links
+            });
 
-            this.dataLoaded=true;
+            this.dataLoaded = true;
           },
           error => {
 
@@ -64,9 +64,9 @@ export class LayersPermitsFormComponent implements OnInit {
       }
 
     },
-    error => {
+      error => {
 
-    });
+      });
 
 
 
@@ -78,10 +78,10 @@ export class LayersPermitsFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 20,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('layersPermitsEntity.name'),  field: 'name'},
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersPermitsEntity.name'), field: 'name' },
     ];
 
 
@@ -93,10 +93,10 @@ export class LayersPermitsFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 20,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('layersPermitsEntity.name'),  field: 'name'},
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersPermitsEntity.name'), field: 'name' },
     ];
   }
 
@@ -144,50 +144,44 @@ export class LayersPermitsFormComponent implements OnInit {
   // AG GRID
 
   // ******** Cartographies configuration ******** //
-    getAllCartographies = () => {
-      //TODO Change the link when available
-      // return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
-      // .pipe( map( data =>  data['_embedded']['roles']) );
-      const aux:Array<any> = [];
-      return of(aux);
-    }
-  
-    removeDataCartographies( data: Role[])
-    {
-      console.log(data);
-    }
-    
-    newDataCartographies(id: any)
-    {
-      this.router.navigate(['role', id, 'roleForm']);
-    }
-    
-    applyChangesCartographies( data: Role[])
-    {
-          console.log(data);
-    }
+  getAllCartographies = () => {
+    //TODO Change the link when available
+    // return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+    // .pipe( map( data =>  data['_embedded']['roles']) );
+    const aux: Array<any> = [];
+    return of(aux);
+  }
+
+  removeDataCartographies(data: Role[]) {
+    console.log(data);
+  }
+
+  newDataCartographies(id: any) {
+    this.router.navigate(['role', id, 'roleForm']);
+  }
+
+  applyChangesCartographies(data: Role[]) {
+    console.log(data);
+  }
 
 
-    // ******** Roles  ******** //
-    getAllRoles = () => {
-      return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
-      .pipe( map( data =>  data['_embedded']['roles']) );
-    }
-  
-    removeDataRole( data: Role[])
-    {
-      console.log(data);
-    }
-    
-    newDataRole(id: any)
-    {
-      this.router.navigate(['role', id, 'roleForm']);
-    }
-    
-    applyChangesRole( data: Role[])
-    {
-          console.log(data);
-    }
+  // ******** Roles  ******** //
+  getAllRoles = () => {
+    return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+      .pipe(map(data => data['_embedded']['roles']));
+  }
+
+  removeDataRole(data: Role[]) {
+    console.log(data);
+  }
+
+  newDataRole(id: any) {
+    this.router.navigate(['role', id, 'roleForm']);
+  }
+
+  applyChangesRole(data: Role[]) {
+    console.log(data);
+  }
 
 }
 

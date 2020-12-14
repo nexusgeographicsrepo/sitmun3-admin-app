@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TerritoryComponent implements OnInit {
 
-  themeGrid:any=environment.agGridTheme;
+  themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -22,13 +22,12 @@ export class TerritoryComponent implements OnInit {
 
 
   constructor(public territoryService: TerritoryService,
-              private utils: UtilsService,
-              private router: Router,
-              )
-              { }
+    private utils: UtilsService,
+    private router: Router,
+  ) { }
 
 
-  ngOnInit()  {
+  ngOnInit() {
 
     this.columnDefs = [
       {
@@ -37,41 +36,41 @@ export class TerritoryComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 105,
-        lockPosition:true,
+        width: 60,
+        lockPosition: true,
       },
       {
         headerName: '',
         field: 'id',
         editable: false,
         filter: false,
-        width: 120,
-        lockPosition:true,
+        width: 75,
+        lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {
           clicked: this.newData.bind(this)
         },
       },
-      { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('territoryEntity.code'),  field: 'code' },
-      { headerName: this.utils.getTranslate('territoryEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('territoryEntity.scope'),  field: 'scope'},
-      { headerName: this.utils.getTranslate('territoryEntity.createdDate'),  field: 'createdDate', }, // type: 'dateColumn'
-      { headerName: this.utils.getTranslate('territoryEntity.administrator'),  field: 'territorialAuthorityName'},
-      { headerName: this.utils.getTranslate('territoryEntity.email'),  field: 'territorialAuthorityEmail'},
-      { headerName: this.utils.getTranslate('territoryEntity.address'),  field: 'territorialAuthorityAddress'},
-      { headerName: this.utils.getTranslate('territoryEntity.extent'),  field: 'extent'},
-      { headerName: this.utils.getTranslate('territoryEntity.note'),  field: 'note'},
-      { headerName: this.utils.getTranslate('territoryEntity.blocked'),  field: 'blocked'},
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('territoryEntity.scope'), field: 'scope' },
+      { headerName: this.utils.getTranslate('territoryEntity.createdDate'), field: 'createdDate', }, // type: 'dateColumn'
+      { headerName: this.utils.getTranslate('territoryEntity.administrator'), field: 'territorialAuthorityName' },
+      { headerName: this.utils.getTranslate('territoryEntity.email'), field: 'territorialAuthorityEmail' },
+      { headerName: this.utils.getTranslate('territoryEntity.address'), field: 'territorialAuthorityAddress' },
+      { headerName: this.utils.getTranslate('territoryEntity.extent'), field: 'extent' },
+      { headerName: this.utils.getTranslate('territoryEntity.note'), field: 'note' },
+      { headerName: this.utils.getTranslate('territoryEntity.blocked'), field: 'blocked' },
     ];
   }
 
 
-    /*
-    Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-    de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-    pel que de moment hem dit de deixar-ho així!
-  */
+  /*
+  Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
+  de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
+  pel que de moment hem dit de deixar-ho així!
+*/
   getAllTerritories = () => {
     return this.territoryService.getAll();
   }
@@ -81,19 +80,16 @@ export class TerritoryComponent implements OnInit {
     corresponent!
   */
 
-removeData( data: Territory[])
-{
-  console.log(data);
-}
+  removeData(data: Territory[]) {
+    console.log(data);
+  }
 
-newData(id: any)
-{
-  this.router.navigate(['territory', id, 'territoryForm']);
-}
+  newData(id: any) {
+    this.router.navigate(['territory', id, 'territoryForm']);
+  }
 
-applyChanges( data: Territory[])
-{
-      console.log(data);
-}
+  applyChanges(data: Territory[]) {
+    console.log(data);
+  }
 
 }

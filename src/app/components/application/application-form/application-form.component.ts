@@ -36,7 +36,7 @@ export class ApplicationFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
   ) {
-    this.initializeConnectionForm();
+    this.initializeApplicationForm();
   }
 
 
@@ -110,9 +110,9 @@ export class ApplicationFormComponent implements OnInit {
         width: 25,
         lockPosition: true,
       },
-      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value', },
-      { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type' },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
+      { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type' },
 
     ];
 
@@ -128,8 +128,8 @@ export class ApplicationFormComponent implements OnInit {
         width: 25,
         lockPosition: true,
       },
-      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value', },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
     ];
 
     this.columnDefsRoles = [
@@ -145,7 +145,7 @@ export class ApplicationFormComponent implements OnInit {
         lockPosition: true,
       },
       { headerName: "ID", field: 'id' },
-      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
 
     ];
 
@@ -161,8 +161,8 @@ export class ApplicationFormComponent implements OnInit {
         width: 25,
         lockPosition: true,
       },
-      { headerName: this.utils.getTranslate('serviceEntity.background'), field: 'background' },
-      { headerName: this.utils.getTranslate('serviceEntity.selectedBackground'), field: 'selectedBackground' },
+      { headerName: this.utils.getTranslate('applicationEntity.background'), field: 'background' },
+      { headerName: this.utils.getTranslate('applicationEntity.selectedBackground'), field: 'selectedBackground' },
 
     ];
 
@@ -170,7 +170,7 @@ export class ApplicationFormComponent implements OnInit {
   }
 
 
-  initializeConnectionForm(): void {
+  initializeApplicationForm(): void {
 
     this.applicationForm = new FormGroup({
       id: new FormControl(null, []),

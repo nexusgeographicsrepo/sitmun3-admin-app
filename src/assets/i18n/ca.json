@@ -191,7 +191,8 @@
     "templateConfiguration": "Configuració de plantilla",
     "roles": "Rols",
     "background": "Fons",
-    "selectedBackground": "Fons seleccionat"
+    "selectedBackground": "Fons seleccionat",
+    "value": "Valor"
   },
   "territoryEntity":{
     "territory": "Territori",

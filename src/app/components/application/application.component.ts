@@ -4,6 +4,7 @@ import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-application',
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
 export class ApplicationComponent implements OnInit {
 
   columnDefs: any[];
+  themeGrid:any=environment.agGridTheme;
+
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };

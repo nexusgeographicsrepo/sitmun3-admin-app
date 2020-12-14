@@ -49,7 +49,8 @@
     "organization": "Organització",
     "mail": "Correu",
     "field": "Camp",
-    "dataCreated": "Alta"
+    "dataCreated": "Alta",
+    "code": "Codi"
   },
   "connectionEntity":{
     "user":"Usuari",

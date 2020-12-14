@@ -178,7 +178,7 @@
 
       <ng-template matExpansionPanelContent>  
           <div class="appDataGridEditDiv">
-              <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsParameters"  [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
+              <app-data-grid  [columnDefs]="columnDefsParameters"  [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
               [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
               (remove)="removeParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
           </div>
@@ -195,7 +195,7 @@
       
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
-                  <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsTemplates"  [getAll]='getAllTemplates'  [frameworkComponents]="frameworkComponents"
+                  <app-data-grid [columnDefs]="columnDefsTemplates"  [getAll]='getAllTemplates'  [frameworkComponents]="frameworkComponents"
                   [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
                   (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
               </div>
@@ -212,7 +212,7 @@
       
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
-                  <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
+                  <app-data-grid [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
                   [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
                   (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
               </div>
@@ -229,7 +229,7 @@
       
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
-                  <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsBackgrounds"  [getAll]='getAllBackgrounds'  [frameworkComponents]="frameworkComponents"
+                  <app-data-grid [columnDefs]="columnDefsBackgrounds"  [getAll]='getAllBackgrounds'  [frameworkComponents]="frameworkComponents"
                   [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
                   (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
               </div>

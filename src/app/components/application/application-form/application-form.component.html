@@ -6,6 +6,7 @@
     <h4><mat-icon aria-hidden="false"  svgIcon="menu_aplicacio"></mat-icon>{{ "applicationEntity.application" | translate }}-{{"applicationEntity.edit" | translate}}</h4>
     <span class="divider"></span>
   </div>
+<div class="formDiv">
   <div class="formHeader">
     <h5> Dades generals  </h5>
     <button   mat-flat-button class="saveButton" (click)="updateApplication()" >
@@ -165,76 +166,80 @@
             <mat-checkbox formControlName="treeAutoRefresh"> </mat-checkbox>
           </div>
 
-    </div>
+      </div>
+    </form>
+</div>
 
-<mat-accordion>
-  <!-- Parameters configuration table -->
-  <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-      <mat-panel-title  >
-        {{ "applicationEntity.parametersConfiguration" | translate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+<div class="tableDiv">
+  <mat-accordion *ngIf="applicationID != -1" multi>
+    <!-- Parameters configuration table -->
+    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "applicationEntity.parametersConfiguration" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <ng-template matExpansionPanelContent>  
-        <div class="appDataGridEditDiv">
-            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsParameters"  [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-            (remove)="removeParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
-        </div>
-    </ng-template>
-      </mat-expansion-panel>
-
-  <!-- Template table -->
-      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-          <mat-panel-title  >
-            {{ "applicationEntity.templateConfiguration" | translate }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <ng-template matExpansionPanelContent>    
-            <div class="appDataGridEditDiv">
-                <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsTemplates"  [getAll]='getAllTemplates'  [frameworkComponents]="frameworkComponents"
-                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
-                (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
-            </div>
-        </ng-template>
+      <ng-template matExpansionPanelContent>  
+          <div class="appDataGridEditDiv">
+              <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsParameters"  [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+              (remove)="removeParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
+          </div>
+      </ng-template>
         </mat-expansion-panel>
 
-  <!-- Rols table -->
-      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-          <mat-panel-title  >
-            {{ "applicationEntity.roles" | translate }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <ng-template matExpansionPanelContent>    
-            <div class="appDataGridEditDiv">
-                <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
-                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
-                (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
-            </div>
-        </ng-template>
-        </mat-expansion-panel>
-
-   <!-- Background table -->
-      <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-        <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-          <mat-panel-title  >
-            {{ "applicationEntity.background" | translate }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <ng-template matExpansionPanelContent>    
-            <div class="appDataGridEditDiv">
-                <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsBackgrounds"  [getAll]='getAllBackgrounds'  [frameworkComponents]="frameworkComponents"
-                [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
-                (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
-            </div>
-        </ng-template>
-        </mat-expansion-panel>
-
+    <!-- Template table -->
+        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+          <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+            <mat-panel-title  >
+              {{ "applicationEntity.templateConfiguration" | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
       
-</mat-accordion>
+          <ng-template matExpansionPanelContent>    
+              <div class="appDataGridEditDiv">
+                  <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsTemplates"  [getAll]='getAllTemplates'  [frameworkComponents]="frameworkComponents"
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+                  (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
+              </div>
+          </ng-template>
+          </mat-expansion-panel>
+
+    <!-- Rols table -->
+        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+          <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+            <mat-panel-title  >
+              {{ "applicationEntity.roles" | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+      
+          <ng-template matExpansionPanelContent>    
+              <div class="appDataGridEditDiv">
+                  <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+                  (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
+              </div>
+          </ng-template>
+          </mat-expansion-panel>
+
+    <!-- Background table -->
+        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+          <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+            <mat-panel-title  >
+              {{ "applicationEntity.background" | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+      
+          <ng-template matExpansionPanelContent>    
+              <div class="appDataGridEditDiv">
+                  <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsBackgrounds"  [getAll]='getAllBackgrounds'  [frameworkComponents]="frameworkComponents"
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+                  (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
+              </div>
+          </ng-template>
+          </mat-expansion-panel>
+
+        
+  </mat-accordion>
+</div>

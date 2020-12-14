@@ -7,7 +7,6 @@ import { ExternalConfigurationService } from './ExternalConfigurationService';
 import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService,
    ConnectionService, TaskGroupService, TaskService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
-import { AgGridModule } from '@ag-grid-community/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
 import { APP_ROUTING } from './app-routes';
@@ -131,7 +130,6 @@ import { TasksComponent } from './components/tasks/tasks.component';
       }
     }),
     APP_ROUTING,
-    AgGridModule.withComponents([]),
     BrowserAnimationsModule
   ],
   providers: [SidenavService, UtilsService,

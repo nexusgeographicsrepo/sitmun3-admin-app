@@ -33,7 +33,7 @@ export class TasksReportComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 105,
+        width: 40,
         lockPosition:true,
       },
       {
@@ -41,7 +41,7 @@ export class TasksReportComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 120,
+        width: 35,
         lockPosition:true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

@@ -31,7 +31,7 @@ export class TasksLocatorComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 105,
+        width: 60,
         lockPosition:true,
       },
       {
@@ -39,7 +39,7 @@ export class TasksLocatorComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 120,
+        width: 60,
         lockPosition:true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

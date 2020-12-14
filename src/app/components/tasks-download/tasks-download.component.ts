@@ -32,7 +32,7 @@ export class TasksDownloadComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 105,
+        width: 40,
         lockPosition:true,
       },
       {
@@ -40,7 +40,7 @@ export class TasksDownloadComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 120,
+        width: 40,
         lockPosition:true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

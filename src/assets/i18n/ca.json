@@ -244,8 +244,14 @@
   },
   "tasksEntity":{
     "tasks":"Tasques",
-    "task":"Tasca",
+    "name":"Nom",
     "informationType":"Tipus d'informació"
+  },
+  "tasksDownloadEntity":{
+    "tasksDownload":"Tasques-Descàrrega",
+    "name": "Nom",  
+    "observations":"Observacions",
+    "application":"Aplicació"
   }
 
 

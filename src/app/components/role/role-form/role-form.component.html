@@ -1,11 +1,12 @@
 <div class="titleDiv" *ngIf="stopID==-1" >
     <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon> {{ "roleEntity.role" | translate }}-{{"roleEntity.new" | translate}}</h4>
     <span class="divider"></span>
-  </div>
-  <div class="titleDiv" *ngIf="stopID!=-1" >
+</div>
+<div class="titleDiv" *ngIf="stopID!=-1" >
     <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon>{{ "roleEntity.role" | translate }}-{{"roleEntity.edit" | translate}}</h4>
     <span class="divider"></span>
-  </div>
+</div>
+<div class="formDiv"> 
   <div class="formHeader">
     <h5> Dades generals  </h5>
     <button   mat-flat-button class="saveButton"  >
@@ -43,7 +44,10 @@
   
   </form>
 
-  <mat-accordion *ngIf="stopID!=-1">
+</div>
+
+<div class="tableDiv">
+  <mat-accordion *ngIf="stopID!=-1" multi>
 
     <!-- Users table -->
     <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
@@ -100,4 +104,4 @@
     </mat-expansion-panel>
 
   </mat-accordion>
-
+</div>

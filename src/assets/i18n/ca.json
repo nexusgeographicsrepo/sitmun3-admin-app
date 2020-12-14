@@ -308,6 +308,13 @@
     "task": "Tasca",
     "informationType":"Tipus d'informació",
     "template":"Plantilla"
+  },
+  "tasksTHematicEntity":{
+    "tasksThematic":"Tasques-Temàtic",
+    "name": "Nom",
+    "origin": "Origen",
+    "creator":"Creador",
+    "dataCreated":"Alta"
   }
 
 

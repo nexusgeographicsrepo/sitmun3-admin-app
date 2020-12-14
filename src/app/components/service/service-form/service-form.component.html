@@ -1,11 +1,9 @@
-<div class="titleDiv" *ngIf="serviceID==-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon> {{ "serviceEntity.service" | translate }}-{{"serviceEntity.new" | translate}}</h4>
-    <span class="divider"></span>
+<div class="titleDiv" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_servei"></mat-icon> {{ "serviceEntity.service" | translate }}-{{"serviceEntity."+(serviceID==-1?"new":"edit") | translate}}</h4>
+  <span class="divider"></span>
 </div>
-<div class="titleDiv" *ngIf="serviceID!=-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon>{{ "serviceEntity.service" | translate }}-{{"serviceEntity.edit" | translate}}</h4>
-    <span class="divider"></span>
-</div>
+
+
 <div class="formDiv">
   <div class="formHeader">
     <h5> Dades generals  </h5>

@@ -244,8 +244,77 @@
   },
   "tasksEntity":{
     "tasks":"Tasques",
-    "task":"Tasca",
+    "name":"Nom",
     "informationType":"Tipus d'informació"
+  },
+  "tasksConsultationEntity":{
+    "tasksConsultation":"Tasques-Consultes",
+    "name": "Nom",  
+    "task":"Tasca",
+    "informationType":"Tipus d'informació",
+    "accesType":"Tipus d'accés",
+    "command":"Comanda",
+    "connection":"Connexió",
+    "associatedLayer":"Capa associada"
+  },
+  "tasksDownloadEntity":{
+    "tasksDownload":"Tasques-Descàrrega",
+    "name": "Nom",  
+    "observations":"Observacions",
+    "application":"Aplicació"
+  },
+  "tasksDocumentEntity":{
+    "tasksDocument":"Tasques-Document",
+    "task":"Tasca",
+    "informationType":"Tipus d'informació",
+    "path":"Path",
+    "extent":"Extensió",
+    "associatedLayer":"Capa associada"
+  },
+  "tasksEditionEntity":{
+    "tasksEdition":"Tasques-Edició",
+    "name": "Nom",
+    "associatedLayer":"Capa associada",
+    "informationType":"Tipus d'informació",
+    "dataCreated":"Alta"
+  },
+  "tasksExtractionFMEEntity":{
+    "tasksExtractionFME":"Tasques-Extracció FME",
+    "cartography": "Cartografia",
+    "service":"Servei",
+    "layer":"Capa",
+    "dataCreated":"Alta"
+  },
+  "tasksLocatorEntity":{
+    "tasksLocator":"Tasques-Localitzador",
+    "task": "Tasca",
+    "informationType":"Tipus d'informació",
+    "accesType":"Tipus d'accés",
+    "command":"Comanda",
+    "connection":"Connexió",
+    "associatedLayer":"Capa associada"
+  },
+  "tasksMoreInfoEntity":{
+    "tasksMoreInfo":"Tasques-Més informació",
+    "task": "Tasca",
+    "informationType":"Tipus d'informació",
+    "accesType":"Tipus d'accés",
+    "command":"Comanda",
+    "connection":"Connexió",
+    "associatedLayer":"Capa associada"
+  },
+  "tasksReportEntity":{
+    "tasksReport":"Tasques-Informe",
+    "task": "Tasca",
+    "informationType":"Tipus d'informació",
+    "template":"Plantilla"
+  },
+  "tasksTHematicEntity":{
+    "tasksThematic":"Tasques-Temàtic",
+    "name": "Nom",
+    "origin": "Origen",
+    "creator":"Creador",
+    "dataCreated":"Alta"
   }
 
 

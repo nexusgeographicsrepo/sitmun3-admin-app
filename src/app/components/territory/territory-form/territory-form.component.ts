@@ -42,7 +42,7 @@ export class TerritoryFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeConnectionForm();
+        this.initializeTerritoryForm();
     }
 
   ngOnInit(): void {
@@ -169,7 +169,7 @@ export class TerritoryFormComponent implements OnInit {
   }
 
 
-  initializeConnectionForm(): void {
+  initializeTerritoryForm(): void {
 
     this.territoryForm = new FormGroup({
       id: new FormControl(null, []),

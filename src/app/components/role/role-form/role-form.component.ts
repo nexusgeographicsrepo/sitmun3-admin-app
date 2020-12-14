@@ -36,7 +36,7 @@ export class RoleFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeLayersPermitsForm();
+        this.initializeRoleForm();
     }
 
   ngOnInit(): void {
@@ -118,7 +118,7 @@ export class RoleFormComponent implements OnInit {
   }
 
 
-  initializeLayersPermitsForm(): void {
+  initializeRoleForm(): void {
 
     this.formRole = new FormGroup({
       id: new FormControl(null, []),

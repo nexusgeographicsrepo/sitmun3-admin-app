@@ -41,7 +41,7 @@ export class LayersFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeConnectionForm();
+        this.initializeLayersForm();
 
         this.activatedRoute.params.subscribe(params => {
           this.layerID = +params.id;
@@ -182,7 +182,7 @@ export class LayersFormComponent implements OnInit {
 
   }
 
-  initializeConnectionForm(): void {
+  initializeLayersForm(): void {
 
     this.layerForm = new FormGroup({
       id: new FormControl(null, []),

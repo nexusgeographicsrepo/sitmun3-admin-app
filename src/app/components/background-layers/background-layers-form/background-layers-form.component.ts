@@ -26,7 +26,7 @@ export class BackgroundLayersFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeConnectionForm();
+        this.initializeBackgroundForm();
     }
 
 
@@ -77,7 +77,7 @@ export class BackgroundLayersFormComponent implements OnInit {
   }
 
 
-  initializeConnectionForm(): void {
+  initializeBackgroundForm(): void {
 
     this.backgroundForm = new FormGroup({
       id: new FormControl(null, []),

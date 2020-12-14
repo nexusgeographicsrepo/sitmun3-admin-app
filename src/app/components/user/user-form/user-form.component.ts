@@ -26,7 +26,7 @@ export class UserFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeConnectionForm();
+        this.initializeUserForm();
     }
 
 
@@ -124,7 +124,7 @@ export class UserFormComponent implements OnInit {
   }
 
 
-  initializeConnectionForm(): void {
+  initializeUserForm(): void {
 
     this.userForm = new FormGroup({
       id: new FormControl(null, []),

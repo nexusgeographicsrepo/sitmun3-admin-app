@@ -27,7 +27,7 @@ export class TaskGroupFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeLayersPermitsForm();
+        this.initializeTaskGroupForm();
     }
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class TaskGroupFormComponent implements OnInit {
 
 
   
-  initializeLayersPermitsForm(): void {
+  initializeTaskGroupForm(): void {
 
     this.formtaskGroup = new FormGroup({
       id: new FormControl(null, []),

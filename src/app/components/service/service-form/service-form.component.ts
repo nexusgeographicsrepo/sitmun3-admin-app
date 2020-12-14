@@ -46,7 +46,7 @@ export class ServiceFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     ) {
-        this.initializeConnectionForm();
+        this.initializeServiceForm();
         this.projections = [];
         this.activatedRoute.params.subscribe(params => {
           this.serviceID = +params.id;
@@ -134,7 +134,7 @@ export class ServiceFormComponent implements OnInit {
 
   }
 
-  initializeConnectionForm(): void {
+  initializeServiceForm(): void {
 
     this.serviceForm = new FormGroup({
       id: new FormControl(null, []),

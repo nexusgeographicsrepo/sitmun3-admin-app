@@ -1,9 +1,5 @@
-<div class="titleDiv" *ngIf="applicationID==-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_aplicacio"></mat-icon> {{ "applicationEntity.application" | translate }}-{{"applicationEntity.new" | translate}}</h4>
-    <span class="divider"></span>
-  </div>
-  <div class="titleDiv" *ngIf="applicationID!=-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_aplicacio"></mat-icon>{{ "applicationEntity.application" | translate }}-{{"applicationEntity.edit" | translate}}</h4>
+<div class="titleDiv" >
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_aplicacio"></mat-icon> {{ "applicationEntity.application" | translate }}-{{"applicationEntity."+(applicationID==-1?"new":"edit") | translate}}</h4>
     <span class="divider"></span>
   </div>
 <div class="formDiv">

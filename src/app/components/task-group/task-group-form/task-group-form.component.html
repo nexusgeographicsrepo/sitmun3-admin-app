@@ -1,11 +1,9 @@
-<div class="titleDiv" *ngIf="taskGroupID==-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="ic_gruptasca"></mat-icon> {{ "taskGroupEntity.taskGroup" | translate }}-{{"taskGroupEntity.new" | translate}}</h4>
-    <span class="divider"></span>
+<div class="titleDiv" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="ic_gruptasca"></mat-icon> {{ "taskGroupEntity.taskGroup" | translate }}-{{"taskGroupEntity."+(taskGroupID==-1?"new":"edit") | translate}}</h4>
+  <span class="divider"></span>
 </div>
-<div class="titleDiv" *ngIf="taskGroupID!=-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="ic_gruptasca"></mat-icon>{{ "taskGroupEntity.taskGroup" | translate }}-{{"taskGroupEntity.edit" | translate}}</h4>
-    <span class="divider"></span>
-</div>
+
+
 <div class="formDiv">  
   <div class="formHeader">
     <h5> Dades generals  </h5>

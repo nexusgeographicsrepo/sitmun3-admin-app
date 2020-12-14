@@ -1,11 +1,8 @@
-<div class="titleDiv" *ngIf="stopID==-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon> {{ "roleEntity.role" | translate }}-{{"roleEntity.new" | translate}}</h4>
-    <span class="divider"></span>
+<div class="titleDiv" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon> {{ "roleEntity.role" | translate }}-{{"roleEntity."+(roleID==-1?"new":"edit") | translate}}</h4>
+  <span class="divider"></span>
 </div>
-<div class="titleDiv" *ngIf="stopID!=-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_rol"></mat-icon>{{ "roleEntity.role" | translate }}-{{"roleEntity.edit" | translate}}</h4>
-    <span class="divider"></span>
-</div>
+
 <div class="formDiv"> 
   <div class="formHeader">
     <h5> Dades generals  </h5>
@@ -36,8 +33,8 @@
               </mat-form-field>
             </div>
 
-            <button *ngIf="stopID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "roleEntity.validate" | translate }}</button>
-            <button *ngIf="stopID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "roleEntity.update" | translate }}</button>
+            <button *ngIf="roleID==-1" (click)="addNewConnection()" mat-flat-button class="validateButton" >{{ "roleEntity.validate" | translate }}</button>
+            <button *ngIf="roleID!=-1" (click)="updateConnection()" mat-flat-button class="validateButton" >{{ "roleEntity.update" | translate }}</button>
 
       </div>
 
@@ -47,7 +44,7 @@
 </div>
 
 <div class="tableDiv" *ngIf="dataLoaded">
-  <mat-accordion *ngIf="stopID!=-1" multi>
+  <mat-accordion *ngIf="roleID!=-1" multi>
 
     <!-- Users table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

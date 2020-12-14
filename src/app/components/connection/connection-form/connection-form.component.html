@@ -1,11 +1,8 @@
-<div class="titleDiv" *ngIf="connectionID==-1" >
-  <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon> {{ "connectionEntity.connection" | translate }}-{{"connectionEntity.new" | translate}}</h4>
+<div class="titleDiv" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon> {{ "connectionEntity.connection" | translate }}-{{"connectionEntity."+(connectionID==-1?"new":"edit") | translate}}</h4>
   <span class="divider"></span>
 </div>
-<div class="titleDiv" *ngIf="connectionID!=-1" >
-  <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon>{{ "connectionEntity.connection" | translate }}-{{"connectionEntity.edit" | translate}}</h4>
-  <span class="divider"></span>
-</div>
+
 <div class="formDiv">
   <div class="formHeader">
     <h5> Dades generals  </h5>

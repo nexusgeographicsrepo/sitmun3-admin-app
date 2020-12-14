@@ -1,17 +1,9 @@
-<div class="titleDiv" *ngIf="territoryID==-1">
-  <h4>
-    <mat-icon aria-hidden="false" svgIcon="menu_territori"></mat-icon>
-    {{ "territoryEntity.territory" | translate }}-{{"territoryEntity.new" | translate}}
-  </h4>
+<div class="titleDiv" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_territori"></mat-icon> {{ "territoryEntity.territory" | translate }}-{{"territoryEntity."+(territoryID==-1?"new":"edit") | translate}}</h4>
   <span class="divider"></span>
 </div>
-<div class="titleDiv" *ngIf="territoryID!=-1">
-  <h4>
-    <mat-icon aria-hidden="false" svgIcon="menu_territori"></mat-icon>
-    {{ "territoryEntity.territory" | translate }}-{{"territoryEntity.edit" | translate}}
-  </h4>
-  <span class="divider"></span>
-</div>
+
+
 <div class="formDiv">
   <div class="formHeader">
     <h5> Dades generals </h5>

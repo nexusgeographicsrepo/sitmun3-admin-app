@@ -29,7 +29,7 @@ export class RoleFormComponent implements OnInit {
 
   formRole: FormGroup;
   roleToEdit;
-  stopID: number = -1;
+  roleID: number = -1;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -43,16 +43,16 @@ export class RoleFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.stopID = +params.id;
-      if (this.stopID !== -1){
-        console.log(this.stopID);
+      this.roleID = +params.id;
+      if (this.roleID !== -1){
+        console.log(this.roleID);
 
-        this.roleService.get(this.stopID).subscribe(
+        this.roleService.get(this.roleID).subscribe(
           resp => {
             console.log(resp);
             this.roleToEdit=resp;
             this.formRole.setValue({
-                id:           this.stopID,
+                id:           this.roleID,
                 name:         this.roleToEdit.name,
                 description:  this.roleToEdit.description,
                 _links:       this.roleToEdit._links

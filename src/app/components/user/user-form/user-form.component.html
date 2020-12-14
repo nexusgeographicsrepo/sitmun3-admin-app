@@ -1,11 +1,8 @@
-<div class="titleDiv" *ngIf="userID==-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon> {{ "userEntity.user" | translate }}-{{"userEntity.new" | translate}}</h4>
-    <span class="divider"></span>
+<div class="titleDiv" >
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_usuari"></mat-icon> {{ "userEntity.user" | translate }}-{{"userEntity."+(userID==-1?"new":"edit") | translate}}</h4>
+  <span class="divider"></span>
 </div>
-<div class="titleDiv" *ngIf="userID!=-1" >
-    <h4><mat-icon aria-hidden="false"  svgIcon="menu_connexio"></mat-icon>{{ "userEntity.user" | translate }}-{{"userEntity.edit" | translate}}</h4>
-    <span class="divider"></span>
-</div>
+
 
 <div class="formDiv">
   <div class="formHeader">

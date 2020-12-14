@@ -247,11 +247,29 @@
     "name":"Nom",
     "informationType":"Tipus d'informació"
   },
+  "tasksConsultationEntity":{
+    "tasksConsultation":"Tasques-Consultes",
+    "name": "Nom",  
+    "task":"Tasca",
+    "informationType":"Tipus d'informació",
+    "accesType":"Tipus d'accés",
+    "command":"Comanda",
+    "connection":"Connexió",
+    "associatedLayer":"Capa associada"
+  },
   "tasksDownloadEntity":{
     "tasksDownload":"Tasques-Descàrrega",
     "name": "Nom",  
     "observations":"Observacions",
     "application":"Aplicació"
+  },
+  "tasksDocumentEntity":{
+    "tasksDocument":"Tasques-Document",
+    "task":"Tasca",
+    "informationType":"Tipus d'informació",
+    "path":"Path",
+    "extent":"Extensió",
+    "associatedLayer":"Capa associada"
   }
 
 

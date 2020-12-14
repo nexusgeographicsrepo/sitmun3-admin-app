@@ -302,6 +302,12 @@
     "command":"Comanda",
     "connection":"Connexió",
     "associatedLayer":"Capa associada"
+  },
+  "tasksReportEntity":{
+    "tasksReport":"Tasques-Informe",
+    "task": "Tasca",
+    "informationType":"Tipus d'informació",
+    "template":"Plantilla"
   }
 
 

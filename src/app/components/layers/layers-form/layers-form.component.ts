@@ -103,7 +103,7 @@ export class LayersFormComponent implements OnInit {
         lockPosition:true,
       }, 
       { headerName: this.utils.getTranslate('layersEntity.field'),  field: 'field' },
-      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'alias'},
+      { headerName: this.utils.getTranslate('layersEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('layersEntity.format'),  field: 'format', },
       { headerName: this.utils.getTranslate('layersEntity.order'),  field: 'order'},
       { headerName: this.utils.getTranslate('layersEntity.type'),  field: 'type'},

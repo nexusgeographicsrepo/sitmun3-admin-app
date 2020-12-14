@@ -270,6 +270,13 @@
     "path":"Path",
     "extent":"Extensió",
     "associatedLayer":"Capa associada"
+  },
+  "tasksEditionEntity":{
+    "tasksEdition":"Tasques-Edició",
+    "name": "Nom",
+    "associatedLayer":"Capa associada",
+    "informationType":"Tipus d'informació",
+    "dataCreated":"Alta"
   }
 
 

@@ -9,6 +9,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-layers-form',
@@ -17,6 +18,7 @@ import { Observable, of } from 'rxjs';
 })
 export class LayersFormComponent implements OnInit {
 
+  themeGrid:any=environment.agGridTheme;
   columnDefsParameters: any[];
   columnDefsSpatialConfigurations: any[];
   columnDefsTerritories: any[];

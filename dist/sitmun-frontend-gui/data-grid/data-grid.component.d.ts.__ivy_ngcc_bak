@@ -26,6 +26,7 @@ export declare class DataGridComponent {
     deleteButton: boolean;
     newButton: boolean;
     globalSearch: boolean;
+    themeGrid: any;
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     sendChanges: EventEmitter<any[]>;

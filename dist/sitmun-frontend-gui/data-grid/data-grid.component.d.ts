@@ -27,6 +27,7 @@ export declare class DataGridComponent {
     deleteButton: boolean;
     newButton: boolean;
     globalSearch: boolean;
+    themeGrid: any;
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     sendChanges: EventEmitter<any[]>;
@@ -47,7 +48,7 @@ export declare class DataGridComponent {
     paintCells(params: any, changesMap: Map<number, Map<string, number>>): void;
     changeCellStyleColumns(params: any, changesMap: Map<number, Map<string, number>>, color: string): void;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<DataGridComponent, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "frameworkComponents": "frameworkComponents"; "columnDefs": "columnDefs"; "getAll": "getAll"; "discardChangesButton": "discardChangesButton"; "undoButton": "undoButton"; "redoButton": "redoButton"; "applyChangesButton": "applyChangesButton"; "deleteButton": "deleteButton"; "newButton": "newButton"; "globalSearch": "globalSearch"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "frameworkComponents": "frameworkComponents"; "columnDefs": "columnDefs"; "getAll": "getAll"; "discardChangesButton": "discardChangesButton"; "undoButton": "undoButton"; "redoButton": "redoButton"; "applyChangesButton": "applyChangesButton"; "deleteButton": "deleteButton"; "newButton": "newButton"; "globalSearch": "globalSearch"; "themeGrid": "themeGrid"; }, { "remove": "remove"; "new": "new"; "sendChanges": "sendChanges"; }, never, never>;
 }
 
 //# sourceMappingURL=data-grid.component.d.ts.map

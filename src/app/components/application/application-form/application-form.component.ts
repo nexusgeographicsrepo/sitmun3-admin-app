@@ -9,6 +9,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -24,6 +25,7 @@ export class ApplicationFormComponent implements OnInit {
   columnDefsRoles: any[];
   columnDefsBackgrounds: any[];
   dataLoaded: Boolean = false;
+  themeGrid:any=environment.agGridTheme;
 
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent

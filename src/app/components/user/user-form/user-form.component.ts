@@ -9,6 +9,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-  
+ 
+  themeGrid:any=environment.agGridTheme;
   userForm: FormGroup;
   userToEdit;
   userID = -1;

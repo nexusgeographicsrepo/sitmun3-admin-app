@@ -140,7 +140,7 @@
   
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid  [columnDefs]="columnDefsParameters"  [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
+          <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
           (remove)="removeDataParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
       </div>
@@ -158,7 +158,7 @@
   
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid  [columnDefs]="columnDefsSpatialConfigurations"  [getAll]='getAllSpatialConfigurations'  [frameworkComponents]="frameworkComponents"
+          <app-data-grid  [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid' [getAll]='getAllSpatialConfigurations'  [frameworkComponents]="frameworkComponents"
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
           (remove)="removeDataSpatialConfigurations($event)" (new)='newDataSpatialConfigurations($event)'  > </app-data-grid>
       </div>
@@ -176,7 +176,7 @@
   
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsTerritories"  [getAll]='getAllTerritories'  [frameworkComponents]="frameworkComponents"
+          <app-data-grid [columnDefs]="columnDefsTerritories" [themeGrid]='themeGrid' [getAll]='getAllTerritories'  [frameworkComponents]="frameworkComponents"
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
           (remove)="removeDataTerritories($event)" (new)='newDataTerritories($event)'  > </app-data-grid>
       </div>
@@ -194,7 +194,7 @@
   
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsLayersConfiguration"  [getAll]='getAllLayersConfiguration'  [frameworkComponents]="frameworkComponents"
+          <app-data-grid [columnDefs]="columnDefsLayersConfiguration" [themeGrid]='themeGrid' [getAll]='getAllLayersConfiguration'  [frameworkComponents]="frameworkComponents"
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
           (remove)="removeDataLayersConfiguration($event)" (new)='newDataLayersConfiguration($event)'  > </app-data-grid>
       </div>
@@ -212,7 +212,7 @@
   
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsNodes"  [getAll]='getAllNodes'  [frameworkComponents]="frameworkComponents"
+          <app-data-grid [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes'  [frameworkComponents]="frameworkComponents"
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
           (remove)="removeDataNodes($event)" (new)='newDataNodes($event)'  > </app-data-grid>
       </div>

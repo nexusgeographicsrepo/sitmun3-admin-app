@@ -11,7 +11,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
-
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-service-form',
@@ -20,6 +20,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class ServiceFormComponent implements OnInit {
 
+  themeGrid:any=environment.agGridTheme;
   columnDefsLayers: any[];
   columnDefsParameters: any[];
   public frameworkComponents = {

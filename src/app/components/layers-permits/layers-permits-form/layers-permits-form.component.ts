@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-layers-permits-form',
   templateUrl: './layers-permits-form.component.html',
@@ -15,6 +17,7 @@ import { of } from 'rxjs';
 })
 export class LayersPermitsFormComponent implements OnInit {
 
+  themeGrid:any=environment.agGridTheme;
   columnDefsCartographies: any[];
   columnDefsRoles: any[];
   dataLoaded: Boolean = false;

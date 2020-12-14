@@ -293,6 +293,15 @@
     "command":"Comanda",
     "connection":"Connexió",
     "associatedLayer":"Capa associada"
+  },
+  "tasksMoreInfoEntity":{
+    "tasksMoreInfo":"Tasques-Més informació",
+    "task": "Tasca",
+    "informationType":"Tipus d'informació",
+    "accesType":"Tipus d'accés",
+    "command":"Comanda",
+    "connection":"Connexió",
+    "associatedLayer":"Capa associada"
   }
 
 

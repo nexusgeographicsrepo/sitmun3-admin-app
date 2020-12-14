@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 
 
@@ -279,8 +279,10 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllTemplates = (): Observable<any> => {
     //TODO Change the link when available
-    return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
-      .pipe(map(data => data[`_embedded`][`application-parameters`]));
+    // return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
+    //   .pipe(map(data => data[`_embedded`][`application-parameters`]));
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeTemplates(data: any[]) {

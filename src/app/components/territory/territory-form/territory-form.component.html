@@ -160,7 +160,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid class="ag-theme-balham" [columnDefs]="columnDefsPermits" [getAll]='getAllPermits'
+          <app-data-grid [columnDefs]="columnDefsPermits" [getAll]='getAllPermits'
             [frameworkComponents]="frameworkComponents" [discardChangesButton]=true [redoButton]=true [undoButton]=true
             [deleteButton]=true [newButton]=false (remove)="removePermits($event)" (new)='newDataPermits($event)'>
           </app-data-grid>
@@ -180,7 +180,7 @@
 
         <ng-template matExpansionPanelContent>
           <div class="appDataGridEditDiv">
-            <app-data-grid class="ag-theme-balham" [columnDefs]="columnDefsMemberOf" [getAll]='getAllMembersOf'
+            <app-data-grid [columnDefs]="columnDefsMemberOf" [getAll]='getAllMembersOf'
               [frameworkComponents]="frameworkComponents" [discardChangesButton]=true [redoButton]=true
               [undoButton]=true [deleteButton]=true [newButton]=false (remove)="removeMembersOf($event)"
               (new)='newDataMembersOf($event)'>
@@ -203,7 +203,7 @@
 
         <ng-template matExpansionPanelContent>
           <div class="appDataGridEditDiv">
-            <app-data-grid class="ag-theme-balham" [columnDefs]="columnDefsMembers" [getAll]='getAllMembers'
+            <app-data-grid [columnDefs]="columnDefsMembers" [getAll]='getAllMembers'
               [frameworkComponents]="frameworkComponents" [discardChangesButton]=true [redoButton]=true
               [undoButton]=true [deleteButton]=true [newButton]=false (remove)="removeMembersOf($event)"
               (new)='newDataMembers($event)'>
@@ -224,7 +224,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid class="ag-theme-balham" [columnDefs]="columnDefsCartographies" [getAll]='getAllCartographies'
+          <app-data-grid [columnDefs]="columnDefsCartographies" [getAll]='getAllCartographies'
             [frameworkComponents]="frameworkComponents" [discardChangesButton]=true [redoButton]=true [undoButton]=true
             [deleteButton]=true [newButton]=false (remove)="removeCartographies($event)"
             (new)='newDataCartographies($event)'> </app-data-grid>
@@ -243,7 +243,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid class="ag-theme-balham" [columnDefs]="columnDefsTasks" [getAll]='getAllTasks'
+          <app-data-grid [columnDefs]="columnDefsTasks" [getAll]='getAllTasks'
             [frameworkComponents]="frameworkComponents" [discardChangesButton]=true [redoButton]=true [undoButton]=true
             [deleteButton]=true [newButton]=false (remove)="removeTasks($event)" (new)='newDataTasks($event)'>
           </app-data-grid>

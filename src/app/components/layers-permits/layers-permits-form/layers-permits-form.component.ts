@@ -7,6 +7,7 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-layers-permits-form',
   templateUrl: './layers-permits-form.component.html',
@@ -142,8 +143,10 @@ export class LayersPermitsFormComponent implements OnInit {
   // ******** Cartographies configuration ******** //
     getAllCartographies = () => {
       //TODO Change the link when available
-      return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
-      .pipe( map( data =>  data['_embedded']['roles']) );
+      // return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+      // .pipe( map( data =>  data['_embedded']['roles']) );
+      const aux:Array<any> = [];
+      return of(aux);
     }
   
     removeDataCartographies( data: Role[])

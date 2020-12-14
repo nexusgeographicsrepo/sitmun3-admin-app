@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-layers-form',
@@ -252,8 +252,10 @@ export class LayersFormComponent implements OnInit {
   // ******** Spatial configuration ******** //
    getAllSpatialConfigurations = (): Observable<any> => {
     //TODO Change the link when available
-    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeDataSpatialConfigurations( data: Territory[])
@@ -270,8 +272,10 @@ export class LayersFormComponent implements OnInit {
   // ******** Territories ******** //
    getAllTerritories = (): Observable<any> => {
      //TODO Change the link when available
-    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeDataTerritories( data: Territory[])
@@ -288,8 +292,10 @@ export class LayersFormComponent implements OnInit {
   // ******** Layers configuration ******** //
    getAllLayersConfiguration = (): Observable<any> => {
      //TODO Change the link when available
-    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeDataLayersConfiguration( data: Territory[])
@@ -306,8 +312,10 @@ export class LayersFormComponent implements OnInit {
   // ******** Nodes configuration ******** //
    getAllNodes = (): Observable<any> => {
      //TODO Change the link when available
-    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
+    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeDataNodes( data: Territory[])

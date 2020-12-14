@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -202,8 +202,11 @@ export class UserFormComponent implements OnInit {
 
   // ******** Permits ******** //
    getAllPermissions = (): Observable<any> => {
-    return (this.http.get(`${this.userForm.value._links.permissions.href}`))
-    .pipe( map( data =>  data['_embedded']['user-configurations']) );
+     //TODO Arreglar problema de permisos
+    // return (this.http.get(`${this.userForm.value._links.permissions.href}`))
+    // .pipe( map( data =>  data['_embedded']['user-configurations']) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeDataPermissions( data)
@@ -219,8 +222,11 @@ export class UserFormComponent implements OnInit {
 
   // ******** Data of Territory ******** //
    getAllData = (): Observable<any> => {
-    return (this.http.get(`${this.userForm.value._links.permissions.href}`))
-    .pipe( map( data =>  data['_embedded']['user-configurations']) );
+    //TODO Arreglar problema de permisos
+    // return (this.http.get(`${this.userForm.value._links.permissions.href}`))
+    // .pipe( map( data =>  data['_embedded']['user-configurations']) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removeDataData( data)

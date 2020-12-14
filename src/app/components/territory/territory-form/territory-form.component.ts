@@ -7,7 +7,7 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
  
@@ -269,8 +269,10 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
     //TODO Change the link when available
-    return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
-    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+    // return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
+    // .pipe( map( data =>  data[`_embedded`][`territories`]) );
+    const aux:Array<any> = [];
+    return of(aux);
   }
 
   removePermits( data: any[])
@@ -323,8 +325,10 @@ export class TerritoryFormComponent implements OnInit {
     // ******** Cartography ******** //
   getAllCartographies = (): Observable<any> => {
      //TODO Change the link when available
-    return (this.http.get(`${this.territoryForm.value._links.members.href}`))
-    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+    // return (this.http.get(`${this.territoryForm.value._links.members.href}`))
+    // .pipe( map( data =>  data[`_embedded`][`territories`]) );
+    const aux:Array<any> = [];
+    return of(aux);
 
   }
   removeCartographies( data: any[])
@@ -341,8 +345,10 @@ export class TerritoryFormComponent implements OnInit {
     // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
      //TODO Change the link when available
-    return (this.http.get(`${this.territoryForm.value._links.members.href}`))
-    .pipe( map( data =>  data[`_embedded`][`territories`]) );
+    // return (this.http.get(`${this.territoryForm.value._links.members.href}`))
+    // .pipe( map( data =>  data[`_embedded`][`territories`]) );
+    const aux:Array<any> = [];
+    return of(aux);
 
   }
   removeTasks( data: any[])

@@ -277,6 +277,13 @@
     "associatedLayer":"Capa associada",
     "informationType":"Tipus d'informació",
     "dataCreated":"Alta"
+  },
+  "tasksExtractionFMEEntity":{
+    "tasksExtractionFME":"Tasques-Extracció FME",
+    "cartography": "Cartografia",
+    "service":"Servei",
+    "layer":"Capa",
+    "dataCreated":"Alta"
   }
 
 

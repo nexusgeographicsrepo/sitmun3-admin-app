@@ -1,11 +1,12 @@
 <div class="titleDiv" *ngIf="layersPermitsID==-1" >
     <h4><mat-icon aria-hidden="false"  svgIcon="menu_permisos"></mat-icon> {{ "layersPermitsEntity.layersPermits" | translate }}-{{"layersPermitsEntity.new" | translate}}</h4>
     <span class="divider"></span>
-  </div>
-  <div class="titleDiv" *ngIf="layersPermitsID!=-1" >
+</div>
+<div class="titleDiv" *ngIf="layersPermitsID!=-1" >
     <h4><mat-icon aria-hidden="false"  svgIcon="menu_permisos"></mat-icon>{{ "layersPermitsEntity.layersPermits" | translate }}-{{"layersPermitsEntity.edit" | translate}}</h4>
     <span class="divider"></span>
-  </div>
+</div>
+<div class="formDiv">
   <div class="formHeader">
     <h5> Dades generals  </h5>
     <button   mat-flat-button class="saveButton"  >
@@ -43,42 +44,46 @@
   
   </form>
 
-<mat-accordion *ngIf="layersPermitsID!=-1">
+</div>
 
-     <!-- Cartography configuration table -->
-  <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-      <mat-panel-title  >
-        {{ "layersPermitsEntity.cartographiesConfiguration" | translate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+<div class="tableDiv">
+  <mat-accordion *ngIf="layersPermitsID!=-1" multi>
 
-    <ng-template matExpansionPanelContent>  
-      <div class="appDataGridEditDiv">
-          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsCartographies"  [getAll]='getAllCartographies'  [frameworkComponents]="frameworkComponents"
-          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
-          (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
-      </div>
+      <!-- Cartography configuration table -->
+    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "layersPermitsEntity.cartographiesConfiguration" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsCartographies"  [getAll]='getAllCartographies'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+
+      <!-- Rols table -->
+    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "layersPermitsEntity.roles" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeDataRole($event)" (new)='newDataRole($event)' (sendChanges)='applyChangesRole($event)' > </app-data-grid>
+        </div>
     </ng-template>
-  </mat-expansion-panel>
 
-     <!-- Rols table -->
-  <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
-    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
-      <mat-panel-title  >
-        {{ "layersPermitsEntity.roles" | translate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-
-    <ng-template matExpansionPanelContent>  
-      <div class="appDataGridEditDiv">
-          <app-data-grid  class="ag-theme-balham" [columnDefs]="columnDefsRoles"  [getAll]='getAllRoles'  [frameworkComponents]="frameworkComponents"
-          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
-          (remove)="removeDataRole($event)" (new)='newDataRole($event)' (sendChanges)='applyChangesRole($event)' > </app-data-grid>
-      </div>
-  </ng-template>
-
-  </mat-expansion-panel>
+    </mat-expansion-panel>
 
 
-</mat-accordion>
+  </mat-accordion>
+</div>

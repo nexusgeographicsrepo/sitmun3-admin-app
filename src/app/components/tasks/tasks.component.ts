@@ -4,6 +4,7 @@ import { TaskService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tasks',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-
+  
+  themeGrid:any=environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent

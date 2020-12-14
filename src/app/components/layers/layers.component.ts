@@ -4,6 +4,7 @@ import { CartographyService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-layers',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class LayersComponent implements OnInit {
 
-
+  themeGrid:any=environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent

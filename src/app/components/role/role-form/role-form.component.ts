@@ -9,6 +9,8 @@ import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-role-form',
@@ -24,7 +26,7 @@ export class RoleFormComponent implements OnInit {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
   dataLoaded: Boolean = false;
-
+  themeGrid:any=environment.agGridTheme;
 
 
   formRole: FormGroup;

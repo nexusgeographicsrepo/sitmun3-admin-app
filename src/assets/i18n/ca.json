@@ -284,6 +284,15 @@
     "service":"Servei",
     "layer":"Capa",
     "dataCreated":"Alta"
+  },
+  "tasksLocatorEntity":{
+    "tasksLocator":"Tasques-Localitzador",
+    "task": "Tasca",
+    "informationType":"Tipus d'informació",
+    "accesType":"Tipus d'accés",
+    "command":"Comanda",
+    "connection":"Connexió",
+    "associatedLayer":"Capa associada"
   }
 
 

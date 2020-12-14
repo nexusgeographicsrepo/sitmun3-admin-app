@@ -15,7 +15,7 @@
     </button>
   </div>
   <span class="divider"></span>
-  <form [formGroup]='applicationForm' #f="ngForm"> 
+  <form [formGroup]='applicationForm'> 
   
 
       <div class="rowFormDiv">
@@ -170,10 +170,10 @@
     </form>
 </div>
 
-<div class="tableDiv">
+<div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion *ngIf="applicationID != -1" multi>
     <!-- Parameters configuration table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "applicationEntity.parametersConfiguration" | translate }}
@@ -190,7 +190,7 @@
         </mat-expansion-panel>
 
     <!-- Template table -->
-        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
           <mat-expansion-panel-header class="agGridExpansionPanelTitle">
             <mat-panel-title  >
               {{ "applicationEntity.templateConfiguration" | translate }}
@@ -207,7 +207,7 @@
           </mat-expansion-panel>
 
     <!-- Rols table -->
-        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
           <mat-expansion-panel-header class="agGridExpansionPanelTitle">
             <mat-panel-title  >
               {{ "applicationEntity.roles" | translate }}
@@ -224,7 +224,7 @@
           </mat-expansion-panel>
 
     <!-- Background table -->
-        <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+        <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
           <mat-expansion-panel-header class="agGridExpansionPanelTitle">
             <mat-panel-title  >
               {{ "applicationEntity.background" | translate }}

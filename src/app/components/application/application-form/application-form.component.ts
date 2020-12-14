@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators  } from '@angular/forms';
-import {  ActivatedRoute,  Router} from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
@@ -23,6 +23,8 @@ export class ApplicationFormComponent implements OnInit {
   columnDefsTemplates: any[];
   columnDefsRoles: any[];
   columnDefsBackgrounds: any[];
+  dataLoaded: Boolean = false;
+
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -33,9 +35,9 @@ export class ApplicationFormComponent implements OnInit {
     private applicationService: ApplicationService,
     private http: HttpClient,
     private utils: UtilsService,
-    ) {
-        this.initializeConnectionForm();
-    }
+  ) {
+    this.initializeConnectionForm();
+  }
 
 
   applicationForm: FormGroup;
@@ -47,39 +49,39 @@ export class ApplicationFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.applicationID = +params.id;
-      if (this.applicationID !== -1){
+      if (this.applicationID !== -1) {
         console.log(this.applicationID);
-        
+
         this.applicationService.get(this.applicationID).subscribe(
           resp => {
             console.log(resp);
-            this.applicationToEdit=resp;
-            let situationMapValue= ' ';
-            if(this.applicationToEdit.situationMap !== null) { situationMapValue= this.applicationToEdit.situationMap.name }
+            this.applicationToEdit = resp;
+            let situationMapValue = ' ';
+            if (this.applicationToEdit.situationMap !== null) { situationMapValue = this.applicationToEdit.situationMap.name }
             this.applicationForm.setValue({
-                id:                          this.applicationID,
-                name:                        this.applicationToEdit.name,
-                user:                        ' ',
-                type:                        this.applicationToEdit.type,
-                title:                       this.applicationToEdit.title,
-                tree:                        ' ',
-                desktopUrl:                  ' ',
-                desktopCSS:                  ' ',
-                mobileUrl:                   ' ',
-                mobileCSS:                   ' ',
-                defaultTool:                 ' ',
-                desplacamentSupramunicipal:  false,
-                situationMap:                situationMapValue,
-                scales:                      this.applicationToEdit.scales,
-                srs:                         this.applicationToEdit.srs,
-                treeAutoRefresh:             this.applicationToEdit.treeAutoRefresh,
-                _links:                      this.applicationToEdit._links
-              });
+              id: this.applicationID,
+              name: this.applicationToEdit.name,
+              user: ' ',
+              type: this.applicationToEdit.type,
+              title: this.applicationToEdit.title,
+              tree: ' ',
+              desktopUrl: ' ',
+              desktopCSS: ' ',
+              mobileUrl: ' ',
+              mobileCSS: ' ',
+              defaultTool: ' ',
+              desplacamentSupramunicipal: false,
+              situationMap: situationMapValue,
+              scales: this.applicationToEdit.scales,
+              srs: this.applicationToEdit.srs,
+              treeAutoRefresh: this.applicationToEdit.treeAutoRefresh,
+              _links: this.applicationToEdit._links
+            });
 
-
+            this.dataLoaded = true;
           },
           error => {
-
+            
           }
         );
       }
@@ -91,11 +93,11 @@ export class ApplicationFormComponent implements OnInit {
       }
 
     },
-    error => {
+      error => {
 
-    });
+      });
 
-    
+
     this.columnDefsParameters = [
 
       {
@@ -106,11 +108,11 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 25,
-        lockPosition:true,
-      }, 
-      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value', },
-      { headerName: this.utils.getTranslate('serviceEntity.type'),  field: 'type'},
+        lockPosition: true,
+      },
+      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value', },
+      { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type' },
 
     ];
 
@@ -124,10 +126,10 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 25,
-        lockPosition:true,
-      }, 
-      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('serviceEntity.value'),  field: 'value', },
+        lockPosition: true,
+      },
+      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value', },
     ];
 
     this.columnDefsRoles = [
@@ -140,10 +142,10 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 25,
-        lockPosition:true,
-      }, 
-      { headerName: "ID",  field: 'id'},
-      { headerName: this.utils.getTranslate('serviceEntity.name'),  field: 'name'},
+        lockPosition: true,
+      },
+      { headerName: "ID", field: 'id' },
+      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
 
     ];
 
@@ -157,10 +159,10 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 25,
-        lockPosition:true,
-      }, 
-      { headerName: this.utils.getTranslate('serviceEntity.background'),  field: 'background'},
-      { headerName: this.utils.getTranslate('serviceEntity.selectedBackground'),  field: 'selectedBackground'},
+        lockPosition: true,
+      },
+      { headerName: this.utils.getTranslate('serviceEntity.background'), field: 'background' },
+      { headerName: this.utils.getTranslate('serviceEntity.selectedBackground'), field: 'selectedBackground' },
 
     ];
 
@@ -236,14 +238,14 @@ export class ApplicationFormComponent implements OnInit {
 
     console.log(this.applicationForm.value);
     const situationMap = {
-        id: this.applicationID,
-        name: this.applicationForm.value.name,
-        type: this.applicationForm.value.type,
+      id: this.applicationID,
+      name: this.applicationForm.value.name,
+      type: this.applicationForm.value.type,
     }
     this.applicationForm.patchValue({
       situationMap: situationMap,
     });
-    
+
 
     this.applicationService.update(this.applicationForm.value)
       .subscribe(resp => {
@@ -254,87 +256,79 @@ export class ApplicationFormComponent implements OnInit {
   }
 
 
-   // AG-GRID
+  // AG-GRID
 
 
   // ******** Parameters configuration ******** //
 
-   getAllParameters = (): Observable<any> => {
+  getAllParameters = (): Observable<any> => {
     return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data[`_embedded`][`application-parameters`]) );
+      .pipe(map(data => data[`_embedded`][`application-parameters`]));
   }
 
-  removeParameters( data: any[])
-  {
-  console.log(data);
+  removeParameters(data: any[]) {
+    console.log(data);
   }
-  
-  newDataParameters(id: any)
-  {
+
+  newDataParameters(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
 
   // ******** Template configuration ******** //
 
-   getAllTemplates = (): Observable<any> => {
-     //TODO Change the link when available
+  getAllTemplates = (): Observable<any> => {
+    //TODO Change the link when available
     return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
-    .pipe( map( data =>  data[`_embedded`][`application-parameters`]) );
+      .pipe(map(data => data[`_embedded`][`application-parameters`]));
   }
 
-  removeTemplates( data: any[])
-  {
-  console.log(data);
+  removeTemplates(data: any[]) {
+    console.log(data);
   }
-  
-  newDataTemplates(id: any)
-  {
+
+  newDataTemplates(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
 
 
-    // ******** Roles ******** //
+  // ******** Roles ******** //
 
   getAllRoles = (): Observable<any> => {
     return (this.http.get(`${this.applicationForm.value._links.availableRoles.href}`))
-    .pipe( map( data =>  data[`_embedded`][`roles`]) );
+      .pipe(map(data => data[`_embedded`][`roles`]));
   }
-  
-  removeRoles( data: any[])
-  {
-  console.log(data);
+
+  removeRoles(data: any[]) {
+    console.log(data);
   }
-  
-  newDataRoles(id: any)
-  {
+
+  newDataRoles(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
 
 
-    // ******** Background ******** //
+  // ******** Background ******** //
 
   getAllBackgrounds = (): Observable<any> => {
     return (this.http.get(`${this.applicationForm.value._links.backgrounds.href}`))
-    .pipe( map( data =>  data[`_embedded`][`application-backgrounds`]) );
+      .pipe(map(data => data[`_embedded`][`application-backgrounds`]));
     // return (this.http.get(`http://localhost:8080/api/territories/${this.territoryID}/memberOf`))
     // .pipe( map( data =>  data['_embedded']['territories']) );
   }
-  
+
   /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
     si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
     corresponent!
   */
-  
-  removeBackgrounds( data: any[])
-  {
-  console.log(data);
+
+  removeBackgrounds(data: any[]) {
+    console.log(data);
   }
-  
-  newDataBackgrounds(id: any)
-  {
+
+  newDataBackgrounds(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }

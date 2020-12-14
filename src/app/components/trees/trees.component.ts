@@ -79,7 +79,7 @@ export class TreesComponent implements OnInit {
 
     newData(id: any)
     {
-      this.router.navigate(['trees', id, 'treesForm']);
+      // this.router.navigate(['trees', id, 'treesForm']);
     }
 
     applyChanges( data: Connection[])

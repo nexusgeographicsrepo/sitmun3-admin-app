@@ -33,6 +33,7 @@ export class BackgroundLayersFormComponent implements OnInit {
   backgroundForm: FormGroup;
   backgroundToEdit;
   backgroundID = -1;
+  
 
 
 

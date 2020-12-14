@@ -17,7 +17,17 @@ import { Observable } from 'rxjs';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
+  
+  userForm: FormGroup;
+  userToEdit;
+  userID = -1;
+  columnDefsPermissions: any[];
+  columnDefsData: any[];
+  dataLoaded: Boolean = false;
 
+  public frameworkComponents = {
+    btnEditRendererComponent: BtnEditRenderedComponent
+  };
   
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,19 +38,6 @@ export class UserFormComponent implements OnInit {
     ) {
         this.initializeUserForm();
     }
-
-
-  userForm: FormGroup;
-  userToEdit;
-  userID = -1;
-
-  columnDefsPermissions: any[];
-  columnDefsData: any[];
-  public frameworkComponents = {
-    btnEditRendererComponent: BtnEditRenderedComponent
-  };
-
-
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -64,7 +61,7 @@ export class UserFormComponent implements OnInit {
                 _links:        this.userToEdit._links
               });
 
-
+            this.dataLoaded = true;
           },
           error => {
 

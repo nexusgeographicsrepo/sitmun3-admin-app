@@ -24,6 +24,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryID = -1;
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
+  dataLoaded: Boolean = false;
 
 
   columnDefsPermits: any[];
@@ -101,7 +102,7 @@ export class TerritoryFormComponent implements OnInit {
                 _links:                      this.territoryToEdit._links
               });
 
-
+            this.dataLoaded=true;
           },
           error => {
 

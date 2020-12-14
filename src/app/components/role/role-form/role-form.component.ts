@@ -23,6 +23,8 @@ export class RoleFormComponent implements OnInit {
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
+  dataLoaded: Boolean = false;
+
 
 
   formRole: FormGroup;
@@ -56,7 +58,7 @@ export class RoleFormComponent implements OnInit {
                 _links:       this.roleToEdit._links
               });
 
-
+            this.dataLoaded=true;
           },
           error => {
 

@@ -147,7 +147,7 @@
 
   </form>
 </div>
-<div class="tableDiv">
+<div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion *ngIf="territoryID!=-1" multi>
 
     <!-- Permits table -->

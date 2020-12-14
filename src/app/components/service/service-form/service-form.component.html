@@ -104,11 +104,11 @@
   </form>
 </div>
 
-<div class="tableDiv">
-  <mat-accordion *ngIf="serviceID!=-1">
+<div class="tableDiv" *ngIf="dataLoaded">
+  <mat-accordion *ngIf="serviceID!=-1" multi>
 
     <!-- Configuration parameters table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "serviceEntity.configurationParameters" | translate }}
@@ -126,7 +126,7 @@
     </mat-expansion-panel>
 
     <!-- Layers -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "serviceEntity.layersToRegister" | translate }}

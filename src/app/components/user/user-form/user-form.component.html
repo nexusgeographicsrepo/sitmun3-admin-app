@@ -86,11 +86,11 @@
   </form>
 </div>
 
-<div class="tableDiv">
+<div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion *ngIf="userID!=-1" multi>
 
     <!-- Permits table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "userEntity.permissions" | translate }}
@@ -110,7 +110,7 @@
 
 
       <!-- Territory data table -->     
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "userEntity.dataOfTerritory" | translate }}

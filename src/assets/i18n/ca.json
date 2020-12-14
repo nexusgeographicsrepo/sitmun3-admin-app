@@ -245,6 +245,7 @@
   },
   "tasksEntity":{
     "tasks":"Tasques",
+    "task": "Tasca",
     "name":"Nom",
     "informationType":"Tipus d'informació"
   },

@@ -6,7 +6,6 @@ import { CartographyGroupService, RoleService, Role } from 'dist/sitmun-frontend
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-layers-permits-form',
@@ -17,9 +16,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
   columnDefsCartographies: any[];
   columnDefsRoles: any[];
-  public frameworkComponents = {
-    btnEditRendererComponent: BtnEditRenderedComponent
-  };
+  dataLoaded: Boolean = false;
+
+
   formLayersPermits: FormGroup;
   layersPermitsToEdit;
   layersPermitsID = -1;
@@ -52,7 +51,7 @@ export class LayersPermitsFormComponent implements OnInit {
                 _links:   this.layersPermitsToEdit._links
               });
 
-
+            this.dataLoaded=true;
           },
           error => {
 

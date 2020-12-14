@@ -77,7 +77,7 @@ export class TasksComponent implements OnInit {
   
   newData(id: any)
   {
-    this.router.navigate(['tasks', id, 'tasksForm']);
+    // this.router.navigate(['tasks', id, 'tasksForm']);
   }
   
   applyChanges( data: Role[])

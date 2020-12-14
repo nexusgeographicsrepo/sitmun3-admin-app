@@ -130,11 +130,11 @@
   </form>
 </div>
   
-<div class="tableDiv">
+<div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion *ngIf="layerID!=-1" multi>
 
     <!-- Parameters configuration table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "layersEntity.parametersConfiguration" | translate }}
@@ -152,7 +152,7 @@
 
 
     <!-- Spatial selection table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "layersEntity.spatialSelection" | translate }}
@@ -170,7 +170,7 @@
 
 
     <!-- Territory configuration table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "layersEntity.territory" | translate }}
@@ -188,7 +188,7 @@
 
 
     <!-- Layers configuration by cartoghaphy group table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "layersEntity.groupCartographyLayersConfiguration" | translate }}
@@ -206,7 +206,7 @@
 
 
     <!-- Nodes table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "layersEntity.nodes" | translate }}

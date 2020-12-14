@@ -22,6 +22,8 @@ export class LayersFormComponent implements OnInit {
   columnDefsTerritories: any[];
   columnDefsLayersConfiguration: any[];
   columnDefsNodes: any[];
+  dataLoaded: Boolean = false;
+
 
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -66,8 +68,9 @@ export class LayersFormComponent implements OnInit {
                     datasetURL:      this.layerToEdit.datasetURL,
                     _links:   this.layerToEdit._links
                   });
-
-
+                
+                this.dataLoaded=true;
+    
               },
               error => {
 

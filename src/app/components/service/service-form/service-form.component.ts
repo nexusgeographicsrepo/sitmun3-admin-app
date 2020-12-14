@@ -25,6 +25,7 @@ export class ServiceFormComponent implements OnInit {
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
+  dataLoaded: Boolean = false;
   private parametersUrl: string;
 
   serviceForm: FormGroup;
@@ -75,7 +76,7 @@ export class ServiceFormComponent implements OnInit {
                     _links:   this.serviceToEdit._links
                   });
 
-
+                this.dataLoaded=true;
               },
               error => {
 
@@ -122,7 +123,7 @@ export class ServiceFormComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 25,
+        width: 35,
         lockPosition:true,
       }, 
       { headerName: 'ID',  field: 'id'},

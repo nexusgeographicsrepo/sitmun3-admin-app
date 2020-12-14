@@ -46,11 +46,11 @@
 
 </div>
 
-<div class="tableDiv">
+<div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion *ngIf="stopID!=-1" multi>
 
     <!-- Users table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "roleEntity.users" | translate }}
@@ -68,7 +68,7 @@
     </mat-expansion-panel>
 
     <!-- Cartography table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "roleEntity.cartography" | translate }}
@@ -86,7 +86,7 @@
     </mat-expansion-panel>
 
      <!-- Tasks table -->
-    <mat-expansion-panel [expanded]="false" class="agGridExpansionPanel">
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
           {{ "roleEntity.tasks" | translate }}

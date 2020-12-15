@@ -33,6 +33,7 @@ export declare class DataGridComponent {
     sendChanges: EventEmitter<any[]>;
     constructor();
     onGridReady(params: any): void;
+    getColumnKeysAndHeaders(columnkeys: Array<any>): String;
     exportData(): void;
     quickSearch(): void;
     getElements(): void;

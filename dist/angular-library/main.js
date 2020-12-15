@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".buttonEdit {\r\n    color: #000000;\r\n    background-color: #DDDDDD;\r\n    width: 24px;\r\n    height: 24px;\r\n}\r\n.iconEdit {\r\n    font-size: 16px;\r\n    margin-top: -8px;\r\n}"
+module.exports = ".buttonEdit {\r\n    color: #000;\r\n    background-color: #ddd;\r\n    width: 20px;\r\n    margin-top: 3px;\r\n    height: 20px;\r\n    box-shadow: none;\r\n}\r\n.iconEdit {\r\n    font-size: 13px;\r\n    margin-top: -10px;\r\n    margin-left: -2px;\r\n}"
 
 /***/ }),
 

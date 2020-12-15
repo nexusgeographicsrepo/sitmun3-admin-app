@@ -33,6 +33,7 @@ export declare class DataGridComponent {
     sendChanges: EventEmitter<any[]>;
     constructor();
     onGridReady(params: any): void;
+    exportData(): void;
     quickSearch(): void;
     getElements(): void;
     removeData(): void;

@@ -39,7 +39,6 @@ export class ConnectionComponent implements OnInit {
       },
       {
         headerName: '',
-        field: 'id',
         editable: false,
         filter: false,
         width: 48,

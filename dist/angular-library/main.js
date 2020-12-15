@@ -197,7 +197,10 @@ var DataGridComponent = /** @class */ (function () {
         var e_1, _c;
     };
     DataGridComponent.prototype.exportData = function () {
-        this.gridApi.exportDataAsCsv();
+        var params = {
+            onlySelected: true
+        };
+        this.gridApi.exportDataAsCsv(params);
     };
     DataGridComponent.prototype.quickSearch = function () {
         this.gridApi.setQuickFilter(this.searchValue);

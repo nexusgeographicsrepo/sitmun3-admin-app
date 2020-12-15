@@ -3,8 +3,11 @@
   "Search": "Cerca",
   "New": "Nou",
   "Add": "Afegeix",
-
-  
+  "Actions": "Accions",
+  "Export": "Exportar",
+  "Duplicate": "Duplicar",
+  "Search/Replace": "Buscar/Reemplaçar",
+ 
   "sideMenu":{
     "connection": "Connexió",
     "service": "Servei",

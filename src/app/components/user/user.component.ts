@@ -61,11 +61,8 @@ export class UserComponent implements OnInit {
       { headerName: this.utils.getTranslate('userEntity.firstname'), field: 'firstName' },
       { headerName: this.utils.getTranslate('userEntity.lastname'), field: 'lastName' },
       { headerName: this.utils.getTranslate('userEntity.administrator'), field: 'administrator' },
-      { headerName: this.utils.getTranslate('userEntity.blocked'), field: 'blocked' }
-      // { headerName: this.translate.instant, field: 'username', checkboxSelection: true, },
-      // { headerName: this.headerNameColumnFirstName,  field: 'firstName' },
-      // { headerName: this.headerNameColumnLastName,  field: 'lastName'},
-      // { headerName: this.headerNameColumnStatus, field: 'estat'},
+      { headerName: this.utils.getTranslate('userEntity.blocked'), field: 'blocked' },
+      // { headerName: this.utils.getTranslate('status'), field: 'estat'},
     ];
   }
 

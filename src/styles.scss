@@ -200,7 +200,7 @@ h2 {
   margin-left: 10px;
 }
 
-.formDiv
+
 
 .agGridExpansionPanel{
   // box-sizing: inherit !important;
@@ -209,7 +209,6 @@ h2 {
 
 .agGridExpansionPanelTitle{
   background-color: #FFE9CC !important;
-  font-weight: bold;
 }
 
 .appDataGridDiv{
@@ -228,6 +227,11 @@ h2 {
     width: calc(100% - 20px);
     display: block;
     margin-bottom: 15px;
+}
+
+.formDiv .divider{
+  width: calc(100%);
+
 }
 
 .mat-app-background,
@@ -299,6 +303,7 @@ h2 {
 
 .formDiv{
     margin-left: 10px;
+    margin-right: 20px;
   }
 
   .tableDiv{

@@ -100,7 +100,6 @@ export class ServiceFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -118,7 +117,6 @@ export class ServiceFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,

@@ -37,7 +37,6 @@ import { UserComponent } from './components/user/user.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { IndexComponent } from './components/index/index.component';
 import { RoleComponent } from './components/role/role.component';
-import { ProvesComponent } from './components/proves/proves.component';
 import { ToolbarComponent } from './components/shared/toolbar/toolbar.component';
 import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
 import { TasksDownloadComponent } from './components/tasks-download/tasks-download.component';
@@ -88,7 +87,6 @@ import { TasksComponent } from './components/tasks/tasks.component';
     SideMenuComponent,
     RoleComponent,
     ToolbarComponent,
-    ProvesComponent,
     TasksDownloadComponent,
     TasksDocumentComponent,
     TasksConsultationComponent,

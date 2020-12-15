@@ -65,7 +65,12 @@
     "edit": "Edita",
     "validate": "Valida",
     "update": "Actualitza",
-    "save": "Desa"
+    "save": "Desa",
+    "tasks": "Tasques",
+    "cartography": "Cartografia",
+    "layers": "Capes",
+    "code": "Codi",
+    "taskGroup": "Grup tasca"
 
   },
   "serviceEntity":{

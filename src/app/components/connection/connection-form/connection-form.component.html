@@ -71,3 +71,45 @@
   </form>
 
 </div>
+
+
+<div class="tableDiv" *ngIf="dataLoaded">
+  <mat-accordion *ngIf="connectionID!=-1" multi>
+
+      <!-- Cartography table -->
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "connectionEntity.cartography" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid  [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies' 
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+
+      <!-- Tasks table -->
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "connectionEntity.tasks" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>  
+        <div class="appDataGridEditDiv">
+            <app-data-grid [columnDefs]="columnDefsTasks" [themeGrid]='themeGrid' [getAll]='getAllTasks'
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
+            (remove)="removeDataTasks($event)" (new)='newDataTasks($event)' (sendChanges)='applyChangesTasks($event)' > </app-data-grid>
+        </div>
+    </ng-template>
+
+    </mat-expansion-panel>
+
+
+  </mat-accordion>

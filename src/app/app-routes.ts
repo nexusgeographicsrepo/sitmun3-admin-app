@@ -70,8 +70,8 @@ export const APP_ROUTES: Routes = [
     {path: 'application', component: ApplicationComponent},
     {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
     {path: 'proves', component: ProvesComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'proves' },
-    {path: '**', pathMatch: 'full', redirectTo: 'proves' }
+    {path: '', pathMatch: 'full', redirectTo: 'connection' },
+    {path: '**', pathMatch: 'full', redirectTo: 'connection' }
 
 ];
 

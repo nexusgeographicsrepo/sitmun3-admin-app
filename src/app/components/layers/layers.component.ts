@@ -35,7 +35,7 @@ export class LayersComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 50,
+        width: 60,
         lockPosition: true,
       },
       {
@@ -43,7 +43,7 @@ export class LayersComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 60,
+        width: 65,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

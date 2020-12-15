@@ -172,6 +172,8 @@
     "type": "Tipus",
     "theme": "Tema",
     "srs": "Projeccio",
+    "supportedSRS": "Projeccions",
+    "serviceURL": "Url",
     "user": "Usuari",
     "title": "Títol",
     "tree": "Arbre",

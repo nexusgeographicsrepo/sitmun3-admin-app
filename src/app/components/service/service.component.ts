@@ -35,7 +35,7 @@ export class ServiceComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 30,
+        width: 40,
         lockPosition: true,
       },
       {
@@ -43,7 +43,7 @@ export class ServiceComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 40,
+        width: 55,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

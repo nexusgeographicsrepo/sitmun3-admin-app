@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 50,
+        width: 25,
         lockPosition:true,
       },
       { headerName: this.utils.getTranslate('userEntity.code'),  field: 'code' },

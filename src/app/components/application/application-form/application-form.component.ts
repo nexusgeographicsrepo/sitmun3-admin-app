@@ -143,7 +143,7 @@ export class ApplicationFormComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 25,
+        width: 15,
         lockPosition: true,
       },
       { headerName: "Id", field: 'id' },

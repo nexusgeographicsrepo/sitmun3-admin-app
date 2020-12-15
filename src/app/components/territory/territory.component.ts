@@ -36,7 +36,7 @@ export class TerritoryComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 60,
+        width: 70,
         lockPosition: true,
       },
       {

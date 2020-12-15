@@ -35,7 +35,7 @@ export class ApplicationComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 30,
+        width: 40,
         lockPosition: true,
       },
       {
@@ -43,7 +43,7 @@ export class ApplicationComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 40,
+        width: 41,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {
@@ -51,11 +51,11 @@ export class ApplicationComponent implements OnInit {
         },
       },
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type' },
-      { headerName: this.utils.getTranslate('serviceEntity.serviceURL'), field: 'theme' },
-      { headerName: this.utils.getTranslate('serviceEntity.supportedSRS'), field: 'srs' },
-      { headerName: this.utils.getTranslate('serviceEntity.createdDate'), field: 'createdDate' } // type: 'dateColumn'
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type' },
+      { headerName: this.utils.getTranslate('applicationEntity.serviceURL'), field: 'theme' },
+      { headerName: this.utils.getTranslate('applicationEntity.supportedSRS'), field: 'srs' },
+      { headerName: this.utils.getTranslate('applicationEntity.createdDate'), field: 'createdDate' } // type: 'dateColumn'
     ];
 
   }

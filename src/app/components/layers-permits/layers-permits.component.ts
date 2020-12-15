@@ -43,7 +43,7 @@ export class LayersPermitsComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 20,
+        width: 27.5,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

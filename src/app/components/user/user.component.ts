@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 35,
+        width:  40,
         lockPosition: true,
       },
       {
@@ -49,7 +49,7 @@ export class UserComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 45,
+        width: 55,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

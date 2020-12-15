@@ -134,7 +134,7 @@
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsLayers" [themeGrid]='themeGrid' [getAll]='getAllLayers'  [frameworkComponents]="frameworkComponents"
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=false 
             (remove)="removeLayers($event)" (new)='newDataLayers($event)'  > </app-data-grid>
         </div>
     </ng-template>

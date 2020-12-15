@@ -45,6 +45,7 @@ testem.log
 
 
 # System Files
+/dist
 .DS_Store
 Thumbs.db
 .directory

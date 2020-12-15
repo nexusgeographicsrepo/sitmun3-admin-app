@@ -57,22 +57,10 @@ export class TreesComponent implements OnInit {
 
   }
 
-
-
-  /*
-  Important! Aquesta és la funció que li passarem al data grid a través de l'html per obtenir les files de la taula,
-  de moment no he trobat cap altre manera de que funcioni sense posar la nomenclatura = () =>,
-  pel que de moment hem dit de deixar-ho així!
-  */
   getAllTrees = () => {
 
     return this.treesService.getAll();
   }
-
-  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-    corresponent!
-  */
 
   removeData(data: Connection[]) {
     console.log(data);

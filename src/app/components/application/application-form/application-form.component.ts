@@ -323,11 +323,6 @@ export class ApplicationFormComponent implements OnInit {
     // .pipe( map( data =>  data['_embedded']['territories']) );
   }
 
-  /*Les dues funcions que venen ara s'activaran quan es cliqui el botó de remove o el de new a la taula,
-    si volguessim canviar el nom de la funció o qualsevol cosa, cal mirar l'html, allà es on es crida la funció
-    corresponent!
-  */
-
   removeBackgrounds(data: any[]) {
     console.log(data);
   }

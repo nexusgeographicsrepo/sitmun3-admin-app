@@ -7,6 +7,8 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-connection-form',
@@ -15,9 +17,13 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 })
 export class ConnectionFormComponent implements OnInit {
 
+  themeGrid: any = environment.agGridTheme;
+  columnDefsCartographies: any[];
+  columnDefsTasks: any[];
   formConnection: FormGroup;
   connectionToEdit;
   connectionID = -1;
+  dataLoaded: Boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,7 +55,7 @@ export class ConnectionFormComponent implements OnInit {
               _links: this.connectionToEdit._links
             });
 
-
+            this.dataLoaded=true;
           },
           error => {
 
@@ -61,6 +67,39 @@ export class ConnectionFormComponent implements OnInit {
       error => {
 
       });
+
+
+      this.columnDefsCartographies = [
+        {
+          headerName: '',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          editable: false,
+          filter: false,
+          width: 25,
+          lockPosition: true,
+        },
+        { headerName: 'Id', field: 'id', editable: false },
+        { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
+        { headerName: this.utils.getTranslate('connectionEntity.layers'), field: 'layers' },
+  
+      ];
+  
+      this.columnDefsTasks = [
+        {
+          headerName: '',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          editable: false,
+          filter: false,
+          width: 25,
+          lockPosition: true,
+        },
+        { headerName: 'Id', field: 'id', editable: false },
+        { headerName: this.utils.getTranslate('connectionEntity.code'), field: 'code' },
+        { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'taskGroup' },
+  
+      ];
 
   }
 
@@ -106,4 +145,49 @@ export class ConnectionFormComponent implements OnInit {
       });
 
   }
+
+  
+  // ******** Cartographies ******** //
+  getAllCartographies = () => {
+    //TODO Change the link when available
+    // return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+    // .pipe( map( data =>  data['_embedded']['roles']) );
+    const aux: Array<any> = [];
+    return of(aux);
+  }
+
+  removeDataCartographies(data: any[]) {
+    console.log(data);
+  }
+
+  newDataCartographies(id: any) {
+    // this.router.navigate(['role', id, 'roleForm']);
+  }
+
+  applyChangesCartographies(data: any[]) {
+    console.log(data);
+  }
+
+
+  // ******** Tasks  ******** //
+  getAllTasks = () => {
+    //TODO Change the link when available
+    // return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+    //   .pipe(map(data => data['_embedded']['roles']));
+    const aux: Array<any> = [];
+    return of(aux);
+  }
+
+  removeDataTasks(data: any[]) {
+    console.log(data);
+  }
+
+  newDataTasks(id: any) {
+    // this.router.navigate(['role', id, 'roleForm']);
+  }
+
+  applyChangesTasks(data: any[]) {
+    console.log(data);
+  }
+
 }

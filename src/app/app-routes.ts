@@ -11,7 +11,6 @@ import { TerritoryComponent } from './components/territory/territory.component';
 import { RoleComponent } from './components/role/role.component';
 import { UserComponent } from './components/user/user.component';
 import { ApplicationComponent } from './components/application/application.component';
-import { ProvesComponent } from './components/proves/proves.component';
 import { TasksDownloadComponent } from './components/tasks-download/tasks-download.component';
 import { TasksDocumentComponent } from './components/tasks-document/tasks-document.component';
 import { TasksConsultationComponent } from './components/tasks-consultation/tasks-consultation.component';
@@ -69,9 +68,8 @@ export const APP_ROUTES: Routes = [
     {path: 'user/:id/userForm', component: UserFormComponent},
     {path: 'application', component: ApplicationComponent},
     {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
-    {path: 'proves', component: ProvesComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'proves' },
-    {path: '**', pathMatch: 'full', redirectTo: 'proves' }
+    {path: '', pathMatch: 'full', redirectTo: 'connection' },
+    {path: '**', pathMatch: 'full', redirectTo: 'connection' }
 
 ];
 

@@ -196,8 +196,34 @@ var DataGridComponent = /** @class */ (function () {
         }
         var e_1, _c;
     };
+    DataGridComponent.prototype.getColumnKeysAndHeaders = function (columnkeys) {
+        var header = [];
+        if (this.columnDefs.length == 0) {
+            return '';
+        }
+        ;
+        var allColumnKeys = this.gridOptions.columnApi.getAllDisplayedColumns();
+        console.log(allColumnKeys);
+        allColumnKeys.forEach(function (element) {
+            if (element.userProvidedColDef.headerName !== '') {
+                columnkeys.push(element.userProvidedColDef.field);
+                header.push(element.userProvidedColDef.headerName);
+            }
+        });
+        return header.join(",");
+    };
     DataGridComponent.prototype.exportData = function () {
-        this.gridApi.exportDataAsCsv();
+        var columnkeys = [];
+        var customHeader = '';
+        customHeader = this.getColumnKeysAndHeaders(columnkeys);
+        console.log(this.gridApi);
+        var params = {
+            onlySelected: true,
+            columnKeys: columnkeys,
+            customHeader: customHeader,
+            skipHeader: true
+        };
+        this.gridApi.exportDataAsCsv(params);
     };
     DataGridComponent.prototype.quickSearch = function () {
         this.gridApi.setQuickFilter(this.searchValue);

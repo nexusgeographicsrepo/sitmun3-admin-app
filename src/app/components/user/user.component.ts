@@ -5,7 +5,8 @@ import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+import { Subject } from 'rxjs';
+ 
 
 @Component({
   selector: 'app-user',
@@ -14,6 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -71,10 +73,6 @@ export class UserComponent implements OnInit {
     return this.userService.getAll();
   }
 
-  removeData(data: User[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['user', id, 'userForm']);
   }
@@ -82,5 +80,29 @@ export class UserComponent implements OnInit {
   applyChanges(data: User[]) {
     console.log(data);
   }
+
+  add(data: User[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(user => {
+      user.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.create(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: User[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(user => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.delete(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
 
 }

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  agGridTheme: "ag-theme-balham"
+  agGridTheme: "ag-theme-balham",
+  scopeTypes : ['Municipal', 'Supramunicipal', 'Total']
 };
 
 /*

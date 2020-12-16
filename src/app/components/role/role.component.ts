@@ -35,7 +35,7 @@ export class RoleComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width: 25,
+        width: 20,
         lockPosition: true,
       },
       {
@@ -43,7 +43,7 @@ export class RoleComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 27.5,
+        width: 25,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

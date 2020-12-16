@@ -96,7 +96,6 @@ export class LayersFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -116,7 +115,6 @@ export class LayersFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -136,7 +134,6 @@ export class LayersFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -154,7 +151,7 @@ export class LayersFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
+    
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -171,7 +168,6 @@ export class LayersFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,

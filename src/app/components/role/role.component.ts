@@ -5,6 +5,7 @@ import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-role',
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RoleComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -61,16 +63,35 @@ export class RoleComponent implements OnInit {
     return this.roleService.getAll();
   };
 
-  removeData(data: Role[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['role', id, 'roleForm']);
   }
 
   applyChanges(data: Role[]) {
     console.log(data);
+  }
+
+  add(data: Role[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(role => {
+      role.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.create(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Role[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(role => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.delete(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

@@ -1,19 +1,20 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { TaskGroupService } from 'dist/sitmun-frontend-core/';
+import { TaskGroupService, TaskGroup } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+import { Subject } from 'rxjs';
+ 
 @Component({
   selector: 'app-task-group',
   templateUrl: './task-group.component.html',
   styleUrls: ['./task-group.component.scss']
 })
 export class TaskGroupComponent implements OnInit {
-
+  
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -66,18 +67,35 @@ export class TaskGroupComponent implements OnInit {
     return this.taskGroupService.getAll();
   }
 
-
-  removeData(data: Connection[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['taskGroup', id, 'taskGroupForm']);
   }
 
-  applyChanges(data: Connection[]) {
+  applyChanges(data: TaskGroup[]) {
     console.log(data);
   }
 
+  add(data: TaskGroup[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(taskGroup => {
+      taskGroup.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.create(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: TaskGroup[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(taskGroup => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.delete(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
 }
 

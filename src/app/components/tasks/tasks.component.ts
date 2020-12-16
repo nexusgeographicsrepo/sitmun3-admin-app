@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Role } from 'dist/sitmun-frontend-core/role/role.model';
-import { TaskService } from 'dist/sitmun-frontend-core/';
+import { TaskService, Task } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TasksComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -60,16 +61,41 @@ export class TasksComponent implements OnInit {
     return this.tasksService.getAll();
   };
 
-  removeData(data: Role[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     // this.router.navigate(['tasks', id, 'tasksForm']);
   }
 
-  applyChanges(data: Role[]) {
-    console.log(data);
+  applyChanges(data: Task[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(task => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.update(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+  }
+
+  add(data: Task[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(task => {
+      task.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.create(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Task[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(task => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.delete(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

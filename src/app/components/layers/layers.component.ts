@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { CartographyService } from 'dist/sitmun-frontend-core/';
+import { CartographyService, Cartography } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-layers',
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LayersComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -68,16 +69,43 @@ export class LayersComponent implements OnInit {
     return this.cartographyService.getAll();
   }
 
-  removeData(data: Connection[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['layers', id, 'layersForm']);
   }
 
-  applyChanges(data: Connection[]) {
-    console.log(data);
+  applyChanges(data: Cartography[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.update(cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+  }
+
+  add(data: Cartography[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(cartography => {
+      cartography.id = null;
+      console.log(cartography);
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.create(cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Cartography[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(cartography => {
+
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.delete(cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

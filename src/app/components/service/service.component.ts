@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { ServiceService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, Service } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-service',
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ServiceComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -63,16 +64,42 @@ export class ServiceComponent implements OnInit {
     return this.serviceService.getAll();
   }
 
-  removeData(data: Connection[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['service', id, 'serviceForm']);
   }
 
-  applyChanges(data: Connection[]) {
-    console.log(data);
+  applyChanges(data: Service[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(service => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.update(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
+  
+  add(data: Service[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(service => {
+      service.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.create(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Service[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(service => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.delete(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
 
 }

@@ -5,6 +5,7 @@ import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-connection',
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ConnectionComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -58,14 +60,7 @@ export class ConnectionComponent implements OnInit {
   }
 
   getAllConnections = () => {
-
     return this.connectionService.getAll();
-  }
-
-  removeData(data: Connection[]) {
-    data.forEach(connection => {
-      this.connectionService.delete(connection);
-    });
   }
 
   newData(id: any) {
@@ -73,7 +68,36 @@ export class ConnectionComponent implements OnInit {
   }
 
   applyChanges(data: Connection[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(connection => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.update(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+  }
+
+  add(data: Connection[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(connection => {
+      connection.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.create(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Connection[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(connection => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.delete(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

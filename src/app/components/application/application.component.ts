@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
+import { Application } from 'dist/sitmun-frontend-core/';
 import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-application',
@@ -13,8 +14,9 @@ import { environment } from '../../../environments/environment';
 })
 export class ApplicationComponent implements OnInit {
 
-  columnDefs: any[];
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
+  columnDefs: any[];
 
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
@@ -67,17 +69,42 @@ export class ApplicationComponent implements OnInit {
     return this.applicationService.getAll();
   }
 
-
-  removeData(data: Connection[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['application', id, 'applicationForm']);
   }
 
-  applyChanges(data: Connection[]) {
-    console.log(data);
+  applyChanges(data: Application[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(application => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.applicationService.update(application).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
+
+  add(data: Application[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(application => {
+      application.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.applicationService.create(application).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Application[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(application => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.applicationService.delete(application).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
 
 }

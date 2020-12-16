@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { BackgroundService } from 'dist/sitmun-frontend-core/';
+import { BackgroundService, Background } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-background-layers',
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class BackgroundLayersComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -57,22 +58,47 @@ export class BackgroundLayersComponent implements OnInit {
     ];
 
   }
-
+ 
   getAllBackgroundLayers = () => {
 
     return this.backgroundService.getAll()
-  }
-
-  removeData(data: Connection[]) {
-    console.log(data);
   }
 
   newData(id: any) {
     this.router.navigate(['backgroundLayers', id, 'backgroundLayersForm']);
   }
 
-  applyChanges(data: Connection[]) {
-    console.log(data);
+  applyChanges(data: Background[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(background => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.update(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+  }
+
+  add(data: Background[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(background => {
+      background.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.create(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Background[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(background => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.delete(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

@@ -7,13 +7,14 @@
   "Export": "Exportar",
   "Duplicate": "Duplicar",
   "Search/Replace": "Buscar/Reemplaçar",
-  "ok-created": "S'ha creat correctament",
-  "error-created": "S'ha un error al crear",
-  "ok-updated": "S'ha actualitzat correctament",
-  "error-updated": "S'ha produït un error a l'actualitzar",
-  "ok-deleted": "S'ha borrat correctament",
-  "error-deleted": "S'ha produït un error al borrar",
-  "sideMenu": {
+  "selectType": "Selecciona el tipus",
+  "sideMenu":{
+    "ok-created": "S'ha creat correctament",
+    "error-created": "S'ha un error al crear",
+    "ok-updated": "S'ha actualitzat correctament",
+    "error-updated": "S'ha produït un error a l'actualitzar",
+    "ok-deleted": "S'ha borrat correctament",
+    "error-deleted": "S'ha produït un error al borrar",
     "connection": "Connexió",
     "service": "Servei",
     "layers": "Capes",
@@ -236,6 +237,7 @@
     "role": "Rol",
     "taskGroup": "Grup tasca",
     "layers": "Capes"
+
   },
   "roleEntity": {
     "role": "Rol",

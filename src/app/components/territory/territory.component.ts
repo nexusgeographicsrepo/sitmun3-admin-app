@@ -76,7 +76,13 @@ export class TerritoryComponent implements OnInit {
   }
 
   applyChanges(data: Territory[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(territory => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.territoryService.update(territory).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Territory[]) {

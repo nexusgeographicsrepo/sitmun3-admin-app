@@ -68,7 +68,13 @@ export class RoleComponent implements OnInit {
   }
 
   applyChanges(data: Role[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(role => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.update(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Role[]) {

@@ -68,7 +68,13 @@ export class TreesComponent implements OnInit {
   }
 
   applyChanges(data: Tree[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(tree => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.update(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Tree[]) {

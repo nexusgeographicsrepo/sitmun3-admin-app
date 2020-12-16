@@ -68,7 +68,13 @@ export class ConnectionComponent implements OnInit {
   }
 
   applyChanges(data: Connection[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(connection => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.update(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Connection[]) {

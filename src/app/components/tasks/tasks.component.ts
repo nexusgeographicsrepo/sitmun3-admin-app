@@ -66,7 +66,13 @@ export class TasksComponent implements OnInit {
   }
 
   applyChanges(data: Task[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(task => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.update(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Task[]) {

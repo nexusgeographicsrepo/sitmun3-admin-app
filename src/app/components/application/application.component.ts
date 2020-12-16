@@ -74,7 +74,13 @@ export class ApplicationComponent implements OnInit {
   }
 
   applyChanges(data: Application[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(application => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.applicationService.update(application).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Application[]) {

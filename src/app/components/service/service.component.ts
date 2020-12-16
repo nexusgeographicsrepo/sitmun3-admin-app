@@ -69,9 +69,15 @@ export class ServiceComponent implements OnInit {
   }
 
   applyChanges(data: Service[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(service => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.update(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
-
+  
   add(data: Service[]) {
     const promises: Promise<any>[] = [];
     data.forEach(service => {

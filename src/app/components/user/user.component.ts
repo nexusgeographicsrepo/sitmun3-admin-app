@@ -78,9 +78,14 @@ export class UserComponent implements OnInit {
   }
 
   applyChanges(data: User[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(user => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.update(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
-
   add(data: User[]) {
     const promises: Promise<any>[] = [];
     data.forEach(user => {

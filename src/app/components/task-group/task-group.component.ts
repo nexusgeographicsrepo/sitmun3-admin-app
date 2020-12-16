@@ -72,7 +72,13 @@ export class TaskGroupComponent implements OnInit {
   }
 
   applyChanges(data: TaskGroup[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(taskGroup => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.update(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: TaskGroup[]) {

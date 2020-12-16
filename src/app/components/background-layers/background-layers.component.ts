@@ -69,7 +69,13 @@ export class BackgroundLayersComponent implements OnInit {
   }
 
   applyChanges(data: Background[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(background => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.update(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Background[]) {

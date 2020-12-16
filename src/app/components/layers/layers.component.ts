@@ -74,7 +74,13 @@ export class LayersComponent implements OnInit {
   }
 
   applyChanges(data: Cartography[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.update(cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
   }
 
   add(data: Cartography[]) {

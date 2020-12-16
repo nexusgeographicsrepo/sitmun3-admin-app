@@ -20,6 +20,7 @@ import { environment } from 'src/environments/environment';
 export class TerritoryFormComponent implements OnInit {
 
   themeGrid: any = environment.agGridTheme;
+  scopeTypes: any = environment.scopeTypes;
   groupTypeOfThisTerritory;
   territoryForm: FormGroup;
   territoryToEdit;
@@ -75,7 +76,7 @@ export class TerritoryFormComponent implements OnInit {
             console.log(resp);
             this.groupTypeOfThisTerritory = resp;
             this.territoryForm.patchValue({
-              groupType: this.groupTypeOfThisTerritory[`id`]
+              groupType: this.groupTypeOfThisTerritory[`id`],
             });
           });
 
@@ -93,7 +94,7 @@ export class TerritoryFormComponent implements OnInit {
               name: this.territoryToEdit.name,
               territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
               territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
-              scope: this.territoryToEdit.scope,
+              scope: this.translateScopeType('short',this.territoryToEdit.scope),
               groupType: this.groupTypeOfThisTerritory[`id`],
               extent: ' ',
               extensionX0: this.extensions[0],
@@ -115,7 +116,8 @@ export class TerritoryFormComponent implements OnInit {
       else {
         this.territoryForm.patchValue({
           blocked: false,
-          groupType: this.groupTypeOfThisTerritory[`id`]
+          groupType: this.groupTypeOfThisTerritory[`id`],
+          scope: this.translateScopeType('short', null)
         });
       }
 
@@ -271,6 +273,7 @@ export class TerritoryFormComponent implements OnInit {
 
   addNewTerritory() {
     this.updateExtent();
+    this.updateScope('large');
     console.log(this.territoryForm.value);
 
     this.territoryService.create(this.territoryForm.value)
@@ -278,12 +281,14 @@ export class TerritoryFormComponent implements OnInit {
         console.log(resp);
         // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
+    this.updateScope('short');
 
 
   }
 
   updateTerritory() {
     this.updateExtent();
+    this.updateScope('large');
     const idGroupTerritory = this.territoryForm.get('groupType')[`value`];
     if (idGroupTerritory !== -1) {
       this.territoryToEdit._links.groupType.href = `http://localhost:8080/api/territory-group-types/${idGroupTerritory}`;
@@ -296,6 +301,7 @@ export class TerritoryFormComponent implements OnInit {
       .subscribe(resp => {
         console.log(resp);
       });
+    this.updateScope('short');
 
   }
 
@@ -304,6 +310,33 @@ export class TerritoryFormComponent implements OnInit {
     this.territoryForm.patchValue({
       extent: extensionToUpdate
     });
+  }
+
+  private updateScope(currentFormat: string) {
+    let scopeToUpdate = this.translateScopeType(currentFormat,this.territoryForm.get('scope').value)
+    this.territoryForm.patchValue({
+      scope: scopeToUpdate
+    });
+  }
+
+  
+  private translateScopeType(currentFormat: string, type: string) {
+    
+    if(currentFormat === 'large')
+    {
+      if (type === 'Municipal') {return 'M'}
+      else if (type === 'Supramunicipal') {return 'R'}
+      else if (type === 'Total') {return 'T'} 
+      else if (type === 'selectType') {return null} 
+    }
+    else if (currentFormat === 'short')
+    {
+      if (type === 'M') {return 'Municipal'}
+      else if (type === 'R') {return 'Supramunicipal'}
+      else if (type === 'T') {return 'Total'} 
+      else if (type === null) {return 'selectType'} 
+    }
+
   }
 
   // AG-GRID
@@ -393,7 +426,6 @@ export class TerritoryFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
-
 
 
 

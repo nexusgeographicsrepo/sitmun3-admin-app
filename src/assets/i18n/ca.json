@@ -7,6 +7,8 @@
   "Export": "Exportar",
   "Duplicate": "Duplicar",
   "Search/Replace": "Buscar/Reemplaçar",
+  "selectType": "Selecciona el tipus",
+
  
   "sideMenu":{
     "connection": "Connexió",
@@ -232,6 +234,7 @@
     "role": "Rol",
     "taskGroup":"Grup tasca",
     "layers": "Capes"
+
   },
   "roleEntity":{
     "role":"Rol",

@@ -55,11 +55,17 @@
 
       <div class="HalfMidLargeColFormDiv">
         <label class="formLabel">
-          {{'territoryEntity.scope' | translate}}
+          {{'territoryEntity.scope' | translate}} 
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="scope">
+          <mat-select matInput formControlName="scope" class="form-control">
+            <mat-option [value]="scope" *ngFor="let scope of scopeTypes">
+              {{ scope | translate}}
+            </mat-option>
+          </mat-select>
+
         </mat-form-field>
+
       </div>
 
       <div class="HalfMidLargeColFormDiv">
@@ -72,8 +78,6 @@
               {{territoryGroup.name}}
             </mat-option>
           </mat-select>
-
-          <!-- <input matInput type="text" formControlName="groupType"> -->
         </mat-form-field>
       </div>
 

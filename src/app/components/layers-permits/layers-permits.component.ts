@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { CartographyGroupService } from 'dist/sitmun-frontend-core/';
+import { CartographyGroupService, CartographyGroup } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-layers-permits',
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LayersPermitsComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -62,16 +63,35 @@ export class LayersPermitsComponent implements OnInit {
     return this.cartographyGroupService.getAll();
   }
 
-  removeData(data: Connection[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['layersPermits', id, 'layersPermitsForm']);
   }
 
-  applyChanges(data: Connection[]) {
+  applyChanges(data: CartographyGroup[]) {
     console.log(data);
+  }
+
+  add(data: CartographyGroup[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(cartographyGroup => {
+      cartographyGroup.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyGroupService.create(cartographyGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: CartographyGroup[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(cartographyGroup => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyGroupService.delete(cartographyGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

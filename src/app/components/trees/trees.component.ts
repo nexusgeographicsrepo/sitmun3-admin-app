@@ -1,12 +1,12 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { TreeService } from 'dist/sitmun-frontend-core/';
+import { TreeService, Tree } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+import { Subject } from 'rxjs';
+ 
 @Component({
   selector: 'app-trees',
   templateUrl: './trees.component.html',
@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TreesComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -21,7 +22,7 @@ export class TreesComponent implements OnInit {
   };
 
   constructor(
-    public treesService: TreeService,
+    public treeService: TreeService,
     private utils: UtilsService,
     private router: Router,
   ) {
@@ -59,19 +60,38 @@ export class TreesComponent implements OnInit {
 
   getAllTrees = () => {
 
-    return this.treesService.getAll();
-  }
-
-  removeData(data: Connection[]) {
-    console.log(data);
+    return this.treeService.getAll();
   }
 
   newData(id: any) {
     // this.router.navigate(['trees', id, 'treesForm']);
   }
 
-  applyChanges(data: Connection[]) {
+  applyChanges(data: Tree[]) {
     console.log(data);
+  }
+
+  add(data: Tree[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(tree => {
+      tree.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.create(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Tree[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(tree => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.delete(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

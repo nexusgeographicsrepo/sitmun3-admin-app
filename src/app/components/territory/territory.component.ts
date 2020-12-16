@@ -5,7 +5,8 @@ import { UtilsService } from '../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+import { Subject } from 'rxjs';
+ 
 
 @Component({
   selector: 'app-territory',
@@ -14,6 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TerritoryComponent implements OnInit {
 
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
   public frameworkComponents = {
@@ -69,16 +71,35 @@ export class TerritoryComponent implements OnInit {
     return this.territoryService.getAll();
   }
 
-  removeData(data: Territory[]) {
-    console.log(data);
-  }
-
   newData(id: any) {
     this.router.navigate(['territory', id, 'territoryForm']);
   }
 
   applyChanges(data: Territory[]) {
     console.log(data);
+  }
+
+  add(data: Territory[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(territory => {
+      territory.id = null;
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.territoryService.create(territory).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
+  }
+
+  removeData(data: Territory[]) {
+    const promises: Promise<any>[] = [];
+    data.forEach(territory => {
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.territoryService.delete(territory).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEvent.next(true);
+      });
+    });
+
   }
 
 }

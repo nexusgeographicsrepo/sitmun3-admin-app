@@ -8,9 +8,13 @@
   "Duplicate": "Duplicar",
   "Search/Replace": "Buscar/Reemplaçar",
   "selectType": "Selecciona el tipus",
-
- 
   "sideMenu":{
+    "ok-created": "S'ha creat correctament",
+    "error-created": "S'ha un error al crear",
+    "ok-updated": "S'ha actualitzat correctament",
+    "error-updated": "S'ha produït un error a l'actualitzar",
+    "ok-deleted": "S'ha borrat correctament",
+    "error-deleted": "S'ha produït un error al borrar",
     "connection": "Connexió",
     "service": "Servei",
     "layers": "Capes",
@@ -33,12 +37,12 @@
     "application": "Aplicació",
     "taskGroup": "Grup tasca"
   },
-  "userEntity":{
-    "user":"Usuari",
-    "firstname":"Nom",
-    "lastname" : "Cognom",
+  "userEntity": {
+    "user": "Usuari",
+    "firstname": "Nom",
+    "lastname": "Cognom",
     "administrator": "Administrador",
-    "blocked":"Bloquejat",
+    "blocked": "Bloquejat",
     "password": "Contrasenya",
     "confirmPassword": "Confirmació contrasenya",
     "new": "Nou",
@@ -57,11 +61,11 @@
     "dataCreated": "Alta",
     "code": "Codi"
   },
-  "connectionEntity":{
-    "user":"Usuari",
+  "connectionEntity": {
+    "user": "Usuari",
     "name": "Nom",
     "driver": "Driver",
-    "connection":"Connexió",
+    "connection": "Connexió",
     "password": "Contrasenya",
     "new": "Nova",
     "edit": "Edita",
@@ -73,19 +77,18 @@
     "layers": "Capes",
     "code": "Codi",
     "taskGroup": "Grup tasca"
-
   },
-  "serviceEntity":{
+  "serviceEntity": {
     "service": "Servei",
     "name": "Nom",
     "type": "Tipus",
     "serviceURL": "Url",
     "url": "Url",
-    "connection":"Connexió",
+    "connection": "Connexió",
     "supportedSRS": "Projeccions",
     "projections": "Projeccions",
     "metadataURL": "URL metadades associades",
-    "createdDate":"Alta",
+    "createdDate": "Alta",
     "new": "Nou",
     "edit": "Edita",
     "validate": "Valida",
@@ -99,7 +102,7 @@
     "description": "Descripció",
     "status": "Estat"
   },
-  "layersEntity":{
+  "layersEntity": {
     "layers": "Capes",
     "name": "Nom",
     "source": "Servei",
@@ -107,7 +110,7 @@
     "createdDate": "Alta",
     "minimumScale": "Escala Min",
     "maximumScale": "Escala Max",
-    "metadataURL":"URL dades",
+    "metadataURL": "URL dades",
     "geometryType": "Tipus Geometria",
     "transparency": "Transparència",
     "legendType": "Tipus llegenda",
@@ -133,48 +136,48 @@
     "field": "Camp",
     "format": "Format"
   },
-  "layersPermitsEntity":{
+  "layersPermitsEntity": {
     "layersPermits": "Permisos sobre les capes",
     "name": "Nom",
     "type": "Tipus",
     "serviceURL": "Url",
     "supportedSRS": "Projeccions",
-    "createdDate":"Alta",
+    "createdDate": "Alta",
     "edit": "Edita",
     "new": "Nou",
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza",
-    "roles" : "Rols",
+    "roles": "Rols",
     "cartographiesConfiguration": "Configuració de cartografies"
   },
-  "treesEntity":{
-    "trees":"Arbres",
+  "treesEntity": {
+    "trees": "Arbres",
     "name": "Nom"
   },
-  "taskGroupEntity":{
-    "taskGroup":"Grup tasca",
+  "taskGroupEntity": {
+    "taskGroup": "Grup tasca",
     "name": "Nom",
-    "edit":"Edita",
+    "edit": "Edita",
     "new": "Nou",
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza"
   },
-  "backgroundEntity":{
-    "backgroundLayers":"Capes de fons",
+  "backgroundEntity": {
+    "backgroundLayers": "Capes de fons",
     "name": "Nom",
     "description": "Descripció",
     "active": "Actiu",
     "cartographyGroup": "Grup cartografia",
-    "edit":"Edita",
+    "edit": "Edita",
     "new": "Nou",
     "save": "Desa",
     "validate": "Valida",
     "update": "Actualitza"
   },
-  "applicationEntity":{
-    "application":"Aplicació",
+  "applicationEntity": {
+    "application": "Aplicació",
     "name": "Nom",
     "type": "Tipus",
     "theme": "Tema",
@@ -193,8 +196,8 @@
     "situationMap": "Mapa situació",
     "scales": "Escales",
     "treeAutoRefresh": "Refrescar automàticament l'arbre",
-    "createdDate":"Alta",
-    "edit":"Edita",
+    "createdDate": "Alta",
+    "edit": "Edita",
     "new": "Nova",
     "save": "Desa",
     "validate": "Valida",
@@ -206,21 +209,21 @@
     "selectedBackground": "Fons seleccionat",
     "value": "Valor"
   },
-  "territoryEntity":{
+  "territoryEntity": {
     "territory": "Territori",
-    "code" : "Codi",
-    "name" : "Nom",
+    "code": "Codi",
+    "name": "Nom",
     "scope": "Àmbit",
     "createdDate": "Data alta",
     "administrator": "Administrador",
     "email": "Correu",
-    "address":"Direcció",
+    "address": "Direcció",
     "groupType": "Grup tipus",
-    "extent":"Extensió",
-    "note":"Observacions",
+    "extent": "Extensió",
+    "note": "Observacions",
     "logo": "Logo",
-    "blocked":"Bloquejat",
-    "edit":"Edita",
+    "blocked": "Bloquejat",
+    "edit": "Edita",
     "new": "Nou",
     "save": "Desa",
     "validate": "Valida",
@@ -232,15 +235,15 @@
     "task": "Tasca",
     "user": "Usuari",
     "role": "Rol",
-    "taskGroup":"Grup tasca",
+    "taskGroup": "Grup tasca",
     "layers": "Capes"
 
   },
-  "roleEntity":{
-    "role":"Rol",
-    "note":"Observacions",
-    "name":"Nom",
-    "application":"Aplicació",
+  "roleEntity": {
+    "role": "Rol",
+    "note": "Observacions",
+    "name": "Nom",
+    "application": "Aplicació",
     "edit": "Edita",
     "new": "Nou",
     "save": "Desa",
@@ -254,84 +257,109 @@
     "layers": "Capes",
     "code": "Codi",
     "groupTask": "Grup tasca"
-
   },
-  "tasksEntity":{
-    "tasks":"Tasques",
+  "tasksEntity": {
+    "tasks": "Tasques",
     "task": "Tasca",
-    "name":"Nom",
-    "informationType":"Tipus d'informació"
-  },
-  "tasksConsultationEntity":{
-    "tasksConsultation":"Tasques-Consultes",
-    "name": "Nom",  
-    "task":"Tasca",
-    "informationType":"Tipus d'informació",
-    "accesType":"Tipus d'accés",
-    "command":"Comanda",
-    "connection":"Connexió",
-    "associatedLayer":"Capa associada"
-  },
-  "tasksDownloadEntity":{
-    "tasksDownload":"Tasques-Descàrrega",
-    "name": "Nom",  
-    "observations":"Observacions",
-    "application":"Aplicació"
-  },
-  "tasksDocumentEntity":{
-    "tasksDocument":"Tasques-Document",
-    "task":"Tasca",
-    "informationType":"Tipus d'informació",
-    "path":"Path",
-    "extent":"Extensió",
-    "associatedLayer":"Capa associada"
-  },
-  "tasksEditionEntity":{
-    "tasksEdition":"Tasques-Edició",
     "name": "Nom",
-    "associatedLayer":"Capa associada",
-    "informationType":"Tipus d'informació",
-    "dataCreated":"Alta"
+    "informationType": "Tipus d'informació"
   },
-  "tasksExtractionFMEEntity":{
-    "tasksExtractionFME":"Tasques-Extracció FME",
+  "tasksConsultationEntity": {
+    "tasksConsultation": "Tasques-Consultes",
+    "name": "Nom",
+    "task": "Tasca",
+    "informationType": "Tipus d'informació",
+    "accesType": "Tipus d'accés",
+    "command": "Comanda",
+    "connection": "Connexió",
+    "associatedLayer": "Capa associada"
+  },
+  "tasksDownloadEntity": {
+    "tasksDownload": "Tasques-Descàrrega",
+    "name": "Nom",
+    "observations": "Observacions",
+    "application": "Aplicació"
+  },
+  "tasksDocumentEntity": {
+    "tasksDocument": "Tasques-Document",
+    "task": "Tasca",
+    "informationType": "Tipus d'informació",
+    "path": "Path",
+    "extent": "Extensió",
+    "associatedLayer": "Capa associada"
+  },
+  "tasksEditionEntity": {
+    "tasksEdition": "Tasques-Edició",
+    "name": "Nom",
+    "associatedLayer": "Capa associada",
+    "informationType": "Tipus d'informació",
+    "dataCreated": "Alta"
+  },
+  "tasksExtractionFMEEntity": {
+    "tasksExtractionFME": "Tasques-Extracció FME",
     "cartography": "Cartografia",
-    "service":"Servei",
-    "layer":"Capa",
-    "dataCreated":"Alta"
+    "service": "Servei",
+    "layer": "Capa",
+    "dataCreated": "Alta"
   },
-  "tasksLocatorEntity":{
-    "tasksLocator":"Tasques-Localitzador",
+  "tasksLocatorEntity": {
+    "tasksLocator": "Tasques-Localitzador",
     "task": "Tasca",
-    "informationType":"Tipus d'informació",
-    "accesType":"Tipus d'accés",
-    "command":"Comanda",
-    "connection":"Connexió",
-    "associatedLayer":"Capa associada"
+    "informationType": "Tipus d'informació",
+    "accesType": "Tipus d'accés",
+    "command": "Comanda",
+    "connection": "Connexió",
+    "associatedLayer": "Capa associada"
   },
-  "tasksMoreInfoEntity":{
-    "tasksMoreInfo":"Tasques-Més informació",
+  "tasksMoreInfoEntity": {
+    "tasksMoreInfo": "Tasques-Més informació",
     "task": "Tasca",
-    "informationType":"Tipus d'informació",
-    "accesType":"Tipus d'accés",
-    "command":"Comanda",
-    "connection":"Connexió",
-    "associatedLayer":"Capa associada"
+    "informationType": "Tipus d'informació",
+    "accesType": "Tipus d'accés",
+    "command": "Comanda",
+    "connection": "Connexió",
+    "associatedLayer": "Capa associada"
   },
-  "tasksReportEntity":{
-    "tasksReport":"Tasques-Informe",
+  "tasksReportEntity": {
+    "tasksReport": "Tasques-Informe",
     "task": "Tasca",
-    "informationType":"Tipus d'informació",
-    "template":"Plantilla"
+    "informationType": "Tipus d'informació",
+    "template": "Plantilla"
   },
-  "tasksTHematicEntity":{
-    "tasksThematic":"Tasques-Temàtic",
+  "tasksTHematicEntity": {
+    "tasksThematic": "Tasques-Temàtic",
     "name": "Nom",
     "origin": "Origen",
-    "creator":"Creador",
-    "dataCreated":"Alta"
-  }
-
-
-
+    "creator": "Creador",
+    "dataCreated": "Alta"
+  },
+  "selectAll": "Seleccionar tot",
+  "selectAllSearchResults": "Seleccionar tots els resultats de cerca",
+  "searchOoo": "Buscar...",
+  "blanks": "Buits",
+  "noMatches": "Sense coincidències",
+  "filterOoo": "Filtre...",
+  "equals": "Igual",
+  "notEqual": "Diferent",
+  "lessThan": "Menor que",
+  "greaterThan": "Major que",
+  "lessThanOrEqual": "Menor o igual que",
+  "greaterThanOrEqual": "Major o igual que",
+  "inRange": "En el rang",
+  "inRangeStart": "Des de",
+  "inRangeEnd": "Fins a",
+  "contains": "Conté",
+  "notContains": "No conté",
+  "startsWith": "Comença amb",
+  "endsWith": "Acaba amb",
+  "dateFormatOoo": "dd-mm-*Yyyy",
+  "andCondition": "I",
+  "orCondition": "O",
+  "applyFilter": "Aplicar",
+  "resetFilter": "Reiniciar",
+  "clearFilter": "Esborrar",
+  "cancelFilter": "Cancel·lar",
+  "loadingOoo": "Carregant...",
+  "noRowsToShow": "No hi ha files per a mostrar",
+  "enabled": "Activat"
 }

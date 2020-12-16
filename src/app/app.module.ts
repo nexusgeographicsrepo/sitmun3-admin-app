@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
 import { APP_ROUTING } from './app-routes';
 
-
+import { MessagesInterceptor } from './interceptors/messages.interceptor';
 //i18n
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -134,7 +134,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService,
-    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService, TaskService],
+    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService, TaskService,
+    { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

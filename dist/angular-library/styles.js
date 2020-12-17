@@ -580,8 +580,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\PROJECTES\SITMUN3\FrontendGUI\src\main\angular-library\src\styles.css */"./src/main/angular-library/src/styles.css");
-module.exports = __webpack_require__(/*! C:\PROJECTES\SITMUN3\FrontendGUI\src\main\angular-library\src\theme.scss */"./src/main/angular-library/src/theme.scss");
+__webpack_require__(/*! C:\Users\ggaliano\Desktop\Sitmun3\sitmun3-frontend-gui\src\main\angular-library\src\styles.css */"./src/main/angular-library/src/styles.css");
+module.exports = __webpack_require__(/*! C:\Users\ggaliano\Desktop\Sitmun3\sitmun3-frontend-gui\src\main\angular-library\src\theme.scss */"./src/main/angular-library/src/theme.scss");
 
 
 /***/ })

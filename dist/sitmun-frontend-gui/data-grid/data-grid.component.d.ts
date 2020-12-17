@@ -1,9 +1,7 @@
 import { OnInit, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ColumnApi, Module } from '@ag-grid-community/all-modules';
-import { TranslateService } from '@ngx-translate/core';
 export declare class DataGridComponent implements OnInit {
-    translate: TranslateService;
     private _eventRefreshSubscription;
     modules: Module[];
     searchValue: string;
@@ -36,7 +34,7 @@ export declare class DataGridComponent implements OnInit {
     new: EventEmitter<number>;
     sendChanges: EventEmitter<any[]>;
     duplicate: EventEmitter<any[]>;
-    constructor(translate: TranslateService);
+    constructor();
     ngOnInit(): void;
     onGridReady(params: any): void;
     duplicateSelectedRows(): void;

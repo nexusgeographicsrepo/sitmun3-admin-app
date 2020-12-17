@@ -18,7 +18,8 @@ import { Observable } from 'rxjs';
 })
 export class BackgroundLayersFormComponent implements OnInit {
 
-
+  cartographyGroups: Array<any> = [];
+  cartographyGroupOfThisLayer;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -38,6 +39,26 @@ export class BackgroundLayersFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    // let cartographyGroupByDefault = {
+    //   id: -1,
+    //   name: 'Selecciona el grup del territory'
+    // }
+    // this.cartographyGroups.push(cartographyGroupByDefault);
+    // this.cartographyGroupOfThisLayer = cartographyGroupByDefault;
+    // console.log(this.cartographyGroupOfThisLayer);
+    // this.cartographyGroupService.getAll()
+    // .pipe(map(data => data[`_embedded`][`backgroundMaps`]))
+    // .subscribe(
+    //   resp => {
+    //     console.log(resp);
+    //     this.cartographyGroups.push(...resp);
+    //   }
+    // );
+
+
+
+
     this.activatedRoute.params.subscribe(params => {
       this.backgroundID = +params.id;
       if (this.backgroundID !== -1) {
@@ -51,7 +72,7 @@ export class BackgroundLayersFormComponent implements OnInit {
               id: this.backgroundID,
               name: this.backgroundToEdit.name,
               description: this.backgroundToEdit.description,
-              cartographyGroup: "",
+              cartographyGroup: this.backgroundToEdit.cartographyGroup.name,
               active: this.backgroundToEdit.active,
               _links: this.backgroundToEdit._links
             });
@@ -59,7 +80,7 @@ export class BackgroundLayersFormComponent implements OnInit {
 
           },
           error => {
-
+ 
           }
         );
       }

@@ -52,12 +52,12 @@ export class TerritoryFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let territoryDefecte = {
+    let territoryByDefault = {
       id: -1,
       name: 'Selecciona el grup del territory'
     }
-    this.territoryGroups.push(territoryDefecte);
-    this.groupTypeOfThisTerritory = territoryDefecte;
+    this.territoryGroups.push(territoryByDefault);
+    this.groupTypeOfThisTerritory = territoryByDefault;
     console.log(this.groupTypeOfThisTerritory);
     this.getTerritoryGroups().subscribe(
       resp => {
@@ -291,7 +291,7 @@ export class TerritoryFormComponent implements OnInit {
     this.updateScope('large');
     const idGroupTerritory = this.territoryForm.get('groupType')[`value`];
     if (idGroupTerritory !== -1) {
-      this.territoryToEdit._links.groupType.href = `http://localhost:8080/api/territory-group-types/${idGroupTerritory}`;
+      // this.territoryToEdit._links.groupType.href = `http://localhost:8080/api/territory-group-types/${idGroupTerritory}`;
     }
     else {
       this.territoryToEdit._links.groupType.href = ``;

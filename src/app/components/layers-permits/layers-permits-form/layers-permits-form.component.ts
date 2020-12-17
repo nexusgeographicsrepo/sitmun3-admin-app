@@ -167,8 +167,11 @@ export class LayersPermitsFormComponent implements OnInit {
 
   // ******** Roles  ******** //
   getAllRoles = () => {
-    return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
-      .pipe(map(data => data['_embedded']['roles']));
+    //TODO Uncomment when the link works
+    // return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
+    //   .pipe(map(data => data['_embedded']['roles']));
+    const aux: Array<any> = [];
+    return of(aux);
   }
 
   removeDataRole(data: Role[]) {

@@ -45,7 +45,7 @@ export class RoleComponent implements OnInit {
         field: 'id',
         editable: false,
         filter: false,
-        width: 25,
+        width: 21,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
         cellRendererParams: {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProvaDialogComponent } from './prova-dialog.component';
-import { RoleService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
@@ -17,7 +17,7 @@ describe('ProvaDialogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ProvaDialogComponent ],
       imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
-      providers: [RoleService,
+      providers: [ApplicationService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

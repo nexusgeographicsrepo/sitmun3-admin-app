@@ -1,3 +1,8 @@
-<app-dialog-grid [getAllsTable]="getAlls" [themeGrid]='themeGrid' [columnDefsTable]="colDefs" >
+<div style="width: 1200px; height: 500px;  margin: 50px;">
+    <app-dialog-grid [getAllsTable]="getAlls" [themeGrid]='themeGrid' [columnDefsTable]="colDefs" 
+    (joinTables)="joinTables($event)" [addButtonClickedSubscription]="buttonAddClicked.asObservable()"> 
 
-</app-dialog-grid>
+    </app-dialog-grid>
+</div>
+
+<button (click)="onAddButtonClicked()"> Add </button>

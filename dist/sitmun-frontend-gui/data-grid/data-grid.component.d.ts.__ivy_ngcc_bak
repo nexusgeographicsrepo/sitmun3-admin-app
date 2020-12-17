@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 export declare class DataGridComponent implements OnInit {
     translate: TranslateService;
     private _eventRefreshSubscription;
+    private _eventGetSelectedRowsSubscription;
     modules: Module[];
     searchValue: string;
     private gridApi;
@@ -20,6 +21,7 @@ export declare class DataGridComponent implements OnInit {
     undoNoChanges: boolean;
     gridOptions: any;
     eventRefreshSubscription: Observable<boolean>;
+    eventGetSelectedRowsSubscription: Observable<boolean>;
     frameworkComponents: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
@@ -37,11 +39,11 @@ export declare class DataGridComponent implements OnInit {
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     sendChanges: EventEmitter<any[]>;
-    duplicate: EventEmitter<any[]>;
+    getSelectedRows: EventEmitter<any[]>;
     constructor(translate: TranslateService);
     ngOnInit(): void;
     onGridReady(params: any): void;
-    duplicateSelectedRows(): void;
+    emitSelectedRows(): void;
     getColumnKeysAndHeaders(columnkeys: Array<any>): String;
     exportData(): void;
     quickSearch(): void;

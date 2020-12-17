@@ -4,7 +4,7 @@ import { Role } from 'dist/sitmun-frontend-core/role/role.model';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { ApplicationService } from 'dist/sitmun-frontend-core/';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProvaDialogComponent{
 
+  buttonAddClicked: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   getAlls: Array<() => Observable<any>> = [];
   colDefs: Array<any[]> = [];
@@ -38,12 +39,12 @@ columnDefs = [
 
 
   constructor(private http: HttpClient,
-              public roleService: ApplicationService,
+              public applicationService: ApplicationService,
               ) {
                 console.log('TAMO EN PRUEBA O NO');
-                this.getAlls.push(this.getAllRoles);
-                this.getAlls.push(this.getAllRoles);
-                this.getAlls.push(this.getAllRoles);
+                this.getAlls.push(this.getAllApplications);
+                this.getAlls.push(this.getAllApplications);
+                this.getAlls.push(this.getAllApplications);
                 this.colDefs.push(this.columnDefs);
                 this.colDefs.push(this.columnDefs);
                 this.colDefs.push(this.columnDefs);
@@ -52,9 +53,17 @@ columnDefs = [
   }
 
 
-getAllRoles = () => {
-    return this.roleService.getAll();
+  getAllApplications = () => {
+    return this.applicationService.getAll();
+  }
 
+  joinTables(data: any[]){
+      console.log(data);
+  }
+
+  onAddButtonClicked()
+  {
+    this.buttonAddClicked.next();
   }
 
 

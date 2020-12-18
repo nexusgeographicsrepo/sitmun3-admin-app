@@ -1,5 +1,5 @@
-<div style="width: 1200px; height: 500px;  margin: 50px;">
-    <app-dialog-grid [getAllsTable]="getAlls" [themeGrid]='themeGrid' [columnDefsTable]="colDefs" 
+<div >
+    <app-dialog-grid [getAllsTable]="getAlls" [themeGrid]='themeGrid' [columnDefsTable]="colDefs" [singleSelectionTable]="singleSelectionTable"
     (joinTables)="joinTables($event)" [addButtonClickedSubscription]="buttonAddClicked.asObservable()"> 
 
     </app-dialog-grid>

@@ -18,6 +18,7 @@ export class ProvaDialogComponent{
   themeGrid: any = environment.agGridTheme;
   getAlls: Array<() => Observable<any>> = [];
   colDefs: Array<any[]> = [];
+  singleSelectionTable: Array<boolean> = [];
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -48,8 +49,9 @@ columnDefs = [
                 this.colDefs.push(this.columnDefs);
                 this.colDefs.push(this.columnDefs);
                 this.colDefs.push(this.columnDefs);
-
-
+                this.singleSelectionTable.push(true);
+                this.singleSelectionTable.push(false);
+                this.singleSelectionTable.push(false);
   }
 
 

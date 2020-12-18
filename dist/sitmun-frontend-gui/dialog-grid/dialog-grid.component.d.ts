@@ -9,6 +9,7 @@ export declare class DialogGridComponent implements OnInit {
     themeGrid: any;
     getAllsTable: Array<() => Observable<any>>;
     columnDefsTable: Array<any[]>;
+    singleSelectionTable: Array<boolean>;
     addButtonClickedSubscription: Observable<boolean>;
     joinTables: EventEmitter<Array<any[]>>;
     constructor();
@@ -16,7 +17,7 @@ export declare class DialogGridComponent implements OnInit {
     getAllSelectedRows(): void;
     joinRowsReceived(data: any[]): void;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<DialogGridComponent, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DialogGridComponent, "app-dialog-grid", never, { "themeGrid": "themeGrid"; "getAllsTable": "getAllsTable"; "columnDefsTable": "columnDefsTable"; "addButtonClickedSubscription": "addButtonClickedSubscription"; }, { "joinTables": "joinTables"; }, never, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DialogGridComponent, "app-dialog-grid", never, { "themeGrid": "themeGrid"; "getAllsTable": "getAllsTable"; "columnDefsTable": "columnDefsTable"; "singleSelectionTable": "singleSelectionTable"; "addButtonClickedSubscription": "addButtonClickedSubscription"; }, { "joinTables": "joinTables"; }, never, never>;
 }
 
 //# sourceMappingURL=dialog-grid.component.d.ts.map

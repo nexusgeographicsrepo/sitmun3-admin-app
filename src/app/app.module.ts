@@ -70,6 +70,7 @@ import { LayersFormComponent } from './components/layers/layers-form/layers-form
 import { TaskGroupComponent } from './components/task-group/task-group.component';
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 import { TasksComponent } from './components/tasks/tasks.component';
+import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
     LayersFormComponent,
     TaskGroupComponent,
     TaskGroupFormComponent,
-    TasksComponent
+    TasksComponent,
+    ProvaDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-service-form',
@@ -47,6 +48,7 @@ export class ServiceFormComponent implements OnInit {
     private serviceService: ServiceService,
     private http: HttpClient,
     private utils: UtilsService,
+    public dialog: MatDialog
   ) {
     this.initializeServiceForm();
     this.projections = [];
@@ -249,4 +251,17 @@ export class ServiceFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+  // DIALOG-GRID
+
+  openDialog() {
+    // const dialogRef = this.dialog.open();
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
+  }
+
+
+
 }

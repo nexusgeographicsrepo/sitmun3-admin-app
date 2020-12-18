@@ -1,6 +1,14 @@
 import { OnInit, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+export interface DialogData {
+    _GetAllsTable: Array<() => Observable<any>>;
+    _columnDefsTable: Array<any[]>;
+    _singleSelectionTable: Array<boolean>;
+}
 export declare class DialogGridComponent implements OnInit {
+    private dialogRef;
+    title: string;
     getAllRows: Subject<boolean>;
     private _addButtonClickedSubscription;
     tablesReceivedCounter: number;
@@ -9,10 +17,13 @@ export declare class DialogGridComponent implements OnInit {
     getAllsTable: Array<() => Observable<any>>;
     columnDefsTable: Array<any[]>;
     singleSelectionTable: Array<boolean>;
+    titlesTable: Array<string>;
     addButtonClickedSubscription: Observable<boolean>;
     joinTables: EventEmitter<Array<any[]>>;
-    constructor();
+    constructor(dialogRef: MatDialogRef<DialogGridComponent>);
     ngOnInit(): void;
     getAllSelectedRows(): void;
     joinRowsReceived(data: any[]): void;
+    doAdd(rowsToAdd: any): void;
+    closeDialog(): void;
 }

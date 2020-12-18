@@ -36,6 +36,7 @@ export declare class DataGridComponent implements OnInit {
     globalSearch: boolean;
     themeGrid: any;
     singleSelection: boolean;
+    title: string;
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     sendChanges: EventEmitter<any[]>;

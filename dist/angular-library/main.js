@@ -90,7 +90,7 @@ module.exports = "label,\r\ninput {\r\n  display: inline-block;\r\n  margin-righ
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "    <div id=grup1 class=\"editDivBtns\">\r\n        <button  mat-mini-fab class=\"editBtn\"  *ngIf=\"discardChangesButton\"  id=\"deleteChangesButton\" type=\"button\"  (click)=\"deleteChanges()\" [disabled]=\"changeCounter <= 0\">\r\n            <mat-icon  fontSet=\"material-icons-round\" > close </mat-icon>\r\n        </button>\r\n        <button mat-mini-fab class=\"editBtn\" *ngIf=\"undoButton\"  id=\"undo\"  (click)=\"undo()\" [disabled]=\"changeCounter <= 0\" >\r\n            <mat-icon fontSet=\"material-icons-round\" > undo </mat-icon>\r\n        </button>\r\n        <button mat-mini-fab class=\"editBtn\" *ngIf=\"redoButton\"  id=\"redo\"  (click)=\"redo()\" [disabled]=\"redoCounter <= 0\">\r\n            <mat-icon fontSet=\"material-icons-round\" > redo </mat-icon>\r\n        </button>\r\n        <button mat-mini-fab class=\"editBtn\" *ngIf=\"applyChangesButton\"  id=\"applyChangesButton\"  (click)=\"applyChanges()\" [disabled]=\"changeCounter <= 0\" >\r\n            <mat-icon fontSet=\"material-icons-round\" > check </mat-icon>\r\n        </button>\r\n    </div>\r\n\r\n    <div id=grup2 class=\"actionsDivBtns\" >\r\n        <label *ngIf=\"globalSearch\" [translate]=\"'Search'\"> </label>\r\n        <input *ngIf=\"globalSearch\"type=\"text\" class=\"searchGenericInput\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\r\n        <button *ngIf=\"deleteButton\"  mat-stroked-button id=\"deleteButton\"  (click)=\"removeData()\">\r\n            <mat-icon fontSet=\"material-icons-round\" > delete </mat-icon>\r\n            <span  [translate]=\"'Remove'\"> </span>\r\n            \r\n        </button>\r\n\r\n        \r\n        <button *ngIf=\"actionButton\"  mat-stroked-button [matMenuTriggerFor]=\"menu\" id=\"actionButton\">\r\n            <span  [translate]=\"'Actions'\"> </span>    \r\n            <mat-icon fontSet=\"material-icons-round\" > keyboard_arrow_down </mat-icon>     \r\n        </button>\r\n        <mat-menu #menu=\"matMenu\">\r\n            <button mat-menu-item (click)=\"exportData()\" > {{\"Export\" | translate}} </button>\r\n            <button mat-menu-item (click)=\"emitSelectedRows()\"> {{\"Duplicate\" | translate}}</button>\r\n            <button mat-menu-item> {{\"Search/Replace\" | translate}}</button>\r\n        </mat-menu>  \r\n            \r\n\r\n        <button  *ngIf=\"newButton\" mat-stroked-button id=\"newButton\"  (click)=\"newData()\">\r\n            <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>      \r\n            <span  [translate]=\"'New'\"> </span>           \r\n        </button>\r\n\r\n        <button  *ngIf=\"addButton\" mat-stroked-button id=\"newButton\"  (click)=\"newData()\">\r\n            <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>      \r\n            <span  [translate]=\"'Add'\"> </span>           \r\n        </button>\r\n        \r\n\r\n        \r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"row\" style=\" height: 100%\">\r\n        <div id=\"myGrid\" style=\" width:100%; height: 100%\" >\r\n            <ag-grid-angular\r\n            style=\" width: 100%; height: 100%;\"\r\n            [class]=\"themeGrid\"\r\n            [floatingFilter]=\"true\"\r\n            [rowData]=\"rowData\"\r\n            [columnDefs]=\"columnDefs\"\r\n            [gridOptions]=\"gridOptions\"\r\n            [animateRows]=\"true\"\r\n            [pagination]=\"false\"\r\n            [modules]=\"modules\"     \r\n            [undoRedoCellEditing]=\"true\"    \r\n            [undoRedoCellEditingLimit]= 200\r\n            [suppressRowClickSelection]=true\r\n            [enableCellChangeFlash]=true\r\n            [frameworkComponents]=\"frameworkComponents\"\r\n            rowSelection=\"multiple\"\r\n            (filterModified)=\"onFilterModified()\"\r\n            (cellEditingStopped) =\"onCellEditingStopped($event)\"\r\n            (cellValueChanged)=\"onCellValueChanged($event)\"\r\n            (gridReady)=\"onGridReady($event)\">\r\n            \r\n            </ag-grid-angular>\r\n        </div>\r\n    </div>\r\n\r\n\r\n"
+module.exports = "    <div id=grup1 class=\"editDivBtns\">\r\n        <span *ngIf=\"title\"  [translate]=\"title\"> </span>\r\n        <button  mat-mini-fab class=\"editBtn\"  *ngIf=\"discardChangesButton\"  id=\"deleteChangesButton\" type=\"button\"  (click)=\"deleteChanges()\" [disabled]=\"changeCounter <= 0\">\r\n            <mat-icon  fontSet=\"material-icons-round\" > close </mat-icon>\r\n        </button>\r\n        <button mat-mini-fab class=\"editBtn\" *ngIf=\"undoButton\"  id=\"undo\"  (click)=\"undo()\" [disabled]=\"changeCounter <= 0\" >\r\n            <mat-icon fontSet=\"material-icons-round\" > undo </mat-icon>\r\n        </button>\r\n        <button mat-mini-fab class=\"editBtn\" *ngIf=\"redoButton\"  id=\"redo\"  (click)=\"redo()\" [disabled]=\"redoCounter <= 0\">\r\n            <mat-icon fontSet=\"material-icons-round\" > redo </mat-icon>\r\n        </button>\r\n        <button mat-mini-fab class=\"editBtn\" *ngIf=\"applyChangesButton\"  id=\"applyChangesButton\"  (click)=\"applyChanges()\" [disabled]=\"changeCounter <= 0\" >\r\n            <mat-icon fontSet=\"material-icons-round\" > check </mat-icon>\r\n        </button>\r\n    </div>\r\n\r\n    <div id=grup2 class=\"actionsDivBtns\" >\r\n        <label *ngIf=\"globalSearch\" [translate]=\"'Search'\"> </label>\r\n        <input *ngIf=\"globalSearch\"type=\"text\" class=\"searchGenericInput\" placeholder=\"\" (keyup)=\"quickSearch()\" [(ngModel)]=\"searchValue\" ml-2 >\r\n        <button *ngIf=\"deleteButton\"  mat-stroked-button id=\"deleteButton\"  (click)=\"removeData()\">\r\n            <mat-icon fontSet=\"material-icons-round\" > delete </mat-icon>\r\n            <span  [translate]=\"'Remove'\"> </span>\r\n            \r\n        </button>\r\n\r\n        \r\n        <button *ngIf=\"actionButton\"  mat-stroked-button [matMenuTriggerFor]=\"menu\" id=\"actionButton\">\r\n            <span  [translate]=\"'Actions'\"> </span>    \r\n            <mat-icon fontSet=\"material-icons-round\" > keyboard_arrow_down </mat-icon>     \r\n        </button>\r\n        <mat-menu #menu=\"matMenu\">\r\n            <button mat-menu-item (click)=\"exportData()\" > {{\"Export\" | translate}} </button>\r\n            <button mat-menu-item (click)=\"emitSelectedRows()\"> {{\"Duplicate\" | translate}}</button>\r\n            <button mat-menu-item> {{\"Search/Replace\" | translate}}</button>\r\n        </mat-menu>  \r\n            \r\n\r\n        <button  *ngIf=\"newButton\" mat-stroked-button id=\"newButton\"  (click)=\"newData()\">\r\n            <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>      \r\n            <span  [translate]=\"'New'\"> </span>           \r\n        </button>\r\n\r\n        <button  *ngIf=\"addButton\" mat-stroked-button id=\"newButton\"  (click)=\"newData()\">\r\n            <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>      \r\n            <span  [translate]=\"'Add'\"> </span>           \r\n        </button>\r\n        \r\n\r\n        \r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"row\" style=\" height: 100%\">\r\n        <div id=\"myGrid\" style=\" width:100%; height: 100%\" >\r\n            <ag-grid-angular\r\n            style=\" width: 100%; height: 100%;\"\r\n            [class]=\"themeGrid\"\r\n            [floatingFilter]=\"true\"\r\n            [rowData]=\"rowData\"\r\n            [columnDefs]=\"columnDefs\"\r\n            [gridOptions]=\"gridOptions\"\r\n            [animateRows]=\"true\"\r\n            [pagination]=\"false\"\r\n            [modules]=\"modules\"     \r\n            [undoRedoCellEditing]=\"true\"    \r\n            [undoRedoCellEditingLimit]= 200\r\n            [suppressRowClickSelection]=true\r\n            [enableCellChangeFlash]=true\r\n            [frameworkComponents]=\"frameworkComponents\"\r\n            rowSelection=\"multiple\"\r\n            (filterModified)=\"onFilterModified()\"\r\n            (cellEditingStopped) =\"onCellEditingStopped($event)\"\r\n            (cellValueChanged)=\"onCellValueChanged($event)\"\r\n            (gridReady)=\"onGridReady($event)\">\r\n            \r\n            </ag-grid-angular>\r\n        </div>\r\n    </div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -528,6 +528,10 @@ var DataGridComponent = /** @class */ (function () {
         __metadata("design:type", Boolean)
     ], DataGridComponent.prototype, "singleSelection", void 0);
     __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], DataGridComponent.prototype, "title", void 0);
+    __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
     ], DataGridComponent.prototype, "remove", void 0);
@@ -576,7 +580,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div *ngFor=\"let getAll of getAllsTable; let i = index\" style=\"width: 700px; height: 500px;  margin: 50px;\">\n    <app-data-grid \n    [columnDefs]=\"columnDefsTable[i]\" [themeGrid]='themeGrid'  [getAll]='getAll' [globalSearch]=true [singleSelection]=\"singleSelectionTable[i]\"\n    [eventGetSelectedRowsSubscription]=\"getAllRows.asObservable()\" (getSelectedRows)='joinRowsReceived($event)' >\n    </app-data-grid>\n  </div>\n"
+module.exports = "<h2 mat-dialog-title>{{title}}</h2>\n<mat-dialog-content >\n  <div *ngFor=\"let getAll of getAllsTable; let i = index\" style=\"width: 450px; height: 300px;  margin: 50px;\">\n    <app-data-grid \n    [columnDefs]=\"columnDefsTable[i]\" [themeGrid]='themeGrid'  [getAll]='getAll' [globalSearch]=true [singleSelection]=\"singleSelectionTable[i]\"\n    [title]=\"titlesTable[i]\" [eventGetSelectedRowsSubscription]=\"getAllRows.asObservable()\" (getSelectedRows)='joinRowsReceived($event)' >\n    </app-data-grid>\n  </div>\n</mat-dialog-content>\n<div mat-dialog-actions align=\"end\">\n  <button mat-button  (click)=\"closeDialog()\">{{\"Cancel\" | translate}}</button>\n  <button mat-button  (click)=\"getAllSelectedRows()\" cdkFocusInitial>{{\"Add\" | translate}}</button>\n</div>\n"
 
 /***/ }),
 
@@ -592,6 +596,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DialogGridComponent", function() { return DialogGridComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -603,8 +608,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var DialogGridComponent = /** @class */ (function () {
-    function DialogGridComponent() {
+    function DialogGridComponent(dialogRef) {
+        this.dialogRef = dialogRef;
         this.getAllRows = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.allRowsReceived = [];
         this.joinTables = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
@@ -625,32 +632,16 @@ var DialogGridComponent = /** @class */ (function () {
         this.allRowsReceived.push(data);
         this.tablesReceivedCounter++;
         if (this.tablesReceivedCounter === this.getAllsTable.length) {
-            this.joinTables.emit(this.allRowsReceived);
+            this.doAdd(this.allRowsReceived);
             console.log(this.allRowsReceived);
-            this.tablesReceivedCounter = 0;
-            this.allRowsReceived = [];
         }
     };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], DialogGridComponent.prototype, "themeGrid", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Array)
-    ], DialogGridComponent.prototype, "getAllsTable", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Array)
-    ], DialogGridComponent.prototype, "columnDefsTable", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Array)
-    ], DialogGridComponent.prototype, "singleSelectionTable", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"])
-    ], DialogGridComponent.prototype, "addButtonClickedSubscription", void 0);
+    DialogGridComponent.prototype.doAdd = function (rowsToAdd) {
+        this.dialogRef.close({ event: 'Add', data: rowsToAdd });
+    };
+    DialogGridComponent.prototype.closeDialog = function () {
+        this.dialogRef.close({ event: 'Cancel' });
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
@@ -661,7 +652,7 @@ var DialogGridComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./dialog-grid.component.html */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/dialog-grid/dialog-grid.component.html"),
             styles: [__webpack_require__(/*! ./dialog-grid.component.css */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/dialog-grid/dialog-grid.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_material_dialog__WEBPACK_IMPORTED_MODULE_2__["MatDialogRef"]])
     ], DialogGridComponent);
     return DialogGridComponent;
 }());
@@ -733,9 +724,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
 /* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
 /* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
-/* harmony import */ var _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./btn-edit-rendered/btn-edit-rendered.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.ts");
-/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ngx-translate/http-loader */ "./node_modules/@ngx-translate/http-loader/esm5/ngx-translate-http-loader.js");
-/* harmony import */ var _dialog_grid_dialog_grid_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./dialog-grid/dialog-grid.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/dialog-grid/dialog-grid.component.ts");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
+/* harmony import */ var _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./btn-edit-rendered/btn-edit-rendered.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/btn-edit-rendered/btn-edit-rendered.component.ts");
+/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ngx-translate/http-loader */ "./node_modules/@ngx-translate/http-loader/esm5/ngx-translate-http-loader.js");
+/* harmony import */ var _dialog_grid_dialog_grid_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./dialog-grid/dialog-grid.component */ "./src/main/angular-library/projects/sitmun-frontend-gui/src/lib/dialog-grid/dialog-grid.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -764,11 +756,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 Object(_angular_common__WEBPACK_IMPORTED_MODULE_2__["registerLocaleData"])(_angular_common_locales_ca__WEBPACK_IMPORTED_MODULE_8___default.a, 'ca');
 Object(_angular_common__WEBPACK_IMPORTED_MODULE_2__["registerLocaleData"])(_angular_common_locales_es__WEBPACK_IMPORTED_MODULE_9___default.a, 'es');
 /** Load translation assets */
 function createTranslateLoader(http) {
-    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_16__["TranslateHttpLoader"](http, '../assets/i18n/', '.json');
+    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_17__["TranslateHttpLoader"](http, '../assets/i18n/', '.json');
 }
 /** SITMUN plugin core module */
 var SitmunFrontendGuiModule = /** @class */ (function () {
@@ -790,6 +783,7 @@ var SitmunFrontendGuiModule = /** @class */ (function () {
                 _angular_material_button__WEBPACK_IMPORTED_MODULE_12__["MatButtonModule"],
                 _angular_material_icon__WEBPACK_IMPORTED_MODULE_13__["MatIconModule"],
                 _angular_material_menu__WEBPACK_IMPORTED_MODULE_14__["MatMenuModule"],
+                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_15__["MatDialogModule"],
                 _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateModule"].forRoot({
                     loader: {
                         provide: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateLoader"],
@@ -800,8 +794,8 @@ var SitmunFrontendGuiModule = /** @class */ (function () {
             ],
             declarations: [
                 _data_grid_data_grid_component__WEBPACK_IMPORTED_MODULE_10__["DataGridComponent"],
-                _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_15__["BtnEditRenderedComponent"],
-                _dialog_grid_dialog_grid_component__WEBPACK_IMPORTED_MODULE_17__["DialogGridComponent"],
+                _btn_edit_rendered_btn_edit_rendered_component__WEBPACK_IMPORTED_MODULE_16__["BtnEditRenderedComponent"],
+                _dialog_grid_dialog_grid_component__WEBPACK_IMPORTED_MODULE_18__["DialogGridComponent"],
             ],
             entryComponents: [],
             providers: [],
@@ -814,7 +808,7 @@ var SitmunFrontendGuiModule = /** @class */ (function () {
                 _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_1__["ReactiveFormsModule"],
                 _data_grid_data_grid_component__WEBPACK_IMPORTED_MODULE_10__["DataGridComponent"],
-                _dialog_grid_dialog_grid_component__WEBPACK_IMPORTED_MODULE_17__["DialogGridComponent"],
+                _dialog_grid_dialog_grid_component__WEBPACK_IMPORTED_MODULE_18__["DialogGridComponent"],
                 _sitmun_frontend_core__WEBPACK_IMPORTED_MODULE_7__["SitmunFrontendCoreModule"]
             ]
         })
@@ -1047,13 +1041,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
 /* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
 /* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1099,7 +1095,7 @@ var AppModule = /** @class */ (function () {
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_18__["BrowserAnimationsModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_19__["BrowserAnimationsModule"],
                 _sitmun_frontend_core__WEBPACK_IMPORTED_MODULE_5__["SitmunFrontendCoreModule"].forRoot(),
                 sitmun_frontend_gui__WEBPACK_IMPORTED_MODULE_7__["SitmunFrontendGuiModule"],
                 _ag_grid_community_angular__WEBPACK_IMPORTED_MODULE_14__["AgGridModule"].withComponents([]),
@@ -1113,6 +1109,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material_button__WEBPACK_IMPORTED_MODULE_15__["MatButtonModule"],
                 _angular_material_icon__WEBPACK_IMPORTED_MODULE_16__["MatIconModule"],
                 _angular_material_menu__WEBPACK_IMPORTED_MODULE_17__["MatMenuModule"],
+                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_18__["MatDialogModule"],
                 _sitmun_frontend_core__WEBPACK_IMPORTED_MODULE_5__["AngularHalModule"].forRoot(),
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes)
             ],

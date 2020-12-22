@@ -58,8 +58,12 @@
             {{'layersEntity.geometryType' | translate}}
           </label>
           <mat-form-field appearance="outline">
-            <input matInput type="text" formControlName="geometryType">
-          </mat-form-field>
+            <mat-select matInput formControlName="geometryType" class="form-control">
+              <mat-option [value]="geometryType.value" *ngFor="let geometryType of geometryTypes">
+                {{ geometryType.description}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
         </div>
 
         <div class="colFormDiv" >
@@ -96,9 +100,14 @@
             <label class="formLabel">
               {{'layersEntity.legendType' | translate}}
             </label>
+
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="legendType">
-            </mat-form-field>
+              <mat-select matInput formControlName="legendType" class="form-control">
+                <mat-option [value]="legendType.value" *ngFor="let legendType of legendTypes">
+                  {{ legendType.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> 
           </div>
   
           <div class="thirdColumnColFormDiv" >
@@ -119,8 +128,8 @@
             </mat-form-field>
           </div>
   
-          <button *ngIf="layerID==-1" (click)="addNewLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.validate" | translate }}</button>
-          <button *ngIf="layerID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.update" | translate }}</button>
+         <!-- <button *ngIf="layerID==-1" (click)="addNewLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.validate" | translate }}</button>
+          <button *ngIf="layerID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "layersEntity.update" | translate }}</button>-->
     </div>
   </form>
 </div>

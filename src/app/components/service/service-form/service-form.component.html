@@ -32,7 +32,11 @@
               {{'serviceEntity.type' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="type">
+              <mat-select matInput formControlName="type" class="form-control">
+                <mat-option [value]="serviceType.value" *ngFor="let serviceType of serviceTypes">
+                  {{ serviceType.description}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
   

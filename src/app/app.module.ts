@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ExternalConfigurationService } from './ExternalConfigurationService';
 import { AngularHalModule, BackgroundService, CartographyGroupService, CartographyService,
-   ConnectionService, TaskGroupService, TaskService, TerritoryService } from 'dist/sitmun-frontend-core/';
+   ConnectionService, TaskGroupService, TaskService, TerritoryService, UserConfigurationService } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
@@ -49,11 +49,12 @@ import { TasksEditionComponent } from './components/tasks-edition/tasks-edition.
 import { TasksThematicComponent } from './components/tasks-thematic/tasks-thematic.component';
 import { TasksExtractionFmeComponent } from './components/tasks-extraction-fme/tasks-extraction-fme.component';
 
-//Services
+//Services 
 import { SidenavService } from './services/sidenav.service';
 import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from 'dist/sitmun-frontend-core/';
 import { TreeService } from 'dist/sitmun-frontend-core/';
+import { CodeListService } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
 import { ServiceService } from 'dist/sitmun-frontend-core/';
 import { ApplicationService } from 'dist/sitmun-frontend-core/';
@@ -136,7 +137,7 @@ import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.com
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService,
-    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService, TaskService,
+    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService, TaskService,UserConfigurationService,CodeListService,
     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

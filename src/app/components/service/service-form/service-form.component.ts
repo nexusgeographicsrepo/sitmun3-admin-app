@@ -24,6 +24,7 @@ export class ServiceFormComponent implements OnInit {
   themeGrid: any = environment.agGridTheme;
   columnDefsLayers: any[];
   columnDefsParameters: any[];
+
   public frameworkComponents = {
     btnEditRendererComponent: BtnEditRenderedComponent
   };
@@ -39,7 +40,7 @@ export class ServiceFormComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   projections: Array<string>;
-
+  serviceTypes: Array<any> = [];
 
 
   constructor(
@@ -97,6 +98,17 @@ export class ServiceFormComponent implements OnInit {
   ngOnInit(): void {
 
 
+    let serviceTypeByDefault = {
+      value: null,
+      description: '-------'
+    }
+    this.serviceTypes.push(serviceTypeByDefault);
+
+    this.utils.getCodeListValues('service.type').subscribe(
+      resp => {
+        this.serviceTypes.push(...resp);
+      }
+    );
 
     this.columnDefsParameters = [
 

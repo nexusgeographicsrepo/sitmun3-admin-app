@@ -16,20 +16,20 @@
 
       <div class="rowFormDiv">
           <div class="colFormDiv">
-            <label class="formLabel">
+            <label class="formLabel requiredInput">
               {{'connectionEntity.name' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="name">
+              <input matInput type="text" formControlName="name" required>
             </mat-form-field>
           </div>
 
-          <div class="colFormDiv" >
-            <label class="formLabel">
+          <div class="colFormDiv" > 
+            <label class="formLabel requiredInput">
               {{'connectionEntity.driver' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="driver">
+              <input matInput type="text" formControlName="driver" required>
             </mat-form-field>
           </div>
 

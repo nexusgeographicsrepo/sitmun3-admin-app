@@ -19,20 +19,20 @@
   <form [formGroup]='territoryForm' #f="ngForm">
     <div class="rowFormDiv">
       <div class="HalfMidLargeColFormDiv">
-        <label class="formLabel">
+        <label class="formLabel requiredInput">
           {{'territoryEntity.code' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="code">
+          <input matInput type="text" formControlName="code" required>
         </mat-form-field>
       </div>
 
       <div class="HalfMidLargeColFormDiv">
-        <label class="formLabel">
+        <label class="formLabel requiredInput">
           {{'territoryEntity.name' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="name">
+          <input matInput type="text" formControlName="name" required>
         </mat-form-field>
       </div>
 

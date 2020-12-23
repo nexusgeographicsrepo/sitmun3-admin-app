@@ -1,4 +1,4 @@
-import { TasksConsultationComponent } from './tasks-consultation.component';
+import { TasksQueryComponent } from './tasks-query.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
@@ -9,13 +9,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { CodeListService } from 'dist/sitmun-frontend-core';
 
-describe('TasksConsultationComponent', () => {
-  let component: TasksConsultationComponent;
-  let fixture: ComponentFixture<TasksConsultationComponent>;
+describe('TasksQueryComponent', () => {
+  let component: TasksQueryComponent;
+  let fixture: ComponentFixture<TasksQueryComponent>;
  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TasksConsultationComponent ],
+      declarations: [ TasksQueryComponent ],
       imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
       providers: [CodeListService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
@@ -23,7 +23,7 @@ describe('TasksConsultationComponent', () => {
     .compileComponents();
   });
   beforeEach(() => {
-    fixture = TestBed.createComponent(TasksConsultationComponent);
+    fixture = TestBed.createComponent(TasksQueryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

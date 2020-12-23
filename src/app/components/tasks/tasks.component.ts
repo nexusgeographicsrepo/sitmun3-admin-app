@@ -53,7 +53,7 @@ export class TasksComponent implements OnInit {
       },
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('tasksEntity.task'), field: 'name' },
-      { headerName: this.utils.getTranslate('tasksEntity.informationType'), field: 'groupName', editable: false },
+      { headerName: this.utils.getTranslate('tasksEntity.groupTask'), field: 'groupName', editable: false },
     ];
   }
 

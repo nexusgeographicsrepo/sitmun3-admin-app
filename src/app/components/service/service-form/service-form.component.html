@@ -19,52 +19,28 @@
       <div class="rowFormDiv">
       
           <div class="thirdColumnColFormDiv" >
-            <label class="formLabel">
+            <label class="formLabel requiredInput">
               {{'serviceEntity.name' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="name">
+              <input matInput type="text" formControlName="name" required>
             </mat-form-field>
           </div>
   
           <div class="thirdColumnColFormDiv" >
-            <label class="formLabel">
+            <label class="formLabel requiredInput">
               {{'serviceEntity.type' | translate}}
             </label>
-            <mat-form-field appearance="outline">
-              <mat-select matInput formControlName="type" class="form-control">
+            <mat-form-field appearance="outline" >
+              <mat-select matInput formControlName="type" class="form-control" >
                 <mat-option [value]="serviceType.value" *ngFor="let serviceType of serviceTypes">
                   {{ serviceType.description}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-  
+    
           <div class="thirdColumnColFormDiv" >
-            <label class="formLabel">
-              {{'serviceEntity.url' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="serviceURL">
-            </mat-form-field>
-          </div>
-          
-            <button *ngIf="serviceID==-1" (click)="addNewLayer()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
-            <button *ngIf="serviceID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "serviceEntity.update" | translate }}</button>
-     </div>
-
-      <div class="rowFormDiv">
-      
-          <div class="colFormDiv" >
-            <label class="formLabel">
-              {{'serviceEntity.connection' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="connection">
-            </mat-form-field>
-          </div>
-  
-          <div class="colFormDiv" >
             <label class="formLabel">
               {{'serviceEntity.projections' | translate}}
             </label>
@@ -91,7 +67,31 @@
 
             </mat-form-field>
           </div>
-  
+      
+          
+            <button *ngIf="serviceID==-1" (click)="addNewLayer()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
+            <button *ngIf="serviceID!=-1" (click)="updateLayer()" mat-flat-button class="validateButton" >{{ "serviceEntity.update" | translate }}</button>
+     </div>
+
+      <div class="rowFormDiv">
+      
+         <!-- <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'serviceEntity.connection' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="connection">
+            </mat-form-field>
+          </div>-->
+
+          <div class="colFormDiv" >
+            <label class="formLabel requiredInput">
+              {{'serviceEntity.url' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="serviceURL" required>
+            </mat-form-field>
+          </div>
           <div class="colFormDiv" >
             <label class="formLabel">
               {{'serviceEntity.metadataURL' | translate}}

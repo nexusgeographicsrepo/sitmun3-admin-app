@@ -18,11 +18,11 @@
       
           
         <div class="colFormDiv" >
-            <label class="formLabel">
+            <label class="formLabel requiredInput">
               {{'applicationEntity.name' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="name">
+              <input matInput type="text" formControlName="name" required>
             </mat-form-field>
           </div>
 
@@ -60,19 +60,11 @@
     </div>
       <div class="rowFormDiv">
       
-          
-        <div class="colFormDiv" >
-            <label class="formLabel">
-              {{'applicationEntity.tree' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="tree">
-            </mat-form-field>
-          </div>
+
 
           <div class="colFormDiv" >
             <label class="formLabel">
-              {{'applicationEntity.desktopUrl' | translate}}
+              {{'applicationEntity.url' | translate}}
             </label>
             <mat-form-field appearance="outline">
               <input matInput type="text" formControlName="desktopUrl">
@@ -81,34 +73,27 @@
 
           <div class="colFormDiv" >
             <label class="formLabel">
-              {{'applicationEntity.desktopCSS' | translate}}
+              {{'applicationEntity.CSS' | translate}}
             </label>
             <mat-form-field appearance="outline">
               <input matInput type="text" formControlName="desktopCSS">
             </mat-form-field>
           </div>
 
-          <div class="colFormDiv" >
-            <label class="formLabel">
-              {{'applicationEntity.mobileUrl' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="mobileUrl">
-            </mat-form-field>
-          </div>
+      
 
     </div>
       <div class="rowFormDiv">
       
           
         <div class="colFormDiv" >
-            <label class="formLabel">
-              {{'applicationEntity.mobileCSS' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="mobileCSS">
-            </mat-form-field>
-          </div>
+          <label class="formLabel">
+            {{'applicationEntity.tree' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="tree">
+          </mat-form-field>
+        </div>
 
           <div class="colFormDiv" >
             <label class="formLabel">
@@ -127,14 +112,7 @@
             <mat-checkbox formControlName="desplacamentSupramunicipal"> </mat-checkbox>
           </div>
 
-          <div class="colFormDiv" >
-            <label class="formLabel">
-              {{'applicationEntity.situationMap' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="situationMap">
-            </mat-form-field>
-          </div>
+  
 
 
     </div>
@@ -158,7 +136,14 @@
               <input matInput type="text" formControlName="srs">
             </mat-form-field>
           </div>
-
+          <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'applicationEntity.situationMap' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="situationMap">
+            </mat-form-field>
+          </div>
           <div class="lastColFormDiv" >
             <label class="formLabel">
               {{'applicationEntity.treeAutoRefresh' | translate}}

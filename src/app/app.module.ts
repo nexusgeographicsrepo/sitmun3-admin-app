@@ -41,7 +41,7 @@ import { ToolbarComponent } from './components/shared/toolbar/toolbar.component'
 import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
 import { TasksDownloadComponent } from './components/tasks-download/tasks-download.component';
 import { TasksDocumentComponent } from './components/tasks-document/tasks-document.component';
-import { TasksConsultationComponent } from './components/tasks-consultation/tasks-consultation.component';
+import { TasksQueryComponent } from './components/tasks-query/tasks-query.component';
 import { TasksMoreInfoComponent } from './components/tasks-more-info/tasks-more-info.component';
 import { TasksLocatorComponent } from './components/tasks-locator/tasks-locator.component';
 import { TasksReportComponent } from './components/tasks-report/tasks-report.component';
@@ -91,7 +91,7 @@ import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.com
     ToolbarComponent,
     TasksDownloadComponent,
     TasksDocumentComponent,
-    TasksConsultationComponent,
+    TasksQueryComponent,
     TasksMoreInfoComponent,
     TasksLocatorComponent,
     TasksReportComponent,

@@ -27,7 +27,7 @@
     "tasks": "Tasques",
     "tasksDownload": "Descàrrega",
     "tasksDocument": "Document",
-    "tasksConsultation": "Consulta",
+    "tasksQuery": "Consulta",
     "tasksMoreInformation": "Més informació",
     "tasksLocator": "Llocalitzador",
     "tasksReport": "Informe",
@@ -127,6 +127,7 @@
     "parametersConfiguration": "Configuració de paràmetres",
     "spatialSelection": "Selecció espacial",
     "groupCartographyLayersConfiguration": "Configuració de capes per grups de cartografia",
+    "permissiongroupLayersConfiguration": "Configuració de permisos sobre capes",
     "nodes": "Nodes",
     "column": "Columna",
     "label": "Etiqueta",
@@ -189,6 +190,8 @@
     "tree": "Arbre",
     "desktopUrl": "Url per desktop",
     "desktopCSS": "CSS desktop",
+    "url": "Url ",
+    "CSS": "CSS",
     "mobileUrl": "Url mòbil",
     "mobileCSS": "CSS mòbil",
     "defaultTool": "Eina per defecte",
@@ -262,10 +265,11 @@
     "tasks": "Tasques",
     "task": "Tasca",
     "name": "Nom",
-    "informationType": "Tipus d'informació"
+    "informationType": "Tipus d'informació",
+    "groupTask":"Grup tasca"
   },
-  "tasksConsultationEntity": {
-    "tasksConsultation": "Tasques-Consultes",
+  "tasksQueryEntity": {
+    "tasksQuery": "Tasques-Consultes",
     "name": "Nom",
     "task": "Tasca",
     "informationType": "Tipus d'informació",

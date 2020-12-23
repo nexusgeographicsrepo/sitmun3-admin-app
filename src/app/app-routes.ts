@@ -13,7 +13,7 @@ import { UserComponent } from './components/user/user.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { TasksDownloadComponent } from './components/tasks-download/tasks-download.component';
 import { TasksDocumentComponent } from './components/tasks-document/tasks-document.component';
-import { TasksConsultationComponent } from './components/tasks-consultation/tasks-consultation.component';
+import { TasksQueryComponent } from './components/tasks-query/tasks-query.component';
 import { TasksMoreInfoComponent } from './components/tasks-more-info/tasks-more-info.component';
 import { TasksLocatorComponent } from './components/tasks-locator/tasks-locator.component';
 import { TasksReportComponent } from './components/tasks-report/tasks-report.component';
@@ -54,7 +54,7 @@ export const APP_ROUTES: Routes = [
     {path: 'taskGroup/:id/taskGroupForm', component: TaskGroupFormComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},
     {path: 'tasksDocument', component: TasksDocumentComponent},
-    {path: 'tasksConsultation', component: TasksConsultationComponent},
+    {path: 'tasksQuery', component: TasksQueryComponent},
     {path: 'tasksMoreInformation', component: TasksMoreInfoComponent},
     {path: 'tasksLocator', component: TasksLocatorComponent},
     {path: 'tasksReport', component: TasksReportComponent},

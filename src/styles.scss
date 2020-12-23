@@ -844,6 +844,13 @@ h2 {
   font-weight: bold !important;
   font-size: 14px !important;
 }
+.requiredInput::after{
+  content: "*";
+  color: red;
+  font-weight: bold;
+}
+
+
 @media print {
   app-toolbar,
   mat-sidenav,

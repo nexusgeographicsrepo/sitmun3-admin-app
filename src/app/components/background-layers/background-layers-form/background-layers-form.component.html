@@ -15,11 +15,11 @@
     <form [formGroup]='backgroundForm' #f="ngForm"> 
         <div class="rowFormDiv">     
           <div class="colFormDiv" >
-              <label class="formLabel">
+              <label class="formLabel requiredInput">
                 {{'backgroundEntity.name' | translate}}
               </label>
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="name">
+                <input matInput type="text" formControlName="name" required>
               </mat-form-field>
             </div>
 

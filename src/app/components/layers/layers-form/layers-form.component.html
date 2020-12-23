@@ -16,11 +16,11 @@
 
       <div class="rowFormDiv">
           <div class="colFormDiv">
-            <label class="formLabel">
+            <label class="formLabel requiredInput">
               {{'layersEntity.name' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="name">
+              <input matInput type="text" formControlName="name" required>
             </mat-form-field>
           </div>
   
@@ -32,39 +32,36 @@
               <input matInput type="text" formControlName="source">
             </mat-form-field>
           </div>
-  
           <div class="colFormDiv">
-              <label class="formLabel">
-                {{'layersEntity.minimumScale' | translate}}
-              </label>
-              <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="minimumScale">
-              </mat-form-field>
-            </div>
-  
-            <div class="colFormDiv" id="right-column">
-              <label class="formLabel">
-                {{'layersEntity.maximumScale' | translate}}
-              </label>
-              <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="maximumScale">
-              </mat-form-field>
-            </div>
+            <label class="formLabel requiredInput">
+              {{'layersEntity.layers' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="layers" required>
+            </mat-form-field>
+          </div>
+          
       </div>
 
       <div class="rowFormDiv">
         <div class="colFormDiv">
           <label class="formLabel">
-            {{'layersEntity.geometryType' | translate}}
+            {{'layersEntity.minimumScale' | translate}}
           </label>
           <mat-form-field appearance="outline">
-            <mat-select matInput formControlName="geometryType" class="form-control">
-              <mat-option [value]="geometryType.value" *ngFor="let geometryType of geometryTypes">
-                {{ geometryType.description}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> 
+            <input matInput type="text" formControlName="minimumScale">
+          </mat-form-field>
         </div>
+
+        <div class="colFormDiv" id="right-column">
+          <label class="formLabel">
+            {{'layersEntity.maximumScale' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="maximumScale">
+          </mat-form-field>
+        </div>
+
 
         <div class="colFormDiv" >
           <label class="formLabel">
@@ -195,7 +192,7 @@
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
-          {{ "layersEntity.groupCartographyLayersConfiguration" | translate }}
+          {{ "layersEntity.permissiongroupLayersConfiguration" | translate }}
         </mat-panel-title>
       </mat-expansion-panel-header>
   

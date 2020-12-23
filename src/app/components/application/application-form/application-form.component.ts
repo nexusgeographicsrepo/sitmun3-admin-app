@@ -48,11 +48,7 @@ export class ApplicationFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let applicationTypeByDefault = {
-      value: null,
-      description: '-------'
-    }
-    this.applicationTypes.push(applicationTypeByDefault);
+    this.applicationTypes.push({value: null,  description: '-------' });
 
     this.utils.getCodeListValues('application.type').subscribe(
       resp => {

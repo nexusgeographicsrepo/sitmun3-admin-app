@@ -65,7 +65,6 @@ export class LayersComponent implements OnInit {
   }
 
   getAllLayers = () => {
-
     return this.cartographyService.getAll();
   }
 

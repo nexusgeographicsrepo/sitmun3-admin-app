@@ -15,6 +15,7 @@
   "ok-deleted": "Els elements s'han eliminat correctament",
   "error-deleted": "S'ha produït un error en esborrar els elements", 
   "sideMenu":{
+    "generalData": "Dades Generals",
     "connection": "Connexió",
     "service": "Servei",
     "layers": "Capes",
@@ -38,6 +39,7 @@
     "taskGroup": "Grup tasca"
   },
   "userEntity": {
+    "generalData": "Dades Generals",
     "user": "Usuari",
     "firstname": "Nom",
     "lastname": "Cognom",
@@ -62,6 +64,7 @@
     "code": "Codi"
   },
   "connectionEntity": {
+    "generalData": "Dades Generals",
     "user": "Usuari",
     "name": "Nom",
     "driver": "Driver",
@@ -79,6 +82,7 @@
     "taskGroup": "Grup tasca"
   },
   "serviceEntity": {
+    "generalData": "Dades Generals",
     "service": "Servei",
     "name": "Nom",
     "type": "Tipus",
@@ -135,9 +139,20 @@
     "help": "Ajuda",
     "selectPath": "Select/Path",
     "field": "Camp",
-    "format": "Format"
+    "format": "Format",
+    "municipalFilterFields": "Camps per filtre municipal",
+    "filterInfoByMunicipality": "Filtrar per municipi a la info",
+    "filterSpatialSeleciontByMunicipality": "Filtrar per municipi a la selecció espacial",
+    "information": "Informació",
+    "defaultInformation": "Informació per defecte",
+    "informationLayer": "Capa informació",
+    "thematic": "Tematitzable",
+    "generalData": "Dades Generals",
+    "municipalFilter": "Filtre Municipal"
+    
   },
   "layersPermitsEntity": {
+    "generalData": "Dades Generals",
     "layersPermits": "Permisos sobre les capes",
     "name": "Nom",
     "type": "Tipus",
@@ -157,6 +172,7 @@
     "name": "Nom"
   },
   "taskGroupEntity": {
+    "generalData": "Dades Generals",
     "taskGroup": "Grup tasca",
     "name": "Nom",
     "edit": "Edita",
@@ -166,6 +182,7 @@
     "update": "Actualitza"
   },
   "backgroundEntity": {
+    "generalData": "Dades Generals",
     "backgroundLayers": "Capes de fons",
     "name": "Nom",
     "description": "Descripció",
@@ -178,6 +195,7 @@
     "update": "Actualitza"
   },
   "applicationEntity": {
+    "generalData": "Dades Generals",
     "application": "Aplicació",
     "name": "Nom",
     "type": "Tipus",
@@ -213,6 +231,7 @@
     "value": "Valor"
   },
   "territoryEntity": {
+    "generalData": "Dades Generals",
     "territory": "Territori",
     "code": "Codi",
     "name": "Nom",
@@ -243,6 +262,7 @@
 
   },
   "roleEntity": {
+    "generalData": "Dades Generals",
     "role": "Rol",
     "note": "Observacions",
     "name": "Nom",
@@ -262,6 +282,7 @@
     "groupTask": "Grup tasca"
   },
   "tasksEntity": {
+    "generalData": "Dades Generals",
     "tasks": "Tasques",
     "task": "Tasca",
     "name": "Nom",
@@ -269,6 +290,7 @@
     "groupTask":"Grup tasca"
   },
   "tasksQueryEntity": {
+    "generalData": "Dades Generals",
     "tasksQuery": "Tasques-Consultes",
     "name": "Nom",
     "task": "Tasca",
@@ -279,12 +301,14 @@
     "associatedLayer": "Capa associada"
   },
   "tasksDownloadEntity": {
+    "generalData": "Dades Generals",
     "tasksDownload": "Tasques-Descàrrega",
     "name": "Nom",
     "observations": "Observacions",
     "application": "Aplicació"
   },
   "tasksDocumentEntity": {
+    "generalData": "Dades Generals",
     "tasksDocument": "Tasques-Document",
     "task": "Tasca",
     "informationType": "Tipus d'informació",
@@ -293,6 +317,7 @@
     "associatedLayer": "Capa associada"
   },
   "tasksEditionEntity": {
+    "generalData": "Dades Generals",
     "tasksEdition": "Tasques-Edició",
     "name": "Nom",
     "associatedLayer": "Capa associada",
@@ -300,6 +325,7 @@
     "dataCreated": "Alta"
   },
   "tasksExtractionFMEEntity": {
+    "generalData": "Dades Generals",
     "tasksExtractionFME": "Tasques-Extracció FME",
     "cartography": "Cartografia",
     "service": "Servei",
@@ -307,6 +333,7 @@
     "dataCreated": "Alta"
   },
   "tasksLocatorEntity": {
+    "generalData": "Dades Generals",
     "tasksLocator": "Tasques-Localitzador",
     "task": "Tasca",
     "informationType": "Tipus d'informació",
@@ -316,6 +343,7 @@
     "associatedLayer": "Capa associada"
   },
   "tasksMoreInfoEntity": {
+    "generalData": "Dades Generals",
     "tasksMoreInfo": "Tasques-Més informació",
     "task": "Tasca",
     "informationType": "Tipus d'informació",
@@ -325,12 +353,14 @@
     "associatedLayer": "Capa associada"
   },
   "tasksReportEntity": {
+    "generalData": "Dades Generals",
     "tasksReport": "Tasques-Informe",
     "task": "Tasca",
     "informationType": "Tipus d'informació",
     "template": "Plantilla"
   },
   "tasksTHematicEntity": {
+    "generalData": "Dades Generals",
     "tasksThematic": "Tasques-Temàtic",
     "name": "Nom",
     "origin": "Origen",

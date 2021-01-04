@@ -33,7 +33,9 @@ export class LayersFormComponent implements OnInit {
   };
   private parametersUrl: string;
 
+  municipalForm: FormGroup;
   layerForm: FormGroup;
+  informationForm: FormGroup;
   layerToEdit;
   layerID = -1;
 
@@ -47,6 +49,8 @@ export class LayersFormComponent implements OnInit {
     private utils: UtilsService
   ) {
     this.initializeLayersForm();
+    this.initializeMunicipalForm();
+    this.initializeInformationForm();
 
     this.activatedRoute.params.subscribe(params => {
       this.layerID = +params.id;
@@ -81,7 +85,23 @@ export class LayersFormComponent implements OnInit {
           }
         );
       }
+      
+      this.municipalForm.setValue({
+        municipalFilterFields: "",
+        filterInfoByMunicipality: false,
+        filterSpatialSeleciontByMunicipality: false,
 
+      });
+
+      this.municipalForm.setValue({
+        information: false,
+        defaultInformation: false,
+        informationLayer: "",
+        thematic: false,
+
+      });
+
+      
     },
       error => {
 
@@ -236,6 +256,23 @@ export class LayersFormComponent implements OnInit {
       _links: new FormControl(null, []),
     });
 
+  }
+
+  initializeMunicipalForm(): void {
+    this.municipalForm = new FormGroup({
+      municipalFilterFields: new FormControl(null, []),
+      filterInfoByMunicipality: new FormControl(null, []),
+      filterSpatialSeleciontByMunicipality: new FormControl(null, []),
+    })
+  }
+
+  initializeInformationForm(): void {
+    this.informationForm = new FormGroup({
+      information: new FormControl(null, []),
+      defaultInformation: new FormControl(null, []),
+      informationLayer: new FormControl(null, []),
+      thematic: new FormControl(null, []),
+    })
   }
 
 

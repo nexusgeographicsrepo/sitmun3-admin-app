@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ConnectionFormComponent implements OnInit {
 
   
-  //Formulari
+  //Form
   formConnection: FormGroup;
   connectionToEdit;
   connectionID = -1;

@@ -20,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class RoleFormComponent implements OnInit {
 
-  //Formulari
+  //Form
   formRole: FormGroup;
   roleToEdit;
   roleID: number = -1;

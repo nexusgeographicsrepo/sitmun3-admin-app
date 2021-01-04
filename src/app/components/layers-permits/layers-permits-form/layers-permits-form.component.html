@@ -66,7 +66,7 @@
           <app-data-grid [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies'
             [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [actionButton]=true (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)'
-            (sendChanges)='applyChangesCartographies($event)'> </app-data-grid>
+            (add)="openCartographyDialog($event)" (sendChanges)='applyChangesCartographies($event)'> </app-data-grid>
         </div>
       </ng-template>
     </mat-expansion-panel>
@@ -84,7 +84,7 @@
           <app-data-grid [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles'
             [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [actionButton]=true (remove)="removeDataRole($event)" (new)='newDataRole($event)'
-            (sendChanges)='applyChangesRole($event)'> </app-data-grid>
+            (add)="openRolesDialog($event)" (sendChanges)='applyChangesRole($event)'> </app-data-grid>
         </div>
       </ng-template>
 

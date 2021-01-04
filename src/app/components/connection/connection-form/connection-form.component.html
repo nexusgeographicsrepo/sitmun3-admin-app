@@ -88,7 +88,7 @@
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies' 
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
-            [actionButton]=true (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
+            [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
         </div>
       </ng-template>
     </mat-expansion-panel>
@@ -105,7 +105,7 @@
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsTasks" [themeGrid]='themeGrid' [getAll]='getAllTasks'
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
-            [actionButton]=true (remove)="removeDataTasks($event)" (new)='newDataTasks($event)' (sendChanges)='applyChangesTasks($event)' > </app-data-grid>
+            [actionButton]=true (add)="openTasksDialog($event)" (remove)="removeDataTasks($event)" (new)='newDataTasks($event)' (sendChanges)='applyChangesTasks($event)' > </app-data-grid>
         </div>
     </ng-template>
 

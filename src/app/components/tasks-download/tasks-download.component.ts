@@ -4,6 +4,8 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TaskService } from 'dist/sitmun-frontend-core/';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-download',
@@ -19,7 +21,8 @@ export class TasksDownloadComponent implements OnInit {
   };
 
 
-  constructor(private utils: UtilsService,
+  constructor(public tasksService: TaskService,
+    private utils: UtilsService,
               private router: Router,
               )
               { }
@@ -59,8 +62,9 @@ export class TasksDownloadComponent implements OnInit {
 
 
   getAllTasksDownload = () => {
-    const aux:Array<any> = [];
-    return of(aux);
+    // const aux:Array<any> = [];
+    // return of(aux);
+    this.tasksService.getAll().pipe(map(data => data[`_embedded`][`download-tasks`]));
   }
 
   removeData( data: any[])

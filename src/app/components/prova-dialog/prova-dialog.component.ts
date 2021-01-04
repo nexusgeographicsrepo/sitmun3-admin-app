@@ -79,7 +79,8 @@ columnDefs = [
     dialogRef.componentInstance.themeGrid=this.themeGrid;
     dialogRef.componentInstance.title='TITLE';
     dialogRef.componentInstance.titlesTable=this.titlesTable;
-
+    dialogRef.componentInstance.nonEditable=false;
+    
 
 
     dialogRef.afterClosed().subscribe(result => {

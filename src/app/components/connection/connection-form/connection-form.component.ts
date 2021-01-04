@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConnectionService } from 'dist/sitmun-frontend-core/';
+import { ConnectionService, CartographyService, TaskService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -18,18 +20,32 @@ import { map } from 'rxjs/operators';
 })
 export class ConnectionFormComponent implements OnInit {
 
-  themeGrid: any = environment.agGridTheme;
-  columnDefsCartographies: any[];
-  columnDefsTasks: any[];
+  
+  //Formulari
   formConnection: FormGroup;
   connectionToEdit;
   connectionID = -1;
-  dataLoaded: Boolean = false;s
+  dataLoaded: Boolean = false;
+  
+  //Grids
+  themeGrid: any = environment.agGridTheme;
+  columnDefsCartographies: any[];
+  columnDefsTasks: any[];
+
+  //Dialog
+  columnDefsCartographiesDialog: any[];
+  columnDefsTasksDialog: any[];
+
+
+
 
   constructor(
+    public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private connectionService: ConnectionService,
+    public cartographyService: CartographyService,
+    public tasksService: TaskService,
     private http: HttpClient,
     private utils: UtilsService
   ) {
@@ -102,6 +118,36 @@ export class ConnectionFormComponent implements OnInit {
   
       ];
 
+      this.columnDefsCartographiesDialog = [
+        {
+          headerName: '',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          editable: false,
+          filter: false,
+          width: 50,
+          lockPosition:true,
+        },
+        { headerName: 'ID', field: 'id', editable: false },
+        { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name', editable: false },
+      ];
+
+      this.columnDefsTasksDialog = [
+        {
+          headerName: '',
+          checkboxSelection: true,
+          headerCheckboxSelection: true,
+          editable: false,
+          filter: false,
+          width: 50,
+          lockPosition:true,
+        },
+        { headerName: 'ID', field: 'id', editable: false },
+        { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name',  editable: false  },
+      ];
+
+
+
   }
 
 
@@ -172,14 +218,14 @@ export class ConnectionFormComponent implements OnInit {
 
     return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['tasks']) );
-
-
+    
+    
   }
 
   removeDataTasks(data: any[]) {
     console.log(data);
   }
-
+  
   newDataTasks(id: any) {
     // this.router.navigate(['role', id, 'roleForm']);
   }
@@ -187,5 +233,65 @@ export class ConnectionFormComponent implements OnInit {
   applyChangesTasks(data: any[]) {
     console.log(data);
   }
+  
+  // ******** Cartography Dialog  ******** //
+
+  getAllCartographiesDialog = () => {
+    return this.cartographyService.getAll();
+  }
+
+  openCartographyDialog(data: any) {
+    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
+    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
+    // const singleSelectionTable: Array<boolean> = [false];
+    // const titlesTable: Array<string> = ['Cartographies'];
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Cartographies';
+    dialogRef.componentInstance.titlesTable=['Cartographies'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
+
+    // ******** Tasks Dialog  ******** //
+
+    getAllTasksDialog = () => {
+      return this.tasksService.getAll();
+    }
+
+    openTasksDialog(data: any) {
+      // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
+      // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
+      // const singleSelectionTable: Array<boolean> = [false];
+      // const titlesTable: Array<string> = ['Cartographies'];
+      const dialogRef = this.dialog.open(DialogGridComponent);
+      dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Tasks';
+      dialogRef.componentInstance.titlesTable=['Tasks'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event==='Add') {      console.log(result.data); }
+        else { console.log(' Cancelled ');}
+  
+      });
+  
+    }
 
 }

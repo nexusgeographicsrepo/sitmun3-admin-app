@@ -135,7 +135,17 @@
     "help": "Ajuda",
     "selectPath": "Select/Path",
     "field": "Camp",
-    "format": "Format"
+    "format": "Format",
+    "municipalFilterFields": "Camps per filtre municipal",
+    "filterInfoByMunicipality": "Filtrar per municipi a la info",
+    "filterSpatialSeleciontByMunicipality": "Filtrar per municipi a la selecció espacial",
+    "information": "Informació",
+    "defaultInformation": "Informació per defecte",
+    "informationLayer": "Capa informació",
+    "thematic": "Tematitzable",
+    "generalData": "Dades Generals",
+    "municipalFilter": "Filtre Municipal"
+    
   },
   "layersPermitsEntity": {
     "layersPermits": "Permisos sobre les capes",

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService, RoleService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -10,6 +10,8 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { MatDialog } from '@angular/material/dialog';
 
 
 
@@ -20,31 +22,40 @@ import { environment } from 'src/environments/environment';
 })
 export class ApplicationFormComponent implements OnInit {
 
+  //Dialog
+  applicationForm: FormGroup;
+  applicationToEdit;
+  applicationID = -1;
+  dataLoaded: Boolean = false;
+  themeGrid: any = environment.agGridTheme;
+
+  //Grids
   columnDefsParameters: any[];
   columnDefsTemplates: any[];
   columnDefsRoles: any[];
   columnDefsBackgrounds: any[];
-  dataLoaded: Boolean = false;
-  themeGrid: any = environment.agGridTheme;
   applicationTypes: Array<any> = [];
+
+  //Dialogs
   
-  public frameworkComponents = {
-    btnEditRendererComponent: BtnEditRenderedComponent
-  };
+  columnDefsParametersDialog: any[];
+  columnDefsTemplateConfigurationDialog: any[];
+  columnDefsRolesDialog: any[];
+  columnDefsBackgroundDialog: any[];
 
   constructor(
+    public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicationService: ApplicationService,
+    private roleService: RoleService,
     private http: HttpClient,
     private utils: UtilsService
   ) {
     this.initializeApplicationForm();
   }
 
-  applicationForm: FormGroup;
-  applicationToEdit;
-  applicationID = -1;
+
 
   ngOnInit(): void {
 
@@ -177,6 +188,67 @@ export class ApplicationFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('applicationEntity.selectedBackground'), field: 'selectedBackground' },
 
     ];
+
+    this.columnDefsParametersDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type',  editable: false  },
+    ];
+
+    this.columnDefsTemplateConfigurationDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
+    ];
+
+    this.columnDefsRolesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.note'), field: 'description' },
+      { headerName: this.utils.getTranslate('applicationEntity.application'), field: 'application' },
+
+    ];
+
+    this.columnDefsBackgroundDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+    ];
+
   }
 
 
@@ -348,6 +420,121 @@ export class ApplicationFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+
+      // ******** Parameters Dialog  ******** //
+
+  getAllParametersDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openParametersDialog(data: any) {
+ 
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Parameters';
+    dialogRef.componentInstance.titlesTable=['Parameters'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
+
+      // ******** TemplatesConfiguration Dialog  ******** //
+
+      getAllTemplatesConfigurationDialog = () => {
+        const aux: Array<any> = [];
+        return of(aux);
+        // return this.cartographyService.getAll();
+      }
+    
+      openTemplateConfigurationDialog(data: any) {
+        const dialogRef = this.dialog.open(DialogGridComponent);
+        dialogRef.componentInstance.getAllsTable=[this.getAllTemplatesConfigurationDialog];
+        dialogRef.componentInstance.singleSelectionTable=[false];
+        dialogRef.componentInstance.columnDefsTable=[this.columnDefsTemplateConfigurationDialog];
+        dialogRef.componentInstance.themeGrid=this.themeGrid;
+        dialogRef.componentInstance.title='Templates';
+        dialogRef.componentInstance.titlesTable=['Templates'];
+        dialogRef.componentInstance.nonEditable=false;
+        
+    
+    
+        dialogRef.afterClosed().subscribe(result => {
+          if(result.event==='Add') {      console.log(result.data); }
+          else { console.log(' Cancelled ');}
+    
+        });
+    
+      }
+
+    // ******** Roles Dialog  ******** //
+
+    getAllRolesDialog = () => {
+
+      return this.roleService.getAll();
+    }
+  
+    openRolesDialog(data: any) {
+
+      const dialogRef = this.dialog.open(DialogGridComponent);
+      dialogRef.componentInstance.getAllsTable=[this.getAllRolesDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Roles';
+      dialogRef.componentInstance.titlesTable=['Roles'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event==='Add') {      console.log(result.data); }
+        else { console.log(' Cancelled ');}
+  
+      });
+  
+    }
+
+
+    // ******** Background Dialog  ******** //
+
+    getAllBackgroundDialog = () => {
+      const aux: Array<any> = [];
+      return of(aux);
+      // return this.cartographyService.getAll();
+    }
+  
+    openBackgroundDialog(data: any) {
+      const dialogRef = this.dialog.open(DialogGridComponent);
+      dialogRef.componentInstance.getAllsTable=[this.getAllBackgroundDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsBackgroundDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Background';
+      dialogRef.componentInstance.titlesTable=['Background'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event==='Add') {      console.log(result.data); }
+        else { console.log(' Cancelled ');}
+  
+      });
+  
+    }
 
 
 }

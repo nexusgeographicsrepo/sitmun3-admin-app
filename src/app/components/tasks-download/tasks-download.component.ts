@@ -62,9 +62,9 @@ export class TasksDownloadComponent implements OnInit {
 
 
   getAllTasksDownload = () => {
-    // const aux:Array<any> = [];
-    // return of(aux);
-    this.tasksService.getAll().pipe(map(data => data[`_embedded`][`download-tasks`]));
+    const aux:Array<any> = [];
+    return of(aux);
+    // this.tasksService.getAll().pipe(map(data => data[`_embedded`][`download-tasks`]));
   }
 
   removeData( data: any[])

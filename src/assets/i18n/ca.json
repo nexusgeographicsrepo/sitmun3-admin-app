@@ -307,7 +307,21 @@
     "tasksDownload": "Tasques-Descàrrega",
     "name": "Nom",
     "observations": "Observacions",
-    "application": "Aplicació"
+    "application": "Aplicació",
+    "edit": "Edita",
+    "new": "Nova",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "code": "Codi",
+    "note": "Observacions",
+    "task": "Tasca",
+    "groupTask": "Grup tasca",
+    "path": "Path",
+    "extent": "Extensió",
+    "roles": "Rols",
+    "territories": "Territoris"
+
   },
   "tasksDocumentEntity": {
     "generalData": "Dades Generals",

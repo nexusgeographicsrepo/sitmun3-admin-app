@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, TerritoryService, Territory} from 'dist/sitmun-frontend-core/';
+import { CartographyService, CartographyGroupService, TerritoryService, Territory} from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -10,6 +10,8 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-layers-form',
@@ -18,32 +20,41 @@ import { environment } from 'src/environments/environment';
 })
 export class LayersFormComponent implements OnInit {
 
+  //Form
+  private parametersUrl: string;
+  municipalForm: FormGroup;
+  layerForm: FormGroup;
+  informationForm: FormGroup;
+  layerToEdit;
+  layerID = -1;
+  dataLoaded: Boolean = false;
+  geometryTypes: Array<any> = [];
+  legendTypes: Array<any> = [];
+
+  //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
   columnDefsSpatialConfigurations: any[];
   columnDefsTerritories: any[];
   columnDefsLayersConfiguration: any[];
   columnDefsNodes: any[];
-  dataLoaded: Boolean = false;
-  geometryTypes: Array<any> = [];
-  legendTypes: Array<any> = [];
 
-  public frameworkComponents = {
-    btnEditRendererComponent: BtnEditRenderedComponent
-  };
-  private parametersUrl: string;
+  //Dialog
+  columnDefsCartographyGroupsDialog: any[];
+  columnDefsSpatialSelectionDialog: any[];
+  columnDefsTerritoriesDialog: any[];
+  columnDefsNodesDialog: any[];
 
-  municipalForm: FormGroup;
-  layerForm: FormGroup;
-  informationForm: FormGroup;
-  layerToEdit;
-  layerID = -1;
+
+
 
 
   constructor(
+    public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private cartographyService: CartographyService,
+    private cartographyGroupService: CartographyGroupService,
     private territoryService: TerritoryService,
     private http: HttpClient,
     private utils: UtilsService
@@ -226,6 +237,36 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'tree', },
     ];
 
+    
+    this.columnDefsTerritoriesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+    ];
+
+    
+    this.columnDefsCartographyGroupsDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+    ];
+
   }
 
   
@@ -386,5 +427,59 @@ export class LayersFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+    // ******** Territory Dialog  ******** //
+
+    getAllTerritoriesDialog = () => {
+      return this.territoryService.getAll();
+    }
+
+    openTerritoriesDialog(data: any) {
+
+      const dialogRef = this.dialog.open(DialogGridComponent);
+      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Territories';
+      dialogRef.componentInstance.titlesTable=['Territories'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event==='Add') {      console.log(result.data); }
+        else { console.log(' Cancelled ');}
+  
+      });
+  
+    }
+
+    // ******** Cartography Groups Dialog  ******** //
+
+    getAllCartographyGroupsDialog = () => {
+      return this.cartographyGroupService.getAll();
+    }
+
+    openCartographyGroupsDialog(data: any) {
+
+      const dialogRef = this.dialog.open(DialogGridComponent);
+      dialogRef.componentInstance.getAllsTable=[this.getAllCartographyGroupsDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographyGroupsDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Cartography Groups';
+      dialogRef.componentInstance.titlesTable=['Cartography Groups'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event==='Add') {      console.log(result.data); }
+        else { console.log(' Cancelled ');}
+  
+      });
+  
+    }
 
 }

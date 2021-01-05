@@ -119,7 +119,7 @@
   
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
-            <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  [frameworkComponents]="frameworkComponents"
+            <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
             [actionButton]=true (remove)="removeParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
         </div>
@@ -137,9 +137,9 @@
   
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
-            <app-data-grid  [columnDefs]="columnDefsLayers" [themeGrid]='themeGrid' [getAll]='getAllLayers'  [frameworkComponents]="frameworkComponents"
+            <app-data-grid  [columnDefs]="columnDefsLayers" [themeGrid]='themeGrid' [getAll]='getAllLayers' 
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
-            [actionButton]=true (remove)="removeLayers($event)" (new)='newDataLayers($event)'  > </app-data-grid>
+            [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeLayers($event)" (new)='newDataLayers($event)'  > </app-data-grid>
         </div>
     </ng-template>
   

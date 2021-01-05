@@ -10,7 +10,8 @@ import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-form',
@@ -19,19 +20,25 @@ import { environment } from 'src/environments/environment';
 }) 
 export class UserFormComponent implements OnInit {
  
-  themeGrid:any=environment.agGridTheme;
+  //Form
   userForm: FormGroup;
   userToEdit;
   userID = -1;
+  dataLoaded: Boolean = false;
+  
+  //Grids
+  themeGrid:any=environment.agGridTheme;
   columnDefsPermissions: any[];
   columnDefsData: any[];
-  dataLoaded: Boolean = false;
 
-  public frameworkComponents = {
-    btnEditRendererComponent: BtnEditRenderedComponent
-  };
+  //Dialog
+
+  columnDefsPermissionsDialog: any[];
+  columnDefsTerritoryDataDialog: any[];
+
   
   constructor(
+    public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private userService: UserService,
@@ -120,6 +127,40 @@ export class UserFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'dataCreated', },
 
     ];
+
+    this.columnDefsPermissionsDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('userEntity.code'), field: 'code', editable: false },
+      { headerName: this.utils.getTranslate('userEntity.territories'), field: 'territories', editable: false },
+    ];
+
+    this.columnDefsTerritoryDataDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
+      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'position', },
+      { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization', },
+      { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'mail', },
+      { headerName: this.utils.getTranslate('userEntity.field'),  field: 'caducity', },
+      { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'dataCreated', },
+    ];
+
 
   }
 
@@ -244,6 +285,67 @@ export class UserFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+   // ******** Permits Dialog  ******** //
+
+   getAllPermitsDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openPermitsDialog(data: any) {
+ 
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllPermitsDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsPermissionsDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Permits';
+    dialogRef.componentInstance.titlesTable=['Permits'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
+
+    // ******** Territory Data Dialog  ******** //
+
+    getAllTerritoryDataDialog = () => {
+      const aux: Array<any> = [];
+      return of(aux);
+      // return this.tasksService.getAll();
+    }
+
+    openTerritoryDataDialog(data: any) {
+      // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
+      // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
+      // const singleSelectionTable: Array<boolean> = [false];
+      // const titlesTable: Array<string> = ['Cartographies'];
+      const dialogRef = this.dialog.open(DialogGridComponent);
+      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoryDataDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoryDataDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Territory Data';
+      dialogRef.componentInstance.titlesTable=['Territory Data'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event==='Add') {      console.log(result.data); }
+        else { console.log(' Cancelled ');}
+  
+      });
+  
+    }
   
 
 }

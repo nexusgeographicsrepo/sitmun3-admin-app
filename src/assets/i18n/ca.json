@@ -330,7 +330,19 @@
     "informationType": "Tipus d'informació",
     "path": "Path",
     "extent": "Extensió",
-    "associatedLayer": "Capa associada"
+    "associatedLayer": "Capa associada",
+    "edit": "Edita",
+    "new": "Nova",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "code": "Codi",
+    "note": "Observacions",
+    "documentType": "Tipus document",
+    "groupTask": "Grup tasca",
+    "cartography": "Cartografia",
+    "territories": "Territoris",
+    "name": "Nom"
   },
   "tasksEditionEntity": {
     "generalData": "Dades Generals",

@@ -71,7 +71,7 @@ export class TasksExtractionFmeComponent implements OnInit {
   
   newData(id: any)
   {
-    // this.router.navigate(['territory', id, 'territoryForm']);
+    this.router.navigate(['tasksExtractionFME', id, 'tasksExtractionFMEForm']);
   }
   
   applyChanges( data: any[])

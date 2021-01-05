@@ -50,10 +50,10 @@ export class TasksThematicComponent implements OnInit {
         },
       },
       { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('tasksTHematicEntity.name'),  field: 'name'},
-      { headerName: this.utils.getTranslate('tasksTHematicEntity.origin'),  field: 'origin'},
-      { headerName: this.utils.getTranslate('tasksTHematicEntity.creator'),  field: 'creator'},
-      { headerName: this.utils.getTranslate('tasksTHematicEntity.dataCreated'),  field: 'dataCreated' }
+      { headerName: this.utils.getTranslate('tasksThematicEntity.name'),  field: 'name'},
+      { headerName: this.utils.getTranslate('tasksThematicEntity.origin'),  field: 'origin'},
+      { headerName: this.utils.getTranslate('tasksThematicEntity.creator'),  field: 'creator'},
+      { headerName: this.utils.getTranslate('tasksThematicEntity.dataCreated'),  field: 'dataCreated' }
     ];
   }
 
@@ -71,7 +71,8 @@ export class TasksThematicComponent implements OnInit {
   
   newData(id: any)
   {
-    // this.router.navigate(['territory', id, 'territoryForm']);
+    this.router.navigate(['tasksThematic', id, 'tasksThematicForm']);
+
   }
   
   applyChanges( data: any[])

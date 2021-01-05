@@ -72,6 +72,15 @@ import { TaskGroupComponent } from './components/task-group/task-group.component
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.component';
+import { TasksDocumentsFormComponent } from './components/tasks-document/tasks-documents-form/tasks-documents-form.component';
+import { TasksDownloadFormComponent } from './components/tasks-download/tasks-download-form/tasks-download-form.component';
+import { TasksEditionFormComponent } from './components/tasks-edition/tasks-edition-form/tasks-edition-form.component';
+import { TasksExtractionFmeFormComponent } from './components/tasks-extraction-fme/tasks-extraction-fme-form/tasks-extraction-fme-form.component';
+import { TasksMoreInfoFormComponent } from './components/tasks-more-info/tasks-more-info-form/tasks-more-info-form.component';
+import { TasksLocatorFormComponent } from './components/tasks-locator/tasks-locator-form/tasks-locator-form.component';
+import { TasksQueryFormComponent } from './components/tasks-query/tasks-query-form/tasks-query-form.component';
+import { TasksReportFormComponent } from './components/tasks-report/tasks-report-form/tasks-report-form.component';
+import { TasksThematicFormComponent } from './components/tasks-thematic/tasks-thematic-form/tasks-thematic-form.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +120,16 @@ import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.com
     TaskGroupComponent,
     TaskGroupFormComponent,
     TasksComponent,
-    ProvaDialogComponent
+    ProvaDialogComponent,
+    TasksDocumentsFormComponent,
+    TasksDownloadFormComponent,
+    TasksEditionFormComponent,
+    TasksExtractionFmeFormComponent,
+    TasksMoreInfoFormComponent,
+    TasksLocatorFormComponent,
+    TasksQueryFormComponent,
+    TasksReportFormComponent,
+    TasksThematicFormComponent
   ],
   imports: [
     BrowserModule,

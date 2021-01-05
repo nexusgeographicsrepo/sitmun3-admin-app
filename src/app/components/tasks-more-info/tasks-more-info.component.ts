@@ -74,7 +74,8 @@ export class TasksMoreInfoComponent implements OnInit {
   
   newData(id: any)
   {
-    // this.router.navigate(['territory', id, 'territoryForm']);
+    this.router.navigate(['tasksMoreInformation', id, 'tasksMoreInformationForm']);
+
   }
   
   applyChanges( data: any[])

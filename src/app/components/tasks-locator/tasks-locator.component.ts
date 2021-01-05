@@ -73,7 +73,8 @@ export class TasksLocatorComponent implements OnInit {
   
   newData(id: any)
   {
-    // this.router.navigate(['territory', id, 'territoryForm']);
+    this.router.navigate(['tasksLocator', id, 'tasksLocatorForm']);
+
   }
   
   applyChanges( data: any[])

@@ -361,7 +361,7 @@
     "informationType": "Tipus d'informació",
     "template": "Plantilla"
   },
-  "tasksTHematicEntity": {
+  "tasksThematicEntity": {
     "generalData": "Dades Generals",
     "tasksThematic": "Tasques-Temàtic",
     "name": "Nom",

@@ -34,6 +34,15 @@ import { TaskGroupFormComponent } from './components/task-group/task-group-form/
 import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.component';
+import { TasksDownloadFormComponent } from './components/tasks-download/tasks-download-form/tasks-download-form.component';
+import { TasksQueryFormComponent } from './components/tasks-query/tasks-query-form/tasks-query-form.component';
+import { TasksDocumentsFormComponent } from './components/tasks-document/tasks-documents-form/tasks-documents-form.component';
+import { TasksMoreInfoFormComponent } from './components/tasks-more-info/tasks-more-info-form/tasks-more-info-form.component';
+import { TasksLocatorFormComponent } from './components/tasks-locator/tasks-locator-form/tasks-locator-form.component';
+import { TasksReportFormComponent } from './components/tasks-report/tasks-report-form/tasks-report-form.component';
+import { TasksEditionFormComponent } from './components/tasks-edition/tasks-edition-form/tasks-edition-form.component';
+import { TasksThematicFormComponent } from './components/tasks-thematic/tasks-thematic-form/tasks-thematic-form.component';
+import { TasksExtractionFmeFormComponent } from './components/tasks-extraction-fme/tasks-extraction-fme-form/tasks-extraction-fme-form.component';
 
 export const APP_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
@@ -53,14 +62,23 @@ export const APP_ROUTES: Routes = [
     {path: 'taskGroup', component: TaskGroupComponent},
     {path: 'taskGroup/:id/taskGroupForm', component: TaskGroupFormComponent},
     {path: 'tasksDownload', component: TasksDownloadComponent},
+    {path: 'tasksDownload/:id/tasksDownloadForm', component: TasksDownloadFormComponent},
     {path: 'tasksDocument', component: TasksDocumentComponent},
+    {path: 'tasksDocument/:id/tasksDocumentForm', component: TasksDocumentsFormComponent},
     {path: 'tasksQuery', component: TasksQueryComponent},
+    {path: 'tasksQuery/:id/tasksQueryForm', component: TasksQueryFormComponent},
     {path: 'tasksMoreInformation', component: TasksMoreInfoComponent},
+    {path: 'tasksMoreInformation/:id/tasksMoreInformationForm', component: TasksMoreInfoFormComponent},
     {path: 'tasksLocator', component: TasksLocatorComponent},
+    {path: 'tasksLocator/:id/tasksLocatorForm', component: TasksLocatorFormComponent},
     {path: 'tasksReport', component: TasksReportComponent},
+    {path: 'tasksReport/:id/tasksReportForm', component: TasksReportFormComponent},
     {path: 'tasksEdition', component: TasksEditionComponent },
+    {path: 'tasksEdition/:id/tasksEditionForm', component: TasksEditionFormComponent},
     {path: 'tasksThematic', component: TasksThematicComponent },
+    {path: 'tasksThematic/:id/tasksThematicForm', component: TasksThematicFormComponent},
     {path: 'tasksExtractionFME', component: TasksExtractionFmeComponent },
+    {path: 'tasksExtractionFME/:id/tasksExtractionFMEForm', component: TasksExtractionFmeFormComponent},
     {path: 'territory', component: TerritoryComponent},
     {path: 'territory/:id/territoryForm', component: TerritoryFormComponent},
     {path: 'role', component: RoleComponent},

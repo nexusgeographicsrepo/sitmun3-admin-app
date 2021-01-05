@@ -74,7 +74,7 @@ export class TasksDownloadComponent implements OnInit {
   
   newData(id: any)
   {
-    // this.router.navigate(['territory', id, 'territoryForm']);
+    this.router.navigate(['tasksDownload', id, 'tasksDownloadForm']);
   }
   
   applyChanges( data: any[])

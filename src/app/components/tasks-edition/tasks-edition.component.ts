@@ -72,7 +72,7 @@ export class TasksEditionComponent implements OnInit {
   
   newData(id: any)
   {
-    // this.router.navigate(['territory', id, 'territoryForm']);
+    this.router.navigate(['tasksEdition', id, 'tasksEditionForm']);
   }
   
   applyChanges( data: any[])

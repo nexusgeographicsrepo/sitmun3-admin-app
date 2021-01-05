@@ -40,6 +40,7 @@ export class LayersFormComponent implements OnInit {
   columnDefsNodes: any[];
 
   //Dialog
+  columnDefsParametersDialog: any[];
   columnDefsCartographyGroupsDialog: any[];
   columnDefsSpatialSelectionDialog: any[];
   columnDefsTerritoriesDialog: any[];
@@ -104,7 +105,7 @@ export class LayersFormComponent implements OnInit {
 
       });
 
-      this.municipalForm.setValue({
+      this.informationForm.setValue({
         information: false,
         defaultInformation: false,
         informationLayer: "",
@@ -237,8 +238,40 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'tree', },
     ];
 
+    this.columnDefsParametersDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.alias'), field: 'alias',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order',  editable: false  },
+    ];
+
     
     this.columnDefsTerritoriesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+    ];
+
+    this.columnDefsSpatialSelectionDialog = [
       {
         headerName: '',
         checkboxSelection: true,
@@ -252,7 +285,6 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
     ];
 
-    
     this.columnDefsCartographyGroupsDialog = [
       {
         headerName: '',
@@ -266,6 +298,21 @@ export class LayersFormComponent implements OnInit {
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
     ];
+
+    this.columnDefsNodesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+    ];
+    
 
   }
 
@@ -428,58 +475,145 @@ export class LayersFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
-    // ******** Territory Dialog  ******** //
+// ******** Parameters Dialog  ******** //
 
-    getAllTerritoriesDialog = () => {
-      return this.territoryService.getAll();
-    }
+getAllParametersDialog = () => {
+  const aux: Array<any> = [];
+  return of(aux);
+  // return this.cartographyService.getAll();
+}
 
-    openTerritoriesDialog(data: any) {
+openParametersDialog(data: any) {
 
-      const dialogRef = this.dialog.open(DialogGridComponent);
-      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Territories';
-      dialogRef.componentInstance.titlesTable=['Territories'];
-      dialogRef.componentInstance.nonEditable=false;
-      
+  const dialogRef = this.dialog.open(DialogGridComponent);
+  dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
+  dialogRef.componentInstance.singleSelectionTable=[false];
+  dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
+  dialogRef.componentInstance.themeGrid=this.themeGrid;
+  dialogRef.componentInstance.title='Parameters';
+  dialogRef.componentInstance.titlesTable=['Parameters'];
+  dialogRef.componentInstance.nonEditable=false;
   
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
-  
-      });
-  
-    }
 
-    // ******** Cartography Groups Dialog  ******** //
 
-    getAllCartographyGroupsDialog = () => {
-      return this.cartographyGroupService.getAll();
-    }
+  dialogRef.afterClosed().subscribe(result => {
+    if(result.event==='Add') {      console.log(result.data); }
+    else { console.log(' Cancelled ');}
 
-    openCartographyGroupsDialog(data: any) {
+  });
 
-      const dialogRef = this.dialog.open(DialogGridComponent);
-      dialogRef.componentInstance.getAllsTable=[this.getAllCartographyGroupsDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographyGroupsDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Cartography Groups';
-      dialogRef.componentInstance.titlesTable=['Cartography Groups'];
-      dialogRef.componentInstance.nonEditable=false;
-      
+}
+
+// ******** Spatial Selection Dialog  ******** //
+
+getAllSpatialSelectionDialog = () => {
+  const aux: Array<any> = [];
+  return of(aux);
+  // return this.cartographyService.getAll();
+}
+
+openSpatialSelectionDialog(data: any) {
+
+  const dialogRef = this.dialog.open(DialogGridComponent);
+  dialogRef.componentInstance.getAllsTable=[this.getAllSpatialSelectionDialog];
+  dialogRef.componentInstance.singleSelectionTable=[false];
+  dialogRef.componentInstance.columnDefsTable=[this.columnDefsSpatialSelectionDialog];
+  dialogRef.componentInstance.themeGrid=this.themeGrid;
+  dialogRef.componentInstance.title='SpatialSelection';
+  dialogRef.componentInstance.titlesTable=['SpatialSelection'];
+  dialogRef.componentInstance.nonEditable=false;
   
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
-  
-      });
-  
-    }
+
+
+  dialogRef.afterClosed().subscribe(result => {
+    if(result.event==='Add') {      console.log(result.data); }
+    else { console.log(' Cancelled ');}
+
+  });
+
+}
+
+  // ******** Territory Dialog  ******** //
+
+  getAllTerritoriesDialog = () => {
+    return this.territoryService.getAll();
+  }
+
+  openTerritoriesDialog(data: any) {
+
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Territories';
+    dialogRef.componentInstance.titlesTable=['Territories'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
+
+  // ******** Cartography Groups Dialog  ******** //
+
+  getAllCartographyGroupsDialog = () => {
+    return this.cartographyGroupService.getAll();
+  }
+
+  openCartographyGroupsDialog(data: any) {
+
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllCartographyGroupsDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographyGroupsDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Cartography';
+    dialogRef.componentInstance.titlesTable=['Cartography Groups'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
+
+  // ******** Nodes Dialog  ******** //
+
+  getAllNodesDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openNodesDialog(data: any) {
+ 
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllNodesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsNodesDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Nodes';
+    dialogRef.componentInstance.titlesTable=['Nodes'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
 
 }

@@ -9,7 +9,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -166,6 +166,21 @@ export class ServiceFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name', editable: false },
     ];
 
+    this.columnDefsParametersDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type',  editable: false  },
+    ];
+
   }
 
   initializeServiceForm(): void {
@@ -284,6 +299,37 @@ export class ServiceFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+  // ******** Parameters Dialog  ******** //
+
+  getAllParametersDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openParametersDialog(data: any) {
+  
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Parameters';
+    dialogRef.componentInstance.titlesTable=['Parameters'];
+    dialogRef.componentInstance.nonEditable=false;
+    
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event==='Add') {      console.log(result.data); }
+      else { console.log(' Cancelled ');}
+
+    });
+
+  }
+
+        
 
   // ******** Layers Dialog  ******** //
 

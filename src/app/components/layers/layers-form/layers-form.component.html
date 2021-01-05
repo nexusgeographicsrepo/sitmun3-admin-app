@@ -228,7 +228,7 @@
       <div class="appDataGridEditDiv">
           <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-          [actionButton]=true (remove)="removeDataParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
+          [actionButton]=true (remove)="removeDataParameters($event)" (new)='openParametersDialog($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>
@@ -246,7 +246,7 @@
       <div class="appDataGridEditDiv">
           <app-data-grid  [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid' [getAll]='getAllSpatialConfigurations'  
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true   
-          [actionButton]=true (remove)="removeDataSpatialConfigurations($event)" (new)='newDataSpatialConfigurations($event)'  > </app-data-grid>
+          [actionButton]=true (add)="openSpatialSelectionDialog($event)" (remove)="removeDataSpatialConfigurations($event)" (new)='newDataSpatialConfigurations($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>
@@ -300,7 +300,7 @@
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes' 
           [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
-          [actionButton]=true (remove)="removeDataNodes($event)" (new)='newDataNodes($event)'  > </app-data-grid>
+          [actionButton]=true (add)="openNodesDialog($event)" (remove)="removeDataNodes($event)" (new)='newDataNodes($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>

@@ -422,7 +422,7 @@ export class ApplicationFormComponent implements OnInit {
   }
 
 
-      // ******** Parameters Dialog  ******** //
+  // ******** Parameters Dialog  ******** //
 
   getAllParametersDialog = () => {
     const aux: Array<any> = [];

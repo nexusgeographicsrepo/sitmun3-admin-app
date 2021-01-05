@@ -148,7 +148,8 @@
     "informationLayer": "Capa informació",
     "thematic": "Tematitzable",
     "generalData": "Dades Generals",
-    "municipalFilter": "Filtre Municipal"
+    "municipalFilter": "Filtre Municipal",
+    "alias": "àlies"
     
   },
   "layersPermitsEntity": {

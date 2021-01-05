@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConnectionService, TerritoryService, RoleService } from 'dist/sitmun-frontend-core/';
+import { TaskService, TerritoryService, RoleService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -41,7 +41,7 @@ export class TasksDownloadFormComponent implements OnInit {
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private connectionService: ConnectionService,
+    public taskService: TaskService,
     public roleService: RoleService,
     public territoryService: TerritoryService,
     private http: HttpClient,
@@ -56,7 +56,7 @@ export class TasksDownloadFormComponent implements OnInit {
       if (this.taskDownloadID !== -1) {
         console.log(this.taskDownloadID);
 
-        this.connectionService.get(this.taskDownloadID).subscribe(
+        this.taskService.get(this.taskDownloadID).subscribe(
           resp => {
             console.log(resp);
             this.taskDownloadToEdit = resp;
@@ -161,7 +161,7 @@ export class TasksDownloadFormComponent implements OnInit {
 
   addNewTasksDownload() {
     console.log(this.formTasksDownload.value);
-    this.connectionService.create(this.formTasksDownload.value)
+    this.taskService.create(this.formTasksDownload.value)
       .subscribe(resp => {
         console.log(resp);
         // this.router.navigate(["/company", resp.id, "formConnection"]);
@@ -171,7 +171,7 @@ export class TasksDownloadFormComponent implements OnInit {
   updateConnection() {
     console.log(this.formTasksDownload.value);
 
-    this.connectionService.update(this.formTasksDownload.value)
+    this.taskService.update(this.formTasksDownload.value)
       .subscribe(resp => {
         console.log(resp);
       });

@@ -20,8 +20,9 @@ describe('TasksQueryFormComponent', () => {
       imports : [HttpClientTestingModule, SitmunFrontendGuiModule, MatIconTestingModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [TaskService, TerritoryService, RoleService, CodeListService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
-    });
-
+    })
+    .compileComponents();
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(TasksQueryFormComponent);
     component = fixture.componentInstance;
@@ -33,4 +34,3 @@ describe('TasksQueryFormComponent', () => {
   });
 });
 
-});

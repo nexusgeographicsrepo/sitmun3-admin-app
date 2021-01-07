@@ -375,7 +375,20 @@
     "cartography": "Cartografia",
     "service": "Servei",
     "layer": "Capa",
-    "dataCreated": "Alta"
+    "dataCreated": "Alta",
+    "taskGroup": "Grup tasca",
+    "name": "Nom",
+    "edit": "Edita",
+    "new": "Nova",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "code": "Codi",
+    "roles": "Rols",
+    "territories": "Territoris",
+    "description": "Descripció",
+    "value": "Valor"
+
   },
   "tasksLocatorEntity": {
     "generalData": "Dades Generals",

@@ -59,8 +59,6 @@ export class ApplicationFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.applicationTypes.push({value: null,  description: '-------' });
-
     this.utils.getCodeListValues('application.type').subscribe(
       resp => {
         this.applicationTypes.push(...resp);
@@ -84,16 +82,11 @@ export class ApplicationFormComponent implements OnInit {
             this.applicationForm.setValue({
               id: this.applicationID,
               name: this.applicationToEdit.name,
-              user: ' ',
               type: this.applicationToEdit.type,
               title: this.applicationToEdit.title,
               tree: ' ',
-              desktopUrl: ' ',
-              desktopCSS: ' ',
-              mobileUrl: ' ',
-              mobileCSS: ' ',
-              defaultTool: ' ',
-              desplacamentSupramunicipal: false,
+              desktopUrl: this.applicationToEdit.jspTemplate,
+              desktopCSS: this.applicationToEdit.theme,
               situationMap: situationMapValue,
               scales: this.applicationToEdit.scales,
               srs: this.applicationToEdit.srs,
@@ -110,7 +103,7 @@ export class ApplicationFormComponent implements OnInit {
       }
       else {
         this.applicationForm.patchValue({
-          desplacamentSupramunicipal: false,
+          moveSupramunicipal: false,
           treeAutorefresh: false,
         });
       }
@@ -251,17 +244,32 @@ export class ApplicationFormComponent implements OnInit {
 
   }
 
-
-
+  onSelectionTypeAppChanged({ value }) {
+    debugger;
+    if (value === 'E') {
+      this.applicationForm.get('title').disable();
+      this.applicationForm.get('tree').disable();
+      this.applicationForm.get('scales').disable();
+      this.applicationForm.get('srs').disable();
+      this.applicationForm.get('situationMap').disable();
+      this.applicationForm.get('treeAutoRefresh').disable();
+      this.applicationForm.get('desktopCSS').disable();
+    } else {
+      this.applicationForm.get('title').enable();
+      this.applicationForm.get('tree').enable();
+      this.applicationForm.get('scales').enable();
+      this.applicationForm.get('srs').enable();
+      this.applicationForm.get('situationMap').enable();
+      this.applicationForm.get('treeAutoRefresh').enable();
+      this.applicationForm.get('desktopCSS').enable();
+    }
+  }
 
   initializeApplicationForm(): void {
 
     this.applicationForm = new FormGroup({
       id: new FormControl(null, []),
       name: new FormControl(null, [
-        Validators.required,
-      ]),
-      user: new FormControl(null, [
         Validators.required,
       ]),
       type: new FormControl(null, [
@@ -279,7 +287,7 @@ export class ApplicationFormComponent implements OnInit {
       desktopCSS: new FormControl(null, [
         Validators.required,
       ]),
-      mobileUrl: new FormControl(null, [
+      /*mobileUrl: new FormControl(null, [
         Validators.required,
       ]),
       mobileCSS: new FormControl(null, [
@@ -288,9 +296,9 @@ export class ApplicationFormComponent implements OnInit {
       defaultTool: new FormControl(null, [
         Validators.required,
       ]),
-      desplacamentSupramunicipal: new FormControl(null, [
+      moveSupramunicipal: new FormControl(null, [
         Validators.required,
-      ]),
+      ]),*/
       situationMap: new FormControl(null, [
         Validators.required,
       ]),

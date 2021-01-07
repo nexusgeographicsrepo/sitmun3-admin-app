@@ -214,7 +214,7 @@
     "mobileUrl": "Url mòbil",
     "mobileCSS": "CSS mòbil",
     "defaultTool": "Eina per defecte",
-    "desplacamentSupramunicipal": "Habilitat desplaçament supramunicipal",
+    "moveSupramunicipal": "Habilitat desplaçament supramunicipal",
     "situationMap": "Mapa situació",
     "scales": "Escales",
     "treeAutoRefresh": "Refrescar automàticament l'arbre",

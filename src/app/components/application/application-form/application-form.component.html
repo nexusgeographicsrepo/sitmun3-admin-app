@@ -25,22 +25,13 @@
               <input matInput type="text" formControlName="name" required>
             </mat-form-field>
           </div>
-
-          <div class="colFormDiv" >
-            <label class="formLabel">
-              {{'applicationEntity.user' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="user">
-            </mat-form-field>
-          </div>
-
+         
           <div class="colFormDiv" >
             <label class="formLabel">
               {{'applicationEntity.type' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <mat-select matInput formControlName="type" class="form-control">
+              <mat-select matInput formControlName="type" class="form-control" (selectionChange)="onSelectionTypeAppChanged($event)">
                 <mat-option [value]="appType.value" *ngFor="let appType of applicationTypes">
                   {{ appType.description}}
                 </mat-option>
@@ -80,40 +71,20 @@
             </mat-form-field>
           </div>
 
-      
-
-    </div>
-      <div class="rowFormDiv">
-      
-          
-        <div class="colFormDiv" >
-          <label class="formLabel">
-            {{'applicationEntity.tree' | translate}}
-          </label>
-          <mat-form-field appearance="outline">
-            <input matInput type="text" formControlName="tree">
-          </mat-form-field>
-        </div>
-
           <div class="colFormDiv" >
             <label class="formLabel">
-              {{'applicationEntity.defaultTool' | translate}}
+              {{'applicationEntity.tree' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="defaultTool">
+              <input matInput type="text" formControlName="tree">
             </mat-form-field>
           </div>
-
-          
           <div class="colFormDiv" >
             <label class="formLabel">
-              {{'applicationEntity.desplacamentSupramunicipal' | translate}}
+              {{'applicationEntity.treeAutoRefresh' | translate}}
             </label>
-            <mat-checkbox formControlName="desplacamentSupramunicipal"> </mat-checkbox>
+            <mat-checkbox formControlName="treeAutoRefresh"> </mat-checkbox>
           </div>
-
-  
-
 
     </div>
       <div class="rowFormDiv">
@@ -144,12 +115,7 @@
               <input matInput type="text" formControlName="situationMap">
             </mat-form-field>
           </div>
-          <div class="lastColFormDiv" >
-            <label class="formLabel">
-              {{'applicationEntity.treeAutoRefresh' | translate}}
-            </label>
-            <mat-checkbox formControlName="treeAutoRefresh"> </mat-checkbox>
-          </div>
+         
 
       </div>
     </form>

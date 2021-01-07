@@ -431,6 +431,7 @@
     "tag": "Etiqueta",
     "select": "Select",
     "description": "Descripció",
+    "value": "Valor",
     "order": "Ordre"
   },
   "tasksReportEntity": {

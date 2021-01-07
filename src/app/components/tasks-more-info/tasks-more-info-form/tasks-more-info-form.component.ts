@@ -99,9 +99,7 @@ export class TasksMoreInfoFormComponent implements OnInit {
           lockPosition: true,
         },
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.key'), field: 'key' },
-        { headerName: this.utils.getTranslate('tasksMoreInfoEntity.type'), field: 'type', },
-        { headerName: this.utils.getTranslate('tasksMoreInfoEntity.tag'), field: 'tag' },
-        { headerName: this.utils.getTranslate('tasksMoreInfoEntity.select'), field: 'select' },
+        { headerName: this.utils.getTranslate('tasksMoreInfoEntity.value'), field: 'value', },
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.order'), field: 'order' },
   
       ];

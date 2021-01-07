@@ -20,7 +20,9 @@ describe('TasksDocumentsFormComponent', () => {
       imports : [HttpClientTestingModule, SitmunFrontendGuiModule, MatIconTestingModule, RouterTestingModule, MaterialModule, RouterModule],
       providers: [TaskService, TerritoryService, CartographyService, CodeListService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
-    });
+    })
+    .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TasksDocumentsFormComponent);
@@ -33,4 +35,4 @@ describe('TasksDocumentsFormComponent', () => {
   });
 });
 
-});
+

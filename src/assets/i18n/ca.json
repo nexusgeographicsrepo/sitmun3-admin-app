@@ -294,13 +294,30 @@
   "tasksQueryEntity": {
     "generalData": "Dades Generals",
     "tasksQuery": "Tasques-Consultes",
+    "edit": "Edita",
+    "new": "Nova",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza",
     "name": "Nom",
     "task": "Tasca",
     "informationType": "Tipus d'informació",
-    "accesType": "Tipus d'accés",
+    "accessType": "Tipus d'accés",
     "command": "Comanda",
     "connection": "Connexió",
-    "associatedLayer": "Capa associada"
+    "associatedLayer": "Capa associada",
+    "groupTask": "Grup tasca",
+    "code": "Codi",
+    "roles": "Rols",
+    "territories": "Territoris",
+    "configurationParameters":"Paràmetres de configuració",
+    "key": "Clau",
+    "type": "Tipus",
+    "tag": "Etiqueta",
+    "select": "Select",
+    "description": "Descripció",
+    "order": "Ordre"
+
   },
   "tasksDownloadEntity": {
     "generalData": "Dades Generals",

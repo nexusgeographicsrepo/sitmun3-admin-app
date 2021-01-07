@@ -87,8 +87,8 @@
 </div>
 
 
-<div class="tableDiv" >
-  <mat-accordion multi>
+<div class="tableDiv" *ngIf="dataLoaded">
+  <mat-accordion *ngIf="taskQueryID!=-1" multi>
 
 
         <!-- Configuration parameters table -->
@@ -103,7 +103,7 @@
               <div class="appDataGridEditDiv">
                   <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
                   [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-                  [actionButton]=true (remove)="removeParameters($event)" (new)='openParametersDialog()'  > </app-data-grid>
+                  [actionButton]=true (remove)="removeParameters($event)" (new)='openParametersDialog($event)'  > </app-data-grid>
               </div>
           </ng-template>
         

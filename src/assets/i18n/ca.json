@@ -452,7 +452,21 @@
     "tasksReport": "Tasques-Informe",
     "task": "Tasca",
     "informationType": "Tipus d'informació",
-    "template": "Plantilla"
+    "template": "Plantilla",
+    "edit": "Edita",
+    "new": "Nova",
+    "save": "Desa",
+    "validate": "Valida",
+    "update": "Actualitza",
+    "taskGroup": "Grup tasca",
+    "locator": "Localitzador",
+    "name":"Nom",
+    "reportID": "Identificador report",
+    "maps": "Mapes",
+    "queries": "Consultes",
+    "territories": "Territoris",
+    "roles": "Rols",
+    "id": "ID"
   },
   "tasksThematicEntity": {
     "generalData": "Dades Generals",

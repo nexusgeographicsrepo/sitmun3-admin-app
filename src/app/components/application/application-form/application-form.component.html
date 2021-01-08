@@ -151,7 +151,7 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsTemplates" [themeGrid]='themeGrid' [getAll]='getAllTemplates'  
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true 
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
                   [actionButton]=true (add)="openTemplateConfigurationDialog($event)" (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
               </div>
           </ng-template>
@@ -168,7 +168,7 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles'  
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
                   [actionButton]=true (add)="openRolesDialog($event)" (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
               </div>
           </ng-template>
@@ -185,7 +185,7 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsBackgrounds" [themeGrid]='themeGrid' [getAll]='getAllBackgrounds' 
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
                   [actionButton]=true (add)="openBackgroundDialog($event)" (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
               </div>
           </ng-template>

@@ -64,7 +64,7 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies'
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
             [actionButton]=true (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)'
             (add)="openCartographyDialog($event)" (sendChanges)='applyChangesCartographies($event)'> </app-data-grid>
         </div>
@@ -82,7 +82,7 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles'
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
             [actionButton]=true (remove)="removeDataRole($event)" (new)='newDataRole($event)'
             (add)="openRolesDialog($event)" (sendChanges)='applyChangesRole($event)'> </app-data-grid>
         </div>

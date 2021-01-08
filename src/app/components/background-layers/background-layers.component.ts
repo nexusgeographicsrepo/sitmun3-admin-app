@@ -87,6 +87,7 @@ export class BackgroundLayersComponent implements OnInit {
   }
 
   add(data: Background[]) {
+    console.log(data);
     const promises: Promise<any>[] = [];
     data.forEach(background => {
       background.id = null;

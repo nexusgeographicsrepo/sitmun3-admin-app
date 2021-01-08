@@ -54,7 +54,7 @@
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsUsers" [themeGrid]='themeGrid' [getAll]='getAllUsers'  
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
             [actionButton]=true (add)="openUsersDialog($event)" (remove)="removeUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
         </div>
         
@@ -72,7 +72,7 @@
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsCartography" [themeGrid]='themeGrid' [getAll]='getAllCartographies' 
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true   
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
             [actionButton]=true (add)="openCartographyDialog($event)"  (remove)="removeCartographies($event)" (new)='newDataCartographies($event)'  > </app-data-grid>
         </div>
         
@@ -90,7 +90,7 @@
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsTasks" [themeGrid]='themeGrid' [getAll]='getAllTasks' 
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
             [actionButton]=true (add)="openTasksDialog($event)" (remove)="removeTasks($event)" (new)='newDataTasks($event)'  > </app-data-grid>
         </div>
         

@@ -78,6 +78,7 @@ export class ConnectionComponent implements OnInit {
   }
 
   add(data: Connection[]) {
+    console.log(data);
     const promises: Promise<any>[] = [];
     data.forEach(connection => {
       connection.id = null;

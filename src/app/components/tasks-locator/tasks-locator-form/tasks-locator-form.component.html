@@ -120,7 +120,7 @@
       <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles' 
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
             [actionButton]=true (add)="openRolesDialog($event)" (remove)="removeDataRoles($event)" (new)='newDataRoles($event)' (sendChanges)='applyChangesRoles($event)' > </app-data-grid>
         </div>
       </ng-template>
@@ -137,7 +137,7 @@
       <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsTerritories" [themeGrid]='themeGrid' [getAll]='getAllTerritories'  
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
             [actionButton]=true (add)="openTerritoriesDialog($event)" (remove)="removeDataTerritories($event)" (new)='newDataTerritories($event)'  > </app-data-grid>
         </div>
       </ng-template>

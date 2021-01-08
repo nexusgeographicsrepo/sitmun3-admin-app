@@ -117,7 +117,7 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsData" [themeGrid]='themeGrid' [getAll]='getAllData'  
-          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
           [actionButton]=true (add)="openTerritoryDataDialog($event)" (remove)="removeDataData($event)" (new)='newDataData($event)'  > </app-data-grid>
       </div>
     </ng-template>

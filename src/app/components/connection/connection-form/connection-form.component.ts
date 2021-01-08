@@ -114,7 +114,7 @@ export class ConnectionFormComponent implements OnInit {
         },
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.code'), field: 'name' },
-        { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'taskGroup' },
+        { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'groupName' },
   
       ];
 

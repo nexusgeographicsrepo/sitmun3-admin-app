@@ -56,10 +56,11 @@
     "role": "Rol",
     "territory": "Territori",
     "dataOfTerritory": "Dades associades al territori",
-    "position": "Position",
+    "position": "Càrrec",
     "organization": "Organització",
     "mail": "Correu",
     "field": "Camp",
+    "expirationDate":"Caducitat",
     "dataCreated": "Alta",
     "code": "Codi"
   },

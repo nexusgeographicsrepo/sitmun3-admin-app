@@ -262,7 +262,7 @@ export class TasksLocatorFormComponent implements OnInit {
      // var urlReq=`${this.formTasksLocator.value._links.tasks.href}`
      // if(this.formTasksLocator.value._links.tasks.templated){
      //   var url=new URL(urlReq.split("{")[0]);
-     //   url.searchParams.append("projecction","view")
+     //   url.searchParams.append("projection","view")
      //   urlReq=url.toString();
      // }
  

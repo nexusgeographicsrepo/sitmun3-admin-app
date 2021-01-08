@@ -410,7 +410,7 @@ export class ApplicationFormComponent implements OnInit {
       var urlReq=`${this.applicationForm.value._links.backgrounds.href}`
       if(this.applicationForm.value._links.backgrounds.templated){
         var url=new URL(urlReq.split("{")[0]);
-        url.searchParams.append("projecction","view")
+        url.searchParams.append("projection","view")
         urlReq=url.toString();
       }
   
@@ -537,6 +537,7 @@ export class ApplicationFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
+        console.log(result);
         if(result.event==='Add') {      console.log(result.data); }
         else { console.log(' Cancelled ');}
   

@@ -2,16 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators  } from '@angular/forms';
 import {  ActivatedRoute,  Router} from '@angular/router';
-import { UserService,UserConfigurationService, HalOptions, HalParam } from 'dist/sitmun-frontend-core/';
+import { UserService, UserConfigurationService, TerritoryService, RoleService, HalOptions, HalParam, Territory, User, UserConfiguration } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { Role } from 'dist/sitmun-frontend-core/role/role.model';
+import { forEach } from 'jszip';
+
+
+
 
 @Component({
   selector: 'app-user-form',
@@ -19,10 +24,12 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./user-form.component.scss']
 }) 
 export class UserFormComponent implements OnInit {
+
+  
  
   //Form
   userForm: FormGroup;
-  userToEdit;
+  userToEdit: User;
   userID = -1;
   dataLoaded: Boolean = false;
   
@@ -33,8 +40,15 @@ export class UserFormComponent implements OnInit {
 
   //Dialog
 
-  columnDefsPermissionsDialog: any[];
+  columnDefsTerritoryDialog: any[];
+  columnDefsRolesDialog: any[];
   columnDefsTerritoryDataDialog: any[];
+
+  //Save button
+  territorisToUpdate: Territory[] = [];
+  rolesToUpdate: Role[] = [];
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+
 
   
   constructor(
@@ -45,6 +59,8 @@ export class UserFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     private userConfigurationService: UserConfigurationService,
+    private roleService: RoleService,
+    private territoryService: TerritoryService,
     ) {
         this.initializeUserForm();
     }
@@ -131,7 +147,7 @@ export class UserFormComponent implements OnInit {
 
     ];
 
-    this.columnDefsPermissionsDialog = [
+    this.columnDefsTerritoryDialog = [
       {
         headerName: '',
         checkboxSelection: true,
@@ -143,7 +159,21 @@ export class UserFormComponent implements OnInit {
       },
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.code'), field: 'code', editable: false },
-      { headerName: this.utils.getTranslate('userEntity.territories'), field: 'territories', editable: false },
+      { headerName: this.utils.getTranslate('userEntity.name'), field: 'name', editable: false },
+    ];
+
+    this.columnDefsRolesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: this.utils.getTranslate('userEntity.code'), field: 'code', editable: false },
+      { headerName: this.utils.getTranslate('userEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsTerritoryDataDialog = [
@@ -260,7 +290,18 @@ export class UserFormComponent implements OnInit {
 
   removeDataPermissions( data)
   {
-    console.log(data);
+
+    const promises: Promise<any>[] = [];
+    data.forEach(userConfiguration => {
+        this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          Promise.all(promises).then(() => {
+            this.dataUpdatedEvent.next(true);
+          });
+        });
+    });
+
+    
   }
   
   newDataPermissions(id: any)
@@ -288,28 +329,37 @@ export class UserFormComponent implements OnInit {
   }
 
    // ******** Permits Dialog  ******** //
+   
+   getAllTerritoriesDialog = () => {
+     return this.territoryService.getAll();
+  }
 
-   getAllPermitsDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
+   getAllRolesDialog = () => {
+     return this.roleService.getAll();
   }
 
   openPermitsDialog(data: any) {
  
     const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable=[this.getAllPermitsDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsPermissionsDialog];
+    dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog, this.getAllRolesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false,false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoryDialog, this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
     dialogRef.componentInstance.title='Permits';
-    dialogRef.componentInstance.titlesTable=['Permits'];
+    dialogRef.componentInstance.titlesTable=['Territories', 'Roles'];
     dialogRef.componentInstance.nonEditable=false;
     
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
+      if(result.event==='Add') { 
+        console.log(result.data); 
+        this.territorisToUpdate.push(...result.data[0]) 
+        this.rolesToUpdate.push(...result.data[1]) 
+        console.log(this.territorisToUpdate);
+        console.log(this.rolesToUpdate);
+        
+      }
       else { console.log(' Cancelled ');}
 
     });
@@ -346,6 +396,39 @@ export class UserFormComponent implements OnInit {
   
       });
   
+    }
+
+
+    updateUserConfiguration(user:User, territories: Territory[], roles: Role[] )
+    {
+      const promises: Promise<any>[] = [];
+      territories.forEach(territory => {
+
+        roles.forEach(role => {
+
+          let item = {
+            user: user,
+            role: role,
+            territory: territory,
+            _links: null
+          }
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          Promise.all(promises).then(() => {
+            this.dataUpdatedEvent.next(true);
+          });
+         
+        });
+        
+      });
+
+    }
+
+
+    onSaveButtonClicked(){
+
+    this.updateUserConfiguration(this.userToEdit,this.territorisToUpdate,this.rolesToUpdate)
+    this.dataUpdatedEvent.next(true);
+
     }
   
 

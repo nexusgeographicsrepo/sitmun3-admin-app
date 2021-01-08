@@ -55,6 +55,10 @@ import { RoleService } from 'dist/sitmun-frontend-core/';
 import { UserService } from 'dist/sitmun-frontend-core/';
 import { TreeService } from 'dist/sitmun-frontend-core/';
 import { CodeListService } from 'dist/sitmun-frontend-core/';
+import { LoginService } from 'dist/sitmun-frontend-core/';
+import { AuthService } from 'dist/sitmun-frontend-core/';
+import { AccountService } from 'dist/sitmun-frontend-core/';
+import { Principal } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
 import { ServiceService } from 'dist/sitmun-frontend-core/';
 import { ApplicationService } from 'dist/sitmun-frontend-core/';
@@ -81,6 +85,7 @@ import { TasksLocatorFormComponent } from './components/tasks-locator/tasks-loca
 import { TasksQueryFormComponent } from './components/tasks-query/tasks-query-form/tasks-query-form.component';
 import { TasksReportFormComponent } from './components/tasks-report/tasks-report-form/tasks-report-form.component';
 import { TasksThematicFormComponent } from './components/tasks-thematic/tasks-thematic-form/tasks-thematic-form.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -129,7 +134,8 @@ import { TasksThematicFormComponent } from './components/tasks-thematic/tasks-th
     TasksLocatorFormComponent,
     TasksQueryFormComponent,
     TasksReportFormComponent,
-    TasksThematicFormComponent
+    TasksThematicFormComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -154,8 +160,10 @@ import { TasksThematicFormComponent } from './components/tasks-thematic/tasks-th
   providers: [SidenavService, UtilsService,
      { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
      { provide: LOCALE_ID, useValue: 'es-ES' },
-    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, ApplicationService, TreeService,
-    BackgroundService, CartographyService, CartographyGroupService, TaskGroupService, TaskService,UserConfigurationService,CodeListService,
+    RoleService, ConnectionService, UserService, TerritoryService, ServiceService, 
+    ApplicationService, TreeService, BackgroundService, CartographyService, CartographyGroupService,
+     TaskGroupService, TaskService,UserConfigurationService,CodeListService,LoginService,AuthService,
+     Principal,AccountService,
     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

@@ -519,6 +519,12 @@
     "description": "Descripció",
     "value": "Valor"
   },
+  "loginEntity":{
+    "username":"Usuari",
+    "password":"Contrasenya",
+    "login":"Iniciar sessió",
+    "bad-credentials": "Usuari i/o contrasenya incorrecte"
+  },
   "selectAll": "Seleccionar tot",
   "selectAllSearchResults": "Seleccionar tots els resultats de cerca",
   "searchOoo": "Buscar...",

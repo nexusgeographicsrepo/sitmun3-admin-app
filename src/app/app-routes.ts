@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
 import { ConnectionComponent } from './components/connection/connection.component';
 import { ServiceComponent } from './components/service/service.component';
@@ -88,6 +89,7 @@ export const APP_ROUTES: Routes = [
     {path: 'application', component: ApplicationComponent},
     {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
     {path: 'provaDialog', component: ProvaDialogComponent},
+    {path: 'login', component: LoginComponent},
     {path: '', pathMatch: 'full', redirectTo: 'connection' },
     {path: '**', pathMatch: 'full', redirectTo: 'connection' }
 

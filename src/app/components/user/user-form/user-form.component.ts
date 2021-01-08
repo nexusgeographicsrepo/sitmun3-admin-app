@@ -120,11 +120,14 @@ export class UserFormComponent implements OnInit {
         lockPosition:true,
       },
       { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
-      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'position', },
-      { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization', },
-      { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'mail', },
-      { headerName: this.utils.getTranslate('userEntity.field'),  field: 'caducity', },
-      { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'dataCreated', },
+      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'type' },
+      { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization'},
+      { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'email' },
+      { headerName: this.utils.getTranslate('userEntity.expirationDate'),  field: 'expirationDate'},
+      { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'createdDate',  /*filter: 'agDateColumnFilter',*/cellRenderer: (data) => {
+        return data.value ? (new Date(data.value)).toLocaleDateString() : '';
+      }  
+    },
 
     ];
 
@@ -154,11 +157,11 @@ export class UserFormComponent implements OnInit {
         lockPosition:true,
       },
       { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
-      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'position', },
-      { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization', },
-      { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'mail', },
-      { headerName: this.utils.getTranslate('userEntity.field'),  field: 'caducity', },
-      { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'dataCreated', },
+      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'type' },
+      { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization'},
+      { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'email' },
+      { headerName: this.utils.getTranslate('userEntity.expirationDate'),  field: 'expirationDate'},
+      { headerName: this.utils.getTranslate('userEntity.dataCreated'),  field: 'createdDate'},
     ];
 
 
@@ -267,12 +270,10 @@ export class UserFormComponent implements OnInit {
   }
 
   // ******** Data of Territory ******** //
-   getAllData = (): Observable<any> => {
-    //TODO Arreglar problema de permisos
-    // return (this.http.get(`${this.userForm.value._links.permissions.href}`))
-    // .pipe( map( data =>  data['_embedded']['user-configurations']) );
-    const aux:Array<any> = [];
-    return of(aux);
+   getAllDataTerritory = (): Observable<any> => {
+    return (this.http.get(`${this.userForm.value._links.positions.href}`))
+    .pipe( map( data =>  data['_embedded']['user-positions']) );
+
   }
 
   removeDataData( data)

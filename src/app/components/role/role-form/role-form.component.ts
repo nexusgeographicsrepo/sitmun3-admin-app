@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam } from 'dist/sitmun-frontend-core/';
+import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
-
+ 
 
 @Component({
   selector: 'app-role-form',
@@ -34,8 +34,14 @@ export class RoleFormComponent implements OnInit {
 
   //Dialogs
   columnDefsUsersDialog: any[];
+  columnDefsTerritoriesDialog: any[];
   columnDefsTasksDialog: any[];
   columnDefsCartographiesDialog: any[];
+
+  //Save button
+  territorisToUpdate: Territory[] = [];
+  usersToUpdate: User[] = [];
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
 
 
 
@@ -50,6 +56,7 @@ export class RoleFormComponent implements OnInit {
     private http: HttpClient,
     private utils: UtilsService,
     private userConfigurationService: UserConfigurationService,
+    private territoryService: TerritoryService
   ) {
     this.initializeRoleForm();
   }
@@ -143,6 +150,21 @@ export class RoleFormComponent implements OnInit {
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username', editable: false },
     ];
+
+    this.columnDefsTerritoriesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 50,
+        lockPosition:true,
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
+    ];
     this.columnDefsCartographiesDialog = [
       {
         headerName: '',
@@ -229,7 +251,15 @@ export class RoleFormComponent implements OnInit {
 
   }
   removeUsers(data: any[]) {
-    console.log(data);
+    const promises: Promise<any>[] = [];
+    data.forEach(userConfiguration => {
+        this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          Promise.all(promises).then(() => {
+            this.dataUpdatedEvent.next(true);
+          });
+        });
+    });
   }
 
   newDataUsers(id: any) {
@@ -281,24 +311,31 @@ export class RoleFormComponent implements OnInit {
     return this.userService.getAll();
   }
 
+  getAllTerritoriesDialog = () => {
+    return this.territoryService.getAll();
+  }
+
   openUsersDialog(data: any) {
-    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-    // const singleSelectionTable: Array<boolean> = [false];
-    // const titlesTable: Array<string> = ['Cartographies'];
+
     const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog];
+    dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog,this.getAllTerritoriesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false,false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsTerritoriesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
     dialogRef.componentInstance.title='Users';
-    dialogRef.componentInstance.titlesTable=['Users'];
+    dialogRef.componentInstance.titlesTable=['Users','Territories'];
     dialogRef.componentInstance.nonEditable=false;
     
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
+      if(result.event==='Add') {  
+        console.log(result.data); 
+        this.usersToUpdate.push(...result.data[0]) 
+        this.territorisToUpdate.push(...result.data[1]) 
+        console.log(this.territorisToUpdate);
+        console.log(this.usersToUpdate);
+       }
       else { console.log(' Cancelled ');}
 
     });
@@ -362,6 +399,39 @@ export class RoleFormComponent implements OnInit {
   
       });
   
+    }
+
+
+    updateUserConfiguration(role: Role, territories: Territory[], users: User[] )
+    {
+      const promises: Promise<any>[] = [];
+      territories.forEach(territory => {
+
+        users.forEach(user => {
+
+          let item = {
+            user: user,
+            role: role,
+            territory: territory,
+            _links: null
+          }
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          Promise.all(promises).then(() => {
+            this.dataUpdatedEvent.next(true);
+          });
+         
+        });
+        
+      });
+
+    }
+
+
+    onSaveButtonClicked(){
+
+    this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+    this.dataUpdatedEvent.next(true);
+
     }
 
 

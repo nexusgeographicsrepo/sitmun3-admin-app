@@ -42,7 +42,7 @@
 
 <div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion *ngIf="roleID!=-1" multi>
-
+ 
     <!-- Users table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
@@ -54,7 +54,7 @@
     <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsUsers" [themeGrid]='themeGrid' [getAll]='getAllUsers'  
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+            [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
             [actionButton]=true (add)="openUsersDialog($event)" (remove)="removeUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
         </div>
         

@@ -37,10 +37,6 @@ export class AppComponent   {
     console.log('$navOpen');
   }
 
-  /** User log out*/
-  logout(){
-    this.loginService.logout();
-  }
 
   /** Whether user is logged in */
   isLoggedIn(){

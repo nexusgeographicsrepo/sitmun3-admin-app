@@ -356,15 +356,18 @@ export class UserFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') { 
-        console.log(result.data); 
-        this.territorisToUpdate.push(...result.data[0]) 
-        this.rolesToUpdate.push(...result.data[1]) 
-        console.log(this.territorisToUpdate);
-        console.log(this.rolesToUpdate);
-        
+      if(result)
+      {
+        if(result.event==='Add') { 
+          console.log(result.data); 
+          this.territorisToUpdate.push(...result.data[0]) 
+          this.rolesToUpdate.push(...result.data[1]) 
+          console.log(this.territorisToUpdate);
+          console.log(this.rolesToUpdate);
+          
+        }
       }
-      else { console.log(' Cancelled ');}
+
 
     });
 
@@ -395,9 +398,10 @@ export class UserFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
-  
+        if(result){
+          if( result.event==='Add') {console.log(result.data); }
+        }
+
       });
   
     }

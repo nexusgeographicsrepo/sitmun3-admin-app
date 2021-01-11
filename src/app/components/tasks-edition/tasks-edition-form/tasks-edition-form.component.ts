@@ -327,8 +327,9 @@ export class TasksEditionFormComponent implements OnInit {
  
  
      dialogRef.afterClosed().subscribe(result => {
-       if(result.event==='Add') {      console.log(result.data); }
-       else { console.log(' Cancelled ');}
+      if(result){
+        if( result.event==='Add') {console.log(result.data); }
+      }
  
      });
  
@@ -355,8 +356,9 @@ export class TasksEditionFormComponent implements OnInit {
  
  
      dialogRef.afterClosed().subscribe(result => {
-       if(result.event==='Add') {      console.log(result.data); }
-       else { console.log(' Cancelled ');}
+      if(result){
+        if( result.event==='Add') {console.log(result.data); }
+      }
  
      });
  
@@ -382,8 +384,9 @@ export class TasksEditionFormComponent implements OnInit {
    
    
        dialogRef.afterClosed().subscribe(result => {
-         if(result.event==='Add') {      console.log(result.data); }
-         else { console.log(' Cancelled ');}
+        if(result){
+          if( result.event==='Add') {console.log(result.data); }
+        }
    
        });
    

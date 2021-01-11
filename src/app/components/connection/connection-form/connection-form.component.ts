@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConnectionService, CartographyService, TaskService } from 'dist/sitmun-frontend-core/';
+import { ConnectionService, CartographyService, TaskService, Cartography, Task } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
+import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -34,6 +35,12 @@ export class ConnectionFormComponent implements OnInit {
   //Dialog
   columnDefsCartographiesDialog: any[];
   columnDefsTasksDialog: any[];
+
+  //Save Button
+  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  newCartographies: Cartography[] = [];
+  newtasks: Task[] = [];
+  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
 
 
 
@@ -188,7 +195,7 @@ export class ConnectionFormComponent implements OnInit {
   // ******** Cartographies ******** //
   getAllCartographies = () => {
     
-    return (this.http.get(`${this.formConnection.value._links.cartographies.href}`))
+    return (this.http.get(`${this.connectionToEdit._links.cartographies.href}`))
     .pipe( map( data =>  data['_embedded']['cartographies']) );
 
   }
@@ -208,8 +215,8 @@ export class ConnectionFormComponent implements OnInit {
 
   // ******** Tasks  ******** //
   getAllTasks = () => {
-    var urlReq=`${this.formConnection.value._links.tasks.href}`
-    if(this.formConnection.value._links.tasks.templated){
+    var urlReq=`${this.connectionToEdit._links.tasks.href}`
+    if(this.connectionToEdit._links.tasks.templated){
       var url=new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection","view")
       urlReq=url.toString();
@@ -256,7 +263,11 @@ export class ConnectionFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
+      if(result.event==='Add') {
+        console.log(result.data);
+        this.newCartographies.push(...result.data[0]) 
+        this.addElementsEventCartographies.next(result.data[0])
+       }
       else { console.log(' Cancelled ');}
 
     });
@@ -292,5 +303,26 @@ export class ConnectionFormComponent implements OnInit {
       });
   
     }
+
+    updateCartographies(cartographies: Cartography[])
+    {
+      const promises: Promise<any>[] = [];
+      cartographies.forEach(cartography => {
+        
+        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.http.put(`${this.connectionToEdit._links.cartographies.href}`,cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+        Promise.all(promises).then(() => {
+          this.dataUpdatedEvent.next(true);
+        });
+       
+      });
+    }
+
+
+    onSaveButtonClicked(){
+
+      this.updateCartographies(this.newCartographies);
+      this.dataUpdatedEvent.next(true);
+  
+      }
 
 }

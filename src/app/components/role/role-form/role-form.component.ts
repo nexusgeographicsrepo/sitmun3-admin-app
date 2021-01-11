@@ -24,6 +24,7 @@ export class RoleFormComponent implements OnInit {
   roleToEdit;
   roleID: number = -1;
   dataLoaded: Boolean = false;
+  addElementsEventUsers: Subject<any[]> = new Subject <any[]>();
 
   //Grids
   columnDefsUsers: any[];

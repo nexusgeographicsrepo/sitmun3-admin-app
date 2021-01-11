@@ -7,6 +7,7 @@ import { ExternalConfigurationService } from 'src/app/ExternalConfigurationServi
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
@@ -15,7 +16,7 @@ describe('ToolbarComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ToolbarComponent ],
       imports: [MaterialModule],      
-      providers: [HttpClientTestingModule,HttpClientModule, RouterTestingModule,MatIconTestingModule, LoginService, AuthService, Principal,
+      providers: [HttpClientTestingModule,HttpClientModule, RouterTestingModule, SitmunFrontendGuiModule, MatIconTestingModule, LoginService, AuthService, Principal,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

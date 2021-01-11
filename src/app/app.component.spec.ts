@@ -10,7 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MaterialModule } from './material-module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {Principal, LoginService} from 'dist/sitmun-frontend-core/';
+import {Principal, LoginService, AccountService} from 'dist/sitmun-frontend-core/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 
 describe('AppComponent', () => {
@@ -55,10 +55,5 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('admin-app');
   });
 
-  it('AppComponent should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!!');
-  });
+
 });

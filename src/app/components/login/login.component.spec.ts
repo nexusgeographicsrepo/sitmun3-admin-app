@@ -4,7 +4,7 @@ import { LoginComponent } from './login.component';
 import { LoginService } from 'dist/sitmun-frontend-core/';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
-import { AuthService} from 'dist/sitmun-frontend-core/';
+import { AuthService, CodeListService,Principal, } from 'dist/sitmun-frontend-core/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -13,7 +13,7 @@ import { MaterialModule } from '../../material-module';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { CodeListService } from 'dist/sitmun-frontend-core';
+
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -33,7 +33,7 @@ describe('LoginComponent', () => {
            deps: [HttpClient]
            }
        })],
-     providers: [LoginService, AuthService,
+     providers: [LoginService, AuthService, CodeListService,Principal,
        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
    }).compileComponents();
   });

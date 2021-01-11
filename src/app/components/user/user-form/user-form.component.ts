@@ -3,17 +3,15 @@ import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators  } from '@angular/forms';
 import {  ActivatedRoute,  Router} from '@angular/router';
 import { UserService, UserConfigurationService, TerritoryService, RoleService, HalOptions, HalParam, Territory, User, UserConfiguration } from 'dist/sitmun-frontend-core/';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import { Role } from 'dist/sitmun-frontend-core/role/role.model';
-import { forEach } from 'jszip';
+
 
 
 

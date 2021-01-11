@@ -130,7 +130,6 @@ export class ApplicationFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -148,7 +147,6 @@ export class ApplicationFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -164,7 +162,6 @@ export class ApplicationFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -181,7 +178,6 @@ export class ApplicationFormComponent implements OnInit {
 
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,

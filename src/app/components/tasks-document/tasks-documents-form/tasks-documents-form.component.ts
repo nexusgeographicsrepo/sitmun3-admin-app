@@ -3,12 +3,10 @@ import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService, TerritoryService, CartographyService, Cartography } from 'dist/sitmun-frontend-core/';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 

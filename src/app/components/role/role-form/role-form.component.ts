@@ -3,7 +3,6 @@ import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role } from 'dist/sitmun-frontend-core/';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';

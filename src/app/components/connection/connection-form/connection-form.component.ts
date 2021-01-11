@@ -6,7 +6,7 @@ import { ConnectionService, CartographyService, TaskService, Cartography, Task }
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { Observable, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';

@@ -6,7 +6,6 @@ import { ServiceService, CartographyService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';

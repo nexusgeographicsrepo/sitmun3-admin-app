@@ -6,7 +6,6 @@ import { CartographyService, CartographyGroupService, TerritoryService, Territor
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -45,10 +44,6 @@ export class LayersFormComponent implements OnInit {
   columnDefsSpatialSelectionDialog: any[];
   columnDefsTerritoriesDialog: any[];
   columnDefsNodesDialog: any[];
-
-
-
-
 
   constructor(
     public dialog: MatDialog,

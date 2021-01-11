@@ -253,7 +253,7 @@ export class ConnectionFormComponent implements OnInit {
     // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
     // const singleSelectionTable: Array<boolean> = [false];
     // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent, {width: '100%', height: '100%'});
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass: 'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];

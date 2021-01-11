@@ -6,6 +6,7 @@ import { AuthService, LoginService, Principal } from 'dist/sitmun-frontend-core/
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { HttpClientModule } from '@angular/common/http';
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
@@ -14,7 +15,7 @@ describe('ToolbarComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ToolbarComponent ],
       imports: [MaterialModule],      
-      providers: [HttpClientTestingModule, RouterTestingModule,MatIconTestingModule, LoginService, AuthService, Principal,
+      providers: [HttpClientTestingModule,HttpClientModule, RouterTestingModule,MatIconTestingModule, LoginService, AuthService, Principal,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

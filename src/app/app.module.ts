@@ -165,7 +165,8 @@ import { LoginComponent } from './components/login/login.component';
     ApplicationService, TreeService, BackgroundService, CartographyService, CartographyGroupService,
      TaskGroupService, TaskService,UserConfigurationService,CodeListService,LoginService,AuthService,
      Principal,AccountService,
-    { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true }, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

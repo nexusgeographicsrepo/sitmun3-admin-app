@@ -12,6 +12,7 @@ import { MaterialModule } from './material-module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {Principal, LoginService, AccountService} from 'dist/sitmun-frontend-core/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
+import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
         RouterTestingModule,
         MatIconTestingModule,
         MaterialModule,
+        SitmunFrontendGuiModule, 
         BrowserAnimationsModule,
         TranslateModule.forRoot({ 
           loader: {

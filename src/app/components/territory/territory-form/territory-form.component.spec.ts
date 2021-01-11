@@ -19,7 +19,7 @@ describe('TerritoryFormComponent', () => {
       declarations: [ TerritoryFormComponent ],
       imports: [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule,
         RouterModule.forRoot([]), MaterialModule, MatIconTestingModule],
-     providers: [TerritoryService, TerritoryGroupTypeService, CartographyService, TaskService, CodeListService,UserConfigurationService,
+     providers: [TerritoryService, UserService, RoleService,  TerritoryGroupTypeService, CartographyService, TaskService, CodeListService,UserConfigurationService,
        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
    })
    .compileComponents();

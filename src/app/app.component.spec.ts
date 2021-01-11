@@ -38,7 +38,7 @@ describe('AppComponent', () => {
         SideMenuComponent,
         ToolbarComponent
       ],
-      providers: [Principal,LoginService, 
+      providers: [Principal,LoginService,AccountService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     }).compileComponents();
   });

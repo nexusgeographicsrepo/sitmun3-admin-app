@@ -135,8 +135,8 @@ export class UserFormComponent implements OnInit {
         width: 50,
         lockPosition:true,
       },
-      { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
-      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'type' },
+      { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territoryName'},
+      { headerName: this.utils.getTranslate('userEntity.position'),  field: 'name' },
       { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization'},
       { headerName: this.utils.getTranslate('userEntity.mail'),  field: 'email' },
       { headerName: this.utils.getTranslate('userEntity.expirationDate'),  field: 'expirationDate'},
@@ -312,7 +312,13 @@ export class UserFormComponent implements OnInit {
 
   // ******** Data of Territory ******** //
    getAllDataTerritory = (): Observable<any> => {
-    return (this.http.get(`${this.userForm.value._links.positions.href}`))
+    var urlReq=`${this.userForm.value._links.positions.href}`
+    if(this.userForm.value._links.positions.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+    return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['user-positions']) );
 
   }

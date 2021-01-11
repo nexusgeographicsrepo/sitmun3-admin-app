@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService } from 'dist/sitmun-frontend-core/';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
+import { ApplicationService, RoleService, HalOptions, HalParam,CartographyGroupService } from 'dist/sitmun-frontend-core/';
+
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { BtnEditRenderedComponent } from 'dist/sitmun-frontend-gui/';
+
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -21,6 +21,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./application-form.component.scss']
 })
 export class ApplicationFormComponent implements OnInit {
+
+  situationMapList: Array<any> = [];
 
   //Dialog
   applicationForm: FormGroup;
@@ -50,7 +52,8 @@ export class ApplicationFormComponent implements OnInit {
     private applicationService: ApplicationService,
     private roleService: RoleService,
     private http: HttpClient,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private cartographyGroupService:CartographyGroupService,
   ) {
     this.initializeApplicationForm();
   }
@@ -65,6 +68,17 @@ export class ApplicationFormComponent implements OnInit {
       }
     );
 
+    let situationMapByDefault = {
+      id: -1,
+      name: '-------'
+    }
+    this.situationMapList.push(situationMapByDefault);
+
+    this.getSituationMapList().subscribe(
+      resp => {
+        this.situationMapList.push(...resp);
+      }
+    );
 
     this.activatedRoute.params.subscribe(params => {
       this.applicationID = +params.id;
@@ -75,10 +89,8 @@ export class ApplicationFormComponent implements OnInit {
           resp => {
             console.log(resp);
             this.applicationToEdit = resp;
-            let situationMapValue = ' ';
-            if (this.applicationToEdit.situationMap !== null && this.applicationToEdit.situationMap!==undefined) { 
-              situationMapValue = this.applicationToEdit.situationMap.name
-            }
+
+            
             this.applicationForm.setValue({
               id: this.applicationID,
               name: this.applicationToEdit.name,
@@ -87,7 +99,7 @@ export class ApplicationFormComponent implements OnInit {
               tree: ' ',
               desktopUrl: this.applicationToEdit.jspTemplate,
               desktopCSS: this.applicationToEdit.theme,
-              situationMap: situationMapValue,
+              situationMap: this.applicationToEdit.situationMapId,
               scales: this.applicationToEdit.scales,
               srs: this.applicationToEdit.srs,
               treeAutoRefresh: this.applicationToEdit.treeAutoRefresh,
@@ -243,6 +255,15 @@ export class ApplicationFormComponent implements OnInit {
     ];
 
   }
+  getSituationMapList() {
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type', value:'M'}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+
+    return this.cartographyGroupService.getAll(query);
+  }
+
 
   onSelectionTypeAppChanged({ value }) {
     debugger;

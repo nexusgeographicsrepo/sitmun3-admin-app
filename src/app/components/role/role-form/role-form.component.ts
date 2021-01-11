@@ -329,14 +329,16 @@ export class RoleFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {  
-        console.log(result.data); 
-        this.usersToUpdate.push(...result.data[0]) 
-        this.territorisToUpdate.push(...result.data[1]) 
-        console.log(this.territorisToUpdate);
-        console.log(this.usersToUpdate);
-       }
-      else { console.log(' Cancelled ');}
+      if(result)
+      {
+        if(result.event==='Add') {  
+          console.log(result.data); 
+          this.usersToUpdate.push(...result.data[0]) 
+          this.territorisToUpdate.push(...result.data[1]) 
+          console.log(this.territorisToUpdate);
+          console.log(this.usersToUpdate);
+         }
+      }
 
     });
 
@@ -364,8 +366,9 @@ export class RoleFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
-      else { console.log(' Cancelled ');}
+      if(result){
+        if( result.event==='Add') {console.log(result.data); }
+      }
 
     });
 
@@ -394,8 +397,9 @@ export class RoleFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
+        if(result){
+          if( result.event==='Add') {console.log(result.data); }
+        }
   
       });
   

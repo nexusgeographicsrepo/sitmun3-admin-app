@@ -265,13 +265,14 @@ export class ConnectionFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {
-        console.log(result.data);
-        this.newCartographies.push(...result.data[0]) 
-        this.addElementsEventCartographies.next(result.data[0])
-        this.getAllRowsEvent.next(true);
-       }
-      else { console.log(' Cancelled ');}
+      if(result){
+        if(result.event==='Add') {
+          console.log(result.data);
+          this.newCartographies.push(...result.data[0]) 
+          this.addElementsEventCartographies.next(result.data[0])
+          this.getAllRowsEvent.next(true);
+        }
+      }
 
     });
 
@@ -307,9 +308,10 @@ export class ConnectionFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
-  
+        console.log(result);
+        if(result){
+          if( result.event==='Add') {      console.log(result.data); }
+        }
       });
   
     }

@@ -492,8 +492,9 @@ openParametersDialog(data: any) {
 
 
   dialogRef.afterClosed().subscribe(result => {
-    if(result.event==='Add') {      console.log(result.data); }
-    else { console.log(' Cancelled ');}
+    if(result){
+      if( result.event==='Add') {console.log(result.data); }
+    }
 
   });
 
@@ -521,8 +522,9 @@ openSpatialSelectionDialog(data: any) {
 
 
   dialogRef.afterClosed().subscribe(result => {
-    if(result.event==='Add') {      console.log(result.data); }
-    else { console.log(' Cancelled ');}
+    if(result){
+      if( result.event==='Add') {console.log(result.data); }
+    }
 
   });
 
@@ -548,8 +550,9 @@ openSpatialSelectionDialog(data: any) {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
-      else { console.log(' Cancelled ');}
+      if(result){
+        if( result.event==='Add') {console.log(result.data); }
+      }
 
     });
 
@@ -575,8 +578,9 @@ openSpatialSelectionDialog(data: any) {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
-      else { console.log(' Cancelled ');}
+      if(result){
+        if( result.event==='Add') {console.log(result.data); }
+      }
 
     });
 
@@ -604,8 +608,9 @@ openSpatialSelectionDialog(data: any) {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {      console.log(result.data); }
-      else { console.log(' Cancelled ');}
+      if(result){
+        if( result.event==='Add') {console.log(result.data); }
+      }
 
     });
 

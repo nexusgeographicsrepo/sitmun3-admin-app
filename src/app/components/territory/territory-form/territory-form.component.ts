@@ -567,14 +567,15 @@ export class TerritoryFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event==='Add') {  
-        console.log(result.data); 
-        this.usersToUpdate.push(...result.data[0]) 
-        this.rolesToUpdate.push(...result.data[1]) 
-        console.log(this.rolesToUpdate);
-        console.log(this.usersToUpdate);
-       }
-      else { console.log(' Cancelled ');}
+      if(result){
+        if(result.event==='Add') {  
+          console.log(result.data); 
+          this.usersToUpdate.push(...result.data[0]) 
+          this.rolesToUpdate.push(...result.data[1]) 
+          console.log(this.rolesToUpdate);
+          console.log(this.usersToUpdate);
+         }
+      }
 
     });
 
@@ -599,9 +600,9 @@ export class TerritoryFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
-  
+        if(result){
+          if( result.event==='Add') {console.log(result.data); }
+        }
       });
   
     }
@@ -624,8 +625,9 @@ export class TerritoryFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
-        if(result.event==='Add') {      console.log(result.data); }
-        else { console.log(' Cancelled ');}
+        if(result){
+          if( result.event==='Add') {console.log(result.data); }
+        }
   
       });
   
@@ -651,8 +653,9 @@ export class TerritoryFormComponent implements OnInit {
     
     
         dialogRef.afterClosed().subscribe(result => {
-          if(result.event==='Add') {      console.log(result.data); }
-          else { console.log(' Cancelled ');}
+          if(result){
+            if( result.event==='Add') {console.log(result.data); }
+          }
     
         });
     

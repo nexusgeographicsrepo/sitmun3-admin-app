@@ -10,6 +10,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MaterialModule } from './material-module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {Principal, LoginService} from 'dist/sitmun-frontend-core/';
+import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -36,6 +38,8 @@ describe('AppComponent', () => {
         SideMenuComponent,
         ToolbarComponent
       ],
+      providers: [Principal,LoginService, 
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     }).compileComponents();
   });
 

@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolbarComponent } from './toolbar.component';
 import { MaterialModule } from '../../../material-module';
+import { LoginService } from 'dist/sitmun-frontend-core/';
+import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
@@ -10,7 +12,9 @@ describe('ToolbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ToolbarComponent ],
-      imports: [MaterialModule],
+      imports: [MaterialModule],      
+      providers: [LoginService,
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();
   });

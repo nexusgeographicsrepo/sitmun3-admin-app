@@ -36,7 +36,6 @@ export class LayersPermitsComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: '',
-
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,

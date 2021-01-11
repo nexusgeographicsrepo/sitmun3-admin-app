@@ -33,10 +33,6 @@ export class LayersPermitsFormComponent implements OnInit {
   columnDefsRolesDialog: any[];
   columnDefsCartographiesDialog: any[];
 
-
-
-
-
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,

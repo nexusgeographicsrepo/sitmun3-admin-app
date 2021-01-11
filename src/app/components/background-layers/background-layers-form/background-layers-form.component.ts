@@ -27,13 +27,9 @@ export class BackgroundLayersFormComponent implements OnInit {
     this.initializeBackgroundForm();
   }
 
-
   backgroundForm: FormGroup;
   backgroundToEdit;
   backgroundID = -1;
-
-
-
 
   ngOnInit(): void {
 
@@ -48,8 +44,6 @@ export class BackgroundLayersFormComponent implements OnInit {
         this.permissionGroups.push(...resp);
       }
     );
-
-
 
     this.activatedRoute.params.subscribe(params => {
       this.backgroundID = +params.id;
@@ -68,8 +62,6 @@ export class BackgroundLayersFormComponent implements OnInit {
               active: this.backgroundToEdit.active,
               _links: this.backgroundToEdit._links
             });
-
-
           },
           error => {
  
@@ -134,11 +126,9 @@ export class BackgroundLayersFormComponent implements OnInit {
   updateBackground() {
 
     console.log(this.backgroundForm.value);
-
     this.backgroundService.update(this.backgroundForm.value)
       .subscribe(resp => {
         console.log(resp);
-
       });
 
   }

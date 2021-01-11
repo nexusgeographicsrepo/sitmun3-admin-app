@@ -34,7 +34,6 @@ import { TaskGroupComponent } from './components/task-group/task-group.component
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 import { LayersFormComponent } from './components/layers/layers-form/layers-form.component';
 import { TasksComponent } from './components/tasks/tasks.component';
-import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.component';
 import { TasksDownloadFormComponent } from './components/tasks-download/tasks-download-form/tasks-download-form.component';
 import { TasksQueryFormComponent } from './components/tasks-query/tasks-query-form/tasks-query-form.component';
 import { TasksDocumentsFormComponent } from './components/tasks-document/tasks-documents-form/tasks-documents-form.component';
@@ -88,7 +87,6 @@ export const APP_ROUTES: Routes = [
     {path: 'user/:id/userForm', component: UserFormComponent},
     {path: 'application', component: ApplicationComponent},
     {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
-    {path: 'provaDialog', component: ProvaDialogComponent},
     {path: 'login', component: LoginComponent},
     {path: '', pathMatch: 'full', redirectTo: 'connection' },
     {path: '**', pathMatch: 'full', redirectTo: 'connection' }

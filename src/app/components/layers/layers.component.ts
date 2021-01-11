@@ -27,7 +27,6 @@ export class LayersComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: '',
-        field: 'id',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,

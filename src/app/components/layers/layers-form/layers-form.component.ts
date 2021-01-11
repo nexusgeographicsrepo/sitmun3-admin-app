@@ -45,10 +45,6 @@ export class LayersFormComponent implements OnInit {
   columnDefsTerritoriesDialog: any[];
   columnDefsNodesDialog: any[];
 
-
-
-
-
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,

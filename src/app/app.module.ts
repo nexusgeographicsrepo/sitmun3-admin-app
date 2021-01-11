@@ -76,7 +76,6 @@ import { LayersFormComponent } from './components/layers/layers-form/layers-form
 import { TaskGroupComponent } from './components/task-group/task-group.component';
 import { TaskGroupFormComponent } from './components/task-group/task-group-form/task-group-form.component';
 import { TasksComponent } from './components/tasks/tasks.component';
-import { ProvaDialogComponent } from './components/prova-dialog/prova-dialog.component';
 import { TasksDocumentsFormComponent } from './components/tasks-document/tasks-documents-form/tasks-documents-form.component';
 import { TasksDownloadFormComponent } from './components/tasks-download/tasks-download-form/tasks-download-form.component';
 import { TasksEditionFormComponent } from './components/tasks-edition/tasks-edition-form/tasks-edition-form.component';
@@ -126,7 +125,6 @@ import { LoginComponent } from './components/login/login.component';
     TaskGroupComponent,
     TaskGroupFormComponent,
     TasksComponent,
-    ProvaDialogComponent,
     TasksDocumentsFormComponent,
     TasksDownloadFormComponent,
     TasksEditionFormComponent,

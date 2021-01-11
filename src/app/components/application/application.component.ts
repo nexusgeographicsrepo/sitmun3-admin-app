@@ -19,7 +19,6 @@ export class ApplicationComponent implements OnInit {
 
   applicationTypes: Array<any> = [];
 
-
   constructor(public applicationService: ApplicationService,
     private utils: UtilsService,
     private router: Router,

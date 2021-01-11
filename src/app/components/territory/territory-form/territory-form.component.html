@@ -10,7 +10,7 @@
 <div class="formDiv">
   <div class="formHeader">
     <h5> {{'taskGroupEntity.generalData' | translate}} </h5>
-    <button mat-flat-button class="saveButton" (click)="updateTerritory()">
+    <button mat-flat-button (click)="onSaveButtonClicked()" class="saveButton">
       <mat-icon fontSet="material-icons-round"> save </mat-icon>
       {{ "territoryEntity.save" | translate }}
     </button>
@@ -159,8 +159,8 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsPermits" [themeGrid]='themeGrid' [getAll]='getAllPermits'
-             [discardChangesButton]=true [redoButton]=true [undoButton]=true [hideDuplicateButton]=true
-            [deleteButton]=true [addButton]=true [actionButton]=true (remove)="removePermits($event)"
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true [hideDuplicateButton]=true
+            [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' (add)="openPermitsDialog($event)"  [deleteButton]=true [addButton]=true [actionButton]=true (remove)="removePermits($event)"
             (new)='newDataPermits($event)'>
           </app-data-grid>
         </div>

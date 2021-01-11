@@ -243,7 +243,7 @@ export class RoleFormComponent implements OnInit {
   getAllUsers = (): Observable<any> => {
 
     let params2:HalParam[]=[];
-    let param:HalParam={key:'user.id', value:this.roleID}
+    let param:HalParam={key:'role.id', value:this.roleID}
     params2.push(param);
     let query:HalOptions={ params:params2};
 

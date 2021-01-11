@@ -6,7 +6,7 @@
 <div class="formDiv"> 
   <div class="formHeader">
     <h5> {{'roleEntity.generalData' | translate}} </h5>
-    <button   mat-flat-button class="saveButton"  >
+    <button   mat-flat-button (click)="onSaveButtonClicked()" class="saveButton"  >
       <mat-icon fontSet="material-icons-round"  > save </mat-icon>
       {{ "roleEntity.save" | translate }}
     </button>

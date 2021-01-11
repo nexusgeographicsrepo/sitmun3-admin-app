@@ -33,7 +33,7 @@ describe('LoginComponent', () => {
            deps: [HttpClient]
            }
        })],
-     providers: [LoginService, AuthService, CodeListService,Principal, AccountService
+     providers: [LoginService, AuthService, CodeListService,Principal, AccountService,
        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
    }).compileComponents();
   });

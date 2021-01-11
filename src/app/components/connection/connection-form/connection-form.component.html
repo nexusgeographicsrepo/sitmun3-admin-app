@@ -87,8 +87,9 @@
       <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies' 
-            [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
-            [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' > </app-data-grid>
+            [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()' [eventGetAllRowsSubscription]='getAllRowsEvent.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
+            [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' 
+            (getAllRows)="getAllRowsCartographies($event)"> </app-data-grid>
         </div>
       </ng-template>
     </mat-expansion-panel>

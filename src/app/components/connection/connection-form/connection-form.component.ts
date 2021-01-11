@@ -38,6 +38,7 @@ export class ConnectionFormComponent implements OnInit {
 
   //Save Button
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  getAllRowsEvent: Subject<boolean> = new Subject <boolean>();
   newCartographies: Cartography[] = [];
   newtasks: Task[] = [];
   addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
@@ -245,13 +246,14 @@ export class ConnectionFormComponent implements OnInit {
   getAllCartographiesDialog = () => {
     return this.cartographyService.getAll();
   }
+  
 
   openCartographyDialog(data: any) {
     // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
     // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
     // const singleSelectionTable: Array<boolean> = [false];
     // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {width: '100%', height: '100%'});
     dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
@@ -267,11 +269,19 @@ export class ConnectionFormComponent implements OnInit {
         console.log(result.data);
         this.newCartographies.push(...result.data[0]) 
         this.addElementsEventCartographies.next(result.data[0])
+        this.getAllRowsEvent.next(true);
        }
       else { console.log(' Cancelled ');}
 
     });
 
+
+  }
+
+  getAllRowsCartographies(data: any[] )
+  {
+    console.log("hey");
+    console.log(data);
   }
 
     // ******** Tasks Dialog  ******** //
@@ -285,7 +295,7 @@ export class ConnectionFormComponent implements OnInit {
       // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
       // const singleSelectionTable: Array<boolean> = [false];
       // const titlesTable: Array<string> = ['Cartographies'];
-      const dialogRef = this.dialog.open(DialogGridComponent);
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'dialogsGrid'});
       dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];

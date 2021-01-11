@@ -250,6 +250,10 @@ h2 {
 }
 
 
+.gridDialogs{
+  width: calc(100vw - 15%) !important;
+  height: calc(100vh - 15%) !important;
+}
 
 
 .mat-stroked-button,

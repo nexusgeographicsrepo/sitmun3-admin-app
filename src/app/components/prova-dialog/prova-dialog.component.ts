@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Role } from 'dist/sitmun-frontend-core/role/role.model';
 import { RoleService, UserConfigurationService } from 'dist/sitmun-frontend-core/';
 import { TerritoryService, UserService } from 'dist/sitmun-frontend-core/';
-import { BtnEditRenderedComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,9 +21,7 @@ export class ProvaDialogComponent{
   colDefs: Array<any[]> = [];
   singleSelectionTable: Array<boolean> = [];
   titlesTable: Array<string> = [];
-  public frameworkComponents = {
-    btnEditRendererComponent: BtnEditRenderedComponent
-  };
+
 columnDefsUsers = [
     {
       headerName: '',

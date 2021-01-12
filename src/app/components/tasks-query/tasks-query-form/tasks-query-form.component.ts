@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-query-form',
@@ -62,12 +63,12 @@ export class TasksQueryFormComponent implements OnInit {
              this.taskQueryToEdit = resp;
              this.formTasksQuery.setValue({
                id: this.taskQueryID,
-               task: this.taskQueryToEdit.task,
-               groupTask: this.taskQueryToEdit.groupTask,
-               accessType: this.taskQueryToEdit.documentType,
-               command: this.taskQueryToEdit.path,
-               connection: this.taskQueryToEdit.extent,
-               associatedLayer: this.taskQueryToEdit.extent,
+               task: this.taskQueryToEdit.name,
+               groupTask: this.taskQueryToEdit.groupName,
+               accessType: '',
+               command: this.taskQueryToEdit.order,
+               connection: '',
+               associatedLayer: '',
                _links: this.taskQueryToEdit._links
              });
  
@@ -217,10 +218,9 @@ export class TasksQueryFormComponent implements OnInit {
 
      // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
-    // return (this.http.get(`${this.formTasksQuery.value._links.parameters.href}`))
-    //   .pipe(map(data => data[`_embedded`][`service-parameters`]));
-    const aux: Array<any> = [];
-    return of(aux);
+    return (this.http.get(`${this.taskQueryToEdit._links.parameters.href}`))
+      .pipe(map(data => data[`_embedded`][`task-parameters`]));
+
   }
 
   removeParameters(data: any[]) {
@@ -235,10 +235,9 @@ export class TasksQueryFormComponent implements OnInit {
    // ******** Roles ******** //
    getAllRoles = () => {
      
-     // return (this.http.get(`${this.formTasksQuery.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
-     const aux: Array<any> = [];
-     return of(aux);
+     return (this.http.get(`${this.taskQueryToEdit._links.roles.href}`))
+     .pipe( map( data =>  data['_embedded']['roles']) );
+
  
    }
  

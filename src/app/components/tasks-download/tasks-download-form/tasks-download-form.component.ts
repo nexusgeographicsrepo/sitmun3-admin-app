@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-tasks-download-form',
@@ -60,10 +61,10 @@ export class TasksDownloadFormComponent implements OnInit {
             this.taskDownloadToEdit = resp;
             this.formTasksDownload.setValue({
               id: this.taskDownloadID,
-              task: this.taskDownloadToEdit.task,
-              groupTask: this.taskDownloadToEdit.groupTask,
-              path: this.taskDownloadToEdit.path,
-              extent: this.taskDownloadToEdit.extent,
+              task: this.taskDownloadToEdit.name,
+              groupTask: this.taskDownloadToEdit.groupName,
+              path: ' ',
+              extent: '',
               _links: this.taskDownloadToEdit._links
             });
 
@@ -178,8 +179,8 @@ export class TasksDownloadFormComponent implements OnInit {
   // ******** Roles ******** //
   getAllRoles = () => {
     
-    return (this.http.get(`${this.formTasksDownload.value._links.cartographies.href}`))
-    .pipe( map( data =>  data['_embedded']['cartographies']) );
+    return (this.http.get(`${this.taskDownloadToEdit._links.roles.href}`))
+    .pipe( map( data =>  data['_embedded']['roles']) );
 
   }
 
@@ -198,15 +199,17 @@ export class TasksDownloadFormComponent implements OnInit {
 
   // ******** Territories  ******** //
   getAllTerritories = () => {
-    var urlReq=`${this.formTasksDownload.value._links.tasks.href}`
-    if(this.formTasksDownload.value._links.tasks.templated){
-      var url=new URL(urlReq.split("{")[0]);
-      url.searchParams.append("projection","view")
-      urlReq=url.toString();
-    }
+    // var urlReq=`${this.taskDownloadToEdit._links.territories.href}`
+    // if(this.formTasksDownload.value._links.territories.templated){
+    //   var url=new URL(urlReq.split("{")[0]);
+    //   url.searchParams.append("projection","view")
+    //   urlReq=url.toString();
+    // }
 
-    return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['tasks']) );
+    // return (this.http.get(urlReq))
+    // .pipe( map( data =>  data['_embedded']['tasks']) );
+    const aux: Array<any> = [];
+    return of(aux);
     
     
   }

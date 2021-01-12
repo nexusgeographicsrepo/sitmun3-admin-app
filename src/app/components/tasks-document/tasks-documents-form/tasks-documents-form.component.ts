@@ -60,11 +60,11 @@ export class TasksDocumentsFormComponent implements OnInit {
             this.taskDocumentToEdit = resp;
             this.formTasksDocument.setValue({
               id: this.taskDocumentID,
-              task: this.taskDocumentToEdit.task,
-              documentType: this.taskDocumentToEdit.documentType,
-              groupTask: this.taskDocumentToEdit.groupTask,
-              path: this.taskDocumentToEdit.path,
-              extent: this.taskDocumentToEdit.extent,
+              task: this.taskDocumentToEdit.name,
+              documentType: '',
+              groupTask: this.taskDocumentToEdit.groupName,
+              path:  '',
+              extent: '',
               _links: this.taskDocumentToEdit._links
             });
 

@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-edition-form',
@@ -66,11 +67,11 @@ export class TasksEditionFormComponent implements OnInit {
              this.formTasksEdition.setValue({
                id: this.taskEditionID,
                name: this.taskEditionToEdit.name,
-               editionType: this.taskEditionToEdit.editionType,
-               taskGroup: this.taskEditionToEdit.taskGrop,
-               service: this.taskEditionToEdit.service,
-               layerName: this.taskEditionToEdit.layerName,
-               emptyGeometryParameter: this.taskEditionToEdit.emptyGeometryParameter,
+               editionType: '',
+               taskGroup: this.taskEditionToEdit.groupName,
+               service: '',
+               layerName: '',
+               emptyGeometryParameter: '',
                _links: this.taskEditionToEdit._links
              });
 
@@ -199,6 +200,7 @@ export class TasksEditionFormComponent implements OnInit {
        service: new FormControl(null, []),
        layerName: new FormControl(null, []),
        emptyGeometryParameter: new FormControl(null, []),
+       _links: new FormControl(null, []),
      })
    }
  
@@ -255,11 +257,10 @@ export class TasksEditionFormComponent implements OnInit {
    
    // ******** Roles ******** //
    getAllRoles = () => {
-     
-     // return (this.http.get(`${this.formTasksEdition.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
-     const aux: Array<any> = [];
-     return of(aux);
+     console.log(this.taskEditionToEdit);
+     return (this.http.get(`${this.taskEditionToEdit._links.roles.href}`))
+     .pipe( map( data =>  data['_embedded']['roles']) );
+
  
    }
  

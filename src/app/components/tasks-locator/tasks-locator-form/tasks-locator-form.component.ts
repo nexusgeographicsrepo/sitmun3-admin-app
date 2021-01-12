@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-locator-form',
@@ -62,12 +63,12 @@ export class TasksLocatorFormComponent implements OnInit {
              this.taskLocatorToEdit = resp;
              this.formTasksLocator.setValue({
                id: this.taskLocatorID,
-               task: this.taskLocatorToEdit.task,
-               groupTask: this.taskLocatorToEdit.groupTask,
-               accessType: this.taskLocatorToEdit.documentType,
-               command: this.taskLocatorToEdit.path,
-               connection: this.taskLocatorToEdit.extent,
-               associatedLayer: this.taskLocatorToEdit.extent,
+               task: this.taskLocatorToEdit.name,
+               groupTask: this.taskLocatorToEdit.groupName,
+               accessType: '',
+               command: this.taskLocatorToEdit.order,
+               connection: '',
+               associatedLayer: '',
                _links: this.taskLocatorToEdit._links
              });
  
@@ -217,10 +218,8 @@ export class TasksLocatorFormComponent implements OnInit {
 
      // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
-    // return (this.http.get(`${this.formTasksLocator.value._links.parameters.href}`))
-    //   .pipe(map(data => data[`_embedded`][`service-parameters`]));
-    const aux: Array<any> = [];
-    return of(aux);
+    return (this.http.get(`${this.taskLocatorToEdit._links.parameters.href}`))
+      .pipe(map(data => data[`_embedded`][`task-parameters`]));
   }
 
   removeParameters(data: any[]) {
@@ -235,10 +234,9 @@ export class TasksLocatorFormComponent implements OnInit {
    // ******** Roles ******** //
    getAllRoles = () => {
      
-     // return (this.http.get(`${this.formTasksLocator.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
-     const aux: Array<any> = [];
-     return of(aux);
+     return (this.http.get(`${this.taskLocatorToEdit._links.roles.href}`))
+     .pipe( map( data =>  data['_embedded']['roles']) );
+
  
    }
  

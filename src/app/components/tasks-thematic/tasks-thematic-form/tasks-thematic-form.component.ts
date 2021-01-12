@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-thematic-form',
@@ -61,7 +62,7 @@ export class TasksThematicFormComponent implements OnInit {
              this.formTasksThematic.setValue({
                id: this.taskThematicID,
                name: this.taskThematicToEdit.name,
-               description: this.taskThematicToEdit.description,
+               description: '',
                _links: this.taskThematicToEdit._links
              });
  
@@ -173,10 +174,8 @@ export class TasksThematicFormComponent implements OnInit {
    // ******** Roles ******** //
    getAllRoles = () => {
      
-     // return (this.http.get(`${this.formTasksThematic.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
-     const aux: Array<any> = [];
-     return of(aux);
+    return (this.http.get(`${this.taskThematicToEdit._links.roles.href}`))
+    .pipe( map( data =>  data['_embedded']['roles']) );
  
    }
  

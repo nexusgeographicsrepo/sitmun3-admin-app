@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -62,10 +63,10 @@ export class TasksExtractionFmeFormComponent implements OnInit {
              this.taskExtractionFMEToEdit = resp;
              this.formTasksExtractionFME.setValue({
                id: this.taskExtractionFMEID,
-               cartography: this.taskExtractionFMEToEdit.name,
-               taskGroup: this.taskExtractionFMEToEdit.description,
-               service: this.taskExtractionFMEToEdit.description,
-               layer: this.taskExtractionFMEToEdit.description,
+               cartography: '',
+               taskGroup: this.taskExtractionFMEToEdit.groupName,
+               service: '',
+               layer: '',
                _links: this.taskExtractionFMEToEdit._links
              });
  
@@ -179,10 +180,8 @@ export class TasksExtractionFmeFormComponent implements OnInit {
    // ******** Roles ******** //
    getAllRoles = () => {
      
-     // return (this.http.get(`${this.formTasksExtractionFME.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
-     const aux: Array<any> = [];
-     return of(aux);
+    return (this.http.get(`${this.taskExtractionFMEToEdit._links.roles.href}`))
+    .pipe( map( data =>  data['_embedded']['roles']) );
  
    }
  

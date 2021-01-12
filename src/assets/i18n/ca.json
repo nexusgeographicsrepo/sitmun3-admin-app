@@ -399,7 +399,8 @@
     "help": "ajuda",
     "selectPath": "Select/Path",
     "roles": "Rols",
-    "territories": "Territoris"
+    "territories": "Territoris",
+    "columns": "Columnes"
   },
   "tasksExtractionFMEEntity": {
     "generalData": "Dades Generals",

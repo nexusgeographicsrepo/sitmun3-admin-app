@@ -13,6 +13,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { Xml2js } from "xml2js";
 
 @Component({
   selector: 'app-service-form',
@@ -56,6 +57,7 @@ export class ServiceFormComponent implements OnInit {
     private utils: UtilsService,
     public dialog: MatDialog,
     public cartographyService: CartographyService,
+
   ) {
     this.initializeServiceForm();
     this.projections = [];
@@ -231,7 +233,13 @@ export class ServiceFormComponent implements OnInit {
       this.projections.splice(index, 1);
     }
   }
-
+  getCapabilitiesService(){
+    this.http.get(`${this.serviceForm.value.serviceURL}?request=GetCapabilities`).subscribe(resp => {
+      debugger;
+      console.log(resp);
+      // this.router.navigate(["/company", resp.id, "formConnection"]);
+    });
+  }
 
 
   addNewLayer() {
@@ -247,7 +255,7 @@ export class ServiceFormComponent implements OnInit {
         console.log(resp);
         // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
-
+      
 
   }
 

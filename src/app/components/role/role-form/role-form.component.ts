@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
- 
+
 
 @Component({
   selector: 'app-role-form',
@@ -24,12 +24,13 @@ export class RoleFormComponent implements OnInit {
   roleToEdit;
   roleID: number = -1;
   dataLoaded: Boolean = false;
-  addElementsEventUsers: Subject<any[]> = new Subject <any[]>();
+  addElementsEventUsers: Subject<any[]> = new Subject<any[]>();
 
   //Grids
   columnDefsUsers: any[];
   columnDefsTasks: any[];
   columnDefsCartography: any[];
+  columnDefsApplications: any[];
   themeGrid: any = environment.agGridTheme;
 
   //Dialogs
@@ -37,12 +38,17 @@ export class RoleFormComponent implements OnInit {
   columnDefsTerritoriesDialog: any[];
   columnDefsTasksDialog: any[];
   columnDefsCartographiesDialog: any[];
+  columnDefsApplicationsDialog: any[];
 
   //Save button
   territorisToUpdate: Territory[] = [];
   usersToUpdate: User[] = [];
+<<<<<<< HEAD
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+=======
+  dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
+>>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
 
 
 
@@ -86,10 +92,8 @@ export class RoleFormComponent implements OnInit {
           }
         );
       }
-
     },
       error => {
-
       });
 
 
@@ -138,6 +142,21 @@ export class RoleFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('roleEntity.layers'), field: 'layers' },
     ];
 
+    this.columnDefsApplications = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition: true,
+      },
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
+    ];
+
     this.columnDefsUsersDialog = [
       {
         headerName: '',
@@ -146,9 +165,9 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username', editable: false },
     ];
 
@@ -160,9 +179,9 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
@@ -174,9 +193,9 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
 
@@ -188,10 +207,10 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name',  editable: false  },
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
 
   }
@@ -243,10 +262,10 @@ export class RoleFormComponent implements OnInit {
   // ******** Users ******** //
   getAllUsers = (): Observable<any> => {
 
-    let params2:HalParam[]=[];
-    let param:HalParam={key:'role.id', value:this.roleID}
+    let params2: HalParam[] = [];
+    let param: HalParam = { key: 'role.id', value: this.roleID }
     params2.push(param);
-    let query:HalOptions={ params:params2};
+    let query: HalOptions = { params: params2 };
 
     return this.userConfigurationService.getAll(query);
 
@@ -254,12 +273,12 @@ export class RoleFormComponent implements OnInit {
   removeUsers(data: any[]) {
     const promises: Promise<any>[] = [];
     data.forEach(userConfiguration => {
-        this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
-          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-          Promise.all(promises).then(() => {
-            this.dataUpdatedEvent.next(true);
-          });
+      this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) => { resolve() }) }));
+        Promise.all(promises).then(() => {
+          this.dataUpdatedEvent.next(true);
         });
+      });
     });
   }
 
@@ -330,6 +349,7 @@ export class RoleFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
+<<<<<<< HEAD
       if(result)
       {
         if(result.event==='Add') {  
@@ -338,6 +358,16 @@ export class RoleFormComponent implements OnInit {
           console.log(rowsToAdd);
           this.addElementsEventPermits.next(rowsToAdd);
          }
+=======
+      if (result) {
+        if (result.event === 'Add') {
+          console.log(result.data);
+          this.usersToUpdate.push(...result.data[0])
+          this.territorisToUpdate.push(...result.data[1])
+          console.log(this.territorisToUpdate);
+          console.log(this.usersToUpdate);
+        }
+>>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
       }
 
     });
@@ -363,8 +393,8 @@ export class RoleFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if( result.event==='Add') {console.log(result.data); }
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
     });
@@ -399,6 +429,7 @@ export class RoleFormComponent implements OnInit {
   
     }
 
+<<<<<<< HEAD
     getRowsToAddPermits(role: Role, territories: Territory[], users: User[] )
     {
       let itemsToAdd: any[] = [];
@@ -444,14 +475,46 @@ export class RoleFormComponent implements OnInit {
     //   });
 
     // }
+=======
+
+ 
 
 
-    onSaveButtonClicked(){
+  updateUserConfiguration(role: Role, territories: Territory[], users: User[]) {
+    const promises: Promise<any>[] = [];
+    territories.forEach(territory => {
 
+      users.forEach(user => {
+
+        let item = {
+          user: user,
+          role: role,
+          territory: territory,
+          _links: null
+        }
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(item).toPromise().then((resp) => { resolve() }) }));
+        Promise.all(promises).then(() => {
+          this.dataUpdatedEvent.next(true);
+        });
+
+      });
+
+    });
+
+  }
+>>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
+
+
+  onSaveButtonClicked() {
+
+<<<<<<< HEAD
     // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+=======
+    this.updateUserConfiguration(this.roleToEdit, this.territorisToUpdate, this.usersToUpdate)
+>>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
     this.dataUpdatedEvent.next(true);
 
-    }
+  }
 
 
 }

@@ -71,14 +71,14 @@
             </mat-form-field>
           </div>
 
-          <div class="colFormDiv" >
+          <!--<div class="colFormDiv" >
             <label class="formLabel">
               {{'applicationEntity.tree' | translate}}
             </label>
             <mat-form-field appearance="outline">
               <input matInput type="text" formControlName="tree">
             </mat-form-field>
-          </div>
+          </div>-->
           <div class="colFormDiv" >
             <label class="formLabel">
               {{'applicationEntity.treeAutoRefresh' | translate}}
@@ -194,6 +194,23 @@
               </div>
           </ng-template>
           </mat-expansion-panel>
+
+    <!-- Trees table -->
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title  >
+          {{ "applicationEntity.tree" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <ng-template matExpansionPanelContent>    
+          <div class="appDataGridEditDiv">
+              <app-data-grid [columnDefs]="columnDefsTrees" [themeGrid]='themeGrid' [getAll]='getAllTrees' 
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+              [actionButton]=true (add)="openTreeDialog($event)" (remove)="removeTrees($event)" (new)='newDataTrees($event)'  > </app-data-grid>
+          </div>
+      </ng-template>
+      </mat-expansion-panel>
 
         
   </mat-accordion>

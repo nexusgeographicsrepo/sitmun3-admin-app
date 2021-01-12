@@ -36,6 +36,7 @@ export class ApplicationFormComponent implements OnInit {
   columnDefsTemplates: any[];
   columnDefsRoles: any[];
   columnDefsBackgrounds: any[];
+  columnDefsTrees: any[];
   applicationTypes: Array<any> = [];
 
   //Dialogs
@@ -44,7 +45,7 @@ export class ApplicationFormComponent implements OnInit {
   columnDefsTemplateConfigurationDialog: any[];
   columnDefsRolesDialog: any[];
   columnDefsBackgroundDialog: any[];
-
+  columnDefsTreeDialog: any[];
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -190,6 +191,22 @@ export class ApplicationFormComponent implements OnInit {
 
     ];
 
+    this.columnDefsTrees = [
+
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition: true,
+      },
+      { headerName: "Id", field: 'id' },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+
+    ];
+
     this.columnDefsParametersDialog = [
       {
         headerName: '',
@@ -229,7 +246,7 @@ export class ApplicationFormComponent implements OnInit {
         width: 50,
         lockPosition:true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
       { headerName: this.utils.getTranslate('applicationEntity.note'), field: 'description' },
       { headerName: this.utils.getTranslate('applicationEntity.application'), field: 'application' },
@@ -246,7 +263,7 @@ export class ApplicationFormComponent implements OnInit {
         width: 50,
         lockPosition:true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
     ];
 
@@ -445,6 +462,31 @@ export class ApplicationFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+  // ******** Trees ******** //
+
+  getAllTrees = (): Observable<any> => {
+    var urlReq=`${this.applicationForm.value._links.trees.href}`
+    if(this.applicationForm.value._links.trees.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['trees']) );
+
+
+}
+
+removeTrees(data: any[]) {
+  console.log(data);
+}
+
+newDataTrees(id: any) {
+  // this.router.navigate(['territory', id, 'territoryForm']);
+  console.log('screen in progress');
+}
 
 
   // ******** Parameters Dialog  ******** //

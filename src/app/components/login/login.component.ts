@@ -1,8 +1,7 @@
 import { Component} from '@angular/core';
 import { AuthService } from 'dist/sitmun-frontend-core/';
 import { LoginService } from 'dist/sitmun-frontend-core/';
-
-
+import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -13,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     styleUrls: ['./login.component.scss']
 } )
 export class LoginComponent {
-
+    langs:any[];
     /** bad credentials message*/
     badCredentials: string;
 
@@ -30,6 +29,7 @@ export class LoginComponent {
             username: ['', Validators.required],
             password: ['', Validators.required]
         } );
+        this.langs=environment.languages
     }
 
     /** login action */

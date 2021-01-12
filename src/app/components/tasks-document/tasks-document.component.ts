@@ -59,9 +59,10 @@ export class TasksDocumentComponent implements OnInit {
 
   getAllTasksDocument = () => {
     
-    let taskType=environment.tasksTypes.find(element => element.name==='document');
+    let taskTypeID=environment.tasksTypes['document'];
+    console.log(environment.tasksTypes);
     let params2:HalParam[]=[];
-    let param:HalParam={key:'type.id', value:taskType.id}
+    let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
     return this.taskService.getAll(query);

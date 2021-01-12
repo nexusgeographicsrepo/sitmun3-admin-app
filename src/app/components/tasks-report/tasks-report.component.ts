@@ -58,9 +58,9 @@ export class TasksReportComponent implements OnInit {
 
 
   getAllTasksReport = () => {
-    let taskType=environment.tasksTypes.find(element => element.name==='report');
+    let taskTypeID=environment.tasksTypes['report'];
     let params2:HalParam[]=[];
-    let param:HalParam={key:'type.id', value:taskType.id}
+    let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
     return this.taskService.getAll(query);

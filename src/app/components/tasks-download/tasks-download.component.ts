@@ -56,9 +56,9 @@ export class TasksDownloadComponent implements OnInit {
 
 
   getAllTasksDownload = () => {
-    let taskType=environment.tasksTypes.find(element => element.name==='download');
+    let taskTypeID=environment.tasksTypes['download'];
     let params2:HalParam[]=[];
-    let param:HalParam={key:'type.id', value:taskType.id}
+    let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
     return this.taskService.getAll(query);

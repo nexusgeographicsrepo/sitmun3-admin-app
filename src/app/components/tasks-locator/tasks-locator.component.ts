@@ -60,9 +60,9 @@ export class TasksLocatorComponent implements OnInit {
 
 
   getAllTasksLocator = () => {
-    let taskType=environment.tasksTypes.find(element => element.name==='locator');
+    let taskTypeID=environment.tasksTypes['locator'];
     let params2:HalParam[]=[];
-    let param:HalParam={key:'type.id', value:taskType.id}
+    let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
     return this.taskService.getAll(query);

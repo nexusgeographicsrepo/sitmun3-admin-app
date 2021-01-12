@@ -61,9 +61,9 @@ export class TasksMoreInfoComponent implements OnInit {
 
 
   getAllTasksMoreInfo = () => {
-    let taskType=environment.tasksTypes.find(element => element.name==='moreInfo');
+    let taskTypeID=environment.tasksTypes['moreInfo'];
     let params2:HalParam[]=[];
-    let param:HalParam={key:'type.id', value:taskType.id}
+    let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
     return this.taskService.getAll(query);

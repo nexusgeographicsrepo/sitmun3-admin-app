@@ -58,9 +58,9 @@ export class TasksThematicComponent implements OnInit {
 
 
   getAllTasksThematic = () => {
-    let taskType=environment.tasksTypes.find(element => element.name==='thematic');
+    let taskTypeID=environment.tasksTypes['thematic'];
     let params2:HalParam[]=[];
-    let param:HalParam={key:'type.id', value:taskType.id}
+    let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
     return this.taskService.getAll(query);

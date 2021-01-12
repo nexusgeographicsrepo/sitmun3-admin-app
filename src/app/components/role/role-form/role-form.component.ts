@@ -43,12 +43,8 @@ export class RoleFormComponent implements OnInit {
   //Save button
   territorisToUpdate: Territory[] = [];
   usersToUpdate: User[] = [];
-<<<<<<< HEAD
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
-=======
-  dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
->>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
 
 
 
@@ -349,7 +345,6 @@ export class RoleFormComponent implements OnInit {
 
 
     dialogRef.afterClosed().subscribe(result => {
-<<<<<<< HEAD
       if(result)
       {
         if(result.event==='Add') {  
@@ -358,16 +353,6 @@ export class RoleFormComponent implements OnInit {
           console.log(rowsToAdd);
           this.addElementsEventPermits.next(rowsToAdd);
          }
-=======
-      if (result) {
-        if (result.event === 'Add') {
-          console.log(result.data);
-          this.usersToUpdate.push(...result.data[0])
-          this.territorisToUpdate.push(...result.data[1])
-          console.log(this.territorisToUpdate);
-          console.log(this.usersToUpdate);
-        }
->>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
       }
 
     });
@@ -429,7 +414,6 @@ export class RoleFormComponent implements OnInit {
   
     }
 
-<<<<<<< HEAD
     getRowsToAddPermits(role: Role, territories: Territory[], users: User[] )
     {
       let itemsToAdd: any[] = [];
@@ -475,43 +459,11 @@ export class RoleFormComponent implements OnInit {
     //   });
 
     // }
-=======
-
- 
-
-
-  updateUserConfiguration(role: Role, territories: Territory[], users: User[]) {
-    const promises: Promise<any>[] = [];
-    territories.forEach(territory => {
-
-      users.forEach(user => {
-
-        let item = {
-          user: user,
-          role: role,
-          territory: territory,
-          _links: null
-        }
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(item).toPromise().then((resp) => { resolve() }) }));
-        Promise.all(promises).then(() => {
-          this.dataUpdatedEvent.next(true);
-        });
-
-      });
-
-    });
-
-  }
->>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
 
 
   onSaveButtonClicked() {
 
-<<<<<<< HEAD
     // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
-=======
-    this.updateUserConfiguration(this.roleToEdit, this.territorisToUpdate, this.usersToUpdate)
->>>>>>> d8061a2f76a8c9cc446fc99bc76d81ca0a04ee5a
     this.dataUpdatedEvent.next(true);
 
   }

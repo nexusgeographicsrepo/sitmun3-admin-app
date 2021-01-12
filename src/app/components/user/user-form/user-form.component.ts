@@ -344,7 +344,7 @@ export class UserFormComponent implements OnInit {
 
   openPermitsDialog(data: any) {
  
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog, this.getAllRolesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false,false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoryDialog, this.columnDefsRolesDialog];
@@ -382,11 +382,8 @@ export class UserFormComponent implements OnInit {
     }
 
     openTerritoryDataDialog(data: any) {
-      // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-      // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-      // const singleSelectionTable: Array<boolean> = [false];
-      // const titlesTable: Array<string> = ['Cartographies'];
-      const dialogRef = this.dialog.open(DialogGridComponent);
+
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllTerritoryDataDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoryDataDialog];

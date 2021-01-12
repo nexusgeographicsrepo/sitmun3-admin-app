@@ -480,7 +480,7 @@ getAllParametersDialog = () => {
 
 openParametersDialog(data: any) {
 
-  const dialogRef = this.dialog.open(DialogGridComponent);
+  const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
   dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
   dialogRef.componentInstance.singleSelectionTable=[false];
   dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
@@ -510,7 +510,7 @@ getAllSpatialSelectionDialog = () => {
 
 openSpatialSelectionDialog(data: any) {
 
-  const dialogRef = this.dialog.open(DialogGridComponent);
+  const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
   dialogRef.componentInstance.getAllsTable=[this.getAllSpatialSelectionDialog];
   dialogRef.componentInstance.singleSelectionTable=[false];
   dialogRef.componentInstance.columnDefsTable=[this.columnDefsSpatialSelectionDialog];
@@ -538,7 +538,7 @@ openSpatialSelectionDialog(data: any) {
 
   openTerritoriesDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
@@ -566,7 +566,7 @@ openSpatialSelectionDialog(data: any) {
 
   openCartographyGroupsDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllCartographyGroupsDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographyGroupsDialog];
@@ -596,7 +596,7 @@ openSpatialSelectionDialog(data: any) {
 
   openNodesDialog(data: any) {
  
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllNodesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsNodesDialog];

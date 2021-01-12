@@ -317,7 +317,7 @@ export class RoleFormComponent implements OnInit {
 
   openUsersDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog,this.getAllTerritoriesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false,false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsTerritoriesDialog];
@@ -350,11 +350,8 @@ export class RoleFormComponent implements OnInit {
   }
 
   openCartographyDialog(data: any) {
-    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-    // const singleSelectionTable: Array<boolean> = [false];
-    // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent);
+
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
@@ -381,11 +378,8 @@ export class RoleFormComponent implements OnInit {
     }
 
     openTasksDialog(data: any) {
-      // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-      // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-      // const singleSelectionTable: Array<boolean> = [false];
-      // const titlesTable: Array<string> = ['Cartographies'];
-      const dialogRef = this.dialog.open(DialogGridComponent);
+
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];

@@ -555,7 +555,7 @@ export class TerritoryFormComponent implements OnInit {
 
   openPermitsDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog,this.getAllRolesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false,false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsRolesDialog];
@@ -588,7 +588,7 @@ export class TerritoryFormComponent implements OnInit {
     }
   
     openTerritoryDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent);
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
@@ -613,7 +613,7 @@ export class TerritoryFormComponent implements OnInit {
     }
   
     openCartographyDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent);
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
@@ -641,7 +641,7 @@ export class TerritoryFormComponent implements OnInit {
   
       openTasksDialog(data: any) {
 
-        const dialogRef = this.dialog.open(DialogGridComponent);
+        const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
         dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
         dialogRef.componentInstance.singleSelectionTable=[false];
         dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];

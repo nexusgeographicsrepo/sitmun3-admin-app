@@ -20,8 +20,9 @@ export class AppComponent   {
 
   isOpen: boolean;
   constructor(/** Translate service */public trans: TranslateService, /** Identity service */public principal:Principal,/** Login service */public loginService:LoginService  ) { 
-  	this.translate = trans;
-  	this.translate.addLangs(['es', 'ca']);
+    this.translate = trans;
+    
+  	this.translate.addLangs(['es', 'ca','es']);
     this.translate.setDefaultLang('ca');
     this.translate.use('ca');
   }

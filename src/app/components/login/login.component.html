@@ -23,9 +23,9 @@
           {{'loginEntity.language' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <mat-select matInput formControlName="situationMap" class="form-control">
-            <mat-option [value]="situationMapObj.id" *ngFor="let situationMapObj of situationMapList">
-              {{situationMapObj.name}}
+          <mat-select matInput formControlName="lang" class="form-control">
+            <mat-option [value]="lang.id" *ngFor="let lang of langs">
+              {{lang.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>

@@ -15,6 +15,11 @@
   "error-updated": "S'ha produït un error actualitzant els elements", 
   "ok-deleted": "Els elements s'han eliminat correctament",
   "error-deleted": "S'ha produït un error en esborrar els elements", 
+  "lang":{
+    "catalan":"Català",
+    "spanish":"Castellà",
+    "english":"Anglés"
+  },
   "sideMenu":{
     "generalData": "Dades Generals",
     "connection": "Connexió",

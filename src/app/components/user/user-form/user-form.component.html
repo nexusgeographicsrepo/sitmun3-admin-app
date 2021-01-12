@@ -97,7 +97,7 @@
     <div matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsPermissions" [themeGrid]='themeGrid' [getAll]='getAllPermissions'  
-          [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+          [eventRefreshSubscription]='dataUpdatedEvent.asObservable()'  [eventAddItemsSubscription]='addElementsEventPermits.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
           [actionButton]=true (remove)="removeDataPermissions($event)" (new)="openPermitsDialog($event)"  > </app-data-grid>
       </div>
     </div>

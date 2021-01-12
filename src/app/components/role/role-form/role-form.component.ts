@@ -42,6 +42,7 @@ export class RoleFormComponent implements OnInit {
   territorisToUpdate: Territory[] = [];
   usersToUpdate: User[] = [];
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
 
 
 
@@ -333,10 +334,9 @@ export class RoleFormComponent implements OnInit {
       {
         if(result.event==='Add') {  
           console.log(result.data); 
-          this.usersToUpdate.push(...result.data[0]) 
-          this.territorisToUpdate.push(...result.data[1]) 
-          console.log(this.territorisToUpdate);
-          console.log(this.usersToUpdate);
+          let rowsToAdd = this.getRowsToAddPermits(this.roleToEdit,result.data[1],result.data[0])
+          console.log(rowsToAdd);
+          this.addElementsEventPermits.next(rowsToAdd);
          }
       }
 
@@ -399,35 +399,56 @@ export class RoleFormComponent implements OnInit {
   
     }
 
-
-    updateUserConfiguration(role: Role, territories: Territory[], users: User[] )
+    getRowsToAddPermits(role: Role, territories: Territory[], users: User[] )
     {
-      const promises: Promise<any>[] = [];
+      let itemsToAdd: any[] = [];
       territories.forEach(territory => {
 
-        users.forEach(user => {
-
-          let item = {
-            user: user,
-            role: role,
-            territory: territory,
-            _links: null
-          }
-          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-          Promise.all(promises).then(() => {
-            this.dataUpdatedEvent.next(true);
-          });
-         
-        });
-        
-      });
-
+          users.forEach(user => {
+            let item = {
+              user: user,
+              'user.id': user.id,
+              role: role.name,
+              'role.id': role.id,
+              territory: territory.name,
+              'territory.id': territory.id,
+              _links: null
+            }
+            itemsToAdd.push(item);
+          })
+       })
+      return itemsToAdd;
     }
+
+
+    // updateUserConfiguration(role: Role, territories: Territory[], users: User[] )
+    // {
+    //   const promises: Promise<any>[] = [];
+    //   territories.forEach(territory => {
+
+    //     users.forEach(user => {
+
+    //       let item = {
+    //         user: user,
+    //         role: role,
+    //         territory: territory,
+    //         _links: null
+    //       }
+    //       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+    //       Promise.all(promises).then(() => {
+    //         this.dataUpdatedEvent.next(true);
+    //       });
+         
+    //     });
+        
+    //   });
+
+    // }
 
 
     onSaveButtonClicked(){
 
-    this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+    // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
     this.dataUpdatedEvent.next(true);
 
     }

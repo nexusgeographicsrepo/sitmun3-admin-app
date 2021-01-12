@@ -1,33 +1,43 @@
 <mat-card class="mat-card-login">
-    <form [formGroup]="form" (ngSubmit)="login()">
+  <form [formGroup]="form" (ngSubmit)="login()">
 
-        
-         <h3>{{'loginEntity.login' | translate}}</h3>
-   
-         <mat-card-content>
+
+    <h3>{{'loginEntity.login' | translate}}</h3>
     
-          <div class="container">
-               <mat-form-field>
-            <input matInput type="input" placeholder="{{ 'loginEntity.username'| translate}}" formControlName="username"
-                   name="username">
-          </mat-form-field>
-           <mat-form-field>
-                <input matInput type="password" placeholder="{{ 'loginEntity.password'| translate}}" formControlName="password">
-          </mat-form-field>
-          
-        </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit"
-                  [disabled]="!form.valid">{{'loginEntity.login' | translate}}</button>
-          
-        </mat-card-actions>
-    </form>
-    <div class="alert alert-danger" *ngIf="badCredentials">                  
-      {{'loginEntity.bad-credentials' | translate}}
-    </div>
+    <mat-card-content>
+
+      <div class="container">
+        <label class="formLabel">
+          {{'loginEntity.username' | translate}}
+        </label>
+        <mat-form-field appearance="outline">
+          <input matInput type="input" formControlName="username"  name="username">
+        </mat-form-field>
+        <label class="formLabel">
+          {{'loginEntity.password' | translate}}
+        </label>
+        <mat-form-field appearance="outline">
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+        <label class="formLabel">
+          {{'loginEntity.language' | translate}}
+        </label>
+        <mat-form-field appearance="outline">
+          <mat-select matInput formControlName="situationMap" class="form-control">
+            <mat-option [value]="situationMapObj.id" *ngFor="let situationMapObj of situationMapList">
+              {{situationMapObj.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">{{'loginEntity.login' |
+        translate}}</button>
+
+    </mat-card-actions>
+  </form>
+  <div class="alert alert-danger" *ngIf="badCredentials">
+    {{'loginEntity.bad-credentials' | translate}}
+  </div>
 </mat-card>
-      
-    
-    
-    

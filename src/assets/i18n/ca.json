@@ -270,7 +270,7 @@
     "role": "Rol",
     "note": "Observacions",
     "name": "Nom",
-    "application": "Aplicació",
+    "applications": "Aplicacións",
     "edit": "Edita",
     "new": "Nou",
     "save": "Desa",
@@ -525,7 +525,8 @@
     "password":"Contrasenya",
     "login":"Iniciar sessió",
     "bad-credentials": "Usuari i/o contrasenya incorrecte",
-    "closeSession":"Tancar sessió"
+    "closeSession":"Tancar sessió",
+    "language":"Idioma"
   },
   "selectAll": "Seleccionar tot",
   "selectAllSearchResults": "Seleccionar tots els resultats de cerca",

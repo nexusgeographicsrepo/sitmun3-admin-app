@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
- 
+
 
 @Component({
   selector: 'app-role-form',
@@ -24,12 +24,13 @@ export class RoleFormComponent implements OnInit {
   roleToEdit;
   roleID: number = -1;
   dataLoaded: Boolean = false;
-  addElementsEventUsers: Subject<any[]> = new Subject <any[]>();
+  addElementsEventUsers: Subject<any[]> = new Subject<any[]>();
 
   //Grids
   columnDefsUsers: any[];
   columnDefsTasks: any[];
   columnDefsCartography: any[];
+  columnDefsApplications: any[];
   themeGrid: any = environment.agGridTheme;
 
   //Dialogs
@@ -37,11 +38,12 @@ export class RoleFormComponent implements OnInit {
   columnDefsTerritoriesDialog: any[];
   columnDefsTasksDialog: any[];
   columnDefsCartographiesDialog: any[];
+  columnDefsApplicationsDialog: any[];
 
   //Save button
   territorisToUpdate: Territory[] = [];
   usersToUpdate: User[] = [];
-  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
 
 
 
@@ -85,10 +87,8 @@ export class RoleFormComponent implements OnInit {
           }
         );
       }
-
     },
       error => {
-
       });
 
 
@@ -137,6 +137,21 @@ export class RoleFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('roleEntity.layers'), field: 'layers' },
     ];
 
+    this.columnDefsApplications = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition: true,
+      },
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
+    ];
+
     this.columnDefsUsersDialog = [
       {
         headerName: '',
@@ -145,9 +160,9 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username', editable: false },
     ];
 
@@ -159,9 +174,9 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
@@ -173,9 +188,9 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
 
@@ -187,10 +202,10 @@ export class RoleFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name',  editable: false  },
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
 
   }
@@ -242,10 +257,10 @@ export class RoleFormComponent implements OnInit {
   // ******** Users ******** //
   getAllUsers = (): Observable<any> => {
 
-    let params2:HalParam[]=[];
-    let param:HalParam={key:'role.id', value:this.roleID}
+    let params2: HalParam[] = [];
+    let param: HalParam = { key: 'role.id', value: this.roleID }
     params2.push(param);
-    let query:HalOptions={ params:params2};
+    let query: HalOptions = { params: params2 };
 
     return this.userConfigurationService.getAll(query);
 
@@ -253,12 +268,12 @@ export class RoleFormComponent implements OnInit {
   removeUsers(data: any[]) {
     const promises: Promise<any>[] = [];
     data.forEach(userConfiguration => {
-        this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
-          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-          Promise.all(promises).then(() => {
-            this.dataUpdatedEvent.next(true);
-          });
+      this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) => { resolve() }) }));
+        Promise.all(promises).then(() => {
+          this.dataUpdatedEvent.next(true);
         });
+      });
     });
   }
 
@@ -318,26 +333,25 @@ export class RoleFormComponent implements OnInit {
   openUsersDialog(data: any) {
 
     const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog,this.getAllTerritoriesDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false,false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsTerritoriesDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Users';
-    dialogRef.componentInstance.titlesTable=['Users','Territories'];
-    dialogRef.componentInstance.nonEditable=false;
-    
+    dialogRef.componentInstance.getAllsTable = [this.getAllUsersDialog, this.getAllTerritoriesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false, false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsUsersDialog, this.columnDefsTerritoriesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = 'Users';
+    dialogRef.componentInstance.titlesTable = ['Users', 'Territories'];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result)
-      {
-        if(result.event==='Add') {  
-          console.log(result.data); 
-          this.usersToUpdate.push(...result.data[0]) 
-          this.territorisToUpdate.push(...result.data[1]) 
+      if (result) {
+        if (result.event === 'Add') {
+          console.log(result.data);
+          this.usersToUpdate.push(...result.data[0])
+          this.territorisToUpdate.push(...result.data[1])
           console.log(this.territorisToUpdate);
           console.log(this.usersToUpdate);
-         }
+        }
       }
 
     });
@@ -355,88 +369,87 @@ export class RoleFormComponent implements OnInit {
     // const singleSelectionTable: Array<boolean> = [false];
     // const titlesTable: Array<string> = ['Cartographies'];
     const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Cartographies';
-    dialogRef.componentInstance.titlesTable=['Cartographies'];
-    dialogRef.componentInstance.nonEditable=false;
-    
+    dialogRef.componentInstance.getAllsTable = [this.getAllCartographiesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsCartographiesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = 'Cartographies';
+    dialogRef.componentInstance.titlesTable = ['Cartographies'];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if( result.event==='Add') {console.log(result.data); }
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
     });
 
   }
 
-    // ******** Tasks Dialog  ******** //
+  // ******** Tasks Dialog  ******** //
 
-    getAllTasksDialog = () => {
-      return this.tasksService.getAll();
-    }
+  getAllTasksDialog = () => {
+    return this.tasksService.getAll();
+  }
 
-    openTasksDialog(data: any) {
-      // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-      // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-      // const singleSelectionTable: Array<boolean> = [false];
-      // const titlesTable: Array<string> = ['Cartographies'];
-      const dialogRef = this.dialog.open(DialogGridComponent);
-      dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Tasks';
-      dialogRef.componentInstance.titlesTable=['Tasks'];
-      dialogRef.componentInstance.nonEditable=false;
-      
-  
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          if( result.event==='Add') {console.log(result.data); }
+  openTasksDialog(data: any) {
+    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
+    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
+    // const singleSelectionTable: Array<boolean> = [false];
+    // const titlesTable: Array<string> = ['Cartographies'];
+    const dialogRef = this.dialog.open(DialogGridComponent);
+    dialogRef.componentInstance.getAllsTable = [this.getAllTasksDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTasksDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = 'Tasks';
+    dialogRef.componentInstance.titlesTable = ['Tasks'];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
+      }
+
+    });
+
+  }
+
+
+  updateUserConfiguration(role: Role, territories: Territory[], users: User[]) {
+    const promises: Promise<any>[] = [];
+    territories.forEach(territory => {
+
+      users.forEach(user => {
+
+        let item = {
+          user: user,
+          role: role,
+          territory: territory,
+          _links: null
         }
-  
-      });
-  
-    }
-
-
-    updateUserConfiguration(role: Role, territories: Territory[], users: User[] )
-    {
-      const promises: Promise<any>[] = [];
-      territories.forEach(territory => {
-
-        users.forEach(user => {
-
-          let item = {
-            user: user,
-            role: role,
-            territory: territory,
-            _links: null
-          }
-          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-          Promise.all(promises).then(() => {
-            this.dataUpdatedEvent.next(true);
-          });
-         
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(item).toPromise().then((resp) => { resolve() }) }));
+        Promise.all(promises).then(() => {
+          this.dataUpdatedEvent.next(true);
         });
-        
+
       });
 
-    }
+    });
+
+  }
 
 
-    onSaveButtonClicked(){
+  onSaveButtonClicked() {
 
-    this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+    this.updateUserConfiguration(this.roleToEdit, this.territorisToUpdate, this.usersToUpdate)
     this.dataUpdatedEvent.next(true);
 
-    }
+  }
 
 
 }

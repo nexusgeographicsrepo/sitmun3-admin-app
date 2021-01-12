@@ -238,11 +238,7 @@ export class LayersPermitsFormComponent implements OnInit {
   }
 
   openCartographyDialog(data: any) {
-    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-    // const singleSelectionTable: Array<boolean> = [false];
-    // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
@@ -269,11 +265,8 @@ export class LayersPermitsFormComponent implements OnInit {
   }
 
   openRolesDialog(data: any) {
-    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-    // const singleSelectionTable: Array<boolean> = [false];
-    // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent);
+
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllRolesDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];

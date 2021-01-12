@@ -163,14 +163,15 @@
   </div>
 
 
-<div class="tableDiv" >
-  <mat-accordion multi>
+
+  <div class="tableDiv" *ngIf="dataLoaded">
+    <mat-accordion *ngIf="taskEditionToEdit!=-1" multi>
 
       <!-- Columns table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title  >
-          {{ "tasksEditionEntity.maps" | translate }}
+          {{ "tasksEditionEntity.columns" | translate }}
         </mat-panel-title>
       </mat-expansion-panel-header>
 

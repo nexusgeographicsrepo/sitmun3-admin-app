@@ -60,11 +60,11 @@ export class TasksDocumentsFormComponent implements OnInit {
             this.taskDocumentToEdit = resp;
             this.formTasksDocument.setValue({
               id: this.taskDocumentID,
-              task: this.taskDocumentToEdit.task,
-              documentType: this.taskDocumentToEdit.documentType,
-              groupTask: this.taskDocumentToEdit.groupTask,
-              path: this.taskDocumentToEdit.path,
-              extent: this.taskDocumentToEdit.extent,
+              task: this.taskDocumentToEdit.name,
+              documentType: '',
+              groupTask: this.taskDocumentToEdit.groupName,
+              path:  '',
+              extent: '',
               _links: this.taskDocumentToEdit._links
             });
 
@@ -237,7 +237,7 @@ export class TasksDocumentsFormComponent implements OnInit {
 
   openCartographyDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllCartographyDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographyDialog];
@@ -265,7 +265,7 @@ export class TasksDocumentsFormComponent implements OnInit {
 
     openTerritoriesDialog(data: any) {
 
-      const dialogRef = this.dialog.open(DialogGridComponent);
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];

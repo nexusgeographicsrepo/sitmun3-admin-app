@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-thematic-form',
@@ -61,7 +62,7 @@ export class TasksThematicFormComponent implements OnInit {
              this.formTasksThematic.setValue({
                id: this.taskThematicID,
                name: this.taskThematicToEdit.name,
-               description: this.taskThematicToEdit.description,
+               description: '',
                _links: this.taskThematicToEdit._links
              });
  
@@ -173,10 +174,8 @@ export class TasksThematicFormComponent implements OnInit {
    // ******** Roles ******** //
    getAllRoles = () => {
      
-     // return (this.http.get(`${this.formTasksThematic.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
-     const aux: Array<any> = [];
-     return of(aux);
+    return (this.http.get(`${this.taskThematicToEdit._links.roles.href}`))
+    .pipe( map( data =>  data['_embedded']['roles']) );
  
    }
  
@@ -231,7 +230,7 @@ export class TasksThematicFormComponent implements OnInit {
  
    openRolesDialog(data: any) {
  
-     const dialogRef = this.dialog.open(DialogGridComponent);
+     const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
      dialogRef.componentInstance.getAllsTable=[this.getAllRolesDialog];
      dialogRef.componentInstance.singleSelectionTable=[false];
      dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];
@@ -259,7 +258,7 @@ export class TasksThematicFormComponent implements OnInit {
  
      openTerritoriesDialog(data: any) {
  
-       const dialogRef = this.dialog.open(DialogGridComponent);
+       const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
        dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
        dialogRef.componentInstance.singleSelectionTable=[false];
        dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];

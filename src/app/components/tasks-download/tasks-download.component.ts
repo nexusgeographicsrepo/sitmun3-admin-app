@@ -3,7 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TaskService } from 'dist/sitmun-frontend-core/';
+import { HalOptions, HalParam, TaskService } from 'dist/sitmun-frontend-core/';
 
 @Component({
   selector: 'app-tasks-download',
@@ -15,7 +15,7 @@ export class TasksDownloadComponent implements OnInit {
   themeGrid:any=environment.agGridTheme;
   columnDefs: any[];
 
-  constructor(public tasksService: TaskService,
+  constructor(public taskService: TaskService,
     private utils: UtilsService,
               private router: Router,
               )
@@ -56,9 +56,12 @@ export class TasksDownloadComponent implements OnInit {
 
 
   getAllTasksDownload = () => {
-    const aux:Array<any> = [];
-    return of(aux);
-    // this.tasksService.getAll().pipe(map(data => data[`_embedded`][`download-tasks`]));
+    let taskType=environment.tasksTypes.find(element => element.name==='download');
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type.id', value:taskType.id}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.taskService.getAll(query);
   }
 
   removeData( data: any[])

@@ -499,7 +499,7 @@ newDataTrees(id: any) {
 
   openParametersDialog(data: any) {
  
-    const dialogRef = this.dialog.open(DialogGridComponent);
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
     dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
@@ -528,7 +528,7 @@ newDataTrees(id: any) {
       }
     
       openTemplateConfigurationDialog(data: any) {
-        const dialogRef = this.dialog.open(DialogGridComponent);
+        const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
         dialogRef.componentInstance.getAllsTable=[this.getAllTemplatesConfigurationDialog];
         dialogRef.componentInstance.singleSelectionTable=[false];
         dialogRef.componentInstance.columnDefsTable=[this.columnDefsTemplateConfigurationDialog];
@@ -557,7 +557,7 @@ newDataTrees(id: any) {
   
     openRolesDialog(data: any) {
 
-      const dialogRef = this.dialog.open(DialogGridComponent);
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllRolesDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];
@@ -587,7 +587,7 @@ newDataTrees(id: any) {
     }
   
     openBackgroundDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent);
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
       dialogRef.componentInstance.getAllsTable=[this.getAllBackgroundDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsBackgroundDialog];

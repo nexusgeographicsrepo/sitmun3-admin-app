@@ -332,15 +332,15 @@ export class RoleFormComponent implements OnInit {
 
   openUsersDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable = [this.getAllUsersDialog, this.getAllTerritoriesDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false, false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsUsersDialog, this.columnDefsTerritoriesDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = 'Users';
-    dialogRef.componentInstance.titlesTable = ['Users', 'Territories'];
-    dialogRef.componentInstance.nonEditable = false;
-
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
+    dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog,this.getAllTerritoriesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false,false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsTerritoriesDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Users';
+    dialogRef.componentInstance.titlesTable=['Users','Territories'];
+    dialogRef.componentInstance.nonEditable=false;
+    
 
 
     dialogRef.afterClosed().subscribe(result => {
@@ -364,19 +364,16 @@ export class RoleFormComponent implements OnInit {
   }
 
   openCartographyDialog(data: any) {
-    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-    // const singleSelectionTable: Array<boolean> = [false];
-    // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable = [this.getAllCartographiesDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsCartographiesDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = 'Cartographies';
-    dialogRef.componentInstance.titlesTable = ['Cartographies'];
-    dialogRef.componentInstance.nonEditable = false;
 
+    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
+    dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
+    dialogRef.componentInstance.singleSelectionTable=[false];
+    dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
+    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    dialogRef.componentInstance.title='Cartographies';
+    dialogRef.componentInstance.titlesTable=['Cartographies'];
+    dialogRef.componentInstance.nonEditable=false;
+    
 
 
     dialogRef.afterClosed().subscribe(result => {
@@ -388,36 +385,36 @@ export class RoleFormComponent implements OnInit {
 
   }
 
-  // ******** Tasks Dialog  ******** //
+    // ******** Tasks Dialog  ******** //
 
-  getAllTasksDialog = () => {
-    return this.tasksService.getAll();
-  }
+    getAllTasksDialog = () => {
+      return this.tasksService.getAll();
+    }
 
-  openTasksDialog(data: any) {
-    // const getAlls: Array<() => Observable<any>> = [this.getAllCartographiesDialog];
-    // const colDefsTable: Array<any[]> = [this.columnDefsCartographiesDialog];
-    // const singleSelectionTable: Array<boolean> = [false];
-    // const titlesTable: Array<string> = ['Cartographies'];
-    const dialogRef = this.dialog.open(DialogGridComponent);
-    dialogRef.componentInstance.getAllsTable = [this.getAllTasksDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTasksDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = 'Tasks';
-    dialogRef.componentInstance.titlesTable = ['Tasks'];
-    dialogRef.componentInstance.nonEditable = false;
+    openTasksDialog(data: any) {
+
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
+      dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Tasks';
+      dialogRef.componentInstance.titlesTable=['Tasks'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          if( result.event==='Add') {console.log(result.data); }
+        }
+  
+      });
+  
+    }
 
 
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        if (result.event === 'Add') { console.log(result.data); }
-      }
-
-    });
-
-  }
+ 
 
 
   updateUserConfiguration(role: Role, territories: Territory[], users: User[]) {

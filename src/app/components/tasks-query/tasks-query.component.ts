@@ -3,6 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HalOptions, HalParam, TaskService } from '@sitmun/frontend-core';
 
 @Component({
   selector: 'app-tasks-query',
@@ -16,6 +17,7 @@ export class TasksQueryComponent implements OnInit {
 
   constructor(private utils: UtilsService,
               private router: Router,
+              public taskService: TaskService
               )
               { }
 
@@ -47,17 +49,21 @@ export class TasksQueryComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksQueryEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksQueryEntity.task'),  field: 'task'},
-      { headerName: this.utils.getTranslate('tasksQueryEntity.informationType'),  field: 'informationType' },
+      { headerName: this.utils.getTranslate('tasksQueryEntity.informationType'),  field: 'groupName' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.accesType'),  field: 'accesType' },
-      { headerName: this.utils.getTranslate('tasksQueryEntity.command'),  field: 'command' },
+      { headerName: this.utils.getTranslate('tasksQueryEntity.command'),  field: 'order' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.connection'),  field: 'connection' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.associatedLayer'),  field: 'associatedLayer' }
     ];
   }
 
   getAllTasksQuery = () => {
-    const aux:Array<any> = [];
-    return of(aux);
+    let taskType=environment.tasksTypes.find(element => element.name==='query');
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type.id', value:taskType.id}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.taskService.getAll(query);
   }
 
   removeData( data: any[])

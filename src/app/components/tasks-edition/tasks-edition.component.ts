@@ -3,6 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HalOptions, HalParam, TaskService } from '@sitmun/frontend-core';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class TasksEditionComponent implements OnInit {
 
   constructor(private utils: UtilsService,
               private router: Router,
+              public taskService: TaskService
               )
               { }
 
@@ -48,16 +50,20 @@ export class TasksEditionComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksEditionEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksEditionEntity.associatedLayer'),  field: 'associatedLayer'},
-      { headerName: this.utils.getTranslate('tasksEditionEntity.informationType'),  field: 'informationType'},
-      { headerName: this.utils.getTranslate('tasksEditionEntity.dataCreated'),  field: 'dataCreated'}
+      { headerName: this.utils.getTranslate('tasksEditionEntity.informationType'),  field: 'groupName'},
+      { headerName: this.utils.getTranslate('tasksEditionEntity.dataCreated'),  field: 'createdDate'}
     ];
   }
 
 
 
   getAllTasksEdit = () => {
-    const aux:Array<any> = [];
-    return of(aux);
+    let taskType=environment.tasksTypes.find(element => element.name==='editionWFS');
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type.id', value:taskType.id}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.taskService.getAll(query);
   }
 
   removeData( data: any[])

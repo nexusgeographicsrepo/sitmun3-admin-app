@@ -3,6 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HalOptions, HalParam, TaskService } from '@sitmun/frontend-core';
 
 @Component({
   selector: 'app-tasks-extraction-fme',
@@ -17,6 +18,7 @@ export class TasksExtractionFmeComponent implements OnInit {
 
   constructor(private utils: UtilsService,
               private router: Router,
+              public taskService: TaskService
               )
               { }
 
@@ -49,15 +51,19 @@ export class TasksExtractionFmeComponent implements OnInit {
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.cartography'),  field: 'cartography'},
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.service'),  field: 'service'},
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.layer'),  field: 'layer'},
-      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.dataCreated'),  field: 'dataCreated' }
+      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.dataCreated'),  field: 'createdDate' }
     ];
   }
 
 
 
   getAllTasksExtractionFME = () => {
-    const aux:Array<any> = [];
-    return of(aux);
+    let taskType=environment.tasksTypes.find(element => element.name==='extraction');
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type.id', value:taskType.id}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.taskService.getAll(query);
   }
 
   removeData( data: any[])

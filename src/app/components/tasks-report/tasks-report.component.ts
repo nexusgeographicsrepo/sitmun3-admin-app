@@ -3,6 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HalOptions, HalParam, TaskService } from '@sitmun/frontend-core';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class TasksReportComponent implements OnInit {
 
   constructor(private utils: UtilsService,
               private router: Router,
+              public taskService: TaskService
               )
               { }
 
@@ -56,8 +58,12 @@ export class TasksReportComponent implements OnInit {
 
 
   getAllTasksReport = () => {
-    const aux:Array<any> = [];
-    return of(aux);
+    let taskType=environment.tasksTypes.find(element => element.name==='report');
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type.id', value:taskType.id}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.taskService.getAll(query);
   }
 
   removeData( data: any[])

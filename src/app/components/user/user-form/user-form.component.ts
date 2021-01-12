@@ -434,7 +434,7 @@ export class UserFormComponent implements OnInit {
 
           roles.forEach(role => {
             let item = {
-              user: user,
+              user: user.username,
               'user.id': user.id,
               role: role.name,
               'role.id': role.id,

@@ -24,7 +24,7 @@ export class RoleFormComponent implements OnInit {
   roleToEdit;
   roleID: number = -1;
   dataLoaded: Boolean = false;
-  addElementsEventUsers: Subject<any[]> = new Subject<any[]>();
+
 
   //Grids
   columnDefsUsers: any[];
@@ -44,9 +44,7 @@ export class RoleFormComponent implements OnInit {
   territorisToUpdate: Territory[] = [];
   usersToUpdate: User[] = [];
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
-  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
-
-
+  addElementsEventUsers: Subject<any[]> = new Subject<any[]>();
 
   constructor(
     public dialog: MatDialog,
@@ -103,7 +101,7 @@ export class RoleFormComponent implements OnInit {
         width: 25,
         lockPosition: true,
       },
-      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: 'Id', field: ['user.id'], editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'user' },
       { headerName: this.utils.getTranslate('roleEntity.territory'), field: 'territory' },
     ];
@@ -351,7 +349,7 @@ export class RoleFormComponent implements OnInit {
           console.log(result.data); 
           let rowsToAdd = this.getRowsToAddPermits(this.roleToEdit,result.data[1],result.data[0])
           console.log(rowsToAdd);
-          this.addElementsEventPermits.next(rowsToAdd);
+          this.addElementsEventUsers.next(rowsToAdd);
          }
       }
 
@@ -421,7 +419,7 @@ export class RoleFormComponent implements OnInit {
 
           users.forEach(user => {
             let item = {
-              user: user,
+              user: user.username,
               'user.id': user.id,
               role: role.name,
               'role.id': role.id,

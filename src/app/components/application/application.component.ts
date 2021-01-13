@@ -5,6 +5,8 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 
 @Component({
   selector: 'app-application',
@@ -19,7 +21,8 @@ export class ApplicationComponent implements OnInit {
 
   applicationTypes: Array<any> = [];
 
-  constructor(public applicationService: ApplicationService,
+  constructor(public dialog: MatDialog,
+    public applicationService: ApplicationService,
     private utils: UtilsService,
     private router: Router,
   ) {
@@ -104,13 +107,25 @@ export class ApplicationComponent implements OnInit {
   }
 
   removeData(data: Application[]) {
-    const promises: Promise<any>[] = [];
-    data.forEach(application => {
-      promises.push(new Promise((resolve, reject) => { this.applicationService.delete(application).toPromise().then((resp) => { resolve() }) }));
-      Promise.all(promises).then(() => {
-        this.dataUpdatedEvent.next(true);
-      });
+
+    const dialogRef = this.dialog.open(DialogMessageComponent);
+    dialogRef.componentInstance.title=this.utils.getTranslate("Caution");
+    dialogRef.componentInstance.message=this.utils.getTranslate("RemoveMessage");
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.event==='Accept') {  
+          const promises: Promise<any>[] = [];
+          data.forEach(application => {
+            promises.push(new Promise((resolve, reject) => { this.applicationService.delete(application).toPromise().then((resp) => { resolve() }) }));
+            Promise.all(promises).then(() => {
+              this.dataUpdatedEvent.next(true);
+            });
+          });
+       }
+      }
     });
+    
+
 
   }
 }

@@ -117,7 +117,7 @@ export class UserFormComponent implements OnInit {
         width: 25,
         lockPosition:true,
       },
-      { headerName: 'Id', field: ["territory.id"], editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
       { headerName: this.utils.getTranslate('userEntity.role'),  field: 'role', },
 

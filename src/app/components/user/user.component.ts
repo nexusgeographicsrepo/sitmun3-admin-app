@@ -5,6 +5,8 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
  
 
 @Component({
@@ -18,7 +20,8 @@ export class UserComponent implements OnInit {
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
 
-  constructor(public userService: UserService,
+  constructor(public dialog: MatDialog,
+    public userService: UserService,
     private utils: UtilsService,
     private router: Router
   ) {
@@ -95,13 +98,25 @@ export class UserComponent implements OnInit {
   }
 
   removeData(data: User[]) {
-    const promises: Promise<any>[] = [];
-    data.forEach(user => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.delete(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-      Promise.all(promises).then(() => {
-        this.dataUpdatedEvent.next(true);
-      });
+
+    const dialogRef = this.dialog.open(DialogMessageComponent);
+    dialogRef.componentInstance.title=this.utils.getTranslate("Caution");
+    dialogRef.componentInstance.message=this.utils.getTranslate("RemoveMessage");
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.event==='Accept') {  
+          const promises: Promise<any>[] = [];
+          data.forEach(user => {
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.delete(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            Promise.all(promises).then(() => {
+              this.dataUpdatedEvent.next(true);
+            });
+          });
+       }
+      }
     });
+
+
 
   }
 

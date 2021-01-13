@@ -29,8 +29,12 @@ export class ConnectionFormComponent implements OnInit {
   
   //Grids
   themeGrid: any = environment.agGridTheme;
+
   columnDefsCartographies: any[];
+  getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+
   columnDefsTasks: any[];
+  getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
 
   //Dialog
   columnDefsCartographiesDialog: any[];
@@ -40,7 +44,7 @@ export class ConnectionFormComponent implements OnInit {
 
   //Save Button
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
-  getAllRowsEvent: Subject<boolean> = new Subject <boolean>();
+
   newCartographies: Cartography[] = [];
   newtasks: Task[] = [];
 
@@ -188,8 +192,15 @@ export class ConnectionFormComponent implements OnInit {
 
   updateConnection() {
     console.log(this.formConnection.value);
-
-    this.connectionService.update(this.formConnection.value)
+    this.connectionToEdit.name=this.formConnection.value.name
+    this.connectionToEdit.driver=this.formConnection.value.driver
+    this.connectionToEdit.user=this.formConnection.value.user
+    this.connectionToEdit.password=this.formConnection.value.password
+    this.connectionToEdit.url=this.formConnection.value.url
+    this.getAllElementsEventCartographies.next(true);
+    this.getAllElementsEventTasks.next(true);
+    console.log(this.connectionToEdit);
+    this.connectionService.update(this.connectionToEdit)
       .subscribe(resp => {
         console.log(resp);
       });
@@ -213,6 +224,12 @@ export class ConnectionFormComponent implements OnInit {
 
   applyChangesCartographies(data: any[]) {
     console.log(data);
+  }
+
+  getAllRowsCartographies(data: any[] )
+  {
+    console.log(data);
+    // this.connectionToEdit.cartographies=data;
   }
 
 
@@ -241,6 +258,12 @@ export class ConnectionFormComponent implements OnInit {
 
   applyChangesTasks(data: any[]) {
     console.log(data);
+  }
+
+  getAllRowsTasks(data: any[] )
+  {
+    console.log(data);
+    this.connectionToEdit.tasks=data;
   }
   
   // ******** Cartography Dialog  ******** //
@@ -278,11 +301,7 @@ export class ConnectionFormComponent implements OnInit {
 
   }
 
-  getAllRowsCartographies(data: any[] )
-  {
-    console.log("hey");
-    console.log(data);
-  }
+
 
     // ******** Tasks Dialog  ******** //
 

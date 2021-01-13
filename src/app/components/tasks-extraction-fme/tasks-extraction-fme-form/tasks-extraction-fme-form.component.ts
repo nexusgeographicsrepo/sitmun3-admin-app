@@ -29,7 +29,9 @@ export class TasksExtractionFmeFormComponent implements OnInit {
    //Grids
    themeGrid: any = environment.agGridTheme;
    columnDefsRoles: any[];
+   getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
    columnDefsTerritories: any[];
+   getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
  
    //Dialog
    columnDefsRolesDialog: any[];
@@ -166,6 +168,11 @@ export class TasksExtractionFmeFormComponent implements OnInit {
    applyChangesRoles(data: any[]) {
      console.log(data);
    }
+
+   getAllRowsRoles(data: any[] )
+   {
+     console.log(data);
+   }
  
  
    // ******** Territories  ******** //
@@ -194,6 +201,11 @@ export class TasksExtractionFmeFormComponent implements OnInit {
    }
  
    applyChangesTerritories(data: any[]) {
+     console.log(data);
+   }
+
+   getAllRowsTerritories(data: any[] )
+   {
      console.log(data);
    }
 

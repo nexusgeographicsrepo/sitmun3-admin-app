@@ -27,8 +27,11 @@ export class TasksLocatorFormComponent implements OnInit {
    //Grids
    themeGrid: any = environment.agGridTheme;
    columnDefsRoles: any[];
+   getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
    columnDefsTerritories: any[];
+   getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
    columnDefsParameters: any[];
+   getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
  
    //Dialog
    columnDefsRolesDialog: any[];
@@ -184,6 +187,11 @@ export class TasksLocatorFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
+
+  getAllRowsParameters(data: any[] )
+  {
+    console.log(data);
+  }
    
    // ******** Roles ******** //
    getAllRoles = () => {
@@ -205,6 +213,12 @@ export class TasksLocatorFormComponent implements OnInit {
    applyChangesRoles(data: any[]) {
      console.log(data);
    }
+
+   getAllRowsRoles(data: any[] )
+   {
+     console.log(data);
+   }
+    
  
  
    // ******** Territories  ******** //
@@ -235,6 +249,12 @@ export class TasksLocatorFormComponent implements OnInit {
    applyChangesTerritories(data: any[]) {
      console.log(data);
    }
+
+   getAllRowsTerritories(data: any[] )
+   {
+     console.log(data);
+   }
+    
 
      // ******** Parameters Dialog  ******** //
 

@@ -29,8 +29,11 @@ export class TasksEditionFormComponent implements OnInit {
    //Grids
    themeGrid: any = environment.agGridTheme;
    columnDefsColumns: any[];
+   getAllElementsEventColumns: Subject<any[]> = new Subject <any[]>();
    columnDefsRoles: any[];
+   getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
    columnDefsTerritories: any[];
+   getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
  
    //Dialog
    columnDefsColumnsDialog: any[];
@@ -216,6 +219,11 @@ export class TasksEditionFormComponent implements OnInit {
    applyChangesColumns(data: any[]) {
      console.log(data);
    }
+
+   getAllRowsColumns(data: any[] )
+   {
+     console.log(data);
+   }
    
    
    // ******** Roles ******** //
@@ -239,6 +247,10 @@ export class TasksEditionFormComponent implements OnInit {
      console.log(data);
    }
  
+   getAllRowsRoles(data: any[] )
+   {
+     console.log(data);
+   }
  
    // ******** Territories  ******** //
    getAllTerritories = () => {
@@ -266,6 +278,11 @@ export class TasksEditionFormComponent implements OnInit {
    }
  
    applyChangesTerritories(data: any[]) {
+     console.log(data);
+   }
+
+   getAllRowsTerritories(data: any[] )
+   {
      console.log(data);
    }
 

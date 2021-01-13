@@ -13,6 +13,7 @@ import { APP_ROUTING } from './app-routes';
 
 import { MessagesInterceptor } from './interceptors/messages.interceptor';
 import { AuthInterceptor } from 'dist/sitmun-frontend-core/';
+import { AuthExpiredInterceptor } from 'dist/sitmun-frontend-core/';
 //i18n
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -164,7 +165,9 @@ import { LoginComponent } from './components/login/login.component';
      TaskGroupService, TaskService,UserConfigurationService,CodeListService,LoginService,AuthService,
      Principal,AccountService,
      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true }],
+     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true },
+     { provide: HTTP_INTERCEPTORS, useClass: AuthExpiredInterceptor, multi: true}
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

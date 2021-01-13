@@ -138,7 +138,7 @@
       <ng-template matExpansionPanelContent>  
           <div class="appDataGridEditDiv">
               <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  
-              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+              [eventAddItemsSubscription]='addElementsEventParameters.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
               (remove)="removeParameters($event)" (new)='openParametersDialog()'  > </app-data-grid>
           </div>
       </ng-template>
@@ -155,13 +155,13 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsTemplates" [themeGrid]='themeGrid' [getAll]='getAllTemplates'  
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+                  [eventAddItemsSubscription]='addElementsEventTemplateConfiguration.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
                   [actionButton]=true (add)="openTemplateConfigurationDialog($event)" (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
               </div>
           </ng-template>
           </mat-expansion-panel>
 
-    <!-- Rols table -->
+    <!-- Roles table -->
         <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
           <mat-expansion-panel-header class="agGridExpansionPanelTitle">
             <mat-panel-title  >
@@ -172,7 +172,7 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles'  
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+                  [eventAddItemsSubscription]='addElementsEventRoles.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
                   [actionButton]=true (add)="openRolesDialog($event)" (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
               </div>
           </ng-template>
@@ -189,7 +189,7 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsBackgrounds" [themeGrid]='themeGrid' [getAll]='getAllBackgrounds' 
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+                  [eventAddItemsSubscription]='addElementsEventBackground.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
                   [actionButton]=true (add)="openBackgroundDialog($event)" (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
               </div>
           </ng-template>
@@ -206,7 +206,7 @@
       <ng-template matExpansionPanelContent>    
           <div class="appDataGridEditDiv">
               <app-data-grid [columnDefs]="columnDefsTrees" [themeGrid]='themeGrid' [getAll]='getAllTrees' 
-              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+              [eventAddItemsSubscription]='addElementsEventTree.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
               [actionButton]=true (add)="openTreeDialog($event)" (remove)="removeTrees($event)" (new)='newDataTrees($event)'  > </app-data-grid>
           </div>
       </ng-template>

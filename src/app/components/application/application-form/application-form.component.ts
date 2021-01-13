@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 
 import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
@@ -42,10 +42,15 @@ export class ApplicationFormComponent implements OnInit {
   //Dialogs
   
   columnDefsParametersDialog: any[];
+  addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
   columnDefsTemplateConfigurationDialog: any[];
+  addElementsEventTemplateConfiguration: Subject<any[]> = new Subject <any[]>();
   columnDefsRolesDialog: any[];
+  addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
   columnDefsBackgroundDialog: any[];
+  addElementsEventBackground: Subject<any[]> = new Subject <any[]>();
   columnDefsTreeDialog: any[];
+  addElementsEventTree: Subject<any[]> = new Subject <any[]>();
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -267,6 +272,23 @@ export class ApplicationFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
     ];
 
+    
+    this.columnDefsTreeDialog = [
+
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        editable: false,
+        filter: false,
+        width: 25,
+        lockPosition: true,
+      },
+      { headerName: "Id", field: 'id' },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+
+    ];
+
   }
   getSituationMapList() {
     let params2:HalParam[]=[];
@@ -436,7 +458,7 @@ export class ApplicationFormComponent implements OnInit {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
   }
-
+ 
 
   // ******** Background ******** //
 
@@ -512,7 +534,10 @@ newDataTrees(id: any) {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          console.log(result.data);
+          this.addElementsEventParameters.next(result.data[0])
+        }
       }
 
     });
@@ -541,7 +566,9 @@ newDataTrees(id: any) {
     
         dialogRef.afterClosed().subscribe(result => {
           if(result){
-            if( result.event==='Add') {console.log(result.data); }
+            if(result.event==='Add') {
+              this.addElementsEventTemplateConfiguration.next(result.data[0])
+            }          
           }
     
         });
@@ -570,7 +597,9 @@ newDataTrees(id: any) {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if(result.event==='Add') {
+            this.addElementsEventRoles.next(result.data[0])
+          }         
         }
   
       });
@@ -600,7 +629,40 @@ newDataTrees(id: any) {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if(result.event==='Add') {
+            this.addElementsEventBackground.next(result.data[0])
+          }         
+        }
+  
+      });
+  
+    }
+
+    // ******** Tree Dialog  ******** //
+
+    getAllTreeDialog = () => {
+      const aux: Array<any> = [];
+      return of(aux);
+      // return this.cartographyService.getAll();
+    }
+  
+    openTreeDialog(data: any) {
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
+      dialogRef.componentInstance.getAllsTable=[this.getAllTreeDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTreeDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Tree';
+      dialogRef.componentInstance.titlesTable=['Tree'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          if(result.event==='Add') {
+            this.addElementsEventTree.next(result.data[0])
+          }                 
         }
   
       });

@@ -34,14 +34,16 @@ export class ConnectionFormComponent implements OnInit {
 
   //Dialog
   columnDefsCartographiesDialog: any[];
+  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
   columnDefsTasksDialog: any[];
+  addElementsEventTasks: Subject<any[]> = new Subject <any[]>();
 
   //Save Button
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   getAllRowsEvent: Subject<boolean> = new Subject <boolean>();
   newCartographies: Cartography[] = [];
   newtasks: Task[] = [];
-  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
+
 
 
 
@@ -267,10 +269,7 @@ export class ConnectionFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
-          console.log(result.data);
-          this.newCartographies.push(...result.data[0]) 
           this.addElementsEventCartographies.next(result.data[0])
-          this.getAllRowsEvent.next(true);
         }
       }
 
@@ -310,7 +309,9 @@ export class ConnectionFormComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
         if(result){
-          if( result.event==='Add') {      console.log(result.data); }
+          if( result.event==='Add') { 
+            this.addElementsEventTasks.next(result.data[0])
+          }
         }
       });
   

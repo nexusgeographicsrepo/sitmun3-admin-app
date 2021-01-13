@@ -40,13 +40,15 @@ export class UserFormComponent implements OnInit {
 
   columnDefsTerritoryDialog: any[];
   columnDefsRolesDialog: any[];
+  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
   columnDefsTerritoryDataDialog: any[];
+  addElementsEventTerritoryData: Subject<any[]> = new Subject <any[]>();
 
   //Save button
   territorisToUpdate: Territory[] = [];
   rolesToUpdate: Role[] = [];
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
-  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+
 
 
   
@@ -395,7 +397,10 @@ export class UserFormComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if( result.event==='Add')
+          {
+            this.addElementsEventTerritoryData.next(result.data[0])
+          }
         }
 
       });

@@ -263,7 +263,7 @@ export class ConnectionFormComponent implements OnInit {
   getAllRowsTasks(data: any[] )
   {
     console.log(data);
-    this.connectionToEdit.tasks=data;
+    // this.connectionToEdit.tasks=data;
   }
   
   // ******** Cartography Dialog  ******** //

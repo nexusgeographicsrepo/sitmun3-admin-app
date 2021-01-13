@@ -27,7 +27,8 @@ export const environment = {
     {id:"ca", name:"catalan"},
     {id:"es", name:"spanish"},
     {id:"en", name:"english"},
-  ]
+  ],
+  defaultLang:"ca"
 
 };
 

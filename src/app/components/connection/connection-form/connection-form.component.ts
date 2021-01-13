@@ -260,8 +260,8 @@ export class ConnectionFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Cartographies';
-    dialogRef.componentInstance.titlesTable=['Cartographies'];
+    dialogRef.componentInstance.title=this.utils.getTranslate("connectionEntity.cartography");
+    dialogRef.componentInstance.titlesTable=[""];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -300,8 +300,8 @@ export class ConnectionFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Tasks';
-      dialogRef.componentInstance.titlesTable=['Tasks'];
+      dialogRef.componentInstance.title=this.utils.getTranslate("connectionEntity.tasks");
+      dialogRef.componentInstance.titlesTable=[""];
       dialogRef.componentInstance.nonEditable=false;
       
   

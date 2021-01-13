@@ -324,8 +324,8 @@ export class ServiceFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Parameters';
-    dialogRef.componentInstance.titlesTable=['Parameters'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
+    dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -356,8 +356,8 @@ export class ServiceFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsLayersDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Layers';
-    dialogRef.componentInstance.titlesTable=['Layers'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.layersToRegister');
+    dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     
 

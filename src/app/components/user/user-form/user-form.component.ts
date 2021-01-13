@@ -352,8 +352,8 @@ export class UserFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false,false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoryDialog, this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Permits';
-    dialogRef.componentInstance.titlesTable=['Territories', 'Roles'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('userEntity.permissions');
+    dialogRef.componentInstance.titlesTable=[this.utils.getTranslate('userEntity.territories'), this.utils.getTranslate('userEntity.roles')];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -389,8 +389,8 @@ export class UserFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoryDataDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Territory Data';
-      dialogRef.componentInstance.titlesTable=['Territory Data'];
+      dialogRef.componentInstance.title=this.utils.getTranslate('userEntity.dataOfTerritory');
+      dialogRef.componentInstance.titlesTable=[''];
       dialogRef.componentInstance.nonEditable=false;
       
   

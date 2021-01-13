@@ -16,7 +16,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 })
 export class UserComponent implements OnInit {
 
-  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
 
@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
         headerCheckboxSelection: true,
         editable: false,
         filter: false,
-        width:  40,
+        width: 40,
         lockPosition: true,
       },
       {
@@ -53,16 +53,22 @@ export class UserComponent implements OnInit {
         width: 55,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: {
-          clicked: this.newData.bind(this)
-        },
+        cellRendererParams: { clicked: this.newData.bind(this) },
       },
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.user'), field: 'username' },
       { headerName: this.utils.getTranslate('userEntity.firstname'), field: 'firstName' },
       { headerName: this.utils.getTranslate('userEntity.lastname'), field: 'lastName' },
-      { headerName: this.utils.getTranslate('userEntity.administrator'), field: 'administrator' },
-      { headerName: this.utils.getTranslate('userEntity.blocked'), field: 'blocked' },
+      {
+        headerName: this.utils.getTranslate('userEntity.administrator'), field: 'administrator', editable: false,
+        cellRenderer: 'btnCheckboxRendererComponent', floatingFilterComponent: 'btnCheckboxFilterComponent',
+        floatingFilterComponentParams: { suppressFilterButton: true },
+      },
+      {
+       headerName: this.utils.getTranslate('userEntity.blocked'), field: 'blocked', editable: false,
+        cellRenderer: 'btnCheckboxRendererComponent', floatingFilterComponent: 'btnCheckboxFilterComponent',
+        floatingFilterComponentParams: { suppressFilterButton: true },
+      },
       // { headerName: this.utils.getTranslate('status'), field: 'estat'},
     ];
   }
@@ -79,7 +85,7 @@ export class UserComponent implements OnInit {
   applyChanges(data: User[]) {
     const promises: Promise<any>[] = [];
     data.forEach(user => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.update(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => { this.userService.update(user).toPromise().then((resp) => { resolve() }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -89,7 +95,7 @@ export class UserComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(user => {
       user.id = null;
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.create(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => { this.userService.create(user).toPromise().then((resp) => { resolve() }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });

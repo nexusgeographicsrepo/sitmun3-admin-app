@@ -92,7 +92,7 @@
       <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsCartography" [themeGrid]='themeGrid' [getAll]='getAllCartography' 
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+            [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
             [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeDataCartography($event)" (new)='newDataCartography($event)' (sendChanges)='applyChangesCartography($event)' > </app-data-grid>
         </div>
       </ng-template>
@@ -109,7 +109,7 @@
       <ng-template matExpansionPanelContent>  
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsTerritories" [themeGrid]='themeGrid' [getAll]='getAllTerritories'  
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+            [eventAddItemsSubscription]='addElementsEventTerritories.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
             [actionButton]=true (add)="openTerritoriesDialog($event)" (remove)="removeDataTerritories($event)" (new)='newDataTerritories($event)'  > </app-data-grid>
         </div>
       </ng-template>

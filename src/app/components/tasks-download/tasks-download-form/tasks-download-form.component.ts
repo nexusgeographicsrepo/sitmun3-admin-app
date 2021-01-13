@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tasks-download-form',
@@ -31,7 +31,9 @@ export class TasksDownloadFormComponent implements OnInit {
 
   //Dialog
   columnDefsRolesDialog: any[];
+  addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
   columnDefsTerritoriesDialog: any[];
+  addElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
 
 
 
@@ -247,7 +249,9 @@ export class TasksDownloadFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventRoles.next(result.data[0])
+        }
       }
 
     });
@@ -275,7 +279,9 @@ export class TasksDownloadFormComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if(result.event==='Add') {
+            this.addElementsEventTerritories.next(result.data[0])
+          }
         }
   
       });

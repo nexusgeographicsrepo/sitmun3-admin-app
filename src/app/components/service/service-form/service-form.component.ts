@@ -38,8 +38,11 @@ export class ServiceFormComponent implements OnInit {
 
   //Grids
   themeGrid: any = environment.agGridTheme;
-  columnDefsLayers: any[];
   columnDefsParameters: any[];
+  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+
+  columnDefsLayers: any[];
+  getAllElementsEventLayers: Subject<any[]> = new Subject <any[]>();
 
   //Dialogs
   columnDefsParametersDialog: any[];
@@ -262,6 +265,11 @@ export class ServiceFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsParameters(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
     return (this.http.get(`${this.serviceForm.value._links.layers.href}`))
@@ -275,6 +283,11 @@ export class ServiceFormComponent implements OnInit {
   newDataLayers(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsLayers(data: any[] )
+  {
+    console.log(data);
   }
 
   // ******** Parameters Dialog  ******** //

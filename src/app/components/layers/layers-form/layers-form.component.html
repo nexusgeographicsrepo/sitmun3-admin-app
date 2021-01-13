@@ -227,8 +227,9 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  
-          [eventAddItemsSubscription]='addElementsEventParameters.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-          [actionButton]=true (remove)="removeDataParameters($event)" (new)='openParametersDialog($event)'  > </app-data-grid>
+          [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()' 
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+          (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (remove)="removeDataParameters($event)" (new)='openParametersDialog($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>
@@ -245,8 +246,9 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid  [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid' [getAll]='getAllSpatialConfigurations'  
-          [eventAddItemsSubscription]='addElementsEventSpatialConfigurations.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
-          [actionButton]=true (add)="openSpatialSelectionDialog($event)" (remove)="removeDataSpatialConfigurations($event)" (new)='newDataSpatialConfigurations($event)'  > </app-data-grid>
+          [eventAddItemsSubscription]='addElementsEventSpatialConfigurations.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventSpatialConfigurations.asObservable()' 
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
+          (getAllRows)="getAllRowsSpatialConfiguration($event)" [actionButton]=true (add)="openSpatialSelectionDialog($event)" (remove)="removeDataSpatialConfigurations($event)" (new)='newDataSpatialConfigurations($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>
@@ -263,8 +265,9 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsTerritories" [themeGrid]='themeGrid' [getAll]='getAllTerritories'  
-          [eventAddItemsSubscription]='addElementsEventTerritories.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
-          [actionButton]=true (add)="openTerritoriesDialog($event)"  (remove)="removeDataTerritories($event)" (new)='newDataTerritories($event)'  > </app-data-grid>
+          [eventAddItemsSubscription]='addElementsEventTerritories.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventTerritories.asObservable()' 
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
+          (getAllRows)="getAllRowsTerritories($event)"  [actionButton]=true (add)="openTerritoriesDialog($event)"  (remove)="removeDataTerritories($event)" (new)='newDataTerritories($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>
@@ -281,8 +284,9 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsLayersConfiguration" [themeGrid]='themeGrid' [getAll]='getAllLayersConfiguration'  
-          [eventAddItemsSubscription]='addElementsEventCartographyGroups.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
-          [actionButton]=true (add)="openCartographyGroupsDialog($event)" (remove)="removeDataLayersConfiguration($event)" (new)='newDataLayersConfiguration($event)'  > </app-data-grid>
+          [eventAddItemsSubscription]='addElementsEventCartographyGroups.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventLayersConfigurations.asObservable()' 
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true  
+          (getAllRows)="getAllRowsLayersConfiguration($event)" [actionButton]=true (add)="openCartographyGroupsDialog($event)" (remove)="removeDataLayersConfiguration($event)" (new)='newDataLayersConfiguration($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>
@@ -299,8 +303,9 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes' 
-          [eventAddItemsSubscription]='addElementsEventNodes.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
-          [actionButton]=true (add)="openNodesDialog($event)" (remove)="removeDataNodes($event)" (new)='newDataNodes($event)'  > </app-data-grid>
+          [eventAddItemsSubscription]='addElementsEventNodes.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventNodes.asObservable()' 
+          [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+          (getAllRows)="getAllRowsNodes($event)" [actionButton]=true (add)="openNodesDialog($event)" (remove)="removeDataNodes($event)" (new)='newDataNodes($event)'  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>

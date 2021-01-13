@@ -28,7 +28,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
   //Grids
   columnDefsCartographies: any[];
+  getAllElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
   columnDefsRoles: any[];
+  getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
 
   //Dialog
   columnDefsRolesDialog: any[];
@@ -181,6 +183,11 @@ export class LayersPermitsFormComponent implements OnInit {
     console.log(data);
   }
 
+  getAllRowsCartographies(data: any[] )
+  {
+    console.log(data);
+  }
+
 
   // ******** Roles  ******** //
   getAllRoles = () => {
@@ -188,6 +195,12 @@ export class LayersPermitsFormComponent implements OnInit {
     return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
        .pipe(map(data => data['_embedded']['roles']));
 
+  }
+
+  getAllRowsRoles(data: any[] )
+  {
+    console.log(data);
+    // this.connectionToEdit.cartographies=data;
   }
 
   removeDataRole(data: Role[]) {

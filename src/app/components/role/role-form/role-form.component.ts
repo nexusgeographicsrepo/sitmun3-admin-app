@@ -28,10 +28,15 @@ export class RoleFormComponent implements OnInit {
 
   //Grids
   columnDefsUsers: any[];
+  getAllElementsEventUsers: Subject<any[]> = new Subject<any[]>();
   columnDefsTasks: any[];
+  getAllElementsEventTasks: Subject<any[]> = new Subject <any[]>();
   columnDefsCartography: any[];
+  getAllElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
   columnDefsApplications: any[];
+  getAllElementsEventApplications: Subject<any[]> = new Subject <any[]>();
   themeGrid: any = environment.agGridTheme;
+  
 
   //Dialogs
   columnDefsUsersDialog: any[];
@@ -221,6 +226,11 @@ export class RoleFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsUsers(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
     //TODO Change the link when available
@@ -237,6 +247,11 @@ export class RoleFormComponent implements OnInit {
   newDataTasks(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsTasks(data: any[] )
+  {
+    console.log(data);
   }
 
   // ******** Cartography ******** //
@@ -256,6 +271,11 @@ export class RoleFormComponent implements OnInit {
   newDataCartographies(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsCartographies(data: any[] )
+  {
+    console.log(data);
   }
 
 

@@ -58,9 +58,10 @@
         <div class="appDataGridEditDiv">
             <app-data-grid [columnDefs]="columnDefsUsers" [themeGrid]='themeGrid' [getAll]='getAllUsers'  
             [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' 
-             [eventAddItemsSubscription]='addElementsEventUsers.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  
-             [deleteButton]=true [addButton]=true [hideDuplicateButton]=true [actionButton]=true (add)="openUsersDialog($event)"
-            (remove)="removeUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
+            [eventAddItemsSubscription]='addElementsEventUsers.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventUsers.asObservable()' 
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true  
+            [deleteButton]=true [addButton]=true [hideDuplicateButton]=true [actionButton]=true (add)="openUsersDialog($event)"
+            (getAllRows)="getAllRowsUsers($event)" (remove)="removeUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
         </div>
 
       </ng-template>
@@ -77,9 +78,10 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsCartography" [themeGrid]='themeGrid' [getAll]='getAllCartographies'
-          [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
+          [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()' 
+           [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openCartographyDialog($event)"
-            (remove)="removeCartographies($event)" (new)='newDataCartographies($event)'> </app-data-grid>
+            (getAllRows)="getAllRowsCartographies($event)" (remove)="removeCartographies($event)" (new)='newDataCartographies($event)'> </app-data-grid>
         </div>
 
       </ng-template>
@@ -96,9 +98,10 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsTasks" [themeGrid]='themeGrid' [getAll]='getAllTasks'
-          [eventAddItemsSubscription]='addElementsEventTasks.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
+          [eventAddItemsSubscription]='addElementsEventTasks.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventTasks.asObservable()' 
+           [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openTasksDialog($event)"
-            (remove)="removeTasks($event)" (new)='newDataTasks($event)'> </app-data-grid>
+            (getAllRows)="getAllRowsTasks($event)"  (remove)="removeTasks($event)" (new)='newDataTasks($event)'> </app-data-grid>
         </div>
 
       </ng-template>
@@ -116,9 +119,10 @@
       <!-- <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsApplications" [themeGrid]='themeGrid' [getAll]='getAllApplicationTasks'
-            [eventAddItemsSubscription]='addElementsEventApplications.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
+            [eventAddItemsSubscription]='addElementsEventApplications.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventApplications.asObservable()' 
+             [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openTasksApplication($event)"
-            (remove)="removeApplications($event)" (new)='newDataApplications($event)'> </app-data-grid>
+            (getAllRows)="getAllRowsApplications($event)" (remove)="removeApplications($event)" (new)='newDataApplications($event)'> </app-data-grid>
         </div>
 
       </ng-template> -->

@@ -33,16 +33,20 @@ export class LayersFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
+  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
 
   columnDefsSpatialConfigurations: any[];
+  getAllElementsEventSpatialConfigurations: Subject<any[]> = new Subject <any[]>();
 
   columnDefsTerritories: any[];
+  getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
 
 
   columnDefsLayersConfiguration: any[];
+  getAllElementsEventLayersConfigurations: Subject<any[]> = new Subject <any[]>();
 
   columnDefsNodes: any[];
-
+  getAllElementsEventNodes: Subject<any[]> = new Subject <any[]>();
 
 
   //Dialog
@@ -342,6 +346,11 @@ export class LayersFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsParameters(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Spatial configuration ******** //
   getAllSpatialConfigurations = (): Observable<any> => {
 
@@ -369,6 +378,11 @@ export class LayersFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsSpatialConfiguration(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
     //TODO Change the link when available
@@ -385,6 +399,11 @@ export class LayersFormComponent implements OnInit {
   newDataTerritories(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsTerritories(data: any[] )
+  {
+    console.log(data);
   }
 
   // ******** Layers configuration ******** //
@@ -405,6 +424,11 @@ export class LayersFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsLayersConfiguration(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Nodes configuration ******** //
   getAllNodes = (): Observable<any> => {
     //TODO Change the link when available
@@ -421,6 +445,11 @@ export class LayersFormComponent implements OnInit {
   newDataNodes(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsNodes(data: any[] )
+  {
+    console.log(data);
   }
 
   // ******** Parameters Dialog  ******** //

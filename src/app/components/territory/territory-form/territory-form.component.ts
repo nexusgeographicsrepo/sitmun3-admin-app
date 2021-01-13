@@ -32,10 +32,19 @@ export class TerritoryFormComponent implements OnInit {
 
   //Grids
   columnDefsPermits: any[];
+  getAllElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+
   columnDefsMemberOf: any[];
+  getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject <boolean>();
+
   columnDefsMembers: any[];
+  getAllElementsEventTerritoriesMembers: Subject<boolean> = new Subject <boolean>();
+
   columnDefsCartographies: any[];
+  getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+
   columnDefsTasks: any[];
+  getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
 
   //Dialog
   columnDefsTasksDialog: any[];
@@ -391,6 +400,11 @@ export class TerritoryFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsPermits(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** MembersOf ******** //
   getAllMembersOf = (): Observable<any> => {
     return (this.http.get(`${this.territoryForm.value._links.memberOf.href}`))
@@ -406,6 +420,11 @@ export class TerritoryFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsMembersOf(data: any[] )
+  {
+    console.log(data);
+  }
+
 
   // ******** Members ******** //
   getAllMembers = (): Observable<any> => {
@@ -414,6 +433,7 @@ export class TerritoryFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`territories`]));
 
   }
+
   removeMembers(data: any[]) {
     console.log(data);
   }
@@ -421,6 +441,11 @@ export class TerritoryFormComponent implements OnInit {
   newDataMembers(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsMembers(data: any[] )
+  {
+    console.log(data);
   }
 
   // ******** Cartography ******** //
@@ -441,6 +466,11 @@ export class TerritoryFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsCartographies(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
     //TODO Change the link when available
@@ -459,6 +489,10 @@ export class TerritoryFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsTasks(data: any[] )
+  {
+    console.log(data);
+  }
 
   
   // ******** Users Dialog  ******** //

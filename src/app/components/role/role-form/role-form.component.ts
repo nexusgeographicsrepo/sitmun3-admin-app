@@ -36,15 +36,19 @@ export class RoleFormComponent implements OnInit {
   //Dialogs
   columnDefsUsersDialog: any[];
   columnDefsTerritoriesDialog: any[];
+  addElementsEventUsers: Subject<any[]> = new Subject<any[]>();
   columnDefsTasksDialog: any[];
+  addElementsEventTasks: Subject<any[]> = new Subject <any[]>();
   columnDefsCartographiesDialog: any[];
+  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
   columnDefsApplicationsDialog: any[];
+  addElementsEventApplications: Subject<any[]> = new Subject <any[]>();
 
   //Save button
   territorisToUpdate: Territory[] = [];
   usersToUpdate: User[] = [];
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
-  addElementsEventUsers: Subject<any[]> = new Subject<any[]>();
+
 
   constructor(
     public dialog: MatDialog,
@@ -377,7 +381,9 @@ export class RoleFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (result.event === 'Add') { console.log(result.data); }
+        if( result.event==='Add') { 
+          this.addElementsEventCartographies.next(result.data[0])
+        }
       }
 
     });
@@ -405,7 +411,9 @@ export class RoleFormComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if( result.event==='Add') { 
+            this.addElementsEventTasks.next(result.data[0])
+          }
         }
   
       });

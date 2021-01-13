@@ -27,9 +27,13 @@ export class TasksReportFormComponent implements OnInit {
    //Grids
    themeGrid: any = environment.agGridTheme;
    columnDefsMaps: any[];
+   getAllElementsEventMaps: Subject<any[]> = new Subject <any[]>();
    columnDefsQueries: any[];
+   getAllElementsEventQueries: Subject<any[]> = new Subject <any[]>();
    columnDefsRoles: any[];
+   getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
    columnDefsTerritories: any[];
+   getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
  
    //Dialog
    columnDefsMapsDialog: any[];
@@ -263,6 +267,11 @@ export class TasksReportFormComponent implements OnInit {
    applyChangesMaps(data: any[]) {
      console.log(data);
    }
+
+   getAllRowsMaps(data: any[] )
+   {
+     console.log(data);
+   }
    
    // ******** Queries ******** //
    getAllQueries = () => {
@@ -285,7 +294,11 @@ export class TasksReportFormComponent implements OnInit {
    applyChangesQueries(data: any[]) {
      console.log(data);
    }
-   
+  
+   getAllRowsQueries(data: any[] )
+   {
+     console.log(data);
+   } 
    // ******** Roles ******** //
    getAllRoles = () => {
      
@@ -308,6 +321,10 @@ export class TasksReportFormComponent implements OnInit {
      console.log(data);
    }
  
+   getAllRowsRoles(data: any[] )
+   {
+     console.log(data);
+   }
  
    // ******** Territories  ******** //
    getAllTerritories = () => {
@@ -338,6 +355,10 @@ export class TasksReportFormComponent implements OnInit {
      console.log(data);
    }
 
+   getAllRowsTerritories(data: any[] )
+   {
+     console.log(data);
+   }
    // ******** Maps Dialog  ******** //
  
    getAllMapsDialog = () => {

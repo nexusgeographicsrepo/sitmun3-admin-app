@@ -27,7 +27,9 @@ export class TasksDownloadFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsRoles: any[];
+  getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
   columnDefsTerritories: any[];
+  getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
 
   //Dialog
   columnDefsRolesDialog: any[];
@@ -198,6 +200,11 @@ export class TasksDownloadFormComponent implements OnInit {
     console.log(data);
   }
 
+  getAllRowsRoles(data: any[] )
+  {
+    console.log(data);
+  }
+
 
   // ******** Territories  ******** //
   getAllTerritories = () => {
@@ -225,6 +232,11 @@ export class TasksDownloadFormComponent implements OnInit {
   }
 
   applyChangesTerritories(data: any[]) {
+    console.log(data);
+  }
+
+  getAllRowsTerritories(data: any[] )
+  {
     console.log(data);
   }
   

@@ -26,7 +26,9 @@ export class TasksDocumentsFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsCartography: any[];
+  getAllElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
   columnDefsTerritories: any[];
+  getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
 
   //Dialog
   columnDefsCartographyDialog: any[];
@@ -202,6 +204,11 @@ export class TasksDocumentsFormComponent implements OnInit {
     console.log(data);
   }
 
+  getAllRowsCartographies(data: any[] )
+  {
+    console.log(data);
+  }
+
 
   // ******** Territories  ******** //
   getAllTerritories = () => {
@@ -229,6 +236,11 @@ export class TasksDocumentsFormComponent implements OnInit {
   }
 
   applyChangesTerritories(data: any[]) {
+    console.log(data);
+  }
+
+  getAllRowsTerritories(data: any[] )
+  {
     console.log(data);
   }
   

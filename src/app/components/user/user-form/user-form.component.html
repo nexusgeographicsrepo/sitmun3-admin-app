@@ -96,10 +96,11 @@
   
     <div matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsPermissions" [themeGrid]='themeGrid' [getAll]='getAllPermissions'  
-          [eventRefreshSubscription]='dataUpdatedEvent.asObservable()'  [eventAddItemsSubscription]='addElementsEventPermits.asObservable()'
+          <app-data-grid [columnDefs]="columnDefsPermits" [themeGrid]='themeGrid' [getAll]='getAllPermits'  
+          [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventPermits.asObservable()' 
+          [eventAddItemsSubscription]='addElementsEventPermits.asObservable()'
            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true 
-          [actionButton]=true (remove)="removeDataPermissions($event)" (add)="openPermitsDialog($event)"  > </app-data-grid>
+          (getAllRows)="getAllRowsPermits($event)" [actionButton]=true (remove)="removeDataPermits($event)" (add)="openPermitsDialog($event)"  > </app-data-grid>
       </div>
     </div>
   
@@ -118,9 +119,10 @@
     <ng-template matExpansionPanelContent>  
       <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsData" [themeGrid]='themeGrid' [getAll]='getAllDataTerritory'  
-          [eventAddItemsSubscription]='addElementsEventTerritoryData.asObservable()' [discardChangesButton]=true [redoButton]=true
+          [eventAddItemsSubscription]='addElementsEventTerritoryData.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventTerritoryData.asObservable()' 
+          [discardChangesButton]=true [redoButton]=true
           [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
-          [actionButton]=true (add)="openTerritoryDataDialog($event)" (remove)="removeDataData($event)" (new)='newDataData($event)'> </app-data-grid>
+          (getAllRows)="getAllRowsDataTerritories($event)" [actionButton]=true (add)="openTerritoryDataDialog($event)" (remove)="removeDataData($event)" (new)='newDataData($event)'> </app-data-grid>
       </div>
     </ng-template>
   

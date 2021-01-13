@@ -33,16 +33,18 @@ export class UserFormComponent implements OnInit {
   
   //Grids
   themeGrid:any=environment.agGridTheme;
-  columnDefsPermissions: any[];
+  columnDefsPermits: any[];
+  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
   columnDefsData: any[];
+  addElementsEventTerritoryData: Subject<any[]> = new Subject <any[]>();
 
   //Dialog
 
   columnDefsTerritoryDialog: any[];
   columnDefsRolesDialog: any[];
-  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventPermits: Subject<any[]> = new Subject <any[]>();
   columnDefsTerritoryDataDialog: any[];
-  addElementsEventTerritoryData: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTerritoryData: Subject<any[]> = new Subject <any[]>();
 
   //Save button
   territorisToUpdate: Territory[] = [];
@@ -108,7 +110,7 @@ export class UserFormComponent implements OnInit {
     });
 
 
-    this.columnDefsPermissions = [
+    this.columnDefsPermits = [
 
       {
         headerName: '',
@@ -279,7 +281,7 @@ export class UserFormComponent implements OnInit {
   // AG-GRID
 
   // ******** Permits ******** //
-   getAllPermissions = (): Observable<any> => {
+   getAllPermits = (): Observable<any> => {
 
     let params2:HalParam[]=[];
     let param:HalParam={key:'user.id', value:this.userID}
@@ -289,7 +291,7 @@ export class UserFormComponent implements OnInit {
     return this.userConfigurationService.getAll(query);
   }
 
-  removeDataPermissions( data)
+  removeDataPermits( data)
   {
 
     const promises: Promise<any>[] = [];
@@ -302,13 +304,17 @@ export class UserFormComponent implements OnInit {
         });
     });
 
-    
   }
   
-  newDataPermissions(id: any)
+  newDataPermits(id: any)
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsPermits(data: any[] )
+  {
+    console.log(data);
   }
 
   // ******** Data of Territory ******** //
@@ -333,6 +339,12 @@ export class UserFormComponent implements OnInit {
   {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsDataTerritories(data: any[] )
+  {
+    console.log(data);
+    // this.connectionToEdit.cartographies=data;
   }
 
    // ******** Permits Dialog  ******** //

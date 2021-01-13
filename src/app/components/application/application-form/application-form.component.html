@@ -138,8 +138,9 @@
       <ng-template matExpansionPanelContent>  
           <div class="appDataGridEditDiv">
               <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  
-              [eventAddItemsSubscription]='addElementsEventParameters.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-              (remove)="removeParameters($event)" (new)='openParametersDialog()'  > </app-data-grid>
+              [eventAddItemsSubscription]='addElementsEventParameters.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()'  
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+              (getAllRows)="getAllRowsParameters($event)" (remove)="removeParameters($event)" (new)='openParametersDialog()'  > </app-data-grid>
           </div>
       </ng-template>
         </mat-expansion-panel>
@@ -155,8 +156,9 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsTemplates" [themeGrid]='themeGrid' [getAll]='getAllTemplates'  
-                  [eventAddItemsSubscription]='addElementsEventTemplateConfiguration.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
-                  [actionButton]=true (add)="openTemplateConfigurationDialog($event)" (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
+                  [eventAddItemsSubscription]='addElementsEventTemplateConfiguration.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventTemplateConfiguration.asObservable()' 
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+                  (getAllRows)="getAllRowsTemplates($event)" [actionButton]=true (add)="openTemplateConfigurationDialog($event)" (remove)="removeTemplates($event)" (new)='newDataTemplates($event)'  > </app-data-grid>
               </div>
           </ng-template>
           </mat-expansion-panel>
@@ -172,8 +174,9 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles'  
-                  [eventAddItemsSubscription]='addElementsEventRoles.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
-                  [actionButton]=true (add)="openRolesDialog($event)" (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
+                  [eventAddItemsSubscription]='addElementsEventRoles.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventRoles.asObservable()' 
+                   [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+                   (getAllRows)="getAllRowsRoles($event)" [actionButton]=true (add)="openRolesDialog($event)" (remove)="removeRoles($event)" (new)='newDataRoles($event)'  > </app-data-grid>
               </div>
           </ng-template>
           </mat-expansion-panel>
@@ -189,8 +192,9 @@
           <ng-template matExpansionPanelContent>    
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsBackgrounds" [themeGrid]='themeGrid' [getAll]='getAllBackgrounds' 
-                  [eventAddItemsSubscription]='addElementsEventBackground.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
-                  [actionButton]=true (add)="openBackgroundDialog($event)" (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
+                  [eventAddItemsSubscription]='addElementsEventBackground.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventBackground.asObservable()' 
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+                  (getAllRows)="getAllRowsBackgrounds($event)" [actionButton]=true (add)="openBackgroundDialog($event)" (remove)="removeBackgrounds($event)" (new)='newDataBackgrounds($event)'  > </app-data-grid>
               </div>
           </ng-template>
           </mat-expansion-panel>
@@ -206,8 +210,9 @@
       <ng-template matExpansionPanelContent>    
           <div class="appDataGridEditDiv">
               <app-data-grid [columnDefs]="columnDefsTrees" [themeGrid]='themeGrid' [getAll]='getAllTrees' 
-              [eventAddItemsSubscription]='addElementsEventTree.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
-              [actionButton]=true (add)="openTreeDialog($event)" (remove)="removeTrees($event)" (new)='newDataTrees($event)'  > </app-data-grid>
+              [eventAddItemsSubscription]='addElementsEventTree.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventTree.asObservable()' 
+              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
+              (getAllRows)="getAllRowsTrees($event)" [actionButton]=true (add)="openTreeDialog($event)" (remove)="removeTrees($event)" (new)='newDataTrees($event)'  > </app-data-grid>
           </div>
       </ng-template>
       </mat-expansion-panel>

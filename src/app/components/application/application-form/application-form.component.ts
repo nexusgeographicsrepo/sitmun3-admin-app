@@ -33,24 +33,31 @@ export class ApplicationFormComponent implements OnInit {
 
   //Grids
   columnDefsParameters: any[];
+  addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
   columnDefsTemplates: any[];
+  addElementsEventTemplateConfiguration: Subject<any[]> = new Subject <any[]>();
   columnDefsRoles: any[];
+  addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
   columnDefsBackgrounds: any[];
+  addElementsEventBackground: Subject<any[]> = new Subject <any[]>();
   columnDefsTrees: any[];
+  addElementsEventTree: Subject<any[]> = new Subject <any[]>();
+
+
   applicationTypes: Array<any> = [];
 
   //Dialogs
 
   columnDefsParametersDialog: any[];
-  addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
   columnDefsTemplateConfigurationDialog: any[];
-  addElementsEventTemplateConfiguration: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTemplateConfiguration: Subject<any[]> = new Subject <any[]>();
   columnDefsRolesDialog: any[];
-  addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
   columnDefsBackgroundDialog: any[];
-  addElementsEventBackground: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventBackground: Subject<any[]> = new Subject <any[]>();
   columnDefsTreeDialog: any[];
-  addElementsEventTree: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTree: Subject<any[]> = new Subject <any[]>();
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -423,6 +430,11 @@ export class ApplicationFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsParameters(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Template configuration ******** //
 
   getAllTemplates = (): Observable<any> => {
@@ -442,6 +454,11 @@ export class ApplicationFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsTemplates(data: any[] )
+  {
+    console.log(data);
+  }
+
 
   // ******** Roles ******** //
 
@@ -457,6 +474,11 @@ export class ApplicationFormComponent implements OnInit {
   newDataRoles(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsRoles(data: any[] )
+  {
+    console.log(data);
   }
  
 
@@ -485,6 +507,11 @@ export class ApplicationFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
+  getAllRowsBackgrounds(data: any[] )
+  {
+    console.log(data);
+  }
+
   // ******** Trees ******** //
 
   getAllTrees = (): Observable<any> => {
@@ -508,6 +535,11 @@ export class ApplicationFormComponent implements OnInit {
   newDataTrees(id: any) {
     // this.router.navigate(['territory', id, 'territoryForm']);
     console.log('screen in progress');
+  }
+
+  getAllRowsTrees(data: any[] )
+  {
+    console.log(data);
   }
 
 

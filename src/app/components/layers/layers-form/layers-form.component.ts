@@ -426,15 +426,18 @@ export class LayersFormComponent implements OnInit {
   // ******** Spatial configuration ******** //
   getAllSpatialConfigurations = (): Observable<any> => {
 
-    var urlReq=`${this.layerForm.value._links.spatialSelectionConnection.href}`
-    if(this.layerForm.value._links.spatialSelectionConnection.templated){
-      var url=new URL(urlReq.split("{")[0]);
-      url.searchParams.append("projection","view")
-      urlReq=url.toString();
-    }
+    // var urlReq=`${this.layerForm.value._links.spatialSelectionConnection.href}`
+    // if(this.layerForm.value._links.spatialSelectionConnection.templated){
+    //   var url=new URL(urlReq.split("{")[0]);
+    //   url.searchParams.append("projection","view")
+    //   urlReq=url.toString();
+    // }
 
-    return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters']));
+    // return (this.http.get(urlReq))
+    // .pipe( map( data =>  data['_embedded']['cartography-parameters']));
+
+    const aux: Array<any> = [];
+    return of(aux);
 
   }
 

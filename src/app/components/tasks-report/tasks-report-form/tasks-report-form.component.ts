@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService, TerritoryService, RoleService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,9 +33,13 @@ export class TasksReportFormComponent implements OnInit {
  
    //Dialog
    columnDefsMapsDialog: any[];
+   addElementsEventMaps: Subject<any[]> = new Subject <any[]>();
    columnDefsQueriesDialog: any[];
+   addElementsEventQueries: Subject<any[]> = new Subject <any[]>();
    columnDefsRolesDialog: any[];
+   addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
    columnDefsTerritoriesDialog: any[];
+   addElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
  
  
  
@@ -357,7 +361,9 @@ export class TasksReportFormComponent implements OnInit {
  
      dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventMaps.next(result.data[0])
+        }
       }
      });
  
@@ -386,7 +392,9 @@ export class TasksReportFormComponent implements OnInit {
  
      dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventQueries.next(result.data[0])
+        }
       }
  
      });
@@ -414,7 +422,9 @@ export class TasksReportFormComponent implements OnInit {
  
      dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventRoles.next(result.data[0])
+        }
       }
  
      });
@@ -442,7 +452,9 @@ export class TasksReportFormComponent implements OnInit {
    
        dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if(result.event==='Add') {
+            this.addElementsEventTerritories.next(result.data[0])
+          }
         }
        });
    

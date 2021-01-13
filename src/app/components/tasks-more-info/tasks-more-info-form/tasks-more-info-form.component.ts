@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService, TerritoryService, RoleService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,8 +33,12 @@ export class TasksMoreInfoFormComponent implements OnInit {
  
    //Dialog
    columnDefsRolesDialog: any[];
+   addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
    columnDefsTerritoriesDialog: any[];
-   columnDefsParametersDialog: any[];
+   addElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
+   columnDefsParametersDialog: any[];   
+   addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+
  
 
  
@@ -304,7 +308,9 @@ export class TasksMoreInfoFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventParameters.next(result.data[0])
+        }
       }
 
     });
@@ -332,7 +338,9 @@ export class TasksMoreInfoFormComponent implements OnInit {
  
      dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventRoles.next(result.data[0])
+        }
       }
  
      });
@@ -360,7 +368,9 @@ export class TasksMoreInfoFormComponent implements OnInit {
    
        dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if(result.event==='Add') {
+            this.addElementsEventTerritories.next(result.data[0])
+          }
         }
    
        });

@@ -50,7 +50,7 @@ export class TasksQueryComponent implements OnInit {
       { headerName: this.utils.getTranslate('tasksQueryEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksQueryEntity.task'),  field: 'task'},
       { headerName: this.utils.getTranslate('tasksQueryEntity.informationType'),  field: 'groupName' },
-      { headerName: this.utils.getTranslate('tasksQueryEntity.accesType'),  field: 'accesType' },
+      { headerName: this.utils.getTranslate('tasksQueryEntity.accessType'),  field: 'accesType' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.command'),  field: 'order' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.connection'),  field: 'connection' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.associatedLayer'),  field: 'associatedLayer' }

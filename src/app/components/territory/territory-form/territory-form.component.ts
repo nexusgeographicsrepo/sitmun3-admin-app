@@ -32,7 +32,6 @@ export class TerritoryFormComponent implements OnInit {
 
   //Grids
   columnDefsPermits: any[];
-  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
   columnDefsMemberOf: any[];
   columnDefsMembers: any[];
   columnDefsCartographies: any[];
@@ -40,15 +39,21 @@ export class TerritoryFormComponent implements OnInit {
 
   //Dialog
   columnDefsTasksDialog: any[];
+  addElementsEventTasks: Subject<boolean> = new Subject <boolean>();
   columnDefsCartographiesDialog: any[];
+  addElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
   columnDefsTerritoriesDialog: any[];
+  addElementsEventTerritoriesMembers: Subject<boolean> = new Subject <boolean>();
+  addElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject <boolean>();
   columnDefsUsersDialog: any[];
   columnDefsRolesDialog: any[];
+  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
 
   //Save button
   rolesToUpdate: Role[] = [];
   usersToUpdate: User[] = [];
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+
 
   constructor(
     public dialog: MatDialog,
@@ -581,15 +586,15 @@ export class TerritoryFormComponent implements OnInit {
 
   }
 
-    // ******** Territory Dialog  ******** //
+    // ******** Territory Member Of Dialog  ******** //
 
-    getAllTerritoriesDialog = () => {
+    getAllTerritoriesMemberOfDialog = () => {
       return this.territoryService.getAll();
     }
   
-    openTerritoryDialog(data: any) {
+    openTerritoryMemberOfDialog(data: any) {
       const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
+      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesMemberOfDialog];
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
@@ -601,7 +606,39 @@ export class TerritoryFormComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if( result.event==='Add') { 
+            if( result.event==='Add') { 
+              this.addElementsEventTerritoriesMemberOf.next(result.data[0])
+            }
+          }
+        }
+      });
+  
+    }
+
+    // ******** Territory Members Dialog  ******** //
+
+    getAllTerritoriesMembersDialog = () => {
+      return this.territoryService.getAll();
+    }
+  
+    openTerritoryMembersDialog(data: any) {
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
+      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesMembersDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title='Territories';
+      dialogRef.componentInstance.titlesTable=['Territories'];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          if( result.event==='Add') { 
+            this.addElementsEventTerritoriesMembers.next(result.data[0])
+          }
         }
       });
   
@@ -626,7 +663,9 @@ export class TerritoryFormComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          if( result.event==='Add') {console.log(result.data); }
+          if( result.event==='Add') { 
+            this.addElementsEventCartographies.next(result.data[0])
+          }
         }
   
       });
@@ -654,7 +693,9 @@ export class TerritoryFormComponent implements OnInit {
     
         dialogRef.afterClosed().subscribe(result => {
           if(result){
-            if( result.event==='Add') {console.log(result.data); }
+            if( result.event==='Add') { 
+              this.addElementsEventTasks.next(result.data[0])
+            }
           }
     
         });

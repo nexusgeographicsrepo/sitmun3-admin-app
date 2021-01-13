@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from './services/sidenav.service';
-import { Principal, LoginService } from 'dist/sitmun-frontend-core/';
+import { Principal, LoginService, AuthService } from 'dist/sitmun-frontend-core/';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -21,7 +21,12 @@ export class AppComponent {
   currentAccount: any;
 
   isOpen: boolean;
-  constructor(/** Translate service */public trans: TranslateService, /** Identity service */public principal: Principal,/** Login service */public loginService: LoginService) {
+  constructor(
+    /** Translate service */public trans: TranslateService, 
+    /** Identity service */public principal: Principal,
+    /** Login service */public loginService: LoginService,
+    /** Auth service */public authService: AuthService
+    ) {
     this.translate = trans;
 
     this.translate.addLangs(['es', 'ca', 'es']);
@@ -53,7 +58,7 @@ export class AppComponent {
 
   /** On component init, get logged user account*/
   ngOnInit() {
-    if (this.isLoggedIn()) {
+    if(this.authService.getToken()){
       this.principal.identity().then((account) => {
         this.currentAccount = account;
       });

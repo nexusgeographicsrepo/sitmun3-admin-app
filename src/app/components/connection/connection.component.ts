@@ -29,29 +29,17 @@ export class ConnectionComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    var columnEditBtn=environment.editBtnColumnDef;
+    columnEditBtn['cellRendererParams']= {
+      clicked: this.newData.bind(this)
+    }
+
+
     this.columnDefs = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 40,
-        lockPosition: true,
-      },
-      {
-        headerName: '',
-        field: 'id',
-        editable: false,
-        filter: false,
-        width: 48,
-        lockPosition: true,
-        cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: {
-          clicked: this.newData.bind(this)
-        },
-      },
-      { headerName: 'Id', field: 'id', editable: false },
+      environment.selCheckboxColumnDef,
+     columnEditBtn,
+      { headerName: 'Id', field: 'id', editable: false},
       { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('connectionEntity.user'), field: 'user' },
       { headerName: this.utils.getTranslate('connectionEntity.driver'), field: 'driver' },

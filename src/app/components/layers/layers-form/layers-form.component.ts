@@ -162,15 +162,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsParameters = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 45,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', },
@@ -181,15 +173,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsSpatialConfigurations = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 45,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.column'), field: 'column' },
       { headerName: this.utils.getTranslate('layersEntity.label'), field: 'label' },
       { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type', },
@@ -200,15 +184,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsTerritories = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
@@ -217,16 +193,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsLayersConfiguration = [
 
-      {
-        headerName: '',
-
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
 
@@ -234,15 +201,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsNodes = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 45,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'nodeName' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'description' },
@@ -250,15 +209,7 @@ export class LayersFormComponent implements OnInit {
     ];
 
     this.columnDefsParametersDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.alias'), field: 'alias', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', editable: false },
@@ -268,58 +219,26 @@ export class LayersFormComponent implements OnInit {
 
 
     this.columnDefsTerritoriesDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsSpatialSelectionDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsCartographyGroupsDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsNodesDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];

@@ -122,15 +122,7 @@ export class ServiceFormComponent implements OnInit {
 
     this.columnDefsParameters = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'type', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
@@ -139,15 +131,7 @@ export class ServiceFormComponent implements OnInit {
 
     this.columnDefsLayers = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 35,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id' },
       { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('serviceEntity.description'), field: 'description', },
@@ -156,29 +140,13 @@ export class ServiceFormComponent implements OnInit {
     ];
 
     this.columnDefsLayersDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsParametersDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
       { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type',  editable: false  },

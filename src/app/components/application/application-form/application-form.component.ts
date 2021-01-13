@@ -130,19 +130,10 @@ export class ApplicationFormComponent implements OnInit {
       error => {
 
       });
-
+ 
 
     this.columnDefsParameters = [
-
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
       { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type' },
@@ -151,30 +142,14 @@ export class ApplicationFormComponent implements OnInit {
 
     this.columnDefsTemplates = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
     ];
 
     this.columnDefsRoles = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 15,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
 
@@ -182,15 +157,7 @@ export class ApplicationFormComponent implements OnInit {
 
     this.columnDefsBackgrounds = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.background'), field: 'background' },
       { headerName: this.utils.getTranslate('applicationEntity.selectedBackground'), field: 'selectedBackground' },
 
@@ -198,59 +165,30 @@ export class ApplicationFormComponent implements OnInit {
 
     this.columnDefsTrees = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
 
     ];
 
     this.columnDefsParametersDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type', editable: false },
     ];
 
     this.columnDefsTemplateConfigurationDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', editable: false },
     ];
 
     this.columnDefsRolesDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.note'), field: 'description' },
@@ -259,15 +197,8 @@ export class ApplicationFormComponent implements OnInit {
     ];
 
     this.columnDefsBackgroundDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
     ];
@@ -275,15 +206,7 @@ export class ApplicationFormComponent implements OnInit {
     
     this.columnDefsTreeDialog = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
 

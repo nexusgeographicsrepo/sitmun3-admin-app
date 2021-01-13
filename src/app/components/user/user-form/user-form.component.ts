@@ -110,15 +110,7 @@ export class UserFormComponent implements OnInit {
 
     this.columnDefsPermissions = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
       { headerName: this.utils.getTranslate('userEntity.role'),  field: 'role', },
@@ -127,15 +119,7 @@ export class UserFormComponent implements OnInit {
 
     this.columnDefsData = [
 
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territoryName'},
       { headerName: this.utils.getTranslate('userEntity.position'),  field: 'name' },
       { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization'},
@@ -149,44 +133,20 @@ export class UserFormComponent implements OnInit {
     ];
 
     this.columnDefsTerritoryDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('userEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsRolesDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('userEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('userEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsTerritoryDataDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition:true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('userEntity.territory'),  field: 'territory'},
       { headerName: this.utils.getTranslate('userEntity.position'),  field: 'type' },
       { headerName: this.utils.getTranslate('userEntity.organization'),  field: 'organization'},

@@ -101,7 +101,7 @@ export class RoleFormComponent implements OnInit {
         width: 25,
         lockPosition: true,
       },
-      { headerName: 'Id', field: ['user.id'], editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'user' },
       { headerName: this.utils.getTranslate('roleEntity.territory'), field: 'territory' },
     ];

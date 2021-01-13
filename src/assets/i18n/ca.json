@@ -15,7 +15,8 @@
   "error-updated": "S'ha produït un error actualitzant els elements", 
   "ok-deleted": "Els elements s'han eliminat correctament",
   "error-deleted": "S'ha produït un error en esborrar els elements", 
-
+  "RemoveMessage": "Si esborres les dades seleccionades no hi haurà volta enrere, segur que vols continuar?",
+  "Caution": "Perill",
   "lang":{
     "catalan":"Català",
     "spanish":"Castellà",

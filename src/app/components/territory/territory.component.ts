@@ -5,7 +5,8 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
-
+import { MatDialog } from '@angular/material/dialog';
+import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 
 @Component({
   selector: 'app-territory',
@@ -21,7 +22,8 @@ export class TerritoryComponent implements OnInit {
 
 
 
-  constructor(public territoryService: TerritoryService,
+  constructor(public dialog: MatDialog,
+    public territoryService: TerritoryService,
     private utils: UtilsService,
     private router: Router,
   ) { }
@@ -108,13 +110,25 @@ export class TerritoryComponent implements OnInit {
   }
 
   removeData(data: Territory[]) {
-    const promises: Promise<any>[] = [];
-    data.forEach(territory => {
-      promises.push(new Promise((resolve, reject) => { this.territoryService.delete(territory).toPromise().then((resp) => { resolve() }) }));
-      Promise.all(promises).then(() => {
-        this.dataUpdatedEvent.next(true);
-      });
+
+    const dialogRef = this.dialog.open(DialogMessageComponent);
+    dialogRef.componentInstance.title=this.utils.getTranslate("Caution");
+    dialogRef.componentInstance.message=this.utils.getTranslate("RemoveMessage");
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.event==='Accept') {  
+          const promises: Promise<any>[] = [];
+          data.forEach(territory => {
+            promises.push(new Promise((resolve, reject) => { this.territoryService.delete(territory).toPromise().then((resp) => { resolve() }) }));
+            Promise.all(promises).then(() => {
+              this.dataUpdatedEvent.next(true);
+            });
+          });
+       }
+      }
     });
+
+
 
   }
 

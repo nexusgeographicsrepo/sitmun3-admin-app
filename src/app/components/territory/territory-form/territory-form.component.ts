@@ -32,6 +32,7 @@ export class TerritoryFormComponent implements OnInit {
 
   //Grids
   columnDefsPermits: any[];
+  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
   columnDefsMemberOf: any[];
   columnDefsMembers: any[];
   columnDefsCartographies: any[];
@@ -168,7 +169,7 @@ export class TerritoryFormComponent implements OnInit {
         width: 28,
         lockPosition: true,
       },
-      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: 'Id', field: ['user.id'], editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user' },
       { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role' },
 
@@ -543,7 +544,7 @@ export class TerritoryFormComponent implements OnInit {
 
 
   
-  // ******** Permits Dialog  ******** //
+  // ******** Users Dialog  ******** //
 
   getAllUsersDialog = () => {
     return this.userService.getAll();
@@ -570,10 +571,9 @@ export class TerritoryFormComponent implements OnInit {
       if(result){
         if(result.event==='Add') {  
           console.log(result.data); 
-          this.usersToUpdate.push(...result.data[0]) 
-          this.rolesToUpdate.push(...result.data[1]) 
-          console.log(this.rolesToUpdate);
-          console.log(this.usersToUpdate);
+          let rowsToAdd=this.getRowsToAddPermits(this.territoryToEdit,result.data[1],result.data[0])
+          console.log(rowsToAdd);
+          this.addElementsEventPermits.next(rowsToAdd);
          }
       }
 
@@ -661,36 +661,58 @@ export class TerritoryFormComponent implements OnInit {
     
       }
 
-      //Save button
+      
 
-      updateUserConfiguration(territory: Territory, roles: Role[], users: User[] )
+      getRowsToAddPermits(territory: Territory, roles: Role[], users: User[] )
       {
-        const promises: Promise<any>[] = [];
+        let itemsToAdd: any[] = [];
         roles.forEach(role => {
   
-          users.forEach(user => {
-  
-            let item = {
-              user: user,
-              role: role,
-              territory: territory,
-              _links: null
-            }
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-            Promise.all(promises).then(() => {
-              this.dataUpdatedEvent.next(true);
-            });
-           
-          });
-          
-        });
-  
+            users.forEach(user => {
+              let item = {
+                user: user.username,
+                'user.id': user.id,
+                role: role.name,
+                'role.id': role.id,
+                territory: territory.name,
+                'territory.id': territory.id,
+                _links: null
+              }
+              itemsToAdd.push(item);
+            })
+         })
+        return itemsToAdd;
       }
+
+      //Save button
+      // updateUserConfiguration(territory: Territory, roles: Role[], users: User[] )
+      // {
+      //   const promises: Promise<any>[] = [];
+      //   roles.forEach(role => {
+  
+      //     users.forEach(user => {
+  
+      //       let item = {
+      //         user: user,
+      //         role: role,
+      //         territory: territory,
+      //         _links: null
+      //       }
+      //       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      //       Promise.all(promises).then(() => {
+      //         this.dataUpdatedEvent.next(true);
+      //       });
+           
+      //     });
+          
+      //   });
+  
+      // }
   
   
       onSaveButtonClicked(){
   
-      this.updateUserConfiguration(this.territoryToEdit,this.rolesToUpdate,this.usersToUpdate)
+      // this.updateUserConfiguration(this.territoryToEdit,this.rolesToUpdate,this.usersToUpdate)
       this.dataUpdatedEvent.next(true);
   
       }

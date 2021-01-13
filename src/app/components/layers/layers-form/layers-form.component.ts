@@ -7,7 +7,7 @@ import { Connection } from 'dist/sitmun-frontend-core/connection/connection.mode
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,17 +33,33 @@ export class LayersFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
+
   columnDefsSpatialConfigurations: any[];
+
   columnDefsTerritories: any[];
+
+
   columnDefsLayersConfiguration: any[];
+
   columnDefsNodes: any[];
+
+
 
   //Dialog
   columnDefsParametersDialog: any[];
+  addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+
   columnDefsCartographyGroupsDialog: any[];
-  columnDefsSpatialSelectionDialog: any[];
+  addElementsEventCartographyGroups: Subject<any[]> = new Subject <any[]>();
+
+  columnDefsSpatialSelectionDialog: any[];  
+  addElementsEventSpatialConfigurations: Subject<any[]> = new Subject <any[]>();
+
   columnDefsTerritoriesDialog: any[];
+  addElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
+
   columnDefsNodesDialog: any[];
+  addElementsEventNodes: Subject<any[]> = new Subject <any[]>();
 
   constructor(
     public dialog: MatDialog,
@@ -493,7 +509,9 @@ openParametersDialog(data: any) {
 
   dialogRef.afterClosed().subscribe(result => {
     if(result){
-      if( result.event==='Add') {console.log(result.data); }
+      if( result.event==='Add') { 
+        this.addElementsEventParameters.next(result.data[0])
+      }
     }
 
   });
@@ -523,7 +541,9 @@ openSpatialSelectionDialog(data: any) {
 
   dialogRef.afterClosed().subscribe(result => {
     if(result){
-      if( result.event==='Add') {console.log(result.data); }
+      if( result.event==='Add') { 
+        this.addElementsEventSpatialConfigurations.next(result.data[0])
+      }
     }
 
   });
@@ -551,7 +571,9 @@ openSpatialSelectionDialog(data: any) {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if( result.event==='Add') { 
+          this.addElementsEventTerritories.next(result.data[0])
+        }
       }
 
     });
@@ -579,7 +601,9 @@ openSpatialSelectionDialog(data: any) {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if( result.event==='Add') { 
+          this.addElementsEventCartographyGroups.next(result.data[0])
+        }
       }
 
     });
@@ -609,7 +633,9 @@ openSpatialSelectionDialog(data: any) {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if( result.event==='Add') { 
+          this.addElementsEventNodes.next(result.data[0])
+        }
       }
 
     });

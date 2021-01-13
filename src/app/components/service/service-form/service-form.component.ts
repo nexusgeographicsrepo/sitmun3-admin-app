@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -43,7 +43,9 @@ export class ServiceFormComponent implements OnInit {
 
   //Dialogs
   columnDefsParametersDialog: any[];
+  addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
   columnDefsLayersDialog: any[];
+  addElementsEventLayers: Subject<any[]> = new Subject <any[]>();
 
 
 
@@ -330,7 +332,9 @@ export class ServiceFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventParameters.next(result.data[0])
+        }
       }
 
     });
@@ -360,7 +364,9 @@ export class ServiceFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if(result.event==='Add') {
+          this.addElementsEventLayers.next(result.data[0])
+        }
       }
 
     });

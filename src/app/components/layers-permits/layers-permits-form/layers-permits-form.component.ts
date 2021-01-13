@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-layers-permits-form',
@@ -16,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./layers-permits-form.component.scss']
 })
 export class LayersPermitsFormComponent implements OnInit {
-
+ 
   //Form
   formLayersPermits: FormGroup;
   layersPermitsToEdit;
@@ -31,7 +32,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
   //Dialog
   columnDefsRolesDialog: any[];
+  addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
   columnDefsCartographiesDialog: any[];
+  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
 
   constructor(
     public dialog: MatDialog,
@@ -251,7 +254,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if( result.event==='Add') { 
+          this.addElementsEventCartographies.next(result.data[0])
+        }
       }
 
     });
@@ -279,7 +284,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if( result.event==='Add') {console.log(result.data); }
+        if( result.event==='Add') { 
+          this.addElementsEventRoles.next(result.data[0])
+        }
       }
 
     });

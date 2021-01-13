@@ -15,6 +15,7 @@
   "error-updated": "S'ha produït un error actualitzant els elements", 
   "ok-deleted": "Els elements s'han eliminat correctament",
   "error-deleted": "S'ha produït un error en esborrar els elements", 
+
   "lang":{
     "catalan":"Català",
     "spanish":"Castellà",
@@ -60,6 +61,8 @@
     "save": "Desa",
     "permissions": "Permisos",
     "role": "Rol",
+    "roles":"Rols",
+    "territories":"Territories",
     "territory": "Territori",
     "dataOfTerritory": "Dades associades al territori",
     "position": "Càrrec",
@@ -242,6 +245,7 @@
   "territoryEntity": {
     "generalData": "Dades Generals",
     "territory": "Territori",
+    "territories": "Territories",
     "code": "Codi",
     "name": "Nom",
     "scope": "Àmbit",
@@ -264,8 +268,11 @@
     "permits": "Permisos",
     "cartography": "Cartografia",
     "task": "Tasca",
+    "tasks":"Tasques",
     "user": "Usuari",
     "role": "Rol",
+    "users": "Usuaris",
+    "roles": "Rols",
     "taskGroup": "Grup tasca",
     "layers": "Capes"
 
@@ -286,6 +293,7 @@
     "tasks": "Tasques",
     "username": "Nom d'usuari",
     "territory": "Territori",
+    "territories": "Territories",
     "layers": "Capes",
     "code": "Codi",
     "groupTask": "Grup tasca"
@@ -562,5 +570,6 @@
   "cancelFilter": "Cancel·lar",
   "loadingOoo": "Carregant...",
   "noRowsToShow": "No hi ha files per a mostrar",
-  "enabled": "Activat"
+  "enabled": "Activat",
+  "disabled": "Desactivat"
 }

@@ -53,9 +53,7 @@ export class TerritoryComponent implements OnInit {
         width: 75,
         lockPosition: true,
         cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: {
-          clicked: this.newData.bind(this)
-        },
+        cellRendererParams: {clicked: this.newData.bind(this) },
       },
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
@@ -73,7 +71,9 @@ export class TerritoryComponent implements OnInit {
       { headerName: this.utils.getTranslate('territoryEntity.address'), field: 'territorialAuthorityAddress' },
       { headerName: this.utils.getTranslate('territoryEntity.extent'), field: 'extent' },
       { headerName: this.utils.getTranslate('territoryEntity.note'), field: 'note' },
-      { headerName: this.utils.getTranslate('territoryEntity.blocked'), field: 'blocked' },
+      { headerName: this.utils.getTranslate('territoryEntity.blocked'), field: 'blocked', editable: false,
+      cellRenderer: 'btnCheckboxRendererComponent', floatingFilterComponent: 'btnCheckboxFilterComponent',
+      floatingFilterComponentParams: { suppressFilterButton: true }, },
     ];
   }
 

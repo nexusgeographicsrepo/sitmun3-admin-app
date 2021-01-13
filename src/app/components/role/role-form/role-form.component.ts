@@ -336,8 +336,8 @@ export class RoleFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false,false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsTerritoriesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Users';
-    dialogRef.componentInstance.titlesTable=['Users','Territories'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.users');
+    dialogRef.componentInstance.titlesTable=[this.utils.getTranslate('roleEntity.users'),this.utils.getTranslate('roleEntity.territories')];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -369,8 +369,8 @@ export class RoleFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Cartographies';
-    dialogRef.componentInstance.titlesTable=['Cartographies'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.cartography');
+    dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -397,8 +397,8 @@ export class RoleFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Tasks';
-      dialogRef.componentInstance.titlesTable=['Tasks'];
+      dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.tasks');
+      dialogRef.componentInstance.titlesTable=[''];
       dialogRef.componentInstance.nonEditable=false;
       
   

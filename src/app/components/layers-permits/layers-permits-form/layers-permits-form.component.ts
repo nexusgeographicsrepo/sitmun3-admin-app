@@ -243,8 +243,8 @@ export class LayersPermitsFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Cartographies';
-    dialogRef.componentInstance.titlesTable=['Cartographies'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('layersPermitsEntity.cartographiesConfiguration');
+    dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -271,8 +271,8 @@ export class LayersPermitsFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Roles';
-    dialogRef.componentInstance.titlesTable=['Roles'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('layersPermitsEntity.roles');
+    dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     
 

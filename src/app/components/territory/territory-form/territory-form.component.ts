@@ -560,8 +560,8 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false,false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Users';
-    dialogRef.componentInstance.titlesTable=['Users','Roles'];
+    dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.permits');
+    dialogRef.componentInstance.titlesTable=[this.utils.getTranslate('territoryEntity.users'),this.utils.getTranslate('territoryEntity.roles')];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -593,8 +593,8 @@ export class TerritoryFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Territories';
-      dialogRef.componentInstance.titlesTable=['Territories'];
+      dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.territories');
+      dialogRef.componentInstance.titlesTable=[''];
       dialogRef.componentInstance.nonEditable=false;
       
   
@@ -618,8 +618,8 @@ export class TerritoryFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Cartographies';
-      dialogRef.componentInstance.titlesTable=['Cartographies'];
+      dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.layers');
+      dialogRef.componentInstance.titlesTable=[''];
       dialogRef.componentInstance.nonEditable=false;
       
   
@@ -646,8 +646,8 @@ export class TerritoryFormComponent implements OnInit {
         dialogRef.componentInstance.singleSelectionTable=[false];
         dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
         dialogRef.componentInstance.themeGrid=this.themeGrid;
-        dialogRef.componentInstance.title='Tasks';
-        dialogRef.componentInstance.titlesTable=['Tasks'];
+        dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.tasks');
+        dialogRef.componentInstance.titlesTable=[''];
         dialogRef.componentInstance.nonEditable=false;
         
     

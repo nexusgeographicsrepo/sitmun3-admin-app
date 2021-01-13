@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, CartographyGroupService, TerritoryService, Territory} from 'dist/sitmun-frontend-core/';
+import { CartographyService, CartographyGroupService, TerritoryService, Territory } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -92,7 +92,7 @@ export class LayersFormComponent implements OnInit {
           }
         );
       }
-      
+
       this.municipalForm.setValue({
         municipalFilterFields: "",
         filterInfoByMunicipality: false,
@@ -108,7 +108,7 @@ export class LayersFormComponent implements OnInit {
 
       });
 
-      
+
     },
       error => {
 
@@ -203,7 +203,7 @@ export class LayersFormComponent implements OnInit {
 
       {
         headerName: '',
-    
+
         checkboxSelection: true,
         headerCheckboxSelection: true,
         editable: false,
@@ -241,16 +241,16 @@ export class LayersFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field',  editable: false  },
-      { headerName: this.utils.getTranslate('layersEntity.alias'), field: 'alias',  editable: false  },
-      { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format',  editable: false  },
-      { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type',  editable: false  },
-      { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.alias'), field: 'alias', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order', editable: false },
     ];
 
-    
+
     this.columnDefsTerritoriesDialog = [
       {
         headerName: '',
@@ -259,11 +259,11 @@ export class LayersFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
       { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code',  editable: false  },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsSpatialSelectionDialog = [
@@ -274,10 +274,10 @@ export class LayersFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
       { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsCartographyGroupsDialog = [
@@ -288,10 +288,10 @@ export class LayersFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
       { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsNodesDialog = [
@@ -302,21 +302,21 @@ export class LayersFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
       { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
-    
+
 
   }
 
-  
+
   getGeometryTypes() {
-  
+
   }
 
-   
+
 
   initializeLayersForm(): void {
 
@@ -385,8 +385,17 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
-    return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-      .pipe(map(data => data['_embedded']['cartography-parameters']));
+
+    var urlReq=`${this.layerForm.value._links.parameters.href}`
+    if(this.layerForm.value._links.parameters.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']));
+    
   }
 
   removeDataParameters(data: Territory[]) {
@@ -400,11 +409,17 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Spatial configuration ******** //
   getAllSpatialConfigurations = (): Observable<any> => {
-    //TODO Change the link when available
-    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
-    const aux: Array<any> = [];
-    return of(aux);
+
+    var urlReq=`${this.layerForm.value._links.spatialSelectionConnection.href}`
+    if(this.layerForm.value._links.spatialSelectionConnection.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters']));
+
   }
 
   removeDataSpatialConfigurations(data: Territory[]) {
@@ -470,65 +485,65 @@ export class LayersFormComponent implements OnInit {
     console.log('screen in progress');
   }
 
-// ******** Parameters Dialog  ******** //
+  // ******** Parameters Dialog  ******** //
 
-getAllParametersDialog = () => {
-  const aux: Array<any> = [];
-  return of(aux);
-  // return this.cartographyService.getAll();
-}
+  getAllParametersDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
 
-openParametersDialog(data: any) {
+  openParametersDialog(data: any) {
 
-  const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-  dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
-  dialogRef.componentInstance.singleSelectionTable=[false];
-  dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
-  dialogRef.componentInstance.themeGrid=this.themeGrid;
-  dialogRef.componentInstance.title='Parameters';
-  dialogRef.componentInstance.titlesTable=['Parameters'];
-  dialogRef.componentInstance.nonEditable=false;
-  
-
-
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
-      if( result.event==='Add') {console.log(result.data); }
-    }
-
-  });
-
-}
-
-// ******** Spatial Selection Dialog  ******** //
-
-getAllSpatialSelectionDialog = () => {
-  const aux: Array<any> = [];
-  return of(aux);
-  // return this.cartographyService.getAll();
-}
-
-openSpatialSelectionDialog(data: any) {
-
-  const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-  dialogRef.componentInstance.getAllsTable=[this.getAllSpatialSelectionDialog];
-  dialogRef.componentInstance.singleSelectionTable=[false];
-  dialogRef.componentInstance.columnDefsTable=[this.columnDefsSpatialSelectionDialog];
-  dialogRef.componentInstance.themeGrid=this.themeGrid;
-  dialogRef.componentInstance.title='SpatialSelection';
-  dialogRef.componentInstance.titlesTable=['SpatialSelection'];
-  dialogRef.componentInstance.nonEditable=false;
-  
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllParametersDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsParametersDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.parametersConfiguration');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
 
 
-  dialogRef.afterClosed().subscribe(result => {
-    if(result){
-      if( result.event==='Add') {console.log(result.data); }
-    }
 
-  });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
+      }
 
-}
+    });
+
+  }
+
+  // ******** Spatial Selection Dialog  ******** //
+
+  getAllSpatialSelectionDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openSpatialSelectionDialog(data: any) {
+
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllSpatialSelectionDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsSpatialSelectionDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.spatialSelection');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
+      }
+
+    });
+
+  }
 
   // ******** Territory Dialog  ******** //
 
@@ -538,20 +553,20 @@ openSpatialSelectionDialog(data: any) {
 
   openTerritoriesDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Territories';
-    dialogRef.componentInstance.titlesTable=['Territories'];
-    dialogRef.componentInstance.nonEditable=false;
-    
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllTerritoriesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoriesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.territory');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if( result.event==='Add') {console.log(result.data); }
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
     });
@@ -566,20 +581,20 @@ openSpatialSelectionDialog(data: any) {
 
   openCartographyGroupsDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllCartographyGroupsDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographyGroupsDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Cartography';
-    dialogRef.componentInstance.titlesTable=['Cartography Groups'];
-    dialogRef.componentInstance.nonEditable=false;
-    
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllCartographyGroupsDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsCartographyGroupsDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.permissiongroupLayersConfiguration');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if( result.event==='Add') {console.log(result.data); }
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
     });
@@ -595,21 +610,21 @@ openSpatialSelectionDialog(data: any) {
   }
 
   openNodesDialog(data: any) {
- 
-    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllNodesDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsNodesDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Nodes';
-    dialogRef.componentInstance.titlesTable=['Nodes'];
-    dialogRef.componentInstance.nonEditable=false;
-    
+
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllNodesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsNodesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.nodes');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if( result.event==='Add') {console.log(result.data); }
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
     });

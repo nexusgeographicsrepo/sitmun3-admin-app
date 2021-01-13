@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService, HalOptions, HalParam,CartographyGroupService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -40,7 +40,7 @@ export class ApplicationFormComponent implements OnInit {
   applicationTypes: Array<any> = [];
 
   //Dialogs
-  
+
   columnDefsParametersDialog: any[];
   columnDefsTemplateConfigurationDialog: any[];
   columnDefsRolesDialog: any[];
@@ -54,7 +54,7 @@ export class ApplicationFormComponent implements OnInit {
     private roleService: RoleService,
     private http: HttpClient,
     private utils: UtilsService,
-    private cartographyGroupService:CartographyGroupService,
+    private cartographyGroupService: CartographyGroupService,
   ) {
     this.initializeApplicationForm();
   }
@@ -91,7 +91,7 @@ export class ApplicationFormComponent implements OnInit {
             console.log(resp);
             this.applicationToEdit = resp;
 
-            
+
             this.applicationForm.setValue({
               id: this.applicationID,
               name: this.applicationToEdit.name,
@@ -215,11 +215,11 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
-      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
-      { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', editable: false },
+      { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type', editable: false },
     ];
 
     this.columnDefsTemplateConfigurationDialog = [
@@ -230,10 +230,10 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
-      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
-      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
+      { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', editable: false },
     ];
 
     this.columnDefsRolesDialog = [
@@ -244,10 +244,10 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.note'), field: 'description' },
       { headerName: this.utils.getTranslate('applicationEntity.application'), field: 'application' },
 
@@ -261,18 +261,18 @@ export class ApplicationFormComponent implements OnInit {
         editable: false,
         filter: false,
         width: 50,
-        lockPosition:true,
+        lockPosition: true,
       },
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', editable: false },
     ];
 
   }
   getSituationMapList() {
-    let params2:HalParam[]=[];
-    let param:HalParam={key:'type', value:'M'}
+    let params2: HalParam[] = [];
+    let param: HalParam = { key: 'type', value: 'M' }
     params2.push(param);
-    let query:HalOptions={ params:params2};
+    let query: HalOptions = { params: params2 };
 
     return this.cartographyGroupService.getAll(query);
   }
@@ -441,16 +441,16 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Background ******** //
 
   getAllBackgrounds = (): Observable<any> => {
-      var urlReq=`${this.applicationForm.value._links.backgrounds.href}`
-      if(this.applicationForm.value._links.backgrounds.templated){
-        var url=new URL(urlReq.split("{")[0]);
-        url.searchParams.append("projection","view")
-        urlReq=url.toString();
-      }
-  
-      return (this.http.get(urlReq))
-      .pipe( map( data =>  data['_embedded']['application-backgrounds']) );
-  
+    var urlReq = `${this.applicationForm.value._links.backgrounds.href}`
+    if (this.applicationForm.value._links.backgrounds.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['application-backgrounds']));
+
 
   }
 
@@ -466,27 +466,27 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Trees ******** //
 
   getAllTrees = (): Observable<any> => {
-    var urlReq=`${this.applicationForm.value._links.trees.href}`
-    if(this.applicationForm.value._links.trees.templated){
-      var url=new URL(urlReq.split("{")[0]);
-      url.searchParams.append("projection","view")
-      urlReq=url.toString();
+    var urlReq = `${this.applicationForm.value._links.trees.href}`
+    if (this.applicationForm.value._links.trees.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
     }
 
     return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['trees']) );
+      .pipe(map(data => data['_embedded']['trees']));
 
 
-}
+  }
 
-removeTrees(data: any[]) {
-  console.log(data);
-}
+  removeTrees(data: any[]) {
+    console.log(data);
+  }
 
-newDataTrees(id: any) {
-  // this.router.navigate(['territory', id, 'territoryForm']);
-  console.log('screen in progress');
-}
+  newDataTrees(id: any) {
+    // this.router.navigate(['territory', id, 'territoryForm']);
+    console.log('screen in progress');
+  }
 
 
   // ******** Parameters Dialog  ******** //
@@ -498,114 +498,112 @@ newDataTrees(id: any) {
   }
 
   openParametersDialog(data: any) {
- 
-    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title='Parameters';
-    dialogRef.componentInstance.titlesTable=['Parameters'];
-    dialogRef.componentInstance.nonEditable=false;
-    
+
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllParametersDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsParametersDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.parametersConfiguration");
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if( result.event==='Add') {console.log(result.data); }
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
     });
 
   }
 
-      // ******** TemplatesConfiguration Dialog  ******** //
+  // ******** TemplatesConfiguration Dialog  ******** //
 
-      getAllTemplatesConfigurationDialog = () => {
-        const aux: Array<any> = [];
-        return of(aux);
-        // return this.cartographyService.getAll();
-      }
-    
-      openTemplateConfigurationDialog(data: any) {
-        const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-        dialogRef.componentInstance.getAllsTable=[this.getAllTemplatesConfigurationDialog];
-        dialogRef.componentInstance.singleSelectionTable=[false];
-        dialogRef.componentInstance.columnDefsTable=[this.columnDefsTemplateConfigurationDialog];
-        dialogRef.componentInstance.themeGrid=this.themeGrid;
-        dialogRef.componentInstance.title='Templates';
-        dialogRef.componentInstance.titlesTable=['Templates'];
-        dialogRef.componentInstance.nonEditable=false;
-        
-    
-    
-        dialogRef.afterClosed().subscribe(result => {
-          if(result){
-            if( result.event==='Add') {console.log(result.data); }
-          }
-    
-        });
-    
+  getAllTemplatesConfigurationDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openTemplateConfigurationDialog(data: any) {
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllTemplatesConfigurationDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTemplateConfigurationDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title == this.utils.getTranslate("applicationEntity.templateConfiguration");
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
       }
 
-    // ******** Roles Dialog  ******** //
+    });
 
-    getAllRolesDialog = () => {
+  }
 
-      return this.roleService.getAll();
-    }
-  
-    openRolesDialog(data: any) {
+  // ******** Roles Dialog  ******** //
 
-      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-      dialogRef.componentInstance.getAllsTable=[this.getAllRolesDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Roles';
-      dialogRef.componentInstance.titlesTable=['Roles'];
-      dialogRef.componentInstance.nonEditable=false;
-      
-  
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          if( result.event==='Add') {console.log(result.data); }
-        }
-  
-      });
-  
-    }
+  getAllRolesDialog = () => {
+
+    return this.roleService.getAll();
+  }
+
+  openRolesDialog(data: any) {
+
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllRolesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsRolesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.roles");
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
 
 
-    // ******** Background Dialog  ******** //
 
-    getAllBackgroundDialog = () => {
-      const aux: Array<any> = [];
-      return of(aux);
-      // return this.cartographyService.getAll();
-    }
-  
-    openBackgroundDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-      dialogRef.componentInstance.getAllsTable=[this.getAllBackgroundDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsBackgroundDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Background';
-      dialogRef.componentInstance.titlesTable=['Background'];
-      dialogRef.componentInstance.nonEditable=false;
-      
-  
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          if( result.event==='Add') {console.log(result.data); }
-        }
-  
-      });
-  
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
+      }
+
+    });
+
+  }
+
+
+  // ******** Background Dialog  ******** //
+
+  getAllBackgroundDialog = () => {
+    const aux: Array<any> = [];
+    return of(aux);
+    // return this.cartographyService.getAll();
+  }
+
+  openBackgroundDialog(data: any) {
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllBackgroundDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsBackgroundDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.background");
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') { console.log(result.data); }
+      }
+
+    });
+
+  }
 
 
 }

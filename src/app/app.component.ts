@@ -3,32 +3,39 @@ import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from './services/sidenav.service';
-import {Principal, LoginService} from 'dist/sitmun-frontend-core/';
+import { Principal, LoginService } from 'dist/sitmun-frontend-core/';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent   {
+export class AppComponent {
   title = 'admin-app';
 
   /** translate service*/
   translate;
 
   /** current logged in user account*/
-  currentAccount : any;
+  currentAccount: any;
 
   isOpen: boolean;
-  constructor(/** Translate service */public trans: TranslateService, /** Identity service */public principal:Principal,/** Login service */public loginService:LoginService  ) { 
+  constructor(/** Translate service */public trans: TranslateService, /** Identity service */public principal: Principal,/** Login service */public loginService: LoginService) {
     this.translate = trans;
-    
-  	this.translate.addLangs(['es', 'ca','es']);
-    this.translate.setDefaultLang('ca');
-    this.translate.use('ca');
+
+    this.translate.addLangs(['es', 'ca', 'es']);
+    let navigatorLang = environment.languages.find(element => element.id === window.navigator.language);
+    let defaultLang = environment.defaultLang;
+    if (navigatorLang != undefined) {
+      defaultLang = window.navigator.language
+    }
+    this.translate.setDefaultLang(defaultLang);
+    this.translate.use(defaultLang);
   }
 
   /** Change app language*/
-  changeLanguage(locale: string ){
+  changeLanguage(locale: string) {
     this.translate.use(locale);
   }
 
@@ -40,16 +47,17 @@ export class AppComponent   {
 
 
   /** Whether user is logged in */
-  isLoggedIn(){
+  isLoggedIn() {
     return this.principal.isAuthenticated();
   }
 
   /** On component init, get logged user account*/
   ngOnInit() {
-
+    if (this.isLoggedIn()) {
       this.principal.identity().then((account) => {
-                 this.currentAccount = account;
-   });
+        this.currentAccount = account;
+      });
+    }
   }
 
 }

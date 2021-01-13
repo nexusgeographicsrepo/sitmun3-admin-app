@@ -1,23 +1,20 @@
 <mat-card class="mat-card-login">
   <form [formGroup]="form" (ngSubmit)="login()">
-
-
-    <h3>{{'loginEntity.login' | translate}}</h3>
     
     <mat-card-content>
 
       <div class="container">
-        <label class="formLabel">
+        <label class="formLabel requiredInput">
           {{'loginEntity.username' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="input" formControlName="username"  name="username">
+          <input matInput type="input" formControlName="username">
         </mat-form-field>
-        <label class="formLabel">
+        <label class="formLabel requiredInput" >
           {{'loginEntity.password' | translate}}
         </label>
-        <mat-form-field appearance="outline">
-          <input matInput type="password" formControlName="password">
+        <mat-form-field appearance="outline" >
+          <input matInput type="password" formControlName="password"> 
         </mat-form-field>
         <label class="formLabel">
           {{'loginEntity.language' | translate}}
@@ -25,15 +22,16 @@
         <mat-form-field appearance="outline">
           <mat-select matInput formControlName="lang" class="form-control">
             <mat-option [value]="lang.id" *ngFor="let lang of langs">
-              {{lang.name}}
+              {{'lang.'+lang.name | translate}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">{{'loginEntity.login' |
-        translate}}</button>
+      <button mat-raised-button class="loginButton" type="submit" [disabled]="!form.valid">
+        {{'loginEntity.login' | translate}}
+      </button>
 
     </mat-card-actions>
   </form>

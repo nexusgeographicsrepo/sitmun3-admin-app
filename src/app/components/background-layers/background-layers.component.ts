@@ -54,7 +54,9 @@ export class BackgroundLayersComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('backgroundEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('backgroundEntity.description'), field: 'description' },
-      { headerName: this.utils.getTranslate('backgroundEntity.active'), field: 'active' },
+      { headerName: this.utils.getTranslate('backgroundEntity.active'), field: 'active', editable: false,
+      cellRenderer: 'btnCheckboxRendererComponent', floatingFilterComponent: 'btnCheckboxFilterComponent',
+      floatingFilterComponentParams: { suppressFilterButton: true }, },
       { headerName: this.utils.getTranslate('backgroundEntity.cartographyGroup'), field: 'cartographyGroupName' }
     ];
 

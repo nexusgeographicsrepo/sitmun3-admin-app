@@ -87,59 +87,27 @@ export class TasksDownloadFormComponent implements OnInit {
 
 
       this.columnDefsRoles = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 25,
-          lockPosition: true,
-        },
+      environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.name'), field: 'name' },  
       ];
   
       this.columnDefsTerritories = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 25,
-          lockPosition: true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.code'), field: 'name' },
   
       ];
 
       this.columnDefsRolesDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.name'), field: 'name', editable: false },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.note'), field: 'description' },
       ];
 
       this.columnDefsTerritoriesDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.name'), field: 'name',  editable: false  },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.code'), field: 'code',  editable: false  },

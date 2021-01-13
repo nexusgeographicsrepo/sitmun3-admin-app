@@ -95,15 +95,7 @@ export class TasksMoreInfoFormComponent implements OnInit {
 
        this.columnDefsParameters = [
 
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 40,
-          lockPosition: true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.key'), field: 'key' },
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.value'), field: 'value', },
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.order'), field: 'order' },
@@ -112,74 +104,34 @@ export class TasksMoreInfoFormComponent implements OnInit {
  
  
        this.columnDefsRoles = [
-         {
-           headerName: '',
-           checkboxSelection: true,
-           headerCheckboxSelection: true,
-           editable: false,
-           filter: false,
-           width: 25,
-           lockPosition: true,
-         },
+        environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.name'), field: 'name' },  
        ];
    
        this.columnDefsTerritories = [
-         {
-           headerName: '',
-           checkboxSelection: true,
-           headerCheckboxSelection: true,
-           editable: false,
-           filter: false,
-           width: 25,
-           lockPosition: true,
-         },
+        environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.name'), field: 'name' },
    
        ];
 
        this.columnDefsParametersDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name',  editable: false  },
         { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value',  editable: false  },
         { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type',  editable: false  },
       ];
  
        this.columnDefsRolesDialog = [
-         {
-           headerName: '',
-           checkboxSelection: true,
-           headerCheckboxSelection: true,
-           editable: false,
-           filter: false,
-           width: 50,
-           lockPosition:true,
-         },
+        environment.selCheckboxColumnDef,
          { headerName: 'ID', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.name'), field: 'name', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.description'), field: 'description' },
        ];
  
        this.columnDefsTerritoriesDialog = [
-         {
-           headerName: '',
-           checkboxSelection: true,
-           headerCheckboxSelection: true,
-           editable: false,
-           filter: false,
-           width: 50,
-           lockPosition:true,
-         },
+        environment.selCheckboxColumnDef,
          { headerName: 'ID', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.name'), field: 'name',  editable: false  },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.code'), field: 'code',  editable: false  },

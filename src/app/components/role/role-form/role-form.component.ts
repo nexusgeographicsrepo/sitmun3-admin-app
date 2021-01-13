@@ -101,117 +101,53 @@ export class RoleFormComponent implements OnInit {
 
 
     this.columnDefsUsers = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'user' },
       { headerName: this.utils.getTranslate('roleEntity.territory'), field: 'territory' },
     ];
 
     this.columnDefsTasks = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
     ];
 
     this.columnDefsCartography = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('roleEntity.layers'), field: 'layers' },
     ];
 
     this.columnDefsApplications = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 25,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
     ];
 
     this.columnDefsUsersDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username', editable: false },
     ];
 
     this.columnDefsTerritoriesDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
     this.columnDefsCartographiesDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsTasksDialog = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 50,
-        lockPosition: true,
-      },
+      environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
     ];

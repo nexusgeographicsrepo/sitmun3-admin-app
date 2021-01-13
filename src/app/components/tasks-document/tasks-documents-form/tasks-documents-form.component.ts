@@ -88,59 +88,27 @@ export class TasksDocumentsFormComponent implements OnInit {
 
 
       this.columnDefsCartography = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 25,
-          lockPosition: true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.name'), field: 'name' },  
       ];
   
       this.columnDefsTerritories = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 25,
-          lockPosition: true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.name'), field: 'name' },
   
       ];
 
       this.columnDefsCartographyDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.name'), field: 'name', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.note'), field: 'description' },
       ];
 
       this.columnDefsTerritoriesDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.name'), field: 'name',  editable: false  },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.code'), field: 'code',  editable: false  },

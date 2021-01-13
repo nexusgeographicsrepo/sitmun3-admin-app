@@ -100,15 +100,7 @@ export class ConnectionFormComponent implements OnInit {
 
 
       this.columnDefsCartographies = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 25,
-          lockPosition: true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
         { headerName: this.utils.getTranslate('connectionEntity.layers'), field: 'layers' },
@@ -116,15 +108,7 @@ export class ConnectionFormComponent implements OnInit {
       ];
   
       this.columnDefsTasks = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 25,
-          lockPosition: true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.code'), field: 'name' },
         { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'groupName' },
@@ -132,29 +116,13 @@ export class ConnectionFormComponent implements OnInit {
       ];
 
       this.columnDefsCartographiesDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name', editable: false },
       ];
 
       this.columnDefsTasksDialog = [
-        {
-          headerName: '',
-          checkboxSelection: true,
-          headerCheckboxSelection: true,
-          editable: false,
-          filter: false,
-          width: 50,
-          lockPosition:true,
-        },
+        environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name',  editable: false  },
       ];

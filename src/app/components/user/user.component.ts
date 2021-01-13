@@ -35,26 +35,14 @@ export class UserComponent implements OnInit {
     // this.headerNameColumnLastName = await this.translate.get('lastname').toPromise();
     // this.headerNameColumnStatus = await this.translate.get('status').toPromise();
 
+    var columnEditBtn=environment.editBtnColumnDef;
+    columnEditBtn['cellRendererParams']= {
+      clicked: this.newData.bind(this)
+    }
+
     this.columnDefs = [
-      {
-        headerName: '',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        editable: false,
-        filter: false,
-        width: 40,
-        lockPosition: true,
-      },
-      {
-        headerName: '',
-        field: 'id',
-        editable: false,
-        filter: false,
-        width: 55,
-        lockPosition: true,
-        cellRenderer: 'btnEditRendererComponent',
-        cellRendererParams: { clicked: this.newData.bind(this) },
-      },
+      environment.selCheckboxColumnDef,
+      columnEditBtn,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.user'), field: 'username' },
       { headerName: this.utils.getTranslate('userEntity.firstname'), field: 'firstName' },

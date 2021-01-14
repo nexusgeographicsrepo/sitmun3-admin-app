@@ -20,12 +20,12 @@
   "error-updated": "S'ha produït un error actualitzant els elements",
   "ok-deleted": "Els elements s'han eliminat correctament",
   "error-deleted": "S'ha produït un error en esborrar els elements",
-  "RemoveMessage": "Si esborres les dades seleccionades no hi haurà volta enrere, segur que vols continuar?",
-  "Caution": "Perill",
+  "removeMessage": "Si esborres les dades seleccionades no hi haurà volta enrere, segur que vols continuar?",
+  "caution": "Perill",
   "lang": {
     "catalan": "Català",
     "spanish": "Castellà",
-    "english": "Anglés"
+    "english": "Anglès"
   },
   "sideMenu": {
     "generalData": "Dades Generals",
@@ -331,7 +331,7 @@
     "searchView": "Vista cerca",
     "taskGroup": "Grup tasca",
     "service": "Servei",
-    "emptyGeometryParameter": "Peràmetre geometries buides",
+    "emptyGeometryParameter": "Paràmetre geometries buides",
     "layerName": "Nom de la capa",
     "associatedCartography": "Cartografia associada",
     "municipalityFilter": "Filtre municipal",

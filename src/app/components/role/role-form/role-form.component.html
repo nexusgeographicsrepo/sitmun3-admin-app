@@ -1,7 +1,7 @@
 <div class="titleDiv">
   <h4>
     <mat-icon aria-hidden="false" svgIcon="menu_rol"></mat-icon> {{ "roleEntity.role" | translate
-    }}-{{"roleEntity."+(roleID==-1?"new":"edit") | translate}}
+    }}-{{(roleID==-1?"new":"edit") | translate}}
   </h4>
   <span class="divider"></span>
 </div>
@@ -11,7 +11,7 @@
     <h5> {{'roleEntity.generalData' | translate}} </h5>
     <button mat-flat-button (click)="onSaveButtonClicked()" class="saveButton">
       <mat-icon fontSet="material-icons-round"> save </mat-icon>
-      {{ "roleEntity.save" | translate }}
+      {{ "save" | translate }}
     </button>
   </div>
   <span class="divider"></span>

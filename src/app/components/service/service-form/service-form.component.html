@@ -1,5 +1,5 @@
 <div class="titleDiv" >
-  <h4><mat-icon aria-hidden="false"  svgIcon="menu_servei"></mat-icon> {{ "serviceEntity.service" | translate }}-{{"serviceEntity."+(serviceID==-1?"new":"edit") | translate}}</h4>
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_servei"></mat-icon> {{ "serviceEntity.service" | translate }}-{{(serviceID==-1?"new":"edit") | translate}}</h4>
   <span class="divider"></span>
 </div>
 
@@ -9,7 +9,7 @@
     <h5> {{'serviceEntity.generalData' | translate}} </h5>
     <button   mat-flat-button class="saveButton"  >
       <mat-icon fontSet="material-icons-round"  > save </mat-icon>
-      {{ "serviceEntity.save" | translate }}
+      {{ "save" | translate }}
     </button>
   </div>
   <span class="divider"></span>
@@ -70,7 +70,7 @@
       
           
             <button *ngIf="serviceID==-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
-            <button *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.update" | translate }}</button>
+            <button *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.updateData" | translate }}</button>
      </div>
 
       <div class="rowFormDiv">

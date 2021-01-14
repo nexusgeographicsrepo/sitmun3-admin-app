@@ -1,5 +1,5 @@
 <div class="titleDiv" >
-  <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon> {{ "layersEntity.layers" | translate }}-{{"layersEntity."+(layerID==-1?"new":"edit") | translate}}</h4>
+  <h4><mat-icon aria-hidden="false"  svgIcon="menu_capes"></mat-icon> {{ "layersEntity.layers" | translate }}-{{(layerID==-1?"new":"edit") | translate}}</h4>
   <span class="divider"></span>
 </div>
 
@@ -8,7 +8,7 @@
     <h5> {{'layersEntity.generalData' | translate}} </h5>
     <button   mat-flat-button class="saveButton"  >
       <mat-icon fontSet="material-icons-round"  > save </mat-icon>
-      {{ "layersEntity.save" | translate }}
+      {{ "save" | translate }}
     </button>
   </div>
   <span class="divider"></span>

@@ -153,7 +153,10 @@ export class LayersPermitsFormComponent implements OnInit {
     console.log(this.formLayersPermits.value);
     this.layersPermitsToEdit.name=this.formLayersPermits.value.name;
     this.layersPermitsToEdit.type=this.formLayersPermits.value.type;
-    console.log( this.layersPermitsToEdit.type);
+    delete this.layersPermitsToEdit._links['members'];
+    delete this.layersPermitsToEdit._links['roles'];
+    delete this.layersPermitsToEdit._links['situationMap'];
+    console.log( this.layersPermitsToEdit);
     this.cartographyGroupService.update(this.layersPermitsToEdit)
       .subscribe(resp => {
         console.log(resp);

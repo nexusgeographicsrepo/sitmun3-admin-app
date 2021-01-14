@@ -236,11 +236,19 @@ export class ServiceFormComponent implements OnInit {
     // this.serviceForm.patchValue({
     //   supportedSRS: this.projections.join(';')
     // })
-    this.serviceForm.patchValue({
-      supportedSRS: this.projections
-    });
-    console.log(this.serviceForm.value);
-    this.serviceService.update(this.serviceForm.value)
+    // this.serviceForm.patchValue({
+    //   supportedSRS: this.projections
+    // });
+    console.log(this.serviceToEdit);
+    this.serviceToEdit.name = this.serviceForm.value.name;
+    this.serviceToEdit.type = this.serviceForm.value.type;
+    this.serviceToEdit.serviceURL = this.serviceForm.value.serviceURL;
+    this.serviceToEdit.proxyUrl = this.serviceForm.value.connection;
+    this.serviceToEdit.getInformationURL = this.serviceForm.value.metadataURL;
+    this.serviceToEdit.supportedSRS = this.projections;
+
+    console.log(this.serviceToEdit);
+    this.serviceService.update(this.serviceToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -256,18 +264,11 @@ export class ServiceFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 
-  removeParameters(data: any[]) {
-    console.log(data);
-  }
 
-  newDataParameters(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsParameters(data: any[] )
   {
-    console.log(data);
+    this.serviceToEdit.parameters=data;
   }
 
   // ******** Layers ******** //
@@ -276,18 +277,10 @@ export class ServiceFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`cartographies`]));
   }
 
-  removeLayers(data: any[]) {
-    console.log(data);
-  }
-
-  newDataLayers(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsLayers(data: any[] )
   {
-    console.log(data);
+    this.serviceToEdit.layers=data;
   }
 
   // ******** Parameters Dialog  ******** //

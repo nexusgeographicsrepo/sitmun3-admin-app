@@ -7,7 +7,7 @@
 <div class="formDiv">
   <div class="formHeader">
     <h5> {{'serviceEntity.generalData' | translate}} </h5>
-    <button   mat-flat-button class="saveButton"  >
+    <button   mat-flat-button class="saveButton" (click)="onSaveButtonClicked()" >
       <mat-icon fontSet="material-icons-round"  > save </mat-icon>
       {{ "save" | translate }}
     </button>
@@ -122,7 +122,7 @@
             <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
             [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()' 
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-            (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (remove)="removeParameters($event)" (new)='newDataParameters($event)'  > </app-data-grid>
+            (getAllRows)="getAllRowsParameters($event)" [actionButton]=true > </app-data-grid>
         </div>
     </ng-template>
   
@@ -141,7 +141,7 @@
             <app-data-grid  [columnDefs]="columnDefsLayers" [themeGrid]='themeGrid' [getAll]='getAllLayers' 
             [eventAddItemsSubscription]='addElementsEventLayers.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventLayers.asObservable()' 
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
-            (getAllRows)="getAllRowsLayers($event)" [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeLayers($event)" (new)='newDataLayers($event)'  > </app-data-grid>
+            (getAllRows)="getAllRowsLayers($event)" [actionButton]=true (add)="openCartographyDialog($event)" > </app-data-grid>
         </div>
     </ng-template>
   

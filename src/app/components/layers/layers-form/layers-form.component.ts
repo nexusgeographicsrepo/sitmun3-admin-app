@@ -33,20 +33,20 @@ export class LayersFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
-  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
 
   columnDefsSpatialConfigurations: any[];
-  getAllElementsEventSpatialConfigurations: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject <boolean>();
 
   columnDefsTerritories: any[];
-  getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTerritories: Subject<boolean> = new Subject <boolean>();
 
 
   columnDefsLayersConfiguration: any[];
-  getAllElementsEventLayersConfigurations: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventLayersConfigurations: Subject<boolean> = new Subject <boolean>();
 
   columnDefsNodes: any[];
-  getAllElementsEventNodes: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventNodes: Subject<boolean> = new Subject <boolean>();
 
 
   //Dialog
@@ -310,7 +310,21 @@ export class LayersFormComponent implements OnInit {
   }
 
   updateLayer() {
-    this.cartographyService.update(this.layerForm.value)
+
+    this.layerToEdit.name=this.layerForm.value.name;
+    this.layerToEdit.source=this.layerForm.value.source;
+    this.layerToEdit.layers=this.layerForm.value.layers;
+    this.layerToEdit.minimumScale=this.layerForm.value.minimumScale;
+    this.layerToEdit.maximumScale=this.layerForm.value.maximumScale;
+    this.layerToEdit.geometryType=this.layerForm.value.geometryType;
+    this.layerToEdit.order=this.layerForm.value.order;
+    this.layerToEdit.transparency=this.layerForm.value.transparency;
+    this.layerToEdit.metadataURL=this.layerForm.value.metadataURL;
+    this.layerToEdit.legendType=this.layerForm.value.legendType;
+    this.layerToEdit.description=this.layerForm.value.description;
+    this.layerToEdit.datasetURL=this.layerForm.value.datasetURL;
+    console.log(this.layerToEdit);
+    this.cartographyService.update(this.layerToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -337,18 +351,9 @@ export class LayersFormComponent implements OnInit {
     
   }
 
-  removeDataParameters(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataParameters(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsParameters(data: any[] )
   {
-    console.log(data);
+    this.layerToEdit.parameters=data;
   }
 
   // ******** Spatial configuration ******** //
@@ -369,15 +374,6 @@ export class LayersFormComponent implements OnInit {
 
   }
 
-  removeDataSpatialConfigurations(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataSpatialConfigurations(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsSpatialConfiguration(data: any[] )
   {
     console.log(data);
@@ -390,15 +386,6 @@ export class LayersFormComponent implements OnInit {
     // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
     const aux: Array<any> = [];
     return of(aux);
-  }
-
-  removeDataTerritories(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataTerritories(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
   }
 
   getAllRowsTerritories(data: any[] )
@@ -415,15 +402,6 @@ export class LayersFormComponent implements OnInit {
     return of(aux);
   }
 
-  removeDataLayersConfiguration(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataLayersConfiguration(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsLayersConfiguration(data: any[] )
   {
     console.log(data);
@@ -436,15 +414,6 @@ export class LayersFormComponent implements OnInit {
     // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
     const aux: Array<any> = [];
     return of(aux);
-  }
-
-  removeDataNodes(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataNodes(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
   }
 
   getAllRowsNodes(data: any[] )
@@ -606,4 +575,17 @@ export class LayersFormComponent implements OnInit {
 
   }
 
+    //Save Button
+  
+    onSaveButtonClicked(){
+  
+      this.getAllElementsEventParameters.next(true);
+      this.getAllElementsEventSpatialConfigurations.next(true);
+      this.getAllElementsEventTerritories.next(true);
+      this.getAllElementsEventLayersConfigurations.next(true);
+      this.getAllElementsEventNodes.next(true);
+
+      this.updateLayer();
+  
+      }
 }

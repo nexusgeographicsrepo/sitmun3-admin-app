@@ -137,12 +137,11 @@ export class LayersPermitsFormComponent implements OnInit {
 
   }
 
-  addNewupdateLayersPermits() {
+  addNewLayersPermits() {
     console.log(this.formLayersPermits.value);
     this.cartographyGroupService.create(this.formLayersPermits.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
 
 
@@ -261,10 +260,13 @@ export class LayersPermitsFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.getAllElementsEventCartographies.next(true);
-    this.getAllElementsEventRoles.next(true);
-    this.updateLayersPermits();
-
+    if(this.layersPermitsID !== -1)
+    {   
+      this.getAllElementsEventCartographies.next(true);
+      this.getAllElementsEventRoles.next(true);
+      this.updateLayersPermits();
+    }
+    else { this.addNewLayersPermits()}
 
     }
 

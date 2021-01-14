@@ -154,7 +154,6 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionService.create(this.formConnection.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
   }
 
@@ -294,11 +293,18 @@ export class ConnectionFormComponent implements OnInit {
     //Save Button
     
     onSaveButtonClicked(){
-
-      this.getAllElementsEventCartographies.next(true);
-      this.getAllElementsEventTasks.next(true);
-      this.updateConnection();
-      this.dataUpdatedEvent.next(true);
+      
+      if(this.connectionID!== -1)
+      {
+        this.getAllElementsEventCartographies.next(true);
+        this.getAllElementsEventTasks.next(true);
+        this.updateConnection();
+        this.dataUpdatedEvent.next(true);
+      }
+      else
+      {
+        this.addNewConnection();
+      }
   
       }
 

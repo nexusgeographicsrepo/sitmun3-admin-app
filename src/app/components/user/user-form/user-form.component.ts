@@ -212,16 +212,6 @@ export class UserFormComponent implements OnInit {
   addNewUser() {
 
     if (this.userForm.get('password').value === this.userForm.get('confirmPassword').value) {
-      // if(this.userForm.get('administrator')==null) {
-      //   this.userForm.patchValue({
-      //       administrator: false
-      //   })
-      // }
-      // if(this.userForm.get('blocked')==null) {
-      //   this.userForm.patchValue({
-      //       blocked: false
-      //   })
-      // }
       console.log(this.userForm.value);
       this.userService.create(this.userForm.value)
         .subscribe(resp => {
@@ -430,10 +420,17 @@ export class UserFormComponent implements OnInit {
 
 
   onSaveButtonClicked(){
+    if(this.userID !== -1)
+    {
       this.getAllElementsEventTerritoryData.next(true);
       this.updateUser();
       // this.getAllElementsEventPermits.next(true);
-    // this.updateUserConfiguration(this.userToEdit,this.territorisToUpdate,this.rolesToUpdate)
+      // this.updateUserConfiguration(this.userToEdit,this.territorisToUpdate,this.rolesToUpdate)
+    }
+    else{
+      this.addNewUser();
+    }
+
 
 
   }

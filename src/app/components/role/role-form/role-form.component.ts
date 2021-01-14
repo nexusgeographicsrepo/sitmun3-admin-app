@@ -412,9 +412,13 @@ export class RoleFormComponent implements OnInit {
 
   onSaveButtonClicked() {
 
-    // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
-    this.updateRole();
-    this.dataUpdatedEvent.next(true);
+    if(this.roleID !== -1)
+    {
+      // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+      this.updateRole();
+      this.dataUpdatedEvent.next(true);
+    }
+    else { this.addNewRole() }
 
   }
 

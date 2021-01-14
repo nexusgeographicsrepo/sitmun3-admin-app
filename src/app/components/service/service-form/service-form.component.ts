@@ -226,7 +226,6 @@ export class ServiceFormComponent implements OnInit {
     this.serviceService.create(this.serviceForm.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
       
 
@@ -349,11 +348,18 @@ export class ServiceFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.getAllElementsEventParameters.next(true);
-    this.getAllElementsEventLayers.next(true);
-    this.updateService();
-
+    if(this.serviceID!=-1)
+    {
+      this.getAllElementsEventParameters.next(true);
+      this.getAllElementsEventLayers.next(true);
+      this.updateService();
     }
+    else{
+      this.addNewService();
+    }
+
+
+}
 
 
 

@@ -103,6 +103,21 @@ export class LayersFormComponent implements OnInit {
               datasetURL: this.layerToEdit.datasetURL,
               _links: this.layerToEdit._links
             });
+            this.municipalForm.setValue({
+              municipalFilterFields: "",
+              filterInfoByMunicipality: false,
+              filterSpatialSeleciontByMunicipality: false,
+      
+            });
+
+            
+          this.informationForm.setValue({
+            information: false,
+            defaultInformation: false,
+            informationLayer: "",
+            thematic: false,
+    
+          });
 
             this.dataLoaded = true;
 
@@ -112,21 +127,23 @@ export class LayersFormComponent implements OnInit {
           }
         );
       }
+      else{
 
-      this.municipalForm.setValue({
-        municipalFilterFields: "",
-        filterInfoByMunicipality: false,
-        filterSpatialSeleciontByMunicipality: false,
+        this.municipalForm.patchValue({
+          filterInfoByMunicipality: false,
+          filterSpatialSeleciontByMunicipality: false,
+  
+        });
 
-      });
+        this.informationForm.patchValue({
+          information : false,
+          defaultInformation: false,
+          thematic: false,
+        })
+      }
 
-      this.informationForm.setValue({
-        information: false,
-        defaultInformation: false,
-        informationLayer: "",
-        thematic: false,
 
-      });
+
 
 
     },
@@ -579,13 +596,17 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      this.getAllElementsEventParameters.next(true);
-      this.getAllElementsEventSpatialConfigurations.next(true);
-      this.getAllElementsEventTerritories.next(true);
-      this.getAllElementsEventLayersConfigurations.next(true);
-      this.getAllElementsEventNodes.next(true);
-
-      this.updateLayer();
-  
+      if(this.layerID !== -1)
+      {
+        this.getAllElementsEventParameters.next(true);
+        this.getAllElementsEventSpatialConfigurations.next(true);
+        this.getAllElementsEventTerritories.next(true);
+        this.getAllElementsEventLayersConfigurations.next(true);
+        this.getAllElementsEventNodes.next(true);
+        this.updateLayer();
       }
+      else { this.addNewLayer() }
+
+  
+    }
 }

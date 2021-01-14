@@ -115,12 +115,21 @@ export class BackgroundLayersFormComponent implements OnInit {
   }
 
   addNewBackground() {
+    let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
+    this.backgroundForm.patchValue({
+      cartographyGroup : cartographyGroup
+    })
     console.log(this.backgroundForm.value);
+
     this.backgroundService.create(this.backgroundForm.value)
       .subscribe(resp => {
         console.log(resp);
         // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
+
+      this.backgroundForm.patchValue({
+        cartographyGroup : cartographyGroup.id
+      }) 
   }
 
   updateBackground() {
@@ -145,7 +154,9 @@ export class BackgroundLayersFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.updateBackground();
+    if(this.backgroundID !==-1)
+    {this.updateBackground();}
+    else {this.addNewBackground()}
 
     }
 }

@@ -171,22 +171,23 @@ export class RoleFormComponent implements OnInit {
 
   }
 
-  addNewConnection() {
+  addNewRole() {
     console.log(this.formRole.value);
     this.roleService.create(this.formRole.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
 
 
   }
 
-  updateConnection() {
+  updateRole() {
 
     console.log(this.formRole.value);
+    this.roleToEdit.name=this.formRole.value.name;
+    this.roleToEdit.description=this.formRole.value.description;
 
-    this.roleService.update(this.formRole.value)
+    this.roleService.update( this.roleToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -228,6 +229,7 @@ export class RoleFormComponent implements OnInit {
 
   getAllRowsUsers(data: any[] )
   {
+    //N M
     console.log(data);
   }
 
@@ -240,17 +242,11 @@ export class RoleFormComponent implements OnInit {
     return of(aux);
 
   }
-  removeTasks(data: any[]) {
-    console.log(data);
-  }
 
-  newDataTasks(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsTasks(data: any[] )
   {
+    //N M
     console.log(data);
   }
 
@@ -262,15 +258,6 @@ export class RoleFormComponent implements OnInit {
     const aux: Array<any> = [];
     return of(aux);
 
-  }
-
-  removeCartographies(data: any[]) {
-    console.log(data);
-  }
-
-  newDataCartographies(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
   }
 
   getAllRowsCartographies(data: any[] )
@@ -426,6 +413,7 @@ export class RoleFormComponent implements OnInit {
   onSaveButtonClicked() {
 
     // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+    this.updateRole();
     this.dataUpdatedEvent.next(true);
 
   }

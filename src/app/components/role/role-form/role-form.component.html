@@ -61,7 +61,7 @@
             [eventAddItemsSubscription]='addElementsEventUsers.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventUsers.asObservable()' 
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  
             [deleteButton]=true [addButton]=true [hideDuplicateButton]=true [actionButton]=true (add)="openUsersDialog($event)"
-            (getAllRows)="getAllRowsUsers($event)" (remove)="removeUsers($event)" (new)='newDataUsers($event)'  > </app-data-grid>
+            (getAllRows)="getAllRowsUsers($event)" (remove)="removeUsers($event)"   > </app-data-grid>
         </div>
 
       </ng-template>
@@ -81,7 +81,7 @@
           [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()' 
            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openCartographyDialog($event)"
-            (getAllRows)="getAllRowsCartographies($event)" (remove)="removeCartographies($event)" (new)='newDataCartographies($event)'> </app-data-grid>
+            (getAllRows)="getAllRowsCartographies($event)"> </app-data-grid>
         </div>
 
       </ng-template>
@@ -101,7 +101,7 @@
           [eventAddItemsSubscription]='addElementsEventTasks.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventTasks.asObservable()' 
            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openTasksDialog($event)"
-            (getAllRows)="getAllRowsTasks($event)"  (remove)="removeTasks($event)" (new)='newDataTasks($event)'> </app-data-grid>
+            (getAllRows)="getAllRowsTasks($event)" > </app-data-grid>
         </div>
 
       </ng-template>
@@ -122,7 +122,7 @@
             [eventAddItemsSubscription]='addElementsEventApplications.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventApplications.asObservable()' 
              [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openTasksApplication($event)"
-            (getAllRows)="getAllRowsApplications($event)" (remove)="removeApplications($event)" (new)='newDataApplications($event)'> </app-data-grid>
+            (getAllRows)="getAllRowsApplications($event)" > </app-data-grid>
         </div>
 
       </ng-template> -->

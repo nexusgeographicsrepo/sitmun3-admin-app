@@ -329,15 +329,22 @@ export class TerritoryFormComponent implements OnInit {
   updateTerritory() {
     this.updateExtent();
     this.updateScope('large');
-    const idGroupTerritory = this.territoryForm.get('groupType')[`value`];
-    if (idGroupTerritory !== -1) {
-      // this.territoryToEdit._links.groupType.href = `http://localhost:8080/api/territory-group-types/${idGroupTerritory}`;
-    }
-    else {
-      this.territoryToEdit._links.groupType.href = ``;
-    }
-    console.log(this.territoryForm.value);
-    this.territoryService.update(this.territoryForm.value)
+    this.territoryToEdit.code=this.territoryForm.value.code;
+    this.territoryToEdit.name=this.territoryForm.value.name;
+    this.territoryToEdit.territorialAuthorityAddress=this.territoryForm.value.territorialAuthorityAddress;
+    this.territoryToEdit.territorialAuthorityLogo=null;
+    // this.territoryToEdit.territorialAuthorityLogo=this.territoryForm.value.territorialAuthorityLogo;
+    this.territoryToEdit.scope=this.territoryForm.value.scope;
+    // this.territoryToEdit.groupType=this.territoryForm.value.groupType;
+    this.territoryToEdit.note=this.territoryForm.value.note;
+    this.territoryToEdit.blocked=this.territoryForm.value.blocked;
+
+
+
+    // const idGroupTerritory = this.territoryForm.get('groupType')[`value`];
+
+    console.log(this.territoryToEdit);
+    this.territoryService.update(this.territoryToEdit)
       .subscribe(resp => {
         console.log(resp);
       });
@@ -347,6 +354,7 @@ export class TerritoryFormComponent implements OnInit {
 
   updateExtent() {
     let extensionToUpdate = `${this.territoryForm.get('extensionX0').value} ${this.territoryForm.get('extensionX1').value} ${this.territoryForm.get('extensionY0').value} ${this.territoryForm.get('extensionY1').value}`;
+    this.territoryToEdit.extent= extensionToUpdate;
     this.territoryForm.patchValue({
       extent: extensionToUpdate
     });
@@ -354,6 +362,7 @@ export class TerritoryFormComponent implements OnInit {
 
   private updateScope(currentFormat: string) {
     let scopeToUpdate = this.translateScopeType(currentFormat, this.territoryForm.get('scope').value)
+    this.territoryToEdit.scope=scopeToUpdate;
     this.territoryForm.patchValue({
       scope: scopeToUpdate
     });
@@ -391,14 +400,8 @@ export class TerritoryFormComponent implements OnInit {
 
   }
 
-  removePermits(data: any[]) {
-    console.log(data);
-  }
 
-  newDataPermits(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
+
 
   getAllRowsPermits(data: any[] )
   {
@@ -411,14 +414,6 @@ export class TerritoryFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`territories`]));
   }
 
-  removeMembersOf(data: any[]) {
-    console.log(data);
-  }
-
-  newDataMembersOf(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsMembersOf(data: any[] )
   {
@@ -434,14 +429,7 @@ export class TerritoryFormComponent implements OnInit {
 
   }
 
-  removeMembers(data: any[]) {
-    console.log(data);
-  }
 
-  newDataMembers(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsMembers(data: any[] )
   {
@@ -457,41 +445,28 @@ export class TerritoryFormComponent implements OnInit {
     return of(aux);
 
   }
-  removeCartographies(data: any[]) {
-    console.log(data);
-  }
-
-  newDataCartographies(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsCartographies(data: any[] )
   {
+    this.territoryToEdit.cartographyAvailabilities = data;
     console.log(data);
   }
 
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
-    //TODO Change the link when available
+    // TODO Change the link when available
     // return (this.http.get(`${this.territoryForm.value._links.members.href}`))
     // .pipe( map( data =>  data[`_embedded`][`territories`]) );
     const aux: Array<any> = [];
     return of(aux);
 
   }
-  removeTasks(data: any[]) {
-    console.log(data);
-  }
 
-  newDataTasks(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
+
 
   getAllRowsTasks(data: any[] )
   {
-    console.log(data);
+    this.territoryToEdit.cartographyAvailabilities = data;
   }
 
   
@@ -699,8 +674,11 @@ export class TerritoryFormComponent implements OnInit {
   
       onSaveButtonClicked(){
   
+      this.getAllElementsEventCartographies.next(true);
+      this.getAllElementsEventTasks.next(true);
+      this.updateTerritory();
       // this.updateUserConfiguration(this.territoryToEdit,this.rolesToUpdate,this.usersToUpdate)
-      this.dataUpdatedEvent.next(true);
+      // this.dataUpdatedEvent.next(true);
   
       }
 

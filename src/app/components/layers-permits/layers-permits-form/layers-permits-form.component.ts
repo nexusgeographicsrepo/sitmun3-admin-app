@@ -28,9 +28,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
   //Grids
   columnDefsCartographies: any[];
-  getAllElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
   columnDefsRoles: any[];
-  getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventRoles: Subject<boolean> = new Subject <boolean>();
 
   //Dialog
   columnDefsRolesDialog: any[];
@@ -137,7 +137,7 @@ export class LayersPermitsFormComponent implements OnInit {
 
   }
 
-  addNewConnection() {
+  addNewupdateLayersPermits() {
     console.log(this.formLayersPermits.value);
     this.cartographyGroupService.create(this.formLayersPermits.value)
       .subscribe(resp => {
@@ -148,11 +148,13 @@ export class LayersPermitsFormComponent implements OnInit {
 
   }
 
-  updateConnection() {
+  updateLayersPermits() {
 
     console.log(this.formLayersPermits.value);
-
-    this.cartographyGroupService.update(this.formLayersPermits.value)
+    this.layersPermitsToEdit.name=this.formLayersPermits.value.name;
+    this.layersPermitsToEdit.type=this.formLayersPermits.value.type;
+    console.log( this.layersPermitsToEdit.type);
+    this.cartographyGroupService.update(this.layersPermitsToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -171,17 +173,6 @@ export class LayersPermitsFormComponent implements OnInit {
 
   }
 
-  removeDataCartographies(data: Role[]) {
-    console.log(data);
-  }
-
-  newDataCartographies(id: any) {
-    this.router.navigate(['role', id, 'roleForm']);
-  }
-
-  applyChangesCartographies(data: Role[]) {
-    console.log(data);
-  }
 
   getAllRowsCartographies(data: any[] )
   {
@@ -199,21 +190,9 @@ export class LayersPermitsFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
-    console.log(data);
-    // this.connectionToEdit.cartographies=data;
+    this.layersPermitsToEdit.roles=data;
   }
 
-  removeDataRole(data: Role[]) {
-    console.log(data);
-  }
-
-  newDataRole(id: any) {
-    this.router.navigate(['role', id, 'roleForm']);
-  }
-
-  applyChangesRole(data: Role[]) {
-    console.log(data);
-  }
 
   // ******** Cartography Dialog  ******** //
 
@@ -273,6 +252,18 @@ export class LayersPermitsFormComponent implements OnInit {
     });
 
   }
+
+
+  // Save Button
+
+  onSaveButtonClicked(){
+
+    this.getAllElementsEventCartographies.next(true);
+    this.getAllElementsEventRoles.next(true);
+    this.updateLayersPermits();
+
+
+    }
 
   
 

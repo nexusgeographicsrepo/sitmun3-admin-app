@@ -42,9 +42,9 @@ export class UserFormComponent implements OnInit {
 
   columnDefsTerritoryDialog: any[];
   columnDefsRolesDialog: any[];
-  getAllElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventPermits: Subject<boolean> = new Subject <boolean>();
   columnDefsTerritoryDataDialog: any[];
-  getAllElementsEventTerritoryData: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTerritoryData: Subject<boolean> = new Subject <boolean>();
 
   //Save button
   territorisToUpdate: Territory[] = [];
@@ -82,7 +82,7 @@ export class UserFormComponent implements OnInit {
                 id:            this.userID,
                 username:          this.userToEdit.username,
                 firstName:     this.userToEdit.firstName,
-                lastName:     this.userToEdit.firstName,
+                lastName:     this.userToEdit.lastName,
                 password:      this.userToEdit.password,
                 confirmPassword:      "",
                 administrator: this.userToEdit.administrator,
@@ -229,8 +229,14 @@ export class UserFormComponent implements OnInit {
   updateUser() {
 
     console.log(this.userForm.value);
+    this.userToEdit.username=this.userForm.value.username;
+    this.userToEdit.firstName=this.userForm.value.firstName;
+    this.userToEdit.lastName=this.userForm.value.lastName;
+    this.userToEdit.password=this.userForm.value.password;
+    this.userToEdit.administrator=this.userForm.value.administrator;
+    this.userToEdit.blocked=this.userForm.value.blocked;
 
-    this.userService.update(this.userForm.value)
+    this.userService.update(this.userToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -266,11 +272,7 @@ export class UserFormComponent implements OnInit {
 
   }
   
-  newDataPermits(id: any)
-  {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
+
 
   getAllRowsPermits(data: any[] )
   {
@@ -290,21 +292,10 @@ export class UserFormComponent implements OnInit {
 
   }
 
-  removeDataData( data)
-  {
-    console.log(data);
-  }
-  
-  newDataData(id: any)
-  {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsDataTerritories(data: any[] )
   {
     console.log(data);
-    // this.connectionToEdit.cartographies=data;
+    this.userToEdit.positions=data;
   }
 
    // ******** Permits Dialog  ******** //
@@ -427,9 +418,11 @@ export class UserFormComponent implements OnInit {
 
 
     onSaveButtonClicked(){
-
+      this.getAllElementsEventTerritoryData.next(true);
+      this.updateUser();
+      // this.getAllElementsEventPermits.next(true);
     // this.updateUserConfiguration(this.userToEdit,this.territorisToUpdate,this.rolesToUpdate)
-    this.dataUpdatedEvent.next(true);
+
 
     }
   

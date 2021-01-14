@@ -165,8 +165,6 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionToEdit.user=this.formConnection.value.user
     this.connectionToEdit.password=this.formConnection.value.password
     this.connectionToEdit.url=this.formConnection.value.url
-    this.getAllElementsEventCartographies.next(true);
-    this.getAllElementsEventTasks.next(true);
     console.log(this.connectionToEdit);
     this.connectionService.update(this.connectionToEdit)
       .subscribe(resp => {
@@ -182,22 +180,9 @@ export class ConnectionFormComponent implements OnInit {
 
   }
 
-  removeDataCartographies(data: any[]) {
-    console.log(data);
-  }
-
-  newDataCartographies(id: any) {
-    // this.router.navigate(['role', id, 'roleForm']);
-  }
-
-  applyChangesCartographies(data: any[]) {
-    console.log(data);
-  }
-
   getAllRowsCartographies(data: any[] )
   {
-    console.log(data);
-    // this.connectionToEdit.cartographies=data;
+    this.connectionToEdit.cartographies=data;
   }
 
 
@@ -216,22 +201,11 @@ export class ConnectionFormComponent implements OnInit {
     
   }
 
-  removeDataTasks(data: any[]) {
-    console.log(data);
-  }
-  
-  newDataTasks(id: any) {
-    // this.router.navigate(['role', id, 'roleForm']);
-  }
-
-  applyChangesTasks(data: any[]) {
-    console.log(data);
-  }
 
   getAllRowsTasks(data: any[] )
   {
     console.log(data);
-    // this.connectionToEdit.tasks=data;
+    this.connectionToEdit.tasks=data;
   }
   
   // ******** Cartography Dialog  ******** //
@@ -320,7 +294,9 @@ export class ConnectionFormComponent implements OnInit {
 
     onSaveButtonClicked(){
 
-      this.updateCartographies(this.newCartographies);
+      this.getAllElementsEventCartographies.next(true);
+      this.getAllElementsEventTasks.next(true);
+      this.updateConnection();
       this.dataUpdatedEvent.next(true);
   
       }

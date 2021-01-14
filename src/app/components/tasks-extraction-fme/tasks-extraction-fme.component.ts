@@ -37,7 +37,11 @@ export class TasksExtractionFmeComponent implements OnInit {
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.cartography'),  field: 'cartography'},
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.service'),  field: 'service'},
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.layer'),  field: 'layer'},
-      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.dataCreated'),  field: 'createdDate' }
+      {
+        headerName: this.utils.getTranslate('tasksExtractionFMEEntity.dataCreated'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) }
+      }
     ];
   }
 

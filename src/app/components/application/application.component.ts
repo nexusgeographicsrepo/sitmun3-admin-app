@@ -38,8 +38,8 @@ export class ApplicationComponent implements OnInit {
       }
     );
 
-    var columnEditBtn=environment.editBtnColumnDef;
-    columnEditBtn['cellRendererParams']= {
+    var columnEditBtn = environment.editBtnColumnDef;
+    columnEditBtn['cellRendererParams'] = {
       clicked: this.newData.bind(this)
     }
 
@@ -48,15 +48,20 @@ export class ApplicationComponent implements OnInit {
       columnEditBtn,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('applicationEntity.type'), 
-        valueGetter: (params) => { 
-          var alias=this.applicationTypes.filter((type) => type.value == params.data.type)[0];
-          return alias!=undefined? alias.description: params.data.type
-        } 
+      {
+        headerName: this.utils.getTranslate('applicationEntity.type'),  editable: false,
+        valueGetter: (params) => {
+          var alias = this.applicationTypes.filter((type) => type.value == params.data.type)[0];
+          return alias != undefined ? alias.description : params.data.type
+        }
       },
       { headerName: this.utils.getTranslate('applicationEntity.serviceURL'), field: 'theme' },
       { headerName: this.utils.getTranslate('applicationEntity.supportedSRS'), field: 'srs' },
-      { headerName: this.utils.getTranslate('applicationEntity.createdDate'), field: 'createdDate' } // type: 'dateColumn'
+      {
+        headerName: this.utils.getTranslate('applicationEntity.createdDate'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) }
+      } // type: 'dateColumn'
     ];
 
   }
@@ -94,11 +99,11 @@ export class ApplicationComponent implements OnInit {
   removeData(data: Application[]) {
 
     const dialogRef = this.dialog.open(DialogMessageComponent);
-    dialogRef.componentInstance.title=this.utils.getTranslate("Caution");
-    dialogRef.componentInstance.message=this.utils.getTranslate("RemoveMessage");
+    dialogRef.componentInstance.title = this.utils.getTranslate("Caution");
+    dialogRef.componentInstance.message = this.utils.getTranslate("RemoveMessage");
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if(result.event==='Accept') {  
+      if (result) {
+        if (result.event === 'Accept') {
           const promises: Promise<any>[] = [];
           data.forEach(application => {
             promises.push(new Promise((resolve, reject) => { this.applicationService.delete(application).toPromise().then((resp) => { resolve() }) }));
@@ -106,10 +111,10 @@ export class ApplicationComponent implements OnInit {
               this.dataUpdatedEvent.next(true);
             });
           });
-       }
+        }
       }
     });
-    
+
 
 
   }

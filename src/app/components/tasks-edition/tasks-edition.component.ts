@@ -30,7 +30,6 @@ export class TasksEditionComponent implements OnInit {
       clicked: this.newData.bind(this)
     }
 
-
     this.columnDefs = [
       environment.selCheckboxColumnDef,
       columnEditBtn,
@@ -38,7 +37,11 @@ export class TasksEditionComponent implements OnInit {
       { headerName: this.utils.getTranslate('tasksEditionEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksEditionEntity.associatedLayer'),  field: 'associatedLayer'},
       { headerName: this.utils.getTranslate('tasksEditionEntity.informationType'),  field: 'groupName'},
-      { headerName: this.utils.getTranslate('tasksEditionEntity.dataCreated'),  field: 'createdDate'}
+      {
+        headerName: this.utils.getTranslate('tasksEditionEntity.dataCreated'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) }
+      }
     ];
   }
 

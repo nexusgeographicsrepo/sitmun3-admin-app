@@ -39,9 +39,13 @@ export class ServiceComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type' },
-      { headerName: this.utils.getTranslate('serviceEntity.serviceURL'), field: 'serviceURL' },
+      { headerName: this.utils.getTranslate('serviceEntity.serviceURL'), field: 'serviceURL', editable: false },
       { headerName: this.utils.getTranslate('serviceEntity.supportedSRS'), field: 'supportedSRS' },
-      { headerName: this.utils.getTranslate('serviceEntity.createdDate'), field: 'createdDate' } // type: 'dateColumn'
+      {
+        headerName: this.utils.getTranslate('serviceEntity.createdDate'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) }
+      }// type: 'dateColumn'
     ];
   }
 

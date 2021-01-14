@@ -85,4 +85,33 @@ export class UtilsService {
     return this.codeListService.getAll(query);
   }
 
+
+  getDateFormated(data){
+      return data.value ? (new Date(data.value)).toLocaleDateString() : ''
+  }
+
+
+  getDateFilterParams(){
+    var filterParams = {
+      comparator: function (filterLocalDateAtMidnight, cellValue) {
+        var dateAsString = cellValue;
+        if (dateAsString == null) return -1;
+        var cellDate = new Date(cellValue);
+        if (filterLocalDateAtMidnight.toLocaleDateString() === cellDate.toLocaleDateString()) {
+          return 0;
+        }
+        if (cellDate < filterLocalDateAtMidnight) {
+          return -1;
+        }
+        if (cellDate > filterLocalDateAtMidnight) {
+          return 1;
+        }
+      },
+      browserDatePicker: true,
+      minValidYear: 2000,
+    };
+
+    return filterParams;
+  }
+
 }

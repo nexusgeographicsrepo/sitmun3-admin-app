@@ -37,7 +37,11 @@ export class TasksThematicComponent implements OnInit {
       { headerName: this.utils.getTranslate('tasksThematicEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksThematicEntity.origin'),  field: 'origin'},
       { headerName: this.utils.getTranslate('tasksThematicEntity.creator'),  field: 'creator'},
-      { headerName: this.utils.getTranslate('tasksThematicEntity.dataCreated'),  field: 'createdDate' }
+      {
+        headerName: this.utils.getTranslate('tasksThematicEntity.dataCreated'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) }
+      }
     ];
   }
 

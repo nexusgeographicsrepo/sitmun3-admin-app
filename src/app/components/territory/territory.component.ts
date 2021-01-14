@@ -56,7 +56,11 @@ export class TerritoryComponent implements OnInit {
           return alias != undefined ? alias.description : params.data.scope
         }
       },
-      { headerName: this.utils.getTranslate('territoryEntity.createdDate'), field: 'createdDate', }, // type: 'dateColumn'
+      {
+        headerName: this.utils.getTranslate('territoryEntity.createdDate'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) }
+      }, // type: 'dateColumn'
       { headerName: this.utils.getTranslate('territoryEntity.administrator'), field: 'territorialAuthorityName' },
       { headerName: this.utils.getTranslate('territoryEntity.email'), field: 'territorialAuthorityEmail' },
       { headerName: this.utils.getTranslate('territoryEntity.address'), field: 'territorialAuthorityAddress' },

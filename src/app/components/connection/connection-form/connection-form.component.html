@@ -88,7 +88,7 @@
             <app-data-grid  [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies' 
             [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()' 
              [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
-            [actionButton]=true (add)="openCartographyDialog($event)" (remove)="removeDataCartographies($event)" (new)='newDataCartographies($event)' (sendChanges)='applyChangesCartographies($event)' 
+            [actionButton]=true (add)="openCartographyDialog($event)"
             (getAllRows)="getAllRowsCartographies($event)"> </app-data-grid>
         </div>
       </ng-template>
@@ -108,8 +108,7 @@
             [eventAddItemsSubscription]='addElementsEventTasks.asObservable()' [eventRefreshSubscription]='dataUpdatedEvent.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventTasks.asObservable()' [discardChangesButton]=true [redoButton]=true 
             [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
-            [actionButton]=true (add)="openTasksDialog($event)" (remove)="removeDataTasks($event)" (new)='newDataTasks($event)' (sendChanges)='applyChangesTasks($event)' 
-            (getAllRows)="getAllRowsTasks($event)"> </app-data-grid>
+            [actionButton]=true (add)="openTasksDialog($event)"  (getAllRows)="getAllRowsTasks($event)"> </app-data-grid>
         </div>
     </ng-template>
 

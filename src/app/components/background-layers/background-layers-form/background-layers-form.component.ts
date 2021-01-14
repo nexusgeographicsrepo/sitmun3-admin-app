@@ -126,10 +126,26 @@ export class BackgroundLayersFormComponent implements OnInit {
   updateBackground() {
 
     console.log(this.backgroundForm.value);
-    this.backgroundService.update(this.backgroundForm.value)
+    let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
+
+    this.backgroundToEdit.name= this.backgroundForm.value.name;
+    this.backgroundToEdit.description= this.backgroundForm.value.description;
+    this.backgroundToEdit.cartographyGroup=cartographyGroup
+    this.backgroundToEdit['cartographyGroup.id']=cartographyGroup.id;
+    this.backgroundToEdit.cartographyGroupName=cartographyGroup.name;
+    this.backgroundToEdit.cartographyGroup=cartographyGroup
+    this.backgroundToEdit.active= this.backgroundForm.value.active;
+    this.backgroundService.update(this.backgroundToEdit)
       .subscribe(resp => {
         console.log(resp);
       });
 
   }
+
+
+  onSaveButtonClicked(){
+
+    this.updateBackground();
+
+    }
 }

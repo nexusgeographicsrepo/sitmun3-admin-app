@@ -39,10 +39,10 @@ export class ServiceFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
-  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
 
   columnDefsLayers: any[];
-  getAllElementsEventLayers: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventLayers: Subject<boolean> = new Subject <boolean>();
 
   //Dialogs
   columnDefsParametersDialog: any[];
@@ -86,8 +86,8 @@ export class ServiceFormComponent implements OnInit {
               name: this.serviceToEdit.name,
               type: this.serviceToEdit.type,
               serviceURL: this.serviceToEdit.serviceURL,
-              connection: ' ',
-              supportedSRS: ' ',
+              connection: this.serviceToEdit.proxyUrl,
+              supportedSRS: this.serviceToEdit.supportedSRS,
               metadataURL: this.serviceToEdit.getInformationURL,
               _links: this.serviceToEdit._links
             });
@@ -215,7 +215,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
 
-  addNewLayer() {
+  addNewService() {
     // this.serviceForm.patchValue({
     //   supportedSRS: this.projections.join(';')
     // })
@@ -232,7 +232,7 @@ export class ServiceFormComponent implements OnInit {
 
   }
 
-  updateLayer() {
+  updateService() {
     // this.serviceForm.patchValue({
     //   supportedSRS: this.projections.join(';')
     // })
@@ -353,6 +353,14 @@ export class ServiceFormComponent implements OnInit {
     });
 
   }
+
+  onSaveButtonClicked(){
+
+    this.getAllElementsEventParameters.next(true);
+    this.getAllElementsEventLayers.next(true);
+    this.updateService();
+
+    }
 
 
 

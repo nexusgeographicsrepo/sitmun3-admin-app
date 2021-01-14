@@ -49,15 +49,15 @@ export class ApplicationFormComponent implements OnInit {
   //Dialogs
 
   columnDefsParametersDialog: any[];
-  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
   columnDefsTemplateConfigurationDialog: any[];
-  getAllElementsEventTemplateConfiguration: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTemplateConfiguration: Subject<boolean> = new Subject <boolean>();
   columnDefsRolesDialog: any[];
-  getAllElementsEventRoles: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventRoles: Subject<boolean> = new Subject <boolean>();
   columnDefsBackgroundDialog: any[];
-  getAllElementsEventBackground: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventBackground: Subject<boolean> = new Subject <boolean>();
   columnDefsTreeDialog: any[];
-  getAllElementsEventTree: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTree: Subject<boolean> = new Subject <boolean>();
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -315,17 +315,18 @@ export class ApplicationFormComponent implements OnInit {
   updateApplication() {
 
     console.log(this.applicationForm.value);
-    const situationMap = {
-      id: this.applicationID,
-      name: this.applicationForm.value.name,
-      type: this.applicationForm.value.type,
-    }
-    this.applicationForm.patchValue({
-      situationMap: situationMap,
-    });
+    this.applicationToEdit.name = this.applicationForm.value.name,
+    this.applicationToEdit.type = this.applicationForm.value.type,
+    this.applicationToEdit.title = this.applicationForm.value.title,
+    this.applicationToEdit.jspTemplate = this.applicationForm.value.desktopUrl,
+    this.applicationToEdit.theme = this.applicationForm.value.desktopCSS,
+    this.applicationToEdit.scales = this.applicationForm.value.scales,
+    this.applicationToEdit.srs = this.applicationForm.value.srs,
+    this.applicationToEdit.treeAutoRefresh = this.applicationForm.value.treeAutoRefresh,
+    this.applicationToEdit.srs = this.applicationForm.value.srs,
 
-
-    this.applicationService.update(this.applicationForm.value)
+    console.log(this.applicationToEdit);
+    this.applicationService.update(this.applicationToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -344,18 +345,10 @@ export class ApplicationFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`application-parameters`]));
   }
 
-  removeParameters(data: any[]) {
-    console.log(data);
-  }
-
-  newDataParameters(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsParameters(data: any[] )
   {
-    console.log(data);
+    this.applicationToEdit.parameters=data;
   }
 
   // ******** Template configuration ******** //
@@ -366,15 +359,6 @@ export class ApplicationFormComponent implements OnInit {
     //   .pipe(map(data => data[`_embedded`][`application-parameters`]));
     const aux: Array<any> = [];
     return of(aux);
-  }
-
-  removeTemplates(data: any[]) {
-    console.log(data);
-  }
-
-  newDataTemplates(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
   }
 
   getAllRowsTemplates(data: any[] )
@@ -390,18 +374,9 @@ export class ApplicationFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`roles`]));
   }
 
-  removeRoles(data: any[]) {
-    console.log(data);
-  }
-
-  newDataRoles(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsRoles(data: any[] )
   {
-    console.log(data);
+    this.applicationToEdit.availableRoles=data;
   }
  
 
@@ -421,18 +396,10 @@ export class ApplicationFormComponent implements OnInit {
 
   }
 
-  removeBackgrounds(data: any[]) {
-    console.log(data);
-  }
-
-  newDataBackgrounds(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsBackgrounds(data: any[] )
   {
-    console.log(data);
+    this.applicationToEdit.backgrounds=data;
   }
 
   // ******** Trees ******** //
@@ -451,18 +418,10 @@ export class ApplicationFormComponent implements OnInit {
 
   }
 
-  removeTrees(data: any[]) {
-    console.log(data);
-  }
-
-  newDataTrees(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsTrees(data: any[] )
   {
-    console.log(data);
+    this.applicationToEdit.trees=data;
   }
 
 
@@ -616,6 +575,20 @@ export class ApplicationFormComponent implements OnInit {
       });
   
     }
+
+
+    // Save button
+
+    onSaveButtonClicked(){
+
+      this.getAllElementsEventParameters.next(true);
+      this.getAllElementsEventTemplateConfiguration.next(true);
+      this.getAllElementsEventRoles.next(true);
+      this.getAllElementsEventBackground.next(true);
+      this.getAllElementsEventTree.next(true);
+      this.updateApplication();
+  
+      }
 
 
 }

@@ -263,7 +263,7 @@ export class LayersPermitsFormComponent implements OnInit {
     this.updateLayersPermits();
 
 
-    }
+  }
 
   
 

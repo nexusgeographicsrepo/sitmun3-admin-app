@@ -103,7 +103,7 @@ export class TasksDownloadFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
         { headerName: 'ID', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDownloadEntity.name'), field: 'name', editable: false },
-        { headerName: this.utils.getTranslate('tasksDownloadEntity.note'), field: 'description' },
+        { headerName: this.utils.getTranslate('tasksDownloadEntity.note'), field: 'description', editable: false, },
       ];
 
       this.columnDefsTerritoriesDialog = [

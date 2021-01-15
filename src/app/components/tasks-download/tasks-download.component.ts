@@ -35,7 +35,7 @@ export class TasksDownloadComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksDownloadEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksDownloadEntity.observations'),  field: 'observations'},
-      { headerName: this.utils.getTranslate('tasksDownloadEntity.application'),  field: 'application' }
+      { headerName: this.utils.getTranslate('tasksDownloadEntity.application'),  field: 'application',editable: false }
     ];
   }
 

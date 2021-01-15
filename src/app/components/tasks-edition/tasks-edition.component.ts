@@ -36,7 +36,7 @@ export class TasksEditionComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksEditionEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksEditionEntity.associatedLayer'),  field: 'associatedLayer'},
-      { headerName: this.utils.getTranslate('tasksEditionEntity.informationType'),  field: 'groupName'},
+      { headerName: this.utils.getTranslate('tasksEditionEntity.informationType'),  field: 'groupName',editable: false},
       {
         headerName: this.utils.getTranslate('tasksEditionEntity.dataCreated'), field: 'createdDate',
         filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),

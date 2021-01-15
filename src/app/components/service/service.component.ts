@@ -38,8 +38,8 @@ export class ServiceComponent implements OnInit {
       columnEditBtn,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type' },
-      { headerName: this.utils.getTranslate('serviceEntity.serviceURL'), field: 'serviceURL', editable: false },
+      { headerName: this.utils.getTranslate('serviceEntity.type'), field: 'type', editable: false },
+      { headerName: this.utils.getTranslate('serviceEntity.serviceURL'), field: 'serviceURL' },
       { headerName: this.utils.getTranslate('serviceEntity.supportedSRS'), field: 'supportedSRS' },
       {
         headerName: this.utils.getTranslate('serviceEntity.createdDate'), field: 'createdDate',

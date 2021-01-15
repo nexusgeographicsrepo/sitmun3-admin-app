@@ -207,8 +207,8 @@ export class LayersFormComponent implements OnInit {
 
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code' },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territory.id' },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName' },
 
     ];
 
@@ -401,8 +401,18 @@ export class LayersFormComponent implements OnInit {
     //TODO Change the link when available
     // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
     // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
-    const aux: Array<any> = [];
-    return of(aux);
+
+    var urlReq = `${this.layerForm.value._links.availabilities.href}`
+    if (this.layerForm.value._links.availabilities.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['cartography-availabilities']));
+
+
   }
 
   getAllRowsTerritories(data: any[] )

@@ -289,6 +289,30 @@ export class RoleFormComponent implements OnInit {
     getAllRowsApplications(data: any[] )
     {
       console.log(data);
+      let applicationUriIdentificators:any[] = [];
+      data.forEach(application => {
+        applicationUriIdentificators.push((application._links.self.href)); 
+      });
+      console.log(applicationUriIdentificators);
+      let urlReq="http://localhost:8080/api/roles/10/applications";
+      // var urlReq = `${this.formRole.value._links.applications.href}`
+       
+      // if (this.formRole.value._links.applications.templated) {
+       //  var url = new URL(urlReq.split("{")[0]);
+       //  url.searchParams.append("projection", "view")
+       //  urlReq = url.toString();
+      //  let splitString= urlReq.split("%",1);
+      //  urlReq=splitString[0];
+      // }
+
+      // var urlReq = `${this.formRole.value._links.applications.href}`
+      // if (this.formRole.value._links.applications.templated) {
+      //   var url = new URL(urlReq.split("{")[0]);
+      //   url.searchParams.append("projection", "view")
+      //   urlReq = url.toString();
+      // }
+
+      return (this.http.put(urlReq ,data)).subscribe(result => console.log(result));
     }
   
     

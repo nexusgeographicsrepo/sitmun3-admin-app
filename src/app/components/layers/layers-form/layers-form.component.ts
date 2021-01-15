@@ -90,7 +90,7 @@ export class LayersFormComponent implements OnInit {
             this.layerForm.setValue({
               id: this.layerID,
               name: this.layerToEdit.name,
-              source: this.layerToEdit.source,
+              serviceName: this.layerToEdit.serviceName,
               layers: this.layerToEdit.layers,
               minimumScale: this.layerToEdit.minimumScale,
               maximumScale: this.layerToEdit.maximumScale,
@@ -281,7 +281,7 @@ export class LayersFormComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
       ]),
-      source: new FormControl(null),
+      serviceName: new FormControl(null),
       layers: new FormControl(null),
       minimumScale: new FormControl(null, []),
       maximumScale: new FormControl(null, []),
@@ -329,7 +329,7 @@ export class LayersFormComponent implements OnInit {
   updateLayer() {
 
     this.layerToEdit.name=this.layerForm.value.name;
-    this.layerToEdit.source=this.layerForm.value.source;
+    this.layerToEdit.serviceName=this.layerForm.value.serviceName;
     this.layerToEdit.layers=this.layerForm.value.layers;
     this.layerToEdit.minimumScale=this.layerForm.value.minimumScale;
     this.layerToEdit.maximumScale=this.layerForm.value.maximumScale;

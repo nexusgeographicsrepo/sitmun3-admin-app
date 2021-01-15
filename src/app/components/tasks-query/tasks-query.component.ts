@@ -35,10 +35,10 @@ export class TasksQueryComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksQueryEntity.name'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksQueryEntity.task'),  field: 'task'},
-      { headerName: this.utils.getTranslate('tasksQueryEntity.informationType'),  field: 'groupName' },
+      { headerName: this.utils.getTranslate('tasksQueryEntity.informationType'),  field: 'groupName',editable: false},
       { headerName: this.utils.getTranslate('tasksQueryEntity.accessType'),  field: 'accesType' },
       { headerName: this.utils.getTranslate('tasksQueryEntity.command'),  field: 'order' },
-      { headerName: this.utils.getTranslate('tasksQueryEntity.connection'),  field: 'connection' },
+      { headerName: this.utils.getTranslate('tasksQueryEntity.connection'),  field: 'connection',editable: false },
       { headerName: this.utils.getTranslate('tasksQueryEntity.associatedLayer'),  field: 'associatedLayer' }
     ];
   }

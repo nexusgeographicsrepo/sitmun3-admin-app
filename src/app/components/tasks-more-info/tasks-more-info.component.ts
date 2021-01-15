@@ -36,10 +36,10 @@ export class TasksMoreInfoComponent implements OnInit {
       columnEditBtn,
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksMoreInfoEntity.task'),  field: 'name'},
-      { headerName: this.utils.getTranslate('tasksMoreInfoEntity.informationType'),  field: 'groupName'},
+      { headerName: this.utils.getTranslate('tasksMoreInfoEntity.informationType'),  field: 'groupName',editable: false},
       { headerName: this.utils.getTranslate('tasksMoreInfoEntity.accesType'),  field: 'accesType'},
       { headerName: this.utils.getTranslate('tasksMoreInfoEntity.command'),  field: 'order'},
-      { headerName: this.utils.getTranslate('tasksMoreInfoEntity.connection'),  field: 'connection'},
+      { headerName: this.utils.getTranslate('tasksMoreInfoEntity.connection'),  field: 'connection',editable: false},
       { headerName: this.utils.getTranslate('tasksMoreInfoEntity.associatedLayer'),  field: 'associatedLayer' }
     ];
   }

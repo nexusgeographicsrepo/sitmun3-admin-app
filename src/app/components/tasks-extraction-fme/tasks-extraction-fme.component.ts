@@ -34,8 +34,8 @@ export class TasksExtractionFmeComponent implements OnInit {
       environment.selCheckboxColumnDef,
       columnEditBtn,
       { headerName: 'ID',  field: 'id', editable: false},
-      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.cartography'),  field: 'cartography'},
-      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.service'),  field: 'service'},
+      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.cartography'),  field: 'cartography',editable: false},
+      { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.service'),  field: 'service',editable: false,},
       { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.layer'),  field: 'layer'},
       {
         headerName: this.utils.getTranslate('tasksExtractionFMEEntity.dataCreated'), field: 'createdDate',

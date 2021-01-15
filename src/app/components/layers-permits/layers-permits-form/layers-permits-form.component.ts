@@ -276,7 +276,7 @@ export class LayersPermitsFormComponent implements OnInit {
     }
     else { this.addNewLayersPermits()}
 
-    }
+  }
 
   
 

@@ -46,7 +46,7 @@ export class LayersPermitsComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersPermitsEntity.name'), field: 'name' },
       {
-        headerName: this.utils.getTranslate('layersPermitsEntity.type'),
+        headerName: this.utils.getTranslate('layersPermitsEntity.type'),editable: false,
         valueGetter: (params) => { 
           var alias=this.permissionGroupTypes.filter((type) => type.value == params.data.type)[0];
           return alias!=undefined? alias.description: params.data.type

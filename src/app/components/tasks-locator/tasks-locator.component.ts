@@ -36,10 +36,10 @@ export class TasksLocatorComponent implements OnInit {
       columnEditBtn,
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksLocatorEntity.task'),  field: 'name'},
-      { headerName: this.utils.getTranslate('tasksLocatorEntity.informationType'),  field: 'groupName'},
+      { headerName: this.utils.getTranslate('tasksLocatorEntity.informationType'),  field: 'groupName',editable: false},
       { headerName: this.utils.getTranslate('tasksLocatorEntity.accesType'),  field: 'accesType'},
       { headerName: this.utils.getTranslate('tasksLocatorEntity.command'),  field: 'order'},
-      { headerName: this.utils.getTranslate('tasksLocatorEntity.connection'),  field: 'connection'},
+      { headerName: this.utils.getTranslate('tasksLocatorEntity.connection'),  field: 'connection',editable: false},
       { headerName: this.utils.getTranslate('tasksLocatorEntity.associatedLayer'),  field: 'associatedLayer' }
     ];
   }

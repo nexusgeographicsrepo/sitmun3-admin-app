@@ -83,8 +83,8 @@ export class LayersComponent implements OnInit {
   removeData(data: Cartography[]) {
 
     const dialogRef = this.dialog.open(DialogMessageComponent);
-    dialogRef.componentInstance.title=this.utils.getTranslate("Caution");
-    dialogRef.componentInstance.message=this.utils.getTranslate("RemoveMessage");
+    dialogRef.componentInstance.title=this.utils.getTranslate("caution");
+    dialogRef.componentInstance.message=this.utils.getTranslate("removeMessage");
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Accept') {  

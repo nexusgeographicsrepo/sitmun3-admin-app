@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role } from 'dist/sitmun-frontend-core/';
+import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role, ApplicationService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -28,13 +28,13 @@ export class RoleFormComponent implements OnInit {
 
   //Grids
   columnDefsUsers: any[];
-  getAllElementsEventUsers: Subject<any[]> = new Subject<any[]>();
+  getAllElementsEventUsers: Subject<true> = new Subject<true>();
   columnDefsTasks: any[];
-  getAllElementsEventTasks: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTasks: Subject<true> = new Subject <true>();
   columnDefsCartography: any[];
-  getAllElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventCartographies: Subject<true> = new Subject <true>();
   columnDefsApplications: any[];
-  getAllElementsEventApplications: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventApplications: Subject<true> = new Subject <true>();
   themeGrid: any = environment.agGridTheme;
   
 
@@ -63,6 +63,7 @@ export class RoleFormComponent implements OnInit {
     private userService: UserService,
     public cartographyService: CartographyService,
     public tasksService: TaskService,
+    public applicationService: ApplicationService,
     private http: HttpClient,
     private utils: UtilsService,
     private userConfigurationService: UserConfigurationService,
@@ -124,8 +125,7 @@ export class RoleFormComponent implements OnInit {
     this.columnDefsApplications = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
-      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
+      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
     ];
 
     this.columnDefsUsersDialog = [
@@ -150,6 +150,12 @@ export class RoleFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name', editable: false },
+    ];
+
+    this.columnDefsApplicationsDialog = [
+      environment.selCheckboxColumnDef,
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
     ];
 
   }
@@ -264,6 +270,53 @@ export class RoleFormComponent implements OnInit {
   {
     console.log(data);
   }
+
+    // ******** Applications ******** //
+    getAllApplications = (): Observable<any> => {
+      // //TODO Change the link when available
+       var urlReq = `${this.formRole.value._links.applications.href}`
+       if (this.formRole.value._links.applications.templated) {
+         var url = new URL(urlReq.split("{")[0]);
+         url.searchParams.append("projection", "view")
+         urlReq = url.toString();
+       }
+
+       return (this.http.get(urlReq))
+       .pipe(map(data => data['_embedded']['applications']));
+
+    }
+  
+    getAllRowsApplications(data: any[] )
+    {
+      console.log(data);
+      let applicationUriIdentificators:any[] = [];
+      data.forEach(application => {
+        applicationUriIdentificators.push((application._links.self.href)); 
+      });
+      console.log(applicationUriIdentificators);
+      let urlReq="http://localhost:8080/api/roles/10/applications";
+      // var urlReq = `${this.formRole.value._links.applications.href}`
+       
+      // if (this.formRole.value._links.applications.templated) {
+       //  var url = new URL(urlReq.split("{")[0]);
+       //  url.searchParams.append("projection", "view")
+       //  urlReq = url.toString();
+      //  let splitString= urlReq.split("%",1);
+      //  urlReq=splitString[0];
+      // }
+
+      // var urlReq = `${this.formRole.value._links.applications.href}`
+      // if (this.formRole.value._links.applications.templated) {
+      //   var url = new URL(urlReq.split("{")[0]);
+      //   url.searchParams.append("projection", "view")
+      //   urlReq = url.toString();
+      // }
+
+      return (this.http.put(urlReq ,data)).subscribe(result => console.log(result));
+    }
+  
+    
+  
 
 
   // ******** Users Dialog  ******** //
@@ -385,6 +438,37 @@ export class RoleFormComponent implements OnInit {
     }
 
 
+    // ******** Applications Dialog  ******** //
+
+    getAllApplicationsDialog = () => {
+      return this.applicationService.getAll();
+    }
+
+    openApplicationsDialog(data: any) {
+
+      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
+      dialogRef.componentInstance.getAllsTable=[this.getAllApplicationsDialog];
+      dialogRef.componentInstance.singleSelectionTable=[false];
+      dialogRef.componentInstance.columnDefsTable=[this.columnDefsApplicationsDialog];
+      dialogRef.componentInstance.themeGrid=this.themeGrid;
+      dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.applications');
+      dialogRef.componentInstance.titlesTable=[''];
+      dialogRef.componentInstance.nonEditable=false;
+      
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          if( result.event==='Add') { 
+            this.addElementsEventApplications.next(result.data[0])
+          }
+        }
+  
+      });
+  
+    }
+
+
     // updateUserConfiguration(role: Role, territories: Territory[], users: User[] )
     // {
     //   const promises: Promise<any>[] = [];
@@ -412,9 +496,14 @@ export class RoleFormComponent implements OnInit {
 
   onSaveButtonClicked() {
 
-    // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
-    this.updateRole();
-    this.dataUpdatedEvent.next(true);
+    if(this.roleID !== -1)
+    {
+      // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+      this.getAllElementsEventApplications.next(true);
+      this.updateRole();
+      this.dataUpdatedEvent.next(true);
+    }
+    else { this.addNewRole() }
 
   }
 

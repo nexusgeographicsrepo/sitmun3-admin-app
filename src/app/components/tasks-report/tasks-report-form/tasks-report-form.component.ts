@@ -9,6 +9,7 @@ import { of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -191,18 +192,7 @@ export class TasksReportFormComponent implements OnInit {
      return of(aux);
  
    }
- 
-   removeDataMaps(data: any[]) {
-     console.log(data);
-   }
- 
-   newDataMaps(id: any) {
-     // this.router.navigate(['role', id, 'roleForm']);
-   }
- 
-   applyChangesMaps(data: any[]) {
-     console.log(data);
-   }
+
 
    getAllRowsMaps(data: any[] )
    {
@@ -219,17 +209,7 @@ export class TasksReportFormComponent implements OnInit {
  
    }
  
-   removeDataQueries(data: any[]) {
-     console.log(data);
-   }
- 
-   newDataQueries(id: any) {
-     // this.router.navigate(['role', id, 'roleForm']);
-   }
- 
-   applyChangesQueries(data: any[]) {
-     console.log(data);
-   }
+
   
    getAllRowsQueries(data: any[] )
    {
@@ -237,25 +217,19 @@ export class TasksReportFormComponent implements OnInit {
    } 
    // ******** Roles ******** //
    getAllRoles = () => {
-     
-     // return (this.http.get(`${this.formTasksReport.value._links.cartographies.href}`))
-     // .pipe( map( data =>  data['_embedded']['cartographies']) );
+    var urlReq=`${this.taskReportToEdit._links.roles.href}`
+    if(this.taskReportToEdit._links.roles.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['roles']) );
      const aux: Array<any> = [];
      return of(aux);
  
    }
  
-   removeDataRoles(data: any[]) {
-     console.log(data);
-   }
- 
-   newDataRoles(id: any) {
-     // this.router.navigate(['role', id, 'roleForm']);
-   }
- 
-   applyChangesRoles(data: any[]) {
-     console.log(data);
-   }
  
    getAllRowsRoles(data: any[] )
    {
@@ -264,32 +238,19 @@ export class TasksReportFormComponent implements OnInit {
  
    // ******** Territories  ******** //
    getAllTerritories = () => {
-     // var urlReq=`${this.formTasksReport.value._links.tasks.href}`
-     // if(this.formTasksReport.value._links.tasks.templated){
-     //   var url=new URL(urlReq.split("{")[0]);
-     //   url.searchParams.append("projection","view")
-     //   urlReq=url.toString();
-     // }
- 
-     // return (this.http.get(urlReq))
-     // .pipe( map( data =>  data['_embedded']['tasks']) );
-     
-     const aux: Array<any> = [];
-     return of(aux);
+    var urlReq=`${this.taskReportToEdit._links.availabilities.href}`
+    if(this.taskReportToEdit._links.availabilities.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['task-availabilities']) );
+    
+    
      
    }
- 
-   removeDataTerritories(data: any[]) {
-     console.log(data);
-   }
-   
-   newDataTerritories(id: any) {
-     // this.router.navigate(['role', id, 'roleForm']);
-   }
- 
-   applyChangesTerritories(data: any[]) {
-     console.log(data);
-   }
+
 
    getAllRowsTerritories(data: any[] )
    {

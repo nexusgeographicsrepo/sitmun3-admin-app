@@ -226,7 +226,6 @@ export class ServiceFormComponent implements OnInit {
     this.serviceService.create(this.serviceForm.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
       
 
@@ -236,11 +235,19 @@ export class ServiceFormComponent implements OnInit {
     // this.serviceForm.patchValue({
     //   supportedSRS: this.projections.join(';')
     // })
-    this.serviceForm.patchValue({
-      supportedSRS: this.projections
-    });
-    console.log(this.serviceForm.value);
-    this.serviceService.update(this.serviceForm.value)
+    // this.serviceForm.patchValue({
+    //   supportedSRS: this.projections
+    // });
+    console.log(this.serviceToEdit);
+    this.serviceToEdit.name = this.serviceForm.value.name;
+    this.serviceToEdit.type = this.serviceForm.value.type;
+    this.serviceToEdit.serviceURL = this.serviceForm.value.serviceURL;
+    this.serviceToEdit.proxyUrl = this.serviceForm.value.connection;
+    this.serviceToEdit.getInformationURL = this.serviceForm.value.metadataURL;
+    this.serviceToEdit.supportedSRS = this.projections;
+
+    console.log(this.serviceToEdit);
+    this.serviceService.update(this.serviceToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -256,38 +263,32 @@ export class ServiceFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 
-  removeParameters(data: any[]) {
-    console.log(data);
-  }
 
-  newDataParameters(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsParameters(data: any[] )
   {
-    console.log(data);
+    this.serviceToEdit.parameters=data;
   }
 
   // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
-    return (this.http.get(`${this.serviceForm.value._links.layers.href}`))
-      .pipe(map(data => data[`_embedded`][`cartographies`]));
+
+      var urlReq = `${this.serviceToEdit._links.layers.href}`
+      if (this.serviceToEdit._links.layers.templated) {
+        var url = new URL(urlReq.split("{")[0]);
+        url.searchParams.append("projection", "view")
+        urlReq = url.toString();
+      }
+      return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['cartographies']));
+    
+
   }
 
-  removeLayers(data: any[]) {
-    console.log(data);
-  }
-
-  newDataLayers(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsLayers(data: any[] )
   {
-    console.log(data);
+    this.serviceToEdit.layers=data;
   }
 
   // ******** Parameters Dialog  ******** //
@@ -356,11 +357,18 @@ export class ServiceFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.getAllElementsEventParameters.next(true);
-    this.getAllElementsEventLayers.next(true);
-    this.updateService();
-
+    if(this.serviceID!=-1)
+    {
+      this.getAllElementsEventParameters.next(true);
+      this.getAllElementsEventLayers.next(true);
+      this.updateService();
     }
+    else{
+      this.addNewService();
+    }
+
+
+}
 
 
 

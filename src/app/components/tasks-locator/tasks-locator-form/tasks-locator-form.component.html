@@ -123,7 +123,7 @@
             <app-data-grid  [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles' 
             [eventAddItemsSubscription]='addElementsEventRoles.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventRoles.asObservable()' 
            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
-            (getAllRows)="getAllRowsRoles($event)" [actionButton]=true (add)="openRolesDialog($event)" (remove)="removeDataRoles($event)" (new)='newDataRoles($event)' (sendChanges)='applyChangesRoles($event)' > </app-data-grid>
+            (getAllRows)="getAllRowsRoles($event)" [actionButton]=true (add)="openRolesDialog($event)" > </app-data-grid>
         </div>
       </ng-template>
     </mat-expansion-panel>

@@ -137,12 +137,11 @@ export class LayersPermitsFormComponent implements OnInit {
 
   }
 
-  addNewupdateLayersPermits() {
+  addNewLayersPermits() {
     console.log(this.formLayersPermits.value);
     this.cartographyGroupService.create(this.formLayersPermits.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
 
 
@@ -153,7 +152,10 @@ export class LayersPermitsFormComponent implements OnInit {
     console.log(this.formLayersPermits.value);
     this.layersPermitsToEdit.name=this.formLayersPermits.value.name;
     this.layersPermitsToEdit.type=this.formLayersPermits.value.type;
-    console.log( this.layersPermitsToEdit.type);
+    delete this.layersPermitsToEdit._links['members'];
+    delete this.layersPermitsToEdit._links['roles'];
+    delete this.layersPermitsToEdit._links['situationMap'];
+    console.log( this.layersPermitsToEdit);
     this.cartographyGroupService.update(this.layersPermitsToEdit)
       .subscribe(resp => {
         console.log(resp);
@@ -167,9 +169,15 @@ export class LayersPermitsFormComponent implements OnInit {
 
   // ******** Cartographies configuration ******** //
   getAllCartographies = () => {
-    
-    return (this.http.get(`${this.formLayersPermits.value._links.members.href}`))
-     .pipe( map( data =>  data['_embedded']['cartographies']) );
+
+     var urlReq = `${this.layersPermitsToEdit._links.members.href}`
+     if (this.layersPermitsToEdit._links.members.templated) {
+       var url = new URL(urlReq.split("{")[0]);
+       url.searchParams.append("projection", "view")
+       urlReq = url.toString();
+     }
+     return (this.http.get(urlReq))
+     .pipe(map(data => data['_embedded']['cartographies']));
 
   }
 
@@ -258,10 +266,13 @@ export class LayersPermitsFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.getAllElementsEventCartographies.next(true);
-    this.getAllElementsEventRoles.next(true);
-    this.updateLayersPermits();
-
+    if(this.layersPermitsID !== -1)
+    {   
+      this.getAllElementsEventCartographies.next(true);
+      this.getAllElementsEventRoles.next(true);
+      this.updateLayersPermits();
+    }
+    else { this.addNewLayersPermits()}
 
   }
 

@@ -115,17 +115,17 @@
           {{ "roleEntity.applications" | translate }}
         </mat-panel-title>
       </mat-expansion-panel-header>
-
-      <!-- <ng-template matExpansionPanelContent>
+      
+      <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsApplications" [themeGrid]='themeGrid' [getAll]='getAllApplicationTasks'
-            [eventAddItemsSubscription]='addElementsEventApplications.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventApplications.asObservable()' 
-             [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
-            [hideDuplicateButton]=true [actionButton]=true (add)="openTasksApplication($event)"
+          <app-data-grid [columnDefs]="columnDefsApplications" [themeGrid]='themeGrid' [getAll]='getAllApplications'
+          [eventAddItemsSubscription]='addElementsEventApplications.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventApplications.asObservable()' 
+           [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
+            [hideDuplicateButton]=true [actionButton]=true (add)="openApplicationsDialog($event)"
             (getAllRows)="getAllRowsApplications($event)" > </app-data-grid>
         </div>
 
-      </ng-template> -->
+      </ng-template>
     </mat-expansion-panel>
 
   </mat-accordion>

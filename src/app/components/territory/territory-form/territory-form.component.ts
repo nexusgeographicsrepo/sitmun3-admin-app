@@ -354,7 +354,7 @@ export class TerritoryFormComponent implements OnInit {
 
   updateExtent() {
     let extensionToUpdate = `${this.territoryForm.get('extensionX0').value} ${this.territoryForm.get('extensionX1').value} ${this.territoryForm.get('extensionY0').value} ${this.territoryForm.get('extensionY1').value}`;
-    this.territoryToEdit.extent= extensionToUpdate;
+    if(this.territoryID !== -1) {this.territoryToEdit.extent= extensionToUpdate};
     this.territoryForm.patchValue({
       extent: extensionToUpdate
     });
@@ -362,7 +362,7 @@ export class TerritoryFormComponent implements OnInit {
 
   private updateScope(currentFormat: string) {
     let scopeToUpdate = this.translateScopeType(currentFormat, this.territoryForm.get('scope').value)
-    this.territoryToEdit.scope=scopeToUpdate;
+    if(this.territoryID !== -1) {this.territoryToEdit.scope=scopeToUpdate};
     this.territoryForm.patchValue({
       scope: scopeToUpdate
     });
@@ -674,12 +674,17 @@ export class TerritoryFormComponent implements OnInit {
   
       onSaveButtonClicked(){
   
-      this.getAllElementsEventCartographies.next(true);
-      this.getAllElementsEventTasks.next(true);
-      this.updateTerritory();
-      // this.updateUserConfiguration(this.territoryToEdit,this.rolesToUpdate,this.usersToUpdate)
-      // this.dataUpdatedEvent.next(true);
-  
+      if(this.territoryID !== -1)
+      {
+        
+        this.getAllElementsEventCartographies.next(true);
+        this.getAllElementsEventTasks.next(true);
+        this.updateTerritory();
+        // this.updateUserConfiguration(this.territoryToEdit,this.rolesToUpdate,this.usersToUpdate)
+        // this.dataUpdatedEvent.next(true);
+    
       }
+      else { this.addNewTerritory()}
+    }
 
 }

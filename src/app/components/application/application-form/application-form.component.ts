@@ -110,8 +110,8 @@ export class ApplicationFormComponent implements OnInit {
               type: this.applicationToEdit.type,
               title: this.applicationToEdit.title,
               tree: ' ',
-              desktopUrl: this.applicationToEdit.jspTemplate,
-              desktopCSS: this.applicationToEdit.theme,
+              jspTemplate: this.applicationToEdit.jspTemplate,
+              theme: this.applicationToEdit.theme,
               situationMap: this.applicationToEdit.situationMapId,
               scales: this.applicationToEdit.scales,
               srs: this.applicationToEdit.srs,
@@ -239,7 +239,7 @@ export class ApplicationFormComponent implements OnInit {
       this.applicationForm.get('srs').disable();
       this.applicationForm.get('situationMap').disable();
       this.applicationForm.get('treeAutoRefresh').disable();
-      this.applicationForm.get('desktopCSS').disable();
+      this.applicationForm.get('theme').disable();
     } else {
       this.applicationForm.get('title').enable();
       this.applicationForm.get('tree').enable();
@@ -247,7 +247,7 @@ export class ApplicationFormComponent implements OnInit {
       this.applicationForm.get('srs').enable();
       this.applicationForm.get('situationMap').enable();
       this.applicationForm.get('treeAutoRefresh').enable();
-      this.applicationForm.get('desktopCSS').enable();
+      this.applicationForm.get('theme').enable();
     }
   }
 
@@ -267,10 +267,10 @@ export class ApplicationFormComponent implements OnInit {
       tree: new FormControl(null, [
         Validators.required,
       ]),
-      desktopUrl: new FormControl(null, [
+      jspTemplate: new FormControl(null, [
         Validators.required,
       ]),
-      desktopCSS: new FormControl(null, [
+      theme: new FormControl(null, [
         Validators.required,
       ]),
       /*mobileUrl: new FormControl(null, [
@@ -318,12 +318,11 @@ export class ApplicationFormComponent implements OnInit {
     this.applicationToEdit.name = this.applicationForm.value.name,
     this.applicationToEdit.type = this.applicationForm.value.type,
     this.applicationToEdit.title = this.applicationForm.value.title,
-    this.applicationToEdit.jspTemplate = this.applicationForm.value.desktopUrl,
-    this.applicationToEdit.theme = this.applicationForm.value.desktopCSS,
+    this.applicationToEdit.jspTemplate = this.applicationForm.value.jspTemplate,
+    this.applicationToEdit.theme = this.applicationForm.value.theme,
     this.applicationToEdit.scales = this.applicationForm.value.scales,
     this.applicationToEdit.srs = this.applicationForm.value.srs,
     this.applicationToEdit.treeAutoRefresh = this.applicationForm.value.treeAutoRefresh,
-    this.applicationToEdit.srs = this.applicationForm.value.srs,
 
     console.log(this.applicationToEdit);
     this.applicationService.update(this.applicationToEdit)
@@ -581,14 +580,20 @@ export class ApplicationFormComponent implements OnInit {
 
     onSaveButtonClicked(){
 
-      this.getAllElementsEventParameters.next(true);
-      this.getAllElementsEventTemplateConfiguration.next(true);
-      this.getAllElementsEventRoles.next(true);
-      this.getAllElementsEventBackground.next(true);
-      this.getAllElementsEventTree.next(true);
-      this.updateApplication();
-  
+      if(this.applicationID !== -1)
+      {
+        this.getAllElementsEventParameters.next(true);
+        this.getAllElementsEventTemplateConfiguration.next(true);
+        this.getAllElementsEventRoles.next(true);
+        this.getAllElementsEventBackground.next(true);
+        this.getAllElementsEventTree.next(true);
+        this.updateApplication();
+
       }
+
+      else { this.addNewApplication()};
+  
+    }
 
 
 }

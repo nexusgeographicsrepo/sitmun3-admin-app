@@ -74,27 +74,40 @@ export class TaskGroupFormComponent implements OnInit {
 
   }
 
-  // addNewTaskGroup() {
-  //   console.log(this.formRole.value);
-  //   this.taskGroupService.create(this.formRole.value)
-  //     .subscribe(resp => {
-  //       console.log(resp);
-  //      
-  //     });
+  addNewTaskGroup() {
+    console.log(this.formtaskGroup.value);
+    this.taskGroupService.create(this.formtaskGroup.value)
+      .subscribe(resp => {
+        console.log(resp); 
+      });
 
 
-  // }
+  }
 
-  // updateTaskGroup() {
+  updateTaskGroup() {
 
-  //   console.log(this.formRole.value);
+    console.log(this.formtaskGroup.value);
+    this.taskGroupToEdit.name=this.formtaskGroup.value.name
+    this.taskGroupService.update(this.taskGroupToEdit)
+      .subscribe(resp => {
+        console.log(resp);
 
-  //   this.taskGroupService.update(this.formRole.value)
-  //     .subscribe(resp => {
-  //       console.log(resp);
+      });
 
-  //     });
+  }
 
-  // }
+  onSaveButtonClicked(){
+
+    if(this.taskGroupID !== -1)
+    {
+
+      this.updateTaskGroup();
+
+    }
+
+    else { this.addNewTaskGroup()};
+
+  }
+
 
 }

@@ -202,17 +202,6 @@ export class TasksLocatorFormComponent implements OnInit {
  
    }
  
-   removeDataRoles(data: any[]) {
-     console.log(data);
-   }
- 
-   newDataRoles(id: any) {
-     // this.router.navigate(['role', id, 'roleForm']);
-   }
- 
-   applyChangesRoles(data: any[]) {
-     console.log(data);
-   }
 
    getAllRowsRoles(data: any[] )
    {
@@ -223,32 +212,19 @@ export class TasksLocatorFormComponent implements OnInit {
  
    // ******** Territories  ******** //
    getAllTerritories = () => {
-     // var urlReq=`${this.formTasksLocator.value._links.tasks.href}`
-     // if(this.formTasksLocator.value._links.tasks.templated){
-     //   var url=new URL(urlReq.split("{")[0]);
-     //   url.searchParams.append("projection","view")
-     //   urlReq=url.toString();
-     // }
- 
-     // return (this.http.get(urlReq))
-     // .pipe( map( data =>  data['_embedded']['tasks']) );
-     
-     const aux: Array<any> = [];
-     return of(aux);
+    var urlReq=`${this.taskLocatorToEdit._links.availabilities.href}`
+    if(this.taskLocatorToEdit._links.availabilities.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['task-availabilities']) );
+    
      
    }
  
-   removeDataTerritories(data: any[]) {
-     console.log(data);
-   }
-   
-   newDataTerritories(id: any) {
-     // this.router.navigate(['role', id, 'roleForm']);
-   }
- 
-   applyChangesTerritories(data: any[]) {
-     console.log(data);
-   }
+
 
    getAllRowsTerritories(data: any[] )
    {

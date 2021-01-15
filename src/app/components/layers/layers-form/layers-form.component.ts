@@ -33,20 +33,20 @@ export class LayersFormComponent implements OnInit {
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
-  getAllElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
 
   columnDefsSpatialConfigurations: any[];
-  getAllElementsEventSpatialConfigurations: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject <boolean>();
 
   columnDefsTerritories: any[];
-  getAllElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventTerritories: Subject<boolean> = new Subject <boolean>();
 
 
   columnDefsLayersConfiguration: any[];
-  getAllElementsEventLayersConfigurations: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventLayersConfigurations: Subject<boolean> = new Subject <boolean>();
 
   columnDefsNodes: any[];
-  getAllElementsEventNodes: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventNodes: Subject<boolean> = new Subject <boolean>();
 
 
   //Dialog
@@ -90,7 +90,7 @@ export class LayersFormComponent implements OnInit {
             this.layerForm.setValue({
               id: this.layerID,
               name: this.layerToEdit.name,
-              source: this.layerToEdit.source,
+              serviceName: this.layerToEdit.serviceName,
               layers: this.layerToEdit.layers,
               minimumScale: this.layerToEdit.minimumScale,
               maximumScale: this.layerToEdit.maximumScale,
@@ -103,6 +103,21 @@ export class LayersFormComponent implements OnInit {
               datasetURL: this.layerToEdit.datasetURL,
               _links: this.layerToEdit._links
             });
+            this.municipalForm.setValue({
+              municipalFilterFields: "",
+              filterInfoByMunicipality: false,
+              filterSpatialSeleciontByMunicipality: false,
+      
+            });
+
+            
+          this.informationForm.setValue({
+            information: false,
+            defaultInformation: false,
+            informationLayer: "",
+            thematic: false,
+    
+          });
 
             this.dataLoaded = true;
 
@@ -112,21 +127,23 @@ export class LayersFormComponent implements OnInit {
           }
         );
       }
+      else{
 
-      this.municipalForm.setValue({
-        municipalFilterFields: "",
-        filterInfoByMunicipality: false,
-        filterSpatialSeleciontByMunicipality: false,
+        this.municipalForm.patchValue({
+          filterInfoByMunicipality: false,
+          filterSpatialSeleciontByMunicipality: false,
+  
+        });
 
-      });
+        this.informationForm.patchValue({
+          information : false,
+          defaultInformation: false,
+          thematic: false,
+        })
+      }
 
-      this.informationForm.setValue({
-        information: false,
-        defaultInformation: false,
-        informationLayer: "",
-        thematic: false,
 
-      });
+
 
 
     },
@@ -190,8 +207,8 @@ export class LayersFormComponent implements OnInit {
 
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code' },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territory.id' },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName' },
 
     ];
 
@@ -264,7 +281,7 @@ export class LayersFormComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
       ]),
-      source: new FormControl(null),
+      serviceName: new FormControl(null),
       layers: new FormControl(null),
       minimumScale: new FormControl(null, []),
       maximumScale: new FormControl(null, []),
@@ -310,7 +327,21 @@ export class LayersFormComponent implements OnInit {
   }
 
   updateLayer() {
-    this.cartographyService.update(this.layerForm.value)
+
+    this.layerToEdit.name=this.layerForm.value.name;
+    this.layerToEdit.serviceName=this.layerForm.value.serviceName;
+    this.layerToEdit.layers=this.layerForm.value.layers;
+    this.layerToEdit.minimumScale=this.layerForm.value.minimumScale;
+    this.layerToEdit.maximumScale=this.layerForm.value.maximumScale;
+    this.layerToEdit.geometryType=this.layerForm.value.geometryType;
+    this.layerToEdit.order=this.layerForm.value.order;
+    this.layerToEdit.transparency=this.layerForm.value.transparency;
+    this.layerToEdit.metadataURL=this.layerForm.value.metadataURL;
+    this.layerToEdit.legendType=this.layerForm.value.legendType;
+    this.layerToEdit.description=this.layerForm.value.description;
+    this.layerToEdit.datasetURL=this.layerForm.value.datasetURL;
+    console.log(this.layerToEdit);
+    this.cartographyService.update(this.layerToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -337,18 +368,9 @@ export class LayersFormComponent implements OnInit {
     
   }
 
-  removeDataParameters(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataParameters(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsParameters(data: any[] )
   {
-    console.log(data);
+    this.layerToEdit.parameters=data;
   }
 
   // ******** Spatial configuration ******** //
@@ -369,15 +391,6 @@ export class LayersFormComponent implements OnInit {
 
   }
 
-  removeDataSpatialConfigurations(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataSpatialConfigurations(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsSpatialConfiguration(data: any[] )
   {
     console.log(data);
@@ -388,17 +401,18 @@ export class LayersFormComponent implements OnInit {
     //TODO Change the link when available
     // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
     // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
-    const aux: Array<any> = [];
-    return of(aux);
-  }
 
-  removeDataTerritories(data: Territory[]) {
-    console.log(data);
-  }
+    var urlReq = `${this.layerForm.value._links.availabilities.href}`
+    if (this.layerForm.value._links.availabilities.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
 
-  newDataTerritories(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['cartography-availabilities']));
+
+
   }
 
   getAllRowsTerritories(data: any[] )
@@ -415,15 +429,6 @@ export class LayersFormComponent implements OnInit {
     return of(aux);
   }
 
-  removeDataLayersConfiguration(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataLayersConfiguration(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
-
   getAllRowsLayersConfiguration(data: any[] )
   {
     console.log(data);
@@ -436,15 +441,6 @@ export class LayersFormComponent implements OnInit {
     // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
     const aux: Array<any> = [];
     return of(aux);
-  }
-
-  removeDataNodes(data: Territory[]) {
-    console.log(data);
-  }
-
-  newDataNodes(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
   }
 
   getAllRowsNodes(data: any[] )
@@ -606,4 +602,21 @@ export class LayersFormComponent implements OnInit {
 
   }
 
+    //Save Button
+  
+    onSaveButtonClicked(){
+  
+      if(this.layerID !== -1)
+      {
+        this.getAllElementsEventParameters.next(true);
+        this.getAllElementsEventSpatialConfigurations.next(true);
+        this.getAllElementsEventTerritories.next(true);
+        this.getAllElementsEventLayersConfigurations.next(true);
+        this.getAllElementsEventNodes.next(true);
+        this.updateLayer();
+      }
+      else { this.addNewLayer() }
+
+  
+    }
 }

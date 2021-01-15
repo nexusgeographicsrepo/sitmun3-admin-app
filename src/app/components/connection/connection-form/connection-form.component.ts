@@ -154,7 +154,6 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionService.create(this.formConnection.value)
       .subscribe(resp => {
         console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
       });
   }
 
@@ -175,7 +174,14 @@ export class ConnectionFormComponent implements OnInit {
   // ******** Cartographies ******** //
   getAllCartographies = () => {
     
-    return (this.http.get(`${this.connectionToEdit._links.cartographies.href}`))
+    var urlReq = `${this.connectionToEdit._links.cartographies.href}`
+    if (this.connectionToEdit._links.cartographies.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['cartographies']) );
 
   }
@@ -291,13 +297,21 @@ export class ConnectionFormComponent implements OnInit {
       });
     }
 
-
+    //Save Button
+    
     onSaveButtonClicked(){
-
-      this.getAllElementsEventCartographies.next(true);
-      this.getAllElementsEventTasks.next(true);
-      this.updateConnection();
-      this.dataUpdatedEvent.next(true);
+      
+      if(this.connectionID!== -1)
+      {
+        this.getAllElementsEventCartographies.next(true);
+        this.getAllElementsEventTasks.next(true);
+        this.updateConnection();
+        this.dataUpdatedEvent.next(true);
+      }
+      else
+      {
+        this.addNewConnection();
+      }
   
       }
 

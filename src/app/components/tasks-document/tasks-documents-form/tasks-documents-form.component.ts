@@ -9,6 +9,7 @@ import { of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks-documents-form',
@@ -153,24 +154,20 @@ export class TasksDocumentsFormComponent implements OnInit {
   // ******** Cartography ******** //
   getAllCartography = () => {
     
-    // return (this.http.get(`${this.formTasksDocument.value._links.cartographies.href}`))
-    // .pipe( map( data =>  data['_embedded']['cartographies']) );
+    // var urlReq = `${this.taskDocumentToEdit._links.cartography.href}`
+    // if (this.taskDocumentToEdit._links.cartography.templated) {
+    //   var url = new URL(urlReq.split("{")[0]);
+    //   url.searchParams.append("projection", "view")
+    //   urlReq = url.toString();
+    // }
+    // return (this.http.get(urlReq))
+    // .pipe(map(data => data['_embedded']['cartographies']));
+
     const aux: Array<any> = [];
     return of(aux);
 
   }
 
-  removeDataCartography(data: any[]) {
-    console.log(data);
-  }
-
-  newDataCartography(id: any) {
-    // this.router.navigate(['role', id, 'roleForm']);
-  }
-
-  applyChangesCartography(data: any[]) {
-    console.log(data);
-  }
 
   getAllRowsCartographies(data: any[] )
   {
@@ -180,31 +177,16 @@ export class TasksDocumentsFormComponent implements OnInit {
 
   // ******** Territories  ******** //
   getAllTerritories = () => {
-    // var urlReq=`${this.formTasksDocument.value._links.tasks.href}`
-    // if(this.formTasksDocument.value._links.tasks.templated){
-    //   var url=new URL(urlReq.split("{")[0]);
-    //   url.searchParams.append("projection","view")
-    //   urlReq=url.toString();
-    // }
-
-    // return (this.http.get(urlReq))
-    // .pipe( map( data =>  data['_embedded']['tasks']) );
+    var urlReq=`${this.taskDocumentToEdit._links.availabilities.href}`
+    if(this.taskDocumentToEdit._links.availabilities.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['task-availabilities']) );
     
-    const aux: Array<any> = [];
-    return of(aux);
     
-  }
-
-  removeDataTerritories(data: any[]) {
-    console.log(data);
-  }
-  
-  newDataTerritories(id: any) {
-    // this.router.navigate(['role', id, 'roleForm']);
-  }
-
-  applyChangesTerritories(data: any[]) {
-    console.log(data);
   }
 
   getAllRowsTerritories(data: any[] )

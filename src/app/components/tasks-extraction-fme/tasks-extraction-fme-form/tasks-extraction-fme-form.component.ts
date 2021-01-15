@@ -91,12 +91,14 @@ export class TasksExtractionFmeFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.name'), field: 'name' },  
+         { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.status'), field: 'status' },
        ];
    
        this.columnDefsTerritories = [
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.name'), field: 'name' },
+         { headerName: this.utils.getTranslate('tasksExtractionFMEEntity.status'), field: 'status' },
    
        ];
 

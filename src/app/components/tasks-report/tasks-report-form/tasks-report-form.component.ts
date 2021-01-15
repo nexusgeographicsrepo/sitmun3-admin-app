@@ -98,7 +98,9 @@ export class TasksReportFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksReportEntity.name'), field: 'name' },  
-         { headerName: this.utils.getTranslate('tasksReportEntity.reportID'), field: 'reportID' },  
+         { headerName: this.utils.getTranslate('tasksReportEntity.reportID'), field: 'reportID' },
+         { headerName: this.utils.getTranslate('tasksReportEntity.status'), field: 'status' },
+           
        ];
 
        this.columnDefsQueries = [
@@ -106,18 +108,21 @@ export class TasksReportFormComponent implements OnInit {
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksReportEntity.name'), field: 'name' },  
          { headerName: this.utils.getTranslate('tasksReportEntity.reportID'), field: 'reportID' },  
+         { headerName: this.utils.getTranslate('tasksReportEntity.status'), field: 'status' },
        ];
 
        this.columnDefsRoles = [
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksReportEntity.name'), field: 'name' },  
+         { headerName: this.utils.getTranslate('tasksReportEntity.status'), field: 'status' },
        ];
    
        this.columnDefsTerritories = [
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksReportEntity.name'), field: 'name' },
+         { headerName: this.utils.getTranslate('tasksReportEntity.status'), field: 'status' },
    
        ];
 

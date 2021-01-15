@@ -178,6 +178,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: ['user.id'], editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user' },
       { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
 
     ];
 
@@ -186,6 +187,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
 
     ];
 
@@ -194,6 +196,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
 
     ];
 
@@ -202,6 +205,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'layers' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
 
     ];
 
@@ -210,6 +214,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
 
     ];
 

@@ -106,6 +106,7 @@ export class RoleFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'user' },
       { headerName: this.utils.getTranslate('roleEntity.territory'), field: 'territory' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
     ];
 
     this.columnDefsTasks = [
@@ -113,6 +114,7 @@ export class RoleFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
     ];
 
     this.columnDefsCartography = [
@@ -120,12 +122,14 @@ export class RoleFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('roleEntity.layers'), field: 'layers' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
     ];
 
     this.columnDefsApplications = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
     ];
 
     this.columnDefsUsersDialog = [

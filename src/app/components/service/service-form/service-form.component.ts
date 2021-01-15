@@ -129,6 +129,8 @@ export class ServiceFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'type', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
+      { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
+
 
     ];
 

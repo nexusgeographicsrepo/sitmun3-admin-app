@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -64,6 +64,7 @@ export class ApplicationFormComponent implements OnInit {
     private router: Router,
     private applicationService: ApplicationService,
     private roleService: RoleService,
+    private treeService: TreeService,
     private http: HttpClient,
     private utils: UtilsService,
     private cartographyGroupService: CartographyGroupService,
@@ -144,6 +145,8 @@ export class ApplicationFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
       { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+
 
     ];
 
@@ -152,6 +155,8 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+
     ];
 
     this.columnDefsRoles = [
@@ -159,6 +164,8 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+
 
     ];
 
@@ -167,6 +174,8 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.background'), field: 'background' },
       { headerName: this.utils.getTranslate('applicationEntity.selectedBackground'), field: 'selectedBackground' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+
 
     ];
 
@@ -175,6 +184,8 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+
 
     ];
 
@@ -547,9 +558,8 @@ export class ApplicationFormComponent implements OnInit {
     // ******** Tree Dialog  ******** //
 
     getAllTreeDialog = () => {
-      const aux: Array<any> = [];
-      return of(aux);
-      // return this.cartographyService.getAll();
+
+      return this.treeService.getAll();
     }
   
     openTreeDialog(data: any) {

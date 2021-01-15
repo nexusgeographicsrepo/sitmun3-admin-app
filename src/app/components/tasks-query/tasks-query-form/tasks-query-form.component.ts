@@ -99,6 +99,7 @@ export class TasksQueryFormComponent implements OnInit {
         { headerName: this.utils.getTranslate('tasksQueryEntity.tag'), field: 'tag' },
         { headerName: this.utils.getTranslate('tasksQueryEntity.select'), field: 'select' },
         { headerName: this.utils.getTranslate('tasksQueryEntity.order'), field: 'order' },
+        { headerName: this.utils.getTranslate('tasksQueryEntity.status'), field: 'status' },
   
       ];
  
@@ -107,12 +108,14 @@ export class TasksQueryFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksQueryEntity.name'), field: 'name' },  
+         { headerName: this.utils.getTranslate('tasksQueryEntity.status'), field: 'status' },
        ];
    
        this.columnDefsTerritories = [
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksQueryEntity.name'), field: 'name' },
+         { headerName: this.utils.getTranslate('tasksQueryEntity.status'), field: 'status' },
    
        ];
 

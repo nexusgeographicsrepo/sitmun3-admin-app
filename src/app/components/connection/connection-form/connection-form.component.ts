@@ -104,6 +104,8 @@ export class ConnectionFormComponent implements OnInit {
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
         { headerName: this.utils.getTranslate('connectionEntity.layers'), field: 'layers' },
+        { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status' },
+
   
       ];
   
@@ -112,6 +114,8 @@ export class ConnectionFormComponent implements OnInit {
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.code'), field: 'name' },
         { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'groupName' },
+        { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status' },
+
   
       ];
 

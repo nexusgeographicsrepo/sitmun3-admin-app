@@ -116,6 +116,7 @@ export class UserFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territory' },
       { headerName: this.utils.getTranslate('userEntity.role'), field: 'role', },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
 
     ];
 
@@ -127,6 +128,7 @@ export class UserFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('userEntity.organization'), field: 'organization' },
       { headerName: this.utils.getTranslate('userEntity.mail'), field: 'email' },
       { headerName: this.utils.getTranslate('userEntity.expirationDate'), field: 'expirationDate' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
       {
         headerName: this.utils.getTranslate('userEntity.dataCreated'), field: 'createdDate',  /*filter: 'agDateColumnFilter',*/cellRenderer: (data) => {
           return data.value ? (new Date(data.value)).toLocaleDateString() : '';

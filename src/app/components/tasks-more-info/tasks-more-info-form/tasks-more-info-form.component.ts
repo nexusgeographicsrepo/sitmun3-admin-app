@@ -99,6 +99,7 @@ export class TasksMoreInfoFormComponent implements OnInit {
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.key'), field: 'key' },
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.value'), field: 'value', },
         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.order'), field: 'order' },
+        { headerName: this.utils.getTranslate('tasksMoreInfoEntity.status'), field: 'status' },
   
       ];
  
@@ -107,12 +108,14 @@ export class TasksMoreInfoFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.name'), field: 'name' },  
+         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.status'), field: 'status' },
        ];
    
        this.columnDefsTerritories = [
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksMoreInfoEntity.name'), field: 'name' },
+         { headerName: this.utils.getTranslate('tasksMoreInfoEntity.status'), field: 'status' },
    
        ];
 

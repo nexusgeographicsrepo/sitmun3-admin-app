@@ -92,12 +92,15 @@ export class TasksDocumentsFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.name'), field: 'name' },  
+        { headerName: this.utils.getTranslate('tasksDocumentEntity.status'), field: 'status' },  
+
       ];
   
       this.columnDefsTerritories = [
         environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('tasksDocumentEntity.name'), field: 'name' },
+        { headerName: this.utils.getTranslate('tasksDocumentEntity.status'), field: 'status' },  
   
       ];
 

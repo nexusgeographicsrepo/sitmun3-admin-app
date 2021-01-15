@@ -169,9 +169,15 @@ export class LayersPermitsFormComponent implements OnInit {
 
   // ******** Cartographies configuration ******** //
   getAllCartographies = () => {
-    
-    return (this.http.get(`${this.formLayersPermits.value._links.members.href}`))
-     .pipe( map( data =>  data['_embedded']['cartographies']) );
+
+     var urlReq = `${this.layersPermitsToEdit._links.members.href}`
+     if (this.layersPermitsToEdit._links.members.templated) {
+       var url = new URL(urlReq.split("{")[0]);
+       url.searchParams.append("projection", "view")
+       urlReq = url.toString();
+     }
+     return (this.http.get(urlReq))
+     .pipe(map(data => data['_embedded']['cartographies']));
 
   }
 

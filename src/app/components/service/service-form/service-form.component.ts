@@ -272,8 +272,17 @@ export class ServiceFormComponent implements OnInit {
 
   // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
-    return (this.http.get(`${this.serviceForm.value._links.layers.href}`))
-      .pipe(map(data => data[`_embedded`][`cartographies`]));
+
+      var urlReq = `${this.serviceToEdit._links.layers.href}`
+      if (this.serviceToEdit._links.layers.templated) {
+        var url = new URL(urlReq.split("{")[0]);
+        url.searchParams.append("projection", "view")
+        urlReq = url.toString();
+      }
+      return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['cartographies']));
+    
+
   }
 
 

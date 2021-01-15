@@ -174,7 +174,14 @@ export class ConnectionFormComponent implements OnInit {
   // ******** Cartographies ******** //
   getAllCartographies = () => {
     
-    return (this.http.get(`${this.connectionToEdit._links.cartographies.href}`))
+    var urlReq = `${this.connectionToEdit._links.cartographies.href}`
+    if (this.connectionToEdit._links.cartographies.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['cartographies']) );
 
   }

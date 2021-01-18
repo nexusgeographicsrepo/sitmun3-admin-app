@@ -116,7 +116,7 @@
   "layersEntity": {
     "layers": "Capes",
     "name": "Nom",
-    "source": "Servei",
+    "serviceName": "Servei",
     "order": "Ordre",
     "createdDate": "Alta",
     "minimumScale": "Escala Min",

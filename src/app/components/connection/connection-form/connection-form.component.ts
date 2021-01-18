@@ -194,8 +194,9 @@ export class ConnectionFormComponent implements OnInit {
   {
     this.connectionToEdit.cartographies = [];
     data.forEach(cartography => {
-      if(cartography.status!== 'Deleted') {this.connectionToEdit.cartographies.push(cartography) }
+      if(cartography.status!== 'Deleted') {this.connectionToEdit.cartographies.push(cartography._links.self) }
     });
+    console.log(this.connectionToEdit.cartographies);
   }
 
 
@@ -283,7 +284,6 @@ export class ConnectionFormComponent implements OnInit {
   
   
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
         if(result){
           if( result.event==='Add') { 
             this.addElementsEventTasks.next(result.data[0])
@@ -313,7 +313,7 @@ export class ConnectionFormComponent implements OnInit {
       if(this.connectionID!== -1)
       {
         this.getAllElementsEventCartographies.next(true);
-        this.getAllElementsEventTasks.next(true);
+        // this.getAllElementsEventTasks.next(true);
         this.updateConnection();
         this.dataUpdatedEvent.next(true);
       }

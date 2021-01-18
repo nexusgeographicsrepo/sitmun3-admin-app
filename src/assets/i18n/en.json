@@ -117,7 +117,7 @@
   "layersEntity": {
     "layers": "Layers",
     "name": "Name",
-    "source": "Service",
+    "serviceName": "Service",
     "order": "Order",
     "createdDate": "Created date",
     "minimumScale": "Min Scale",

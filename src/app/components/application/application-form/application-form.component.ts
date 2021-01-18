@@ -358,7 +358,10 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.applicationToEdit.parameters=data;
+    this.applicationToEdit.parameters= [];
+    data.forEach(parameter => {
+      if(parameter.status!== 'Deleted') {this.applicationToEdit.parameters.push(parameter) }
+    });
   }
 
   // ******** Template configuration ******** //
@@ -386,7 +389,10 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
-    this.applicationToEdit.availableRoles=data;
+    this.applicationToEdit.availableRoles = [];
+    data.forEach(role => {
+      if(role.status!== 'Deleted') {this.applicationToEdit.availableRoles.push(role) }
+    });
   }
  
 
@@ -409,7 +415,10 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsBackgrounds(data: any[] )
   {
-    this.applicationToEdit.backgrounds=data;
+    this.applicationToEdit.backgrounds = [];
+    data.forEach(background => {
+      if(background.status!== 'Deleted') {this.applicationToEdit.backgrounds.push(background) }
+    });
   }
 
   // ******** Trees ******** //
@@ -431,7 +440,11 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsTrees(data: any[] )
   {
-    this.applicationToEdit.trees=data;
+    this.applicationToEdit.trees = [];
+    data.forEach(tree => {
+      if(tree.status!== 'Deleted') {this.applicationToEdit.trees.push(tree) }
+    });
+    console.log(this.applicationToEdit.trees)
   }
 
 

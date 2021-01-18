@@ -277,7 +277,12 @@ export class UserFormComponent implements OnInit {
   }
 
   getAllRowsPermits(data: any[]) {
-    console.log(data);
+    
+    this.userToEdit.permissions = [];
+    data.forEach(permit => {
+      if(permit.status!== 'Deleted') {this.userToEdit.permissions.push(permit) }
+    });
+
   }
 
   // ******** Data of Territory ******** //
@@ -301,7 +306,11 @@ export class UserFormComponent implements OnInit {
 
  
   getAllRowsDataTerritories(data: any[] ){
-    console.log(data);
+    this.userToEdit.positions = [];
+    data.forEach(position => {
+      if(position.status!== 'Deleted') {this.userToEdit.positions.push(position) }
+    });
+
     this.userToEdit.positions=data;
   }
   // ******** Permits Dialog  ******** //

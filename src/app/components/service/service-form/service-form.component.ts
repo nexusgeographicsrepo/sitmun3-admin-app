@@ -269,7 +269,11 @@ export class ServiceFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.serviceToEdit.parameters=data;
+    this.serviceToEdit.parameters = [];
+    data.forEach(parameter => {
+      if(parameter.status!== 'Deleted') {this.serviceToEdit.parameters.push(parameter) }
+    });
+
   }
 
   // ******** Layers ******** //
@@ -290,7 +294,10 @@ export class ServiceFormComponent implements OnInit {
 
   getAllRowsLayers(data: any[] )
   {
-    this.serviceToEdit.layers=data;
+    this.serviceToEdit.layers = [];
+    data.forEach(layer => {
+      if(layer.status!== 'Deleted') {this.serviceToEdit.layers.push(layer) }
+    });
   }
 
   // ******** Parameters Dialog  ******** //

@@ -375,7 +375,10 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.layerToEdit.parameters=data;
+    this.layerToEdit.parameters = [];
+    data.forEach(parameter => {
+      if(parameter.status!== 'Deleted') {this.layerToEdit.parameters.push(parameter) }
+    });
   }
 
   // ******** Spatial configuration ******** //

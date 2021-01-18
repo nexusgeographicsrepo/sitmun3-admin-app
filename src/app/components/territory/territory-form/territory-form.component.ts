@@ -422,7 +422,11 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsMembersOf(data: any[] )
   {
-    console.log(data);
+    this.territoryToEdit.memberOf = [];
+    data.forEach(territory => {
+      if(territory.status!== 'Deleted') {this.territoryToEdit.memberOf.push(territory) }
+    });
+    console.log(this.territoryToEdit.memberOf);
   }
 
 
@@ -438,7 +442,10 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsMembers(data: any[] )
   {
-    console.log(data);
+    this.territoryToEdit.members = [];
+    data.forEach(territory => {
+      if(territory.status!== 'Deleted') {this.territoryToEdit.members.push(territory) }
+    });
   }
 
   // ******** Cartography ******** //
@@ -453,8 +460,11 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
-    this.territoryToEdit.cartographyAvailabilities = data;
-    console.log(data);
+    this.territoryToEdit.cartographyAvailabilities = [];
+    data.forEach(cartography => {
+      if(cartography.status!== 'Deleted') {this.territoryToEdit.cartographyAvailabilities.push(cartography) }
+    });
+
   }
 
   // ******** Task ******** //
@@ -471,7 +481,11 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[] )
   {
-    this.territoryToEdit.cartographyAvailabilities = data;
+    this.territoryToEdit.taskAvailabilities = [];
+    data.forEach(task => {
+      if(task.status!== 'Deleted') {this.territoryToEdit.taskAvailabilities.push(task) }
+    });
+
   }
 
   

@@ -52,7 +52,8 @@
     "tasksThematic": "Thematic",
     "tasksExtractionFME": "FME Extraction",
     "application": "Application",
-    "taskGroup": "Task group"
+    "taskGroup": "Task group",
+    "status": "Status"
   },
   "userEntity": {
     "generalData": "General Data",
@@ -75,7 +76,8 @@
     "field": "Field",
     "expirationDate": "Expiration",
     "dataCreated": "Created date",
-    "code": "Code"
+    "code": "Code",
+    "status": "Status"
   },
   "connectionEntity": {
     "generalData": "General Data",
@@ -88,7 +90,8 @@
     "cartography": "Cartography",
     "layers": "Layers",
     "code": "Codi",
-    "taskGroup": "Task group"
+    "taskGroup": "Task group",
+    "status": "Status"
   },
   "serviceEntity": {
     "generalData": "General Data",
@@ -149,7 +152,8 @@
     "thematic": "Thematic",
     "generalData": "General Data",
     "municipalFilter": "Municipal Filter",
-    "alias": "alias"
+    "alias": "alias",
+    "status": "Status"
   },
   "layersPermitsEntity": {
     "generalData": "General Data",
@@ -161,16 +165,19 @@
     "createdDate": "Created date",
     "update": "Update",
     "roles": "Roles",
-    "cartographiesConfiguration": "Cartography Configuration"
+    "cartographiesConfiguration": "Cartography Configuration",
+    "status": "Status"
   },
   "treesEntity": {
     "trees": "Trees",
-    "name": "Name"
+    "name": "Name",
+    "status": "Status"
   },
   "taskGroupEntity": {
     "generalData": "General Data",
     "taskGroup": "Task group",
-    "name": "Name"
+    "name": "Name",
+    "status": "Status"
   },
   "backgroundEntity": {
     "generalData": "General Data",
@@ -178,7 +185,8 @@
     "name": "Name",
     "description": "Description",
     "active": "Active",
-    "cartographyGroup": "Cartography group"
+    "cartographyGroup": "Cartography group",
+    "status": "Status"
   },
   "applicationEntity": {
     "generalData": "General Data",
@@ -210,7 +218,8 @@
     "background": "Background",
     "selectedBackground": "Selected Wallpaper",
     "value": "Value",
-    "note": "Observations"
+    "note": "Observations",
+    "status": "Status"
   },
   "territoryEntity": {
     "generalData": "General Data",
@@ -239,7 +248,8 @@
     "users": "Users",
     "roles": "Roles",
     "taskGroup": "Task group",
-    "layers": "Layers"
+    "layers": "Layers",
+    "status": "Status"
   },
   "roleEntity": {
     "generalData": "General Data",
@@ -255,7 +265,8 @@
     "territories": "Territories",
     "layers": "Layers",
     "code": "Codi",
-    "groupTask": "GroupTask"
+    "groupTask": "GroupTask",
+    "status": "Status"
   },
   "tasksEntity": {
     "generalData": "General Data",
@@ -263,7 +274,8 @@
     "task": "Tasca",
     "name": "Name",
     "informationType": "Information Type",
-    "groupTask": "GroupTask"
+    "groupTask": "GroupTask",
+    "status": "Status"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",
@@ -285,7 +297,8 @@
     "tag": "Tag",
     "select": "Select",
     "description": "Description",
-    "order": "Order"
+    "order": "Order",
+    "status": "Status"
   },
   "tasksDownloadEntity": {
     "generalData": "General Data",
@@ -300,7 +313,8 @@
     "path": "Path",
     "extent": "Extension",
     "roles": "Roles",
-    "territories": "Territories"
+    "territories": "Territories",
+    "status": "Status"
   },
   "tasksDocumentEntity": {
     "generalData": "General Data",
@@ -317,7 +331,8 @@
     "groupTask": "Group task",
     "cartography": "Cartography",
     "territories": "Territories",
-    "name": "Name"
+    "name": "Name",
+    "status": "Status"
   },
   "tasksEditionEntity": {
     "generalData": "General Data",
@@ -351,7 +366,8 @@
     "selectPath": "Select/Path",
     "roles": "Roles",
     "territories": "Territoris",
-    "columns": "Columns"
+    "columns": "Columns",
+    "status": "Status"
   },
   "tasksExtractionFMEEntity": {
     "generalData": "General Data",
@@ -366,7 +382,8 @@
     "roles": "Roles",
     "territories": "Territories",
     "description": "Description",
-    "value": "Value"
+    "value": "Value",
+    "status": "Status"
   },
   "tasksLocatorEntity": {
     "generalData": "General Data",
@@ -389,7 +406,8 @@
     "tag": "Tag",
     "select": "Select",
     "description": "Description",
-    "order": "Order"
+    "order": "Order",
+    "status": "Status"
   },
   "tasksMoreInfoEntity": {
     "generalData": "General Data",
@@ -413,7 +431,8 @@
     "select": "Select",
     "description": "Description",
     "value": "Value",
-    "order": "Order"
+    "order": "Order",
+    "status": "Status"
   },
   "tasksReportEntity": {
     "generalData": "General Data",
@@ -429,7 +448,8 @@
     "queries": "Queries",
     "territories": "Territories",
     "roles": "Roles",
-    "id": "ID"
+    "id": "ID",
+    "status": "Status"
   },
   "tasksThematicEntity": {
     "generalData": "General Data",
@@ -444,7 +464,8 @@
     "roles": "Roles",
     "territories": "Territories",
     "description": "Description",
-    "value": "Value"
+    "value": "Value",
+    "status": "Status"
   },
   "loginEntity": {
     "username": "User",

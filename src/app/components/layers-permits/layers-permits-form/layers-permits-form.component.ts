@@ -200,7 +200,11 @@ export class LayersPermitsFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
-    this.layersPermitsToEdit.roles=data;
+    this.layersPermitsToEdit.roles = [];
+    data.forEach(role => {
+      if(role.status!== 'Deleted') {this.layersPermitsToEdit.roles.push(role) }
+    });
+
   }
 
 

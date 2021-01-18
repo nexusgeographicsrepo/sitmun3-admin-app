@@ -295,7 +295,7 @@ export class RoleFormComponent implements OnInit {
       console.log(data);
       let applicationUriIdentificators:any[] = [];
       data.forEach(application => {
-        applicationUriIdentificators.push((application._links.self.href)); 
+        if(application.status!== 'Deleted') applicationUriIdentificators.push((application._links.self.href)); 
       });
       console.log(applicationUriIdentificators);
       let urlReq="http://localhost:8080/api/roles/10/applications";

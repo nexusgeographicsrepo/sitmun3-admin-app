@@ -192,7 +192,10 @@ export class ConnectionFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
-    this.connectionToEdit.cartographies=data;
+    this.connectionToEdit.cartographies = [];
+    data.forEach(cartography => {
+      if(cartography.status!== 'Deleted') {this.connectionToEdit.cartographies.push(cartography) }
+    });
   }
 
 
@@ -214,8 +217,10 @@ export class ConnectionFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[] )
   {
-    console.log(data);
-    this.connectionToEdit.tasks=data;
+    this.connectionToEdit.tasks = [];
+    data.forEach(task => {
+      if(task.status!== 'Deleted') {this.connectionToEdit.tasks.push(task) }
+    });
   }
   
   // ******** Cartography Dialog  ******** //

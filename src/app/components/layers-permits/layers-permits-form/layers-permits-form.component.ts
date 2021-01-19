@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyGroupService, RoleService, Role, CartographyService } from '@sitmun/frontend-core';
+import { CartographyGroupService, RoleService, Role, CartographyService,Cartography } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -186,8 +186,30 @@ export class LayersPermitsFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
-    console.log(data);
+    let cartographiesModified = [];
+    let cartographiesToPut = [];
+    data.forEach(cartography => {
+      if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
+    });
+    if (cartographiesModified.length >0)
+    {
+       console.log(cartographiesModified);
+       this.updateCartographies(cartographiesModified);
+    }
   }
+
+  updateCartographies(cartographiesModified: Cartography[])
+  {
+    const promises: Promise<any>[] = [];
+    cartographiesModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
+  }
+
+
 
 
   // ******** Roles  ******** //
@@ -200,11 +222,27 @@ export class LayersPermitsFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
-    this.layersPermitsToEdit.roles = [];
+    let rolesModified = [];
+    let rolesToPut = [];
     data.forEach(role => {
-      if(role.status!== 'Deleted') {this.layersPermitsToEdit.roles.push(role) }
+      if (role.status === 'Modified') {rolesModified.push(role) }
+      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self) }
     });
+    if (rolesModified.length >0)
+    {
+       console.log(rolesModified);
+       this.updateRoles(rolesModified);
+    }
+  }
 
+  updateRoles(rolesModified: Role[])
+  {
+    const promises: Promise<any>[] = [];
+    rolesModified.forEach(role => {
+      promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
 

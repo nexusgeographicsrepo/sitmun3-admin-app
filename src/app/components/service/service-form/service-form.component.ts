@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
-import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogGridComponent, DialogFormComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import { Xml2js } from "xml2js";
 
@@ -45,7 +45,13 @@ export class ServiceFormComponent implements OnInit {
 
   //Dialogs
   columnDefsParametersDialog: any[];
+  public parameterForm: FormGroup;
   addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  @ViewChild('newParameterDialog',{
+    static: true
+  }) private newParameterDialog: TemplateRef <any>;
+
+
   columnDefsLayersDialog: any[];
   addElementsEventLayers: Subject<any[]> = new Subject <any[]>();
 
@@ -64,6 +70,7 @@ export class ServiceFormComponent implements OnInit {
 
   ) {
     this.initializeServiceForm();
+    this.initializeParameterForm();
     this.projections = [];
     this.activatedRoute.params.subscribe(params => {
       this.serviceID = +params.id;
@@ -125,7 +132,7 @@ export class ServiceFormComponent implements OnInit {
     this.columnDefsParameters = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'name' },
       { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'type', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
       { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
@@ -183,6 +190,15 @@ export class ServiceFormComponent implements OnInit {
       _links: new FormControl(null, []),
     });
 
+  }
+
+  initializeParameterForm(): void {
+    this.parameterForm = new FormGroup({
+      name: new FormControl(null, []),
+      type: new FormControl(null, []),
+      value: new FormControl(null, []),
+
+    })
   }
 
   addProjection(event: MatChipInputEvent): void {
@@ -309,21 +325,21 @@ export class ServiceFormComponent implements OnInit {
 
   openParametersDialog(data: any) {
   
-    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllParametersDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsParametersDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
-    dialogRef.componentInstance.titlesTable=[''];
-    dialogRef.componentInstance.nonEditable=false;
+
     
 
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
-          this.addElementsEventParameters.next(result.data[0])
+          let item= this.parameterForm.value;
+          this.addElementsEventParameters.next([item])
+          console.log(this.parameterForm.value)
+          this.parameterForm.reset();
+          
         }
       }
 

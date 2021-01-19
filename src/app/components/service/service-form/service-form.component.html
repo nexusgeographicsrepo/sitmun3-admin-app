@@ -1,3 +1,8 @@
+
+
+
+
+
 <div class="titleDiv" >
   <h4><mat-icon aria-hidden="false"  svgIcon="menu_servei"></mat-icon> {{ "serviceEntity.service" | translate }}-{{(serviceID==-1?"new":"edit") | translate}}</h4>
   <span class="divider"></span>
@@ -122,7 +127,7 @@
             <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
             [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()' 
             [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-            (getAllRows)="getAllRowsParameters($event)" [actionButton]=true > </app-data-grid>
+            (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (new)="openParametersDialog($event)"> </app-data-grid>
         </div>
     </ng-template>
   
@@ -148,3 +153,52 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
+
+<ng-template #newParameterDialog>
+
+<div class="formDiv">
+  <form [formGroup]='parameterForm' #f="ngForm"> 
+
+
+    <div class="rowFormDiv">
+    
+        <div class="colFormDiv" >
+          <label class="formLabel requiredInput">
+            {{'serviceEntity.request' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="name" required>
+          </mat-form-field>
+        </div>
+
+        <div class="colFormDiv" >
+          <label class="formLabel requiredInput">
+            {{'serviceEntity.parameter' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="type" required>
+          </mat-form-field>
+        </div>
+
+
+   </div>
+
+   <div class="rowFormDiv">
+    
+    <div class="colFormDiv" >
+      <label class="formLabel requiredInput">
+        {{'serviceEntity.value' | translate}}
+      </label>
+      <mat-form-field appearance="outline">
+        <input matInput type="text" formControlName="value" required>
+      </mat-form-field>
+    </div>
+
+
+  </div>
+
+</form>
+</div>
+
+
+</ng-template>

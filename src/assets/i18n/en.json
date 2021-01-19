@@ -112,7 +112,8 @@
     "configurationParameters": "Configuration parameters",
     "layersToRegister": "Select the layers you want to register",
     "description": "Description",
-    "status": "Status"
+    "status": "Status",
+    "request":"Request"
   },
   "layersEntity": {
     "layers": "Layers",
@@ -192,6 +193,7 @@
     "generalData": "General Data",
     "application": "Application",
     "name": "Name",
+    "description": "Description",
     "type": "Type",
     "theme": "Theme",
     "srs": "Projection",

@@ -168,10 +168,10 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionToEdit.password=this.formConnection.value.password
     this.connectionToEdit.url=this.formConnection.value.url
     console.log(this.connectionToEdit);
-    this.connectionService.update(this.connectionToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-      });
+    // this.connectionService.update(this.connectionToEdit)
+    //   .subscribe(resp => {
+    //     console.log(resp);
+    //   });
   }
   
   // ******** Cartographies ******** //
@@ -191,11 +191,30 @@ export class ConnectionFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
+    let cartographiesModified = [];
+    let cartographiesToPut = [];
     this.connectionToEdit.cartographies = [];
     data.forEach(cartography => {
-      if(cartography.status!== 'Deleted') {this.connectionToEdit.cartographies.push(cartography._links.self) }
+      if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
     });
+    if (cartographiesModified.length >0)
+     {
+       console.log(cartographiesModified);
+       this.updateCartographies(cartographiesModified);
+
+     }
     console.log(this.connectionToEdit.cartographies);
+  }
+
+  updateCartographies(cartographiesModified: Cartography[])
+  {
+    const promises: Promise<any>[] = [];
+    cartographiesModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
 
@@ -217,9 +236,28 @@ export class ConnectionFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[] )
   {
-    this.connectionToEdit.tasks = [];
+    let tasksModified = [];
+    let tasksToPut = [];
     data.forEach(task => {
-      if(task.status!== 'Deleted') {this.connectionToEdit.tasks.push(task) }
+      if (task.status === 'Modified') {tasksModified.push(task) }
+      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self) }
+    });
+    if (tasksModified.length >0)
+     {
+       console.log(tasksModified);
+       this.updateTasks(tasksModified);
+     }
+
+  }
+
+  updateTasks(tasksModified: Task[])
+  {
+    const promises: Promise<any>[] = [];
+    tasksModified.forEach(task => {
+      promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      console.log('Ara tocaria fer els canvis')
     });
   }
   
@@ -292,18 +330,7 @@ export class ConnectionFormComponent implements OnInit {
   
     }
 
-    updateCartographies(cartographies: Cartography[])
-    {
-      const promises: Promise<any>[] = [];
-      cartographies.forEach(cartography => {
-        
-        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.http.put(`${this.connectionToEdit._links.cartographies.href}`,cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-        Promise.all(promises).then(() => {
-          this.dataUpdatedEvent.next(true);
-        });
-       
-      });
-    }
+ 
 
     //Save Button
     
@@ -312,9 +339,8 @@ export class ConnectionFormComponent implements OnInit {
       if(this.connectionID!== -1)
       {
         this.getAllElementsEventCartographies.next(true);
-        // this.getAllElementsEventTasks.next(true);
+        this.getAllElementsEventTasks.next(true);
         this.updateConnection();
-        this.dataUpdatedEvent.next(true);
       }
       else
       {

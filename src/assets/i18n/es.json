@@ -111,7 +111,8 @@
     "configurationParameters": "Parámetros de configuración",
     "layersToRegister": "Selecciona las capas que quieres dar de alta",
     "description": "Descripción",
-    "status": "Estado"
+    "status": "Estado",
+    "request":"Petición"
   },
   "layersEntity": {
     "layers": "Capas",
@@ -191,6 +192,7 @@
     "generalData": "Datos Generales",
     "application": "Aplicación",
     "name": "Nombre",
+    "description": "Descripción",
     "type": "Tipo",
     "theme": "Tema",
     "srs": "Projeccio",

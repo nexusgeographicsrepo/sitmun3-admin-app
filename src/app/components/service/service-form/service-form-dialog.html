@@ -1,0 +1,43 @@
+
+  <form [formGroup]='form' #f="ngForm"> 
+
+
+      <div class="rowFormDiv">
+      
+          <div class="colFormDiv" >
+            <label class="formLabel requiredInput">
+              {{'serviceEntity.request' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name" required>
+            </mat-form-field>
+          </div>
+
+          <div class="colFormDiv" >
+            <label class="formLabel requiredInput">
+              {{'serviceEntity.parameter' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="parameter" required>
+            </mat-form-field>
+          </div>
+  
+
+     </div>
+
+     <div class="rowFormDiv">
+      
+      <div class="colFormDiv" >
+        <label class="formLabel requiredInput">
+          {{'serviceEntity.value' | translate}}
+        </label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" formControlName="value" required>
+        </mat-form-field>
+      </div>
+
+
+    </div>
+
+</form>
+

@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService, CartographyService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, CartographyService, Cartography } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -308,11 +308,30 @@ export class ServiceFormComponent implements OnInit {
   }
 
 
+
+
   getAllRowsLayers(data: any[] )
   {
-    this.serviceToEdit.layers = [];
+    let layersModified = [];
+    let layersToPut = [];
     data.forEach(layer => {
-      if(layer.status!== 'Deleted') {this.serviceToEdit.layers.push(layer) }
+      if (layer.status === 'Modified') {layersModified.push(layer) }
+      if(layer.status!== 'Deleted') {layersToPut.push(layer._links.self) }
+    });
+    if (layersModified.length >0)
+    {
+       console.log(layersModified);
+       this.updateLayers(layersModified);
+    }
+  }
+
+  updateLayers(layersModified: Cartography[])
+  {
+    const promises: Promise<any>[] = [];
+    layersModified.forEach(layer => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(layer).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
     });
   }
 

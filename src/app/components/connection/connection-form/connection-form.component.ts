@@ -202,15 +202,20 @@ export class ConnectionFormComponent implements OnInit {
     if (cartographiesModified.length >0)
      {
        console.log(cartographiesModified);
-      const promises: Promise<any>[] = [];
-      cartographiesModified.forEach(cartography => {
-        promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
-      });
-      Promise.all(promises).then(() => {
-        console.log('Ara tocaria fer els canvis')
-      });
+       this.updateCartographies(cartographiesModified);
+
      }
     console.log(this.connectionToEdit.cartographies);
+  }
+
+  updateCartographies(cartographiesModified: Cartography[])
+  {
+    const promises: Promise<any>[] = [];
+    cartographiesModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
 
@@ -241,15 +246,20 @@ export class ConnectionFormComponent implements OnInit {
     if (tasksModified.length >0)
      {
        console.log(tasksModified);
-      const promises: Promise<any>[] = [];
-      tasksModified.forEach(task => {
-        promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
-      });
-      Promise.all(promises).then(() => {
-        console.log('Ara tocaria fer els canvis')
-      });
+       this.updateTasks(tasksModified);
      }
 
+  }
+
+  updateTasks(tasksModified: Task[])
+  {
+    const promises: Promise<any>[] = [];
+    tasksModified.forEach(task => {
+      promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      console.log('Ara tocaria fer els canvis')
+    });
   }
   
   // ******** Cartography Dialog  ******** //
@@ -321,18 +331,7 @@ export class ConnectionFormComponent implements OnInit {
   
     }
 
-    updateCartographies(cartographies: Cartography[])
-    {
-      const promises: Promise<any>[] = [];
-      cartographies.forEach(cartography => {
-        
-        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.http.put(`${this.connectionToEdit._links.cartographies.href}`,cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-        Promise.all(promises).then(() => {
-          this.dataUpdatedEvent.next(true);
-        });
-       
-      });
-    }
+ 
 
     //Save Button
     

@@ -111,7 +111,8 @@
     "configurationParameters": "Paràmetres de configuració",
     "layersToRegister": "Selecciona les capes que vols donar d'alta",
     "description": "Descripció",
-    "status": "Estat"
+    "status": "Estat",
+    "request":"Petició"
   },
   "layersEntity": {
     "layers": "Capes",
@@ -151,7 +152,7 @@
     "thematic": "Tematitzable",
     "generalData": "Dades Generals",
     "municipalFilter": "Filtre Municipal",
-    "alias": "àlies",
+    "alias": "Àlies",
     "status": "Estat"
   },
   "layersPermitsEntity": {

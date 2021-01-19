@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, CartographyGroupService, TerritoryService, Territory } from 'dist/sitmun-frontend-core/';
+import { CartographyService, CartographyGroupService, TerritoryService, Territory, ApplicationService } from 'dist/sitmun-frontend-core/';
 import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -51,7 +51,11 @@ export class LayersFormComponent implements OnInit {
 
   //Dialog
   columnDefsParametersDialog: any[];
+  public parameterForm: FormGroup;
   addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  @ViewChild('newParameterDialog',{
+    static: true
+  }) private newParameterDialog: TemplateRef <any>;
 
   columnDefsCartographyGroupsDialog: any[];
   addElementsEventCartographyGroups: Subject<any[]> = new Subject <any[]>();
@@ -78,6 +82,7 @@ export class LayersFormComponent implements OnInit {
     this.initializeLayersForm();
     this.initializeMunicipalForm();
     this.initializeInformationForm();
+    this.initializeParameterForm();
 
     this.activatedRoute.params.subscribe(params => {
       this.layerID = +params.id;
@@ -319,6 +324,16 @@ export class LayersFormComponent implements OnInit {
     })
   }
 
+  initializeParameterForm(): void {
+    this.parameterForm = new FormGroup({
+      field: new FormControl(null, []),
+      alias: new FormControl(null, []),
+      format: new FormControl(null, []),
+      type: new FormControl(null, []),
+      order: new FormControl(null, []),
+    })
+  }
+
 
 
   addNewLayer() {
@@ -466,20 +481,19 @@ export class LayersFormComponent implements OnInit {
 
   openParametersDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
-    dialogRef.componentInstance.getAllsTable = [this.getAllParametersDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsParametersDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.parametersConfiguration');
-    dialogRef.componentInstance.titlesTable = [''];
-    dialogRef.componentInstance.nonEditable = false;
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
+    dialogRef.componentInstance.title=this.utils.getTranslate('layersEntity.parametersConfiguration');
+
 
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if( result.event==='Add') { 
-          this.addElementsEventParameters.next(result.data[0])
+          let item= this.parameterForm.value;
+          this.addElementsEventParameters.next([item])
+          console.log(this.parameterForm.value)
+          this.parameterForm.reset();
         }
       }
     });

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { TerritoryService, TerritoryGroupTypeService, CartographyService, UserService, RoleService, TaskService,UserConfigurationService } from 'dist/sitmun-frontend-core/';
+import { TerritoryService, TerritoryGroupTypeService, CartographyService, UserService, RoleService, TaskService,UserConfigurationService } from '@sitmun/frontend-core';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';

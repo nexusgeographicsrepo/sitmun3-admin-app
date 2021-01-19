@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayersPermitsFormComponent } from './layers-permits-form.component';
 import { RouterModule } from '@angular/router';
-import { CartographyGroupService, RoleService, CartographyService } from 'dist/sitmun-frontend-core/';
+import { CartographyGroupService, RoleService, CartographyService } from '@sitmun/frontend-core';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';

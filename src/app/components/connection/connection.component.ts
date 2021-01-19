@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Connection } from 'dist/sitmun-frontend-core/connection/connection.model';
-import { ConnectionService } from 'dist/sitmun-frontend-core/';
+import { ConnectionService, Connection } from '@sitmun/frontend-core';
 import { UtilsService } from '../../services/utils.service';
 
 import { Router } from '@angular/router';

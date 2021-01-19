@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
-import { HalOptions, HalParam, CodeListService  } from 'dist/sitmun-frontend-core/';
+import { HalOptions, HalParam, CodeListService  } from '@sitmun/frontend-core';
 @Injectable({
   providedIn: 'root'
 })

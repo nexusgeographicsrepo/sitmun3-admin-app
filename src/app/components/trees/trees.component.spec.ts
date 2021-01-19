@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TreesComponent } from './trees.component';
-import { TreeService } from 'dist/sitmun-frontend-core/';
+import { TreeService } from '@sitmun/frontend-core';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';

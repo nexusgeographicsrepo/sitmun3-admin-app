@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayersPermitsComponent } from './layers-permits.component';
-import { CartographyGroupService } from 'dist/sitmun-frontend-core/';
+import { CartographyGroupService } from '@sitmun/frontend-core';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';

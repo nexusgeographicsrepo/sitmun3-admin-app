@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { TreeService, Tree } from 'dist/sitmun-frontend-core/';
+import { TreeService, Tree } from '@sitmun/frontend-core';
 import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -51,7 +51,7 @@ export class TreesComponent implements OnInit {
   }
 
   newData(id: any) {
-    // this.router.navigate(['trees', id, 'treesForm']);
+    this.router.navigate(['trees', id, 'treesForm']);
   }
 
   applyChanges(data: Tree[]) {

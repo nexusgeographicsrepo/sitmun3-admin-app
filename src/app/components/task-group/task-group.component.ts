@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { TaskGroupService, TaskGroup } from 'dist/sitmun-frontend-core/';
+import { TaskGroupService, TaskGroup } from '@sitmun/frontend-core';
 import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';

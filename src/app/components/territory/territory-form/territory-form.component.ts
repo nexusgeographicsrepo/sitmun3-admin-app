@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Territory, TerritoryService, TerritoryGroupTypeService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role } from 'dist/sitmun-frontend-core/';
+import { Territory, TerritoryService, TerritoryGroupTypeService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -420,13 +420,33 @@ export class TerritoryFormComponent implements OnInit {
   }
 
 
+
   getAllRowsMembersOf(data: any[] )
   {
-    this.territoryToEdit.memberOf = [];
+    let territoriesModified = [];
+    let territoriesToPut = [];
     data.forEach(territory => {
-      if(territory.status!== 'Deleted') {this.territoryToEdit.memberOf.push(territory) }
+      if (territory.status === 'Modified') {territoriesModified.push(territory) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
     });
-    console.log(this.territoryToEdit.memberOf);
+    if (territoriesModified.length >0)
+    {
+       console.log(territoriesModified);
+       this.updateTerritoriesMembersOf(territoriesModified);
+    }
+  }
+
+  updateTerritoriesMembersOf(territoriesModified: Territory[])
+  {
+    debugger;
+    const promises: Promise<any>[] = [];
+    territoriesModified.forEach(territory => {
+      console.log('modifico')
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      console.log('updated')
+    });
   }
 
 
@@ -440,11 +460,33 @@ export class TerritoryFormComponent implements OnInit {
 
 
 
+
+
   getAllRowsMembers(data: any[] )
   {
-    this.territoryToEdit.members = [];
+    let territoriesModified = [];
+    let territoriesToPut = [];
     data.forEach(territory => {
-      if(territory.status!== 'Deleted') {this.territoryToEdit.members.push(territory) }
+      if (territory.status === 'Modified') {territoriesModified.push(territory) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
+    });
+    if (territoriesModified.length >0)
+    {
+       console.log(territoriesModified);
+       this.updateTerritoriesMembersOf(territoriesModified);
+    }
+  }
+
+  updateTerritoriesMembers(territoriesModified: Territory[])
+  {
+    debugger;
+    const promises: Promise<any>[] = [];
+    territoriesModified.forEach(territory => {
+      console.log('modifico')
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      console.log('updated')
     });
   }
 
@@ -460,11 +502,27 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
-    this.territoryToEdit.cartographyAvailabilities = [];
+    let cartographiesModified = [];
+    let cartographiesToPut = [];
     data.forEach(cartography => {
-      if(cartography.status!== 'Deleted') {this.territoryToEdit.cartographyAvailabilities.push(cartography) }
+      if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
     });
+    if (cartographiesModified.length >0)
+    {
+       console.log(cartographiesModified);
+       this.updateCartographies(cartographiesModified);
+    }
+  }
 
+  updateCartographies(cartographiesModified: Cartography[])
+  {
+    const promises: Promise<any>[] = [];
+    cartographiesModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
   // ******** Task ******** //
@@ -481,11 +539,28 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[] )
   {
-    this.territoryToEdit.taskAvailabilities = [];
+    let tasksModified = [];
+    let tasksToPut = [];
     data.forEach(task => {
-      if(task.status!== 'Deleted') {this.territoryToEdit.taskAvailabilities.push(task) }
+      if (task.status === 'Modified') {tasksModified.push(task) }
+      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self) }
     });
+    if (tasksModified.length >0)
+    {
+       console.log(tasksModified);
+       this.updateTasks(tasksModified);
+    }
 
+  }
+
+  updateTasks(tasksModified: Task[])
+  {
+    const promises: Promise<any>[] = [];
+    tasksModified.forEach(task => {
+      promises.push(new Promise((resolve, reject) => { this.taskService.update(task).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
   

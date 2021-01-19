@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role, ApplicationService } from 'dist/sitmun-frontend-core/';
+import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role, ApplicationService, Task, Cartography, Application } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -256,8 +256,27 @@ export class RoleFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[] )
   {
-    //N M
-    console.log(data);
+    let tasksModified = [];
+    let tasksToPut = [];
+    data.forEach(task => {
+      if (task.status === 'Modified') {tasksModified.push(task) }
+      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self) }
+    });
+    if (tasksModified.length >0)
+    {
+       console.log(tasksModified);
+       this.updateTasks(tasksModified);
+    }
+  }
+
+  updateTasks(tasksModified: Task[])
+  {
+    const promises: Promise<any>[] = [];
+    tasksModified.forEach(task => {
+      promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
   // ******** Cartography ******** //
@@ -272,7 +291,27 @@ export class RoleFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
-    console.log(data);
+    let cartographiesModified = [];
+    let cartographiesToPut = [];
+    data.forEach(cartography => {
+      if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
+    });
+    if (cartographiesModified.length >0)
+    {
+       console.log(cartographiesModified);
+       this.updateCartographies(cartographiesModified);
+    }
+  }
+
+  updateCartographies(cartographiesModified: Cartography[])
+  {
+    const promises: Promise<any>[] = [];
+    cartographiesModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
     // ******** Applications ******** //
@@ -292,31 +331,28 @@ export class RoleFormComponent implements OnInit {
   
     getAllRowsApplications(data: any[] )
     {
-      console.log(data);
-      let applicationUriIdentificators:any[] = [];
+  
+      let applicationsModified = [];
+      let applicationsToPut = [];
       data.forEach(application => {
-        if(application.status!== 'Deleted') applicationUriIdentificators.push((application._links.self.href)); 
+        if (application.status === 'Modified') {applicationsModified.push(application) }
+        if(application.status!== 'Deleted') {applicationsToPut.push(application._links.self) }
       });
-      console.log(applicationUriIdentificators);
-      let urlReq="http://localhost:8080/api/roles/10/applications";
-      // var urlReq = `${this.formRole.value._links.applications.href}`
-       
-      // if (this.formRole.value._links.applications.templated) {
-       //  var url = new URL(urlReq.split("{")[0]);
-       //  url.searchParams.append("projection", "view")
-       //  urlReq = url.toString();
-      //  let splitString= urlReq.split("%",1);
-      //  urlReq=splitString[0];
-      // }
+      if (applicationsModified.length >0)
+      {
+         console.log(applicationsModified);
+         this.updateApplications(applicationsModified);
+      }
+    }
 
-      // var urlReq = `${this.formRole.value._links.applications.href}`
-      // if (this.formRole.value._links.applications.templated) {
-      //   var url = new URL(urlReq.split("{")[0]);
-      //   url.searchParams.append("projection", "view")
-      //   urlReq = url.toString();
-      // }
-
-      return (this.http.put(urlReq ,data)).subscribe(result => console.log(result));
+    updateApplications(applicationsModified: Application[])
+    {
+      const promises: Promise<any>[] = [];
+      applicationsModified.forEach(application => {
+        promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).toPromise().then((resp) => { resolve() }) }));
+      });
+      Promise.all(promises).then(() => {
+      });
     }
   
     

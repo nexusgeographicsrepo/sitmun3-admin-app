@@ -192,6 +192,7 @@
     "generalData": "Dades Generals",
     "application": "Aplicació",
     "name": "Nom",
+    "description": "Descripció",
     "type": "Tipus",
     "theme": "Tema",
     "srs": "Projeccio",

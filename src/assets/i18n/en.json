@@ -193,6 +193,7 @@
     "generalData": "General Data",
     "application": "Application",
     "name": "Name",
+    "description": "Description",
     "type": "Type",
     "theme": "Theme",
     "srs": "Projection",

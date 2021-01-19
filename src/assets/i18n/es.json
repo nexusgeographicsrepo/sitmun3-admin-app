@@ -192,6 +192,7 @@
     "generalData": "Datos Generales",
     "application": "Aplicación",
     "name": "Nombre",
+    "description": "Descripción",
     "type": "Tipo",
     "theme": "Tema",
     "srs": "Projeccio",

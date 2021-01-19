@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -63,6 +63,7 @@ export class ApplicationFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicationService: ApplicationService,
+    private backgroundService: BackgroundService,
     private roleService: RoleService,
     private treeService: TreeService,
     private http: HttpClient,
@@ -162,7 +163,7 @@ export class ApplicationFormComponent implements OnInit {
     this.columnDefsRoles = [
 
       environment.selCheckboxColumnDef,
-      { headerName: "Id", field: 'id' },
+      { headerName: "ID", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
 
@@ -172,9 +173,9 @@ export class ApplicationFormComponent implements OnInit {
     this.columnDefsBackgrounds = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('applicationEntity.background'), field: 'background' },
-      { headerName: this.utils.getTranslate('applicationEntity.selectedBackground'), field: 'selectedBackground' },
-      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+      { headerName: "ID", field: 'id' },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.description'), field: 'description' },
 
 
     ];
@@ -540,9 +541,7 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Background Dialog  ******** //
 
   getAllBackgroundDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
+    return this.backgroundService.getAll();
   }
   
   openBackgroundDialog(data: any) {

@@ -214,7 +214,7 @@ export class LayersFormComponent implements OnInit {
 
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territory.id' },
+      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territoryCode' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status' },
 
@@ -416,7 +416,27 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsSpatialConfiguration(data: any[] )
   {
-    console.log(data);
+    let spatialSelectionsModified = [];
+    let spatialSelectionsToPut = [];
+    data.forEach(spatialSelection => {
+      if (spatialSelection.status === 'Modified') {spatialSelectionsModified.push(spatialSelection) }
+      if(spatialSelection.status!== 'Deleted') {spatialSelectionsToPut.push(spatialSelection._links.self) }
+    });
+    if (spatialSelectionsModified.length >0)
+    {
+       console.log(spatialSelectionsModified);
+       this.updateSpatialConfiguration(spatialSelectionsModified);
+    }
+  }
+
+  updateSpatialConfiguration(spatialConfigurationsModified: any[])
+  {
+    // const promises: Promise<any>[] = [];
+    // spatialConfigurationsModified.forEach(spatialSelection => {
+    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(spatialSelection).toPromise().then((resp) => { resolve() }) }));
+    // });
+    // Promise.all(promises).then(() => {
+    // });
   }
 
   // ******** Territories ******** //
@@ -440,8 +460,32 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsTerritories(data: any[] )
   {
-    console.log(data);
+    let territoriesModified = [];
+    let territoriesToPut = [];
+    data.forEach(territory => {
+      if (territory.status === 'Modified') {territoriesModified.push(territory) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
+    });
+    if (territoriesModified.length >0)
+    {
+       console.log(territoriesModified);
+       this.updateTerritories(territoriesModified);
+    }
   }
+
+  updateTerritories(territoriesModified: Territory[])
+  {
+    debugger;
+    const promises: Promise<any>[] = [];
+    territoriesModified.forEach(territory => {
+      console.log('modifico')
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      console.log('updated')
+    });
+  }
+  
 
   // ******** Layers configuration ******** //
   getAllLayersConfiguration = (): Observable<any> => {
@@ -468,7 +512,27 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsNodes(data: any[] )
   {
-    console.log(data);
+    let nodesModified = [];
+    let nodesToPut = [];
+    data.forEach(node => {
+      if (node.status === 'Modified') {nodesModified.push(node) }
+      if(node.status!== 'Deleted') {nodesToPut.push(node._links.self) }
+    });
+    if (nodesModified.length >0)
+    {
+       console.log(nodesModified);
+       this.updateNodes(nodesModified);
+    }
+  }
+
+  updateNodes(nodesModified: any[])
+  {
+    // const promises: Promise<any>[] = [];
+    // nodesModified.forEach(node => {
+    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(node).toPromise().then((resp) => { resolve() }) }));
+    // });
+    // Promise.all(promises).then(() => {
+    // });
   }
 
   // ******** Parameters Dialog  ******** //

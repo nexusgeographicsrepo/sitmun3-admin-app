@@ -168,9 +168,16 @@
     "status": "Estat"
   },
   "treesEntity": {
+    "generalData": "Dades Generals",
     "trees": "Arbres",
     "name": "Nom",
-    "status": "Estat"
+    "status": "Estat",
+    "tooltip": "Tooltip",
+    "radio": "Radio",
+    "visible": "Visible",
+    "cartography":"Cartografia",
+    "configuration" : "Configuració"
+
   },
   "taskGroupEntity": {
     "generalData": "Dades Generals",

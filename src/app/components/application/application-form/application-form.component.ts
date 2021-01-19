@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -378,7 +378,31 @@ export class ApplicationFormComponent implements OnInit {
   getAllRowsTemplates(data: any[] )
   {
     console.log(data);
+    // let templatesModified = [];
+    // let templatesToPut = [];
+    // data.forEach(template => {
+    //   if (template.status === 'Modified') {templatesModified.push(template) }
+    //   if(template.status!== 'Deleted') {templatesToPut.push(template._links.self) }
+    // });
+    // if (templatesModified.length >0)
+    // {
+    //    console.log(templatesModified);
+    //    this.updateTemplates(templatesModified);
+    // }
   }
+
+  updateTemplates(templatesModified: any[])
+  {
+    // const promises: Promise<any>[] = [];
+    // templatesModified.forEach(template => {
+    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(template).toPromise().then((resp) => { resolve() }) }));
+    // });
+    // Promise.all(promises).then(() => {
+    //   console.log('Ara tocaria fer els canvis')
+    // });
+  }
+  
+  
 
 
   // ******** Roles ******** //
@@ -390,11 +414,29 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
-    this.applicationToEdit.availableRoles = [];
+    let rolesModified = [];
+    let rolesToPut = [];
     data.forEach(role => {
-      if(role.status!== 'Deleted') {this.applicationToEdit.availableRoles.push(role) }
+      if (role.status === 'Modified') {rolesModified.push(role) }
+      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self) }
+    });
+    if (rolesModified.length >0)
+    {
+       console.log(rolesModified);
+       this.updateRoles(rolesModified);
+    }
+  }
+
+  updateRoles(rolesModified: Role[])
+  {
+    const promises: Promise<any>[] = [];
+    rolesModified.forEach(role => {
+      promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
     });
   }
+  
  
 
   // ******** Background ******** //
@@ -416,11 +458,29 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsBackgrounds(data: any[] )
   {
-    this.applicationToEdit.backgrounds = [];
+    let backgroundsModified = [];
+    let backgroundsToPut = [];
     data.forEach(background => {
-      if(background.status!== 'Deleted') {this.applicationToEdit.backgrounds.push(background) }
+      if (background.status === 'Modified') {backgroundsModified.push(background) }
+      if(background.status!== 'Deleted') {backgroundsToPut.push(background._links.self) }
+    });
+    if (backgroundsModified.length >0)
+    {
+       console.log(backgroundsModified);
+       this.updateBackgrounds(backgroundsModified);
+    }
+  }
+
+  updateBackgrounds(backgroundsModified: Background[])
+  {
+    const promises: Promise<any>[] = [];
+    backgroundsModified.forEach(background => {
+      promises.push(new Promise((resolve, reject) => { this.backgroundService.update(background).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
     });
   }
+  
 
   // ******** Trees ******** //
 
@@ -441,11 +501,27 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsTrees(data: any[] )
   {
-    this.applicationToEdit.trees = [];
+    let treesModified = [];
+    let treesToPut = [];
     data.forEach(tree => {
-      if(tree.status!== 'Deleted') {this.applicationToEdit.trees.push(tree) }
+      if (tree.status === 'Modified') {treesModified.push(tree) }
+      if(tree.status!== 'Deleted') {treesToPut.push(tree._links.self) }
     });
-    console.log(this.applicationToEdit.trees)
+    if (treesModified.length >0)
+    {
+       console.log(treesModified);
+       this.updateTrees(treesModified);
+    }
+  }
+
+  updateTrees(treesModified: Tree[])
+  {
+    const promises: Promise<any>[] = [];
+    treesModified.forEach(tree => {
+      promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
   }
 
 

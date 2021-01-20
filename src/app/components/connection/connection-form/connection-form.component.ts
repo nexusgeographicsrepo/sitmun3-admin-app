@@ -168,10 +168,10 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionToEdit.password=this.formConnection.value.password
     this.connectionToEdit.url=this.formConnection.value.url
     console.log(this.connectionToEdit);
-    // this.connectionService.update(this.connectionToEdit)
-    //   .subscribe(resp => {
-    //     console.log(resp);
-    //   });
+    this.connectionService.update(this.connectionToEdit)
+      .subscribe(resp => {
+        console.log(resp);
+      });
   }
   
   // ******** Cartographies ******** //
@@ -208,8 +208,9 @@ export class ConnectionFormComponent implements OnInit {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.connectionToEdit._links.cartographies.href.split('{', 1)[0];
-      this.utils.updateUriList(url,cartographiesToPut)
+      // let url=this.connectionToEdit._links.cartographies.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,cartographiesToPut)
+      this.connectionToEdit.cartographies=this.utils.createUriList(cartographiesToPut);
     });
   }
 

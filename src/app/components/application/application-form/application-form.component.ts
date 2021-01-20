@@ -691,11 +691,11 @@ export class ApplicationFormComponent implements OnInit {
 
       if(this.applicationID !== -1)
       {
-        this.getAllElementsEventParameters.next(true);
-        this.getAllElementsEventTemplateConfiguration.next(true);
-        this.getAllElementsEventRoles.next(true);
-        this.getAllElementsEventBackground.next(true);
-        this.getAllElementsEventTree.next(true);
+        // this.getAllElementsEventParameters.next(true);
+        // this.getAllElementsEventTemplateConfiguration.next(true);
+        // this.getAllElementsEventRoles.next(true);
+        // this.getAllElementsEventBackground.next(true);
+        // this.getAllElementsEventTree.next(true);
         this.updateApplication();
 
       }

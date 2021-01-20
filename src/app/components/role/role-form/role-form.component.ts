@@ -239,8 +239,42 @@ export class RoleFormComponent implements OnInit {
 
   getAllRowsUsers(data: any[] )
   {
-    //N M
-    console.log(data);
+    let usersConfToCreate = [];
+    let usersConfDelete = [];
+    data.forEach(userConf => {
+      let item = {
+        role: this.roleToEdit._links.self.href,
+        territory: userConf.territoryLink,
+        user: userConf.userLink,
+      }
+      if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
+      if(userConf.status === 'Deleted') {usersConfDelete.push(item) }
+    });
+
+    usersConfToCreate.forEach(newElement => {
+
+      this.userConfigurationService.create(newElement).subscribe(
+        result => {
+          console.log(result)
+        })
+      // this.http.post(`http://localhost:8080/api/cartography-availabilities`,newElement).subscribe(
+      //   result => {
+      //     console.log(result)
+      //   }
+      // )
+      
+    });
+
+    usersConfDelete.forEach(deletedElement => {
+
+
+      this.userConfigurationService.delete(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        })
+
+      
+    });
   }
 
   // ******** Task ******** //
@@ -463,11 +497,12 @@ export class RoleFormComponent implements OnInit {
             let item = {
               user: user.username,
               'user.id': user.id,
+              userLink: user._links.self.href,
               role: role.name,
               'role.id': role.id,
               territory: territory.name,
               'territory.id': territory.id,
-              _links: null
+              territoryLink: territory._links.self.href
             }
             itemsToAdd.push(item);
           })
@@ -537,9 +572,9 @@ export class RoleFormComponent implements OnInit {
     if(this.roleID !== -1)
     {
       // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+      this.getAllElementsEventUsers.next(true);
       this.getAllElementsEventApplications.next(true);
       this.updateRole();
-      this.dataUpdatedEvent.next(true);
     }
     else { this.addNewRole() }
 

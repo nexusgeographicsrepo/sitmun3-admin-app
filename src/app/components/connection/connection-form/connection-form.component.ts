@@ -3,7 +3,7 @@ import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConnectionService, CartographyService, TaskService, Cartography, Task, Connection } from '@sitmun/frontend-core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -196,25 +196,45 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionToEdit.cartographies = [];
     data.forEach(cartography => {
       if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
     });
-    if (cartographiesModified.length >0)
+    if (cartographiesModified.length >=0)
      {
        console.log(cartographiesModified);
-       this.updateCartographies(cartographiesModified);
-
+       this.updateCartographies(cartographiesModified, cartographiesToPut );
      }
     console.log(this.connectionToEdit.cartographies);
   }
 
-  updateCartographies(cartographiesModified: Cartography[])
+  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
     cartographiesModified.forEach(cartography => {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url='http://localhost:8080/api/connections/2/cartographies';
+      this.updateUriList(url,cartographiesToPut)
     });
+  }
+
+  updateUriList(requestURI: string, data: any[] ) {
+    let contentType = 'Content-Type: text/uri-list';
+    return this.http
+          .put(requestURI
+              , this.createUriList(data), {headers: new HttpHeaders({'Content-Type': 'text/uri-list', 'Charset': 'UTF-8'})}).subscribe(
+                result => console.log(result)
+              ) 
+
+  }
+  
+  createUriList(data: any[]) {
+    let putRequestLine = '';
+    data.forEach(item => {    
+      putRequestLine += `${item}`+'\n';       
+    });
+    console.log(putRequestLine);
+    return putRequestLine;
   }
 
 

@@ -154,9 +154,6 @@ export class LayersPermitsFormComponent implements OnInit {
     console.log(this.formLayersPermits.value);
     this.layersPermitsToEdit.name=this.formLayersPermits.value.name;
     this.layersPermitsToEdit.type=this.formLayersPermits.value.type;
-    delete this.layersPermitsToEdit._links['members'];
-    delete this.layersPermitsToEdit._links['roles'];
-    delete this.layersPermitsToEdit._links['situationMap'];
     console.log( this.layersPermitsToEdit);
     this.cartographyGroupService.update(this.layersPermitsToEdit)
       .subscribe(resp => {
@@ -190,22 +187,21 @@ export class LayersPermitsFormComponent implements OnInit {
     let cartographiesToPut = [];
     data.forEach(cartography => {
       if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
     });
-    if (cartographiesModified.length >0)
-    {
-       console.log(cartographiesModified);
-       this.updateCartographies(cartographiesModified);
-    }
+    console.log(cartographiesModified);
+    this.updateCartographies(cartographiesModified, cartographiesToPut);
   }
 
-  updateCartographies(cartographiesModified: Cartography[])
+  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
     cartographiesModified.forEach(cartography => {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.layersPermitsToEdit._links.members.href.split('{', 1)[0];
+      this.utils.updateUriList(url,cartographiesToPut)
     });
   }
 
@@ -226,22 +222,21 @@ export class LayersPermitsFormComponent implements OnInit {
     let rolesToPut = [];
     data.forEach(role => {
       if (role.status === 'Modified') {rolesModified.push(role) }
-      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self) }
+      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self.href) }
     });
-    if (rolesModified.length >0)
-    {
-       console.log(rolesModified);
-       this.updateRoles(rolesModified);
-    }
+    console.log(rolesModified);
+    this.updateRoles(rolesModified, rolesToPut);
   }
 
-  updateRoles(rolesModified: Role[])
+  updateRoles(rolesModified: Role[], rolesToPut: Role[])
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.layersPermitsToEdit._links.roles.href.split('{', 1)[0];
+      this.utils.updateUriList(url,rolesToPut)
     });
   }
 

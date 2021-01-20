@@ -284,10 +284,9 @@ export class ServiceFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.serviceToEdit.parameters = [];
-    data.forEach(parameter => {
-      if(parameter.status!== 'Deleted') {this.serviceToEdit.parameters.push(parameter) }
-    });
+    // data.forEach(parameter => {
+    //   if(parameter.status!== 'Deleted') {this.serviceToEdit.parameters.push(parameter) }
+    // });
 
   }
 
@@ -313,24 +312,23 @@ export class ServiceFormComponent implements OnInit {
   {
     let layersModified = [];
     let layersToPut = [];
-    data.forEach(layer => {
-      if (layer.status === 'Modified') {layersModified.push(layer) }
-      if(layer.status!== 'Deleted') {layersToPut.push(layer._links.self) }
+    data.forEach(cartography => {
+      if (cartography.status === 'Modified') {layersModified.push(cartography) }
+      if(cartography.status!== 'Deleted') {layersToPut.push(cartography._links.self.href) }
     });
-    if (layersModified.length >0)
-    {
-       console.log(layersModified);
-       this.updateLayers(layersModified);
-    }
+
+    this.updateLayers(layersModified, layersToPut );
   }
 
-  updateLayers(layersModified: Cartography[])
+  updateLayers(layersModified: Cartography[], layersToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
-    layersModified.forEach(layer => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(layer).toPromise().then((resp) => { resolve() }) }));
+    layersModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.serviceToEdit._links.layers.href.split('{', 1)[0];
+      this.utils.updateUriList(url,layersToPut)
     });
   }
 

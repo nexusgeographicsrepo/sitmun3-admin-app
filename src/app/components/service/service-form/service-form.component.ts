@@ -334,11 +334,6 @@ export class ServiceFormComponent implements OnInit {
 
   // ******** Parameters Dialog  ******** //
 
-  getAllParametersDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
-  }
 
   openParametersDialog(data: any) {
   

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 
 
@@ -49,15 +49,23 @@ export class ApplicationFormComponent implements OnInit {
   //Dialogs
 
   columnDefsParametersDialog: any[];
+  public parameterForm: FormGroup;
   getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
+  @ViewChild('newParameterDialog',{
+    static: true
+  }) private newParameterDialog: TemplateRef <any>;
   columnDefsTemplateConfigurationDialog: any[];
   getAllElementsEventTemplateConfiguration: Subject<boolean> = new Subject <boolean>();
+  
   columnDefsRolesDialog: any[];
   getAllElementsEventRoles: Subject<boolean> = new Subject <boolean>();
+ 
   columnDefsBackgroundDialog: any[];
   getAllElementsEventBackground: Subject<boolean> = new Subject <boolean>();
+  
   columnDefsTreeDialog: any[];
   getAllElementsEventTree: Subject<boolean> = new Subject <boolean>();
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -71,6 +79,7 @@ export class ApplicationFormComponent implements OnInit {
     private cartographyGroupService: CartographyGroupService,
   ) {
     this.initializeApplicationForm();
+    this.initializeParameterForm();
   }
 
 
@@ -315,6 +324,15 @@ export class ApplicationFormComponent implements OnInit {
 
   }
 
+  initializeParameterForm(): void {
+    this.parameterForm = new FormGroup({
+      name: new FormControl(null, []),
+      type: new FormControl(null, []),
+      value: new FormControl(null, []),
+
+    })
+  }
+
   addNewApplication() {
     console.log(this.applicationForm.value);
     this.applicationService.create(this.applicationForm.value)
@@ -526,30 +544,24 @@ export class ApplicationFormComponent implements OnInit {
 
   // ******** Parameters Dialog  ******** //
 
-  getAllParametersDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
-  }
 
   openParametersDialog(data: any) {
+  
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
+    dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
 
-    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
-    dialogRef.componentInstance.getAllsTable = [this.getAllParametersDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsParametersDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.parametersConfiguration");
-    dialogRef.componentInstance.titlesTable = [''];
-    dialogRef.componentInstance.nonEditable = false;
-
+    
 
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
-          console.log(result.data);
-          this.addElementsEventParameters.next(result.data[0])
+          let item= this.parameterForm.value;
+          this.addElementsEventParameters.next([item])
+          console.log(this.parameterForm.value)
+          this.parameterForm.reset();
+          
         }
       }
 

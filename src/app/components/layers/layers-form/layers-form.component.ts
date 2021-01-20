@@ -476,7 +476,7 @@ export class LayersFormComponent implements OnInit {
 
     territoriesToDelete.forEach(deletedElement => {
 
-      this.http.delete(`http://localhost:8080/api/cartography-availabilities`,deletedElement.id).subscribe(
+      this.http.delete(deletedElement._links.self.href).subscribe(
         result => {
           console.log(result)
         }

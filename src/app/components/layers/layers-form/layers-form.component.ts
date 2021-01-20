@@ -214,9 +214,9 @@ export class LayersFormComponent implements OnInit {
 
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territoryCode' },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName' },
-      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territoryCode', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable: false },
 
     ];
 
@@ -236,7 +236,7 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'nodeName' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'description' },
       { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'tree', },
-      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable: false },
     ];
 
     this.columnDefsParametersDialog = [
@@ -440,49 +440,8 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
-    const aux: Array<any> = [];
-    return of(aux);
-
-    // var urlReq = `${this.layerForm.value._links.availabilities.href}`
-    // if (this.layerForm.value._links.availabilities.templated) {
-    //   var url = new URL(urlReq.split("{")[0]);
-    //   url.searchParams.append("projection", "view")
-    //   urlReq = url.toString();
-    // }
-
-    // return (this.http.get(urlReq))
-    //   .pipe(map(data => data['_embedded']['cartography-availabilities']));
 
 
-  }
-
-  getAllRowsTerritories(data: any[] )
-  {
-    let territoriesModified = [];
-    let territoriesToPut = [];
-    data.forEach(territory => {
-      if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
-    });
-       console.log(territoriesModified);
-       this.updateTerritories(territoriesModified, territoriesToPut);
-  }
-
-  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[])
-  {
-    const promises: Promise<any>[] = [];
-    territoriesModified.forEach(territory => {
-      // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
-    });
-    Promise.all(promises).then(() => {
-      // let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
-      // this.utils.updateUriList(url,territoriesToPut)
-    });
-  }
-  
-
-  // ******** Layers configuration ******** //
-  getAllLayersConfiguration = (): Observable<any> => {
     var urlReq = `${this.layerForm.value._links.availabilities.href}`
     if (this.layerForm.value._links.availabilities.templated) {
       var url = new URL(urlReq.split("{")[0]);
@@ -492,6 +451,69 @@ export class LayersFormComponent implements OnInit {
 
     return (this.http.get(urlReq))
       .pipe(map(data => data['_embedded']['cartography-availabilities']));
+
+
+  }
+
+  getAllRowsTerritories(data: any[] )
+  {
+    let territoriesToCreate = [];
+    let territoriesToDelete = [];
+    data.forEach(territory => {
+      if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
+      if(territory.status === 'Deleted') {territoriesToDelete.push(territory) }
+    });
+
+    territoriesToCreate.forEach(newElement => {
+
+      this.http.post(`http://localhost:8080/api/cartography-availabilities`,newElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
+
+    territoriesToDelete.forEach(deletedElement => {
+
+      this.http.delete(`http://localhost:8080/api/cartography-availabilities`,deletedElement.id).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
+      //  console.log(territoriesModified);
+      //  this.updateTerritories(territoriesModified, territoriesToPut);
+  }
+
+  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[])
+  {
+    const promises: Promise<any>[] = [];
+    territoriesModified.forEach(territory => {
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
+      this.utils.updateUriList(url,territoriesToPut)
+    });
+  }
+  
+
+  // ******** Layers configuration ******** //
+  getAllLayersConfiguration = (): Observable<any> => {
+    const aux: Array<any> = [];
+    return of(aux);
+
+  //   var urlReq = `${this.layerForm.value._links.availabilities.href}`
+  //   if (this.layerForm.value._links.availabilities.templated) {
+  //     var url = new URL(urlReq.split("{")[0]);
+  //     url.searchParams.append("projection", "view")
+  //     urlReq = url.toString();
+  //   }
+
+  //   return (this.http.get(urlReq))
+  //     .pipe(map(data => data['_embedded']['cartography-availabilities']));
   }
 
   getAllRowsLayersConfiguration(data: any[] )
@@ -503,7 +525,7 @@ export class LayersFormComponent implements OnInit {
       if(layer.status!== 'Deleted') {layersConfigurationToPut.push(layer._links.self.href) }
     });
     console.log(layersConfigurationModified);
-    this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut);
+    // this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut);
   }
 
   updateLayersConfigurations(layersConfigurationModified: CartographyGroup[], layersConfigurationToPut: CartographyGroup[])
@@ -634,12 +656,34 @@ export class LayersFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if( result.event==='Add') { 
-          this.addElementsEventTerritories.next(result.data[0])
+          this.addElementsEventTerritories.next(this.adaptFormatTerritories(result.data[0]))
         }
       }
 
     });
 
+  }
+
+  adaptFormatTerritories(dataToAdapt: Territory[])
+  {
+    let newData: any[] = [];
+    
+    dataToAdapt.forEach(element => {
+      let item = {
+        id: null,
+        territoryCode: element.code,
+        territoryName: element.name,
+        createdDate: element.createdDate,
+        owner: null,
+        territory: element._links.self.href,
+        cartography: this.layerToEdit._links.self.href
+
+      }
+      newData.push(item);
+      
+    });
+
+    return newData;
   }
 
   // ******** Cartography Groups Dialog  ******** //
@@ -664,6 +708,7 @@ export class LayersFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if( result.event==='Add') { 
+          console.log('result.data[0]');
           this.addElementsEventCartographyGroups.next(result.data[0])
         }
       }
@@ -710,11 +755,11 @@ export class LayersFormComponent implements OnInit {
   
       if(this.layerID !== -1)
       {
-        this.getAllElementsEventParameters.next(true);
-        this.getAllElementsEventSpatialConfigurations.next(true);
+        // this.getAllElementsEventParameters.next(true);
+        // this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
-        this.getAllElementsEventLayersConfigurations.next(true);
-        this.getAllElementsEventNodes.next(true);
+        // this.getAllElementsEventLayersConfigurations.next(true);
+        // this.getAllElementsEventNodes.next(true);
         this.updateLayer();
       }
       else { this.addNewLayer() }

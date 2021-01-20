@@ -382,23 +382,21 @@ export class ApplicationFormComponent implements OnInit {
     // let templatesToPut = [];
     // data.forEach(template => {
     //   if (template.status === 'Modified') {templatesModified.push(template) }
-    //   if(template.status!== 'Deleted') {templatesToPut.push(template._links.self) }
+    //   if(template.status!== 'Deleted') {templatesToPut.push(template._links.href.self) }
     // });
-    // if (templatesModified.length >0)
-    // {
-    //    console.log(templatesModified);
-    //    this.updateTemplates(templatesModified);
-    // }
+//    console.log(templatesModified);
+//    this.updateTemplates(templatesModified);
   }
 
-  updateTemplates(templatesModified: any[])
+  updateTemplates(templatesModified: any[], templatesToPut: any[])
   {
     // const promises: Promise<any>[] = [];
     // templatesModified.forEach(template => {
     //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(template).toPromise().then((resp) => { resolve() }) }));
     // });
     // Promise.all(promises).then(() => {
-    //   console.log('Ara tocaria fer els canvis')
+      // let url=this.applicationToEdit._links.tasks.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,templatesToPut)
     // });
   }
   
@@ -418,22 +416,23 @@ export class ApplicationFormComponent implements OnInit {
     let rolesToPut = [];
     data.forEach(role => {
       if (role.status === 'Modified') {rolesModified.push(role) }
-      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self) }
+      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self.href) }
     });
-    if (rolesModified.length >0)
-    {
-       console.log(rolesModified);
-       this.updateRoles(rolesModified);
-    }
+
+    console.log(rolesModified);
+    this.updateRoles(rolesModified, rolesToPut);
+
   }
 
-  updateRoles(rolesModified: Role[])
+  updateRoles(rolesModified: Role[], rolesToPut: Role[])
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
+      this.utils.updateUriList(url,rolesToPut)
     });
   }
   
@@ -462,22 +461,22 @@ export class ApplicationFormComponent implements OnInit {
     let backgroundsToPut = [];
     data.forEach(background => {
       if (background.status === 'Modified') {backgroundsModified.push(background) }
-      if(background.status!== 'Deleted') {backgroundsToPut.push(background._links.self) }
+      if(background.status!== 'Deleted') {backgroundsToPut.push(background._links.self.href) }
     });
-    if (backgroundsModified.length >0)
-    {
-       console.log(backgroundsModified);
-       this.updateBackgrounds(backgroundsModified);
-    }
+
+    console.log(backgroundsModified);
+    this.updateBackgrounds(backgroundsModified, backgroundsToPut);
   }
 
-  updateBackgrounds(backgroundsModified: Background[])
+  updateBackgrounds(backgroundsModified: Background[], backgroundsToPut: Background[])
   {
     const promises: Promise<any>[] = [];
     backgroundsModified.forEach(background => {
       promises.push(new Promise((resolve, reject) => { this.backgroundService.update(background).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.applicationToEdit._links.backgrounds.href.split('{', 1)[0];
+      this.utils.updateUriList(url,backgroundsToPut)
     });
   }
   
@@ -505,22 +504,22 @@ export class ApplicationFormComponent implements OnInit {
     let treesToPut = [];
     data.forEach(tree => {
       if (tree.status === 'Modified') {treesModified.push(tree) }
-      if(tree.status!== 'Deleted') {treesToPut.push(tree._links.self) }
+      if(tree.status!== 'Deleted') {treesToPut.push(tree._links.self.href) }
     });
-    if (treesModified.length >0)
-    {
-       console.log(treesModified);
-       this.updateTrees(treesModified);
-    }
+
+    console.log(treesModified);
+    this.updateTrees(treesModified, treesToPut);
   }
 
-  updateTrees(treesModified: Tree[])
+  updateTrees(treesModified: Tree[], treesToPut: Tree[],)
   {
     const promises: Promise<any>[] = [];
     treesModified.forEach(tree => {
       promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.applicationToEdit._links.trees.href.split('{', 1)[0];
+      this.utils.updateUriList(url,treesToPut)
     });
   }
 

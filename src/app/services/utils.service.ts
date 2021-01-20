@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
 import { HalOptions, HalParam, CodeListService  } from '@sitmun/frontend-core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +18,7 @@ export class UtilsService {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private http: HttpClient,
     private location: Location,
     private codeListService:CodeListService) { }
 
@@ -112,6 +114,27 @@ export class UtilsService {
     };
 
     return filterParams;
+  }
+
+  //Update grids
+
+  updateUriList(requestURI: string, data: any[] ) {
+
+    return this.http
+          .put(requestURI
+              , this.createUriList(data), {headers: new HttpHeaders({'Content-Type': 'text/uri-list', 'Charset': 'UTF-8'})}).subscribe(
+                result => console.log(result)
+              ) 
+
+  }
+  
+  createUriList(data: any[]) {
+    let putRequestLine = '';
+    data.forEach(item => {    
+      putRequestLine += `${item}`+'\n';       
+    });
+    console.log(putRequestLine);
+    return putRequestLine;
   }
 
 }

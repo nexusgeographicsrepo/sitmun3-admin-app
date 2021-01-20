@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup } from '@sitmun/frontend-core';
+import { CartographyService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -75,6 +75,7 @@ export class LayersFormComponent implements OnInit {
     private router: Router,
     private cartographyService: CartographyService,
     private cartographyGroupService: CartographyGroupService,
+    private cartograhyAvailabilityService: CartographyAvailabilityService,
     private territoryService: TerritoryService,
     private http: HttpClient,
     private utils: UtilsService
@@ -466,17 +467,17 @@ export class LayersFormComponent implements OnInit {
 
     territoriesToCreate.forEach(newElement => {
 
-      this.http.post(`http://localhost:8080/api/cartography-availabilities`,newElement).subscribe(
+      this.cartograhyAvailabilityService.save(newElement).subscribe(
         result => {
           console.log(result)
         }
       )
-      
+
     });
 
     territoriesToDelete.forEach(deletedElement => {
 
-      this.http.delete(deletedElement._links.self.href).subscribe(
+      this.cartograhyAvailabilityService.remove(deletedElement).subscribe(
         result => {
           console.log(result)
         }
@@ -675,8 +676,8 @@ export class LayersFormComponent implements OnInit {
         territoryName: element.name,
         createdDate: element.createdDate,
         owner: null,
-        territory: element._links.self.href,
-        cartography: this.layerToEdit._links.self.href
+        territory: element,
+        cartography: this.layerToEdit,
 
       }
       newData.push(item);

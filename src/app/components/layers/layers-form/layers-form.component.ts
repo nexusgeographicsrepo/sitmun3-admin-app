@@ -419,30 +419,26 @@ export class LayersFormComponent implements OnInit {
     let spatialSelectionsToPut = [];
     data.forEach(spatialSelection => {
       if (spatialSelection.status === 'Modified') {spatialSelectionsModified.push(spatialSelection) }
-      if(spatialSelection.status!== 'Deleted') {spatialSelectionsToPut.push(spatialSelection._links.self) }
+      if(spatialSelection.status!== 'Deleted') {spatialSelectionsToPut.push(spatialSelection._links.self.href) }
     });
-    if (spatialSelectionsModified.length >0)
-    {
-       console.log(spatialSelectionsModified);
-       this.updateSpatialConfiguration(spatialSelectionsModified);
-    }
+
+    this.updateSpatialConfiguration(spatialSelectionsModified, spatialSelectionsToPut);
   }
 
-  updateSpatialConfiguration(spatialConfigurationsModified: any[])
+  updateSpatialConfiguration(spatialConfigurationsModified: any[], spatialSelectionsToPut: any[] )
   {
     // const promises: Promise<any>[] = [];
     // spatialConfigurationsModified.forEach(spatialSelection => {
     //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(spatialSelection).toPromise().then((resp) => { resolve() }) }));
     // });
     // Promise.all(promises).then(() => {
+      // let url=this.layerToEdit._links.spatialSelectionConnection.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,spatialSelectionsToPut)
     // });
   }
 
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
-    //TODO Change the link when available
-    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
 
     var urlReq = `${this.layerForm.value._links.availabilities.href}`
     if (this.layerForm.value._links.availabilities.templated) {
@@ -463,25 +459,21 @@ export class LayersFormComponent implements OnInit {
     let territoriesToPut = [];
     data.forEach(territory => {
       if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
     });
-    if (territoriesModified.length >0)
-    {
        console.log(territoriesModified);
-       this.updateTerritories(territoriesModified);
-    }
+       this.updateTerritories(territoriesModified, territoriesToPut);
   }
 
-  updateTerritories(territoriesModified: Territory[])
+  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[])
   {
-    debugger;
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
-      console.log('modifico')
       promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      console.log('updated')
+      let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
+      this.utils.updateUriList(url,territoriesToPut)
     });
   }
   
@@ -497,7 +489,26 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsLayersConfiguration(data: any[] )
   {
-    console.log(data);
+    let layersConfigurationModified = [];
+    let layersConfigurationToPut = [];
+    data.forEach(territory => {
+      if (territory.status === 'Modified') {layersConfigurationModified.push(territory) }
+      if(territory.status!== 'Deleted') {layersConfigurationToPut.push(territory._links.self.href) }
+    });
+    console.log(layersConfigurationModified);
+    // this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut);
+  }
+
+  updateLayersConfigurations(layersConfigurationModified: Territory[], layersConfigurationToPut: Territory[])
+  {
+    const promises: Promise<any>[] = [];
+    layersConfigurationModified.forEach(territory => {
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
+      this.utils.updateUriList(url,layersConfigurationToPut)
+    });
   }
 
   // ******** Nodes configuration ******** //
@@ -515,22 +526,21 @@ export class LayersFormComponent implements OnInit {
     let nodesToPut = [];
     data.forEach(node => {
       if (node.status === 'Modified') {nodesModified.push(node) }
-      if(node.status!== 'Deleted') {nodesToPut.push(node._links.self) }
+      if(node.status!== 'Deleted') {nodesToPut.push(node._links.self.href) }
     });
-    if (nodesModified.length >0)
-    {
-       console.log(nodesModified);
-       this.updateNodes(nodesModified);
-    }
+    console.log(nodesModified);
+    this.updateNodes(nodesModified, nodesToPut);
   }
 
-  updateNodes(nodesModified: any[])
+  updateNodes(nodesModified: any[], nodesToPut: any[])
   {
     // const promises: Promise<any>[] = [];
-    // nodesModified.forEach(node => {
-    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(node).toPromise().then((resp) => { resolve() }) }));
+    // nodesModified.forEach(territory => {
+    //   promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
     // });
     // Promise.all(promises).then(() => {
+    //   let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
+    //   this.utils.updateUriList(url,nodesToPut)
     // });
   }
 

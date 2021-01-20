@@ -308,17 +308,14 @@ export class UserFormComponent implements OnInit {
     let territoriesToPut = [];
     data.forEach(territory => {
       if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
     });
-    if (territoriesModified.length >0)
-    {
-       console.log(territoriesModified);
-       this.updateTerritories(territoriesModified);
-    }
+    console.log(territoriesModified);
+    this.updateTerritories(territoriesModified, territoriesToPut);
 	
   }
 
-  updateTerritories(territoriesModified: Territory[])
+  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[])
   {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
@@ -326,6 +323,8 @@ export class UserFormComponent implements OnInit {
       // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.userToEdit._links.positions.href.split('{', 1)[0];
+      this.utils.updateUriList(url,territoriesToPut)
     });
   }
   

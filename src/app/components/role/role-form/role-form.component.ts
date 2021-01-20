@@ -260,22 +260,21 @@ export class RoleFormComponent implements OnInit {
     let tasksToPut = [];
     data.forEach(task => {
       if (task.status === 'Modified') {tasksModified.push(task) }
-      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self) }
+      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self.href) }
     });
-    if (tasksModified.length >0)
-    {
-       console.log(tasksModified);
-       this.updateTasks(tasksModified);
-    }
+    this.updateTasks(tasksModified, tasksToPut);
+
   }
 
-  updateTasks(tasksModified: Task[])
+  updateTasks(tasksModified: Task[], tasksToPut: Task[])
   {
     const promises: Promise<any>[] = [];
     tasksModified.forEach(task => {
       promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      // let url=this.roleToEdit._links.tasks.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,tasksToPut)
     });
   }
 
@@ -295,25 +294,23 @@ export class RoleFormComponent implements OnInit {
     let cartographiesToPut = [];
     data.forEach(cartography => {
       if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
     });
-    if (cartographiesModified.length >0)
-    {
-       console.log(cartographiesModified);
-       this.updateCartographies(cartographiesModified);
-    }
+
+    this.updateCartographies(cartographiesModified, cartographiesToPut );
   }
 
-  updateCartographies(cartographiesModified: Cartography[])
+  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
     cartographiesModified.forEach(cartography => {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.roleToEdit._links.cartographies.href.split('{', 1)[0];
+      this.utils.updateUriList(url,cartographiesToPut)
     });
   }
-
     // ******** Applications ******** //
     getAllApplications = (): Observable<any> => {
       // //TODO Change the link when available
@@ -336,22 +333,23 @@ export class RoleFormComponent implements OnInit {
       let applicationsToPut = [];
       data.forEach(application => {
         if (application.status === 'Modified') {applicationsModified.push(application) }
-        if(application.status!== 'Deleted') {applicationsToPut.push(application._links.self) }
+        if(application.status!== 'Deleted') {applicationsToPut.push(application._links.self.href) }
       });
-      if (applicationsModified.length >0)
-      {
-         console.log(applicationsModified);
-         this.updateApplications(applicationsModified);
-      }
+
+      console.log(applicationsModified);
+      this.updateApplications(applicationsModified, applicationsToPut);
+    
     }
 
-    updateApplications(applicationsModified: Application[])
+    updateApplications(applicationsModified: Application[], applicationsToPut: Application[])
     {
       const promises: Promise<any>[] = [];
       applicationsModified.forEach(application => {
         promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).toPromise().then((resp) => { resolve() }) }));
       });
       Promise.all(promises).then(() => {
+        let url=this.roleToEdit._links.applications.href.split('{', 1)[0];
+        this.utils.updateUriList(url,applicationsToPut)
       });
     }
   

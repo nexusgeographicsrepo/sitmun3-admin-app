@@ -304,13 +304,31 @@ export class UserFormComponent implements OnInit {
 
  
   getAllRowsDataTerritories(data: any[] ){
-    this.userToEdit.positions = [];
-    data.forEach(position => {
-      if(position.status!== 'Deleted') {this.userToEdit.positions.push(position) }
+    let territoriesModified = [];
+    let territoriesToPut = [];
+    data.forEach(territory => {
+      if (territory.status === 'Modified') {territoriesModified.push(territory) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
     });
-
-    this.userToEdit.positions=data;
+    if (territoriesModified.length >0)
+    {
+       console.log(territoriesModified);
+       this.updateTerritories(territoriesModified);
+    }
+	
   }
+
+  updateTerritories(territoriesModified: Territory[])
+  {
+    const promises: Promise<any>[] = [];
+    territoriesModified.forEach(territory => {
+      //TODO Table STM_POST
+      // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+    });
+  }
+  
   // ******** Permits Dialog  ******** //
 
   getAllTerritoriesDialog = () => {

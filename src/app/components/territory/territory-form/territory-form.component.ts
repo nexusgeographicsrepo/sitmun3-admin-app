@@ -32,7 +32,7 @@ export class TerritoryFormComponent implements OnInit {
 
   //Grids
   columnDefsPermits: any[];
-  getAllElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+  getAllElementsEventPermits: Subject<boolean> = new Subject <boolean>();
 
   columnDefsMemberOf: any[];
   getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject <boolean>();
@@ -175,10 +175,10 @@ export class TerritoryFormComponent implements OnInit {
 
     this.columnDefsPermits = [
       environment.selCheckboxColumnDef,
-      { headerName: 'Id', field: ['user.id'], editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user' },
-      { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -410,7 +410,39 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsPermits(data: any[] )
   {
-    console.log(data);
+    let usersConfToCreate = [];
+    let usersConfDelete = [];
+    data.forEach(userConf => {
+      let item = {
+        role: userConf.roleComplete,
+        territory: this.territoryToEdit,
+        user:  userConf.userComplete,
+      }
+      if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
+      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
+    });
+
+    usersConfToCreate.forEach(newElement => {
+
+      this.userConfigurationService.save(newElement).subscribe(
+        result => {
+          console.log(result)
+        })
+
+      
+    });
+
+    usersConfDelete.forEach(deletedElement => {
+    
+      if(deletedElement._links)
+      {
+        this.userConfigurationService.remove(deletedElement).subscribe(
+          result => {
+            console.log(result)
+          })
+      }
+      
+    });
   }
 
   // ******** MembersOf ******** //
@@ -729,12 +761,9 @@ export class TerritoryFormComponent implements OnInit {
             users.forEach(user => {
               let item = {
                 user: user.username,
-                'user.id': user.id,
+                userComplete: user,
                 role: role.name,
-                'role.id': role.id,
-                territory: territory.name,
-                'territory.id': territory.id,
-                _links: null
+                roleComplete: role
               }
               itemsToAdd.push(item);
             })
@@ -773,13 +802,13 @@ export class TerritoryFormComponent implements OnInit {
       if(this.territoryID !== -1)
       {
         
+        this.getAllElementsEventPermits.next(true);
         this.getAllElementsEventCartographies.next(true);
         this.getAllElementsEventTasks.next(true);
         this.getAllElementsEventTerritoriesMemberOf.next(true);
         this.getAllElementsEventTerritoriesMembers.next(true);
         this.updateTerritory();
         // this.updateUserConfiguration(this.territoryToEdit,this.rolesToUpdate,this.usersToUpdate)
-        // this.dataUpdatedEvent.next(true);
     
       }
       else { this.addNewTerritory()}

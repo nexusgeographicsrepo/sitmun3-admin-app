@@ -220,22 +220,6 @@ export class RoleFormComponent implements OnInit {
     return this.userConfigurationService.getAll(query);
 
   }
-  removeUsers(data: any[]) {
-    const promises: Promise<any>[] = [];
-    data.forEach(userConfiguration => {
-      this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) => { resolve() }) }));
-        Promise.all(promises).then(() => {
-          this.dataUpdatedEvent.next(true);
-        });
-      });
-    });
-  }
-
-  newDataUsers(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsUsers(data: any[] )
   {
@@ -243,36 +227,33 @@ export class RoleFormComponent implements OnInit {
     let usersConfDelete = [];
     data.forEach(userConf => {
       let item = {
-        role: this.roleToEdit._links.self.href,
-        territory: userConf.territoryLink,
-        user: userConf.userLink,
+        role: this.roleToEdit,
+        territory: userConf.territoryComplete,
+        user:  userConf.userComplete,
       }
       if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
-      if(userConf.status === 'Deleted') {usersConfDelete.push(item) }
+      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
     });
 
     usersConfToCreate.forEach(newElement => {
 
-      this.userConfigurationService.create(newElement).subscribe(
+      this.userConfigurationService.save(newElement).subscribe(
         result => {
           console.log(result)
         })
-      // this.http.post(`http://localhost:8080/api/cartography-availabilities`,newElement).subscribe(
-      //   result => {
-      //     console.log(result)
-      //   }
-      // )
+
       
     });
 
     usersConfDelete.forEach(deletedElement => {
-
-
-      this.userConfigurationService.delete(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        })
-
+    
+      if(deletedElement._links)
+      {
+        this.userConfigurationService.remove(deletedElement).subscribe(
+          result => {
+            console.log(result)
+          })
+      }
       
     });
   }
@@ -419,7 +400,7 @@ export class RoleFormComponent implements OnInit {
       {
         if(result.event==='Add') {  
           console.log(result.data); 
-          let rowsToAdd = this.getRowsToAddPermits(this.roleToEdit,result.data[1],result.data[0])
+          let rowsToAdd = this.getRowsToAddPermits(result.data[1],result.data[0])
           console.log(rowsToAdd);
           this.addElementsEventUsers.next(rowsToAdd);
          }
@@ -488,7 +469,7 @@ export class RoleFormComponent implements OnInit {
   
     }
 
-    getRowsToAddPermits(role: Role, territories: Territory[], users: User[] )
+    getRowsToAddPermits(territories: Territory[], users: User[] )
     {
       let itemsToAdd: any[] = [];
       territories.forEach(territory => {
@@ -496,13 +477,9 @@ export class RoleFormComponent implements OnInit {
           users.forEach(user => {
             let item = {
               user: user.username,
-              'user.id': user.id,
-              userLink: user._links.self.href,
-              role: role.name,
-              'role.id': role.id,
+              userComplete: user,
               territory: territory.name,
-              'territory.id': territory.id,
-              territoryLink: territory._links.self.href
+              territoryComplete: territory,
             }
             itemsToAdd.push(item);
           })

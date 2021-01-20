@@ -100,7 +100,7 @@
           [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventPermits.asObservable()' 
           [eventAddItemsSubscription]='addElementsEventPermits.asObservable()'
            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true 
-          (getAllRows)="getAllRowsPermits($event)" [actionButton]=true (remove)="removeDataPermits($event)" (add)="openPermitsDialog($event)"  > </app-data-grid>
+          (getAllRows)="getAllRowsPermits($event)" [actionButton]=true  (add)="openPermitsDialog($event)"  > </app-data-grid>
       </div>
     </div>
   

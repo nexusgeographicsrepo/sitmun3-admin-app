@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService } from '@sitmun/frontend-core';
+import { CartographyService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -10,7 +10,6 @@ import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
-import { CartographyParameterService } from 'dist/sitmun-frontend-core/';
 
 @Component({
   selector: 'app-layers-form',

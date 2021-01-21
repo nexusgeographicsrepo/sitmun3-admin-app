@@ -98,10 +98,10 @@ import {
   CartographyAvailabilityService,
   ServiceParameterService,
   ApplicationParameterService,
+  CartographyParameterService
 } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
 import { SidenavService } from './services/sidenav.service';
-import { CartographyParameterService } from 'dist/sitmun-frontend-core/';
 
 
 

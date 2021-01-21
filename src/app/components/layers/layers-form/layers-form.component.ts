@@ -205,7 +205,7 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsParameters = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field' },
+      { headerName: this.utils.getTranslate('layersEntity.field'), field: 'value' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', },
       { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order' },
@@ -342,8 +342,8 @@ export class LayersFormComponent implements OnInit {
 
   initializeParameterForm(): void {
     this.parameterForm = new FormGroup({
-      field: new FormControl(null, []),
-      alias: new FormControl(null, []),
+      value: new FormControl(null, []),
+      name: new FormControl(null, []),
       format: new FormControl(null, []),
       type: new FormControl(null, []),
       order: new FormControl(null, []),
@@ -406,12 +406,15 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
+    console.log(data);
     let parameterToSave = [];
     let parameterToDelete = [];
     data.forEach(parameter => {
       if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
         if(! parameter._links) {
-          parameter.cartography=this.layerToEdit} //If is new, you need the service link
+          console.log(this.layerToEdit);
+          parameter.cartography=this.layerToEdit;
+        } //If is new, you need the service link
           parameterToSave.push(parameter)
       }
       if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
@@ -419,6 +422,7 @@ export class LayersFormComponent implements OnInit {
 
     parameterToSave.forEach(saveElement => {
 
+      console.log(saveElement);
       this.cartographyParameterService.save(saveElement).subscribe(
         result => {
           console.log(result)
@@ -502,6 +506,7 @@ export class LayersFormComponent implements OnInit {
     let territoriesToCreate = [];
     let territoriesToDelete = [];
     data.forEach(territory => {
+      territory.cartography= this.layerToEdit;
       if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
       if(territory.status === 'Deleted') {territoriesToDelete.push(territory) }
     });
@@ -718,8 +723,6 @@ export class LayersFormComponent implements OnInit {
         createdDate: element.createdDate,
         owner: null,
         territory: element,
-        cartography: this.layerToEdit,
-
       }
       newData.push(item);
       

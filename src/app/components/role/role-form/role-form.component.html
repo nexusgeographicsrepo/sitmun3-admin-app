@@ -43,8 +43,8 @@
 
 </div>
 
-<div class="tableDiv" *ngIf="dataLoaded">
-  <mat-accordion *ngIf="roleID!=-1" multi>
+<div class="tableDiv" *ngIf=" roleID==-1 || dataLoaded">
+  <mat-accordion  multi>
 
     <!-- Users table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

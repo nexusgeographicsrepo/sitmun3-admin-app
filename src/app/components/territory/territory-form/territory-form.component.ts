@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Territory, TerritoryService, TerritoryGroupTypeService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task } from '@sitmun/frontend-core';
+import { Territory, TerritoryService, TerritoryGroupTypeService, CartographyAvailabilityService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -48,12 +48,12 @@ export class TerritoryFormComponent implements OnInit {
 
   //Dialog
   columnDefsTasksDialog: any[];
-  addElementsEventTasks: Subject<boolean> = new Subject <boolean>();
+  addElementsEventTasks: Subject<any[]> = new Subject <any[]>();
   columnDefsCartographiesDialog: any[];
-  addElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
   columnDefsTerritoriesDialog: any[];
-  addElementsEventTerritoriesMembers: Subject<boolean> = new Subject <boolean>();
-  addElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject <boolean>();
+  addElementsEventTerritoriesMembers: Subject<any[]> = new Subject <any[]>();
+  addElementsEventTerritoriesMemberOf: Subject<any[]> = new Subject <any[]>();
   columnDefsUsersDialog: any[];
   columnDefsRolesDialog: any[];
   addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
@@ -73,6 +73,7 @@ export class TerritoryFormComponent implements OnInit {
     private roleService: RoleService,
     private territoryGroupTypeService: TerritoryGroupTypeService,
     private cartographyService: CartographyService,
+    private cartographyAvailabilityService: CartographyAvailabilityService,
     private taskService: TaskService,
     private userConfigurationService: UserConfigurationService,
     private http: HttpClient,
@@ -203,9 +204,9 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsCartographies = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'layers' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'layers', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
 
@@ -534,14 +535,34 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
-    let cartographiesModified = [];
-    let cartographiesToPut = [];
+    let cartographiesToCreate = [];
+    let cartographiesToDelete = [];
     data.forEach(cartography => {
-      if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
+      if (cartography.status === 'Pending creation') {cartographiesToCreate.push(cartography) }
+      if(cartography.status === 'Deleted') {cartographiesToDelete.push(cartography._links.self.href) }
     });
 
-    this.updateCartographies(cartographiesModified, cartographiesToPut );
+    cartographiesToCreate.forEach(newElement => {
+
+      this.cartographyAvailabilityService.save(newElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    cartographiesToDelete.forEach(deletedElement => {
+
+      this.cartographyAvailabilityService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
+
+
   }
 
   updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
@@ -713,12 +734,31 @@ export class TerritoryFormComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result){
           if( result.event==='Add') { 
-            this.addElementsEventCartographies.next(result.data[0])
+            this.addElementsEventCartographies.next(this.adaptFormatCartography(result.data[0]))
           }
         }
   
       });
   
+    }
+
+    adaptFormatCartography(dataToAdapt: Cartography[])
+    {
+      let newData: any[] = [];
+      
+      dataToAdapt.forEach(element => {
+        let item = {
+          //TODO Put fields when backend return them
+          id: null,
+          territory: this.territoryToEdit,
+          cartography: element,
+  
+        }
+        newData.push(item);
+        
+      });
+  
+      return newData;
     }
   
       // ******** Tasks Dialog  ******** //

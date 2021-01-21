@@ -140,7 +140,7 @@
               <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'  
               [eventAddItemsSubscription]='addElementsEventParameters.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()'  
               [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-              (getAllRows)="getAllRowsParameters($event)"   > </app-data-grid>
+              (getAllRows)="getAllRowsParameters($event)" (new)="openParametersDialog($event)"   > </app-data-grid>
           </div>
       </ng-template>
         </mat-expansion-panel>
@@ -220,3 +220,57 @@
         
   </mat-accordion>
 </div>
+
+
+<ng-template #newParameterDialog>
+
+  <div class="formDiv">
+    <form [formGroup]='parameterForm' #f="ngForm"> 
+  
+  
+      <div class="rowFormDiv">
+      
+          <div class="colFormDiv" >
+            <label class="formLabel requiredInput">
+              {{'applicationEntity.name' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="name" required>
+            </mat-form-field>
+          </div>
+
+   
+   <div class="colFormDiv" >
+    <label class="formLabel requiredInput">
+      {{'applicationEntity.type' | translate}}
+    </label>
+    <mat-form-field appearance="outline" >
+      <mat-select matInput formControlName="type" class="form-control" >
+        <mat-option [value]="parameterType.value" *ngFor="let parameterType of parametersTypes">
+          {{ parameterType.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+     </div>
+  
+     <div class="rowFormDiv">
+      
+      <div class="colFormDiv" >
+        <label class="formLabel requiredInput">
+          {{'serviceEntity.value' | translate}}
+        </label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" formControlName="value" required>
+        </mat-form-field>
+      </div>
+  
+  
+    </div>
+  
+  </form>
+  </div>
+  
+  
+  </ng-template>

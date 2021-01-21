@@ -112,9 +112,9 @@ export class UserFormComponent implements OnInit {
 
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territory' },
-      { headerName: this.utils.getTranslate('userEntity.role'), field: 'role', },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territory', editable:false },
+      { headerName: this.utils.getTranslate('userEntity.role'), field: 'role', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -126,7 +126,7 @@ export class UserFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('userEntity.organization'), field: 'organization' },
       { headerName: this.utils.getTranslate('userEntity.mail'), field: 'email' },
       { headerName: this.utils.getTranslate('userEntity.expirationDate'), field: 'expirationDate' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
       {
         headerName: this.utils.getTranslate('userEntity.dataCreated'), field: 'createdDate',  /*filter: 'agDateColumnFilter',*/cellRenderer: (data) => {
           return data.value ? (new Date(data.value)).toLocaleDateString() : '';
@@ -255,30 +255,43 @@ export class UserFormComponent implements OnInit {
     return this.userConfigurationService.getAll(query);
   }
 
-  removeDataPermits(data) {
 
-    const promises: Promise<any>[] = [];
-    data.forEach(userConfiguration => {
-      this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) => { resolve() }) }));
-        Promise.all(promises).then(() => {
-          this.dataUpdatedEvent.next(true);
-        });
-      });
-    });
 
-  }
-
-  newDataPermits(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsPermits(data: any[]) {
     
-    this.userToEdit.permissions = [];
-    data.forEach(permit => {
-      if(permit.status!== 'Deleted') {this.userToEdit.permissions.push(permit) }
+    let usersConfToCreate = [];
+    let usersConfDelete = [];
+    data.forEach(userConf => {
+      let item = {
+        role:  userConf.roleComplete,
+        territory: userConf.territoryComplete,
+        user:  this.userToEdit,
+      }
+      if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
+      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
+    });
+
+    usersConfToCreate.forEach(newElement => {
+
+      this.userConfigurationService.save(newElement).subscribe(
+        result => {
+          console.log(result)
+        })
+
+      
+    });
+
+    usersConfDelete.forEach(deletedElement => {
+    
+      if(deletedElement._links)
+      {
+        this.userConfigurationService.remove(deletedElement).subscribe(
+          result => {
+            console.log(result)
+          })
+      }
+      
     });
 
   }
@@ -308,17 +321,14 @@ export class UserFormComponent implements OnInit {
     let territoriesToPut = [];
     data.forEach(territory => {
       if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self) }
+      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
     });
-    if (territoriesModified.length >0)
-    {
-       console.log(territoriesModified);
-       this.updateTerritories(territoriesModified);
-    }
+    console.log(territoriesModified);
+    this.updateTerritories(territoriesModified, territoriesToPut);
 	
   }
 
-  updateTerritories(territoriesModified: Territory[])
+  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[])
   {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
@@ -326,6 +336,8 @@ export class UserFormComponent implements OnInit {
       // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.userToEdit._links.positions.href.split('{', 1)[0];
+      this.utils.updateUriList(url,territoriesToPut)
     });
   }
   
@@ -430,13 +442,10 @@ export class UserFormComponent implements OnInit {
 
       roles.forEach(role => {
         let item = {
-          user: user.username,
-          'user.id': user.id,
           role: role.name,
-          'role.id': role.id,
+          roleComplete: role,
           territory: territory.name,
-          'territory.id': territory.id,
-          _links: null
+          territoryComplete: territory,
         }
         itemsToAdd.push(item);
       })
@@ -449,10 +458,9 @@ export class UserFormComponent implements OnInit {
   onSaveButtonClicked(){
     if(this.userID !== -1)
     {
-      this.getAllElementsEventTerritoryData.next(true);
+      // this.getAllElementsEventTerritoryData.next(true);
+      this.getAllElementsEventPermits.next(true);
       this.updateUser();
-      // this.getAllElementsEventPermits.next(true);
-      // this.updateUserConfiguration(this.userToEdit,this.territorisToUpdate,this.rolesToUpdate)
     }
     else{
       this.addNewUser();

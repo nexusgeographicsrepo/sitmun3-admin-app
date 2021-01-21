@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree } from '@sitmun/frontend-core';
+import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree } from '@sitmun/frontend-core';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -10,7 +10,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 
 
@@ -23,7 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ApplicationFormComponent implements OnInit {
 
   situationMapList: Array<any> = [];
-
+  parametersTypes: Array<any> = [];
   //Dialog
   applicationForm: FormGroup;
   applicationToEdit;
@@ -49,21 +49,30 @@ export class ApplicationFormComponent implements OnInit {
   //Dialogs
 
   columnDefsParametersDialog: any[];
+  public parameterForm: FormGroup;
   getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
+  @ViewChild('newParameterDialog',{
+    static: true
+  }) private newParameterDialog: TemplateRef <any>;
   columnDefsTemplateConfigurationDialog: any[];
   getAllElementsEventTemplateConfiguration: Subject<boolean> = new Subject <boolean>();
+  
   columnDefsRolesDialog: any[];
   getAllElementsEventRoles: Subject<boolean> = new Subject <boolean>();
+ 
   columnDefsBackgroundDialog: any[];
   getAllElementsEventBackground: Subject<boolean> = new Subject <boolean>();
+  
   columnDefsTreeDialog: any[];
   getAllElementsEventTree: Subject<boolean> = new Subject <boolean>();
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicationService: ApplicationService,
     private backgroundService: BackgroundService,
+    private applicationParameterService:ApplicationParameterService,
     private roleService: RoleService,
     private treeService: TreeService,
     private http: HttpClient,
@@ -71,6 +80,7 @@ export class ApplicationFormComponent implements OnInit {
     private cartographyGroupService: CartographyGroupService,
   ) {
     this.initializeApplicationForm();
+    this.initializeParameterForm();
   }
 
 
@@ -80,6 +90,12 @@ export class ApplicationFormComponent implements OnInit {
     this.utils.getCodeListValues('application.type').subscribe(
       resp => {
         this.applicationTypes.push(...resp);
+      }
+    );
+
+    this.utils.getCodeListValues('applicationParameter.type').subscribe(
+      resp => {
+        this.parametersTypes.push(...resp);
       }
     );
 
@@ -315,6 +331,15 @@ export class ApplicationFormComponent implements OnInit {
 
   }
 
+  initializeParameterForm(): void {
+    this.parameterForm = new FormGroup({
+      name: new FormControl(null, []),
+      type: new FormControl(null, []),
+      value: new FormControl(null, []),
+
+    })
+  }
+
   addNewApplication() {
     console.log(this.applicationForm.value);
     this.applicationService.create(this.applicationForm.value)
@@ -359,9 +384,35 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.applicationToEdit.parameters= [];
+    let parameterToSave = [];
+    let parameterToDelete = [];
     data.forEach(parameter => {
-      if(parameter.status!== 'Deleted') {this.applicationToEdit.parameters.push(parameter) }
+      if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
+        if(! parameter._links) {
+          parameter.application=this.applicationToEdit} //If is new, you need the service link
+          parameterToSave.push(parameter)
+      }
+      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+    });
+
+    parameterToSave.forEach(saveElement => {
+
+      this.applicationParameterService.save(saveElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    parameterToDelete.forEach(deletedElement => {
+
+      this.applicationParameterService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
     });
   }
 
@@ -382,23 +433,21 @@ export class ApplicationFormComponent implements OnInit {
     // let templatesToPut = [];
     // data.forEach(template => {
     //   if (template.status === 'Modified') {templatesModified.push(template) }
-    //   if(template.status!== 'Deleted') {templatesToPut.push(template._links.self) }
+    //   if(template.status!== 'Deleted') {templatesToPut.push(template._links.href.self) }
     // });
-    // if (templatesModified.length >0)
-    // {
-    //    console.log(templatesModified);
-    //    this.updateTemplates(templatesModified);
-    // }
+//    console.log(templatesModified);
+//    this.updateTemplates(templatesModified);
   }
 
-  updateTemplates(templatesModified: any[])
+  updateTemplates(templatesModified: any[], templatesToPut: any[])
   {
     // const promises: Promise<any>[] = [];
     // templatesModified.forEach(template => {
     //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(template).toPromise().then((resp) => { resolve() }) }));
     // });
     // Promise.all(promises).then(() => {
-    //   console.log('Ara tocaria fer els canvis')
+      // let url=this.applicationToEdit._links.tasks.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,templatesToPut)
     // });
   }
   
@@ -418,22 +467,23 @@ export class ApplicationFormComponent implements OnInit {
     let rolesToPut = [];
     data.forEach(role => {
       if (role.status === 'Modified') {rolesModified.push(role) }
-      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self) }
+      if(role.status!== 'Deleted') {rolesToPut.push(role._links.self.href) }
     });
-    if (rolesModified.length >0)
-    {
-       console.log(rolesModified);
-       this.updateRoles(rolesModified);
-    }
+
+    console.log(rolesModified);
+    this.updateRoles(rolesModified, rolesToPut);
+
   }
 
-  updateRoles(rolesModified: Role[])
+  updateRoles(rolesModified: Role[], rolesToPut: Role[])
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
+      this.utils.updateUriList(url,rolesToPut)
     });
   }
   
@@ -462,22 +512,22 @@ export class ApplicationFormComponent implements OnInit {
     let backgroundsToPut = [];
     data.forEach(background => {
       if (background.status === 'Modified') {backgroundsModified.push(background) }
-      if(background.status!== 'Deleted') {backgroundsToPut.push(background._links.self) }
+      if(background.status!== 'Deleted') {backgroundsToPut.push(background._links.self.href) }
     });
-    if (backgroundsModified.length >0)
-    {
-       console.log(backgroundsModified);
-       this.updateBackgrounds(backgroundsModified);
-    }
+
+    console.log(backgroundsModified);
+    this.updateBackgrounds(backgroundsModified, backgroundsToPut);
   }
 
-  updateBackgrounds(backgroundsModified: Background[])
+  updateBackgrounds(backgroundsModified: Background[], backgroundsToPut: Background[])
   {
     const promises: Promise<any>[] = [];
     backgroundsModified.forEach(background => {
       promises.push(new Promise((resolve, reject) => { this.backgroundService.update(background).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.applicationToEdit._links.backgrounds.href.split('{', 1)[0];
+      this.utils.updateUriList(url,backgroundsToPut)
     });
   }
   
@@ -505,52 +555,46 @@ export class ApplicationFormComponent implements OnInit {
     let treesToPut = [];
     data.forEach(tree => {
       if (tree.status === 'Modified') {treesModified.push(tree) }
-      if(tree.status!== 'Deleted') {treesToPut.push(tree._links.self) }
+      if(tree.status!== 'Deleted') {treesToPut.push(tree._links.self.href) }
     });
-    if (treesModified.length >0)
-    {
-       console.log(treesModified);
-       this.updateTrees(treesModified);
-    }
+
+    console.log(treesModified);
+    this.updateTrees(treesModified, treesToPut);
   }
 
-  updateTrees(treesModified: Tree[])
+  updateTrees(treesModified: Tree[], treesToPut: Tree[],)
   {
     const promises: Promise<any>[] = [];
     treesModified.forEach(tree => {
       promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.applicationToEdit._links.trees.href.split('{', 1)[0];
+      this.utils.updateUriList(url,treesToPut)
     });
   }
 
 
   // ******** Parameters Dialog  ******** //
 
-  getAllParametersDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
-  }
 
   openParametersDialog(data: any) {
+  
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
+    dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
 
-    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
-    dialogRef.componentInstance.getAllsTable = [this.getAllParametersDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsParametersDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.parametersConfiguration");
-    dialogRef.componentInstance.titlesTable = [''];
-    dialogRef.componentInstance.nonEditable = false;
-
+    
 
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
-          console.log(result.data);
-          this.addElementsEventParameters.next(result.data[0])
+          let item= this.parameterForm.value;
+          this.addElementsEventParameters.next([item])
+          console.log(this.parameterForm.value)
+          this.parameterForm.reset();
+          
         }
       }
 
@@ -680,8 +724,8 @@ export class ApplicationFormComponent implements OnInit {
 
       if(this.applicationID !== -1)
       {
-        this.getAllElementsEventParameters.next(true);
-        this.getAllElementsEventTemplateConfiguration.next(true);
+         this.getAllElementsEventParameters.next(true);
+        // this.getAllElementsEventTemplateConfiguration.next(true);
         this.getAllElementsEventRoles.next(true);
         this.getAllElementsEventBackground.next(true);
         this.getAllElementsEventTree.next(true);

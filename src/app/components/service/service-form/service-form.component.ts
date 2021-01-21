@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService, CartographyService,Connection, Cartography } from '@sitmun/frontend-core';
+import { ServiceService, CartographyService,Connection, Cartography, ServiceParameterService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -34,6 +34,7 @@ export class ServiceFormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   projections: Array<string>;
   serviceTypes: Array<any> = [];
+  requestTypes: Array<any> = [];
 
   //Grids
   themeGrid: any = environment.agGridTheme;
@@ -67,6 +68,7 @@ export class ServiceFormComponent implements OnInit {
     private utils: UtilsService,
     public dialog: MatDialog,
     public cartographyService: CartographyService,
+    public serviceParameterService: ServiceParameterService,
 
   ) {
     this.initializeServiceForm();
@@ -129,11 +131,18 @@ export class ServiceFormComponent implements OnInit {
       }
     );
 
+
+    this.utils.getCodeListValues('serviceParameter.type').subscribe(
+      resp => {
+        this.requestTypes.push(...resp);
+      }
+    );
+
     this.columnDefsParameters = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'name' },
-      { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'type', },
+      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'type', editable:false },
+      { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'name', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
       { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
 
@@ -284,11 +293,36 @@ export class ServiceFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.serviceToEdit.parameters = [];
+    let parameterToSave = [];
+    let parameterToDelete = [];
     data.forEach(parameter => {
-      if(parameter.status!== 'Deleted') {this.serviceToEdit.parameters.push(parameter) }
+      if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
+        if(! parameter._links) {
+          parameter.service=this.serviceToEdit} //If is new, you need the service link
+          parameterToSave.push(parameter)
+      }
+      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
     });
 
+    parameterToSave.forEach(saveElement => {
+
+      this.serviceParameterService.save(saveElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    parameterToDelete.forEach(deletedElement => {
+
+      this.serviceParameterService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
   }
 
   // ******** Layers ******** //
@@ -313,34 +347,28 @@ export class ServiceFormComponent implements OnInit {
   {
     let layersModified = [];
     let layersToPut = [];
-    data.forEach(layer => {
-      if (layer.status === 'Modified') {layersModified.push(layer) }
-      if(layer.status!== 'Deleted') {layersToPut.push(layer._links.self) }
+    data.forEach(cartography => {
+      if (cartography.status === 'Modified') {layersModified.push(cartography) }
+      if(cartography.status!== 'Deleted') {layersToPut.push(cartography._links.self.href) }
     });
-    if (layersModified.length >0)
-    {
-       console.log(layersModified);
-       this.updateLayers(layersModified);
-    }
+
+    this.updateLayers(layersModified, layersToPut );
   }
 
-  updateLayers(layersModified: Cartography[])
+  updateLayers(layersModified: Cartography[], layersToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
-    layersModified.forEach(layer => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(layer).toPromise().then((resp) => { resolve() }) }));
+    layersModified.forEach(cartography => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.serviceToEdit._links.layers.href.split('{', 1)[0];
+      this.utils.updateUriList(url,layersToPut)
     });
   }
 
   // ******** Parameters Dialog  ******** //
 
-  getAllParametersDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
-  }
 
   openParametersDialog(data: any) {
   

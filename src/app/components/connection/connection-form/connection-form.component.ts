@@ -168,10 +168,10 @@ export class ConnectionFormComponent implements OnInit {
     this.connectionToEdit.password=this.formConnection.value.password
     this.connectionToEdit.url=this.formConnection.value.url
     console.log(this.connectionToEdit);
-    // this.connectionService.update(this.connectionToEdit)
-    //   .subscribe(resp => {
-    //     console.log(resp);
-    //   });
+    this.connectionService.update(this.connectionToEdit)
+      .subscribe(resp => {
+        console.log(resp);
+      });
   }
   
   // ******** Cartographies ******** //
@@ -193,17 +193,12 @@ export class ConnectionFormComponent implements OnInit {
   {
     let cartographiesModified = [];
     let cartographiesToPut = [];
-    this.connectionToEdit.cartographies = [];
     data.forEach(cartography => {
       if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
       if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
     });
-    if (cartographiesModified.length >=0)
-     {
-       console.log(cartographiesModified);
-       this.updateCartographies(cartographiesModified, cartographiesToPut );
-     }
-    console.log(this.connectionToEdit.cartographies);
+
+    this.updateCartographies(cartographiesModified, cartographiesToPut );
   }
 
   updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
@@ -213,29 +208,12 @@ export class ConnectionFormComponent implements OnInit {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      let url='http://localhost:8080/api/connections/2/cartographies';
-      this.updateUriList(url,cartographiesToPut)
+      // let url=this.connectionToEdit._links.cartographies.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,cartographiesToPut)
+      this.connectionToEdit.cartographies=this.utils.createUriList(cartographiesToPut);
     });
   }
 
-  updateUriList(requestURI: string, data: any[] ) {
-    let contentType = 'Content-Type: text/uri-list';
-    return this.http
-          .put(requestURI
-              , this.createUriList(data), {headers: new HttpHeaders({'Content-Type': 'text/uri-list', 'Charset': 'UTF-8'})}).subscribe(
-                result => console.log(result)
-              ) 
-
-  }
-  
-  createUriList(data: any[]) {
-    let putRequestLine = '';
-    data.forEach(item => {    
-      putRequestLine += `${item}`+'\n';       
-    });
-    console.log(putRequestLine);
-    return putRequestLine;
-  }
 
 
   // ******** Tasks  ******** //
@@ -260,24 +238,21 @@ export class ConnectionFormComponent implements OnInit {
     let tasksToPut = [];
     data.forEach(task => {
       if (task.status === 'Modified') {tasksModified.push(task) }
-      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self) }
+      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self.href) }
     });
-    if (tasksModified.length >0)
-     {
-       console.log(tasksModified);
-       this.updateTasks(tasksModified);
-     }
+    this.updateTasks(tasksModified, tasksToPut);
 
   }
 
-  updateTasks(tasksModified: Task[])
+  updateTasks(tasksModified: Task[], tasksToPut: Task[])
   {
     const promises: Promise<any>[] = [];
     tasksModified.forEach(task => {
       promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      console.log('Ara tocaria fer els canvis')
+      let url=this.connectionToEdit._links.tasks.href.split('{', 1)[0];
+      this.utils.updateUriList(url,tasksToPut)
     });
   }
   

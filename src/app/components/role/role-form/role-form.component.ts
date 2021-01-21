@@ -220,27 +220,42 @@ export class RoleFormComponent implements OnInit {
     return this.userConfigurationService.getAll(query);
 
   }
-  removeUsers(data: any[]) {
-    const promises: Promise<any>[] = [];
-    data.forEach(userConfiguration => {
-      this.userConfigurationService.get(userConfiguration.id).subscribe((userConfigurationToDelete) => {
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(userConfigurationToDelete).toPromise().then((resp) => { resolve() }) }));
-        Promise.all(promises).then(() => {
-          this.dataUpdatedEvent.next(true);
-        });
-      });
-    });
-  }
-
-  newDataUsers(id: any) {
-    // this.router.navigate(['territory', id, 'territoryForm']);
-    console.log('screen in progress');
-  }
 
   getAllRowsUsers(data: any[] )
   {
-    //N M
-    console.log(data);
+    let usersConfToCreate = [];
+    let usersConfDelete = [];
+    data.forEach(userConf => {
+      let item = {
+        role: this.roleToEdit,
+        territory: userConf.territoryComplete,
+        user:  userConf.userComplete,
+      }
+      if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
+      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
+    });
+
+    usersConfToCreate.forEach(newElement => {
+
+      this.userConfigurationService.save(newElement).subscribe(
+        result => {
+          console.log(result)
+        })
+
+      
+    });
+
+    usersConfDelete.forEach(deletedElement => {
+    
+      if(deletedElement._links)
+      {
+        this.userConfigurationService.remove(deletedElement).subscribe(
+          result => {
+            console.log(result)
+          })
+      }
+      
+    });
   }
 
   // ******** Task ******** //
@@ -260,22 +275,21 @@ export class RoleFormComponent implements OnInit {
     let tasksToPut = [];
     data.forEach(task => {
       if (task.status === 'Modified') {tasksModified.push(task) }
-      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self) }
+      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self.href) }
     });
-    if (tasksModified.length >0)
-    {
-       console.log(tasksModified);
-       this.updateTasks(tasksModified);
-    }
+    this.updateTasks(tasksModified, tasksToPut);
+
   }
 
-  updateTasks(tasksModified: Task[])
+  updateTasks(tasksModified: Task[], tasksToPut: Task[])
   {
     const promises: Promise<any>[] = [];
     tasksModified.forEach(task => {
       promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      // let url=this.roleToEdit._links.tasks.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,tasksToPut)
     });
   }
 
@@ -295,25 +309,23 @@ export class RoleFormComponent implements OnInit {
     let cartographiesToPut = [];
     data.forEach(cartography => {
       if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self) }
+      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
     });
-    if (cartographiesModified.length >0)
-    {
-       console.log(cartographiesModified);
-       this.updateCartographies(cartographiesModified);
-    }
+
+    this.updateCartographies(cartographiesModified, cartographiesToPut );
   }
 
-  updateCartographies(cartographiesModified: Cartography[])
+  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
     cartographiesModified.forEach(cartography => {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
+      let url=this.roleToEdit._links.cartographies.href.split('{', 1)[0];
+      this.utils.updateUriList(url,cartographiesToPut)
     });
   }
-
     // ******** Applications ******** //
     getAllApplications = (): Observable<any> => {
       // //TODO Change the link when available
@@ -336,22 +348,23 @@ export class RoleFormComponent implements OnInit {
       let applicationsToPut = [];
       data.forEach(application => {
         if (application.status === 'Modified') {applicationsModified.push(application) }
-        if(application.status!== 'Deleted') {applicationsToPut.push(application._links.self) }
+        if(application.status!== 'Deleted') {applicationsToPut.push(application._links.self.href) }
       });
-      if (applicationsModified.length >0)
-      {
-         console.log(applicationsModified);
-         this.updateApplications(applicationsModified);
-      }
+
+      console.log(applicationsModified);
+      this.updateApplications(applicationsModified, applicationsToPut);
+    
     }
 
-    updateApplications(applicationsModified: Application[])
+    updateApplications(applicationsModified: Application[], applicationsToPut: Application[])
     {
       const promises: Promise<any>[] = [];
       applicationsModified.forEach(application => {
         promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).toPromise().then((resp) => { resolve() }) }));
       });
       Promise.all(promises).then(() => {
+        let url=this.roleToEdit._links.applications.href.split('{', 1)[0];
+        this.utils.updateUriList(url,applicationsToPut)
       });
     }
   
@@ -387,7 +400,7 @@ export class RoleFormComponent implements OnInit {
       {
         if(result.event==='Add') {  
           console.log(result.data); 
-          let rowsToAdd = this.getRowsToAddPermits(this.roleToEdit,result.data[1],result.data[0])
+          let rowsToAdd = this.getRowsToAddPermits(result.data[1],result.data[0])
           console.log(rowsToAdd);
           this.addElementsEventUsers.next(rowsToAdd);
          }
@@ -456,7 +469,7 @@ export class RoleFormComponent implements OnInit {
   
     }
 
-    getRowsToAddPermits(role: Role, territories: Territory[], users: User[] )
+    getRowsToAddPermits(territories: Territory[], users: User[] )
     {
       let itemsToAdd: any[] = [];
       territories.forEach(territory => {
@@ -464,12 +477,9 @@ export class RoleFormComponent implements OnInit {
           users.forEach(user => {
             let item = {
               user: user.username,
-              'user.id': user.id,
-              role: role.name,
-              'role.id': role.id,
+              userComplete: user,
               territory: territory.name,
-              'territory.id': territory.id,
-              _links: null
+              territoryComplete: territory,
             }
             itemsToAdd.push(item);
           })
@@ -539,9 +549,9 @@ export class RoleFormComponent implements OnInit {
     if(this.roleID !== -1)
     {
       // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+      this.getAllElementsEventUsers.next(true);
       this.getAllElementsEventApplications.next(true);
       this.updateRole();
-      this.dataUpdatedEvent.next(true);
     }
     else { this.addNewRole() }
 

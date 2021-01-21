@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService, CartographyService,Connection, Cartography } from '@sitmun/frontend-core';
+import { ServiceService, CartographyService,Connection, Cartography, ServiceParameterService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -67,6 +67,7 @@ export class ServiceFormComponent implements OnInit {
     private utils: UtilsService,
     public dialog: MatDialog,
     public cartographyService: CartographyService,
+    public serviceParameterService: ServiceParameterService,
 
   ) {
     this.initializeServiceForm();
@@ -132,8 +133,8 @@ export class ServiceFormComponent implements OnInit {
     this.columnDefsParameters = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'name' },
-      { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'type', },
+      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'type' },
+      { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'name', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
       { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
 
@@ -284,10 +285,35 @@ export class ServiceFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    // data.forEach(parameter => {
-    //   if(parameter.status!== 'Deleted') {this.serviceToEdit.parameters.push(parameter) }
-    // });
+    let parameterToSave = [];
+    let parameterToDelete = [];
+    data.forEach(parameter => {
+      if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
+        if(! parameter._links) {parameter.service=this.serviceToEdit}
+        parameterToSave.push(parameter)
+      }
+      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+    });
 
+    parameterToSave.forEach(saveElement => {
+
+      this.serviceParameterService.save(saveElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    parameterToDelete.forEach(deletedElement => {
+
+      this.serviceParameterService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
   }
 
   // ******** Layers ******** //

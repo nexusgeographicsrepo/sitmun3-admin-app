@@ -95,7 +95,8 @@ import {
   Principal,
   ServiceService,
   ApplicationService,
-  CartographyAvailabilityService
+  CartographyAvailabilityService,
+  ServiceParameterService,
 } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
 import { SidenavService } from './services/sidenav.service';
@@ -176,7 +177,7 @@ import { SidenavService } from './services/sidenav.service';
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService,
     ApplicationService, TreeService, BackgroundService, CartographyService, CartographyGroupService,
     TaskGroupService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
-    Principal, AccountService,CartographyAvailabilityService,
+    Principal, AccountService,CartographyAvailabilityService,ServiceParameterService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthExpiredInterceptor, multi: true }

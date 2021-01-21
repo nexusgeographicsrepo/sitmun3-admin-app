@@ -161,22 +161,27 @@
 
 
     <div class="rowFormDiv">
-    
-        <div class="colFormDiv" >
-          <label class="formLabel requiredInput">
-            {{'serviceEntity.request' | translate}}
-          </label>
-          <mat-form-field appearance="outline">
-            <input matInput type="text" formControlName="name" required>
-          </mat-form-field>
-        </div>
+
+
+      <div class="colFormDiv" >
+        <label class="formLabel requiredInput">
+          {{'serviceEntity.request' | translate}}
+        </label>
+        <mat-form-field appearance="outline" >
+          <mat-select matInput formControlName="type" class="form-control" >
+            <mat-option [value]="requestType.value" *ngFor="let requestType of requestTypes">
+              {{ requestType.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
         <div class="colFormDiv" >
           <label class="formLabel requiredInput">
             {{'serviceEntity.parameter' | translate}}
           </label>
           <mat-form-field appearance="outline">
-            <input matInput type="text" formControlName="type" required>
+            <input matInput type="text" formControlName="name" required>
           </mat-form-field>
         </div>
 

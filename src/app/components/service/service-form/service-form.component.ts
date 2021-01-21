@@ -34,6 +34,7 @@ export class ServiceFormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   projections: Array<string>;
   serviceTypes: Array<any> = [];
+  requestTypes: Array<any> = [];
 
   //Grids
   themeGrid: any = environment.agGridTheme;
@@ -127,6 +128,18 @@ export class ServiceFormComponent implements OnInit {
     this.utils.getCodeListValues('service.type').subscribe(
       resp => {
         this.serviceTypes.push(...resp);
+      }
+    );
+
+    let requestByDefault = {
+      value: null,
+      description: '-------'
+    }
+    this.requestTypes.push(requestByDefault);
+
+    this.utils.getCodeListValues('serviceParameter.type').subscribe(
+      resp => {
+        this.requestTypes.push(...resp);
       }
     );
 
@@ -289,8 +302,9 @@ export class ServiceFormComponent implements OnInit {
     let parameterToDelete = [];
     data.forEach(parameter => {
       if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
-        if(! parameter._links) {parameter.service=this.serviceToEdit}
-        parameterToSave.push(parameter)
+        if(! parameter._links) {
+          parameter.service=this.serviceToEdit} //If is new, you need the service link
+          parameterToSave.push(parameter)
       }
       if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
     });

@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree } from '@sitmun/frontend-core';
+import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree } from '@sitmun/frontend-core';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -72,6 +72,7 @@ export class ApplicationFormComponent implements OnInit {
     private router: Router,
     private applicationService: ApplicationService,
     private backgroundService: BackgroundService,
+    private applicationParameterService:ApplicationParameterService,
     private roleService: RoleService,
     private treeService: TreeService,
     private http: HttpClient,
@@ -377,9 +378,35 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    this.applicationToEdit.parameters= [];
+    let parameterToSave = [];
+    let parameterToDelete = [];
     data.forEach(parameter => {
-      if(parameter.status!== 'Deleted') {this.applicationToEdit.parameters.push(parameter) }
+      if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
+        if(! parameter._links) {
+          parameter.application=this.applicationToEdit} //If is new, you need the service link
+          parameterToSave.push(parameter)
+      }
+      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+    });
+
+    parameterToSave.forEach(saveElement => {
+
+      this.applicationParameterService.save(saveElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    parameterToDelete.forEach(deletedElement => {
+
+      this.applicationParameterService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
     });
   }
 
@@ -691,11 +718,11 @@ export class ApplicationFormComponent implements OnInit {
 
       if(this.applicationID !== -1)
       {
-        // this.getAllElementsEventParameters.next(true);
+         this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventTemplateConfiguration.next(true);
-        // this.getAllElementsEventRoles.next(true);
-        // this.getAllElementsEventBackground.next(true);
-        // this.getAllElementsEventTree.next(true);
+        this.getAllElementsEventRoles.next(true);
+        this.getAllElementsEventBackground.next(true);
+        this.getAllElementsEventTree.next(true);
         this.updateApplication();
 
       }

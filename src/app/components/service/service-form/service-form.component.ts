@@ -146,7 +146,7 @@ export class ServiceFormComponent implements OnInit {
     this.columnDefsParameters = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'type' },
+      { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'type', editable:false },
       { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'name', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
       { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },

@@ -340,35 +340,6 @@ export class ApplicationFormComponent implements OnInit {
     })
   }
 
-  addNewApplication() {
-    console.log(this.applicationForm.value);
-    this.applicationService.create(this.applicationForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
-      });
-  }
-
-  updateApplication() {
-
-    console.log(this.applicationForm.value);
-    this.applicationToEdit.name = this.applicationForm.value.name,
-    this.applicationToEdit.type = this.applicationForm.value.type,
-    this.applicationToEdit.title = this.applicationForm.value.title,
-    this.applicationToEdit.jspTemplate = this.applicationForm.value.jspTemplate,
-    this.applicationToEdit.theme = this.applicationForm.value.theme,
-    this.applicationToEdit.scales = this.applicationForm.value.scales,
-    this.applicationToEdit.srs = this.applicationForm.value.srs,
-    this.applicationToEdit.treeAutoRefresh = this.applicationForm.value.treeAutoRefresh,
-
-    console.log(this.applicationToEdit);
-    this.applicationService.update(this.applicationToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
 
 
   // AG-GRID
@@ -377,6 +348,13 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Parameters configuration ******** //
 
   getAllParameters = (): Observable<any> => {
+
+    if(this.applicationID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
       .pipe(map(data => data[`_embedded`][`application-parameters`]));
   }
@@ -457,6 +435,11 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Roles ******** //
 
   getAllRoles = (): Observable<any> => {
+    if(this.applicationID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
     return (this.http.get(`${this.applicationForm.value._links.availableRoles.href}`))
       .pipe(map(data => data[`_embedded`][`roles`]));
   }
@@ -492,6 +475,13 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Background ******** //
 
   getAllBackgrounds = (): Observable<any> => {
+
+    if(this.applicationID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     var urlReq = `${this.applicationForm.value._links.backgrounds.href}`
     if (this.applicationForm.value._links.backgrounds.templated) {
       var url = new URL(urlReq.split("{")[0]);
@@ -535,6 +525,13 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Trees ******** //
 
   getAllTrees = (): Observable<any> => {
+
+    if(this.applicationID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     var urlReq = `${this.applicationForm.value._links.trees.href}`
     if (this.applicationForm.value._links.trees.templated) {
       var url = new URL(urlReq.split("{")[0]);
@@ -722,16 +719,19 @@ export class ApplicationFormComponent implements OnInit {
 
     onSaveButtonClicked(){
 
-      if(this.applicationID !== -1)
-      {
-         this.getAllElementsEventParameters.next(true);
+      this.applicationService.save(this.applicationForm.value)
+      .subscribe(resp => {
+        this.applicationToEdit = resp;
+        this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventTemplateConfiguration.next(true);
         this.getAllElementsEventRoles.next(true);
         this.getAllElementsEventBackground.next(true);
         this.getAllElementsEventTree.next(true);
-       
-      }
-      this.applicationService.save(this.applicationForm.value);
+      },
+      error => {
+        console.log(error)
+      });
+
 
   
     }

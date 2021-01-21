@@ -188,6 +188,12 @@ export class RoleFormComponent implements OnInit {
   // ******** Users ******** //
   getAllUsers = (): Observable<any> => {
 
+    if(this.roleID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     let params2: HalParam[] = [];
     let param: HalParam = { key: 'role.id', value: this.roleID }
     params2.push(param);

@@ -391,7 +391,11 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
-
+    if(this.layerID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
     var urlReq=`${this.layerForm.value._links.parameters.href}`
     if(this.layerForm.value._links.parameters.templated){
       var url=new URL(urlReq.split("{")[0]);
@@ -486,7 +490,11 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
-
+    if(this.layerID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
 
     var urlReq = `${this.layerForm.value._links.availabilities.href}`
     if (this.layerForm.value._links.availabilities.templated) {
@@ -589,6 +597,7 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Nodes configuration ******** //
   getAllNodes = (): Observable<any> => {
+
     //TODO Change the link when available
     // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
     // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
@@ -798,16 +807,17 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      if(this.layerID !== -1)
-      {
+      this.cartographyService.update(this.layerForm.value)
+      .subscribe(resp => {
+        console.log(resp);
+        this.layerToEdit=resp;
         this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         // this.getAllElementsEventLayersConfigurations.next(true);
         // this.getAllElementsEventNodes.next(true);
-        this.updateLayer();
-      }
-      else { this.addNewLayer() }
+
+      });
 
   
     }

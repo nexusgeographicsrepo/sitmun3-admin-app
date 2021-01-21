@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConnectionService, CartographyService, TaskService, Cartography, Task, Connection } from '@sitmun/frontend-core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -102,7 +102,7 @@ export class ConnectionFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
-        { headerName: this.utils.getTranslate('connectionEntity.layers'), field: 'layers' },
+        { headerName: this.utils.getTranslate('connectionEntity.layers'), field: 'layers', editable:false },
         { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status' },
 
   
@@ -152,41 +152,24 @@ export class ConnectionFormComponent implements OnInit {
     })
   }
 
-  addNewConnection() {
-    console.log(this.formConnection.value);
-    this.connectionService.create(this.formConnection.value)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-  }
-
-  updateConnection() {
-    console.log(this.formConnection.value);
-    this.connectionToEdit.name=this.formConnection.value.name
-    this.connectionToEdit.driver=this.formConnection.value.driver
-    this.connectionToEdit.user=this.formConnection.value.user
-    this.connectionToEdit.password=this.formConnection.value.password
-    this.connectionToEdit.url=this.formConnection.value.url
-    console.log(this.connectionToEdit);
-    this.connectionService.update(this.connectionToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-  }
   
   // ******** Cartographies ******** //
   getAllCartographies = () => {
-    
+
+    if(this.connectionID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }  
+
     var urlReq = `${this.connectionToEdit._links.cartographies.href}`
     if (this.connectionToEdit._links.cartographies.templated) {
       var url = new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection", "view")
       urlReq = url.toString();
     }
-
     return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['cartographies']) );
-
   }
 
   getAllRowsCartographies(data: any[] )
@@ -218,16 +201,21 @@ export class ConnectionFormComponent implements OnInit {
 
   // ******** Tasks  ******** //
   getAllTasks = () => {
+
+    if(this.connectionID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     var urlReq=`${this.connectionToEdit._links.tasks.href}`
     if(this.connectionToEdit._links.tasks.templated){
       var url=new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection","view")
       urlReq=url.toString();
     }
-
     return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['tasks']) );
-    
     
   }
 
@@ -330,18 +318,19 @@ export class ConnectionFormComponent implements OnInit {
     //Save Button
     
     onSaveButtonClicked(){
-      
-      if(this.connectionID!== -1)
-      {
-        this.getAllElementsEventCartographies.next(true);
-        this.getAllElementsEventTasks.next(true);
-        this.updateConnection();
-      }
-      else
-      {
-        this.addNewConnection();
-      }
-  
-      }
 
+      this.connectionService.save(this.formConnection.value).subscribe(
+        result => {
+          console.log(result);
+          this.connectionToEdit=result;
+          this.getAllElementsEventCartographies.next(true);
+          this.getAllElementsEventTasks.next(true);
+        },
+        error=>{
+          console.log(error);
+        });
+      
+      
+
+    }
 }

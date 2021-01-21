@@ -508,7 +508,6 @@ export class RoleFormComponent implements OnInit {
 
     this.roleService.save( this.formRole.value)
     .subscribe(resp => {
-      console.log(resp);
       this.roleToEdit=resp;
       this.getAllElementsEventUsers.next(true);
       this.getAllElementsEventApplications.next(true);

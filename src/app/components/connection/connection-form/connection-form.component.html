@@ -72,8 +72,8 @@
 </div>
 
 
-<div class="tableDiv" *ngIf="dataLoaded">
-  <mat-accordion *ngIf="connectionID!=-1" multi>
+<div class="tableDiv" *ngIf="connectionID == -1 || dataLoaded">
+  <mat-accordion  multi>
 
       <!-- Cartography table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

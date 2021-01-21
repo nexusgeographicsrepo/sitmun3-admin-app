@@ -181,30 +181,6 @@ export class RoleFormComponent implements OnInit {
 
   }
 
-  addNewRole() {
-    console.log(this.formRole.value);
-    this.roleService.create(this.formRole.value)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-
-
-  }
-
-  updateRole() {
-
-    console.log(this.formRole.value);
-    this.roleToEdit.name=this.formRole.value.name;
-    this.roleToEdit.description=this.formRole.value.description;
-
-    this.roleService.update( this.roleToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
-
 
   //AG GRID
 
@@ -329,15 +305,23 @@ export class RoleFormComponent implements OnInit {
     // ******** Applications ******** //
     getAllApplications = (): Observable<any> => {
       // //TODO Change the link when available
-       var urlReq = `${this.formRole.value._links.applications.href}`
-       if (this.formRole.value._links.applications.templated) {
-         var url = new URL(urlReq.split("{")[0]);
-         url.searchParams.append("projection", "view")
-         urlReq = url.toString();
-       }
+      if (this.roleID!== -1)
+      {
+        var urlReq = `${this.formRole.value._links.applications.href}`
+        if (this.formRole.value._links.applications.templated) {
+          var url = new URL(urlReq.split("{")[0]);
+          url.searchParams.append("projection", "view")
+          urlReq = url.toString();
+        }
+        return (this.http.get(urlReq))
+        .pipe(map(data => data['_embedded']['applications']));
+      }
+      else {
+        const aux: Array<any> = [];
+        return of(aux);
+      }
 
-       return (this.http.get(urlReq))
-       .pipe(map(data => data['_embedded']['applications']));
+
 
     }
   
@@ -519,41 +503,20 @@ export class RoleFormComponent implements OnInit {
     }
 
 
-    // updateUserConfiguration(role: Role, territories: Territory[], users: User[] )
-    // {
-    //   const promises: Promise<any>[] = [];
-    //   territories.forEach(territory => {
-
-    //     users.forEach(user => {
-
-    //       let item = {
-    //         user: user,
-    //         role: role,
-    //         territory: territory,
-    //         _links: null
-    //       }
-    //       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-    //       Promise.all(promises).then(() => {
-    //         this.dataUpdatedEvent.next(true);
-    //       });
-         
-    //     });
-        
-    //   });
-
-    // }
-
 
   onSaveButtonClicked() {
 
-    if(this.roleID !== -1)
-    {
-      // this.updateUserConfiguration(this.roleToEdit,this.territorisToUpdate,this.usersToUpdate)
+    this.roleService.save( this.formRole.value)
+    .subscribe(resp => {
+      console.log(resp);
+      this.roleToEdit=resp;
       this.getAllElementsEventUsers.next(true);
       this.getAllElementsEventApplications.next(true);
-      this.updateRole();
-    }
-    else { this.addNewRole() }
+    },
+    error=>{
+      console.log(error);
+    });
+
 
   }
 

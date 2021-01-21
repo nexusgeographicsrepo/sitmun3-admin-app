@@ -389,7 +389,7 @@ export class ApplicationFormComponent implements OnInit {
     data.forEach(parameter => {
       if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
         if(! parameter._links) {
-          parameter.application=this.applicationToEdit} //If is new, you need the service link
+          parameter.application=this.applicationToEdit} //If is new, you need the application link
           parameterToSave.push(parameter)
       }
       if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }

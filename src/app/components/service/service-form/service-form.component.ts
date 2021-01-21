@@ -249,7 +249,7 @@ export class ServiceFormComponent implements OnInit {
       supportedSRS: this.projections
     });
     console.log(this.serviceForm.value);
-    this.serviceService.create(this.serviceForm.value)
+    this.serviceService.save(this.serviceForm.value)
       .subscribe(resp => {
         console.log(resp);
       });
@@ -273,7 +273,7 @@ export class ServiceFormComponent implements OnInit {
     this.serviceToEdit.supportedSRS = this.projections;
 
     console.log(this.serviceToEdit);
-    this.serviceService.update(this.serviceToEdit)
+    this.serviceService.save(this.serviceToEdit)
       .subscribe(resp => {
         console.log(resp);
 
@@ -431,7 +431,7 @@ export class ServiceFormComponent implements OnInit {
     if(this.serviceID!=-1)
     {
       this.getAllElementsEventParameters.next(true);
-      this.getAllElementsEventLayers.next(true);
+      // this.getAllElementsEventLayers.next(true);
       this.updateService();
     }
     else{

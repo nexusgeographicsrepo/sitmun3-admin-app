@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService, UserConfigurationService, TerritoryService, RoleService, HalOptions, HalParam, Territory, User, UserConfiguration,Role } from '@sitmun/frontend-core';
+import { UserService, UserPositionService, UserConfigurationService, TerritoryService, RoleService, HalOptions, HalParam, Territory, User, UserConfiguration,Role } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -61,6 +61,7 @@ export class UserFormComponent implements OnInit {
     private utils: UtilsService,
     private userConfigurationService: UserConfigurationService,
     private roleService: RoleService,
+    private userPositionService: UserPositionService,
     private territoryService: TerritoryService,
   ) {
     this.initializeUserForm();
@@ -317,14 +318,32 @@ export class UserFormComponent implements OnInit {
 
  
   getAllRowsDataTerritories(data: any[] ){
-    let territoriesModified = [];
-    let territoriesToPut = [];
-    data.forEach(territory => {
-      if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
-    });
-    console.log(territoriesModified);
-    this.updateTerritories(territoriesModified, territoriesToPut);
+    // let territoriesToCreate = [];
+    // let territoriesToDelete = [];
+    // data.forEach(territory => {
+    //   if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
+    //   if(territory.status === 'Deleted') {territoriesToDelete.push(territory._links.self.href) }
+    // });
+
+    // territoriesToCreate.forEach(newElement => {
+
+    //   this.userPositionService.save(newElement).subscribe(
+    //     result => {
+    //       console.log(result)
+    //     }
+    //   )
+
+    // });
+
+    // territoriesToDelete.forEach(deletedElement => {
+
+    //   this.userPositionService.remove(deletedElement).subscribe(
+    //     result => {
+    //       console.log(result)
+    //     }
+    //   )
+      
+    // });
 	
   }
 
@@ -403,12 +422,31 @@ export class UserFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
-          this.addElementsEventTerritoryData.next(result.data[0])
+          this.addElementsEventTerritoryData.next(this.adaptFormatTerritory(result.data[0]))
         }
       }
 
     });
 
+  }
+
+  adaptFormatTerritory(dataToAdapt: Territory[])
+  {
+    let newData: any[] = [];
+    
+    dataToAdapt.forEach(element => {
+      let item = {
+        //TODO Put fields when backend return them
+        id: null,
+        territory: element,
+        user: this.userToEdit,
+
+      }
+      newData.push(item);
+      
+    });
+
+    return newData;
   }
 
 

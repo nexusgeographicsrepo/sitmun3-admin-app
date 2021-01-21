@@ -538,6 +538,7 @@ export class TerritoryFormComponent implements OnInit {
     let cartographiesToCreate = [];
     let cartographiesToDelete = [];
     data.forEach(cartography => {
+      cartography.territory= this.territoryToEdit;
       if (cartography.status === 'Pending creation') {cartographiesToCreate.push(cartography) }
       if(cartography.status === 'Deleted') {cartographiesToDelete.push(cartography._links.self.href) }
     });
@@ -750,7 +751,6 @@ export class TerritoryFormComponent implements OnInit {
         let item = {
           //TODO Put fields when backend return them
           id: null,
-          territory: this.territoryToEdit,
           cartography: element,
   
         }

@@ -53,7 +53,7 @@ export class TasksExtractionFmeComponent implements OnInit {
     let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
-    return this.taskService.getAll(query);
+    return this.taskService.getAll(query,undefined,"tasks");
   }
 
   removeData( data: any[])

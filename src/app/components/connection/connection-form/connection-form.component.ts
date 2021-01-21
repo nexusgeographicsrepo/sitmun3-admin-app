@@ -177,6 +177,7 @@ export class ConnectionFormComponent implements OnInit {
     let cartographiesModified = [];
     let cartographiesToPut = [];
     data.forEach(cartography => {
+      cartography.connection=this.connectionToEdit;
       if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
       if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
     });

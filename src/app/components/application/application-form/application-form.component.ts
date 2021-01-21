@@ -23,7 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ApplicationFormComponent implements OnInit {
 
   situationMapList: Array<any> = [];
-
+  parametersTypes: Array<any> = [];
   //Dialog
   applicationForm: FormGroup;
   applicationToEdit;
@@ -90,6 +90,12 @@ export class ApplicationFormComponent implements OnInit {
     this.utils.getCodeListValues('application.type').subscribe(
       resp => {
         this.applicationTypes.push(...resp);
+      }
+    );
+
+    this.utils.getCodeListValues('applicationParameter.type').subscribe(
+      resp => {
+        this.parametersTypes.push(...resp);
       }
     );
 

@@ -238,16 +238,20 @@
               <input matInput type="text" formControlName="name" required>
             </mat-form-field>
           </div>
-  
-          <div class="colFormDiv" >
-            <label class="formLabel requiredInput">
-              {{'applicationEntity.type' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="type" required>
-            </mat-form-field>
-          </div>
-  
+
+   
+   <div class="colFormDiv" >
+    <label class="formLabel requiredInput">
+      {{'applicationEntity.type' | translate}}
+    </label>
+    <mat-form-field appearance="outline" >
+      <mat-select matInput formControlName="type" class="form-control" >
+        <mat-option [value]="parameterType.value" *ngFor="let parameterType of parametersTypes">
+          {{ parameterType.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   
      </div>
   

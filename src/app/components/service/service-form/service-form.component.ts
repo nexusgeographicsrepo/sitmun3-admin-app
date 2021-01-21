@@ -131,11 +131,6 @@ export class ServiceFormComponent implements OnInit {
       }
     );
 
-    let requestByDefault = {
-      value: null,
-      description: '-------'
-    }
-    this.requestTypes.push(requestByDefault);
 
     this.utils.getCodeListValues('serviceParameter.type').subscribe(
       resp => {

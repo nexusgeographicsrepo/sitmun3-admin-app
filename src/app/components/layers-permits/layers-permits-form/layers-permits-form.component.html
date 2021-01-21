@@ -48,8 +48,8 @@
 
 </div>
 
-<div class="tableDiv" *ngIf="dataLoaded">
-  <mat-accordion *ngIf="layersPermitsID!=-1" multi>
+<div class="tableDiv" *ngIf=" layersPermitsID==-1 || dataLoaded">
+  <mat-accordion multi>
 
     <!-- Cartography configuration table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

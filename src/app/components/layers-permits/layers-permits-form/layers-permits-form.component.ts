@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-layers-permits-form',
@@ -139,35 +139,16 @@ export class LayersPermitsFormComponent implements OnInit {
 
   }
 
-  addNewLayersPermits() {
-    console.log(this.formLayersPermits.value);
-    this.cartographyGroupService.create(this.formLayersPermits.value)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-
-
-  }
-
-  updateLayersPermits() {
-
-    console.log(this.formLayersPermits.value);
-    this.layersPermitsToEdit.name=this.formLayersPermits.value.name;
-    this.layersPermitsToEdit.type=this.formLayersPermits.value.type;
-    console.log( this.layersPermitsToEdit);
-    this.cartographyGroupService.update(this.layersPermitsToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
-
-
   // AG GRID
 
   // ******** Cartographies configuration ******** //
   getAllCartographies = () => {
+
+    if(this.layersPermitsID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
 
      var urlReq = `${this.layersPermitsToEdit._links.members.href}`
      if (this.layersPermitsToEdit._links.members.templated) {
@@ -210,6 +191,12 @@ export class LayersPermitsFormComponent implements OnInit {
 
   // ******** Roles  ******** //
   getAllRoles = () => {
+
+    if(this.layersPermitsID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
    
     return (this.http.get(`${this.formLayersPermits.value._links.roles.href}`))
        .pipe(map(data => data['_embedded']['roles']));
@@ -305,13 +292,17 @@ export class LayersPermitsFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    if(this.layersPermitsID !== -1)
-    {   
+    this.cartographyGroupService.save(this.formLayersPermits.value)
+    .subscribe(resp => {
+      console.log(resp);
+      this.layersPermitsToEdit=resp;
       this.getAllElementsEventCartographies.next(true);
       this.getAllElementsEventRoles.next(true);
-      this.updateLayersPermits();
-    }
-    else { this.addNewLayersPermits()}
+    },
+    error => {
+      console.log(error);
+    });
+
 
   }
 

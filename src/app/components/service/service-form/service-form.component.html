@@ -50,7 +50,7 @@
               {{'serviceEntity.projections' | translate}}
             </label>
             <mat-form-field appearance="outline">
-                <mat-chip-list #chipList aria-label="Selecció de projecció">
+                <mat-chip-list #chipList  aria-label="Selecció de projecció">
                   <mat-chip
                     *ngFor="let projection of projections"
                     [selectable]="selectable"
@@ -102,7 +102,7 @@
               {{'serviceEntity.metadataURL' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="metadataURL">
+              <input matInput type="text" formControlName="getInformationURL">
             </mat-form-field>
 
         </div>
@@ -111,8 +111,8 @@
   </form>
 </div>
 
-<div class="tableDiv" *ngIf="dataLoaded">
-  <mat-accordion *ngIf="serviceID!=-1" multi>
+<div class="tableDiv" *ngIf="serviceID == -1 || dataLoaded">
+  <mat-accordion multi>
 
     <!-- Configuration parameters table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

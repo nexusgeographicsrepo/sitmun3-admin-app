@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceService, CartographyService,Connection, Cartography, ServiceParameterService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
@@ -94,10 +94,11 @@ export class ServiceFormComponent implements OnInit {
               name: this.serviceToEdit.name,
               type: this.serviceToEdit.type,
               serviceURL: this.serviceToEdit.serviceURL,
-              connection: this.serviceToEdit.proxyUrl,
+              proxyUrl: this.serviceToEdit.proxyUrl,
               supportedSRS: this.serviceToEdit.supportedSRS,
-              metadataURL: this.serviceToEdit.getInformationURL,
-              _links: this.serviceToEdit._links
+              getInformationURL: this.serviceToEdit.getInformationURL,
+              _links: this.serviceToEdit._links,
+              blocked: false
             });
 
             this.dataLoaded = true;
@@ -106,6 +107,11 @@ export class ServiceFormComponent implements OnInit {
 
           }
         );
+      }
+      else{
+        this.serviceForm.patchValue({
+          blocked: false,
+        })
       }
 
     },
@@ -187,16 +193,17 @@ export class ServiceFormComponent implements OnInit {
       serviceURL: new FormControl(null, [
         Validators.required,
       ]),
-      connection: new FormControl(null, [
+      proxyUrl: new FormControl(null, [
         Validators.required,
       ]),
       supportedSRS: new FormControl(null, [
         Validators.required,
       ]),
-      metadataURL: new FormControl(null, [
+      getInformationURL: new FormControl(null, [
         Validators.required,
       ]),
       _links: new FormControl(null, []),
+      blocked: new FormControl(null, []), 
     });
 
   }
@@ -241,50 +248,16 @@ export class ServiceFormComponent implements OnInit {
   }
 
 
-  addNewService() {
-    // this.serviceForm.patchValue({
-    //   supportedSRS: this.projections.join(';')
-    // })
-    this.serviceForm.patchValue({
-      supportedSRS: this.projections
-    });
-    console.log(this.serviceForm.value);
-    this.serviceService.save(this.serviceForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-      
-
-  }
-
-  updateService() {
-    // this.serviceForm.patchValue({
-    //   supportedSRS: this.projections.join(';')
-    // })
-    // this.serviceForm.patchValue({
-    //   supportedSRS: this.projections
-    // });
-    console.log(this.serviceToEdit);
-    this.serviceToEdit.name = this.serviceForm.value.name;
-    this.serviceToEdit.type = this.serviceForm.value.type;
-    this.serviceToEdit.serviceURL = this.serviceForm.value.serviceURL;
-    this.serviceToEdit.proxyUrl = this.serviceForm.value.connection;
-    this.serviceToEdit.getInformationURL = this.serviceForm.value.metadataURL;
-    this.serviceToEdit.supportedSRS = this.projections;
-
-    console.log(this.serviceToEdit);
-    this.serviceService.save(this.serviceToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
-
   // AG-GRID
 
   // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
+    
+    if(this.serviceID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
     return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
       .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
@@ -328,14 +301,20 @@ export class ServiceFormComponent implements OnInit {
   // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
 
-      var urlReq = `${this.serviceToEdit._links.layers.href}`
-      if (this.serviceToEdit._links.layers.templated) {
-        var url = new URL(urlReq.split("{")[0]);
-        url.searchParams.append("projection", "view")
-        urlReq = url.toString();
-      }
-      return (this.http.get(urlReq))
-      .pipe(map(data => data['_embedded']['cartographies']));
+    if(this.serviceID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+    var urlReq = `${this.serviceToEdit._links.layers.href}`
+    if (this.serviceToEdit._links.layers.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+    return (this.http.get(urlReq))
+    .pipe(map(data => data['_embedded']['cartographies']));
     
 
   }
@@ -427,16 +406,25 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onSaveButtonClicked(){
-
-    if(this.serviceID!=-1)
-    {
+    // this.serviceForm.patchValue({
+    //   supportedSRS: this.projections.join(';')
+    // })
+    this.serviceForm.patchValue({
+      supportedSRS: this.projections
+    })
+  console.log(this.serviceForm.value);
+    this.serviceService.save(this.serviceForm.value)
+    .subscribe(resp => {
+      console.log(resp);
+      this.serviceToEdit=resp;
       this.getAllElementsEventParameters.next(true);
       // this.getAllElementsEventLayers.next(true);
-      this.updateService();
-    }
-    else{
-      this.addNewService();
-    }
+    },
+    error=> {
+      console.log(error);
+    });
+
+
 
 
 }

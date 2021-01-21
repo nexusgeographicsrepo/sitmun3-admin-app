@@ -345,25 +345,35 @@
      </div>
 
      <div class="rowFormDiv">
-      
+
       <div class="colFormDiv" >
         <label class="formLabel requiredInput">
           {{'layersEntity.format' | translate}}
         </label>
-        <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="format" required>
+        <mat-form-field appearance="outline" >
+          <mat-select matInput formControlName="format" class="form-control" >
+            <mat-option [value]="formatType.value" *ngFor="let formatType of parameterFormatTypes">
+              {{ formatType.value}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
+      
+
 
       <div class="colFormDiv" >
         <label class="formLabel requiredInput">
           {{'layersEntity.type' | translate}}
         </label>
-        <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="type" required>
+        <mat-form-field appearance="outline" >
+          <mat-select matInput formControlName="type" class="form-control" >
+            <mat-option [value]="parameterType.value" *ngFor="let parameterType of parameterTypes">
+              {{ parameterType.value}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
-
+      
 
  </div>
   

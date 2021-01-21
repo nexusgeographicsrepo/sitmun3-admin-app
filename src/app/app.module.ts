@@ -101,6 +101,8 @@ import {
 } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
 import { SidenavService } from './services/sidenav.service';
+import { CartographyParameterService } from 'dist/sitmun-frontend-core/';
+
 
 
 @NgModule({
@@ -179,6 +181,7 @@ import { SidenavService } from './services/sidenav.service';
     ApplicationService, TreeService, BackgroundService, CartographyService, CartographyGroupService,
     TaskGroupService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
     Principal, AccountService,CartographyAvailabilityService,ServiceParameterService,ApplicationParameterService,
+    CartographyParameterService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthExpiredInterceptor, multi: true }

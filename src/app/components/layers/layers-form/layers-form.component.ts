@@ -10,7 +10,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
-
+import { CartographyParameterService } from 'dist/sitmun-frontend-core/';
 
 @Component({
   selector: 'app-layers-form',
@@ -29,6 +29,9 @@ export class LayersFormComponent implements OnInit {
   dataLoaded: Boolean = false;
   geometryTypes: Array<any> = [];
   legendTypes: Array<any> = [];
+
+  parameterFormatTypes: Array<any> = [];
+  parameterTypes: Array<any> = [];
 
   //Grids
   themeGrid: any = environment.agGridTheme;
@@ -76,6 +79,7 @@ export class LayersFormComponent implements OnInit {
     private cartographyService: CartographyService,
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
+    private cartographyParameterService: CartographyParameterService,
     private territoryService: TerritoryService,
     private http: HttpClient,
     private utils: UtilsService
@@ -183,6 +187,18 @@ export class LayersFormComponent implements OnInit {
     this.utils.getCodeListValues('cartography.legendType').subscribe(
       resp => {
         this.legendTypes.push(...resp);
+      }
+    );
+
+    this.utils.getCodeListValues('cartographyParameter.type').subscribe(
+      resp => {
+        this.parameterTypes.push(...resp);
+      }
+    );
+
+    this.utils.getCodeListValues('cartographyParameter.format').subscribe(
+      resp => {
+        this.parameterFormatTypes.push(...resp);
       }
     );
 
@@ -391,10 +407,36 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsParameters(data: any[] )
   {
-    // this.layerToEdit.parameters = [];
-    // data.forEach(parameter => {
-    //   if(parameter.status!== 'Deleted') {this.layerToEdit.parameters.push(parameter) }
-    // });
+    let parameterToSave = [];
+    let parameterToDelete = [];
+    data.forEach(parameter => {
+      if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
+        if(! parameter._links) {
+          parameter.cartography=this.layerToEdit} //If is new, you need the service link
+          parameterToSave.push(parameter)
+      }
+      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+    });
+
+    parameterToSave.forEach(saveElement => {
+
+      this.cartographyParameterService.save(saveElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    parameterToDelete.forEach(deletedElement => {
+
+      this.cartographyParameterService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
   }
 
   // ******** Spatial configuration ******** //
@@ -756,7 +798,7 @@ export class LayersFormComponent implements OnInit {
   
       if(this.layerID !== -1)
       {
-        // this.getAllElementsEventParameters.next(true);
+        this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         // this.getAllElementsEventLayersConfigurations.next(true);

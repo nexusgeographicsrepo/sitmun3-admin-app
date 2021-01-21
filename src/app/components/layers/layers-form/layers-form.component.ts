@@ -20,9 +20,7 @@ export class LayersFormComponent implements OnInit {
 
   //Form
   private parametersUrl: string;
-  municipalForm: FormGroup;
   layerForm: FormGroup;
-  informationForm: FormGroup;
   layerToEdit;
   layerID = -1;
   dataLoaded: Boolean = false;
@@ -84,8 +82,6 @@ export class LayersFormComponent implements OnInit {
     private utils: UtilsService
   ) {
     this.initializeLayersForm();
-    this.initializeMunicipalForm();
-    this.initializeInformationForm();
     this.initializeParameterForm();
 
     this.activatedRoute.params.subscribe(params => {
@@ -109,24 +105,21 @@ export class LayersFormComponent implements OnInit {
               metadataURL: this.layerToEdit.metadataURL,
               legendType: this.layerToEdit.legendType,
               description: this.layerToEdit.description,
-              datasetURL: this.layerToEdit.datasetURL,
-              _links: this.layerToEdit._links
-            });
-            this.municipalForm.setValue({
+              datasetURL: this.layerToEdit.datasetURL, //here
               municipalFilterFields: "",
               filterInfoByMunicipality: false,
               filterSpatialSeleciontByMunicipality: false,
-      
+              information: false,
+              defaultInformation: false,
+              informationLayer: "",
+              thematic: false,
+              //force to false
+              blocked: false,
+              queryableFeatureEnabled: false,
+              queryableFeatureAvailable: false,
+              _links: this.layerToEdit._links
             });
 
-            
-          this.informationForm.setValue({
-            information: false,
-            defaultInformation: false,
-            informationLayer: "",
-            thematic: false,
-    
-          });
 
             this.dataLoaded = true;
 
@@ -136,24 +129,6 @@ export class LayersFormComponent implements OnInit {
           }
         );
       }
-      else{
-
-        this.municipalForm.patchValue({
-          filterInfoByMunicipality: false,
-          filterSpatialSeleciontByMunicipality: false,
-  
-        });
-
-        this.informationForm.patchValue({
-          information : false,
-          defaultInformation: false,
-          thematic: false,
-        })
-      }
-
-
-
-
 
     },
       error => {
@@ -317,28 +292,21 @@ export class LayersFormComponent implements OnInit {
       metadataURL: new FormControl(null, []),
       legendType: new FormControl(null, []),
       description: new FormControl(null, []),
-      datasetURL: new FormControl(null, []),
-      _links: new FormControl(null, []),
-    });
-
-  }
-
-  initializeMunicipalForm(): void {
-    this.municipalForm = new FormGroup({
+      datasetURL: new FormControl(null, []),//here
       municipalFilterFields: new FormControl(null, []),
       filterInfoByMunicipality: new FormControl(null, []),
       filterSpatialSeleciontByMunicipality: new FormControl(null, []),
-    })
-  }
-
-  initializeInformationForm(): void {
-    this.informationForm = new FormGroup({
       information: new FormControl(null, []),
       defaultInformation: new FormControl(null, []),
       informationLayer: new FormControl(null, []),
       thematic: new FormControl(null, []),
-    })
+      blocked: new FormControl(null, []),
+      queryableFeatureEnabled: new FormControl(null, []),
+      queryableFeatureAvailable: new FormControl(null, []),
+      _links: new FormControl(null, []),
+    });
   }
+
 
   initializeParameterForm(): void {
     this.parameterForm = new FormGroup({
@@ -351,39 +319,6 @@ export class LayersFormComponent implements OnInit {
   }
 
 
-
-  addNewLayer() {
-    this.cartographyService.create(this.layerForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
-      });
-
-
-  }
-
-  updateLayer() {
-
-    this.layerToEdit.name=this.layerForm.value.name;
-    this.layerToEdit.serviceName=this.layerForm.value.serviceName;
-    this.layerToEdit.layers=this.layerForm.value.layers;
-    this.layerToEdit.minimumScale=this.layerForm.value.minimumScale;
-    this.layerToEdit.maximumScale=this.layerForm.value.maximumScale;
-    this.layerToEdit.geometryType=this.layerForm.value.geometryType;
-    this.layerToEdit.order=this.layerForm.value.order;
-    this.layerToEdit.transparency=this.layerForm.value.transparency;
-    this.layerToEdit.metadataURL=this.layerForm.value.metadataURL;
-    this.layerToEdit.legendType=this.layerForm.value.legendType;
-    this.layerToEdit.description=this.layerForm.value.description;
-    this.layerToEdit.datasetURL=this.layerForm.value.datasetURL;
-    console.log(this.layerToEdit);
-    this.cartographyService.update(this.layerToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
 
 
   // AG-GRID
@@ -807,7 +742,7 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      this.cartographyService.update(this.layerForm.value)
+      this.cartographyService.save(this.layerForm.value)
       .subscribe(resp => {
         console.log(resp);
         this.layerToEdit=resp;

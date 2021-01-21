@@ -3,7 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HalOptions, HalParam, TaskService } from 'dist/sitmun-frontend-core';
+import { HalOptions, HalParam, TaskService } from '@sitmun/frontend-core';
 
 
 @Component({
@@ -52,7 +52,7 @@ export class TasksMoreInfoComponent implements OnInit {
     let param:HalParam={key:'type.id', value:taskTypeID}
     params2.push(param);
     let query:HalOptions={ params:params2};
-    return this.taskService.getAll(query);
+    return this.taskService.getAll(query,undefined,"tasks");
   }
 
   removeData( data: any[])

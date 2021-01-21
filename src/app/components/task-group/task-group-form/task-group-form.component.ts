@@ -74,38 +74,19 @@ export class TaskGroupFormComponent implements OnInit {
 
   }
 
-  addNewTaskGroup() {
-    console.log(this.formtaskGroup.value);
-    this.taskGroupService.create(this.formtaskGroup.value)
-      .subscribe(resp => {
-        console.log(resp); 
-      });
 
-
-  }
-
-  updateTaskGroup() {
-
-    console.log(this.formtaskGroup.value);
-    this.taskGroupToEdit.name=this.formtaskGroup.value.name
-    this.taskGroupService.update(this.taskGroupToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
 
   onSaveButtonClicked(){
 
-    if(this.taskGroupID !== -1)
-    {
+    this.taskGroupService.create(this.formtaskGroup.value)
+      .subscribe(resp => {
+        console.log(resp); 
+        this.taskGroupToEdit=resp;
+      },
+      error => {
+        console.log(error);
+      });
 
-      this.updateTaskGroup();
-
-    }
-
-    else { this.addNewTaskGroup()};
 
   }
 

@@ -29,6 +29,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
   dataLoaded: Boolean = false;
+  idGroupType;
 
   //Grids
   columnDefsPermits: any[];
@@ -94,18 +95,23 @@ export class TerritoryFormComponent implements OnInit {
     this.getTerritoryGroups().subscribe(
       resp => {
         this.territoryGroups.push(...resp);
+        console.log(this.territoryGroups);
       }
     );
 
     let scopeTypesByDefault = {
+      id: -1,
+      codeListName: 'codeListName',
       value: null,
       description: '------'
     }
     this.scopeTypes.push(scopeTypesByDefault);
 
+
     this.utils.getCodeListValues('territory.scope').subscribe(
       resp => {
         this.scopeTypes.push(...resp);
+            console.log(this.scopeTypes)
       }
     );
 
@@ -128,6 +134,10 @@ export class TerritoryFormComponent implements OnInit {
           resp => {
             console.log(resp);
             this.territoryToEdit = resp;
+            if (this.territoryToEdit.scope == null) 
+            {
+              this.territoryToEdit.scope =  this.scopeTypes[0];
+            };
 
             this.extensions = this.territoryToEdit.extent.split(' ');
 
@@ -160,7 +170,6 @@ export class TerritoryFormComponent implements OnInit {
         this.territoryForm.patchValue({
           blocked: false,
           groupType: this.groupTypeOfThisTerritory[`id`],
-          scope: this.translateScopeType('short', null)
         });
       }
 
@@ -314,6 +323,7 @@ export class TerritoryFormComponent implements OnInit {
 
   getTerritoryGroupOfThisTerritory() {
     // return (this.http.get(`http://localhost:8080/api/territory-group-types/${this.territoryID}`));
+    
     return this.territoryGroupTypeService.get(this.territoryID);
   }
 
@@ -361,6 +371,25 @@ export class TerritoryFormComponent implements OnInit {
     });
   }
 
+  updateGroupType()
+  {
+    let linkGroupType;
+    this.idGroupType=this.territoryForm.value.groupType;
+    if(this.idGroupType == -1)
+    {
+      this.territoryForm.patchValue({
+        groupType: null
+      })
+    }
+    else{
+      linkGroupType=this.territoryGroups.find(element => element.id == this.idGroupType)._links.self.href
+      this.territoryForm.patchValue({
+        groupType: linkGroupType
+      })
+    }
+    console.log(linkGroupType)
+  }
+
 
   private translateScopeType(currentFormat: string, type: string) {
 
@@ -374,7 +403,7 @@ export class TerritoryFormComponent implements OnInit {
       if (type === 'M') { return 'Municipal' }
       else if (type === 'R') { return 'Supramunicipal' }
       else if (type === 'T') { return 'Total' }
-      else if (type === null) { return 'selectType' }
+      else if (type === null) { return '------' }
     }
 
   }
@@ -404,12 +433,6 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsPermits(data: any[] )
   {
-
-    if(this.territoryID == -1)
-    {
-      const aux: Array<any> = [];
-      return of(aux);
-    }
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
@@ -848,44 +871,21 @@ export class TerritoryFormComponent implements OnInit {
       }
 
       //Save button
-      // updateUserConfiguration(territory: Territory, roles: Role[], users: User[] )
-      // {
-      //   const promises: Promise<any>[] = [];
-      //   roles.forEach(role => {
-  
-      //     users.forEach(user => {
-  
-      //       let item = {
-      //         user: user,
-      //         role: role,
-      //         territory: territory,
-      //         _links: null
-      //       }
-      //       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-      //       Promise.all(promises).then(() => {
-      //         this.dataUpdatedEvent.next(true);
-      //       });
-           
-      //     });
-          
-      //   });
-  
-      // }
-  
   
       onSaveButtonClicked(){
-
-        this.updateExtent();
-        this.updateScope('large');
-        this.territoryForm.patchValue({
-          logo: null
-        });
+      console.log(this.territoryForm.value)
+      this.updateExtent();
+      this.updateGroupType();
+      this.territoryForm.patchValue({
+        territorialAuthorityLogo: null
+      });
+      console.log(this.territoryForm.value)
       this.territoryService.save(this.territoryForm.value)
       .subscribe(resp => {
         console.log(resp);
         this.territoryToEdit=resp;
-        // this.getAllElementsEventPermits.next(true);
-        // this.getAllElementsEventCartographies.next(true);
+        this.getAllElementsEventPermits.next(true);
+        this.getAllElementsEventCartographies.next(true);
         // this.getAllElementsEventTasks.next(true);
         // this.getAllElementsEventTerritoriesMemberOf.next(true);
         // this.getAllElementsEventTerritoriesMembers.next(true);
@@ -893,7 +893,9 @@ export class TerritoryFormComponent implements OnInit {
       error => {
         console.log(error);
       });
-      this.updateScope('short');
+      this.territoryForm.patchValue({
+        groupType: this.idGroupType
+      });
 
     }
 

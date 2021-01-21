@@ -210,43 +210,16 @@ export class UserFormComponent implements OnInit {
     };
   }
 
-  addNewUser() {
-
-    if (this.userForm.get('password').value === this.userForm.get('confirmPassword').value) {
-      console.log(this.userForm.value);
-      this.userService.create(this.userForm.value)
-        .subscribe(resp => {
-          console.log(resp);
-          // this.router.navigate(["/company", resp.id, "formConnection"]);
-        });
-    }
-    else {
-      console.error("Password doesn't match with confirm password");
-    }
-  }
-
-  updateUser() {
-
-    console.log(this.userForm.value);
-    this.userToEdit.username=this.userForm.value.username;
-    this.userToEdit.firstName=this.userForm.value.firstName;
-    this.userToEdit.lastName=this.userForm.value.lastName;
-    this.userToEdit.password=this.userForm.value.password;
-    this.userToEdit.administrator=this.userForm.value.administrator;
-    this.userToEdit.blocked=this.userForm.value.blocked;
-
-    this.userService.update(this.userToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-
-      });
-
-  }
-
   // AG-GRID
 
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
+
+    if(this.userID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
 
     let params2: HalParam[] = [];
     let param: HalParam = { key: 'user.id', value: this.userID }
@@ -299,6 +272,13 @@ export class UserFormComponent implements OnInit {
 
   // ******** Data of Territory ******** //
   getAllDataTerritory = (): Observable<any> => {
+
+    if(this.userID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     var urlReq = `${this.userForm.value._links.positions.href}`
     if (this.userForm.value._links.positions.templated) {
       var url = new URL(urlReq.split("{")[0]);
@@ -494,15 +474,24 @@ export class UserFormComponent implements OnInit {
 
 
   onSaveButtonClicked(){
-    if(this.userID !== -1)
+
+    if(this.userForm.value.password === this.userForm.value.confirmPassword)
     {
-      // this.getAllElementsEventTerritoryData.next(true);
-      this.getAllElementsEventPermits.next(true);
-      this.updateUser();
+      this.userService.save(this.userForm.value)
+      .subscribe(resp => {
+        console.log(resp);
+        this.userToEdit=resp;
+        this.getAllElementsEventTerritoryData.next(true);
+        this.getAllElementsEventPermits.next(true);
+  
+      },
+      error => {
+        console.log(error)
+      });     
     }
-    else{
-      this.addNewUser();
-    }
+
+
+
 
 
 

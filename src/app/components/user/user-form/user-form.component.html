@@ -83,8 +83,8 @@
   </form>
 </div>
 
-<div class="tableDiv" *ngIf="dataLoaded">
-  <mat-accordion *ngIf="userID!=-1" multi>
+<div class="tableDiv" *ngIf="userID==-1 || dataLoaded">
+  <mat-accordion multi>
 
     <!-- Permits table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

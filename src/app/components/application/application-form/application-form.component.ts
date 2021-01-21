@@ -641,7 +641,7 @@ export class ApplicationFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsRolesDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      this.utils.getTranslate("applicationEntity.roles");
+      dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.roles");
       dialogRef.componentInstance.titlesTable=[''];
       dialogRef.componentInstance.nonEditable=false;
       
@@ -670,7 +670,7 @@ export class ApplicationFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsBackgroundDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    this.utils.getTranslate("applicationEntity.background");
+    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.background");
     dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     
@@ -700,8 +700,8 @@ export class ApplicationFormComponent implements OnInit {
       dialogRef.componentInstance.singleSelectionTable=[false];
       dialogRef.componentInstance.columnDefsTable=[this.columnDefsTreeDialog];
       dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Tree';
-      dialogRef.componentInstance.titlesTable=['Tree'];
+      dialogRef.componentInstance.title=this.utils.getTranslate("applicationEntity.tree");
+      dialogRef.componentInstance.titlesTable=[''];
       dialogRef.componentInstance.nonEditable=false;
       
   
@@ -729,11 +729,10 @@ export class ApplicationFormComponent implements OnInit {
         this.getAllElementsEventRoles.next(true);
         this.getAllElementsEventBackground.next(true);
         this.getAllElementsEventTree.next(true);
-        this.updateApplication();
-
+       
       }
+      this.applicationService.save(this.applicationForm.value);
 
-      else { this.addNewApplication()};
   
     }
 

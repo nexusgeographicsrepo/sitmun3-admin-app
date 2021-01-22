@@ -18,6 +18,8 @@ export class TreesFormComponent implements OnInit {
   treeNodeForm: FormGroup;
   treeToEdit: Tree;
   dataLoaded: Boolean = false;
+  sendNodeUpdated: Subject<any> = new Subject <any>();
+  getAllElementsNodes: Subject<boolean> = new Subject <boolean>();
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -72,6 +74,8 @@ export class TreesFormComponent implements OnInit {
       cartography: new FormControl(null, []),
       radio: new FormControl(null, []),
       visible: new FormControl(null, []),
+      _links: new FormControl(null, []),
+      children: new FormControl(null, []),
 
     })
   }
@@ -88,12 +92,39 @@ export class TreesFormComponent implements OnInit {
 
   }
 
+  nodeReceived(node)
+  {
+    console.log(node);
+    this.treeNodeForm.patchValue({
+      id: node.id,
+      name: node.name,
+      tooltip: node.tooltip,
+      cartography: null,
+      radio: node.radio,
+      visible: node.visible,
+      _links: node._links,
+      children: node.children
+    })
+  }
+
   
-  onSaveButtonClicked(){
-    
+  onSaveButtonClicked(){ //TODO CHANGE TO UPDATE BUTTON WHEN AVAILABLE (Discomment the first line and delete line "sendNodeUpdated")
+    // this.getAllElementsNodes.next(true);
+    this.sendNodeUpdated.next(this.treeNodeForm.value)
 
 
+  }
 
+  onUpdateButtonClicked(){
+    this.sendNodeUpdated.next(this.treeNodeForm.value)
+  }
+
+  
+
+  getAllNodes(data)
+  {
+
+    console.log(data);
   }
 
 }

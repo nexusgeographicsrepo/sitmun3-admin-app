@@ -35,7 +35,9 @@
   </div>
   <span class="divider"></span>
 <div class="formDivTreeLeft" *ngIf="dataLoaded">
-  <app-data-tree [getAll]='getAllTreeNodes'>loading</app-data-tree>
+  <app-data-tree [getAll]='getAllTreeNodes' (emitNode)="nodeReceived($event)" [eventNodeUpdatedSubscription]='sendNodeUpdated.asObservable()'
+  (emitAllNodes)="getAllNodes($event)" >
+    loading</app-data-tree>
 </div>
 <div class="formDivTreeRight">
   <form [formGroup]='treeNodeForm' #f="ngForm">

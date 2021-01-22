@@ -113,8 +113,8 @@ export class LayersFormComponent implements OnInit {
               defaultInformation: false,
               informationLayer: "",
               thematic: false,
+              blocked: this.layerToEdit.blocked,
               //force to false
-              blocked: false,
               queryableFeatureEnabled: false,
               queryableFeatureAvailable: false,
               _links: this.layerToEdit._links
@@ -128,6 +128,11 @@ export class LayersFormComponent implements OnInit {
 
           }
         );
+      }
+      else{
+        this.layerForm.patchValue({
+          blocked: false,
+        })
       }
 
     },

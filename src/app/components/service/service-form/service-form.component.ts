@@ -97,8 +97,8 @@ export class ServiceFormComponent implements OnInit {
               proxyUrl: this.serviceToEdit.proxyUrl,
               supportedSRS: this.serviceToEdit.supportedSRS,
               getInformationURL: this.serviceToEdit.getInformationURL,
-              _links: this.serviceToEdit._links,
-              blocked: false
+              blocked: this.serviceToEdit.blocked,
+              _links: this.serviceToEdit._links
             });
 
             this.dataLoaded = true;

@@ -113,7 +113,8 @@
     "layersToRegister": "Select the layers you want to register",
     "description": "Description",
     "status": "Status",
-    "request":"Request"
+    "request":"Request",
+    "available": "Available"
   },
   "layersEntity": {
     "layers": "Layers",
@@ -154,7 +155,8 @@
     "generalData": "General Data",
     "municipalFilter": "Municipal Filter",
     "alias": "alias",
-    "status": "Status"
+    "status": "Status",
+    "available": "Available"
   },
   "layersPermitsEntity": {
     "generalData": "General Data",

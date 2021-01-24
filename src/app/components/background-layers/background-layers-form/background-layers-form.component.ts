@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackgroundService, HalOptions, HalParam, CartographyGroupService } from '@sitmun/frontend-core';
+import { BackgroundService, HalOptions, HalParam, CartographyGroupService, Background } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 
@@ -116,6 +116,9 @@ export class BackgroundLayersFormComponent implements OnInit {
 
   addNewBackground() {
     let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
+    if(cartographyGroup!=undefined){
+      cartographyGroup=""
+    }
     this.backgroundForm.patchValue({
       cartographyGroup : cartographyGroup
     })
@@ -154,10 +157,18 @@ export class BackgroundLayersFormComponent implements OnInit {
 
   onSaveButtonClicked(){
     let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
-    this.backgroundForm.patchValue({
-      cartographyGroup : cartographyGroup
-    })
-    this.backgroundService.save(this.backgroundForm.value)
+    if(cartographyGroup==undefined){
+      cartographyGroup=""
+    }
+
+    var backgroundObj: Background=new Background();
+    backgroundObj.name= this.backgroundForm.value.name;
+    backgroundObj.description= this.backgroundForm.value.description;
+    backgroundObj.cartographyGroup=cartographyGroup
+    backgroundObj.active= this.backgroundForm.value.active;
+    backgroundObj._links= this.backgroundForm.value._links;
+
+    this.backgroundService.save(backgroundObj)
       .subscribe(resp => {
         console.log(resp);
         this.backgroundToEdit=resp;
@@ -165,11 +176,6 @@ export class BackgroundLayersFormComponent implements OnInit {
       error=>{
         console.log("error")
       });
-
-      this.backgroundForm.patchValue({
-        cartographyGroup : cartographyGroup.id
-      }) 
-
     }
 
 }

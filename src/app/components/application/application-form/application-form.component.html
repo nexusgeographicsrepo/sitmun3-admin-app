@@ -113,7 +113,7 @@
             </label>
             <mat-form-field appearance="outline">
               <mat-select matInput formControlName="situationMap" class="form-control">
-                <mat-option [value]="situationMapObj" *ngFor="let situationMapObj of situationMapList">
+                <mat-option [value]="situationMapObj.id" *ngFor="let situationMapObj of situationMapList">
                   {{situationMapObj.name}}
                 </mat-option>
               </mat-select>

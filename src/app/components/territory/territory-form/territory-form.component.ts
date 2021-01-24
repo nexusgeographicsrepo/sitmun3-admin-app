@@ -373,6 +373,7 @@ export class TerritoryFormComponent implements OnInit {
 
   updateGroupType()
   {
+
     let linkGroupType;
     this.idGroupType=this.territoryForm.value.groupType;
     if(this.idGroupType == -1)
@@ -382,10 +383,7 @@ export class TerritoryFormComponent implements OnInit {
       })
     }
     else{
-      linkGroupType=this.territoryGroups.find(element => element.id == this.idGroupType)._links.self.href
-      this.territoryForm.patchValue({
-        groupType: linkGroupType
-      })
+     
     }
     console.log(linkGroupType)
   }
@@ -875,12 +873,36 @@ export class TerritoryFormComponent implements OnInit {
       onSaveButtonClicked(){
       console.log(this.territoryForm.value)
       this.updateExtent();
-      this.updateGroupType();
+
+      let  groupType=this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
+      if(groupType==undefined){
+        groupType="";
+      }
+
       this.territoryForm.patchValue({
         territorialAuthorityLogo: null
       });
-      console.log(this.territoryForm.value)
-      this.territoryService.save(this.territoryForm.value)
+
+      let terrritoryObj= new Territory();
+      terrritoryObj.id= this.territoryID,
+      terrritoryObj.code= this.territoryForm.value.code,
+      terrritoryObj.name= this.territoryForm.value.name,
+      terrritoryObj.territorialAuthorityAddress= this.territoryForm.value.territorialAuthorityAddress,
+      terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
+      terrritoryObj.scope= this.territoryForm.value.scope,
+      terrritoryObj.groupType = groupType,
+      terrritoryObj.extent= this.territoryForm.value.extent,
+      terrritoryObj.comments= this.territoryForm.value.note, //TODO
+      terrritoryObj.blocked= this.territoryForm.value.blocked,
+      terrritoryObj._links= this.territoryForm.value._links
+
+      if(this.territoryID==-1){
+        terrritoryObj.createdDate=new Date();
+      }else{
+        terrritoryObj.id=this.territoryForm.value.id;
+        terrritoryObj.createdDate=this.territoryToEdit.createdDate
+      }
+      this.territoryService.save(terrritoryObj)
       .subscribe(resp => {
         console.log(resp);
         this.territoryToEdit=resp;
@@ -893,10 +915,7 @@ export class TerritoryFormComponent implements OnInit {
       error => {
         console.log(error);
       });
-      this.territoryForm.patchValue({
-        groupType: this.idGroupType
-      });
-
+ 
     }
 
 }

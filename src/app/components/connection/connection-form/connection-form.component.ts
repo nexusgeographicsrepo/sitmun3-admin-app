@@ -192,9 +192,10 @@ export class ConnectionFormComponent implements OnInit {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      // let url=this.connectionToEdit._links.cartographies.href.split('{', 1)[0];
-      // this.utils.updateUriList(url,cartographiesToPut)
-      this.connectionToEdit.cartographies=this.utils.createUriList(cartographiesToPut);
+      let url=this.connectionToEdit._links.cartographies.href.split('{', 1)[0];
+      this.utils.updateUriList(url,cartographiesToPut)
+     // this.connectionToEdit.cartographies=this.utils.createUriList(cartographiesToPut);
+
     });
   }
 

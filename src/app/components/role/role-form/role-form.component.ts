@@ -25,7 +25,6 @@ export class RoleFormComponent implements OnInit {
   roleID: number = -1;
   dataLoaded: Boolean = false;
 
-
   //Grids
   columnDefsUsers: any[];
   getAllElementsEventUsers: Subject<true> = new Subject<true>();
@@ -37,7 +36,6 @@ export class RoleFormComponent implements OnInit {
   getAllElementsEventApplications: Subject<true> = new Subject <true>();
   themeGrid: any = environment.agGridTheme;
   
-
   //Dialogs
   columnDefsUsersDialog: any[];
   columnDefsTerritoriesDialog: any[];

@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree } from '@sitmun/frontend-core';
+import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree, Application } from '@sitmun/frontend-core';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -581,9 +581,6 @@ export class ApplicationFormComponent implements OnInit {
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
 
-    
-
-
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
@@ -719,7 +716,33 @@ export class ApplicationFormComponent implements OnInit {
 
     onSaveButtonClicked(){
 
-      this.applicationService.save(this.applicationForm.value)
+
+      let situationMap= this.situationMapList.find(x => x.id===this.applicationForm.value.situationMap )
+      if(situationMap==undefined){
+        situationMap=""
+      }
+  
+      var appObj: Application=new Application();
+     
+      appObj.name= this.applicationForm.value.name;
+      appObj.type= this.applicationForm.value.type;
+      appObj.title= this.applicationForm.value.title;
+      appObj.jspTemplate= this.applicationForm.value.jspTemplate;
+      appObj.theme= this.applicationForm.value.theme;
+      appObj.scales= this.applicationForm.value.scales;
+      appObj.srs= this.applicationForm.value.srs;
+      appObj.treeAutoRefresh= this.applicationForm.value.treeAutoRefresh;
+      appObj._links= this.applicationForm.value._links;
+      appObj.situationMap=situationMap;
+      if(this.applicationToEdit.id==-1){
+        appObj.createdDate=new Date();
+      }else{
+        appObj.id=this.applicationForm.value.id;
+        appObj.createdDate=this.applicationToEdit.createdDate
+      }
+  
+ 
+      this.applicationService.save(appObj)
       .subscribe(resp => {
         this.applicationToEdit = resp;
         this.getAllElementsEventParameters.next(true);

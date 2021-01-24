@@ -892,7 +892,7 @@ export class TerritoryFormComponent implements OnInit {
       terrritoryObj.scope= this.territoryForm.value.scope,
       terrritoryObj.groupType = groupType,
       terrritoryObj.extent= this.territoryForm.value.extent,
-      terrritoryObj.comments= this.territoryForm.value.note, //TODO
+      terrritoryObj.note= this.territoryForm.value.note,
       terrritoryObj.blocked= this.territoryForm.value.blocked,
       terrritoryObj._links= this.territoryForm.value._links
 

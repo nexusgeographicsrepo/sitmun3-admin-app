@@ -58,7 +58,7 @@ export class BackgroundLayersFormComponent implements OnInit {
               id: this.backgroundID,
               name: this.backgroundToEdit.name,
               description: this.backgroundToEdit.description,
-              cartographyGroup: this.backgroundToEdit['cartographyGroup.id'],
+              cartographyGroup: this.backgroundToEdit.cartographyGroupId,
               active: this.backgroundToEdit.active,
               _links: this.backgroundToEdit._links
             });
@@ -113,47 +113,6 @@ export class BackgroundLayersFormComponent implements OnInit {
     });
 
   }
-
-  addNewBackground() {
-    let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
-    if(cartographyGroup!=undefined){
-      cartographyGroup=""
-    }
-    this.backgroundForm.patchValue({
-      cartographyGroup : cartographyGroup
-    })
-    console.log(this.backgroundForm.value);
-
-    this.backgroundService.save(this.backgroundForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
-      });
-
-      this.backgroundForm.patchValue({
-        cartographyGroup : cartographyGroup.id
-      }) 
-  }
-
-  updateBackground() {
-
-    console.log(this.backgroundForm.value);
-    let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
-
-    this.backgroundToEdit.name= this.backgroundForm.value.name;
-    this.backgroundToEdit.description= this.backgroundForm.value.description;
-    this.backgroundToEdit.cartographyGroup=cartographyGroup
-    this.backgroundToEdit['cartographyGroup.id']=cartographyGroup.id;
-    this.backgroundToEdit.cartographyGroupName=cartographyGroup.name;
-    this.backgroundToEdit.cartographyGroup=cartographyGroup
-    this.backgroundToEdit.active= this.backgroundForm.value.active;
-    this.backgroundService.save(this.backgroundToEdit)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-
-  }
-
 
   onSaveButtonClicked(){
     let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )

@@ -77,7 +77,7 @@ export class BackgroundLayersComponent implements OnInit {
     data.forEach(background => {
       background.id = null;
       let newCartographyGroup = {
-        id: background[`cartographyGroup.id`],
+        id: background.cartographyGroupId,
         name: background.cartographyGroupName
       }
       background.cartographyGroup = newCartographyGroup;

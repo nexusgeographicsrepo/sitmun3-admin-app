@@ -54,8 +54,8 @@ export class ApplicationComponent implements OnInit {
           return alias != undefined ? alias.description : params.data.type
         }
       },
-      { headerName: this.utils.getTranslate('applicationEntity.serviceURL'), field: 'theme' },
-      { headerName: this.utils.getTranslate('applicationEntity.supportedSRS'), field: 'srs' },
+      { headerName: this.utils.getTranslate('applicationEntity.theme'), field: 'theme' },
+      { headerName: this.utils.getTranslate('applicationEntity.srs'), field: 'srs' },
       {
         headerName: this.utils.getTranslate('applicationEntity.createdDate'), field: 'createdDate',
         filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
@@ -87,6 +87,7 @@ export class ApplicationComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(application => {
       application.id = null;
+      application.createdDate=new Date()
       promises.push(new Promise((resolve, reject) => { this.applicationService.create(application).toPromise().then((resp) => { resolve() }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

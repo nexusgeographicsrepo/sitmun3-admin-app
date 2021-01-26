@@ -148,6 +148,7 @@ export class ApplicationFormComponent implements OnInit {
         this.applicationForm.patchValue({
           moveSupramunicipal: false,
           treeAutorefresh: false,
+          situationMap: -1
         });
       }
 
@@ -356,8 +357,9 @@ export class ApplicationFormComponent implements OnInit {
     }
 
     return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
-      .pipe(map(data => data[`_embedded`][`application-parameters`]));
-  }
+      .pipe(map(data =>  data[`_embedded`][`application-parameters`].filter(elem=> elem.type!="PRINT_TEMPLATE")
+      ));
+  } 
 
 
   getAllRowsParameters(data: any[] )
@@ -397,11 +399,15 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Template configuration ******** //
 
   getAllTemplates = (): Observable<any> => {
-    //TODO Change the link when available
-    // return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
-    //   .pipe(map(data => data[`_embedded`][`application-parameters`]));
-    const aux: Array<any> = [];
-    return of(aux);
+    if(this.applicationID == -1)
+    { 
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+    return (this.http.get(`${this.applicationForm.value._links.parameters.href}`))
+    .pipe(map(data =>  data[`_embedded`][`application-parameters`].filter(elem=> elem.type=="PRINT_TEMPLATE")
+      ));
   }
 
   getAllRowsTemplates(data: any[] )
@@ -734,7 +740,7 @@ export class ApplicationFormComponent implements OnInit {
       appObj.treeAutoRefresh= this.applicationForm.value.treeAutoRefresh;
       appObj._links= this.applicationForm.value._links;
       appObj.situationMap=situationMap;
-      if(this.applicationToEdit.id==-1){
+      if(this.applicationID==-1){
         appObj.createdDate=new Date();
       }else{
         appObj.id=this.applicationForm.value.id;

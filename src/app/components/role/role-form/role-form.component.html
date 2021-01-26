@@ -46,7 +46,7 @@
 <div class="tableDiv" *ngIf=" roleID==-1 || dataLoaded">
   <mat-accordion  multi>
 
-    <!-- Users table -->
+    <!-- Users table 
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title>
@@ -65,9 +65,9 @@
         </div>
 
       </ng-template>
-    </mat-expansion-panel>
+    </mat-expansion-panel>-->
 
-    <!-- Cartography table -->
+    <!-- Cartography Groups table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title>
@@ -77,7 +77,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsCartography" [themeGrid]='themeGrid' [getAll]='getAllCartographies'
+          <app-data-grid [columnDefs]="columnDefsCartography" [themeGrid]='themeGrid' [getAll]='getAllCartographiesGroups'
           [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()' 
            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true
             [hideDuplicateButton]=true [actionButton]=true (add)="openCartographyDialog($event)"

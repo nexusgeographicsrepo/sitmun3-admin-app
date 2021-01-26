@@ -44,45 +44,19 @@
               </mat-select>
             </mat-form-field>
           </div>
-    
-          <div class="thirdColumnColFormDiv" >
+          <div class="thirdColumnColFormDiv">
             <label class="formLabel">
-              {{'serviceEntity.projections' | translate}}
+              {{'serviceEntity.available' | translate}}
             </label>
-            <mat-form-field appearance="outline">
-                <mat-chip-list #chipList aria-label="Selecció de projecció">
-                  <mat-chip
-                    *ngFor="let projection of projections"
-                    [selectable]="selectable"
-                    [removable]="removable"
-                    (removed)="removeProjection(projection)"
-                  >
-                    {{ projection }}
-                    <mat-icon matChipRemove>cancel</mat-icon>
-                  </mat-chip>
-                  <input
-                    [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    [matChipInputAddOnBlur]="addOnBlur"
-                    (matChipInputTokenEnd)="addProjection($event)"
-                  />
-                </mat-chip-list>
-  
-
-
-            </mat-form-field>
+            <mat-checkbox formControlName="blocked"> </mat-checkbox>
           </div>
-      
+          
           
             <button *ngIf="serviceID==-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
             <button *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.updateData" | translate }}</button>
      </div>
 
       <div class="rowFormDiv">
-      
-
-
-
           <div class="colFormDiv" >
             <label class="formLabel requiredInput">
               {{'serviceEntity.url' | translate}}
@@ -99,13 +73,35 @@
               <input matInput type="text" formControlName="getInformationURL">
             </mat-form-field>
         </div>
-        <div class="colFormDiv">
+
+        <div class="colFormDiv" >
           <label class="formLabel">
-            {{'serviceEntity.available' | translate}}
+            {{'serviceEntity.projections' | translate}}
           </label>
-          <mat-checkbox formControlName="blocked"> </mat-checkbox>
+          <mat-form-field appearance="outline">
+              <mat-chip-list #chipList aria-label="Selecció de projecció">
+                <mat-chip
+                  *ngFor="let projection of projections"
+                  [selectable]="selectable"
+                  [removable]="removable"
+                  (removed)="removeProjection(projection)"
+                >
+                  {{ projection }}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addProjection($event)"
+                />
+              </mat-chip-list>
+
+
+
+          </mat-form-field>
         </div>
-  
+    
     </div>
   </form>
 </div>

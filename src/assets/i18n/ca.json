@@ -204,7 +204,7 @@
     "description": "Descripció",
     "type": "Tipus",
     "theme": "Tema",
-    "srs": "Projeccio",
+    "srs": "Projecció",
     "supportedSRS": "Projeccions",
     "serviceURL": "Url",
     "user": "Usuari",

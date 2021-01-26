@@ -172,7 +172,7 @@ export class ConnectionFormComponent implements OnInit {
     .pipe( map( data =>  data['_embedded']['cartographies']) );
   }
 
-  getAllRowsCartographies(data: any[] )
+  /*getAllRowsCartographies(data: any[] )
   {
     let cartographiesModified = [];
     let cartographiesToPut = [];
@@ -183,13 +183,13 @@ export class ConnectionFormComponent implements OnInit {
     });
 
     this.updateCartographies(cartographiesModified, cartographiesToPut );
-  }
+  }*/
 
-  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
+ /* updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
   {
     const promises: Promise<any>[] = [];
     cartographiesModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.save(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
       let url=this.connectionToEdit._links.cartographies.href.split('{', 1)[0];
@@ -197,7 +197,7 @@ export class ConnectionFormComponent implements OnInit {
      // this.connectionToEdit.cartographies=this.utils.createUriList(cartographiesToPut);
 
     });
-  }
+  }*/
 
 
 
@@ -325,7 +325,7 @@ export class ConnectionFormComponent implements OnInit {
         result => {
           console.log(result);
           this.connectionToEdit=result;
-          this.getAllElementsEventCartographies.next(true);
+          //this.getAllElementsEventCartographies.next(true);
           this.getAllElementsEventTasks.next(true);
         },
         error=>{

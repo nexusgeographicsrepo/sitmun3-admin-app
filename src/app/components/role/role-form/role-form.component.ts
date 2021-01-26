@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoleService, UserService, CartographyService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role, ApplicationService, Task, Cartography, Application } from '@sitmun/frontend-core';
+import { RoleService, UserService, CartographyGroupService, TaskService, UserConfigurationService, TerritoryService, HalOptions, HalParam, User, Territory, Role, ApplicationService, Task, CartographyGroup, Application } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -59,7 +59,7 @@ export class RoleFormComponent implements OnInit {
     private router: Router,
     private roleService: RoleService,
     private userService: UserService,
-    public cartographyService: CartographyService,
+    public cartographyGroupService: CartographyGroupService,
     public tasksService: TaskService,
     public applicationService: ApplicationService,
     private http: HttpClient,
@@ -110,8 +110,7 @@ export class RoleFormComponent implements OnInit {
     this.columnDefsTasks = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('roleEntity.code'), field: 'code' },
-      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupTask' },
+      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupName' },
       { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
     ];
 
@@ -119,7 +118,6 @@ export class RoleFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('roleEntity.layers'), field: 'layers' },
       { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
     ];
 
@@ -240,11 +238,23 @@ export class RoleFormComponent implements OnInit {
 
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
-    //TODO Change the link when available
-    //  return (this.http.get(`${this.formRole.value._links.members.href}`))
-    //  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-    const aux: Array<any> = [];
-    return of(aux);
+
+    if (this.roleID!== -1)
+    {
+      var urlReq = `${this.formRole.value._links.tasks.href}`
+      if (this.formRole.value._links.tasks.templated) {
+        var url = new URL(urlReq.split("{")[0]);
+        url.searchParams.append("projection", "view")
+        urlReq = url.toString();
+      }
+      return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['tasks']));
+    }
+    else {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
 
   }
 
@@ -273,37 +283,48 @@ export class RoleFormComponent implements OnInit {
     });
   }
 
-  // ******** Cartography ******** //
-  getAllCartographies = (): Observable<any> => {
-    //TODO Change the link when available
-    //  return (this.http.get(`${this.formRole.value._links.members.href}`))
-    //  .pipe( map( data =>  data[`_embedded`][`territories`]) );
-    const aux: Array<any> = [];
-    return of(aux);
+  // ******** Cartography Groups ******** //
+  getAllCartographiesGroups = (): Observable<any> => {
+    if (this.roleID!== -1)
+    {
+      var urlReq = `${this.formRole.value._links.permissions.href}`
+      if (this.formRole.value._links.permissions.templated) {
+        var url = new URL(urlReq.split("{")[0]);
+        url.searchParams.append("projection", "view")
+        urlReq = url.toString();
+      }
+      return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['cartography-groups']));
+    }
+    else {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+    
 
   }
 
-  getAllRowsCartographies(data: any[] )
+  getAllRowsCartographiesGroups(data: any[] )
   {
-    let cartographiesModified = [];
-    let cartographiesToPut = [];
-    data.forEach(cartography => {
-      if (cartography.status === 'Modified') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'Deleted') {cartographiesToPut.push(cartography._links.self.href) }
+    let cartographiesGroupModified = [];
+    let cartographiesGroupToPut = [];
+    data.forEach(cartographyGroup => {
+      if (cartographyGroup.status === 'Modified') {cartographiesGroupModified.push(cartographyGroup) }
+      if(cartographyGroup.status!== 'Deleted') {cartographiesGroupToPut.push(cartographyGroup._links.self.href) }
     });
 
-    this.updateCartographies(cartographiesModified, cartographiesToPut );
+    this.updateCartographiesGroups(cartographiesGroupModified, cartographiesGroupToPut );
   }
 
-  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
+  updateCartographiesGroups(cartographiesGroupsModified: CartographyGroup[], cartographiesGroupsToPut: CartographyGroup[])
   {
     const promises: Promise<any>[] = [];
-    cartographiesModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+    cartographiesGroupsModified.forEach(cartographyGroup => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartographyGroup).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.roleToEdit._links.cartographies.href.split('{', 1)[0];
-      this.utils.updateUriList(url,cartographiesToPut)
+      let url=this.roleToEdit._links.permissions.href.split('{', 1)[0];
+      this.utils.updateUriList(url,cartographiesGroupsToPut)
     });
   }
     // ******** Applications ******** //
@@ -324,8 +345,6 @@ export class RoleFormComponent implements OnInit {
         const aux: Array<any> = [];
         return of(aux);
       }
-
-
 
     }
   
@@ -357,10 +376,7 @@ export class RoleFormComponent implements OnInit {
     }
   
     
-  
-
-
-  // ******** Users Dialog  ******** //
+    // ******** Users Dialog  ******** //
 
   getAllUsersDialog = () => {
     return this.userService.getAll();
@@ -399,18 +415,18 @@ export class RoleFormComponent implements OnInit {
   }
   // ******** Cartography Dialog  ******** //
 
-  getAllCartographiesDialog = () => {
-    return this.cartographyService.getAll();
+  getAllCartographiesGroupsDialog = () => {
+    return this.cartographyGroupService.getAll();
   }
 
   openCartographyDialog(data: any) {
 
     const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
+    dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesGroupsDialog];
     dialogRef.componentInstance.singleSelectionTable=[false];
     dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
     dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.cartography');
+    dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.permissiongroupLayersConfiguration');
     dialogRef.componentInstance.titlesTable=[''];
     dialogRef.componentInstance.nonEditable=false;
     

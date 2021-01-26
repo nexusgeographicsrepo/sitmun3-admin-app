@@ -1707,9 +1707,15 @@
             i0.ɵɵtemplate(4, DataTreeComponent_mat_tree_node_1_button_4_Template, 3, 0, "button", 6);
             i0.ɵɵtemplate(5, DataTreeComponent_mat_tree_node_1_button_5_Template, 3, 0, "button", 6);
             i0.ɵɵelementStart(6, "button", 7);
-            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_1_Template_button_click_6_listener() { i0.ɵɵrestoreView(_r14_1); var node_r2 = ctx.$implicit; var ctx_r18 = i0.ɵɵnextContext(); return ctx_r18.onButtonClicked(node_r2.id, "edit"); });
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_1_Template_button_click_6_listener() { i0.ɵɵrestoreView(_r14_1); var node_r2 = ctx.$implicit; var ctx_r18 = i0.ɵɵnextContext(); return ctx_r18.onButtonClicked(node_r2.id, "delete"); });
             i0.ɵɵelementStart(7, "mat-icon");
-            i0.ɵɵtext(8, "edit");
+            i0.ɵɵtext(8, "delete");
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementStart(9, "button", 7);
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_1_Template_button_click_9_listener() { i0.ɵɵrestoreView(_r14_1); var node_r2 = ctx.$implicit; var ctx_r19 = i0.ɵɵnextContext(); return ctx_r19.onButtonClicked(node_r2.id, "edit"); });
+            i0.ɵɵelementStart(10, "mat-icon");
+            i0.ɵɵtext(11, "edit");
             i0.ɵɵelementEnd();
             i0.ɵɵelementEnd();
             i0.ɵɵelementEnd();
@@ -1729,9 +1735,9 @@
     }
     function DataTreeComponent_mat_tree_node_2_button_7_Template(rf, ctx) {
         if (rf & 1) {
-            var _r24_1 = i0.ɵɵgetCurrentView();
+            var _r25_1 = i0.ɵɵgetCurrentView();
             i0.ɵɵelementStart(0, "button", 7);
-            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_7_Template_button_click_0_listener() { i0.ɵɵrestoreView(_r24_1); var node_r19 = i0.ɵɵnextContext().$implicit; var ctx_r22 = i0.ɵɵnextContext(); return ctx_r22.onButtonClicked(node_r19.id, "newFolder"); });
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_7_Template_button_click_0_listener() { i0.ɵɵrestoreView(_r25_1); var node_r20 = i0.ɵɵnextContext().$implicit; var ctx_r23 = i0.ɵɵnextContext(); return ctx_r23.onButtonClicked(node_r20.id, "newFolder"); });
             i0.ɵɵelementStart(1, "mat-icon");
             i0.ɵɵtext(2, "create_new_folder");
             i0.ɵɵelementEnd();
@@ -1740,9 +1746,9 @@
     }
     function DataTreeComponent_mat_tree_node_2_button_8_Template(rf, ctx) {
         if (rf & 1) {
-            var _r27_1 = i0.ɵɵgetCurrentView();
+            var _r28_1 = i0.ɵɵgetCurrentView();
             i0.ɵɵelementStart(0, "button", 7);
-            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_8_Template_button_click_0_listener() { i0.ɵɵrestoreView(_r27_1); var node_r19 = i0.ɵɵnextContext().$implicit; var ctx_r25 = i0.ɵɵnextContext(); return ctx_r25.onButtonClicked(node_r19.id, "newNode"); });
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_8_Template_button_click_0_listener() { i0.ɵɵrestoreView(_r28_1); var node_r20 = i0.ɵɵnextContext().$implicit; var ctx_r26 = i0.ɵɵnextContext(); return ctx_r26.onButtonClicked(node_r20.id, "newNode"); });
             i0.ɵɵelementStart(1, "mat-icon");
             i0.ɵɵtext(2, "playlist_add");
             i0.ɵɵelementEnd();
@@ -1751,11 +1757,11 @@
     }
     function DataTreeComponent_mat_tree_node_2_Template(rf, ctx) {
         if (rf & 1) {
-            var _r29_1 = i0.ɵɵgetCurrentView();
+            var _r30_1 = i0.ɵɵgetCurrentView();
             i0.ɵɵelementStart(0, "mat-tree-node", 9);
-            i0.ɵɵlistener("mouseenter", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseenter_0_listener() { i0.ɵɵrestoreView(_r29_1); var node_r19 = ctx.$implicit; var ctx_r28 = i0.ɵɵnextContext(); return ctx_r28.dragHover(node_r19); })("mouseleave", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseleave_0_listener() { i0.ɵɵrestoreView(_r29_1); var ctx_r30 = i0.ɵɵnextContext(); return ctx_r30.dragHoverEnd(); })("cdkDragStarted", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragStarted_0_listener() { i0.ɵɵrestoreView(_r29_1); var ctx_r31 = i0.ɵɵnextContext(); return ctx_r31.dragStart(); })("cdkDragReleased", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragReleased_0_listener() { i0.ɵɵrestoreView(_r29_1); var ctx_r32 = i0.ɵɵnextContext(); return ctx_r32.dragEnd(); });
+            i0.ɵɵlistener("mouseenter", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseenter_0_listener() { i0.ɵɵrestoreView(_r30_1); var node_r20 = ctx.$implicit; var ctx_r29 = i0.ɵɵnextContext(); return ctx_r29.dragHover(node_r20); })("mouseleave", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseleave_0_listener() { i0.ɵɵrestoreView(_r30_1); var ctx_r31 = i0.ɵɵnextContext(); return ctx_r31.dragHoverEnd(); })("cdkDragStarted", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragStarted_0_listener() { i0.ɵɵrestoreView(_r30_1); var ctx_r32 = i0.ɵɵnextContext(); return ctx_r32.dragStart(); })("cdkDragReleased", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragReleased_0_listener() { i0.ɵɵrestoreView(_r30_1); var ctx_r33 = i0.ɵɵnextContext(); return ctx_r33.dragEnd(); });
             i0.ɵɵelementStart(1, "button", 10);
-            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_1_listener() { i0.ɵɵrestoreView(_r29_1); var node_r19 = ctx.$implicit; var ctx_r33 = i0.ɵɵnextContext(); return ctx_r33.expansionModel.toggle(node_r19.id); });
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_1_listener() { i0.ɵɵrestoreView(_r30_1); var node_r20 = ctx.$implicit; var ctx_r34 = i0.ɵɵnextContext(); return ctx_r34.expansionModel.toggle(node_r20.id); });
             i0.ɵɵelementStart(2, "mat-icon", 11);
             i0.ɵɵtext(3);
             i0.ɵɵelementEnd();
@@ -1767,29 +1773,35 @@
             i0.ɵɵtemplate(7, DataTreeComponent_mat_tree_node_2_button_7_Template, 3, 0, "button", 6);
             i0.ɵɵtemplate(8, DataTreeComponent_mat_tree_node_2_button_8_Template, 3, 0, "button", 6);
             i0.ɵɵelementStart(9, "button", 7);
-            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_9_listener() { i0.ɵɵrestoreView(_r29_1); var node_r19 = ctx.$implicit; var ctx_r34 = i0.ɵɵnextContext(); return ctx_r34.onButtonClicked(node_r19.id, "edit"); });
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_9_listener() { i0.ɵɵrestoreView(_r30_1); var node_r20 = ctx.$implicit; var ctx_r35 = i0.ɵɵnextContext(); return ctx_r35.onButtonClicked(node_r20.id, "delete"); });
             i0.ɵɵelementStart(10, "mat-icon");
-            i0.ɵɵtext(11, "edit");
+            i0.ɵɵtext(11, "delete");
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementStart(12, "button", 7);
+            i0.ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_12_listener() { i0.ɵɵrestoreView(_r30_1); var node_r20 = ctx.$implicit; var ctx_r36 = i0.ɵɵnextContext(); return ctx_r36.onButtonClicked(node_r20.id, "edit"); });
+            i0.ɵɵelementStart(13, "mat-icon");
+            i0.ɵɵtext(14, "edit");
             i0.ɵɵelementEnd();
             i0.ɵɵelementEnd();
             i0.ɵɵelementEnd();
         }
         if (rf & 2) {
-            var node_r19 = ctx.$implicit;
+            var node_r20 = ctx.$implicit;
             var ctx_r1 = i0.ɵɵnextContext();
-            i0.ɵɵproperty("cdkDragData", node_r19);
+            i0.ɵɵproperty("cdkDragData", node_r20);
             i0.ɵɵadvance(1);
-            i0.ɵɵattribute("aria-label", "toggle " + node_r19.name);
+            i0.ɵɵattribute("aria-label", "toggle " + node_r20.name);
             i0.ɵɵadvance(2);
-            i0.ɵɵtextInterpolate1(" ", ctx_r1.treeControl.isExpanded(node_r19) ? "expand_more" : "chevron_right", " ");
+            i0.ɵɵtextInterpolate1(" ", ctx_r1.treeControl.isExpanded(node_r20) ? "expand_more" : "chevron_right", " ");
             i0.ɵɵadvance(1);
-            i0.ɵɵattribute("aria-label", node_r19.type + "icon");
+            i0.ɵɵattribute("aria-label", node_r20.type + "icon");
             i0.ɵɵadvance(2);
-            i0.ɵɵtextInterpolate1(" ", node_r19.name, " ");
+            i0.ɵɵtextInterpolate1(" ", node_r20.name, " ");
             i0.ɵɵadvance(1);
-            i0.ɵɵproperty("ngIf", node_r19.type === "folder");
+            i0.ɵɵproperty("ngIf", node_r20.type === "folder");
             i0.ɵɵadvance(1);
-            i0.ɵɵproperty("ngIf", node_r19.type === "folder");
+            i0.ɵɵproperty("ngIf", node_r20.type === "folder");
         }
     }
     /**
@@ -2106,14 +2118,21 @@
         DataTreeComponent.prototype.onButtonClicked = function (id, button) {
             var changedData = JSON.parse(JSON.stringify(this.dataSource.data));
             var siblings = this.findNodeSiblings(changedData, id);
+            var nodeClicked = siblings.find(function (node) { return node.id === id; });
             if (button === 'edit') {
-                this.emitNode.emit(siblings.find(function (node) { return node.id === id; }));
+                this.emitNode.emit(nodeClicked);
             }
             else if (button === 'newFolder') {
-                this.createFolder.emit(siblings.find(function (node) { return node.id === id; }));
+                this.createFolder.emit(nodeClicked);
             }
             else if (button === 'newNode') {
-                this.createNode.emit(siblings.find(function (node) { return node.id === id; }));
+                this.createNode.emit(nodeClicked);
+            }
+            else if (button === 'delete') {
+                var children = this.getChildren([nodeClicked]);
+                children.forEach(function (children) {
+                    children.status = 'Deleted';
+                });
             }
         };
         DataTreeComponent.prototype.emitAllRows = function () {
@@ -2142,8 +2161,8 @@
             if (rf & 1) {
                 i0.ɵɵelementStart(0, "mat-tree", 0);
                 i0.ɵɵlistener("cdkDropListDropped", function DataTreeComponent_Template_mat_tree_cdkDropListDropped_0_listener($event) { return ctx.drop($event); });
-                i0.ɵɵtemplate(1, DataTreeComponent_mat_tree_node_1_Template, 9, 5, "mat-tree-node", 1);
-                i0.ɵɵtemplate(2, DataTreeComponent_mat_tree_node_2_Template, 12, 7, "mat-tree-node", 2);
+                i0.ɵɵtemplate(1, DataTreeComponent_mat_tree_node_1_Template, 12, 5, "mat-tree-node", 1);
+                i0.ɵɵtemplate(2, DataTreeComponent_mat_tree_node_2_Template, 15, 7, "mat-tree-node", 2);
                 i0.ɵɵelementEnd();
             }
             if (rf & 2) {

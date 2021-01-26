@@ -1284,9 +1284,15 @@ function DataTreeComponent_mat_tree_node_1_Template(rf, ctx) { if (rf & 1) {
     ɵɵtemplate(4, DataTreeComponent_mat_tree_node_1_button_4_Template, 3, 0, "button", 6);
     ɵɵtemplate(5, DataTreeComponent_mat_tree_node_1_button_5_Template, 3, 0, "button", 6);
     ɵɵelementStart(6, "button", 7);
-    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_1_Template_button_click_6_listener() { ɵɵrestoreView(_r14); const node_r2 = ctx.$implicit; const ctx_r18 = ɵɵnextContext(); return ctx_r18.onButtonClicked(node_r2.id, "edit"); });
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_1_Template_button_click_6_listener() { ɵɵrestoreView(_r14); const node_r2 = ctx.$implicit; const ctx_r18 = ɵɵnextContext(); return ctx_r18.onButtonClicked(node_r2.id, "delete"); });
     ɵɵelementStart(7, "mat-icon");
-    ɵɵtext(8, "edit");
+    ɵɵtext(8, "delete");
+    ɵɵelementEnd();
+    ɵɵelementEnd();
+    ɵɵelementStart(9, "button", 7);
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_1_Template_button_click_9_listener() { ɵɵrestoreView(_r14); const node_r2 = ctx.$implicit; const ctx_r19 = ɵɵnextContext(); return ctx_r19.onButtonClicked(node_r2.id, "edit"); });
+    ɵɵelementStart(10, "mat-icon");
+    ɵɵtext(11, "edit");
     ɵɵelementEnd();
     ɵɵelementEnd();
     ɵɵelementEnd();
@@ -1303,29 +1309,29 @@ function DataTreeComponent_mat_tree_node_1_Template(rf, ctx) { if (rf & 1) {
     ɵɵproperty("ngIf", node_r2.type === "folder");
 } }
 function DataTreeComponent_mat_tree_node_2_button_7_Template(rf, ctx) { if (rf & 1) {
-    const _r24 = ɵɵgetCurrentView();
+    const _r25 = ɵɵgetCurrentView();
     ɵɵelementStart(0, "button", 7);
-    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_7_Template_button_click_0_listener() { ɵɵrestoreView(_r24); const node_r19 = ɵɵnextContext().$implicit; const ctx_r22 = ɵɵnextContext(); return ctx_r22.onButtonClicked(node_r19.id, "newFolder"); });
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_7_Template_button_click_0_listener() { ɵɵrestoreView(_r25); const node_r20 = ɵɵnextContext().$implicit; const ctx_r23 = ɵɵnextContext(); return ctx_r23.onButtonClicked(node_r20.id, "newFolder"); });
     ɵɵelementStart(1, "mat-icon");
     ɵɵtext(2, "create_new_folder");
     ɵɵelementEnd();
     ɵɵelementEnd();
 } }
 function DataTreeComponent_mat_tree_node_2_button_8_Template(rf, ctx) { if (rf & 1) {
-    const _r27 = ɵɵgetCurrentView();
+    const _r28 = ɵɵgetCurrentView();
     ɵɵelementStart(0, "button", 7);
-    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_8_Template_button_click_0_listener() { ɵɵrestoreView(_r27); const node_r19 = ɵɵnextContext().$implicit; const ctx_r25 = ɵɵnextContext(); return ctx_r25.onButtonClicked(node_r19.id, "newNode"); });
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_button_8_Template_button_click_0_listener() { ɵɵrestoreView(_r28); const node_r20 = ɵɵnextContext().$implicit; const ctx_r26 = ɵɵnextContext(); return ctx_r26.onButtonClicked(node_r20.id, "newNode"); });
     ɵɵelementStart(1, "mat-icon");
     ɵɵtext(2, "playlist_add");
     ɵɵelementEnd();
     ɵɵelementEnd();
 } }
 function DataTreeComponent_mat_tree_node_2_Template(rf, ctx) { if (rf & 1) {
-    const _r29 = ɵɵgetCurrentView();
+    const _r30 = ɵɵgetCurrentView();
     ɵɵelementStart(0, "mat-tree-node", 9);
-    ɵɵlistener("mouseenter", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseenter_0_listener() { ɵɵrestoreView(_r29); const node_r19 = ctx.$implicit; const ctx_r28 = ɵɵnextContext(); return ctx_r28.dragHover(node_r19); })("mouseleave", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseleave_0_listener() { ɵɵrestoreView(_r29); const ctx_r30 = ɵɵnextContext(); return ctx_r30.dragHoverEnd(); })("cdkDragStarted", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragStarted_0_listener() { ɵɵrestoreView(_r29); const ctx_r31 = ɵɵnextContext(); return ctx_r31.dragStart(); })("cdkDragReleased", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragReleased_0_listener() { ɵɵrestoreView(_r29); const ctx_r32 = ɵɵnextContext(); return ctx_r32.dragEnd(); });
+    ɵɵlistener("mouseenter", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseenter_0_listener() { ɵɵrestoreView(_r30); const node_r20 = ctx.$implicit; const ctx_r29 = ɵɵnextContext(); return ctx_r29.dragHover(node_r20); })("mouseleave", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_mouseleave_0_listener() { ɵɵrestoreView(_r30); const ctx_r31 = ɵɵnextContext(); return ctx_r31.dragHoverEnd(); })("cdkDragStarted", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragStarted_0_listener() { ɵɵrestoreView(_r30); const ctx_r32 = ɵɵnextContext(); return ctx_r32.dragStart(); })("cdkDragReleased", function DataTreeComponent_mat_tree_node_2_Template_mat_tree_node_cdkDragReleased_0_listener() { ɵɵrestoreView(_r30); const ctx_r33 = ɵɵnextContext(); return ctx_r33.dragEnd(); });
     ɵɵelementStart(1, "button", 10);
-    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_1_listener() { ɵɵrestoreView(_r29); const node_r19 = ctx.$implicit; const ctx_r33 = ɵɵnextContext(); return ctx_r33.expansionModel.toggle(node_r19.id); });
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_1_listener() { ɵɵrestoreView(_r30); const node_r20 = ctx.$implicit; const ctx_r34 = ɵɵnextContext(); return ctx_r34.expansionModel.toggle(node_r20.id); });
     ɵɵelementStart(2, "mat-icon", 11);
     ɵɵtext(3);
     ɵɵelementEnd();
@@ -1337,28 +1343,34 @@ function DataTreeComponent_mat_tree_node_2_Template(rf, ctx) { if (rf & 1) {
     ɵɵtemplate(7, DataTreeComponent_mat_tree_node_2_button_7_Template, 3, 0, "button", 6);
     ɵɵtemplate(8, DataTreeComponent_mat_tree_node_2_button_8_Template, 3, 0, "button", 6);
     ɵɵelementStart(9, "button", 7);
-    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_9_listener() { ɵɵrestoreView(_r29); const node_r19 = ctx.$implicit; const ctx_r34 = ɵɵnextContext(); return ctx_r34.onButtonClicked(node_r19.id, "edit"); });
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_9_listener() { ɵɵrestoreView(_r30); const node_r20 = ctx.$implicit; const ctx_r35 = ɵɵnextContext(); return ctx_r35.onButtonClicked(node_r20.id, "delete"); });
     ɵɵelementStart(10, "mat-icon");
-    ɵɵtext(11, "edit");
+    ɵɵtext(11, "delete");
+    ɵɵelementEnd();
+    ɵɵelementEnd();
+    ɵɵelementStart(12, "button", 7);
+    ɵɵlistener("click", function DataTreeComponent_mat_tree_node_2_Template_button_click_12_listener() { ɵɵrestoreView(_r30); const node_r20 = ctx.$implicit; const ctx_r36 = ɵɵnextContext(); return ctx_r36.onButtonClicked(node_r20.id, "edit"); });
+    ɵɵelementStart(13, "mat-icon");
+    ɵɵtext(14, "edit");
     ɵɵelementEnd();
     ɵɵelementEnd();
     ɵɵelementEnd();
 } if (rf & 2) {
-    const node_r19 = ctx.$implicit;
+    const node_r20 = ctx.$implicit;
     const ctx_r1 = ɵɵnextContext();
-    ɵɵproperty("cdkDragData", node_r19);
+    ɵɵproperty("cdkDragData", node_r20);
     ɵɵadvance(1);
-    ɵɵattribute("aria-label", "toggle " + node_r19.name);
+    ɵɵattribute("aria-label", "toggle " + node_r20.name);
     ɵɵadvance(2);
-    ɵɵtextInterpolate1(" ", ctx_r1.treeControl.isExpanded(node_r19) ? "expand_more" : "chevron_right", " ");
+    ɵɵtextInterpolate1(" ", ctx_r1.treeControl.isExpanded(node_r20) ? "expand_more" : "chevron_right", " ");
     ɵɵadvance(1);
-    ɵɵattribute("aria-label", node_r19.type + "icon");
+    ɵɵattribute("aria-label", node_r20.type + "icon");
     ɵɵadvance(2);
-    ɵɵtextInterpolate1(" ", node_r19.name, " ");
+    ɵɵtextInterpolate1(" ", node_r20.name, " ");
     ɵɵadvance(1);
-    ɵɵproperty("ngIf", node_r19.type === "folder");
+    ɵɵproperty("ngIf", node_r20.type === "folder");
     ɵɵadvance(1);
-    ɵɵproperty("ngIf", node_r19.type === "folder");
+    ɵɵproperty("ngIf", node_r20.type === "folder");
 } }
 /**
  * File node data with nested structure.
@@ -1656,14 +1668,21 @@ class DataTreeComponent {
     onButtonClicked(id, button) {
         const changedData = JSON.parse(JSON.stringify(this.dataSource.data));
         const siblings = this.findNodeSiblings(changedData, id);
+        let nodeClicked = siblings.find(node => node.id === id);
         if (button === 'edit') {
-            this.emitNode.emit(siblings.find(node => node.id === id));
+            this.emitNode.emit(nodeClicked);
         }
         else if (button === 'newFolder') {
-            this.createFolder.emit(siblings.find(node => node.id === id));
+            this.createFolder.emit(nodeClicked);
         }
         else if (button === 'newNode') {
-            this.createNode.emit(siblings.find(node => node.id === id));
+            this.createNode.emit(nodeClicked);
+        }
+        else if (button === 'delete') {
+            let children = this.getChildren([nodeClicked]);
+            children.forEach(children => {
+                children.status = 'Deleted';
+            });
         }
     }
     emitAllRows() {
@@ -1689,8 +1708,8 @@ class DataTreeComponent {
 /** @nocollapse */ DataTreeComponent.ɵcmp = ɵɵdefineComponent({ type: DataTreeComponent, selectors: [["app-data-tree"]], inputs: { eventNodeUpdatedSubscription: "eventNodeUpdatedSubscription", eventCreateNodeSubscription: "eventCreateNodeSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", getAll: "getAll" }, outputs: { createNode: "createNode", createFolder: "createFolder", emitNode: "emitNode", emitAllNodes: "emitAllNodes" }, features: [ɵɵProvidersFeature([FileDatabase])], decls: 3, vars: 3, consts: [["cdkDropList", "", 3, "dataSource", "treeControl", "cdkDropListDropped"], ["matTreeNodeToggle", "", "matTreeNodePadding", "", "cdkDrag", "", 3, "cdkDragData", "mouseenter", "mouseleave", "cdkDragStarted", "cdkDragReleased", 4, "matTreeNodeDef"], ["matTreeNodePadding", "", "cdkDrag", "", 3, "cdkDragData", "mouseenter", "mouseleave", "cdkDragStarted", "cdkDragReleased", 4, "matTreeNodeDef", "matTreeNodeDefWhen"], ["matTreeNodeToggle", "", "matTreeNodePadding", "", "cdkDrag", "", 3, "cdkDragData", "mouseenter", "mouseleave", "cdkDragStarted", "cdkDragReleased"], ["mat-icon-button", "", "disabled", ""], ["class", "type-icon", 4, "ngIf"], ["mat-icon-button", "", 3, "click", 4, "ngIf"], ["mat-icon-button", "", 3, "click"], [1, "type-icon"], ["matTreeNodePadding", "", "cdkDrag", "", 3, "cdkDragData", "mouseenter", "mouseleave", "cdkDragStarted", "cdkDragReleased"], ["mat-icon-button", "", "matTreeNodeToggle", "", 3, "click"], [1, "mat-icon-rtl-mirror"]], template: function DataTreeComponent_Template(rf, ctx) { if (rf & 1) {
         ɵɵelementStart(0, "mat-tree", 0);
         ɵɵlistener("cdkDropListDropped", function DataTreeComponent_Template_mat_tree_cdkDropListDropped_0_listener($event) { return ctx.drop($event); });
-        ɵɵtemplate(1, DataTreeComponent_mat_tree_node_1_Template, 9, 5, "mat-tree-node", 1);
-        ɵɵtemplate(2, DataTreeComponent_mat_tree_node_2_Template, 12, 7, "mat-tree-node", 2);
+        ɵɵtemplate(1, DataTreeComponent_mat_tree_node_1_Template, 12, 5, "mat-tree-node", 1);
+        ɵɵtemplate(2, DataTreeComponent_mat_tree_node_2_Template, 15, 7, "mat-tree-node", 2);
         ɵɵelementEnd();
     } if (rf & 2) {
         ɵɵproperty("dataSource", ctx.dataSource)("treeControl", ctx.treeControl);

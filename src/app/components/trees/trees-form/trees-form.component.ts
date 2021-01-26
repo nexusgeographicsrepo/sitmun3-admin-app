@@ -262,6 +262,9 @@ export class TreesFormComponent implements OnInit {
 
 
         }
+        else {
+          console.log(tree);
+        }
 
       }
 

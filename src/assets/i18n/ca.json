@@ -24,6 +24,7 @@
   "ok-deleted": "Els elements s'han eliminat correctament",
   "error-deleted": "S'ha produït un error en esborrar els elements",
   "removeMessage": "Si esborres les dades seleccionades no hi haurà volta enrere, segur que vols continuar?",
+  "cartographyNonSelectedMessage": "Per editar un node has de seleccionar una cartografia!",
   "caution": "Perill",
   "lang": {
     "catalan": "Català",

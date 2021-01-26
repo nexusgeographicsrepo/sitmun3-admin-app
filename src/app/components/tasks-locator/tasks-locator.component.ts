@@ -3,8 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HalOptions, HalParam } from 'dist/sitmun-frontend-core';
-import { TaskService } from '@sitmun/frontend-core';
+import { TaskService, HalOptions, HalParam } from '@sitmun/frontend-core';
 
 @Component({
   selector: 'app-tasks-locator',

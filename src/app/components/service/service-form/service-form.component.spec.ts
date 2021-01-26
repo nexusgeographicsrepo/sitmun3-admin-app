@@ -4,12 +4,11 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { ServiceService, ServiceParameterService, CartographyService } from '@sitmun/frontend-core';
+import { ServiceService, ServiceParameterService, CartographyService, CodeListService } from '@sitmun/frontend-core';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CodeListService } from 'dist/sitmun-frontend-core';
 
 describe('ServiceFormComponent', () => {
   let component: ServiceFormComponent;

@@ -4,12 +4,11 @@ import { UserFormComponent } from './user-form.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { UserService, RoleService, TerritoryService, UserConfigurationService } from '@sitmun/frontend-core';
+import { UserService, RoleService, TerritoryService, UserConfigurationService, CodeListService } from '@sitmun/frontend-core';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CodeListService } from 'dist/sitmun-frontend-core';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;

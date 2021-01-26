@@ -20,8 +20,8 @@ describe('RoleFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleFormComponent ],
       imports: [HttpClientTestingModule, RouterModule.forRoot([]),HttpClientModule,
-      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, CartographyGroupService, MatIconTestingModule],
-      providers: [RoleService, UserService, TerritoryService, ApplicationService, CodeListService,UserConfigurationService, CartographyService, TaskService,
+      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
+      providers: [RoleService, UserService, TerritoryService, ApplicationService, CodeListService, CartographyGroupService,UserConfigurationService, CartographyService, TaskService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoleFormComponent } from './role-form.component';
 import { RouterModule } from '@angular/router';
-import { RoleService, UserService, CodeListService, TerritoryService, CartographyService, TaskService, UserConfigurationService, ApplicationService } from '@sitmun/frontend-core';
+import { RoleService, UserService, CodeListService, CartographyGroupService, TerritoryService, CartographyService, TaskService, UserConfigurationService, ApplicationService } from '@sitmun/frontend-core';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
@@ -20,7 +20,7 @@ describe('RoleFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleFormComponent ],
       imports: [HttpClientTestingModule, RouterModule.forRoot([]),HttpClientModule,
-      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
+      SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, CartographyGroupService, MatIconTestingModule],
       providers: [RoleService, UserService, TerritoryService, ApplicationService, CodeListService,UserConfigurationService, CartographyService, TaskService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

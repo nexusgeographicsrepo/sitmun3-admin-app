@@ -24,6 +24,7 @@
   "ok-deleted": "Items deleted successfully",
   "error-deleted": "Error deleting items",
   "removeMessage": "If you delete the selected data there will be no going back, are you sure you want to continue?",
+  "cartographyNonSelectedMessage": "If you want to edit a node you must select a cartography!",
   "caution": "Danger",
   "lang": {
     "catalan": "Catalan",

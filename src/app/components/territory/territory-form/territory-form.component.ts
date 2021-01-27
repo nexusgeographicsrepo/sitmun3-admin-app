@@ -197,7 +197,7 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsMemberOf = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable:false  },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
@@ -206,7 +206,7 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsMembers = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable:false  },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
@@ -500,7 +500,6 @@ export class TerritoryFormComponent implements OnInit {
 
   updateTerritoriesMembersOf(territoriesModified: Territory[], territoriesToPut: Territory[])
   {
-    debugger;
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
       promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
@@ -546,13 +545,12 @@ export class TerritoryFormComponent implements OnInit {
       if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
     });
     console.log(territoriesModified);
-    this.updateTerritoriesMembersOf(territoriesModified, territoriesToPut);
+    this.updateTerritoriesMembers(territoriesModified, territoriesToPut);
 
   }
 
   updateTerritoriesMembers(territoriesModified: Territory[], territoriesToPut: Territory[])
   {
-    debugger;
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
       promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
@@ -560,6 +558,9 @@ export class TerritoryFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       let url=this.territoryToEdit._links.members.href.split('{', 1)[0];
       this.utils.updateUriList(url,territoriesToPut)
+      // this.terrritoryObj.substituteAllRelation('members',territoriesToPut).subscribe(
+      //   result => {console.log(result)}
+      // )
     });
   }
 
@@ -919,6 +920,7 @@ export class TerritoryFormComponent implements OnInit {
       this.terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
       this.terrritoryObj.scope= this.territoryForm.value.scope,
       this.terrritoryObj.groupType = groupType,
+      console.log(this.terrritoryObj.groupType);
       this.terrritoryObj.extent= this.territoryForm.value.extent,
       this.terrritoryObj.note= this.territoryForm.value.note,
       this.terrritoryObj.blocked= this.territoryForm.value.blocked,
@@ -937,8 +939,8 @@ export class TerritoryFormComponent implements OnInit {
         this.getAllElementsEventPermits.next(true);
         this.getAllElementsEventCartographies.next(true);
         this.getAllElementsEventTasks.next(true);
-        // this.getAllElementsEventTerritoriesMemberOf.next(true);
-        // this.getAllElementsEventTerritoriesMembers.next(true);
+        this.getAllElementsEventTerritoriesMemberOf.next(true);
+        this.getAllElementsEventTerritoriesMembers.next(true);
       },
       error => {
         console.log(error);

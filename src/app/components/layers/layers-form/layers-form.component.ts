@@ -750,17 +750,17 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      // this.cartographyService.save(this.layerForm.value)
-      // .subscribe(resp => {
-      //   console.log(resp);
-      //   this.layerToEdit=resp;
+      this.cartographyService.save(this.layerForm.value)
+      .subscribe(resp => {
+        console.log(resp);
+        this.layerToEdit=resp;
         this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         // this.getAllElementsEventLayersConfigurations.next(true);
         this.getAllElementsEventNodes.next(true);
 
-      // });
+      });
 
   
     }

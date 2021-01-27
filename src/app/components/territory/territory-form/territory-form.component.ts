@@ -224,7 +224,7 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsTasks = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable:false },
       { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup', editable:false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
@@ -656,19 +656,33 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[] )
   {
-    let tasksModified = [];
-    let tasksToPut = [];
+    let tasksToDelete = [];
+    let tasksToCreate = [];
     data.forEach(task => {
-      if (task.status === 'Modified') {tasksModified.push(task) }
+      if (task.status === 'Deleted' && task._links) {tasksToDelete.push(task) }
       if(task.status === 'Pending creation') 
       {
-        let taskToPut: TaskAvailability = new TaskAvailability();
-        taskToPut.territory=this.territoryToEdit;
-        taskToPut.task= task;
-        tasksToPut.push(taskToPut)
+        let taskToCreate: TaskAvailability = new TaskAvailability();
+        taskToCreate.territory=this.territoryToEdit;
+        taskToCreate.task= task;
+        tasksToCreate.push(taskToCreate)
        }
     });
-    this.updateTasks(tasksModified, tasksToPut);
+
+    tasksToCreate.forEach(task => {
+      this.taskAvailabilityService.save(task).subscribe(result => {
+        console.log(result)
+      })
+    } )
+
+    tasksToDelete.forEach(task => {
+      this.taskAvailabilityService.remove(task).subscribe(result => {
+        console.log(result)
+      })
+    } )
+
+
+
 
   }
 

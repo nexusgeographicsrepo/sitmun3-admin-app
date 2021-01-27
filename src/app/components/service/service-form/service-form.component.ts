@@ -150,7 +150,7 @@ export class ServiceFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('serviceEntity.request'), field: 'type', editable:false },
       { headerName: this.utils.getTranslate('serviceEntity.parameter'), field: 'name', },
       { headerName: this.utils.getTranslate('serviceEntity.value'), field: 'value' },
-      { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status', editable:false },
 
 
     ];
@@ -161,7 +161,7 @@ export class ServiceFormComponent implements OnInit {
       { headerName: 'Id', field: 'id' },
       { headerName: this.utils.getTranslate('serviceEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('serviceEntity.description'), field: 'description', },
-      { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('serviceEntity.status'), field: 'status', editable:false },
 
     ];
 

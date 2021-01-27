@@ -191,7 +191,7 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', },
       { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order' },
       { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type' },
-      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -203,7 +203,7 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type', },
       { headerName: this.utils.getTranslate('layersEntity.help'), field: 'help' },
       { headerName: this.utils.getTranslate('layersEntity.selectPath'), field: 'selectPath' },
-      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -222,7 +222,7 @@ export class LayersFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -581,12 +581,6 @@ export class LayersFormComponent implements OnInit {
   }
 
   // ******** Parameters Dialog  ******** //
-
-  getAllParametersDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
-  }
 
   openParametersDialog(data: any) {
 

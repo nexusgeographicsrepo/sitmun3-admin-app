@@ -197,7 +197,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -206,7 +206,7 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -223,8 +223,8 @@ export class TerritoryFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code' },
-      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
 
     ];
 

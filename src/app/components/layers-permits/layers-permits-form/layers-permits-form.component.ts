@@ -98,7 +98,7 @@ export class LayersPermitsFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersPermitsEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('layersPermitsEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersPermitsEntity.status'), field: 'status', editable:false },
     ];
 
 
@@ -106,7 +106,7 @@ export class LayersPermitsFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersPermitsEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('layersPermitsEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('layersPermitsEntity.status'), field: 'status', editable:false },
     ];
 
     this.columnDefsCartographiesDialog = [

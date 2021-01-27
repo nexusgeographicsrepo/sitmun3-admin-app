@@ -163,7 +163,7 @@ export class ApplicationFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
       { headerName: this.utils.getTranslate('applicationEntity.type'), field: 'type' },
-      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status', editable:false },
 
 
     ];
@@ -173,7 +173,7 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('applicationEntity.value'), field: 'value', },
-      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status', editable:false },
 
     ];
 
@@ -182,7 +182,7 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: "ID", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status', editable:false },
 
 
     ];
@@ -192,7 +192,7 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: "ID", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('applicationEntity.description'), field: 'description' },
+      { headerName: this.utils.getTranslate('applicationEntity.description'), field: 'description', editable:false },
 
 
     ];
@@ -202,7 +202,7 @@ export class ApplicationFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: "Id", field: 'id' },
       { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status', editable:false },
 
 
     ];

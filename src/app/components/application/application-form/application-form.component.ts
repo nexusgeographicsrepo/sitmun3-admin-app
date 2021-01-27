@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree, Application } from '@sitmun/frontend-core';
+import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree, Application, CodeList } from '@sitmun/frontend-core';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -54,6 +54,9 @@ export class ApplicationFormComponent implements OnInit {
   @ViewChild('newParameterDialog',{
     static: true
   }) private newParameterDialog: TemplateRef <any>;
+  @ViewChild('newTemplateDialog',{
+    static: true
+  }) private newTemplateDialog: TemplateRef <any>;
   columnDefsTemplateConfigurationDialog: any[];
   getAllElementsEventTemplateConfiguration: Subject<boolean> = new Subject <boolean>();
   
@@ -93,7 +96,16 @@ export class ApplicationFormComponent implements OnInit {
       }
     );
 
-    this.utils.getCodeListValues('applicationParameter.type').subscribe(
+    this.utils.getCodeListValues('applicationParameter.type').
+    pipe(
+      map( (resp: any) => {
+        let newTable: CodeList[]= [];
+        resp.forEach(element => {
+            if( element.value !== 'PRINT_TEMPLATE') {newTable.push(element)}
+        });
+        return newTable;
+      })
+    ).subscribe(
       resp => {
         this.parametersTypes.push(...resp);
       }
@@ -593,10 +605,11 @@ export class ApplicationFormComponent implements OnInit {
           let item= this.parameterForm.value;
           this.addElementsEventParameters.next([item])
           console.log(this.parameterForm.value)
-          this.parameterForm.reset();
+
           
         }
       }
+      this.parameterForm.reset();
 
     });
 
@@ -611,19 +624,20 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   openTemplateConfigurationDialog(data: any) {
-    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
-    dialogRef.componentInstance.getAllsTable = [this.getAllTemplatesConfigurationDialog];
-    dialogRef.componentInstance.singleSelectionTable = [false];
-    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTemplateConfigurationDialog];
-    dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.templateConfiguration");
-    dialogRef.componentInstance.titlesTable = [''];
-    dialogRef.componentInstance.nonEditable = false;
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.newTemplateDialog;
+    dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.addElementsEventTemplateConfiguration.next(result.data[0])
+      if(result){
+        if(result.event==='Add') {
+          let item= this.parameterForm.value;
+          item.type='PRINT_TEMPLATE';
+          this.addElementsEventTemplateConfiguration.next([item])         
+        }
+
       }
-    
+      this.parameterForm.reset();
     });
 
   }
@@ -752,9 +766,9 @@ export class ApplicationFormComponent implements OnInit {
       .subscribe(resp => {
         this.applicationToEdit = resp;
         this.getAllElementsEventParameters.next(true);
-        // this.getAllElementsEventTemplateConfiguration.next(true);
+        this.getAllElementsEventTemplateConfiguration.next(true);
         this.getAllElementsEventRoles.next(true);
-        this.getAllElementsEventBackground.next(true);
+        // this.getAllElementsEventBackground.next(true);
         this.getAllElementsEventTree.next(true);
       },
       error => {

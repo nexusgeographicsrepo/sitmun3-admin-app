@@ -157,8 +157,8 @@
               <div class="appDataGridEditDiv">
                   <app-data-grid [columnDefs]="columnDefsTemplates" [themeGrid]='themeGrid' [getAll]='getAllTemplates'  
                   [eventAddItemsSubscription]='addElementsEventTemplateConfiguration.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventTemplateConfiguration.asObservable()' 
-                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
-                  (getAllRows)="getAllRowsTemplates($event)" [actionButton]=true (add)="openTemplateConfigurationDialog($event)"  > </app-data-grid>
+                  [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true [hideDuplicateButton]=true
+                  (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (new)="openTemplateConfigurationDialog($event)"  > </app-data-grid>
               </div>
           </ng-template>
           </mat-expansion-panel>
@@ -274,3 +274,39 @@
   
   
   </ng-template>
+
+  <ng-template #newTemplateDialog>
+
+    <div class="formDiv">
+      <form [formGroup]='parameterForm' #f="ngForm"> 
+    
+    
+        <div class="rowFormDiv">
+        
+            <div class="colFormDiv" >
+              <label class="formLabel requiredInput">
+                {{'applicationEntity.name' | translate}}
+              </label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="name" required>
+              </mat-form-field>
+            </div>
+  
+    
+          <div class="colFormDiv" >
+            <label class="formLabel requiredInput">
+              {{'serviceEntity.value' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="value" required>
+            </mat-form-field>
+          </div>
+    
+       </div>
+  
+    
+    </form>
+    </div>
+    
+    
+</ng-template>

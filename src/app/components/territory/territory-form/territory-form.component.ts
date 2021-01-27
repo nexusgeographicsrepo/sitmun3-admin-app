@@ -746,7 +746,16 @@ export class TerritoryFormComponent implements OnInit {
     // ******** Territory Member Of Dialog  ******** //
 
     getAllTerritoriesMemberOfDialog = () => {
-      return this.territoryService.getAll();
+      return this.territoryService.getAll().
+      pipe(
+        map( (resp: any) => {
+          let newTable: Territory[]= [];
+          resp.forEach(element => {
+              if( element.scope == 'R') {newTable.push(element)}
+          });
+          return newTable;
+        })
+      );
     }
   
     openTerritoryMemberOfDialog(data: any) {
@@ -776,7 +785,16 @@ export class TerritoryFormComponent implements OnInit {
     // ******** Territory Members Dialog  ******** //
 
     getAllTerritoriesMembersDialog = () => {
-      return this.territoryService.getAll();
+      return this.territoryService.getAll().
+      pipe(
+        map( (resp: any) => {
+          let newTable: Territory[]= [];
+          resp.forEach(element => {
+              if( element.scope == 'M') {newTable.push(element)}
+          });
+          return newTable;
+        })
+      );;
     }
   
     openTerritoryMembersDialog(data: any) {

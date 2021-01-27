@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Territory, TerritoryService, TerritoryGroupTypeService, CartographyAvailabilityService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task } from '@sitmun/frontend-core';
+import { Territory, TerritoryService, TaskAvailabilityService, TerritoryGroupTypeService, CartographyAvailabilityService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task, TaskAvailability } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -30,6 +30,7 @@ export class TerritoryFormComponent implements OnInit {
   extensions: Array<string>;
   dataLoaded: Boolean = false;
   idGroupType;
+  terrritoryObj;
 
   //Grids
   columnDefsPermits: any[];
@@ -75,6 +76,7 @@ export class TerritoryFormComponent implements OnInit {
     private territoryGroupTypeService: TerritoryGroupTypeService,
     private cartographyService: CartographyService,
     private cartographyAvailabilityService: CartographyAvailabilityService,
+    private taskAvailabilityService: TaskAvailabilityService,
     private taskService: TaskService,
     private userConfigurationService: UserConfigurationService,
     private http: HttpClient,
@@ -658,21 +660,33 @@ export class TerritoryFormComponent implements OnInit {
     let tasksToPut = [];
     data.forEach(task => {
       if (task.status === 'Modified') {tasksModified.push(task) }
-      if(task.status!== 'Deleted') {tasksToPut.push(task._links.self.href) }
+      if(task.status === 'Pending creation') 
+      {
+        let taskToPut: TaskAvailability = new TaskAvailability();
+        taskToPut.territory=this.territoryToEdit;
+        taskToPut.task= task;
+        tasksToPut.push(taskToPut)
+       }
     });
     this.updateTasks(tasksModified, tasksToPut);
 
   }
 
-  updateTasks(tasksModified: Task[], tasksToPut: Task[])
+  updateTasks(tasksModified: Task[], tasksToPut: TaskAvailability[])
   {
     const promises: Promise<any>[] = [];
     tasksModified.forEach(task => {
       promises.push(new Promise((resolve, reject) => { this.taskService.update(task).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.territoryToEdit._links.taskAvailabilities.href.split('{', 1)[0];
-      this.utils.updateUriList(url,tasksToPut)
+      // let url=this.territoryToEdit._links.taskAvailabilities.href.split('{', 1)[0];
+      // this.utils.updateUriList(url,tasksToPut)
+      tasksToPut.forEach(task => {
+        this.taskAvailabilityService.save(task).subscribe(result => {
+          console.log(result)
+        })
+      } )
+
     });
   }
 
@@ -883,32 +897,32 @@ export class TerritoryFormComponent implements OnInit {
         territorialAuthorityLogo: null
       });
 
-      let terrritoryObj= new Territory();
-      terrritoryObj.id= this.territoryID,
-      terrritoryObj.code= this.territoryForm.value.code,
-      terrritoryObj.name= this.territoryForm.value.name,
-      terrritoryObj.territorialAuthorityAddress= this.territoryForm.value.territorialAuthorityAddress,
-      terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
-      terrritoryObj.scope= this.territoryForm.value.scope,
-      terrritoryObj.groupType = groupType,
-      terrritoryObj.extent= this.territoryForm.value.extent,
-      terrritoryObj.note= this.territoryForm.value.note,
-      terrritoryObj.blocked= this.territoryForm.value.blocked,
-      terrritoryObj._links= this.territoryForm.value._links
+      this.terrritoryObj= new Territory();
+      this.terrritoryObj.id= this.territoryID,
+      this.terrritoryObj.code= this.territoryForm.value.code,
+      this.terrritoryObj.name= this.territoryForm.value.name,
+      this.terrritoryObj.territorialAuthorityAddress= this.territoryForm.value.territorialAuthorityAddress,
+      this.terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
+      this.terrritoryObj.scope= this.territoryForm.value.scope,
+      this.terrritoryObj.groupType = groupType,
+      this.terrritoryObj.extent= this.territoryForm.value.extent,
+      this.terrritoryObj.note= this.territoryForm.value.note,
+      this.terrritoryObj.blocked= this.territoryForm.value.blocked,
+      this.terrritoryObj._links= this.territoryForm.value._links
 
       if(this.territoryID==-1){
-        terrritoryObj.createdDate=new Date();
+        this.terrritoryObj.createdDate=new Date();
       }else{
-        terrritoryObj.id=this.territoryForm.value.id;
-        terrritoryObj.createdDate=this.territoryToEdit.createdDate
+        this.terrritoryObj.id=this.territoryForm.value.id;
+        this.terrritoryObj.createdDate=this.territoryToEdit.createdDate
       }
-      this.territoryService.save(terrritoryObj)
+      this.territoryService.save(this.terrritoryObj)
       .subscribe(resp => {
         console.log(resp);
         this.territoryToEdit=resp;
         this.getAllElementsEventPermits.next(true);
         this.getAllElementsEventCartographies.next(true);
-        // this.getAllElementsEventTasks.next(true);
+        this.getAllElementsEventTasks.next(true);
         // this.getAllElementsEventTerritoriesMemberOf.next(true);
         // this.getAllElementsEventTerritoriesMembers.next(true);
       },

@@ -418,7 +418,7 @@ export class ServiceFormComponent implements OnInit {
       console.log(resp);
       this.serviceToEdit=resp;
       this.getAllElementsEventParameters.next(true);
-      // this.getAllElementsEventLayers.next(true);
+      this.getAllElementsEventLayers.next(true);
     },
     error=> {
       console.log(error);

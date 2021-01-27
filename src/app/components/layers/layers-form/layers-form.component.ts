@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService } from '@sitmun/frontend-core';
+import { CartographyService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -77,6 +77,7 @@ export class LayersFormComponent implements OnInit {
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
     private cartographyParameterService: CartographyParameterService,
+    private treeNodeService: TreeNodeService,
     private territoryService: TerritoryService,
     private http: HttpClient,
     private utils: UtilsService
@@ -230,7 +231,7 @@ export class LayersFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'nodeName' },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'description' },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'tree', },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable: false },
     ];
@@ -538,11 +539,21 @@ export class LayersFormComponent implements OnInit {
   // ******** Nodes configuration ******** //
   getAllNodes = (): Observable<any> => {
 
-    //TODO Change the link when available
-    // return (this.http.get(`${this.layerForm.value._links.parameters.href}`))
-    // .pipe( map( data =>  data['_embedded']['cartography-parameters']) );
-    const aux: Array<any> = [];
-    return of(aux);
+    if(this.layerID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+    var urlReq = `${this.layerForm.value._links.treeNodes.href}`
+    if (this.layerForm.value._links.treeNodes.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['tree-nodes']));
   }
 
   getAllRowsNodes(data: any[] )
@@ -559,14 +570,14 @@ export class LayersFormComponent implements OnInit {
 
   updateNodes(nodesModified: any[], nodesToPut: any[])
   {
-    // const promises: Promise<any>[] = [];
-    // nodesModified.forEach(territory => {
-    //   promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
-    // });
-    // Promise.all(promises).then(() => {
-    //   let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
-    //   this.utils.updateUriList(url,nodesToPut)
-    // });
+    const promises: Promise<any>[] = [];
+    nodesModified.forEach(node => {
+      promises.push(new Promise((resolve, reject) => { this.treeNodeService.update(node).toPromise().then((resp) => { resolve() }) }));
+    });
+    Promise.all(promises).then(() => {
+      let url=this.layerToEdit._links.treeNodes.href.split('{', 1)[0];
+      this.utils.updateUriList(url,nodesToPut)
+    });
   }
 
   // ******** Parameters Dialog  ******** //
@@ -714,9 +725,7 @@ export class LayersFormComponent implements OnInit {
   // ******** Nodes Dialog  ******** //
 
   getAllNodesDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
+     return this.treeNodeService.getAll();
   }
 
   openNodesDialog(data: any) {
@@ -747,17 +756,17 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      this.cartographyService.save(this.layerForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        this.layerToEdit=resp;
+      // this.cartographyService.save(this.layerForm.value)
+      // .subscribe(resp => {
+      //   console.log(resp);
+      //   this.layerToEdit=resp;
         this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         // this.getAllElementsEventLayersConfigurations.next(true);
-        // this.getAllElementsEventNodes.next(true);
+        this.getAllElementsEventNodes.next(true);
 
-      });
+      // });
 
   
     }

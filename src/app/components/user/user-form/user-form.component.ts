@@ -477,17 +477,29 @@ export class UserFormComponent implements OnInit {
 
     if(this.userForm.value.password === this.userForm.value.confirmPassword)
     {
-      this.userService.save(this.userForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        this.userToEdit=resp;
-        this.getAllElementsEventTerritoryData.next(true);
-        this.getAllElementsEventPermits.next(true);
+        let userObj: User = new User();
+        userObj.id=this.userID;
+        userObj.username=this.userForm.value.username;
+        userObj.password=this.userForm.value.password;
+        userObj.firstName=this.userForm.value.firstName;
+        userObj.lastName=this.userForm.value.lastName;
+        userObj.blocked=this.userForm.value.blocked;
+        userObj.administrator=this.userForm.value.administrator;
+        userObj._links=this.userForm.value._links;
+
+      this.userService.save(userObj)
+      .subscribe((resp:User) => {
+        console.log(resp)
+            this.userToEdit=resp
+            console.log(this.userToEdit);
+            // this.userToEdit=resp;
+            this.getAllElementsEventTerritoryData.next(true);
+            this.getAllElementsEventPermits.next(true);
+          }, error => {
+            console.log(error)
+          });   
+      
   
-      },
-      error => {
-        console.log(error)
-      });     
     }
 
 

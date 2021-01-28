@@ -66,12 +66,13 @@ export class TasksComponent implements OnInit {
     data.forEach(task => {
       let newTask: any = task;
       newTask.id = null;
+      newTask.name = 'copia_'.concat(newTask.name)
       this.taskGroupService.get(newTask.groupId).subscribe(
         result => {
           newTask.group=result;
           newTask._links= null;
           console.log(newTask)
-          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.save(newTask).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.create(newTask).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
           Promise.all(promises).then(() => {
             this.dataUpdatedEvent.next(true);
           });

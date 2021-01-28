@@ -82,6 +82,7 @@ export class UserComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(user => {
       user.id = null;
+      user.username = 'copia_'.concat(user.username)
       promises.push(new Promise((resolve, reject) => { this.userService.create(user).toPromise().then((resp) => { resolve() }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

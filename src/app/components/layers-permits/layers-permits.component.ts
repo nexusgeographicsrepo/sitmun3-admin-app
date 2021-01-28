@@ -79,6 +79,7 @@ export class LayersPermitsComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(cartographyGroup => {
       cartographyGroup.id = null;
+      cartographyGroup.name = 'copia_'.concat(cartographyGroup.name)
       promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.create(cartographyGroup).toPromise().then((resp) => { resolve() }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

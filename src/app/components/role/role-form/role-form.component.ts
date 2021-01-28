@@ -417,7 +417,11 @@ export class RoleFormComponent implements OnInit {
   // ******** Cartography Dialog  ******** //
 
   getAllCartographiesGroupsDialog = () => {
-    return this.cartographyGroupService.getAll();
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type', value:'C'}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.cartographyGroupService.getAll(query,undefined);
   }
 
   openCartographyDialog(data: any) {

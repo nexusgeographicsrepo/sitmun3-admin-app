@@ -15,6 +15,7 @@
   "close": "Close",
   "redo": "Redo",
   "undo": "Undo",
+  "return": "Return",
   "search/replace": "Search/Replace",
   "selectType": "Select type",
   "ok-created": "Items created successfully",

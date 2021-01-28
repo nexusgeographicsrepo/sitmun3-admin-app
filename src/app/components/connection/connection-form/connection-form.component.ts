@@ -35,7 +35,7 @@ export class ConnectionFormComponent implements OnInit {
 
   columnDefsTasks: any[];
   getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
-
+  dataUpdatedEventTasks: Subject<boolean> = new Subject<boolean>();
   //Dialog
   columnDefsCartographiesDialog: any[];
   addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
@@ -243,7 +243,7 @@ export class ConnectionFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.connectionToEdit._links.tasks.href.split('{', 1)[0];
-      this.utils.updateUriList(url,tasksToPut)
+      this.utils.updateUriList(url,tasksToPut,this.dataUpdatedEventTasks)
     });
   }
   

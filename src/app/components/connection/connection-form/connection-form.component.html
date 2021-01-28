@@ -111,7 +111,7 @@
             <app-data-grid [columnDefs]="columnDefsTasks" [themeGrid]='themeGrid' [getAll]='getAllTasks'
             [eventAddItemsSubscription]='addElementsEventTasks.asObservable()' [eventRefreshSubscription]='dataUpdatedEvent.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventTasks.asObservable()' [discardChangesButton]=true [redoButton]=true 
-            [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+            [eventRefreshSubscription]='dataUpdatedEventTasks.asObservable()' [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
             [actionButton]=true (add)="openTasksDialog($event)"  (getAllRows)="getAllRowsTasks($event)"> </app-data-grid>
         </div>
     </ng-template>

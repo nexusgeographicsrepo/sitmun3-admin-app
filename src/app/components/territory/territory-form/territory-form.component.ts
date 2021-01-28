@@ -926,9 +926,6 @@ export class TerritoryFormComponent implements OnInit {
         groupType="";
       }
 
-      this.territoryForm.patchValue({
-        territorialAuthorityLogo: null
-      });
 
       this.terrritoryObj= new Territory();
       this.terrritoryObj.id= this.territoryID,

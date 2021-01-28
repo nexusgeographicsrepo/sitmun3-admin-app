@@ -35,18 +35,23 @@ export class TerritoryFormComponent implements OnInit {
   //Grids
   columnDefsPermits: any[];
   getAllElementsEventPermits: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventPermits: Subject<boolean> = new Subject<boolean>();
 
   columnDefsMemberOf: any[];
   getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventMemberOf: Subject<boolean> = new Subject<boolean>();
 
   columnDefsMembers: any[];
   getAllElementsEventTerritoriesMembers: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventMembers: Subject<boolean> = new Subject<boolean>();
 
   columnDefsCartographies: any[];
   getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventCartographies: Subject<boolean> = new Subject<boolean>();
 
   columnDefsTasks: any[];
   getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventTasks: Subject<boolean> = new Subject<boolean>();
 
   //Dialog
   columnDefsTasksDialog: any[];
@@ -447,28 +452,24 @@ export class TerritoryFormComponent implements OnInit {
       if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
       if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
     });
-
+    const promises: Promise<any>[] = [];
     usersConfToCreate.forEach(newElement => {
-
-      this.userConfigurationService.save(newElement).subscribe(
-        result => {
-          console.log(result)
-        })
-
-      
+      promises.push(new Promise((resolve, reject) => {  this.userConfigurationService.save(newElement).toPromise().then((resp) => { resolve() }) }));     
     });
 
     usersConfDelete.forEach(deletedElement => {
     
       if(deletedElement._links)
       {
-        this.userConfigurationService.remove(deletedElement).subscribe(
-          result => {
-            console.log(result)
-          })
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
       }
       
     });
+
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventPermits.next(true);
+    });
+
   }
 
   // ******** MembersOf ******** //
@@ -508,7 +509,7 @@ export class TerritoryFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.territoryToEdit._links.memberOf.href.split('{', 1)[0];
-      this.utils.updateUriList(url,territoriesToPut)
+      this.utils.updateUriList(url,territoriesToPut, this.dataUpdatedEventMemberOf)
     });
   }
 
@@ -559,7 +560,7 @@ export class TerritoryFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.territoryToEdit._links.members.href.split('{', 1)[0];
-      this.utils.updateUriList(url,territoriesToPut)
+      this.utils.updateUriList(url,territoriesToPut,this.dataUpdatedEventMembers)
       // this.terrritoryObj.substituteAllRelation('members',territoriesToPut).subscribe(
       //   result => {console.log(result)}
       // )
@@ -596,40 +597,17 @@ export class TerritoryFormComponent implements OnInit {
       if (cartography.status === 'Pending creation') {cartographiesToCreate.push(cartography) }
       if(cartography.status === 'Deleted') {cartographiesToDelete.push(cartography._links.self.href) }
     });
-
+    const promises: Promise<any>[] = [];
     cartographiesToCreate.forEach(newElement => {
-
-      this.cartographyAvailabilityService.save(newElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-
+      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.save(newElement).toPromise().then((resp) => { resolve() }) }));
     });
 
     cartographiesToDelete.forEach(deletedElement => {
-
-      this.cartographyAvailabilityService.remove(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-      
+      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));   
     });
 
-
-  }
-
-  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
-  {
-    
-    const promises: Promise<any>[] = [];
-    cartographiesModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
-    });
     Promise.all(promises).then(() => {
-      let url=this.territoryToEdit._links.cartographyAvailabilities.href.split('{', 1)[0];
-      this.utils.updateUriList(url,cartographiesToPut)
+      this.dataUpdatedEventCartographies.next(true);
     });
   }
 
@@ -671,22 +649,20 @@ export class TerritoryFormComponent implements OnInit {
         tasksToCreate.push(taskToCreate)
        }
     });
-
+    const promises: Promise<any>[] = [];
+    
     tasksToCreate.forEach(task => {
-      this.taskAvailabilityService.save(task).subscribe(result => {
-        console.log(result)
-      })
-    } )
+      promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(task).toPromise().then((resp) => { resolve() }) }));
+
+    })
 
     tasksToDelete.forEach(task => {
-      this.taskAvailabilityService.remove(task).subscribe(result => {
-        console.log(result)
-      })
-    } )
+      promises.push(new Promise((resolve, reject) => {  this.taskAvailabilityService.remove(task).toPromise().then((resp) => { resolve() }) }));
+    })
 
-
-
-
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventTasks.next(true);
+    });
   }
 
   updateTasks(tasksModified: Task[], tasksToPut: TaskAvailability[])

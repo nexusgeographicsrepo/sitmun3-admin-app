@@ -165,7 +165,7 @@
           <app-data-grid [columnDefs]="columnDefsPermits" [themeGrid]='themeGrid' [getAll]='getAllPermits'
             [discardChangesButton]=true [redoButton]=true [undoButton]=true [hideDuplicateButton]=true
             [eventRefreshSubscription]='dataUpdatedEvent.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventPermits.asObservable()' 
-            [eventAddItemsSubscription]='addElementsEventPermits.asObservable()'
+            [eventRefreshSubscription]='dataUpdatedEventPermits.asObservable()'[eventAddItemsSubscription]='addElementsEventPermits.asObservable()'
             (add)="openPermitsDialog($event)"  [deleteButton]=true [addButton]=true [actionButton]=true 
             (getAllRows)="getAllRowsPermits($event)"  >
           </app-data-grid>
@@ -187,7 +187,7 @@
             <app-data-grid [columnDefs]="columnDefsMemberOf" [themeGrid]='themeGrid' [getAll]='getAllMembersOf'
                [discardChangesButton]=true [redoButton]=true [hideDuplicateButton]=true
                [eventAddItemsSubscription]='addElementsEventTerritoriesMemberOf.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventTerritoriesMemberOf.asObservable()' 
-              [undoButton]=true [deleteButton]=true [addButton]=true [actionButton]=true
+               [eventRefreshSubscription]='dataUpdatedEventMemberOf.asObservable()' [undoButton]=true [deleteButton]=true [addButton]=true [actionButton]=true
               (getAllRows)="getAllRowsMembersOf($event)" (add)="openTerritoryMemberOfDialog($event)">
             </app-data-grid>
           </div>
@@ -211,7 +211,7 @@
             <app-data-grid [columnDefs]="columnDefsMembers" [themeGrid]='themeGrid' [getAll]='getAllMembers'
                [discardChangesButton]=true [redoButton]=true [hideDuplicateButton]=true
                [eventAddItemsSubscription]='addElementsEventTerritoriesMembers.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventTerritoriesMembers.asObservable()' 
-              [undoButton]=true [deleteButton]=true [addButton]=true [actionButton]=true
+               [eventRefreshSubscription]='dataUpdatedEventMembers.asObservable()' [undoButton]=true [deleteButton]=true [addButton]=true [actionButton]=true
               (getAllRows)="getAllRowsMembers($event)"   (add)="openTerritoryMembersDialog($event)">
             </app-data-grid>
           </div>
@@ -233,7 +233,7 @@
           <app-data-grid [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies'
              [discardChangesButton]=true [redoButton]=true [undoButton]=true [hideDuplicateButton]=true
              [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()' 
-            [deleteButton]=true [addButton]=true [actionButton]=true 
+             [eventRefreshSubscription]='dataUpdatedEventCartographies.asObservable()' [deleteButton]=true [addButton]=true [actionButton]=true 
             (getAllRows)="getAllRowsCartographies($event)"   (add)="openCartographyDialog($event)"> </app-data-grid>
         </div>
 

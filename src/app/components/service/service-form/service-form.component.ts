@@ -40,9 +40,11 @@ export class ServiceFormComponent implements OnInit {
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
   getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventParameters: Subject<boolean> = new Subject<boolean>();
 
   columnDefsLayers: any[];
   getAllElementsEventLayers: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventLayers: Subject<boolean> = new Subject<boolean>();
 
   //Dialogs
   columnDefsParametersDialog: any[];
@@ -276,26 +278,19 @@ export class ServiceFormComponent implements OnInit {
       }
       if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
     });
-
+    const promises: Promise<any>[] = [];
     parameterToSave.forEach(saveElement => {
-
-      this.serviceParameterService.save(saveElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-
+      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(saveElement).toPromise().then((resp) => { resolve() }) }));
     });
 
     parameterToDelete.forEach(deletedElement => {
-
-      this.serviceParameterService.remove(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-      
+      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));    
     });
+
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventParameters.next(true);
+    });
+	
   }
 
   duplicateParameters(data)
@@ -358,7 +353,7 @@ export class ServiceFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.serviceToEdit._links.layers.href.split('{', 1)[0];
-      this.utils.updateUriList(url,layersToPut)
+      this.utils.updateUriList(url,layersToPut, this.dataUpdatedEventLayers)
     });
   }
 

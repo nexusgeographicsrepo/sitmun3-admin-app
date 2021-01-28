@@ -125,7 +125,7 @@
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
             [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()' 
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+            [eventRefreshSubscription]='dataUpdatedEventParameters.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
             (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (duplicate)='duplicateParameters($event)'  (new)="openParametersDialog($event)"> </app-data-grid>
         </div>
     </ng-template>
@@ -144,7 +144,7 @@
         <div class="appDataGridEditDiv">
             <app-data-grid  [columnDefs]="columnDefsLayers" [themeGrid]='themeGrid' [getAll]='getAllLayers' 
             [eventAddItemsSubscription]='addElementsEventLayers.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventLayers.asObservable()' 
-            [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
+            [eventRefreshSubscription]='dataUpdatedEventLayers.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [addButton]=true  [hideDuplicateButton]=true
             (getAllRows)="getAllRowsLayers($event)" [actionButton]=true (add)="openCartographyDialog($event)" > </app-data-grid>
         </div>
     </ng-template>

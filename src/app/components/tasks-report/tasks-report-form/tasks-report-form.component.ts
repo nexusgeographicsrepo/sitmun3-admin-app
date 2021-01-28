@@ -57,7 +57,7 @@ export class TasksReportFormComponent implements OnInit {
      public roleService: RoleService,
      public territoryService: TerritoryService,
      private http: HttpClient,
-     private utils: UtilsService
+     public utils: UtilsService
    ) {
      this.initializeTasksReportForm();
    }

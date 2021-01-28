@@ -64,7 +64,7 @@ export class RoleFormComponent implements OnInit {
     public tasksService: TaskService,
     public applicationService: ApplicationService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
     private userConfigurationService: UserConfigurationService,
     private territoryService: TerritoryService
   ) {

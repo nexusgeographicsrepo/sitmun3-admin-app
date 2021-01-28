@@ -49,7 +49,7 @@ export class TasksDocumentsFormComponent implements OnInit {
     public cartographyService: CartographyService,
     public territoryService: TerritoryService,
     private http: HttpClient,
-    private utils: UtilsService
+    public utils: UtilsService
   ) {
     this.initializeTasksDocumentForm();
   }

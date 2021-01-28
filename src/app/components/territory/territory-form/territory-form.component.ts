@@ -80,7 +80,7 @@ export class TerritoryFormComponent implements OnInit {
     private taskService: TaskService,
     private userConfigurationService: UserConfigurationService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
   ) {
     this.initializeTerritoryForm();
   }

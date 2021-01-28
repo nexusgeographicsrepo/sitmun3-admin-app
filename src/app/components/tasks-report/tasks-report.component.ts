@@ -17,7 +17,7 @@ export class TasksReportComponent implements OnInit {
   columnDefs: any[];
 
 
-  constructor(private utils: UtilsService,
+  constructor(public utils: UtilsService,
               private router: Router,
               public taskService: TaskService
               )

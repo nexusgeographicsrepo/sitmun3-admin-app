@@ -46,7 +46,7 @@ export class LayersPermitsFormComponent implements OnInit {
     private cartographyService: CartographyService,
     private roleService: RoleService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
   ) {
     this.initializeLayersPermitsForm();
   }

@@ -58,7 +58,7 @@ export class UserFormComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
     private userConfigurationService: UserConfigurationService,
     private roleService: RoleService,
     private userPositionService: UserPositionService,

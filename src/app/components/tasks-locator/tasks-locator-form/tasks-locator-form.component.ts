@@ -52,7 +52,7 @@ export class TasksLocatorFormComponent implements OnInit {
      public roleService: RoleService,
      public territoryService: TerritoryService,
      private http: HttpClient,
-     private utils: UtilsService
+     public utils: UtilsService
    ) {
      this.initializeTasksLocatorForm();
    }

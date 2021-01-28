@@ -50,7 +50,10 @@ export class ConnectionComponent implements OnInit {
     return this.connectionService.getAll();
   }
 
+
+
   newData(id: any) {
+   // this.saveAgGridState()
     this.router.navigate(['connection', id, 'connectionForm']);
   }
 

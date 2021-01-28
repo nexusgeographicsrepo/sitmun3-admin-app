@@ -82,7 +82,7 @@ export class ApplicationFormComponent implements OnInit {
     private roleService: RoleService,
     private treeService: TreeService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
     private cartographyGroupService: CartographyGroupService,
   ) {
     this.initializeApplicationForm();

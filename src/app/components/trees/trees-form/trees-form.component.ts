@@ -37,7 +37,7 @@ export class TreesFormComponent implements OnInit {
     private treeNodeService: TreeNodeService,
     private cartographyService: CartographyService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
     public dialog: MatDialog,
   ) {
    

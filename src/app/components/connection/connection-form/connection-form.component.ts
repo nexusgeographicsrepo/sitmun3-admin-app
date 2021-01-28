@@ -60,7 +60,7 @@ export class ConnectionFormComponent implements OnInit {
     public cartographyService: CartographyService,
     public tasksService: TaskService,
     private http: HttpClient,
-    private utils: UtilsService
+    public utils: UtilsService
   ) {
     this.initializeConnectionForm();
   }

@@ -65,7 +65,7 @@ export class ServiceFormComponent implements OnInit {
     private router: Router,
     private serviceService: ServiceService,
     private http: HttpClient,
-    private utils: UtilsService,
+    public utils: UtilsService,
     public dialog: MatDialog,
     public cartographyService: CartographyService,
     public serviceParameterService: ServiceParameterService,

@@ -80,7 +80,7 @@ export class LayersFormComponent implements OnInit {
     private treeNodeService: TreeNodeService,
     private territoryService: TerritoryService,
     private http: HttpClient,
-    private utils: UtilsService
+    public utils: UtilsService
   ) {
     this.initializeLayersForm();
     this.initializeParameterForm();

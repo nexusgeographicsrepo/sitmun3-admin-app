@@ -387,6 +387,24 @@ export class LayersFormComponent implements OnInit {
     });
   }
 
+  duplicateParameters(data)
+  {
+    let parametersToDuplicate= []
+    data.forEach(parameter => {
+      let newParameter={
+        value: parameter.value,
+        name: 'copia_'.concat(parameter.name),
+        format: parameter.format,
+        order: parameter.order,
+        type: parameter.type
+      }
+      
+      
+      parametersToDuplicate.push(newParameter);
+    });
+    this.addElementsEventParameters.next(parametersToDuplicate);
+  }
+
   // ******** Spatial configuration ******** //
   getAllSpatialConfigurations = (): Observable<any> => {
 

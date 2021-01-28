@@ -298,6 +298,22 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
+  duplicateParameters(data)
+  {
+    let parametersToDuplicate= []
+    data.forEach(parameter => {
+      let newParameter={
+        name: 'copia_'.concat(parameter.name),
+        type: parameter.type,
+        value: parameter.value
+      }
+      
+      
+      parametersToDuplicate.push(newParameter);
+    });
+    this.addElementsEventParameters.next(parametersToDuplicate);
+  }
+
   // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
 

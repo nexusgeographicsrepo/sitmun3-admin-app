@@ -408,6 +408,22 @@ export class ApplicationFormComponent implements OnInit {
     });
   }
 
+  duplicateParameters(data)
+  {
+    let parametersToDuplicate= []
+    data.forEach(parameter => {
+      let newParameter={
+        name: 'copia_'.concat(parameter.name),
+        type: parameter.type,
+        value: parameter.value
+      }
+      
+      
+      parametersToDuplicate.push(newParameter);
+    });
+    this.addElementsEventParameters.next(parametersToDuplicate);
+  }
+
   // ******** Template configuration ******** //
 
   getAllTemplates = (): Observable<any> => {
@@ -445,6 +461,23 @@ export class ApplicationFormComponent implements OnInit {
       // let url=this.applicationToEdit._links.tasks.href.split('{', 1)[0];
       // this.utils.updateUriList(url,templatesToPut)
     // });
+  }
+
+  
+  duplicateTemplates(data)
+  {
+    let templatesToDuplicate= []
+    data.forEach(template => {
+      let newTemplate={
+        name: 'copia_'.concat(template.name),
+        type: template.type,
+        value: template.value
+      }
+      
+      
+      templatesToDuplicate.push(newTemplate);
+    });
+    this.addElementsEventTemplateConfiguration.next(templatesToDuplicate);
   }
   
   

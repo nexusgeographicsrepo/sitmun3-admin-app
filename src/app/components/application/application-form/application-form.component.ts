@@ -2,7 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, ApplicationParameterService, RoleService, HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService, Role, Background, Tree, Application, CodeList } from '@sitmun/frontend-core';
+import { ApplicationService, ApplicationParameterService, RoleService,
+   HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService,
+   ApplicationBackgroundService, Role, Background, Tree, Application, CodeList } from '@sitmun/frontend-core';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -76,6 +78,7 @@ export class ApplicationFormComponent implements OnInit {
     private applicationService: ApplicationService,
     private backgroundService: BackgroundService,
     private applicationParameterService:ApplicationParameterService,
+    private applicationBackgroundService:ApplicationBackgroundService,
     private roleService: RoleService,
     private treeService: TreeService,
     private http: HttpClient,
@@ -203,8 +206,9 @@ export class ApplicationFormComponent implements OnInit {
 
       environment.selCheckboxColumnDef,
       { headerName: "ID", field: 'id' },
-      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('applicationEntity.name'), field: 'name', description:false },
       { headerName: this.utils.getTranslate('applicationEntity.description'), field: 'description', editable:false },
+      { headerName: this.utils.getTranslate('applicationEntity.status'), field: 'status', editable:false },
 
 
     ];
@@ -438,30 +442,7 @@ export class ApplicationFormComponent implements OnInit {
       ));
   }
 
-  getAllRowsTemplates(data: any[] )
-  {
-    console.log(data);
-    // let templatesModified = [];
-    // let templatesToPut = [];
-    // data.forEach(template => {
-    //   if (template.status === 'Modified') {templatesModified.push(template) }
-    //   if(template.status!== 'Deleted') {templatesToPut.push(template._links.href.self) }
-    // });
-//    console.log(templatesModified);
-//    this.updateTemplates(templatesModified);
-  }
-
-  updateTemplates(templatesModified: any[], templatesToPut: any[])
-  {
-    // const promises: Promise<any>[] = [];
-    // templatesModified.forEach(template => {
-    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(template).toPromise().then((resp) => { resolve() }) }));
-    // });
-    // Promise.all(promises).then(() => {
-      // let url=this.applicationToEdit._links.tasks.href.split('{', 1)[0];
-      // this.utils.updateUriList(url,templatesToPut)
-    // });
-  }
+  //To update templates we use getAllRowsParameters!
 
   
   duplicateTemplates(data)
@@ -549,15 +530,42 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsBackgrounds(data: any[] )
   {
-    let backgroundsModified = [];
-    let backgroundsToPut = [];
+    let backgroundsToCreate = [];
+    let backgroundsToDelete = [];
     data.forEach(background => {
-      if (background.status === 'Modified') {backgroundsModified.push(background) }
-      if(background.status!== 'Deleted') {backgroundsToPut.push(background._links.self.href) }
+
+      if (background.status === 'Pending creation') {
+        let backgroundToCreate= {
+          application: this.applicationToEdit,
+          background: background
+        }
+        backgroundsToCreate.push(backgroundToCreate) 
+      }
+      if(background.status === 'Deleted' && background._links) {backgroundsToDelete.push(background._links.self.href) }
     });
 
-    console.log(backgroundsModified);
-    this.updateBackgrounds(backgroundsModified, backgroundsToPut);
+    backgroundsToCreate.forEach(newElement => {
+
+      this.applicationBackgroundService.save(newElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+
+    });
+
+    backgroundsToDelete.forEach(deletedElement => {
+
+      this.applicationBackgroundService.remove(deletedElement).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+      
+    });
+
+    // console.log(backgroundsModified);
+    // this.updateBackgrounds(backgroundsModified, backgroundsToPut);
   }
 
   updateBackgrounds(backgroundsModified: Background[], backgroundsToPut: Background[])
@@ -726,6 +734,9 @@ export class ApplicationFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
+          result.data[0].forEach(element => {
+            element.id=null;
+          });
           this.addElementsEventBackground.next(result.data[0])
         }         
       }
@@ -801,7 +812,7 @@ export class ApplicationFormComponent implements OnInit {
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventTemplateConfiguration.next(true);
         this.getAllElementsEventRoles.next(true);
-        // this.getAllElementsEventBackground.next(true);
+        this.getAllElementsEventBackground.next(true);
         this.getAllElementsEventTree.next(true);
       },
       error => {

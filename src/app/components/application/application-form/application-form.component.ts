@@ -36,14 +36,23 @@ export class ApplicationFormComponent implements OnInit {
   //Grids
   columnDefsParameters: any[];
   addElementsEventParameters: Subject<any[]> = new Subject <any[]>();
+  dataUpdatedEventParameters: Subject<boolean> = new Subject<boolean>();
+
   columnDefsTemplates: any[];
   addElementsEventTemplateConfiguration: Subject<any[]> = new Subject <any[]>();
+  dataUpdatedEventTemplateConfiguration: Subject<boolean> = new Subject<boolean>();
+
   columnDefsRoles: any[];
   addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
+  dataUpdatedEventRoles: Subject<boolean> = new Subject<boolean>();
+
   columnDefsBackgrounds: any[];
   addElementsEventBackground: Subject<any[]> = new Subject <any[]>();
+  dataUpdatedEventBackground: Subject<boolean> = new Subject<boolean>();
+
   columnDefsTrees: any[];
   addElementsEventTree: Subject<any[]> = new Subject <any[]>();
+  dataUpdatedEventTree: Subject<boolean> = new Subject<boolean>();
 
 
   applicationTypes: Array<any> = [];
@@ -390,25 +399,23 @@ export class ApplicationFormComponent implements OnInit {
       }
       if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
     });
-
+    const promises: Promise<any>[] = [];
     parameterToSave.forEach(saveElement => {
-
-      this.applicationParameterService.save(saveElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-
+      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(saveElement).toPromise().then((resp) => { resolve() }) }));
     });
 
     parameterToDelete.forEach(deletedElement => {
-
-      this.applicationParameterService.remove(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
+      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+      // this.applicationParameterService.remove(deletedElement).subscribe(
+      //   result => {
+      //     console.log(result)
+      //   }
+      // )
       
+    });
+
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventParameters.next(true);
     });
   }
 
@@ -497,8 +504,8 @@ export class ApplicationFormComponent implements OnInit {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
-      this.utils.updateUriList(url,rolesToPut)
+        let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
+        this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles);
     });
   }
   
@@ -532,6 +539,7 @@ export class ApplicationFormComponent implements OnInit {
   {
     let backgroundsToCreate = [];
     let backgroundsToDelete = [];
+    const promises: Promise<any>[] = [];
     data.forEach(background => {
 
       if (background.status === 'Pending creation') {
@@ -545,25 +553,16 @@ export class ApplicationFormComponent implements OnInit {
     });
 
     backgroundsToCreate.forEach(newElement => {
-
-      this.applicationBackgroundService.save(newElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-
+      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).toPromise().then((resp) => { resolve() }) }));
     });
 
     backgroundsToDelete.forEach(deletedElement => {
-
-      this.applicationBackgroundService.remove(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-      
+      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
     });
 
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventBackground.next(true);
+    });
     // console.log(backgroundsModified);
     // this.updateBackgrounds(backgroundsModified, backgroundsToPut);
   }
@@ -626,7 +625,7 @@ export class ApplicationFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.applicationToEdit._links.trees.href.split('{', 1)[0];
-      this.utils.updateUriList(url,treesToPut)
+      this.utils.updateUriList(url,treesToPut,this.dataUpdatedEventTree)
     });
   }
 

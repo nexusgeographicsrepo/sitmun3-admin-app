@@ -34,19 +34,23 @@ export class LayersFormComponent implements OnInit {
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
   getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventParameters: Subject<boolean> = new Subject<boolean>();
 
   columnDefsSpatialConfigurations: any[];
   getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventSpatialConfigurations: Subject<boolean> = new Subject<boolean>();
 
   columnDefsTerritories: any[];
   getAllElementsEventTerritories: Subject<boolean> = new Subject <boolean>();
-
+  dataUpdatedEventTerritories: Subject<boolean> = new Subject<boolean>();
 
   columnDefsLayersConfiguration: any[];
   getAllElementsEventLayersConfigurations: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventLayersConfiguration: Subject<boolean> = new Subject<boolean>();
 
   columnDefsNodes: any[];
   getAllElementsEventNodes: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventNodes: Subject<boolean> = new Subject<boolean>();
 
 
   //Dialog
@@ -354,6 +358,7 @@ export class LayersFormComponent implements OnInit {
     console.log(data);
     let parameterToSave = [];
     let parameterToDelete = [];
+    const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
         if(! parameter._links) {
@@ -366,25 +371,18 @@ export class LayersFormComponent implements OnInit {
     });
 
     parameterToSave.forEach(saveElement => {
-
-      console.log(saveElement);
-      this.cartographyParameterService.save(saveElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-
+      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(saveElement).toPromise().then((resp) => { resolve() }) }));
     });
 
     parameterToDelete.forEach(deletedElement => {
-
-      this.cartographyParameterService.remove(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-      
+      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));    
     });
+
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventParameters.next(true);
+    });
+	
+
   }
 
   duplicateParameters(data)
@@ -431,7 +429,6 @@ export class LayersFormComponent implements OnInit {
       if (spatialSelection.status === 'Modified') {spatialSelectionsModified.push(spatialSelection) }
       if(spatialSelection.status!== 'Deleted') {spatialSelectionsToPut.push(spatialSelection._links.self.href) }
     });
-
     this.updateSpatialConfiguration(spatialSelectionsModified, spatialSelectionsToPut);
   }
 
@@ -443,7 +440,7 @@ export class LayersFormComponent implements OnInit {
     // });
     // Promise.all(promises).then(() => {
       // let url=this.layerToEdit._links.spatialSelectionConnection.href.split('{', 1)[0];
-      // this.utils.updateUriList(url,spatialSelectionsToPut)
+      // this.utils.updateUriList(url,spatialSelectionsToPut, this.dataUpdatedEventSpatialConfigurations)
     // });
   }
 
@@ -477,41 +474,24 @@ export class LayersFormComponent implements OnInit {
       if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
       if(territory.status === 'Deleted') {territoriesToDelete.push(territory) }
     });
-
+    const promises: Promise<any>[] = [];
     territoriesToCreate.forEach(newElement => {
-
-      this.cartograhyAvailabilityService.save(newElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
-
+      promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(newElement).toPromise().then((resp) => { resolve() }) }));
     });
 
     territoriesToDelete.forEach(deletedElement => {
-
-      this.cartograhyAvailabilityService.remove(deletedElement).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
+      promises.push(new Promise((resolve, reject) => {this.cartograhyAvailabilityService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
       
     });
-      //  console.log(territoriesModified);
-      //  this.updateTerritories(territoriesModified, territoriesToPut);
+
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventTerritories.next(true);
+    });
+	
+
   }
 
-  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[])
-  {
-    const promises: Promise<any>[] = [];
-    territoriesModified.forEach(territory => {
-      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
-    });
-    Promise.all(promises).then(() => {
-      let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
-      this.utils.updateUriList(url,territoriesToPut)
-    });
-  }
+
   
 
   // ******** Layers configuration ******** //
@@ -550,7 +530,7 @@ export class LayersFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
-      this.utils.updateUriList(url,layersConfigurationToPut)
+      this.utils.updateUriList(url,layersConfigurationToPut, this.dataUpdatedEventLayersConfiguration)
     });
   }
 
@@ -594,7 +574,7 @@ export class LayersFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.layerToEdit._links.treeNodes.href.split('{', 1)[0];
-      this.utils.updateUriList(url,nodesToPut)
+      this.utils.updateUriList(url,nodesToPut, this.dataUpdatedEventNodes)
     });
   }
 

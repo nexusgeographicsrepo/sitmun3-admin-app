@@ -29,8 +29,11 @@ export class LayersPermitsFormComponent implements OnInit {
   //Grids
   columnDefsCartographies: any[];
   getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventCartographies: Subject<boolean> = new Subject<boolean>();
+
   columnDefsRoles: any[];
   getAllElementsEventRoles: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventRoles: Subject<boolean> = new Subject<boolean>();
 
   //Dialog
   columnDefsRolesDialog: any[];
@@ -182,7 +185,7 @@ export class LayersPermitsFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.layersPermitsToEdit._links.members.href.split('{', 1)[0];
-      this.utils.updateUriList(url,cartographiesToPut)
+      this.utils.updateUriList(url,cartographiesToPut, this.dataUpdatedEventCartographies)
     });
   }
 
@@ -223,7 +226,7 @@ export class LayersPermitsFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.layersPermitsToEdit._links.roles.href.split('{', 1)[0];
-      this.utils.updateUriList(url,rolesToPut)
+      this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles)
     });
   }
 

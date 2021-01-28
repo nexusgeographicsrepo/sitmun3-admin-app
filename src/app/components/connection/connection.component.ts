@@ -16,6 +16,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 export class ConnectionComponent implements OnInit {
 
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
 
@@ -54,6 +55,7 @@ export class ConnectionComponent implements OnInit {
 
   newData(id: any) {
    // this.saveAgGridState()
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['connection', id, 'connectionForm']);
   }
 

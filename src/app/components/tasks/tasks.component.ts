@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService, Task } from '@sitmun/frontend-core';
+import { TaskService, Task, TaskGroupService } from '@sitmun/frontend-core';
 import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -20,6 +20,7 @@ export class TasksComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     public tasksService: TaskService,
+    public taskGroupService: TaskGroupService,
     private utils: UtilsService,
     private router: Router,
   ) { }
@@ -63,11 +64,23 @@ export class TasksComponent implements OnInit {
   add(data: Task[]) {
     const promises: Promise<any>[] = [];
     data.forEach(task => {
-      task.id = null;
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.create(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
-      Promise.all(promises).then(() => {
-        this.dataUpdatedEvent.next(true);
-      });
+      let newTask: any = task;
+      newTask.id = null;
+      this.taskGroupService.get(newTask.groupId).subscribe(
+        result => {
+          newTask.group=result;
+          newTask._links= null;
+          console.log(newTask)
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.save(newTask).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          Promise.all(promises).then(() => {
+            this.dataUpdatedEvent.next(true);
+          });
+        },
+        error => {
+          console.log(error)
+        }
+      )
+
     });
 
   }

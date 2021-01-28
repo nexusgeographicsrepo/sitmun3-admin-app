@@ -81,8 +81,9 @@ export class BackgroundLayersComponent implements OnInit {
         name: background.cartographyGroupName
       }
       background.cartographyGroup = newCartographyGroup;
+      // background._links=null;
       console.log(background);
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.create(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.save(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });

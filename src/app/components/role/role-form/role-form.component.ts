@@ -29,12 +29,20 @@ export class RoleFormComponent implements OnInit {
   //Grids
   columnDefsUsers: any[];
   getAllElementsEventUsers: Subject<boolean> = new Subject<boolean>();
+  dataUpdatedEventUsers: Subject<boolean> = new Subject<boolean>();
+
   columnDefsTasks: any[];
   getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventTasks: Subject<boolean> = new Subject<boolean>();
+
   columnDefsCartography: any[];
   getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventCartographies: Subject<boolean> = new Subject<boolean>();
+
   columnDefsApplications: any[];
   getAllElementsEventApplications: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventApplications: Subject<boolean> = new Subject<boolean>();
+
   themeGrid: any = environment.agGridTheme;
   
   //Dialogs
@@ -280,7 +288,7 @@ export class RoleFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.roleToEdit._links.tasks.href.split('{', 1)[0];
-      this.utils.updateUriList(url,tasksToPut)
+      this.utils.updateUriList(url,tasksToPut, this.dataUpdatedEventTasks)
     });
   }
 
@@ -325,7 +333,7 @@ export class RoleFormComponent implements OnInit {
     });
     Promise.all(promises).then(() => {
       let url=this.roleToEdit._links.permissions.href.split('{', 1)[0];
-      this.utils.updateUriList(url,cartographiesGroupsToPut)
+      this.utils.updateUriList(url,cartographiesGroupsToPut, this.dataUpdatedEventCartographies)
     });
   }
     // ******** Applications ******** //
@@ -372,7 +380,7 @@ export class RoleFormComponent implements OnInit {
       });
       Promise.all(promises).then(() => {
         let url=this.roleToEdit._links.applications.href.split('{', 1)[0];
-        this.utils.updateUriList(url,applicationsToPut)
+        this.utils.updateUriList(url,applicationsToPut, this.dataUpdatedEventApplications)
       });
     }
   

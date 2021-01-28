@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common'
 
 
 @Component({
@@ -331,8 +332,6 @@ export class ConnectionFormComponent implements OnInit {
         error=>{
           console.log(error);
         });
-      
-      
-
     }
+
 }

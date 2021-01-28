@@ -72,6 +72,7 @@ export class TaskGroupComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(taskGroup => {
       taskGroup.id = null;
+      taskGroup.name = 'copia_'.concat(taskGroup.name)
       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.create(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

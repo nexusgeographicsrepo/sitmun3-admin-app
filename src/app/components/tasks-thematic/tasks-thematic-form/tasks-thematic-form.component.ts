@@ -88,14 +88,14 @@ export class TasksThematicFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksThematicEntity.name'), field: 'name' },  
-         { headerName: this.utils.getTranslate('tasksThematicEntity.status'), field: 'status' },
+         { headerName: this.utils.getTranslate('tasksThematicEntity.status'), field: 'status', editable:false },
        ];
    
        this.columnDefsTerritories = [
         environment.selCheckboxColumnDef,
          { headerName: 'Id', field: 'id', editable: false },
          { headerName: this.utils.getTranslate('tasksThematicEntity.name'), field: 'name' },
-         { headerName: this.utils.getTranslate('tasksThematicEntity.status'), field: 'status' },
+         { headerName: this.utils.getTranslate('tasksThematicEntity.status'), field: 'status', editable:false },
    
        ];
 

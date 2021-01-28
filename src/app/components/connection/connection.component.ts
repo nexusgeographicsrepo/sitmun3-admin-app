@@ -69,6 +69,7 @@ export class ConnectionComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(connection => {
       connection.id = null;
+      connection.name = 'copia_'.concat(connection.name)
       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.create(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
@@ -87,7 +88,7 @@ export class ConnectionComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(connection => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.delete(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.connectionService.remove(connection).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

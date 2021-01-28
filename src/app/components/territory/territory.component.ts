@@ -93,6 +93,7 @@ export class TerritoryComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(territory => {
       territory.id = null;
+      territory.name = 'copia_'.concat(territory.name)
       promises.push(new Promise((resolve, reject) => { this.territoryService.create(territory).toPromise().then((resp) => { resolve() }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

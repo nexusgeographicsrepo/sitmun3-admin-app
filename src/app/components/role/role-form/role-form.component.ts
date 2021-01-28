@@ -22,18 +22,19 @@ export class RoleFormComponent implements OnInit {
   //Form
   formRole: FormGroup;
   roleToEdit;
+  roleSaved: Role;
   roleID: number = -1;
   dataLoaded: Boolean = false;
 
   //Grids
   columnDefsUsers: any[];
-  getAllElementsEventUsers: Subject<true> = new Subject<true>();
+  getAllElementsEventUsers: Subject<boolean> = new Subject<boolean>();
   columnDefsTasks: any[];
-  getAllElementsEventTasks: Subject<true> = new Subject <true>();
+  getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
   columnDefsCartography: any[];
-  getAllElementsEventCartographies: Subject<true> = new Subject <true>();
+  getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
   columnDefsApplications: any[];
-  getAllElementsEventApplications: Subject<true> = new Subject <true>();
+  getAllElementsEventApplications: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   
   //Dialogs
@@ -104,28 +105,28 @@ export class RoleFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'user' },
       { headerName: this.utils.getTranslate('roleEntity.territory'), field: 'territory' },
-      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status', editable:false },
     ];
 
     this.columnDefsTasks = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupName' },
-      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('roleEntity.groupTask'), field: 'groupName', editable:false },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status', editable:false },
     ];
 
     this.columnDefsCartography = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status', editable:false },
     ];
 
     this.columnDefsApplications = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status' },
+      { headerName: this.utils.getTranslate('roleEntity.status'), field: 'status', editable:false },
     ];
 
     this.columnDefsUsersDialog = [
@@ -278,8 +279,8 @@ export class RoleFormComponent implements OnInit {
       promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      // let url=this.roleToEdit._links.tasks.href.split('{', 1)[0];
-      // this.utils.updateUriList(url,tasksToPut)
+      let url=this.roleToEdit._links.tasks.href.split('{', 1)[0];
+      this.utils.updateUriList(url,tasksToPut)
     });
   }
 
@@ -416,7 +417,11 @@ export class RoleFormComponent implements OnInit {
   // ******** Cartography Dialog  ******** //
 
   getAllCartographiesGroupsDialog = () => {
-    return this.cartographyGroupService.getAll();
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type', value:'C'}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.cartographyGroupService.getAll(query,undefined);
   }
 
   openCartographyDialog(data: any) {
@@ -529,8 +534,10 @@ export class RoleFormComponent implements OnInit {
     this.roleService.save( this.formRole.value)
     .subscribe(resp => {
       this.roleToEdit=resp;
-      this.getAllElementsEventUsers.next(true);
+      // this.getAllElementsEventUsers.next(true);
       this.getAllElementsEventApplications.next(true);
+      this.getAllElementsEventCartographies.next(true);
+      this.getAllElementsEventTasks.next(true);
     },
     error=>{
       console.log(error);

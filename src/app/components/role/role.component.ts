@@ -64,6 +64,7 @@ export class RoleComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(role => {
       role.id = null;
+      role.name = 'copia_'.concat(role.name)
       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.create(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

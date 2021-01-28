@@ -68,6 +68,7 @@ export class TreesComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(tree => {
       tree.id = null;
+      tree.name = 'copia_'.concat(tree.name)
       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.create(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);

@@ -103,7 +103,7 @@ export class ConnectionFormComponent implements OnInit {
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.name'), field: 'name' },
         { headerName: this.utils.getTranslate('connectionEntity.layers'), field: 'layers', editable:false },
-        { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status' },
+        { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status', editable:false },
 
   
       ];
@@ -112,8 +112,8 @@ export class ConnectionFormComponent implements OnInit {
         environment.selCheckboxColumnDef,
         { headerName: 'Id', field: 'id', editable: false },
         { headerName: this.utils.getTranslate('connectionEntity.code'), field: 'name' },
-        { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'groupName' },
-        { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status' },
+        { headerName: this.utils.getTranslate('connectionEntity.taskGroup'), field: 'groupName', editable:false },
+        { headerName: this.utils.getTranslate('connectionEntity.status'), field: 'status', editable:false },
 
   
       ];

@@ -13,7 +13,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -48,6 +48,7 @@ export class TasksComponent implements OnInit {
   };
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     // this.router.navigate(['tasks', id, 'tasksForm']);
   }
 

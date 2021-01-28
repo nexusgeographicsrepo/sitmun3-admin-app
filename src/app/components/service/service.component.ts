@@ -13,7 +13,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./service.component.scss']
 })
 export class ServiceComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -55,6 +55,7 @@ export class ServiceComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['service', id, 'serviceForm']);
   }
 

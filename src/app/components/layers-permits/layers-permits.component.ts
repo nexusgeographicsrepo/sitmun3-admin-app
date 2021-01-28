@@ -13,7 +13,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./layers-permits.component.scss']
 })
 export class LayersPermitsComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -62,6 +62,7 @@ export class LayersPermitsComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['layersPermits', id, 'layersPermitsForm']);
   }
 

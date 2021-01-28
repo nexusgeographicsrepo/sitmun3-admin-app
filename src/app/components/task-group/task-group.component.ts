@@ -14,7 +14,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./task-group.component.scss']
 })
 export class TaskGroupComponent implements OnInit {
-  
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -55,6 +55,7 @@ export class TaskGroupComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['taskGroup', id, 'taskGroupForm']);
   }
 

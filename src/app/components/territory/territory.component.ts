@@ -13,7 +13,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./territory.component.scss']
 })
 export class TerritoryComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -76,6 +76,7 @@ export class TerritoryComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['territory', id, 'territoryForm']);
   }
 

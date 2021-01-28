@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./background-layers.component.scss']
 })
 export class BackgroundLayersComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -60,6 +60,7 @@ export class BackgroundLayersComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['backgroundLayers', id, 'backgroundLayersForm']);
   }
 

@@ -13,7 +13,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./role.component.scss']
 })
 export class RoleComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -47,6 +47,7 @@ export class RoleComponent implements OnInit {
   };
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['role', id, 'roleForm']);
   }
 

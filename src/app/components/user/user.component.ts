@@ -14,7 +14,7 @@ import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -66,6 +66,7 @@ export class UserComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['user', id, 'userForm']);
   }
 

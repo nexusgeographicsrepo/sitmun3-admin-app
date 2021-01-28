@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./layers.component.scss']
 })
 export class LayersComponent implements OnInit {
-
+  saveAgGridStateEvent: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
   themeGrid: any = environment.agGridTheme;
   columnDefs: any[];
@@ -56,6 +56,7 @@ export class LayersComponent implements OnInit {
   }
 
   newData(id: any) {
+    this.saveAgGridStateEvent.next(true);
     this.router.navigate(['layers', id, 'layersForm']);
   }
 

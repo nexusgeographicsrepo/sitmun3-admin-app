@@ -246,7 +246,7 @@ export class UserFormComponent implements OnInit {
         user:  this.userToEdit,
       }
       if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
-      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
+      if(userConf.status === 'Deleted' && userConf._links) {usersConfDelete.push(userConf) }
     });
     const promises: Promise<any>[] = [];
     usersConfToCreate.forEach(newElement => {
@@ -301,7 +301,7 @@ export class UserFormComponent implements OnInit {
     // let territoriesToDelete = [];
     // data.forEach(territory => {
     //   if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
-    //   if(territory.status === 'Deleted') {territoriesToDelete.push(territory._links.self.href) }
+    //   if(territory.status === 'Deleted' && territory._links) {territoriesToDelete.push(territory._links.self.href) }
     // });
 
     // territoriesToCreate.forEach(newElement => {

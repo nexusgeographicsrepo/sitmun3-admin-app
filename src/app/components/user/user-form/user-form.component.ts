@@ -33,8 +33,11 @@ export class UserFormComponent implements OnInit {
   themeGrid: any = environment.agGridTheme;
   columnDefsPermits: any[];
   addElementsEventPermits: Subject<any[]> = new Subject<any[]>();
+  dataUpdatedEventPermits: Subject<boolean> = new Subject<boolean>();
+
   columnDefsData: any[];
   addElementsEventTerritoryData: Subject<any[]> = new Subject<any[]>();
+  dataUpdatedEventTerritoryData: Subject<boolean> = new Subject<boolean>();
 
   //Dialog
 
@@ -245,27 +248,23 @@ export class UserFormComponent implements OnInit {
       if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
       if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
     });
-
+    const promises: Promise<any>[] = [];
     usersConfToCreate.forEach(newElement => {
-
-      this.userConfigurationService.save(newElement).subscribe(
-        result => {
-          console.log(result)
-        })
-
-      
+      promises.push(new Promise((resolve, reject) => {this.userConfigurationService.save(newElement).toPromise().then((resp) => { resolve() }) }));     
     });
 
     usersConfDelete.forEach(deletedElement => {
     
       if(deletedElement._links)
       {
-        this.userConfigurationService.remove(deletedElement).subscribe(
-          result => {
-            console.log(result)
-          })
+        promises.push(new Promise((resolve, reject) => {  this.userConfigurationService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+
       }
       
+    });
+
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventPermits.next(true);
     });
 
   }
@@ -478,7 +477,6 @@ export class UserFormComponent implements OnInit {
     if(this.userForm.value.password === this.userForm.value.confirmPassword)
     {
         let userObj: User = new User();
-        userObj.id=this.userID;
         userObj.username=this.userForm.value.username;
         userObj.password=this.userForm.value.password;
         userObj.firstName=this.userForm.value.firstName;
@@ -487,18 +485,36 @@ export class UserFormComponent implements OnInit {
         userObj.administrator=this.userForm.value.administrator;
         userObj._links=this.userForm.value._links;
 
-      this.userService.save(userObj)
-      .subscribe((resp:User) => {
-        console.log(resp)
-            this.userToEdit=resp
-            console.log(this.userToEdit);
-            // this.userToEdit=resp;
-            this.getAllElementsEventTerritoryData.next(true);
-            this.getAllElementsEventPermits.next(true);
-          }, error => {
-            console.log(error)
-          });   
-      
+        if(this.userID === -1){
+          console.log(userObj)
+          this.userService.create(userObj)
+          .subscribe( (resp:User) => {
+            console.log(resp)
+                this.userToEdit=resp
+                // console.log(this.userToEdit);
+                // this.getAllElementsEventTerritoryData.next(true);
+                // this.getAllElementsEventPermits.next(true);
+              }, error => {
+                console.log(error)
+              });   
+        
+        }
+        else 
+        {
+          userObj.id=this.userID;
+          this.userService.update(userObj)
+          .subscribe( (resp:User) => {
+            console.log(resp)
+                this.userToEdit=resp
+                console.log(this.userToEdit);
+                this.getAllElementsEventTerritoryData.next(true);
+                this.getAllElementsEventPermits.next(true);
+              }, error => {
+                console.log(error)
+              });   
+        
+        }
+
   
     }
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TasksComponent } from './tasks.component';
-import { TaskService, CodeListService } from '@sitmun/frontend-core';
+import { TaskService, CodeListService, TaskGroupService } from '@sitmun/frontend-core';
 import { HttpClientModule } from '@angular/common/http';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
@@ -18,7 +18,7 @@ describe('TasksComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TasksComponent ],
-      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
+      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, TaskGroupService, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
       providers: [TaskService,CodeListService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })

@@ -92,6 +92,8 @@ export class LayersFormComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.layerID = +params.id;
       if (this.layerID !== -1) {
+        
+        //getCartography Entity
         this.cartographyService.get(this.layerID).subscribe(
           resp => {
             console.log(resp);
@@ -133,6 +135,9 @@ export class LayersFormComponent implements OnInit {
 
           }
         );
+        //Get cartography parameters, we need to put on municipally filter for example
+        
+
       }
       else{
         this.layerForm.patchValue({
@@ -202,9 +207,9 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsSpatialConfigurations = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('layersEntity.column'), field: 'column' },
-      { headerName: this.utils.getTranslate('layersEntity.label'), field: 'label' },
-      { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type', },
+      { headerName: this.utils.getTranslate('layersEntity.column'), field: 'name' },
+      { headerName: this.utils.getTranslate('layersEntity.label'), field: 'value' },
+      { headerName: this.utils.getTranslate('layersEntity.type'), field: 'format', },
       { headerName: this.utils.getTranslate('layersEntity.help'), field: 'help' },
       { headerName: this.utils.getTranslate('layersEntity.selectPath'), field: 'selectPath' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
@@ -336,6 +341,7 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
+
     if(this.layerID == -1)
     {
       const aux: Array<any> = [];
@@ -349,10 +355,10 @@ export class LayersFormComponent implements OnInit {
     }
 
     return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters']));
-    
-  }
+    .pipe( map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="INFO")
+      ));
 
+  }
   getAllRowsParameters(data: any[] )
   {
     console.log(data);
@@ -406,18 +412,21 @@ export class LayersFormComponent implements OnInit {
   // ******** Spatial configuration ******** //
   getAllSpatialConfigurations = (): Observable<any> => {
 
-    // var urlReq=`${this.layerForm.value._links.spatialSelectionConnection.href}`
-    // if(this.layerForm.value._links.spatialSelectionConnection.templated){
-    //   var url=new URL(urlReq.split("{")[0]);
-    //   url.searchParams.append("projection","view")
-    //   urlReq=url.toString();
-    // }
+    if(this.layerID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+    var urlReq=`${this.layerForm.value._links.parameters.href}`
+    if(this.layerForm.value._links.parameters.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
 
-    // return (this.http.get(urlReq))
-    // .pipe( map( data =>  data['_embedded']['cartography-parameters']));
-
-    const aux: Array<any> = [];
-    return of(aux);
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="EDIT")
+      ));
 
   }
 

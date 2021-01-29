@@ -373,7 +373,7 @@ export class LayersFormComponent implements OnInit {
         } //If is new, you need the service link
           parameterToSave.push(parameter)
       }
-      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+      if(parameter.status === 'Deleted' && parameter._links ) {parameterToDelete.push(parameter) }
     });
 
     parameterToSave.forEach(saveElement => {
@@ -481,7 +481,7 @@ export class LayersFormComponent implements OnInit {
     data.forEach(territory => {
       territory.cartography= this.layerToEdit;
       if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
-      if(territory.status === 'Deleted') {territoriesToDelete.push(territory) }
+      if(territory.status === 'Deleted' && territory._links) {territoriesToDelete.push(territory) }
     });
     const promises: Promise<any>[] = [];
     territoriesToCreate.forEach(newElement => {

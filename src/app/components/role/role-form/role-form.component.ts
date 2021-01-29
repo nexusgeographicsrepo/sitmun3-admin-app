@@ -219,7 +219,7 @@ export class RoleFormComponent implements OnInit {
         user:  userConf.userComplete,
       }
       if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
-      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
+      if(userConf.status === 'Deleted' && userConf._links) {usersConfDelete.push(userConf) }
     });
 
     usersConfToCreate.forEach(newElement => {

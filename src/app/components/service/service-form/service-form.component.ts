@@ -276,7 +276,7 @@ export class ServiceFormComponent implements OnInit {
           parameter.service=this.serviceToEdit} //If is new, you need the service link
           parameterToSave.push(parameter)
       }
-      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+      if(parameter.status === 'Deleted' && parameter._links) {parameterToDelete.push(parameter) }
     });
     const promises: Promise<any>[] = [];
     parameterToSave.forEach(saveElement => {

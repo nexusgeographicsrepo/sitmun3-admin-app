@@ -450,7 +450,7 @@ export class TerritoryFormComponent implements OnInit {
         user:  userConf.userComplete,
       }
       if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
-      if(userConf.status === 'Deleted') {usersConfDelete.push(userConf) }
+      if(userConf.status === 'Deleted' && userConf._links) {usersConfDelete.push(userConf) }
     });
     const promises: Promise<any>[] = [];
     usersConfToCreate.forEach(newElement => {
@@ -595,7 +595,7 @@ export class TerritoryFormComponent implements OnInit {
     data.forEach(cartography => {
       cartography.territory= this.territoryToEdit;
       if (cartography.status === 'Pending creation') {cartographiesToCreate.push(cartography) }
-      if(cartography.status === 'Deleted') {cartographiesToDelete.push(cartography._links.self.href) }
+      if(cartography.status === 'Deleted' && cartography._links) {cartographiesToDelete.push(cartography) }
     });
     const promises: Promise<any>[] = [];
     cartographiesToCreate.forEach(newElement => {

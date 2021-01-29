@@ -397,7 +397,7 @@ export class ApplicationFormComponent implements OnInit {
           parameter.application=this.applicationToEdit} //If is new, you need the application link
           parameterToSave.push(parameter)
       }
-      if(parameter.status === 'Deleted') {parameterToDelete.push(parameter) }
+      if(parameter.status === 'Deleted' && parameter._links) {parameterToDelete.push(parameter) }
     });
     const promises: Promise<any>[] = [];
     parameterToSave.forEach(saveElement => {
@@ -406,11 +406,6 @@ export class ApplicationFormComponent implements OnInit {
 
     parameterToDelete.forEach(deletedElement => {
       promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
-      // this.applicationParameterService.remove(deletedElement).subscribe(
-      //   result => {
-      //     console.log(result)
-      //   }
-      // )
       
     });
 
@@ -549,7 +544,7 @@ export class ApplicationFormComponent implements OnInit {
         }
         backgroundsToCreate.push(backgroundToCreate) 
       }
-      if(background.status === 'Deleted' && background._links) {backgroundsToDelete.push(background._links.self.href) }
+      if(background.status === 'Deleted' ) {backgroundsToDelete.push(background) }
     });
 
     backgroundsToCreate.forEach(newElement => {

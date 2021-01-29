@@ -18,8 +18,8 @@ describe('TasksComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TasksComponent ],
-      imports : [HttpClientTestingModule, SitmunFrontendGuiModule, TaskGroupService, RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
-      providers: [TaskService,CodeListService,
+      imports : [HttpClientTestingModule, SitmunFrontendGuiModule,  RouterTestingModule, MaterialModule, RouterModule, MatIconTestingModule],
+      providers: [TaskService,TaskGroupService, CodeListService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();

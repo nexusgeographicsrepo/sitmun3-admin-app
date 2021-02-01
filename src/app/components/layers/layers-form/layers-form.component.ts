@@ -124,7 +124,7 @@ export class LayersFormComponent implements OnInit {
               datasetURL: this.layerToEdit.datasetURL, //here
               applyFilterToGetMap: "",
               filterInfoByMunicipality: false,
-              filterSpatialSeleciontByMunicipality: this.layerToEdit.applyFilterToSpatialSelection,
+              filterSpatialSeleciontByMunicipality: false,
               queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
               queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
               selectableLayers: this.layerToEdit.selectableLayers,

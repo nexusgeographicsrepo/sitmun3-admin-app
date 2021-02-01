@@ -148,7 +148,7 @@ export class LayersFormComponent implements OnInit {
               result.forEach(element => {
                 if(element.type='FILTRO'){
                   this.layerForm.patchValue({
-                    filterInfoByMunicipality: element.value
+                    applyFilterToGetMap: element.value
                   })
                 }
                 else if(element.type='FILTRO_INFO'){
@@ -158,7 +158,7 @@ export class LayersFormComponent implements OnInit {
                 }
                 else if(element.type='FILTRO_ESPACIAl'){
                   this.layerForm.patchValue({
-                    filterInfoByMunicipality: element.value
+                    filterSpatialSeleciontByMunicipality: element.value
                   })
                 }
                 
@@ -346,7 +346,7 @@ export class LayersFormComponent implements OnInit {
       layers: new FormControl(null),
       minimumScale: new FormControl(null, []),
       maximumScale: new FormControl(null, []),
-      geometryType: new FormControl(null, []),
+      geometryType: new FormControl({value: '', disabled: true}),
       order: new FormControl(null, []),
       transparency: new FormControl(null, []),
       metadataURL: new FormControl(null, []),

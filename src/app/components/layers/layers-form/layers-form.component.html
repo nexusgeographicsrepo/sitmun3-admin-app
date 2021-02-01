@@ -215,7 +215,7 @@
               </label>
   
               <mat-form-field appearance="outline">
-                <mat-select matInput formControlName="legendType" class="form-control">
+                <mat-select matInput formControlName="legendType" [disabled]="!(dataLoaded && layerForm.value.thematic)" class="form-control">
                   <mat-option [value]="geometryType.value" *ngFor="let geometryType of geometryTypes">
                     {{ geometryType.value}}
                   </mat-option>

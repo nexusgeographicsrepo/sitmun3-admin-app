@@ -31,6 +31,8 @@ export class LayersFormComponent implements OnInit {
   parameterFormatTypes: Array<any> = [];
   parameterTypes: Array<any> = [];
 
+
+
   //Grids
   themeGrid: any = environment.agGridTheme;
   columnDefsParameters: any[];
@@ -93,6 +95,7 @@ export class LayersFormComponent implements OnInit {
   ) {
     this.initializeLayersForm();
     this.initializeParameterForm();
+
 
     this.activatedRoute.params.subscribe(params => {
       this.layerID = +params.id;
@@ -202,19 +205,28 @@ export class LayersFormComponent implements OnInit {
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.field'), field: 'value' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', },
+      { headerName: this.utils.getTranslate('layersEntity.format'), editable: false,
+      valueGetter: (params) => {
+        var alias = this.parameterFormatTypes.filter((format) => format.value == params.data.format)[0];
+        return alias != undefined ? alias.description : params.data.format
+      }},
       { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order' },
       { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
     ];
+    
 
     this.columnDefsSpatialConfigurations = [
 
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.column'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.label'), field: 'value' },
-      { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', },
+      { headerName: this.utils.getTranslate('layersEntity.format'), editable: false,
+      valueGetter: (params) => {
+        var alias = this.parameterFormatTypes.filter((format) => format.value == params.data.format)[0];
+        return alias != undefined ? alias.description : params.data.format
+      }}, 
       { headerName: this.utils.getTranslate('layersEntity.help'), field: 'help' },
       { headerName: this.utils.getTranslate('layersEntity.selectPath'), field: 'selectPath' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },

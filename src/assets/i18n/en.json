@@ -485,7 +485,8 @@
     "login": "Login",
     "bad-credentials": "Incorrect username and/or password",
     "closeSession": "Log out",
-    "language": "Language"
+    "language": "Language",
+    "privateAccess": "Private acces"
   },
   "selectAll": "Select All",
   "selectAllSearchResults": "Select all search results",

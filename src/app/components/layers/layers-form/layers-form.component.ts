@@ -227,8 +227,6 @@ export class LayersFormComponent implements OnInit {
         var alias = this.parameterFormatTypes.filter((format) => format.value == params.data.format)[0];
         return alias != undefined ? alias.description : params.data.format
       }}, 
-      { headerName: this.utils.getTranslate('layersEntity.help'), field: 'help' },
-      { headerName: this.utils.getTranslate('layersEntity.selectPath'), field: 'selectPath' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
     ];

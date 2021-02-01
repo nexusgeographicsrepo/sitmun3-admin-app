@@ -146,17 +146,18 @@ export class LayersFormComponent implements OnInit {
             .subscribe(result => {
               console.log(result)
               result.forEach(element => {
-                if(element.type='FILTRO'){
+              
+                if(element.type==='FILTRO'){
                   this.layerForm.patchValue({
                     applyFilterToGetMap: element.value
                   })
                 }
-                else if(element.type='FILTRO_INFO'){
+                else if(element.type==='FILTRO_INFO'){
                   this.layerForm.patchValue({
                     filterInfoByMunicipality: element.value
                   })
                 }
-                else if(element.type='FILTRO_ESPACIAl'){
+                else if(element.type==='FILTRO_ESPACIAl'){
                   this.layerForm.patchValue({
                     filterSpatialSeleciontByMunicipality: element.value
                   })

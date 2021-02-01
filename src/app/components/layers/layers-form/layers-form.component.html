@@ -206,7 +206,7 @@
               <label class="formLabel">
                 {{'layersEntity.thematic' | translate}}
               </label>
-              <mat-checkbox formControlName="thematic"> </mat-checkbox>
+              <mat-checkbox formControlName="thematic" (change)="onSelectionThematicChanged($event)" > </mat-checkbox>
             </div>
 
             <div class="colFormDiv" >
@@ -215,7 +215,7 @@
               </label>
   
               <mat-form-field appearance="outline">
-                <mat-select matInput formControlName="legendType" [disabled]="!( (dataLoaded || layerID === -1) && layerForm.value.thematic)" class="form-control">
+                <mat-select matInput formControlName="geometryType"  class="form-control">
                   <mat-option [value]="geometryType.value" *ngFor="let geometryType of geometryTypes">
                     {{ geometryType.value}}
                   </mat-option>

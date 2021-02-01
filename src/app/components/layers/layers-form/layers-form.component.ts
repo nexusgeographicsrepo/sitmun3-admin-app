@@ -176,6 +176,8 @@ export class LayersFormComponent implements OnInit {
               });
             });
 
+            if(! this.layerToEdit.thematic) {this.layerForm.get('geometryType').disable();}
+
 
             this.dataLoaded = true;
 
@@ -191,7 +193,9 @@ export class LayersFormComponent implements OnInit {
       else{
         this.layerForm.patchValue({
           blocked: false,
+          thematic: false,
         })
+        this.layerForm.get('geometryType').disable();
       }
 
     },
@@ -377,8 +381,12 @@ export class LayersFormComponent implements OnInit {
   }
 
 
-  getGeometryTypes() {
-
+  onSelectionThematicChanged(value){
+    if (value.checked) {
+      this.layerForm.get('geometryType').enable();
+    } else {
+      this.layerForm.get('geometryType').disable();
+    }
   }
 
 
@@ -394,7 +402,7 @@ export class LayersFormComponent implements OnInit {
       layers: new FormControl(null),
       minimumScale: new FormControl(null, []),
       maximumScale: new FormControl(null, []),
-      geometryType: new FormControl({value: '', disabled: true}),
+      geometryType: new FormControl(null, []),
       order: new FormControl(null, []),
       transparency: new FormControl(null, []),
       metadataURL: new FormControl(null, []),

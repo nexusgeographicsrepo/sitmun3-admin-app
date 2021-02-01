@@ -150,7 +150,7 @@
                 {{'layersEntity.municipalFilterFields' | translate}}
               </label>
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="municipalFilterFields" required>
+                <input matInput type="text" formControlName="applyFilterToGetMap" required>
               </mat-form-field>
             </div>
     
@@ -181,14 +181,14 @@
               <label class="formLabel">
                 {{'layersEntity.information' | translate}}
               </label>
-              <mat-checkbox formControlName="information"> </mat-checkbox>
+              <mat-checkbox formControlName="queryableFeatureEnabled"> </mat-checkbox>
             </div>
   
             <div class="colFormDivDefaultInformation" >
               <label class="formLabel">
                 {{'layersEntity.defaultInformation' | translate}}
               </label>
-              <mat-checkbox formControlName="defaultInformation"> </mat-checkbox>
+              <mat-checkbox formControlName="queryableFeatureAvailable"> </mat-checkbox>
             </div>
   
             <div class="colFormDiv">
@@ -196,16 +196,31 @@
                 {{'layersEntity.informationLayer' | translate}}
               </label>
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="informationLayer" required>
+                <input matInput type="text" formControlName="selectableLayers" required>
               </mat-form-field>
             </div>
   
-            
-            <div class="colFormDiv">
+          </div>
+          <div class="rowFormDiv">
+            <div class="colFormDivDefaultInformation">
               <label class="formLabel">
                 {{'layersEntity.thematic' | translate}}
               </label>
-              <mat-checkbox formControlName="defaultInformation"> </mat-checkbox>
+              <mat-checkbox formControlName="thematic"> </mat-checkbox>
+            </div>
+
+            <div class="colFormDiv" >
+              <label class="formLabel">
+                {{'layersEntity.geometryType' | translate}}
+              </label>
+  
+              <mat-form-field appearance="outline">
+                <mat-select matInput formControlName="legendType" class="form-control">
+                  <mat-option [value]="geometryType.value" *ngFor="let geometryType of geometryTypes">
+                    {{ geometryType.value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> 
             </div>
             
         </div>

@@ -107,6 +107,7 @@ export class LayersFormComponent implements OnInit {
             console.log(resp);
             this.layerToEdit = resp;
             this.parametersUrl = this.layerToEdit._links.parameters.href;
+
             this.layerForm.setValue({
               id: this.layerID,
               name: this.layerToEdit.name,
@@ -121,18 +122,47 @@ export class LayersFormComponent implements OnInit {
               legendType: this.layerToEdit.legendType,
               description: this.layerToEdit.description,
               datasetURL: this.layerToEdit.datasetURL, //here
-              municipalFilterFields: "",
+              applyFilterToGetMap: "",
               filterInfoByMunicipality: false,
               filterSpatialSeleciontByMunicipality: this.layerToEdit.applyFilterToSpatialSelection,
-              information: this.layerToEdit.queryableFeatureEnabled,
-              defaultInformation: this.layerToEdit.queryableFeatureAvailable,
-              informationLayer: this.layerToEdit.selectableLayers,
+              queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
+              queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
+              selectableLayers: this.layerToEdit.selectableLayers,
               thematic: this.layerToEdit.thematic,
               blocked: this.layerToEdit.blocked,
-              //force to false
-              queryableFeatureEnabled: false,
-              queryableFeatureAvailable: false,
               _links: this.layerToEdit._links
+            });
+
+            var urlReq=`${this.layerToEdit._links.parameters.href}`
+            if(this.layerToEdit._links.parameters.templated){
+              var url=new URL(urlReq.split("{")[0]);
+              url.searchParams.append("projection","view")
+              urlReq=url.toString();
+            }
+        
+            this.http.get(urlReq).pipe(
+               map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="FILTRO" || elem.type=="FILTRO_INFO" || elem.type=="FILTRO_ESPACIAL")
+              ))
+            .subscribe(result => {
+              console.log(result)
+              result.forEach(element => {
+                if(element.type='FILTRO'){
+                  this.layerForm.patchValue({
+                    filterInfoByMunicipality: element.value
+                  })
+                }
+                else if(element.type='FILTRO_INFO'){
+                  this.layerForm.patchValue({
+                    filterInfoByMunicipality: element.value
+                  })
+                }
+                else if(element.type='FILTRO_ESPACIAl'){
+                  this.layerForm.patchValue({
+                    filterInfoByMunicipality: element.value
+                  })
+                }
+                
+              });
             });
 
 
@@ -323,16 +353,14 @@ export class LayersFormComponent implements OnInit {
       legendType: new FormControl(null, []),
       description: new FormControl(null, []),
       datasetURL: new FormControl(null, []),//here
-      municipalFilterFields: new FormControl(null, []),
+      applyFilterToGetMap: new FormControl(null, []),
       filterInfoByMunicipality: new FormControl(null, []),
       filterSpatialSeleciontByMunicipality: new FormControl(null, []),
-      information: new FormControl(null, []),
-      defaultInformation: new FormControl(null, []),
-      informationLayer: new FormControl(null, []),
-      thematic: new FormControl(null, []),
-      blocked: new FormControl(null, []),
       queryableFeatureEnabled: new FormControl(null, []),
       queryableFeatureAvailable: new FormControl(null, []),
+      selectableLayers: new FormControl(null, []),
+      thematic: new FormControl(null, []),
+      blocked: new FormControl(null, []),
       _links: new FormControl(null, []),
     });
   }

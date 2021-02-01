@@ -158,7 +158,11 @@
     "municipalFilter": "Filtro Municipal",
     "alias": "alias",
     "status": "Estado",
-    "available": "Disponible"
+    "available": "Disponible",
+    "selectable": "Seleccionable",
+    "service": "Servicio",
+    "layer": "Capa",
+    "connection":"Conexión"
   },
   "layersPermitsEntity": {
     "generalData": "Datos Generales",

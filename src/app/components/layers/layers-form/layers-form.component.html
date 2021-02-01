@@ -248,14 +248,12 @@
       
       
           <div class="rowFormDiv">         
-              <div class="colFormDiv" >
-                <label class="formLabel requiredInput">
-                  {{'layersEntity.selectable' | translate}}
-                </label>
-                <mat-form-field appearance="outline">
-                  <input matInput type="text" formControlName="selectable" required>
-                </mat-form-field>
-              </div>
+            <div class="colFormDiv">
+              <label class="formLabel">
+                {{'layersEntity.selectable' | translate}}
+              </label>
+              <mat-checkbox formControlName="selectable"> </mat-checkbox>
+            </div>
          </div>
 
          <div class="rowFormDiv">         

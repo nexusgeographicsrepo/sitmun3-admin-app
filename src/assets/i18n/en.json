@@ -160,7 +160,11 @@
     "municipalFilter": "Municipal Filter",
     "alias": "alias",
     "status": "Status",
-    "available": "Available"
+    "available": "Available",
+    "selectable": "Selectable",
+    "service": "Service",
+    "layer": "Layer",
+    "connection":"Connection"
   },
   "layersPermitsEntity": {
     "generalData": "General Data",

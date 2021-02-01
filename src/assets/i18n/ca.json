@@ -159,7 +159,11 @@
     "municipalFilter": "Filtre Municipal",
     "alias": "Àlies",
     "status": "Estat",
-    "available": "Disponible"
+    "available": "Disponible",
+    "selectable": "Seleccionable",
+    "service": "Servei",
+    "layer": "Capa",
+    "connection":"Connexió"
   },
   "layersPermitsEntity": {
     "generalData": "Dades Generals",

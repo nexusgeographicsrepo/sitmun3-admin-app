@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService } from '@sitmun/frontend-core';
+import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -27,6 +27,8 @@ export class LayersFormComponent implements OnInit {
   dataLoaded: Boolean = false;
   geometryTypes: Array<any> = [];
   legendTypes: Array<any> = [];
+  spatialConfigurationServices: Array<any> = [];
+  spatialConfigurationConnections: Array<any> = [];
 
   parameterFormatTypes: Array<any> = [];
   parameterTypes: Array<any> = [];
@@ -42,6 +44,7 @@ export class LayersFormComponent implements OnInit {
   columnDefsSpatialConfigurations: any[];
   getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject <boolean>();
   dataUpdatedEventSpatialConfigurations: Subject<boolean> = new Subject<boolean>();
+  spatialConfigurationForm: FormGroup;
 
   columnDefsTerritories: any[];
   getAllElementsEventTerritories: Subject<boolean> = new Subject <boolean>();
@@ -85,6 +88,8 @@ export class LayersFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private cartographyService: CartographyService,
+    private connectionService: ConnectionService,
+    private serviceService: ServiceService,
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
     private cartographyParameterService: CartographyParameterService,
@@ -95,6 +100,7 @@ export class LayersFormComponent implements OnInit {
   ) {
     this.initializeLayersForm();
     this.initializeParameterForm();
+    this.initializeSpatialConfigurationForm();
 
 
     this.activatedRoute.params.subscribe(params => {
@@ -195,7 +201,7 @@ export class LayersFormComponent implements OnInit {
   ngOnInit(): void {
 
     let geometryTypeByDefault = {
-      value: null,
+      value: '-------',
       description: '-------'
     }
     this.geometryTypes.push(geometryTypeByDefault);
@@ -229,6 +235,43 @@ export class LayersFormComponent implements OnInit {
         this.parameterFormatTypes.push(...resp);
       }
     );
+
+    let connectionByDefault = {
+      value: null,
+      name: '-------'
+    }
+
+    this.spatialConfigurationConnections.push(connectionByDefault);
+
+    this.connectionService.getAll().subscribe(
+      resp => {
+        this.spatialConfigurationConnections.push(...resp)
+      }
+    )
+
+    let serviceByDefault = {
+      value: null,
+      name: '-------'
+    }
+
+    this.spatialConfigurationServices.push(serviceByDefault);
+    
+    this.serviceService.getAll().map((resp) => {
+      let wfsServices = [];
+      resp.forEach(service => {
+        if(service.type==='WFS') {wfsServices.push(service)}
+      });  
+      return wfsServices;
+
+    }).subscribe(
+      resp =>  this.spatialConfigurationServices.push(...resp)
+    )
+    console.log(this.spatialConfigurationServices)
+    // .subscribe(
+    //   resp => {
+    //     this.spatialConfigurationConnections.push(...resp)
+    //   }
+    // )
 
 
     this.columnDefsParameters = [
@@ -373,6 +416,15 @@ export class LayersFormComponent implements OnInit {
       name: new FormControl(null, []),
       format: new FormControl(null, []),
       order: new FormControl(null, []),
+    })
+  }
+
+  initializeSpatialConfigurationForm(): void {
+    this.spatialConfigurationForm = new FormGroup({
+      selectable: new FormControl(null, []),
+      service: new FormControl(null, []),
+      layer: new FormControl(null, []),
+      connection: new FormControl(null, []),
     })
   }
 

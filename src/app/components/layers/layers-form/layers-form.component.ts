@@ -215,8 +215,6 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.column'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.label'), field: 'value' },
       { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', },
-      { headerName: this.utils.getTranslate('layersEntity.help'), field: 'help' },
-      { headerName: this.utils.getTranslate('layersEntity.selectPath'), field: 'selectPath' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
     ];

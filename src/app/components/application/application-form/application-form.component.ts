@@ -805,6 +805,10 @@ export class ApplicationFormComponent implements OnInit {
         console.log(resp);
         this.applicationToEdit = resp;
         this.applicationID = this.applicationToEdit.id;
+        this.applicationForm.patchValue({
+          id: resp.id,
+          _links: resp._links
+        })
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventTemplateConfiguration.next(true);
         this.getAllElementsEventRoles.next(true);

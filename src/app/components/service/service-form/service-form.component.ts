@@ -114,6 +114,7 @@ export class ServiceFormComponent implements OnInit {
         this.serviceForm.patchValue({
           blocked: false,
         })
+        this.dataLoaded = true;
       }
 
     },
@@ -260,7 +261,7 @@ export class ServiceFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    return (this.http.get(`${this.serviceForm.value._links.parameters.href}`))
+    return (this.http.get(`${this.serviceToEdit._links.parameters.href}`))
       .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 
@@ -428,6 +429,11 @@ export class ServiceFormComponent implements OnInit {
     .subscribe(resp => {
       console.log(resp);
       this.serviceToEdit=resp;
+      this.serviceID=resp.id;
+      this.serviceForm.patchValue({
+        id: resp.id,
+        _links: resp._links
+      })
       this.getAllElementsEventParameters.next(true);
       this.getAllElementsEventLayers.next(true);
     },

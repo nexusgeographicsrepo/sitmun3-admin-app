@@ -92,6 +92,7 @@ export class ConnectionFormComponent implements OnInit {
           }
         );
       }
+      else {this.dataLoaded=true;}
 
     },
       error => {
@@ -326,6 +327,11 @@ export class ConnectionFormComponent implements OnInit {
         result => {
           console.log(result);
           this.connectionToEdit=result;
+          this.connectionID=result.id
+          this.formConnection.patchValue({
+            id: result.id,
+            _links: result._links
+          })
           //this.getAllElementsEventCartographies.next(true);
           this.getAllElementsEventTasks.next(true);
         },

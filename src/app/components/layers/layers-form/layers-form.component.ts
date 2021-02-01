@@ -196,6 +196,7 @@ export class LayersFormComponent implements OnInit {
           thematic: false,
         })
         this.layerForm.get('geometryType').disable();
+        this.dataLoaded=true;
       }
 
     },
@@ -450,8 +451,8 @@ export class LayersFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    var urlReq=`${this.layerForm.value._links.parameters.href}`
-    if(this.layerForm.value._links.parameters.templated){
+    var urlReq=`${this.layerToEdit._links.parameters.href}`
+    if(this.layerToEdit._links.parameters.templated){
       var url=new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection","view")
       urlReq=url.toString();
@@ -520,8 +521,8 @@ export class LayersFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    var urlReq=`${this.layerForm.value._links.parameters.href}`
-    if(this.layerForm.value._links.parameters.templated){
+    var urlReq=`${this.layerToEdit._links.parameters.href}`
+    if(this.layerToEdit._links.parameters.templated){
       var url=new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection","view")
       urlReq=url.toString();
@@ -564,8 +565,8 @@ export class LayersFormComponent implements OnInit {
       return of(aux);
     }
 
-    var urlReq = `${this.layerForm.value._links.availabilities.href}`
-    if (this.layerForm.value._links.availabilities.templated) {
+    var urlReq = `${this.layerToEdit._links.availabilities.href}`
+    if (this.layerToEdit._links.availabilities.templated) {
       var url = new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection", "view")
       urlReq = url.toString();
@@ -611,8 +612,8 @@ export class LayersFormComponent implements OnInit {
     const aux: Array<any> = [];
     return of(aux);
 
-  //   var urlReq = `${this.layerForm.value._links.availabilities.href}`
-  //   if (this.layerForm.value._links.availabilities.templated) {
+  //   var urlReq = `${this.layerToEdit._links.availabilities.href}`
+  //   if (this.layerToEdit._links.availabilities.templated) {
   //     var url = new URL(urlReq.split("{")[0]);
   //     url.searchParams.append("projection", "view")
   //     urlReq = url.toString();
@@ -655,8 +656,8 @@ export class LayersFormComponent implements OnInit {
       return of(aux);
     }
 
-    var urlReq = `${this.layerForm.value._links.treeNodes.href}`
-    if (this.layerForm.value._links.treeNodes.templated) {
+    var urlReq = `${this.layerToEdit._links.treeNodes.href}`
+    if (this.layerToEdit._links.treeNodes.templated) {
       var url = new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection", "view")
       urlReq = url.toString();
@@ -864,6 +865,11 @@ export class LayersFormComponent implements OnInit {
       .subscribe(resp => {
         console.log(resp);
         this.layerToEdit=resp;
+        this.layerID=resp.id;
+        this.layerForm.patchValue({
+          id: resp.id,
+          _links: resp._links
+        })
         this.getAllElementsEventParameters.next(true);
         // this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);

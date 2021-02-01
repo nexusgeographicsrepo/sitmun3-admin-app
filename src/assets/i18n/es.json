@@ -28,7 +28,7 @@
   "cartographyNonSelectedMessage": "Para editar un nodo tienes que seleccionar una cartografia!",
   "projectionMessage": "Introdueix EPSG:Código",
   "projectionsMessage": "Introduce todas las proyecciones EPSG:Código separadas por intros",
-  "caution": "Peligro",
+  "caution": "Importante",
   "lang": {
     "catalan": "Catalán",
     "spanish": "Castellano",

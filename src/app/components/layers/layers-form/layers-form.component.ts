@@ -44,7 +44,7 @@ export class LayersFormComponent implements OnInit {
   columnDefsSpatialConfigurations: any[];
   getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject <boolean>();
   dataUpdatedEventSpatialConfigurations: Subject<boolean> = new Subject<boolean>();
-  spatialConfigurationForm: FormGroup;
+
 
   columnDefsTerritories: any[];
   getAllElementsEventTerritories: Subject<boolean> = new Subject <boolean>();
@@ -100,7 +100,6 @@ export class LayersFormComponent implements OnInit {
   ) {
     this.initializeLayersForm();
     this.initializeParameterForm();
-    this.initializeSpatialConfigurationForm();
 
 
     this.activatedRoute.params.subscribe(params => {
@@ -133,9 +132,13 @@ export class LayersFormComponent implements OnInit {
               filterSpatialSeleciontByMunicipality: false,
               queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
               queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
-              selectableLayers: this.layerToEdit.selectableLayers,
+              queryableLayers: this.layerToEdit.queryableLayers,
               thematic: this.layerToEdit.thematic,
               blocked: this.layerToEdit.blocked,
+              selectable: this.layerToEdit.selectableFeatureEnabled,
+              spatialSelectionService: "",
+              layer: this.layerToEdit.selectableLayers,
+              spatialSelectionConnection:"",
               _links: this.layerToEdit._links
             });
 
@@ -145,6 +148,7 @@ export class LayersFormComponent implements OnInit {
               url.searchParams.append("projection","view")
               urlReq=url.toString();
             }
+
         
             this.http.get(urlReq).pipe(
                map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="FILTRO" || elem.type=="FILTRO_INFO" || elem.type=="FILTRO_ESPACIAL")
@@ -402,9 +406,13 @@ export class LayersFormComponent implements OnInit {
       filterSpatialSeleciontByMunicipality: new FormControl(null, []),
       queryableFeatureEnabled: new FormControl(null, []),
       queryableFeatureAvailable: new FormControl(null, []),
-      selectableLayers: new FormControl(null, []),
+      queryableLayers: new FormControl(null, []),
       thematic: new FormControl(null, []),
       blocked: new FormControl(null, []),
+      selectable: new FormControl(null, []),
+      spatialSelectionService: new FormControl(null, []),
+      layer: new FormControl(null, []),
+      spatialSelectionConnection: new FormControl(null, []),
       _links: new FormControl(null, []),
     });
   }
@@ -419,14 +427,6 @@ export class LayersFormComponent implements OnInit {
     })
   }
 
-  initializeSpatialConfigurationForm(): void {
-    this.spatialConfigurationForm = new FormGroup({
-      selectable: new FormControl(null, []),
-      service: new FormControl(null, []),
-      layer: new FormControl(null, []),
-      connection: new FormControl(null, []),
-    })
-  }
 
 
 
@@ -520,7 +520,7 @@ export class LayersFormComponent implements OnInit {
     }
 
     return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="EDIT")
+    .pipe( map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="INFOSELECT")
       ));
 
   }
@@ -725,7 +725,7 @@ export class LayersFormComponent implements OnInit {
       if(result){
         if( result.event==='Add') { 
           let item= this.parameterForm.value;
-          item.type="EDIT"
+          item.type="INFOSELECT"
           this.addElementsEventSpatialConfigurations.next([item])
           console.log(this.parameterForm.value)
           this.parameterForm.reset();

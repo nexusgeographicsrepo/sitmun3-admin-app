@@ -285,7 +285,6 @@ export class ApplicationFormComponent implements OnInit {
 
 
   onSelectionTypeAppChanged({ value }) {
-    debugger;
     if (value === 'E') {
       this.applicationForm.get('title').disable();
       this.applicationForm.get('tree').disable();

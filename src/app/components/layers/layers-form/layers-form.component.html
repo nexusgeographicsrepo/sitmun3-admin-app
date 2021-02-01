@@ -196,7 +196,7 @@
                 {{'layersEntity.informationLayer' | translate}}
               </label>
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="selectableLayers" required>
+                <input matInput type="text" formControlName="queryableLayers" required>
               </mat-form-field>
             </div>
   
@@ -244,7 +244,7 @@
 
     <ng-template matExpansionPanelContent>  
       <div class="formDiv">
-        <form [formGroup]='spatialConfigurationForm' #f="ngForm"> 
+        <form [formGroup]='layerForm' #f="ngForm"> 
       
       
           <div class="rowFormDiv">         
@@ -263,7 +263,7 @@
           </label>
 
           <mat-form-field appearance="outline">
-            <mat-select matInput formControlName="service" class="form-control">
+            <mat-select matInput formControlName="spatialSelectionService" class="form-control">
               <mat-option [value]="service.name" *ngFor="let service of spatialConfigurationServices">
                 {{ service.name}}
               </mat-option>
@@ -291,7 +291,7 @@
           </label>
 
           <mat-form-field appearance="outline">
-            <mat-select matInput formControlName="connection" class="form-control">
+            <mat-select matInput formControlName="spatialSelectionConnection" class="form-control">
               <mat-option [value]="connection.name" *ngFor="let connection of spatialConfigurationConnections">
                 {{ connection.name}}
               </mat-option>

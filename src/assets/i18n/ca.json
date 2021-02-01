@@ -488,7 +488,8 @@
     "login": "Iniciar sessió",
     "bad-credentials": "Usuari i/o contrasenya incorrecte",
     "closeSession": "Tancar sessió",
-    "language": "Idioma"
+    "language": "Idioma",
+    "privateAccess": "Accés privat"
   },
   "selectAll": "Seleccionar tot",
   "selectAllSearchResults": "Seleccionar tots els resultats de cerca",

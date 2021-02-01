@@ -480,7 +480,8 @@
     "login": "Iniciar sesión",
     "bad-credentials": "Usuario y/o contraseña incorrecto",
     "closeSession": "Cerrar sesión",
-    "language": "Idioma"
+    "language": "Idioma",
+    "privateAcces":"Acceso privado"
   },
   "selectAll": "Seleccionar todo",
   "selectAllSearchResults": "Seleccionar todos los resultados de busca",

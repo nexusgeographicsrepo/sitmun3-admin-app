@@ -30,6 +30,7 @@ export class LayersFormComponent implements OnInit {
   services: Array<any> = [];
   spatialConfigurationServices: Array<any> = [];
   spatialConfigurationConnections: Array<any> = [];
+  currentService;
 
   parameterFormatTypes: Array<any> = [];
   parameterTypes: Array<any> = [];
@@ -102,126 +103,6 @@ export class LayersFormComponent implements OnInit {
     this.initializeLayersForm();
     this.initializeParameterForm();
 
-
-    this.activatedRoute.params.subscribe(params => {
-      this.layerID = +params.id;
-      if (this.layerID !== -1) {
-        
-        //getCartography Entity
-        this.cartographyService.get(this.layerID).subscribe(
-          resp => {
-            console.log(resp);
-            this.layerToEdit = resp;
-            this.parametersUrl = this.layerToEdit._links.parameters.href;
-            let currentService = {
-              id: -2,
-              name: this.layerToEdit.serviceName
-            }
-
-            
-
-
-
-            this.layerForm.setValue({
-              id: this.layerID,
-              name: this.layerToEdit.name,
-              service: currentService,
-              layers: this.layerToEdit.layers,
-              minimumScale: this.layerToEdit.minimumScale,
-              maximumScale: this.layerToEdit.maximumScale,
-              geometryType: this.layerToEdit.geometryType,
-              order: this.layerToEdit.order,
-              transparency: this.layerToEdit.transparency,
-              metadataURL: this.layerToEdit.metadataURL,
-              legendType: this.layerToEdit.legendType,
-              description: this.layerToEdit.description,
-              datasetURL: this.layerToEdit.datasetURL, //here
-              applyFilterToGetMap: "",
-              applyFilterToGetFeatureInfo: false,
-              applyFilterToSpatialSelection: false,
-              queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
-              queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
-              queryableLayers: this.layerToEdit.queryableLayers,
-              thematic: this.layerToEdit.thematic,
-              blocked: this.layerToEdit.blocked,
-              selectable: this.layerToEdit.selectableFeatureEnabled,
-              spatialSelectionService: "",
-              layer: this.layerToEdit.selectableLayers,
-              spatialSelectionConnection:"",
-              _links: this.layerToEdit._links
-            });
-
-
-            var urlReq=`${this.layerToEdit._links.parameters.href}`
-            if(this.layerToEdit._links.parameters.templated){
-              var url=new URL(urlReq.split("{")[0]);
-              url.searchParams.append("projection","view")
-              urlReq=url.toString();
-            }
-
-        
-            this.http.get(urlReq).pipe(
-               map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="FILTRO" || elem.type=="FILTRO_INFO" || elem.type=="FILTRO_ESPACIAL")
-              ))
-            .subscribe(result => {
-              console.log(result)
-              result.forEach(element => {
-              
-                if(element.type==='FILTRO'){
-                  this.layerForm.patchValue({
-                    applyFilterToGetMap: element.value
-                  })
-                }
-                else if(element.type==='FILTRO_INFO'){
-                  this.layerForm.patchValue({
-                    applyFilterToGetFeatureInfo: element.value
-                  })
-                }
-                else if(element.type==='FILTRO_ESPACIAl'){
-                  this.layerForm.patchValue({
-                    applyFilterToSpatialSelection: element.value
-                  })
-                }              
-              });
-
-              
-              if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection))
-              {
-                {this.layerForm.get('applyFilterToGetMap').disable();}
-              }
-            });
-
-            if(! this.layerToEdit.thematic) {this.layerForm.get('geometryType').disable();}
-
-
-
-            this.dataLoaded = true;
-
-          },
-          error => {
-
-          }
-        );
-        //Get cartography parameters, we need to put on municipally filter for example
-        
-
-      }
-      else{
-        this.layerForm.patchValue({
-          blocked: false,
-          thematic: false,
-        })
-        this.layerForm.get('geometryType').disable();
-        this.layerForm.get('applyFilterToGetMap').disable();
-        this.dataLoaded=true;
-      }
-
-    },
-      error => {
-
-      });
-
-
   }
 
   ngOnInit(): void {
@@ -232,11 +113,16 @@ export class LayersFormComponent implements OnInit {
     }
     this.geometryTypes.push(geometryTypeByDefault);
 
+    const promises: Promise<any>[] = [];
+
+    promises.push(new Promise((resolve, reject) => {
     this.utils.getCodeListValues('cartography.geometryType').subscribe(
       resp => {
         this.geometryTypes.push(...resp);
+        resolve(true);
       }
-    );
+    )
+    }));
 
     let legendTypeByDefault = {
       value: null,
@@ -244,23 +130,34 @@ export class LayersFormComponent implements OnInit {
     }
     this.legendTypes.push(legendTypeByDefault);
 
+    promises.push(new Promise((resolve, reject) => {
     this.utils.getCodeListValues('cartography.legendType').subscribe(
       resp => {
         this.legendTypes.push(...resp);
+        resolve(true);
       }
-    );
+    )
+    }));
 
+
+    promises.push(new Promise((resolve, reject) => {
     this.utils.getCodeListValues('cartographyParameter.type').subscribe(
       resp => {
         this.parameterTypes.push(...resp);
+        resolve(true);
       }
-    );
+    )
+    }));
 
+
+    promises.push(new Promise((resolve, reject) => {
     this.utils.getCodeListValues('cartographyParameter.format').subscribe(
       resp => {
         this.parameterFormatTypes.push(...resp);
+        resolve(true);
       }
-    );
+    )
+    }));
 
     let connectionByDefault = {
       value: null,
@@ -269,38 +166,152 @@ export class LayersFormComponent implements OnInit {
 
     this.spatialConfigurationConnections.push(connectionByDefault);
 
+    promises.push(new Promise((resolve, reject) => {
     this.connectionService.getAll().subscribe(
       resp => {
         this.spatialConfigurationConnections.push(...resp)
+        resolve(true);
       }
     )
+    }));
 
     let serviceByDefault = {
       id: -1,
       name: '-------'
     }
 
-    this.services.push(serviceByDefault);
     this.spatialConfigurationServices.push(serviceByDefault);
 
-    
+    promises.push(new Promise((resolve, reject) => {
     this.serviceService.getAll().map((resp) => {
       let wfsServices = [];
       this.services.push(...resp);
       resp.forEach(service => {
         if(service.type==='WFS') {wfsServices.push(service)}
       });  
+      resolve(true);
       return wfsServices;
 
     }).subscribe(
       resp =>  this.spatialConfigurationServices.push(...resp)
+      
     )
-    console.log(this.services)
-    // .subscribe(
-    //   resp => {
-    //     this.spatialConfigurationConnections.push(...resp)
-    //   }
-    // )
+    }));
+
+    Promise.all(promises).then(() => {
+  
+      this.activatedRoute.params.subscribe(params => {
+        this.layerID = +params.id;
+        if (this.layerID !== -1) {
+          
+          //getCartography Entity
+          this.cartographyService.get(this.layerID).subscribe(
+            resp => {
+              console.log(resp);
+              this.layerToEdit = resp;
+              this.parametersUrl = this.layerToEdit._links.parameters.href;
+              this.layerForm.setValue({
+                id: this.layerID,
+                name: this.layerToEdit.name,
+                service: this.layerToEdit.serviceName,
+                layers: this.layerToEdit.layers,
+                minimumScale: this.layerToEdit.minimumScale,
+                maximumScale: this.layerToEdit.maximumScale,
+                geometryType: this.layerToEdit.geometryType,
+                order: this.layerToEdit.order,
+                transparency: this.layerToEdit.transparency,
+                metadataURL: this.layerToEdit.metadataURL,
+                legendType: this.layerToEdit.legendType,
+                description: this.layerToEdit.description,
+                datasetURL: this.layerToEdit.datasetURL, //here
+                applyFilterToGetMap: "",
+                applyFilterToGetFeatureInfo: false,
+                applyFilterToSpatialSelection: false,
+                queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
+                queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
+                queryableLayers: this.layerToEdit.queryableLayers,
+                thematic: this.layerToEdit.thematic,
+                blocked: this.layerToEdit.blocked,
+                selectableFeatureEnabled: this.layerToEdit.selectableFeatureEnabled,
+                spatialSelectionService: "",
+                selectableLayers: this.layerToEdit.selectableLayers,
+                spatialSelectionConnection:"",
+                _links: this.layerToEdit._links
+              });
+  
+                
+              var urlReq=`${this.layerToEdit._links.parameters.href}`
+              if(this.layerToEdit._links.parameters.templated){
+                var url=new URL(urlReq.split("{")[0]);
+                url.searchParams.append("projection","view")
+                urlReq=url.toString();
+              }
+  
+          
+              this.http.get(urlReq).pipe(
+                 map( data =>  data['_embedded']['cartography-parameters'].filter(elem=> elem.type=="FILTRO" || elem.type=="FILTRO_INFO" || elem.type=="FILTRO_ESPACIAL")
+                ))
+              .subscribe(result => {
+                console.log(result)
+                result.forEach(element => {
+                
+                  if(element.type==='FILTRO'){
+                    this.layerForm.patchValue({
+                      applyFilterToGetMap: element.value
+                    })
+                  }
+                  else if(element.type==='FILTRO_INFO'){
+                    this.layerForm.patchValue({
+                      applyFilterToGetFeatureInfo: element.value
+                    })
+                  }
+                  else if(element.type==='FILTRO_ESPACIAl'){
+                    this.layerForm.patchValue({
+                      applyFilterToSpatialSelection: element.value
+                    })
+                  }              
+                });
+  
+                
+                if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection))
+                {
+                  {this.layerForm.get('applyFilterToGetMap').disable();}
+                }
+              });
+  
+              if(! this.layerToEdit.thematic) {this.layerForm.get('geometryType').disable();}
+  
+  
+  
+              this.dataLoaded = true;
+  
+            },
+            error => {
+  
+            }
+          );
+          //Get cartography parameters, we need to put on municipally filter for example
+          
+  
+        }
+        else{
+          this.layerForm.patchValue({
+            blocked: false,
+            thematic: false,
+            service: this.services[0].id
+          })
+          this.layerForm.get('geometryType').disable();
+          this.layerForm.get('applyFilterToGetMap').disable();
+          this.dataLoaded=true;
+        }
+  
+      },
+        error => {
+  
+        });
+  
+      
+    });
 
 
     this.columnDefsParameters = [
@@ -445,9 +456,9 @@ export class LayersFormComponent implements OnInit {
       queryableLayers: new FormControl(null, []),
       thematic: new FormControl(null, []),
       blocked: new FormControl(null, []),
-      selectable: new FormControl(null, []),
+      selectableFeatureEnabled: new FormControl(null, []),
       spatialSelectionService: new FormControl(null, []),
-      layer: new FormControl(null, []),
+      selectableLayers: new FormControl(null, []),
       spatialSelectionConnection: new FormControl(null, []),
       _links: new FormControl(null, []),
     });

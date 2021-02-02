@@ -29,7 +29,7 @@
           </div>
   
           <div class="colFormDiv" >
-            <label class="formLabel">
+            <label class="formLabel requiredInput">
               {{'layersEntity.serviceName' | translate}}
             </label>
             <mat-form-field appearance="outline">
@@ -262,7 +262,7 @@
               <label class="formLabel">
                 {{'layersEntity.selectable' | translate}}
               </label>
-              <mat-checkbox formControlName="selectable"> </mat-checkbox>
+              <mat-checkbox formControlName="selectableFeatureEnabled"> </mat-checkbox>
             </div>
 
           <div class="colFormDiv" >
@@ -285,7 +285,7 @@
               {{'layersEntity.layer' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="layer" required>
+              <input matInput type="text" formControlName="selectableLayers" required>
             </mat-form-field>
           </div>
 

@@ -44,11 +44,18 @@
               <input matInput type="text" formControlName="layers" required>
             </mat-form-field>
           </div>
+
+          <div class="colFormDiv">
+            <label class="formLabel">
+              {{'layersEntity.available' | translate}}
+            </label>
+            <mat-checkbox formControlName="blocked"> </mat-checkbox>
+          </div>
           
       </div>
 
       <div class="rowFormDiv">
-        <div class="colFormDiv">
+        <div class="fiveColumnColFormDiv">
           <label class="formLabel">
             {{'layersEntity.minimumScale' | translate}}
           </label>
@@ -57,7 +64,7 @@
           </mat-form-field>
         </div>
 
-        <div class="colFormDiv" >
+        <div class="fiveColumnColFormDiv" >
           <label class="formLabel">
             {{'layersEntity.maximumScale' | translate}}
           </label>
@@ -67,7 +74,7 @@
         </div>
 
 
-        <div class="colFormDiv" >
+        <div class="fiveColumnColFormDiv" >
           <label class="formLabel">
             {{'layersEntity.order' | translate}}
           </label>
@@ -76,7 +83,7 @@
           </mat-form-field>
         </div>
 
-        <div class="colFormDiv">
+        <div class="fiveColumnColFormDiv">
             <label class="formLabel">
               {{'layersEntity.transparency' | translate}}
             </label>
@@ -85,19 +92,7 @@
             </mat-form-field>
           </div>
 
-          <div class="colFormDiv" id="right-column">
-            <label class="formLabel">
-              {{'layersEntity.metadataURL' | translate}}
-            </label>
-            <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="metadataURL">
-            </mat-form-field>
-          </div>
-      </div>
-
-      <div class="rowFormDiv">
-      
-          <div class="thirdColumnColFormDiv" >
+          <div class="fiveColumnColFormDiv" >
             <label class="formLabel">
               {{'layersEntity.legendType' | translate}}
             </label>
@@ -110,8 +105,13 @@
               </mat-select>
             </mat-form-field> 
           </div>
+
+      </div>
+
+      <div class="rowFormDiv">
+      
   
-          <div class="thirdColumnColFormDiv" >
+          <div class="colFormDiv" >
             <label class="formLabel">
               {{'layersEntity.description' | translate}}
             </label>
@@ -120,7 +120,7 @@
             </mat-form-field>
           </div>
   
-          <div class="thirdColumnColFormDiv" >
+          <div class="colFormDiv" >
             <label class="formLabel">
               {{'layersEntity.datasetURL' | translate}}
             </label>
@@ -130,12 +130,17 @@
           </div>
 
           
-          <div class="colFormDiv">
+          <div class="colFormDiv" id="right-column">
             <label class="formLabel">
-              {{'layersEntity.available' | translate}}
+              {{'layersEntity.metadataURL' | translate}}
             </label>
-            <mat-checkbox formControlName="blocked"> </mat-checkbox>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" formControlName="metadataURL">
+            </mat-form-field>
           </div>
+
+          
+
   
     </div>
 
@@ -184,7 +189,7 @@
               <mat-checkbox formControlName="queryableFeatureEnabled"> </mat-checkbox>
             </div>
   
-            <div class="colFormDivDefaultInformation" >
+            <div class="colFormDivShortCheckbox" >
               <label class="formLabel">
                 {{'layersEntity.defaultInformation' | translate}}
               </label>
@@ -202,7 +207,7 @@
   
           </div>
           <div class="rowFormDiv">
-            <div class="colFormDivDefaultInformation">
+            <div class="colFormDivShortCheckbox">
               <label class="formLabel">
                 {{'layersEntity.thematic' | translate}}
               </label>
@@ -248,15 +253,13 @@
       
       
           <div class="rowFormDiv">         
-            <div class="colFormDiv">
+            <div class="colFormDivShortCheckbox">
               <label class="formLabel">
                 {{'layersEntity.selectable' | translate}}
               </label>
               <mat-checkbox formControlName="selectable"> </mat-checkbox>
             </div>
-         </div>
 
-         <div class="rowFormDiv">         
           <div class="colFormDiv" >
           <label class="formLabel">
             {{'layersEntity.service' | translate}}
@@ -270,9 +273,8 @@
             </mat-select>
           </mat-form-field> 
           </div>
-         </div>
 
-         <div class="rowFormDiv">         
+      
           <div class="colFormDiv" >
             <label class="formLabel requiredInput">
               {{'layersEntity.layer' | translate}}
@@ -281,10 +283,12 @@
               <input matInput type="text" formControlName="layer" required>
             </mat-form-field>
           </div>
+
+
         </div>
 
 
-        <div class="rowFormDiv">     
+        <!-- <div class="rowFormDiv">     
           <div class="colFormDiv" >    
           <label class="formLabel">
             {{'layersEntity.connection' | translate}}
@@ -298,7 +302,7 @@
             </mat-select>
           </mat-form-field> 
           </div>
-         </div>
+         </div> -->
        
       </form>
       </div>

@@ -129,7 +129,7 @@
     "createdDate": "Created date",
     "minimumScale": "Min Scale",
     "maximumScale": "Max Scale",
-    "metadataURL": "URL data",
+    "metadataURL": "Associated metadata URL",
     "geometryType": "Geometry Type",
     "transparency": "Transparency",
     "legendType": "Legend Type",

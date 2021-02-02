@@ -33,8 +33,13 @@
               {{'layersEntity.serviceName' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="serviceName">
-            </mat-form-field>
+              <mat-select matInput formControlName="service" class="form-control">
+                <mat-option [value]="service.id" *ngFor="let service of services">
+                  {{ service.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> 
+
           </div>
           <div class="colFormDiv">
             <label class="formLabel requiredInput">
@@ -163,14 +168,14 @@
               <label class="formLabel">
                 {{'layersEntity.filterInfoByMunicipality' | translate}}
               </label>
-              <mat-checkbox formControlName="filterInfoByMunicipality"> </mat-checkbox>
+              <mat-checkbox (change)="onMunicipalityFilterChange($event)" formControlName="applyFilterToGetFeatureInfo"> </mat-checkbox>
             </div>
   
             <div class="colFormDiv">
               <label class="formLabel">
                 {{'layersEntity.filterSpatialSeleciontByMunicipality' | translate}}
               </label>
-              <mat-checkbox formControlName="filterSpatialSeleciontByMunicipality"> </mat-checkbox>
+              <mat-checkbox (change)="onMunicipalityFilterChange($event)" formControlName="applyFilterToSpatialSelection"> </mat-checkbox>
             </div>
             
         </div>

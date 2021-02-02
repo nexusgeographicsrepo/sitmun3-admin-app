@@ -27,6 +27,7 @@ export class LayersFormComponent implements OnInit {
   dataLoaded: Boolean = false;
   geometryTypes: Array<any> = [];
   legendTypes: Array<any> = [];
+  services: Array<any> = [];
   spatialConfigurationServices: Array<any> = [];
   spatialConfigurationConnections: Array<any> = [];
 
@@ -112,11 +113,19 @@ export class LayersFormComponent implements OnInit {
             console.log(resp);
             this.layerToEdit = resp;
             this.parametersUrl = this.layerToEdit._links.parameters.href;
+            let currentService = {
+              id: -2,
+              name: this.layerToEdit.serviceName
+            }
+
+            
+
+
 
             this.layerForm.setValue({
               id: this.layerID,
               name: this.layerToEdit.name,
-              serviceName: this.layerToEdit.serviceName,
+              service: currentService,
               layers: this.layerToEdit.layers,
               minimumScale: this.layerToEdit.minimumScale,
               maximumScale: this.layerToEdit.maximumScale,
@@ -128,8 +137,8 @@ export class LayersFormComponent implements OnInit {
               description: this.layerToEdit.description,
               datasetURL: this.layerToEdit.datasetURL, //here
               applyFilterToGetMap: "",
-              filterInfoByMunicipality: false,
-              filterSpatialSeleciontByMunicipality: false,
+              applyFilterToGetFeatureInfo: false,
+              applyFilterToSpatialSelection: false,
               queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
               queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
               queryableLayers: this.layerToEdit.queryableLayers,
@@ -141,6 +150,7 @@ export class LayersFormComponent implements OnInit {
               spatialSelectionConnection:"",
               _links: this.layerToEdit._links
             });
+
 
             var urlReq=`${this.layerToEdit._links.parameters.href}`
             if(this.layerToEdit._links.parameters.templated){
@@ -164,19 +174,25 @@ export class LayersFormComponent implements OnInit {
                 }
                 else if(element.type==='FILTRO_INFO'){
                   this.layerForm.patchValue({
-                    filterInfoByMunicipality: element.value
+                    applyFilterToGetFeatureInfo: element.value
                   })
                 }
                 else if(element.type==='FILTRO_ESPACIAl'){
                   this.layerForm.patchValue({
-                    filterSpatialSeleciontByMunicipality: element.value
+                    applyFilterToSpatialSelection: element.value
                   })
-                }
-                
+                }              
               });
+
+              
+              if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection))
+              {
+                {this.layerForm.get('applyFilterToGetMap').disable();}
+              }
             });
 
             if(! this.layerToEdit.thematic) {this.layerForm.get('geometryType').disable();}
+
 
 
             this.dataLoaded = true;
@@ -196,6 +212,7 @@ export class LayersFormComponent implements OnInit {
           thematic: false,
         })
         this.layerForm.get('geometryType').disable();
+        this.layerForm.get('applyFilterToGetMap').disable();
         this.dataLoaded=true;
       }
 
@@ -259,14 +276,17 @@ export class LayersFormComponent implements OnInit {
     )
 
     let serviceByDefault = {
-      value: null,
+      id: -1,
       name: '-------'
     }
 
+    this.services.push(serviceByDefault);
     this.spatialConfigurationServices.push(serviceByDefault);
+
     
     this.serviceService.getAll().map((resp) => {
       let wfsServices = [];
+      this.services.push(...resp);
       resp.forEach(service => {
         if(service.type==='WFS') {wfsServices.push(service)}
       });  
@@ -275,7 +295,7 @@ export class LayersFormComponent implements OnInit {
     }).subscribe(
       resp =>  this.spatialConfigurationServices.push(...resp)
     )
-    console.log(this.spatialConfigurationServices)
+    console.log(this.services)
     // .subscribe(
     //   resp => {
     //     this.spatialConfigurationConnections.push(...resp)
@@ -389,7 +409,14 @@ export class LayersFormComponent implements OnInit {
       this.layerForm.get('geometryType').disable();
     }
   }
-
+  
+  onMunicipalityFilterChange(value){
+    if (value.checked) {
+      this.layerForm.get('applyFilterToGetMap').enable();
+    } else if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)  ) {
+      this.layerForm.get('applyFilterToGetMap').disable();
+    }
+  }
 
 
   initializeLayersForm(): void {
@@ -399,7 +426,7 @@ export class LayersFormComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
       ]),
-      serviceName: new FormControl(null),
+      service: new FormControl(null),
       layers: new FormControl(null),
       minimumScale: new FormControl(null, []),
       maximumScale: new FormControl(null, []),
@@ -411,8 +438,8 @@ export class LayersFormComponent implements OnInit {
       description: new FormControl(null, []),
       datasetURL: new FormControl(null, []),//here
       applyFilterToGetMap: new FormControl(null, []),
-      filterInfoByMunicipality: new FormControl(null, []),
-      filterSpatialSeleciontByMunicipality: new FormControl(null, []),
+      applyFilterToGetFeatureInfo: new FormControl(null, []),
+      applyFilterToSpatialSelection: new FormControl(null, []),
       queryableFeatureEnabled: new FormControl(null, []),
       queryableFeatureAvailable: new FormControl(null, []),
       queryableLayers: new FormControl(null, []),

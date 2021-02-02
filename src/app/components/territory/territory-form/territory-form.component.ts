@@ -107,16 +107,6 @@ export class TerritoryFormComponent implements OnInit {
       }
     );
 
-    let scopeTypesByDefault = {
-      id: -1,
-      codeListName: 'codeListName',
-      value: null,
-      description: '------'
-    }
-    this.scopeTypes.push(scopeTypesByDefault);
-    console.log(this.scopeTypes)
-
-
     this.utils.getCodeListValues('territory.scope').subscribe(
       resp => {
         this.scopeTypes.push(...resp);
@@ -135,18 +125,14 @@ export class TerritoryFormComponent implements OnInit {
           resp => {
             console.log(resp);
             this.territoryToEdit = resp;
-            if (this.territoryToEdit.scope == null) 
-            {
-              this.territoryToEdit.scope =  this.scopeTypes[0];
-            };
 
             this.http.get(this.territoryToEdit._links.groupType.href).subscribe(
               resp => {
                 console.log(resp);
                 this.groupTypeOfThisTerritory = resp;
-                // this.territoryForm.patchValue({
-                //   groupType: this.groupTypeOfThisTerritory,
-                // });
+                this.territoryForm.patchValue({
+                   groupType: this.groupTypeOfThisTerritory['id'],
+                });
               });
 
             this.extensions = this.territoryToEdit.extent.split(' ');
@@ -158,7 +144,7 @@ export class TerritoryFormComponent implements OnInit {
               territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
               territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
               scope: this.territoryToEdit.scope,
-              groupType: this.groupTypeOfThisTerritory[`id`],
+              groupType: -1,
               extent: ' ',
               extensionX0: this.extensions[0],
               extensionX1: this.extensions[1],
@@ -925,8 +911,8 @@ export class TerritoryFormComponent implements OnInit {
       this.terrritoryObj.code= this.territoryForm.value.code,
       this.terrritoryObj.name= this.territoryForm.value.name,
       this.terrritoryObj.territorialAuthorityAddress= this.territoryForm.value.territorialAuthorityAddress,
-      // this.terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
-      this.terrritoryObj.territorialAuthorityLogo= null,
+      this.terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
+      //this.terrritoryObj.territorialAuthorityLogo= null,
       this.terrritoryObj.scope= this.territoryForm.value.scope,
       this.terrritoryObj.groupType = groupType,
       console.log(this.terrritoryObj.groupType);

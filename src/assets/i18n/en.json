@@ -28,6 +28,7 @@
   "cartographyNonSelectedMessage": "If you want to edit a node you must select a cartography!",
   "projectionMessage": "Introduce EPSG:Code",
   "projectionsMessage": "Introduce all projections like EPSG:Code separated by intro",
+  "passwordMessage" : "Password/confirm passwords fields don't match!",
   "caution": "Important",
   "lang": {
     "catalan": "Catalan",

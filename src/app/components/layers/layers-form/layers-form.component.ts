@@ -533,20 +533,20 @@ export class LayersFormComponent implements OnInit {
       ));
 
   }
+  // We use getAllRowsParameters To update spatial configrurations
+  // getAllRowsSpatialConfiguration(data: any[] )
+  // {
+  //   let spatialSelectionsModified = [];
+  //   let spatialSelectionsToPut = [];
+  //   data.forEach(spatialSelection => {
+  //     if (spatialSelection.status === 'Modified') {spatialSelectionsModified.push(spatialSelection) }
+  //     if(spatialSelection.status!== 'Deleted') {spatialSelectionsToPut.push(spatialSelection._links.self.href) }
+  //   });
+  //   this.updateSpatialConfiguration(spatialSelectionsModified, spatialSelectionsToPut);
+  // }
 
-  getAllRowsSpatialConfiguration(data: any[] )
-  {
-    let spatialSelectionsModified = [];
-    let spatialSelectionsToPut = [];
-    data.forEach(spatialSelection => {
-      if (spatialSelection.status === 'Modified') {spatialSelectionsModified.push(spatialSelection) }
-      if(spatialSelection.status!== 'Deleted') {spatialSelectionsToPut.push(spatialSelection._links.self.href) }
-    });
-    this.updateSpatialConfiguration(spatialSelectionsModified, spatialSelectionsToPut);
-  }
-
-  updateSpatialConfiguration(spatialConfigurationsModified: any[], spatialSelectionsToPut: any[] )
-  {
+  // updateSpatialConfiguration(spatialConfigurationsModified: any[], spatialSelectionsToPut: any[] )
+  // {
     // const promises: Promise<any>[] = [];
     // spatialConfigurationsModified.forEach(spatialSelection => {
     //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(spatialSelection).toPromise().then((resp) => { resolve() }) }));
@@ -555,7 +555,7 @@ export class LayersFormComponent implements OnInit {
       // let url=this.layerToEdit._links.spatialSelectionConnection.href.split('{', 1)[0];
       // this.utils.updateUriList(url,spatialSelectionsToPut, this.dataUpdatedEventSpatialConfigurations)
     // });
-  }
+  // }
 
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
@@ -871,7 +871,7 @@ export class LayersFormComponent implements OnInit {
           _links: resp._links
         })
         this.getAllElementsEventParameters.next(true);
-        // this.getAllElementsEventSpatialConfigurations.next(true);
+        this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         // this.getAllElementsEventLayersConfigurations.next(true);
         this.getAllElementsEventNodes.next(true);

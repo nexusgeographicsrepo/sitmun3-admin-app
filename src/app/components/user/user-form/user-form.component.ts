@@ -8,7 +8,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogGridComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 
 
@@ -539,6 +539,14 @@ export class UserFormComponent implements OnInit {
         }
 
   
+    }
+    else{
+
+      const dialogRef = this.dialog.open(DialogMessageComponent);
+      dialogRef.componentInstance.title = "Error";
+      dialogRef.componentInstance.message = this.utils.getTranslate("passwordMessage");
+      dialogRef.afterClosed().subscribe();
+
     }
 
 

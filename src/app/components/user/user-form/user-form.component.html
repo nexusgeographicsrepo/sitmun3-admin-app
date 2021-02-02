@@ -57,7 +57,8 @@
               {{'userEntity.password' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="password">
+              <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
             </mat-form-field>
           </div>
 
@@ -66,7 +67,8 @@
               {{'userEntity.confirmPassword' | translate}}
             </label>
             <mat-form-field appearance="outline">
-              <input matInput type="text" formControlName="confirmPassword">
+              <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
             </mat-form-field>
           </div>
 

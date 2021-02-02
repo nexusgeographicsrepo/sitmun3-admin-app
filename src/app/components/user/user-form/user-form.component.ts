@@ -21,7 +21,8 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class UserFormComponent implements OnInit {
 
-
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   //Form
   userForm: FormGroup;

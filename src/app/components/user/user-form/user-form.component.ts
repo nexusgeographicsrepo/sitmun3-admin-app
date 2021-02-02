@@ -545,6 +545,7 @@ export class UserFormComponent implements OnInit {
       const dialogRef = this.dialog.open(DialogMessageComponent);
       dialogRef.componentInstance.title = "Error";
       dialogRef.componentInstance.message = this.utils.getTranslate("passwordMessage");
+      dialogRef.componentInstance.hideCancelButton = true;
       dialogRef.afterClosed().subscribe();
 
     }

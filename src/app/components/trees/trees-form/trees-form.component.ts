@@ -310,6 +310,7 @@ export class TreesFormComponent implements OnInit {
      {
       const dialogRef = this.dialog.open(DialogMessageComponent);
       dialogRef.componentInstance.title=this.utils.getTranslate("Error");
+      dialogRef.componentInstance.hideCancelButton = true;
       dialogRef.componentInstance.message=this.utils.getTranslate("cartographyNonSelectedMessage");
        dialogRef.afterClosed().subscribe();
      }

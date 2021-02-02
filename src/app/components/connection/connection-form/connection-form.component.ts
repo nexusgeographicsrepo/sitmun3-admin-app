@@ -340,4 +340,12 @@ export class ConnectionFormComponent implements OnInit {
         });
     }
 
+    validateConnection(){
+
+      return (this.http.get(this.connectionToEdit._links.self.href+"/test"))
+      .subscribe(result=>{
+        debugger;
+      });
+    }
+
 }

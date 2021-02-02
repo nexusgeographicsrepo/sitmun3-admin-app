@@ -526,18 +526,28 @@ export class LayersFormComponent implements OnInit {
   {
     let parametersToDuplicate= []
     data.forEach(parameter => {
-      let newParameter={
-        value: parameter.value,
-        name: 'copia_'.concat(parameter.name),
-        format: parameter.format,
-        order: parameter.order,
-        type: parameter.type
-      }
-      
-      
+      let newParameter= {...parameter};
+      newParameter.name='copia_'.concat(newParameter.name),
+      newParameter.id=null,
       parametersToDuplicate.push(newParameter);
     });
+
     this.addElementsEventParameters.next(parametersToDuplicate);
+
+  }
+
+  duplicateSpatialSelections(data)
+  {
+    let spatialSelectionsToDuplicate= []
+    data.forEach(spatialSelection => {
+      let newSpatialSelection= {...spatialSelection};
+      newSpatialSelection.name='copia_'.concat(newSpatialSelection.name),
+      newSpatialSelection.id=null,
+      spatialSelectionsToDuplicate.push(newSpatialSelection);
+    });
+
+    this.addElementsEventSpatialConfigurations.next(spatialSelectionsToDuplicate);
+
   }
 
   // ******** Spatial configuration ******** //

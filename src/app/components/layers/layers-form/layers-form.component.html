@@ -314,8 +314,8 @@
       <div class="appDataGridEditDiv">
           <app-data-grid  [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid' [getAll]='getAllSpatialConfigurations'  
           [eventAddItemsSubscription]='addElementsEventSpatialConfigurations.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventSpatialConfigurations.asObservable()' 
-          [eventRefreshSubscription]='dataUpdatedEventSpatialConfigurations.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true [hideDuplicateButton]=true  
-          (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (new)="openSpatialSelectionDialog($event)"  > </app-data-grid>
+          [eventRefreshSubscription]='dataUpdatedEventSpatialConfigurations.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
+          (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (duplicate)='duplicateSpatialSelections($event)' (new)="openSpatialSelectionDialog($event)"  > </app-data-grid>
       </div>
     </ng-template>
     </mat-expansion-panel>

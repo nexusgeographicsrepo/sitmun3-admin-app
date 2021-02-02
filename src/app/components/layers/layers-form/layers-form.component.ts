@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService } from '@sitmun/frontend-core';
+import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -347,7 +347,7 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsLayersConfiguration = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code' },
+      { headerName: this.utils.getTranslate('layersEntity.id'), field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
@@ -655,19 +655,26 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Layers configuration ******** //
   getAllLayersConfiguration = (): Observable<any> => {
-    const aux: Array<any> = [];
-    return of(aux);
 
-  //   var urlReq = `${this.layerToEdit._links.availabilities.href}`
-  //   if (this.layerToEdit._links.availabilities.templated) {
-  //     var url = new URL(urlReq.split("{")[0]);
-  //     url.searchParams.append("projection", "view")
-  //     urlReq = url.toString();
-  //   }
 
-  //   return (this.http.get(urlReq))
-  //     .pipe(map(data => data['_embedded']['cartography-availabilities']));
+    if(this.layerID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+    var urlReq = `${this.layerToEdit._links.permissions.href}`
+    if (this.layerToEdit._links.permissions.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['cartography-groups']));
   }
+  
+  
 
   getAllRowsLayersConfiguration(data: any[] )
   {
@@ -678,7 +685,7 @@ export class LayersFormComponent implements OnInit {
       if(layer.status!== 'Deleted') {layersConfigurationToPut.push(layer._links.self.href) }
     });
     console.log(layersConfigurationModified);
-    // this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut);
+    this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut);
   }
 
   updateLayersConfigurations(layersConfigurationModified: CartographyGroup[], layersConfigurationToPut: CartographyGroup[])
@@ -688,7 +695,7 @@ export class LayersFormComponent implements OnInit {
       promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartography).toPromise().then((resp) => { resolve() }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
+      let url=this.layerToEdit._links.permissions.href.split('{', 1)[0];
       this.utils.updateUriList(url,layersConfigurationToPut, this.dataUpdatedEventLayersConfiguration)
     });
   }
@@ -846,7 +853,11 @@ export class LayersFormComponent implements OnInit {
   // ******** Cartography Groups Dialog  ******** //
 
   getAllCartographyGroupsDialog = () => {
-    return this.cartographyGroupService.getAll();
+    let params2:HalParam[]=[];
+    let param:HalParam={key:'type', value:'C'}
+    params2.push(param);
+    let query:HalOptions={ params:params2};
+    return this.cartographyGroupService.getAll(query,undefined);
   }
 
   openCartographyGroupsDialog(data: any) {

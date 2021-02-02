@@ -54,7 +54,7 @@ export class RoleComponent implements OnInit {
   applyChanges(data: Role[]) {
     const promises: Promise<any>[] = [];
     data.forEach(role => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.update(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.update(role).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -66,7 +66,7 @@ export class RoleComponent implements OnInit {
     data.forEach(role => {
       role.id = null;
       role.name = 'copia_'.concat(role.name)
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.create(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.create(role).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -83,7 +83,7 @@ export class RoleComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(role => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.delete(role).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.roleService.delete(role).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

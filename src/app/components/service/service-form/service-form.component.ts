@@ -281,11 +281,11 @@ export class ServiceFormComponent implements OnInit {
     });
     const promises: Promise<any>[] = [];
     parameterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(saveElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     parameterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));    
+      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
     });
 
     Promise.all(promises).then(() => {
@@ -350,7 +350,7 @@ export class ServiceFormComponent implements OnInit {
   {
     const promises: Promise<any>[] = [];
     layersModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       let url=this.serviceToEdit._links.layers.href.split('{', 1)[0];

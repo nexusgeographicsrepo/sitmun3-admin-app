@@ -83,7 +83,7 @@ export class TerritoryComponent implements OnInit {
   applyChanges(data: Territory[]) {
     const promises: Promise<any>[] = [];
     data.forEach(territory => {
-      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -95,7 +95,7 @@ export class TerritoryComponent implements OnInit {
     data.forEach(territory => {
       territory.id = null;
       territory.name = 'copia_'.concat(territory.name)
-      promises.push(new Promise((resolve, reject) => { this.territoryService.create(territory).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.territoryService.create(territory).subscribe((resp) => { resolve(true) }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -113,7 +113,7 @@ export class TerritoryComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(territory => {
-            promises.push(new Promise((resolve, reject) => { this.territoryService.delete(territory).toPromise().then((resp) => { resolve() }) }));
+            promises.push(new Promise((resolve, reject) => { this.territoryService.delete(territory).subscribe((resp) => { resolve(true) }) }));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

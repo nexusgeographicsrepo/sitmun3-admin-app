@@ -55,7 +55,7 @@ export class TasksComponent implements OnInit {
   applyChanges(data: Task[]) {
     const promises: Promise<any>[] = [];
     data.forEach(task => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.update(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.update(task).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -73,7 +73,7 @@ export class TasksComponent implements OnInit {
           newTask.group=result;
           newTask._links= null;
           console.log(newTask)
-          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.create(newTask).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+          promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.create(newTask).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
           Promise.all(promises).then(() => {
             this.dataUpdatedEvent.next(true);
           });
@@ -97,7 +97,7 @@ export class TasksComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(task => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.delete(task).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.tasksService.delete(task).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

@@ -401,11 +401,11 @@ export class ApplicationFormComponent implements OnInit {
     });
     const promises: Promise<any>[] = [];
     parameterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(saveElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     parameterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
       
     });
 
@@ -496,7 +496,7 @@ export class ApplicationFormComponent implements OnInit {
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
-      promises.push(new Promise((resolve, reject) => { this.roleService.update(role).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
         let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
@@ -549,11 +549,11 @@ export class ApplicationFormComponent implements OnInit {
     });
 
     backgroundsToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     backgroundsToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     Promise.all(promises).then(() => {
@@ -606,7 +606,7 @@ export class ApplicationFormComponent implements OnInit {
   {
     const promises: Promise<any>[] = [];
     treesModified.forEach(tree => {
-      promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       let url=this.applicationToEdit._links.trees.href.split('{', 1)[0];

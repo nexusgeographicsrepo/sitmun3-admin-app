@@ -67,7 +67,7 @@ export class BackgroundLayersComponent implements OnInit {
   applyChanges(data: Background[]) {
     const promises: Promise<any>[] = [];
     data.forEach(background => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.update(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.update(background).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -85,7 +85,7 @@ export class BackgroundLayersComponent implements OnInit {
         background.name = 'copia_'.concat(background.name)
         background._links=null;
         console.log(background);
-        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.save(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.save(background).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
         Promise.all(promises).then(() => {
           this.dataUpdatedEvent.next(true);
         });
@@ -106,7 +106,7 @@ export class BackgroundLayersComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(background => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.delete(background).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.backgroundService.delete(background).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

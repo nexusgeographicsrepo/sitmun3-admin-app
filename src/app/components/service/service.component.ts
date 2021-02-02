@@ -62,7 +62,7 @@ export class ServiceComponent implements OnInit {
   applyChanges(data: Service[]) {
     const promises: Promise<any>[] = [];
     data.forEach(service => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.update(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.update(service).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -74,7 +74,7 @@ export class ServiceComponent implements OnInit {
     data.forEach(service => {
       service.id = null;
       service.name = 'copia_'.concat(service.name)
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.create(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.create(service).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -93,7 +93,7 @@ export class ServiceComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(service => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.delete(service).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.delete(service).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

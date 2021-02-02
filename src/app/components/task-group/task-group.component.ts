@@ -62,7 +62,7 @@ export class TaskGroupComponent implements OnInit {
   applyChanges(data: TaskGroup[]) {
     const promises: Promise<any>[] = [];
     data.forEach(taskGroup => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.update(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.update(taskGroup).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -74,7 +74,7 @@ export class TaskGroupComponent implements OnInit {
     data.forEach(taskGroup => {
       taskGroup.id = null;
       taskGroup.name = 'copia_'.concat(taskGroup.name)
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.create(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.create(taskGroup).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -92,7 +92,7 @@ export class TaskGroupComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(taskGroup => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.delete(taskGroup).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.taskGroupService.delete(taskGroup).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

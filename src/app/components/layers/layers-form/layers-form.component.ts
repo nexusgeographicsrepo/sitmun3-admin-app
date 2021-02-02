@@ -508,11 +508,11 @@ export class LayersFormComponent implements OnInit {
     });
 
     parameterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(saveElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     parameterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));    
+      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
     });
 
     Promise.all(promises).then(() => {
@@ -588,7 +588,7 @@ export class LayersFormComponent implements OnInit {
   // {
     // const promises: Promise<any>[] = [];
     // spatialConfigurationsModified.forEach(spatialSelection => {
-    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(spatialSelection).toPromise().then((resp) => { resolve() }) }));
+    //   promises.push(new Promise((resolve, reject) => { this.tasksService.update(spatialSelection).subscribe((resp) => { resolve(true) }) }));
     // });
     // Promise.all(promises).then(() => {
       // let url=this.layerToEdit._links.spatialSelectionConnection.href.split('{', 1)[0];
@@ -635,11 +635,11 @@ export class LayersFormComponent implements OnInit {
     });
     const promises: Promise<any>[] = [];
     territoriesToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(newElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     territoriesToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => {this.cartograhyAvailabilityService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => {this.cartograhyAvailabilityService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
       
     });
 
@@ -685,7 +685,7 @@ export class LayersFormComponent implements OnInit {
   {
     const promises: Promise<any>[] = [];
     layersConfigurationModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartography).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartography).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       let url=this.layerToEdit._links.availabilities.href.split('{', 1)[0];
@@ -729,7 +729,7 @@ export class LayersFormComponent implements OnInit {
   {
     const promises: Promise<any>[] = [];
     nodesModified.forEach(node => {
-      promises.push(new Promise((resolve, reject) => { this.treeNodeService.update(node).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.treeNodeService.update(node).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       let url=this.layerToEdit._links.treeNodes.href.split('{', 1)[0];

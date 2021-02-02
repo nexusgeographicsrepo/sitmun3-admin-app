@@ -34,41 +34,41 @@ export class TerritoryFormComponent implements OnInit {
 
   //Grids
   columnDefsPermits: any[];
-  getAllElementsEventPermits: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventPermits: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventPermits: Subject<boolean> = new Subject<boolean>();
 
   columnDefsMemberOf: any[];
-  getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventMemberOf: Subject<boolean> = new Subject<boolean>();
 
   columnDefsMembers: any[];
-  getAllElementsEventTerritoriesMembers: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventTerritoriesMembers: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventMembers: Subject<boolean> = new Subject<boolean>();
 
   columnDefsCartographies: any[];
-  getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventCartographies: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventCartographies: Subject<boolean> = new Subject<boolean>();
 
   columnDefsTasks: any[];
-  getAllElementsEventTasks: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventTasks: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventTasks: Subject<boolean> = new Subject<boolean>();
 
   //Dialog
   columnDefsTasksDialog: any[];
-  addElementsEventTasks: Subject<any[]> = new Subject <any[]>();
+  addElementsEventTasks: Subject<any[]> = new Subject<any[]>();
   columnDefsCartographiesDialog: any[];
-  addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
+  addElementsEventCartographies: Subject<any[]> = new Subject<any[]>();
   columnDefsTerritoriesDialog: any[];
-  addElementsEventTerritoriesMembers: Subject<any[]> = new Subject <any[]>();
-  addElementsEventTerritoriesMemberOf: Subject<any[]> = new Subject <any[]>();
+  addElementsEventTerritoriesMembers: Subject<any[]> = new Subject<any[]>();
+  addElementsEventTerritoriesMemberOf: Subject<any[]> = new Subject<any[]>();
   columnDefsUsersDialog: any[];
   columnDefsRolesDialog: any[];
-  addElementsEventPermits: Subject<any[]> = new Subject <any[]>();
+  addElementsEventPermits: Subject<any[]> = new Subject<any[]>();
 
   //Save button
   rolesToUpdate: Role[] = [];
   usersToUpdate: User[] = [];
-  dataUpdatedEvent: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
 
 
   constructor(
@@ -98,83 +98,82 @@ export class TerritoryFormComponent implements OnInit {
     }
     this.territoryGroups.push(territoryByDefault);
     this.groupTypeOfThisTerritory = territoryByDefault;
-    console.log(this.groupTypeOfThisTerritory);
-    this.getTerritoryGroups().subscribe(
-      resp => {
-        console.log(resp);
-        this.territoryGroups.push(...resp);
-        console.log(this.territoryGroups);
-      }
-    );
 
-    this.utils.getCodeListValues('territory.scope').subscribe(
-      resp => {
-        this.scopeTypes.push(...resp);
-            console.log(this.scopeTypes)
-      }
-    );
+    const promises: Promise<any>[] = [];
+    promises.push(new Promise((resolve, reject) => {
+      this.getTerritoryGroups().subscribe(
+        resp => {
+          this.territoryGroups.push(...resp);
+          resolve(true);
+        }
+      )
+    }));
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('territory.scope').subscribe(
+        resp => {
+          this.scopeTypes.push(...resp);
+          resolve(true);
+        }
+      )
+    }));
 
+    Promise.all(promises).then(() => {
+      this.activatedRoute.params.subscribe(params => {
+        this.territoryID = +params.id;
+        if (this.territoryID !== -1) {
+          this.territoryService.get(this.territoryID).subscribe(
+            resp => {
+              this.territoryToEdit = resp;
 
-    this.activatedRoute.params.subscribe(params => {
-      this.territoryID = +params.id;
-      if (this.territoryID !== -1) {
-
-
-
-        this.territoryService.get(this.territoryID).subscribe(
-          resp => {
-            console.log(resp);
-            this.territoryToEdit = resp;
-
-            this.http.get(this.territoryToEdit._links.groupType.href).subscribe(
-              resp => {
-                console.log(resp);
-                this.groupTypeOfThisTerritory = resp;
-                this.territoryForm.patchValue({
-                   groupType: this.groupTypeOfThisTerritory['id'],
+              this.http.get(this.territoryToEdit._links.groupType.href).subscribe(
+                resp => {
+                  this.groupTypeOfThisTerritory = resp;
+                  this.territoryForm.patchValue({
+                    groupType: this.groupTypeOfThisTerritory['id'],
+                  });
                 });
+
+              this.extensions = this.territoryToEdit.extent.split(' ');
+
+              this.territoryForm.setValue({
+                id: this.territoryID,
+                code: this.territoryToEdit.code,
+                name: this.territoryToEdit.name,
+                territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
+                territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
+                scope: this.territoryToEdit.scope,
+                groupType: this.territoryGroups[0].id,
+                extent: ' ',
+                extensionX0: this.extensions[0],
+                extensionX1: this.extensions[1],
+                extensionY0: this.extensions[2],
+                extensionY1: this.extensions[3],
+                note: this.territoryToEdit.note,
+                blocked: this.territoryToEdit.blocked,
+                _links: this.territoryToEdit._links
               });
 
-            this.extensions = this.territoryToEdit.extent.split(' ');
+              this.dataLoaded = true;
+            },
+            error => {
 
-            this.territoryForm.setValue({
-              id: this.territoryID,
-              code: this.territoryToEdit.code,
-              name: this.territoryToEdit.name,
-              territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
-              territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
-              scope: this.territoryToEdit.scope,
-              groupType: -1,
-              extent: ' ',
-              extensionX0: this.extensions[0],
-              extensionX1: this.extensions[1],
-              extensionY0: this.extensions[2],
-              extensionY1: this.extensions[3],
-              note: this.territoryToEdit.note,
-              blocked: this.territoryToEdit.blocked,
-              _links: this.territoryToEdit._links
-            });
+            }
+          );
+        }
+        else {
+          this.territoryForm.patchValue({
+            blocked: false,
+            groupType: this.territoryGroups[0].id,
+            scope: this.scopeTypes[0].value
+          });
+          this.dataLoaded = true;
+        }
 
-            this.dataLoaded = true;
-          },
-          error => {
+      },
+        error => {
 
-          }
-        );
-      }
-      else {
-        this.territoryForm.patchValue({
-          blocked: false,
-          groupType: this.groupTypeOfThisTerritory[`id`],
         });
-        this.dataLoaded = true;
-      }
-
-    },
-      error => {
-
       });
-
 
 
 
@@ -183,27 +182,27 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsPermits = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable:false },
-      { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role', editable:false },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
 
     this.columnDefsMemberOf = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable:false  },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
 
     this.columnDefsMembers = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable:false  },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
 
@@ -219,9 +218,9 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsTasks = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable:false },
-      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup', editable:false },
-      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable:false },
+      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
 
@@ -240,7 +239,7 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsTasksDialog = [
       environment.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name',  editable: false  },
+      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsUsersDialog = [
@@ -320,7 +319,7 @@ export class TerritoryFormComponent implements OnInit {
 
   getTerritoryGroupOfThisTerritory() {
     // return (this.http.get(`http://localhost:8080/api/territory-group-types/${this.territoryID}`));
-    
+
     return this.territoryGroupTypeService.get(this.territoryID);
   }
 
@@ -368,19 +367,17 @@ export class TerritoryFormComponent implements OnInit {
     });
   }
 
-  updateGroupType()
-  {
+  updateGroupType() {
 
     let linkGroupType;
-    this.idGroupType=this.territoryForm.value.groupType;
-    if(this.idGroupType == -1)
-    {
+    this.idGroupType = this.territoryForm.value.groupType;
+    if (this.idGroupType == -1) {
       this.territoryForm.patchValue({
         groupType: null
       })
     }
-    else{
-     
+    else {
+
     }
     console.log(linkGroupType)
   }
@@ -408,8 +405,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
 
-    if(this.territoryID == -1)
-    {
+    if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -426,8 +422,7 @@ export class TerritoryFormComponent implements OnInit {
 
 
 
-  getAllRowsPermits(data: any[] )
-  {
+  getAllRowsPermits(data: any[]) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
@@ -436,31 +431,29 @@ export class TerritoryFormComponent implements OnInit {
       let item = {
         role: userConf.roleComplete,
         territory: this.territoryToEdit,
-        user:  userConf.userComplete,
+        user: userConf.userComplete,
       }
       if (userConf.status === 'Pending creation') {
         console.log(item);
-        let index= data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new )
-        if(index === -1)
-        {
-          userConf.new=false;
-          usersConfToCreate.push(item) 
+        let index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new)
+        if (index === -1) {
+          userConf.new = false;
+          usersConfToCreate.push(item)
         }
       }
-      if(userConf.status === 'Deleted' && userConf._links) {usersConfDelete.push(userConf) }
+      if (userConf.status === 'Deleted' && userConf._links) { usersConfDelete.push(userConf) }
     });
     const promises: Promise<any>[] = [];
     usersConfToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => {  this.userConfigurationService.save(newElement).toPromise().then((resp) => { resolve() }) }));     
+      promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     usersConfDelete.forEach(deletedElement => {
-    
-      if(deletedElement._links)
-      {
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+
+      if (deletedElement._links) {
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
       }
-      
+
     });
 
     Promise.all(promises).then(() => {
@@ -473,8 +466,7 @@ export class TerritoryFormComponent implements OnInit {
   getAllMembersOf = (): Observable<any> => {
 
 
-    if(this.territoryID == -1)
-    {
+    if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -485,28 +477,26 @@ export class TerritoryFormComponent implements OnInit {
 
 
 
-  getAllRowsMembersOf(data: any[] )
-  {
+  getAllRowsMembersOf(data: any[]) {
     let territoriesModified = [];
     let territoriesToPut = [];
     data.forEach(territory => {
-      if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
+      if (territory.status === 'Modified') { territoriesModified.push(territory) }
+      if (territory.status !== 'Deleted') { territoriesToPut.push(territory._links.self.href) }
     });
 
     console.log(territoriesModified);
     this.updateTerritoriesMembersOf(territoriesModified, territoriesToPut);
   }
 
-  updateTerritoriesMembersOf(territoriesModified: Territory[], territoriesToPut: Territory[])
-  {
+  updateTerritoriesMembersOf(territoriesModified: Territory[], territoriesToPut: Territory[]) {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
-      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.territoryToEdit._links.memberOf.href.split('{', 1)[0];
-      this.utils.updateUriList(url,territoriesToPut, this.dataUpdatedEventMemberOf)
+      let url = this.territoryToEdit._links.memberOf.href.split('{', 1)[0];
+      this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMemberOf)
     });
   }
 
@@ -514,8 +504,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Members ******** //
   getAllMembers = (): Observable<any> => {
 
-    if(this.territoryID == -1)
-    {
+    if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -529,11 +518,9 @@ export class TerritoryFormComponent implements OnInit {
 
 
 
-  getAllRowsMembers(data: any[] )
-  {
+  getAllRowsMembers(data: any[]) {
 
-    if(this.territoryID == -1)
-    {
+    if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -541,23 +528,22 @@ export class TerritoryFormComponent implements OnInit {
     let territoriesModified = [];
     let territoriesToPut = [];
     data.forEach(territory => {
-      if (territory.status === 'Modified') {territoriesModified.push(territory) }
-      if(territory.status!== 'Deleted') {territoriesToPut.push(territory._links.self.href) }
+      if (territory.status === 'Modified') { territoriesModified.push(territory) }
+      if (territory.status !== 'Deleted') { territoriesToPut.push(territory._links.self.href) }
     });
     console.log(territoriesModified);
     this.updateTerritoriesMembers(territoriesModified, territoriesToPut);
 
   }
 
-  updateTerritoriesMembers(territoriesModified: Territory[], territoriesToPut: Territory[])
-  {
+  updateTerritoriesMembers(territoriesModified: Territory[], territoriesToPut: Territory[]) {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
-      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.territoryToEdit._links.members.href.split('{', 1)[0];
-      this.utils.updateUriList(url,territoriesToPut,this.dataUpdatedEventMembers)
+      let url = this.territoryToEdit._links.members.href.split('{', 1)[0];
+      this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMembers)
       // this.terrritoryObj.substituteAllRelation('members',territoriesToPut).subscribe(
       //   result => {console.log(result)}
       // )
@@ -567,8 +553,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Cartography ******** //
   getAllCartographies = (): Observable<any> => {
 
-    if(this.territoryID == -1)
-    {
+    if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -581,26 +566,25 @@ export class TerritoryFormComponent implements OnInit {
     }
 
     return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['cartography-availabilities']) );
+      .pipe(map(data => data['_embedded']['cartography-availabilities']));
 
   }
 
-  getAllRowsCartographies(data: any[] )
-  {
+  getAllRowsCartographies(data: any[]) {
     let cartographiesToCreate = [];
     let cartographiesToDelete = [];
     data.forEach(cartography => {
-      cartography.territory= this.territoryToEdit;
-      if (cartography.status === 'Pending creation') {cartographiesToCreate.push(cartography) }
-      if(cartography.status === 'Deleted' && cartography._links) {cartographiesToDelete.push(cartography) }
+      cartography.territory = this.territoryToEdit;
+      if (cartography.status === 'Pending creation') { cartographiesToCreate.push(cartography) }
+      if (cartography.status === 'Deleted' && cartography._links) { cartographiesToDelete.push(cartography) }
     });
     const promises: Promise<any>[] = [];
     cartographiesToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.save(newElement).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     cartographiesToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));   
+      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     Promise.all(promises).then(() => {
@@ -611,8 +595,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
 
-    if(this.territoryID == -1)
-    {
+    if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -625,36 +608,34 @@ export class TerritoryFormComponent implements OnInit {
     }
 
     return (this.http.get(urlReq))
-    .pipe( map( data =>  data['_embedded']['task-availabilities']) );
+      .pipe(map(data => data['_embedded']['task-availabilities']));
 
 
   }
 
 
 
-  getAllRowsTasks(data: any[] )
-  {
+  getAllRowsTasks(data: any[]) {
     let tasksToDelete = [];
     let tasksToCreate = [];
     data.forEach(task => {
-      if (task.status === 'Deleted' && task._links) {tasksToDelete.push(task) }
-      if(task.status === 'Pending creation') 
-      {
+      if (task.status === 'Deleted' && task._links) { tasksToDelete.push(task) }
+      if (task.status === 'Pending creation') {
         let taskToCreate: TaskAvailability = new TaskAvailability();
-        taskToCreate.territory=this.territoryToEdit;
-        taskToCreate.task= task;
+        taskToCreate.territory = this.territoryToEdit;
+        taskToCreate.task = task;
         tasksToCreate.push(taskToCreate)
-       }
+      }
     });
     const promises: Promise<any>[] = [];
-    
+
     tasksToCreate.forEach(task => {
-      promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(task).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(task).subscribe((resp) => { resolve(true) }) }));
 
     })
 
     tasksToDelete.forEach(task => {
-      promises.push(new Promise((resolve, reject) => {  this.taskAvailabilityService.remove(task).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.remove(task).subscribe((resp) => { resolve(true) }) }));
     })
 
     Promise.all(promises).then(() => {
@@ -662,11 +643,10 @@ export class TerritoryFormComponent implements OnInit {
     });
   }
 
-  updateTasks(tasksModified: Task[], tasksToPut: TaskAvailability[])
-  {
+  updateTasks(tasksModified: Task[], tasksToPut: TaskAvailability[]) {
     const promises: Promise<any>[] = [];
     tasksModified.forEach(task => {
-      promises.push(new Promise((resolve, reject) => { this.taskService.update(task).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.taskService.update(task).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       // let url=this.territoryToEdit._links.taskAvailabilities.href.split('{', 1)[0];
@@ -675,12 +655,12 @@ export class TerritoryFormComponent implements OnInit {
         this.taskAvailabilityService.save(task).subscribe(result => {
           console.log(result)
         })
-      } )
+      })
 
     });
   }
 
-  
+
   // ******** Users Dialog  ******** //
 
   getAllUsersDialog = () => {
@@ -693,247 +673,245 @@ export class TerritoryFormComponent implements OnInit {
 
   openPermitsDialog(data: any) {
 
-    const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-    dialogRef.componentInstance.getAllsTable=[this.getAllUsersDialog,this.getAllRolesDialog];
-    dialogRef.componentInstance.singleSelectionTable=[false,false];
-    dialogRef.componentInstance.columnDefsTable=[this.columnDefsUsersDialog,this.columnDefsRolesDialog];
-    dialogRef.componentInstance.themeGrid=this.themeGrid;
-    dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.permits');
-    dialogRef.componentInstance.titlesTable=[this.utils.getTranslate('territoryEntity.users'),this.utils.getTranslate('territoryEntity.roles')];
-    dialogRef.componentInstance.nonEditable=false;
-    
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllUsersDialog, this.getAllRolesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false, false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsUsersDialog, this.columnDefsRolesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.permits');
+    dialogRef.componentInstance.titlesTable = [this.utils.getTranslate('territoryEntity.users'), this.utils.getTranslate('territoryEntity.roles')];
+    dialogRef.componentInstance.nonEditable = false;
+
 
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if(result.event==='Add') {  
-          console.log(result.data); 
-          let rowsToAdd=this.getRowsToAddPermits(this.territoryToEdit,result.data[1],result.data[0])
+      if (result) {
+        if (result.event === 'Add') {
+          console.log(result.data);
+          let rowsToAdd = this.getRowsToAddPermits(this.territoryToEdit, result.data[1], result.data[0])
           console.log(rowsToAdd);
           this.addElementsEventPermits.next(rowsToAdd);
-         }
+        }
       }
 
     });
 
   }
 
-    // ******** Territory Member Of Dialog  ******** //
+  // ******** Territory Member Of Dialog  ******** //
 
-    getAllTerritoriesMemberOfDialog = () => {
-      return this.territoryService.getAll().
+  getAllTerritoriesMemberOfDialog = () => {
+    return this.territoryService.getAll().
       pipe(
-        map( (resp: any) => {
-          let newTable: Territory[]= [];
+        map((resp: any) => {
+          let newTable: Territory[] = [];
           resp.forEach(element => {
-              if( element.scope == 'R') {newTable.push(element)}
+            if (element.scope == 'R') { newTable.push(element) }
           });
           return newTable;
         })
       );
-    }
-  
-    openTerritoryMemberOfDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesMemberOfDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.territories');
-      dialogRef.componentInstance.titlesTable=[''];
-      dialogRef.componentInstance.nonEditable=false;
-      
-  
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          if( result.event==='Add') { 
-            if( result.event==='Add') { 
-              this.addElementsEventTerritoriesMemberOf.next(result.data[0])
-            }
+  }
+
+  openTerritoryMemberOfDialog(data: any) {
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllTerritoriesMemberOfDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoriesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.territories');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          if (result.event === 'Add') {
+            this.addElementsEventTerritoriesMemberOf.next(result.data[0])
           }
         }
-      });
-  
-    }
+      }
+    });
 
-    // ******** Territory Members Dialog  ******** //
+  }
 
-    getAllTerritoriesMembersDialog = () => {
-      return this.territoryService.getAll().
+  // ******** Territory Members Dialog  ******** //
+
+  getAllTerritoriesMembersDialog = () => {
+    return this.territoryService.getAll().
       pipe(
-        map( (resp: any) => {
-          let newTable: Territory[]= [];
+        map((resp: any) => {
+          let newTable: Territory[] = [];
           resp.forEach(element => {
-              if( element.scope == 'M') {newTable.push(element)}
+            if (element.scope == 'M') { newTable.push(element) }
           });
           return newTable;
         })
       );;
-    }
-  
-    openTerritoryMembersDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-      dialogRef.componentInstance.getAllsTable=[this.getAllTerritoriesMembersDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsTerritoriesDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title='Territories';
-      dialogRef.componentInstance.titlesTable=['Territories'];
-      dialogRef.componentInstance.nonEditable=false;
-      
-  
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          if( result.event==='Add') { 
-            this.addElementsEventTerritoriesMembers.next(result.data[0])
-          }
-        }
-      });
-  
-    }
-    // ******** Cartography Dialog  ******** //
+  }
 
-    getAllCartographiesDialog = () => {
-      return this.cartographyService.getAll();
-    }
-  
-    openCartographyDialog(data: any) {
-      const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-      dialogRef.componentInstance.getAllsTable=[this.getAllCartographiesDialog];
-      dialogRef.componentInstance.singleSelectionTable=[false];
-      dialogRef.componentInstance.columnDefsTable=[this.columnDefsCartographiesDialog];
-      dialogRef.componentInstance.themeGrid=this.themeGrid;
-      dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.layers');
-      dialogRef.componentInstance.titlesTable=[''];
-      dialogRef.componentInstance.nonEditable=false;
-      
-  
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          if( result.event==='Add') { 
-            this.addElementsEventCartographies.next(this.adaptFormatCartography(result.data[0]))
-          }
-        }
-  
-      });
-  
-    }
+  openTerritoryMembersDialog(data: any) {
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllTerritoriesMembersDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoriesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = 'Territories';
+    dialogRef.componentInstance.titlesTable = ['Territories'];
+    dialogRef.componentInstance.nonEditable = false;
 
-    adaptFormatCartography(dataToAdapt: Cartography[])
-    {
-      let newData: any[] = [];
-      
-      dataToAdapt.forEach(element => {
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          this.addElementsEventTerritoriesMembers.next(result.data[0])
+        }
+      }
+    });
+
+  }
+  // ******** Cartography Dialog  ******** //
+
+  getAllCartographiesDialog = () => {
+    return this.cartographyService.getAll();
+  }
+
+  openCartographyDialog(data: any) {
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllCartographiesDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsCartographiesDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.layers');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          this.addElementsEventCartographies.next(this.adaptFormatCartography(result.data[0]))
+        }
+      }
+
+    });
+
+  }
+
+  adaptFormatCartography(dataToAdapt: Cartography[]) {
+    let newData: any[] = [];
+
+    dataToAdapt.forEach(element => {
+      let item = {
+        //TODO Put fields when backend return them
+        id: null,
+        cartography: element,
+
+      }
+      newData.push(item);
+
+    });
+
+    return newData;
+  }
+
+  // ******** Tasks Dialog  ******** //
+
+  getAllTasksDialog = () => {
+    return this.taskService.getAll();
+  }
+
+  openTasksDialog(data: any) {
+
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [this.getAllTasksDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsTasksDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.tasks');
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          this.addElementsEventTasks.next(result.data[0])
+        }
+      }
+
+    });
+
+  }
+
+
+
+  getRowsToAddPermits(territory: Territory, roles: Role[], users: any[]) {
+    let itemsToAdd: any[] = [];
+    roles.forEach(role => {
+
+      users.forEach(user => {
         let item = {
-          //TODO Put fields when backend return them
-          id: null,
-          cartography: element,
-  
+          user: user.username,
+          userId: user.id,
+          userComplete: user,
+          role: role.name,
+          roleId: role.id,
+          roleComplete: role,
+          territoryId: this.territoryID,
+          new: true
         }
-        newData.push(item);
-        
-      });
-  
-      return newData;
+        itemsToAdd.push(item);
+      })
+    })
+    return itemsToAdd;
+  }
+
+  //Save button
+
+  onSaveButtonClicked() {
+    console.log(this.territoryForm.value)
+    this.updateExtent();
+
+    let groupType = this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
+    if (groupType == undefined) {
+      groupType = "";
     }
-  
-      // ******** Tasks Dialog  ******** //
-  
-      getAllTasksDialog = () => {
-        return this.taskService.getAll();
-      }
-  
-      openTasksDialog(data: any) {
-
-        const dialogRef = this.dialog.open(DialogGridComponent, {panelClass:'gridDialogs'});
-        dialogRef.componentInstance.getAllsTable=[this.getAllTasksDialog];
-        dialogRef.componentInstance.singleSelectionTable=[false];
-        dialogRef.componentInstance.columnDefsTable=[this.columnDefsTasksDialog];
-        dialogRef.componentInstance.themeGrid=this.themeGrid;
-        dialogRef.componentInstance.title=this.utils.getTranslate('territoryEntity.tasks');
-        dialogRef.componentInstance.titlesTable=[''];
-        dialogRef.componentInstance.nonEditable=false;
-        
-    
-    
-        dialogRef.afterClosed().subscribe(result => {
-          if(result){
-            if( result.event==='Add') { 
-              this.addElementsEventTasks.next(result.data[0])
-            }
-          }
-    
-        });
-    
-      }
-
-      
-
-      getRowsToAddPermits(territory: Territory, roles: Role[], users: any[] )
-      {
-        let itemsToAdd: any[] = [];
-        roles.forEach(role => {
-  
-            users.forEach(user => {
-              let item = {
-                user: user.username,
-                userId: user.id,
-                userComplete: user,
-                role: role.name,
-                roleId: role.id,
-                roleComplete: role,
-                territoryId: this.territoryID,
-                new: true
-              }
-              itemsToAdd.push(item);
-            })
-         })
-        return itemsToAdd;
-      }
-
-      //Save button
-  
-      onSaveButtonClicked(){
-      console.log(this.territoryForm.value)
-      this.updateExtent();
-
-      let  groupType=this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
-      if(groupType==undefined){
-        groupType="";
-      }
 
 
-      this.terrritoryObj= new Territory();
-      this.terrritoryObj.id= this.territoryID,
-      this.terrritoryObj.code= this.territoryForm.value.code,
-      this.terrritoryObj.name= this.territoryForm.value.name,
-      this.terrritoryObj.territorialAuthorityAddress= this.territoryForm.value.territorialAuthorityAddress,
-      this.terrritoryObj.territorialAuthorityLogo= this.territoryForm.value.territorialAuthorityLogo,
+    this.terrritoryObj = new Territory();
+    this.terrritoryObj.id = this.territoryID,
+      this.terrritoryObj.code = this.territoryForm.value.code,
+      this.terrritoryObj.name = this.territoryForm.value.name,
+      this.terrritoryObj.territorialAuthorityAddress = this.territoryForm.value.territorialAuthorityAddress,
+      this.terrritoryObj.territorialAuthorityLogo = this.territoryForm.value.territorialAuthorityLogo,
       //this.terrritoryObj.territorialAuthorityLogo= null,
-      this.terrritoryObj.scope= this.territoryForm.value.scope,
+      this.terrritoryObj.scope = this.territoryForm.value.scope,
       this.terrritoryObj.groupType = groupType,
       console.log(this.terrritoryObj.groupType);
-      this.terrritoryObj.extent= this.territoryForm.value.extent,
-      this.terrritoryObj.note= this.territoryForm.value.note,
-      this.terrritoryObj.blocked= this.territoryForm.value.blocked,
-      this.terrritoryObj._links= this.territoryForm.value._links
+    this.terrritoryObj.extent = this.territoryForm.value.extent,
+      this.terrritoryObj.note = this.territoryForm.value.note,
+      this.terrritoryObj.blocked = this.territoryForm.value.blocked,
+      this.terrritoryObj._links = this.territoryForm.value._links
 
-      if(this.territoryID==-1){
-        this.terrritoryObj.createdDate=new Date();
-      }else{
-        this.terrritoryObj.id=this.territoryForm.value.id;
-        this.terrritoryObj.createdDate=this.territoryToEdit.createdDate
-      }
-      this.territoryService.save(this.terrritoryObj)
+    if (this.territoryID == -1) {
+      this.terrritoryObj.createdDate = new Date();
+    } else {
+      this.terrritoryObj.id = this.territoryForm.value.id;
+      this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
+    }
+    this.territoryService.save(this.terrritoryObj)
       .subscribe(resp => {
         console.log(resp);
-        this.territoryToEdit=resp;
+        this.territoryToEdit = resp;
         this.territoryID = resp.id;
         this.territoryForm.patchValue({
-          id:resp.id,
+          id: resp.id,
           _links: resp._links
         })
         this.getAllElementsEventPermits.next(true);
@@ -942,10 +920,10 @@ export class TerritoryFormComponent implements OnInit {
         this.getAllElementsEventTerritoriesMemberOf.next(true);
         this.getAllElementsEventTerritoriesMembers.next(true);
       },
-      error => {
-        console.log(error);
-      });
- 
-    }
+        error => {
+          console.log(error);
+        });
+
+  }
 
 }

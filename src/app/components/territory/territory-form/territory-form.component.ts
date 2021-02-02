@@ -114,6 +114,7 @@ export class TerritoryFormComponent implements OnInit {
       description: '------'
     }
     this.scopeTypes.push(scopeTypesByDefault);
+    console.log(this.scopeTypes)
 
 
     this.utils.getCodeListValues('territory.scope').subscribe(
@@ -264,7 +265,7 @@ export class TerritoryFormComponent implements OnInit {
 
     this.columnDefsRolesDialog = [
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.id'), field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
     ];
 
@@ -444,13 +445,21 @@ export class TerritoryFormComponent implements OnInit {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
+    console.log(data);
     data.forEach(userConf => {
       let item = {
         role: userConf.roleComplete,
         territory: this.territoryToEdit,
         user:  userConf.userComplete,
       }
-      if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
+      if (userConf.status === 'Pending creation') {
+        console.log(item);
+        let index= data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new )
+        if(index === -1)
+        {
+          usersConfToCreate.push(item) 
+        }
+      }
       if(userConf.status === 'Deleted' && userConf._links) {usersConfDelete.push(userConf) }
     });
     const promises: Promise<any>[] = [];
@@ -876,7 +885,7 @@ export class TerritoryFormComponent implements OnInit {
 
       
 
-      getRowsToAddPermits(territory: Territory, roles: Role[], users: User[] )
+      getRowsToAddPermits(territory: Territory, roles: Role[], users: any[] )
       {
         let itemsToAdd: any[] = [];
         roles.forEach(role => {
@@ -884,9 +893,13 @@ export class TerritoryFormComponent implements OnInit {
             users.forEach(user => {
               let item = {
                 user: user.username,
+                userId: user.id,
                 userComplete: user,
                 role: role.name,
-                roleComplete: role
+                roleId: role.id,
+                roleComplete: role,
+                territoryId: this.territoryID,
+                new: true
               }
               itemsToAdd.push(item);
             })

@@ -244,9 +244,15 @@ export class UserFormComponent implements OnInit {
       let item = {
         role:  userConf.roleComplete,
         territory: userConf.territoryComplete,
-        user:  this.userToEdit,
+        user:  this.userToEdit
       }
-      if (userConf.status === 'Pending creation') {usersConfToCreate.push(item) }
+      if (userConf.status === 'Pending creation') {
+        let index= data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new )
+        if(index === -1)
+        {
+          usersConfToCreate.push(item) 
+        }
+      }
       if(userConf.status === 'Deleted' && userConf._links) {usersConfDelete.push(userConf) }
     });
     const promises: Promise<any>[] = [];
@@ -462,8 +468,12 @@ export class UserFormComponent implements OnInit {
         let item = {
           role: role.name,
           roleComplete: role,
+          roleId: role.id,
           territory: territory.name,
           territoryComplete: territory,
+          territoryId: territory.id,
+          new: true
+          
         }
         itemsToAdd.push(item);
       })
@@ -497,9 +507,9 @@ export class UserFormComponent implements OnInit {
                   id: resp.id,
                   _links: resp._links
                 })
-                // console.log(this.userToEdit);
-                // this.getAllElementsEventTerritoryData.next(true);
-                // this.getAllElementsEventPermits.next(true);
+                console.log(this.userToEdit);
+                this.getAllElementsEventTerritoryData.next(true);
+                this.getAllElementsEventPermits.next(true);
               }, error => {
                 console.log(error)
               });   
@@ -512,6 +522,11 @@ export class UserFormComponent implements OnInit {
           .subscribe( (resp:User) => {
             console.log(resp)
                 this.userToEdit=resp
+                this.userID=resp.id;
+                this.userForm.patchValue({
+                  id: resp.id,
+                  _links: resp._links
+                })
                 console.log(this.userToEdit);
                 this.getAllElementsEventTerritoryData.next(true);
                 this.getAllElementsEventPermits.next(true);

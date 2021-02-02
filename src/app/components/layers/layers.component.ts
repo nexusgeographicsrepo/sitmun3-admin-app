@@ -41,7 +41,7 @@ export class LayersComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.serviceName'), field: 'serviceName',editable: false }, //service
-      { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order' },
+      { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order', },
       { headerName: this.utils.getTranslate('layersEntity.layers'), field: 'layers' },
       { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'createdDate' }, // type: 'dateColumn'
       { headerName: this.utils.getTranslate('layersEntity.minimumScale'), field: 'minimumScale' },

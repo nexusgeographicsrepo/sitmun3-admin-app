@@ -538,11 +538,12 @@ export class ApplicationFormComponent implements OnInit {
     data.forEach(background => {
 
       if (background.status === 'Pending creation') {
-        let backgroundToCreate= {
-          application: this.applicationToEdit,
-          background: background
+        let index= data.findIndex(element => element.backgroundDescription === background.backgroundDescription && element.backgroundName === background.backgroundName && !element.new )
+        if (index === -1)
+        {
+          background.new=false;
+          backgroundsToCreate.push(background) 
         }
-        backgroundsToCreate.push(backgroundToCreate) 
       }
       if(background.status === 'Deleted' ) {backgroundsToDelete.push(background) }
     });
@@ -731,11 +732,30 @@ export class ApplicationFormComponent implements OnInit {
           result.data[0].forEach(element => {
             element.id=null;
           });
-          this.addElementsEventBackground.next(result.data[0])
+          this.addElementsEventBackground.next(this.adaptNewBackgrounds(result.data[0]))
         }         
       }
 
     });
+
+  }
+
+  
+  adaptNewBackgrounds(data: any[])
+  {
+    let newBackgrounds = [];
+    data.forEach(background => {
+      let newBackground = {
+        application: this.applicationToEdit,
+        background: background,
+        backgroundDescription: background.description,
+        backgroundName: background.name,
+        new: true
+      }
+      newBackgrounds.push(newBackground);
+    });
+    return newBackgrounds;
+
 
   }
 

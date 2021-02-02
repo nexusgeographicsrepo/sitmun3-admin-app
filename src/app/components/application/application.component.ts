@@ -77,7 +77,7 @@ export class ApplicationComponent implements OnInit {
   applyChanges(data: Application[]) {
     const promises: Promise<any>[] = [];
     data.forEach(application => {
-      promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).subscribe((resp) => { resolve(true) }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -90,7 +90,7 @@ export class ApplicationComponent implements OnInit {
       application.id = null;
       application.createdDate=new Date();
       application.name = 'copia_'.concat(application.name)
-      promises.push(new Promise((resolve, reject) => { this.applicationService.create(application).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.applicationService.create(application).subscribe((resp) => { resolve(true) }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -108,7 +108,7 @@ export class ApplicationComponent implements OnInit {
         if (result.event === 'Accept') {
           const promises: Promise<any>[] = [];
           data.forEach(application => {
-            promises.push(new Promise((resolve, reject) => { this.applicationService.delete(application).toPromise().then((resp) => { resolve() }) }));
+            promises.push(new Promise((resolve, reject) => { this.applicationService.delete(application).subscribe((resp) => { resolve(true) }) }));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

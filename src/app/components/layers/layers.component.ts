@@ -63,7 +63,7 @@ export class LayersComponent implements OnInit {
   applyChanges(data: Cartography[]) {
     const promises: Promise<any>[] = [];
     data.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.update(cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.update(cartography).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -80,7 +80,7 @@ export class LayersComponent implements OnInit {
         newCartography._links = null;
         newCartography.name = 'copia_'.concat(newCartography.name)
         console.log(newCartography);
-        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.save(newCartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+        promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.save(newCartography).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
         Promise.all(promises).then(() => {
           this.dataUpdatedEvent.next(true);
         });
@@ -102,7 +102,7 @@ export class LayersComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(cartography => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.delete(cartography).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.cartographyService.delete(cartography).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

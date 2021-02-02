@@ -58,7 +58,7 @@ export class TreesComponent implements OnInit {
   applyChanges(data: Tree[]) {
     const promises: Promise<any>[] = [];
     data.forEach(tree => {
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.update(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.update(tree).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -70,7 +70,7 @@ export class TreesComponent implements OnInit {
     data.forEach(tree => {
       tree.id = null;
       tree.name = 'copia_'.concat(tree.name)
-      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.create(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+      promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.create(tree).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -88,7 +88,7 @@ export class TreesComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(tree => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.delete(tree).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.treeService.delete(tree).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

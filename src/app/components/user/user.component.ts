@@ -73,7 +73,7 @@ export class UserComponent implements OnInit {
   applyChanges(data: User[]) {
     const promises: Promise<any>[] = [];
     data.forEach(user => {
-      promises.push(new Promise((resolve, reject) => { this.userService.update(user).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.userService.update(user).subscribe((resp) => { resolve(true) }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -84,7 +84,7 @@ export class UserComponent implements OnInit {
     data.forEach(user => {
       user.id = null;
       user.username = 'copia_'.concat(user.username)
-      promises.push(new Promise((resolve, reject) => { this.userService.create(user).toPromise().then((resp) => { resolve() }) }));
+      promises.push(new Promise((resolve, reject) => { this.userService.create(user).subscribe((resp) => { resolve(true) }) }));
       Promise.all(promises).then(() => {
         this.dataUpdatedEvent.next(true);
       });
@@ -102,7 +102,7 @@ export class UserComponent implements OnInit {
         if(result.event==='Accept') {  
           const promises: Promise<any>[] = [];
           data.forEach(user => {
-            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.delete(user).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+            promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userService.delete(user).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
             Promise.all(promises).then(() => {
               this.dataUpdatedEvent.next(true);
             });

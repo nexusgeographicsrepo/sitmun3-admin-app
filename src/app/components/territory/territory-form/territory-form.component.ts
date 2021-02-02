@@ -125,14 +125,6 @@ export class TerritoryFormComponent implements OnInit {
             resp => {
               this.territoryToEdit = resp;
 
-              this.http.get(this.territoryToEdit._links.groupType.href).subscribe(
-                resp => {
-                  this.groupTypeOfThisTerritory = resp;
-                  this.territoryForm.patchValue({
-                    groupType: this.groupTypeOfThisTerritory['id'],
-                  });
-                });
-
               this.extensions = this.territoryToEdit.extent.split(' ');
 
               this.territoryForm.setValue({
@@ -142,7 +134,7 @@ export class TerritoryFormComponent implements OnInit {
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
                 territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
                 scope: this.territoryToEdit.scope,
-                groupType: this.territoryGroups[0].id,
+                groupType: this.territoryToEdit.groupTypeId,
                 extent: ' ',
                 extensionX0: this.extensions[0],
                 extensionX1: this.extensions[1],

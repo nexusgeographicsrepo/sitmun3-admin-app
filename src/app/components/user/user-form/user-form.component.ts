@@ -259,14 +259,14 @@ export class UserFormComponent implements OnInit {
     });
     const promises: Promise<any>[] = [];
     usersConfToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => {this.userConfigurationService.save(newElement).toPromise().then((resp) => { resolve() }) }));     
+      promises.push(new Promise((resolve, reject) => {this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));     
     });
 
     usersConfDelete.forEach(deletedElement => {
     
       if(deletedElement._links)
       {
-        promises.push(new Promise((resolve, reject) => {  this.userConfigurationService.remove(deletedElement).toPromise().then((resp) => { resolve() }) }));
+        promises.push(new Promise((resolve, reject) => {  this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
 
       }
       
@@ -340,7 +340,7 @@ export class UserFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
       //TODO Table STM_POST
-      // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).toPromise().then((resp) => { resolve() }) }));
+      // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       let url=this.userToEdit._links.positions.href.split('{', 1)[0];
@@ -451,7 +451,7 @@ export class UserFormComponent implements OnInit {
   //         territory: territory,
   //         _links: null
   //       }
-  //       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).toPromise().then((resp) =>{​​​​​​​resolve()}​​​​​​​)}​​​​​​​));
+  //       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.userConfigurationService.save(item).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
   //       Promise.all(promises).then(() => {
   //         this.dataUpdatedEvent.next(true);
   //       });

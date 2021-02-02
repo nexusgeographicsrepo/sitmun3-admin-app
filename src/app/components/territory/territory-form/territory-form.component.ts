@@ -463,8 +463,16 @@ export class TerritoryFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.territoryToEdit._links.memberOf.href}`))
-      .pipe(map(data => data[`_embedded`][`territories`]));
+    var urlReq = `${this.territoryToEdit._links.memberOf.href}`
+    if (this.territoryToEdit._links.memberOf.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['territories']));
+
   }
 
 
@@ -501,8 +509,16 @@ export class TerritoryFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.territoryToEdit._links.members.href}`))
-      .pipe(map(data => data[`_embedded`][`territories`]));
+    var urlReq = `${this.territoryToEdit._links.members.href}`
+    if (this.territoryToEdit._links.members.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
+      .pipe(map(data => data['_embedded']['territories']));
+
 
   }
 

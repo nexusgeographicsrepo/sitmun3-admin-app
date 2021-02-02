@@ -457,6 +457,7 @@ export class TerritoryFormComponent implements OnInit {
         let index= data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new )
         if(index === -1)
         {
+          userConf.new=false;
           usersConfToCreate.push(item) 
         }
       }

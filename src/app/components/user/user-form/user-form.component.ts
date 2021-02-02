@@ -250,6 +250,7 @@ export class UserFormComponent implements OnInit {
         let index= data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new )
         if(index === -1)
         {
+          userConf.new=false;
           usersConfToCreate.push(item) 
         }
       }
@@ -472,6 +473,7 @@ export class UserFormComponent implements OnInit {
           territory: territory.name,
           territoryComplete: territory,
           territoryId: territory.id,
+          userId: this.userToEdit.id,
           new: true
           
         }

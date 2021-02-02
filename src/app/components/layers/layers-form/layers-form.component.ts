@@ -571,6 +571,8 @@ export class LayersFormComponent implements OnInit {
 
   }
   // We use getAllRowsParameters To update spatial configrurations
+
+
   // getAllRowsSpatialConfiguration(data: any[] )
   // {
   //   let spatialSelectionsModified = [];
@@ -621,7 +623,14 @@ export class LayersFormComponent implements OnInit {
     let territoriesToDelete = [];
     data.forEach(territory => {
       territory.cartography= this.layerToEdit;
-      if (territory.status === 'Pending creation') {territoriesToCreate.push(territory) }
+      if (territory.status === 'Pending creation') {
+        let index= data.findIndex(element => element.territoryCode === territory.territoryCode && !element.new)
+        if(index === -1)
+        {
+          territoriesToCreate.push(territory)
+          territory.new=false;
+        }
+       }
       if(territory.status === 'Deleted' && territory._links) {territoriesToDelete.push(territory) }
     });
     const promises: Promise<any>[] = [];
@@ -825,6 +834,7 @@ export class LayersFormComponent implements OnInit {
         createdDate: element.createdDate,
         owner: null,
         territory: element,
+        new: true
       }
       newData.push(item);
       
@@ -898,22 +908,22 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      this.cartographyService.save(this.layerForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        this.layerToEdit=resp;
-        this.layerID=resp.id;
-        this.layerForm.patchValue({
-          id: resp.id,
-          _links: resp._links
-        })
+      // this.cartographyService.save(this.layerForm.value)
+      // .subscribe(resp => {
+      //   console.log(resp);
+      //   this.layerToEdit=resp;
+      //   this.layerID=resp.id;
+      //   this.layerForm.patchValue({
+      //     id: resp.id,
+      //     _links: resp._links
+      //   })
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
-        // this.getAllElementsEventLayersConfigurations.next(true);
+        this.getAllElementsEventLayersConfigurations.next(true);
         this.getAllElementsEventNodes.next(true);
 
-      });
+      // });
 
   
     }

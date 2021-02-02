@@ -908,22 +908,22 @@ export class LayersFormComponent implements OnInit {
   
     onSaveButtonClicked(){
   
-      // this.cartographyService.save(this.layerForm.value)
-      // .subscribe(resp => {
-      //   console.log(resp);
-      //   this.layerToEdit=resp;
-      //   this.layerID=resp.id;
-      //   this.layerForm.patchValue({
-      //     id: resp.id,
-      //     _links: resp._links
-      //   })
+      this.cartographyService.save(this.layerForm.value)
+      .subscribe(resp => {
+        console.log(resp);
+        this.layerToEdit=resp;
+        this.layerID=resp.id;
+        this.layerForm.patchValue({
+          id: resp.id,
+          _links: resp._links
+        })
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         this.getAllElementsEventLayersConfigurations.next(true);
         this.getAllElementsEventNodes.next(true);
 
-      // });
+      });
 
   
     }

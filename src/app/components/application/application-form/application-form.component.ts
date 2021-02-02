@@ -559,22 +559,11 @@ export class ApplicationFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.dataUpdatedEventBackground.next(true);
     });
-    // console.log(backgroundsModified);
-    // this.updateBackgrounds(backgroundsModified, backgroundsToPut);
+
   }
 
-  updateBackgrounds(backgroundsModified: Background[], backgroundsToPut: Background[])
-  {
-    const promises: Promise<any>[] = [];
-    backgroundsModified.forEach(background => {
-      promises.push(new Promise((resolve, reject) => { this.backgroundService.update(background).toPromise().then((resp) => { resolve() }) }));
-    });
-    Promise.all(promises).then(() => {
-      let url=this.applicationToEdit._links.backgrounds.href.split('{', 1)[0];
-      this.utils.updateUriList(url,backgroundsToPut)
-    });
-  }
-  
+
+ 
 
   // ******** Trees ******** //
 
@@ -731,6 +720,7 @@ export class ApplicationFormComponent implements OnInit {
         if(result.event==='Add') {
           result.data[0].forEach(element => {
             element.id=null;
+            element.new=true;
           });
           this.addElementsEventBackground.next(this.adaptNewBackgrounds(result.data[0]))
         }         

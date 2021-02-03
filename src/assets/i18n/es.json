@@ -29,6 +29,7 @@
   "projectionMessage": "Introdueix EPSG:Código",
   "projectionsMessage": "Introduce todas las proyecciones EPSG:Código separadas por intros",
   "passwordMessage" : "Los campos contraseña y confirmar contraseña no coinciden!",
+  "requiredFieldMessage": "Rellene el campo ",
   "caution": "Importante",
   "lang": {
     "catalan": "Catalán",
@@ -278,7 +279,19 @@
     "layers": "Capas",
     "code": "Código",
     "groupTask": "Grupo tarea",
-    "status": "Estado"
+    "status": "Estado",
+    "taskUI": "Tarea UI",
+    "parameters": "Parámetros",
+    "fix": "Fijo",
+    "user": "Usuario",
+    "format": "Formato",
+    "formatWPS": "Formato datainput (WPS)",
+    "value": "Valor",
+    "order": "Orden",
+    "paramUrl": "Param. URL",
+    "type": "Tipo",
+    "parameter": "Parámetro",
+    "description":"Descripción"
   },
   "tasksEntity": {
     "generalData": "Datos Generales",

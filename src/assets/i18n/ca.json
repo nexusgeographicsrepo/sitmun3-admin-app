@@ -29,6 +29,7 @@
   "projectionMessage": "Introdueix EPSG:Codi",
   "projectionsMessage": "Introdueix totes les projeccions EPSG:Codi separades per intro",
   "passwordMessage" : "Els camps contrasenya i confirmar contrasenya no coincideixen!",
+  "requiredFieldMessage": "Empleneu el camp ",
   "caution": "Important",
   "lang": {
     "catalan": "Català",
@@ -295,7 +296,20 @@
     "name": "Nom",
     "informationType": "Tipus d'informació",
     "groupTask": "Grup tasca",
-    "status": "Estat"
+    "status": "Estat",
+    "taskUI": "Tasca UI",
+    "parameters": "Paràmetres",
+    "fix": "Fixe",
+    "user": "Usuari",
+    "format": "Format",
+    "formatWPS": "Format datainput (WPS)",
+    "value": "Valor",
+    "order": "Ordre",
+    "paramUrl": "Param. URL",
+    "type": "Tipus",
+    "parameter": "Paràmetre",
+    "code": "Codi",
+    "description":"Descripció"
   },
   "tasksQueryEntity": {
     "generalData": "Dades Generals",

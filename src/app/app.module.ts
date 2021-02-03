@@ -97,15 +97,18 @@ import {
   ApplicationService,
   CartographyAvailabilityService,
   ServiceParameterService,
+  TaskUIService,
   ApplicationParameterService,
   CartographyParameterService,
   TaskAvailabilityService,
   UserPositionService,
   ApplicationBackgroundService,
+  TaskParameterService,
   TreeNodeService,
 } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
 import { SidenavService } from './services/sidenav.service';
+import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.component';
 
 
 
@@ -156,7 +159,8 @@ import { SidenavService } from './services/sidenav.service';
     TasksQueryFormComponent,
     TasksReportFormComponent,
     TasksThematicFormComponent,
-    LoginComponent
+    LoginComponent,
+    TasksFormComponent
   ],
   imports: [
     BrowserModule,
@@ -185,7 +189,7 @@ import { SidenavService } from './services/sidenav.service';
     ApplicationService, TreeService, TaskAvailabilityService, BackgroundService, CartographyService, CartographyGroupService,
     TaskGroupService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
     Principal, UserPositionService, AccountService,CartographyAvailabilityService,ServiceParameterService,ApplicationParameterService,
-    CartographyParameterService, ApplicationBackgroundService, TreeNodeService,
+    CartographyParameterService,  TaskUIService, TaskParameterService, ApplicationBackgroundService, TreeNodeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthExpiredInterceptor, multi: true }

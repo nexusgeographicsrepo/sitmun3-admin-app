@@ -38,6 +38,7 @@ export class LayersPermitsFormComponent implements OnInit {
   //Dialog
   columnDefsRolesDialog: any[];
   addElementsEventRoles: Subject<any[]> = new Subject <any[]>();
+  
   columnDefsCartographiesDialog: any[];
   addElementsEventCartographies: Subject<any[]> = new Subject <any[]>();
 

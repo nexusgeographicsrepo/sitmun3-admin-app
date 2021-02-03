@@ -375,6 +375,10 @@ export class ServiceFormComponent implements OnInit {
 
 
   openParametersDialog(data: any) {
+
+    this.parameterForm.patchValue({
+      type:  this.requestTypes[0].value
+    })
   
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;

@@ -56,46 +56,59 @@ export class LayersPermitsFormComponent implements OnInit {
 
   ngOnInit(): void {
     let permissionGroupTypesByDefault = {
-      value: null,
+      value: -1,
       description: '------'
     }
     this.permissionGroupTypes.push(permissionGroupTypesByDefault);
 
-    this.utils.getCodeListValues('cartographyPermission.type').subscribe(
-      resp => {
-        this.permissionGroupTypes.push(...resp);
-      }
-    );
-    this.activatedRoute.params.subscribe(params => {
-      this.layersPermitsID = +params.id;
-      if (this.layersPermitsID !== -1) {
-        console.log(this.layersPermitsID);
+    const promises: Promise<any>[] = [];
+	
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('cartographyPermission.type').subscribe(
+        resp => {
+          this.permissionGroupTypes.push(...resp);
+          resolve(true);
+        }
+      );
+    }));
 
-        this.cartographyGroupService.get(this.layersPermitsID).subscribe(
-          resp => {
-            console.log(resp);
-            this.layersPermitsToEdit = resp;
-            this.formLayersPermits.setValue({
-              id: this.layersPermitsID,
-              name: this.layersPermitsToEdit.name,
-              type: this.layersPermitsToEdit.type,
-              _links: this.layersPermitsToEdit._links
-            });
 
-            this.dataLoaded = true;
-          },
-          error => {
-
-          }
-        );
-      }
-      else { this.dataLoaded = true;}
-
-    },
-      error => {
-
-      });
-
+    Promise.all(promises).then(() => {
+      this.activatedRoute.params.subscribe(params => {
+        this.layersPermitsID = +params.id;
+        if (this.layersPermitsID !== -1) {
+          console.log(this.layersPermitsID);
+  
+          this.cartographyGroupService.get(this.layersPermitsID).subscribe(
+            resp => {
+              console.log(resp);
+              this.layersPermitsToEdit = resp;
+              this.formLayersPermits.setValue({
+                id: this.layersPermitsID,
+                name: this.layersPermitsToEdit.name,
+                type: this.layersPermitsToEdit.type,
+                _links: this.layersPermitsToEdit._links
+              });
+  
+              this.dataLoaded = true;
+            },
+            error => {
+  
+            }
+          );
+        }
+        else {
+          this.formLayersPermits.patchValue({
+            type: this.permissionGroupTypes[0].value
+          })
+          this.dataLoaded = true;
+        }
+  
+      },
+        error => {
+  
+        });
+    });
 
 
     this.columnDefsCartographies = [

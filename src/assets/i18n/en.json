@@ -29,6 +29,7 @@
   "projectionMessage": "Introduce EPSG:Code",
   "projectionsMessage": "Introduce all projections like EPSG:Code separated by intro",
   "passwordMessage" : "Password/confirm passwords fields don't match!",
+  "requiredFieldMessage": "  You must fill the field ",
   "caution": "Important",
   "lang": {
     "catalan": "Catalan",
@@ -278,7 +279,7 @@
     "territory": "Territory",
     "territories": "Territories",
     "layers": "Layers",
-    "code": "Codi",
+    "code": "Code",
     "groupTask": "GroupTask",
     "status": "Status"
   },
@@ -289,7 +290,24 @@
     "name": "Name",
     "informationType": "Information Type",
     "groupTask": "GroupTask",
-    "status": "Status"
+    "status": "Status",
+    "taskUI": "Task UI",
+    "parameters": "Parameters",
+    "fix": "Fix",
+    "user": "User",
+    "format": "Format",
+    "formatWPS": "Datainput format (WPS)",
+    "value": "Value",
+    "order": "Order",
+    "paramUrl": "Param. URL",
+    "type": "Type",
+    "parameter": "Parameter",
+    "description":"Description",
+    "code": "Code",
+    "cartography": "Cartography",
+    "modificate": "Modificate",
+    "textFilter": "Text filter",
+    "deleteCartography": "Delete cartography"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

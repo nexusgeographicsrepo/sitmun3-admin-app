@@ -83,7 +83,7 @@ export class ServiceFormComponent implements OnInit {
 
 
     let serviceTypeByDefault = {
-      value: null,
+      value: -1,
       description: '-------'
     }
     this.serviceTypes.push(serviceTypeByDefault);
@@ -148,6 +148,7 @@ export class ServiceFormComponent implements OnInit {
         else{
           this.serviceForm.patchValue({
             blocked: false,
+            type: this.serviceTypes[0].value
           })
           this.dataLoaded = true;
         }

@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions } from '@sitmun/frontend-core';
+import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -222,6 +222,7 @@ export class LayersFormComponent implements OnInit {
                 transparency: this.layerToEdit.transparency,
                 metadataURL: this.layerToEdit.metadataURL,
                 legendType: this.layerToEdit.legendType,
+                legendUrl: this.layerToEdit.legendURL,
                 description: this.layerToEdit.description,
                 datasetURL: this.layerToEdit.datasetURL, //here
                 applyFilterToGetMap: "",
@@ -434,9 +435,7 @@ export class LayersFormComponent implements OnInit {
 
     this.layerForm = new FormGroup({
       id: new FormControl(null, []),
-      name: new FormControl(null, [
-        Validators.required,
-      ]),
+      name: new FormControl(null, [Validators.required]),
       service: new FormControl(null),
       layers: new FormControl(null),
       minimumScale: new FormControl(null, []),
@@ -446,6 +445,7 @@ export class LayersFormComponent implements OnInit {
       transparency: new FormControl(null, []),
       metadataURL: new FormControl(null, []),
       legendType: new FormControl(null, []),
+      legendUrl: new FormControl(null, []),
       description: new FormControl(null, []),
       datasetURL: new FormControl(null, []),//here
       applyFilterToGetMap: new FormControl(null, []),
@@ -929,8 +929,47 @@ export class LayersFormComponent implements OnInit {
     //Save Button
   
     onSaveButtonClicked(){
+      let service= this.services.find(x => x.id===this.layerForm.value.service )
+      if(service==undefined){
+        service=null
+      }
+
+      let selectService= this.spatialConfigurationServices.find(x => x.id===this.layerForm.value.selectionService )
+      if(selectService==undefined){
+        selectService=null
+      }
   
-      this.cartographyService.save(this.layerForm.value)
+      let cartography= new Cartography();
+      cartography.name= this.layerForm.value.name,
+      cartography.service= service,
+      cartography.layers= this.layerForm.value.layers,
+      cartography.minimumScale= this.layerForm.value.minimumScale,
+      cartography.maximumScale= this.layerForm.value.maximumScale,
+      cartography.geometryType= this.layerForm.value.geometryType,
+      cartography.order= this.layerForm.value.order,
+      cartography.transparency= this.layerForm.value.transparency,
+      cartography.metadataUrl= this.layerForm.value.metadataURL,
+      cartography.legendTip= this.layerForm.value.legendType,
+      cartography.legendUrl= this.layerForm.value.legendUrl,
+      /*cartography.description= this.layerForm.value.description,
+      cartography.datasetURL= this.layerForm.value.datasetURL, //here
+      cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap,
+      cartography.applyFilterToGetFeatureInfo= this.layerForm.value.applyFilterToGetFeatureInfo,
+      cartography.applyFilterToSpatialSelection= this.layerForm.value.applyFilterToSpatialSelection,*/
+      cartography.queryAct= this.layerForm.value.queryableFeatureEnabled,
+      cartography.queryable= this.layerForm.value.queryableFeatureAvailable,
+      cartography.queryLay= this.layerForm.value.queryableLayers,
+      cartography.themeable= this.layerForm.value.thematic,
+      cartography.blocked= this.layerForm.value.blocked,
+      cartography.selectable= this.layerForm.value.selectableFeatureEnabled,
+      cartography.selectionService= selectService,
+      cartography.selectionLayer= this.layerForm.value.selectableLayers,
+      cartography.connection= null,
+      cartography._links= this.layerForm.value._links
+    
+
+
+      this.cartographyService.save(cartography)
       .subscribe(resp => {
         console.log(resp);
         this.layerToEdit=resp;

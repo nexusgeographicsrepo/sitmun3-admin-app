@@ -31,7 +31,22 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   background: #FF9300 !important;
 }
 
-//Color dels butons vermell
+.mat-raised-button.mat-orange,
+.mat-flat-button.mat-orange,
+.mat-mini-fab.mat-orange,
+.mat-icon.mat-orange {
+  background-color: #ff9300 !important;
+  color: white !important;
+}
+
+.mat-raised-button.mat-green,
+.mat-flat-button.mat-green,
+.mat-mini-fab.mat-green,
+.mat-icon.mat-green {
+  background-color: #68A225 !important;
+  color: white !important;
+}
+
 .mat-raised-button.mat-red,
 .mat-flat-button.mat-red,
 .mat-mini-fab.mat-red,
@@ -48,91 +63,6 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   border-color: #df8080 !important;
 }
 
-//Botó Eliminar intern formularis
-.mat-stroked-button.mat-red{
-  color: #333333 !important
-}
-.mat-stroked-button.mat-red .mat-icon, .redTitle,.mat-red.mat-datepicker-toggle{
-  color: #BF0000 !important
-}
-.mat-stroked-button.mat-red[disabled][disabled],
-.mat-stroked-button.mat-red[disabled][disabled] .mat-icon {
-  color: rgba(0, 0, 0, 0.26) !important;
-}
-
-.mat-icon-button.mat-blue2{
-  color: #005EB8 !important;
-  border-color: #005EB8 !important;
-}
-.mat-icon-button.mat-blue3,.mat-icon.mat-blue3 {
-  color: #0494F7 !important;
-  border-color: #0494F7 !important;
-  cursor: pointer;
-}
-.mat-icon-button.mat-red{
-  color: #BF0000 !important;
-  border-color: #BF0000 !important;
-}
-.mat-icon-button.mat-green{
-  color: #68A225 !important;
-  border-color: #68A225 !important;
-}
-
-.mat-button.mat-green{
-  color: #68A225 !important;
-}
-.mat-icon-button.mat-orange{
-  color: #E65100 !important
-}
-
-.mat-icon-button .mat-icon{
-  // border: 2px solid;
-  // border-radius: 16px;
-  width: 26px;
-  height: 26px;
-  font-size: 20px;
-  margin-right: 0;
-  line-height: 26px !important;
-}
-
-.mat-icon-button .mat-icon svg{
-  width: 14px;
-  height: 26px;
-}
-
-.mat-icon-button.mat-small{
-  line-height: 28px;
-}
-
-.mat-icon-button.mat-small .mat-icon{
-  width: 18px;
-  height: 18px;
-  font-size: 14px;
-  line-height: 19px !important;
-}
-
-//Color dels butons gris
-.mat-raised-button.mat-grey,
-.mat-flat-button.mat-grey,
-.mat-mini-fab.mat-grey,
-.mat-icon.mat-grey {
-  background-color: #888888 !important;
-  color: white !important
-}
-
-.mat-flat-button.mat-red{
-  border: 1px solid #BF0000 !important;;
-}
-
-.mat-flat-button.mat-grey{
-  border: 1px solid #888888 !important;;
-}
-
-.mat-flat-button.mat-green{
-  border: 1px solid #68A225 !important;;
-}
-
-//Color dels butons blau
 .mat-raised-button.mat-blue,
 .mat-flat-button.mat-blue,
 .mat-mini-fab.mat-blue,
@@ -148,32 +78,15 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   background-color: rgb(112, 198, 255) !important;
 }
 
-//Color dels butons vermell
-.mat-icon.mat-red {
-  color: #BF0000 !important;
-  background-color: inherit !important;
-}
 
-//Color dels butons gris
+.mat-raised-button.mat-grey,
+.mat-flat-button.mat-grey,
+.mat-mini-fab.mat-grey,
 .mat-icon.mat-grey {
-  color: #888888 !important;
-  background-color: inherit !important;
+  background-color: #888888 !important;
+  color: white !important
 }
 
-//Color dels butons blau
-.mat-icon.mat-blue {
-  color: #0494F7 !important;
-  background-color: inherit !important;
-}
-
-//Color dels butons blau
-.mat-raised-button.mat-green,
-.mat-flat-button.mat-green {
-  background-color: #68A225 !important;
-  color: white !important;
-}
-
-//Color dels butons grocs
 .mat-raised-button.mat-yellow,
 .mat-flat-button.mat-yellow,
 .mat-mini-fab.mat-yellow,
@@ -182,7 +95,6 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   color: black !important;
 }
 
-//Color dels butons blancs
 .mat-raised-button.mat-white,
 .mat-flat-button.mat-white,
 .mat-mini-fab.mat-white,
@@ -197,6 +109,17 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 .mat-mini-fab.mat-white:disabled,
 .mat-icon.mat-white:disabled {
   color: #DDDDDD !important;
+}
+
+.mat-stroked-button.mat-red{
+  color: #333333 !important
+}
+.mat-stroked-button.mat-red .mat-icon, .redTitle,.mat-red.mat-datepicker-toggle{
+  color: #BF0000 !important
+}
+.mat-stroked-button.mat-red[disabled][disabled],
+.mat-stroked-button.mat-red[disabled][disabled] .mat-icon {
+  color: rgba(0, 0, 0, 0.26) !important;
 }
 
 .e-today {

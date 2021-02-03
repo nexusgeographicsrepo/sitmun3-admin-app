@@ -36,9 +36,7 @@ export class TasksDocumentComponent implements OnInit {
       { headerName: 'ID',  field: 'id', editable: false},
       { headerName: this.utils.getTranslate('tasksDocumentEntity.task'),  field: 'name'},
       { headerName: this.utils.getTranslate('tasksDocumentEntity.informationType'),  field: 'groupName', editable: false},
-      { headerName: this.utils.getTranslate('tasksDocumentEntity.path'),  field: 'path' },
-      { headerName: this.utils.getTranslate('tasksDocumentEntity.extent'),  field: 'extent' },
-      { headerName: this.utils.getTranslate('tasksDocumentEntity.associatedLayer'),  field: 'associatedLayer' }
+      { headerName: this.utils.getTranslate('tasksDocumentEntity.extent'),  field: 'format' }
     ];
   }
 

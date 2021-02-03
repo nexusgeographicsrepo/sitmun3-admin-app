@@ -317,6 +317,7 @@
   "tasksDownloadEntity": {
     "generalData": "General Data",
     "tasksDownload": "Tasks-Download",
+    "informationType": "Information type",
     "name": "Name",
     "observations": "Observations",
     "application": "Application",

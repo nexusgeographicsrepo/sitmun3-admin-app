@@ -759,6 +759,9 @@ export class LayersFormComponent implements OnInit {
 
   openParametersDialog(data: any) {
 
+    this.parameterForm.patchValue({
+      format: this.parameterFormatTypes[0].value
+    })
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('layersEntity.parametersConfiguration');
@@ -790,6 +793,10 @@ export class LayersFormComponent implements OnInit {
 
   openSpatialSelectionDialog(data: any) {
 
+    this.parameterForm.patchValue({
+      format: this.parameterFormatTypes[0].value
+    })
+
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newSpatialConfigurationDialog;
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.spatialSelection');
@@ -801,7 +808,6 @@ export class LayersFormComponent implements OnInit {
           item.type="INFOSELECT"
           this.addElementsEventSpatialConfigurations.next([item])
           console.log(this.parameterForm.value)
-          this.parameterForm.reset();
         }
       }
       this.parameterForm.reset();

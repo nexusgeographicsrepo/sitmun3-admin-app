@@ -163,30 +163,13 @@
         <div class="rowFormDiv">
         
            <div class="matRadioFormDiv" >
-                <!-- <label class="formLabel"> {{'tasksEntity.fix' | translate}} </label> -->
                 <mat-radio-group formControlName="type">
-                    <mat-radio-button class="radioButtonForm" value="Fix">{{'tasksEntity.fix' | translate}}</mat-radio-button>
-                    <mat-radio-button class="radioButtonForm" value="Usuari">{{'tasksEntity.user' | translate}}</mat-radio-button>
-                    <mat-radio-button  value="Format datainput (WPS)">{{'tasksEntity.formatWPS' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm" value="VALOR">{{'tasksEntity.fix' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm" value="CAMPO">{{'tasksEntity.user' | translate}}</mat-radio-button>
+                    <mat-radio-button value="DATAINPUT">{{'tasksEntity.formatWPS' | translate}}</mat-radio-button>
                   </mat-radio-group>
             </div>
         
-           <!-- <div class="colFormDiv" >
-                <label class="formLabel">
-                    {{'tasksEntity.user' | translate}}
-                </label>
-                <mat-checkbox formControlName="user"> </mat-checkbox>
-            </div>
-        
-           <div class="colFormDiv" id=#right-column  >
-                <label class="formLabel">
-                    {{'tasksEntity.formatWPS' | translate}}
-                </label>
-                <mat-checkbox formControlName="format"> </mat-checkbox>
-            </div> -->
-
-
-
     
        </div>
     
@@ -202,9 +185,9 @@
         </div>
 
         <div class="threeColDialogFormDiv" > 
-            <label class="formLabel requiredInput">
-                {{'tasksEntity.value' | translate}}
-            </label>
+            <label *ngIf="parameterForm.value.type==='VALOR'" class="formLabel requiredInput">  {{'tasksEntity.value' | translate}} </label>
+            <label *ngIf="parameterForm.value.type==='CAMPO'" class="formLabel requiredInput">  {{'tasksEntity.textFilter' | translate}} </label>
+            <label *ngIf="parameterForm.value.type==='DATAINPUT'" class="formLabel requiredInput">  {{'tasksEntity.formatWPS' | translate}} </label>
             <mat-form-field appearance="outline">
                 <input matInput type="text" formControlName="value" required>
             </mat-form-field>

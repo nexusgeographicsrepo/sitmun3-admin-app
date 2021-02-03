@@ -305,6 +305,7 @@
     "code": "Code",
     "cartography": "Cartography",
     "modificate": "Modificate",
+    "textFilter": "Text filter",
     "deleteCartography": "Delete cartography"
   },
   "tasksQueryEntity": {

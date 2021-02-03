@@ -304,6 +304,7 @@
     "description":"Descripción",
     "cartography": "Cartografia",
     "modificate": "Modificar",
+    "textFilter": "Texto filtro",
     "deleteCartography": "Eliminar cartografia"
   },
   "tasksQueryEntity": {

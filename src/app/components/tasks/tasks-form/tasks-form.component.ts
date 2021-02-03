@@ -329,7 +329,7 @@ export class TasksFormComponent implements OnInit {
     let parametersToDuplicate= []
     data.forEach(parameter => {
       let newParameter={...parameter}
-      // newParameter.name= 'copia_'.concat(newParameter.name),
+      newParameter.name= 'copia_'.concat(newParameter.name),
       
       
       parametersToDuplicate.push(newParameter);
@@ -436,6 +436,10 @@ export class TasksFormComponent implements OnInit {
 
 
   openParametersDialog(data: any) {
+
+    this.parameterForm.patchValue({
+      type: "VALOR"
+    });
 
 
     const dialogRef = this.dialog.open(DialogFormComponent);
@@ -556,7 +560,7 @@ export class TasksFormComponent implements OnInit {
       console.log(this.taskForm.value)
       let taskGroup= this.taskGroups.find(x => x.id===this.taskForm.value.taskGroup )
       let ui= this.taskUIs.find(x => x.id===this.taskForm.value.ui )
-      this.updateCartography(this.currentCartography)
+      // this.updateCartography(this.currentCartography)
       var taskObj: Task= new Task();
       taskObj.name= this.taskForm.value.name;
       taskObj.id= this.taskForm.value.id;
@@ -575,6 +579,7 @@ export class TasksFormComponent implements OnInit {
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventTerritories.next(true);
         this.getAllElementsEventRoles.next(true);
+    
       },
       error => {
         console.log(error);

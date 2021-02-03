@@ -787,7 +787,7 @@ export class ApplicationFormComponent implements OnInit {
 
       let situationMap= this.situationMapList.find(x => x.id===this.applicationForm.value.situationMap )
       if(situationMap==undefined){
-        situationMap=""
+        situationMap=null
       }
   
       var appObj: Application=new Application();

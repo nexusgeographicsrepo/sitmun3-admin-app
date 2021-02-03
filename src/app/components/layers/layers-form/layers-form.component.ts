@@ -225,9 +225,9 @@ export class LayersFormComponent implements OnInit {
                 legendUrl: this.layerToEdit.legendURL,
                 description: this.layerToEdit.description,
                 datasetURL: this.layerToEdit.datasetURL, //here
-                applyFilterToGetMap: "",
-                applyFilterToGetFeatureInfo: false,
-                applyFilterToSpatialSelection: false,
+                applyFilterToGetMap: this.layerToEdit.applyFilterToGetMap,
+                applyFilterToGetFeatureInfo: this.layerToEdit.applyFilterToGetFeatureInfo,
+                applyFilterToSpatialSelection: this.layerToEdit.applyFilterToSpatialSelection,
                 queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
                 queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
                 queryableLayers: this.layerToEdit.queryableLayers,
@@ -759,6 +759,9 @@ export class LayersFormComponent implements OnInit {
 
   openParametersDialog(data: any) {
 
+    this.parameterForm.patchValue({
+      format: this.parameterFormatTypes[0].value
+    })
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('layersEntity.parametersConfiguration');
@@ -790,6 +793,10 @@ export class LayersFormComponent implements OnInit {
 
   openSpatialSelectionDialog(data: any) {
 
+    this.parameterForm.patchValue({
+      format: this.parameterFormatTypes[0].value
+    })
+
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newSpatialConfigurationDialog;
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.spatialSelection');
@@ -801,7 +808,6 @@ export class LayersFormComponent implements OnInit {
           item.type="INFOSELECT"
           this.addElementsEventSpatialConfigurations.next([item])
           console.log(this.parameterForm.value)
-          this.parameterForm.reset();
         }
       }
       this.parameterForm.reset();

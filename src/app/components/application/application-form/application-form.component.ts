@@ -102,26 +102,36 @@ export class ApplicationFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.utils.getCodeListValues('application.type').subscribe(
-      resp => {
-        this.applicationTypes.push(...resp);
-      }
-    );
+    const promises: Promise<any>[] = [];
 
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('application.type').subscribe(
+        resp => {
+          this.applicationTypes.push(...resp);
+          resolve(true);
+        }
+      );
+    }));
+
+
+	
+    promises.push(new Promise((resolve, reject) => {
     this.utils.getCodeListValues('applicationParameter.type').
-    pipe(
-      map( (resp: any) => {
-        let newTable: CodeList[]= [];
-        resp.forEach(element => {
-            if( element.value !== 'PRINT_TEMPLATE') {newTable.push(element)}
-        });
-        return newTable;
-      })
-    ).subscribe(
-      resp => {
-        this.parametersTypes.push(...resp);
-      }
-    );
+      pipe(
+        map( (resp: any) => {
+          let newTable: CodeList[]= [];
+          resp.forEach(element => {
+              if( element.value !== 'PRINT_TEMPLATE') {newTable.push(element)}
+          });
+          return newTable;
+        })
+      ).subscribe(
+        resp => {
+          this.parametersTypes.push(...resp);      	
+        	resolve(true);
+        }
+      );
+    }));
 
     let situationMapByDefault = {
       id: -1,
@@ -129,59 +139,64 @@ export class ApplicationFormComponent implements OnInit {
     }
     this.situationMapList.push(situationMapByDefault);
 
-    this.getSituationMapList().subscribe(
-      resp => {
-        this.situationMapList.push(...resp);
-      }
-    );
+    promises.push(new Promise((resolve, reject) => {
+      this.getSituationMapList().subscribe(
+        resp => {
+          this.situationMapList.push(...resp);
+          resolve(true);
+        }
+      );
+    }));
+		
 
-    this.activatedRoute.params.subscribe(params => {
-      this.applicationID = +params.id;
-      if (this.applicationID !== -1) {
-        console.log(this.applicationID);
-
-        this.applicationService.get(this.applicationID).subscribe(
-          resp => {
-            console.log(resp);
-            this.applicationToEdit = resp;
-
-
-            this.applicationForm.setValue({
-              id: this.applicationID,
-              name: this.applicationToEdit.name,
-              type: this.applicationToEdit.type,
-              title: this.applicationToEdit.title,
-              tree: ' ',
-              jspTemplate: this.applicationToEdit.jspTemplate,
-              theme: this.applicationToEdit.theme,
-              situationMap: this.applicationToEdit.situationMapId,
-              scales: this.applicationToEdit.scales,
-              srs: this.applicationToEdit.srs,
-              treeAutoRefresh: this.applicationToEdit.treeAutoRefresh,
-              _links: this.applicationToEdit._links
-            });
-
-            this.dataLoaded = true;
-          },
-          error => {
-
-          }
-        );
-      }
-      else {
-        this.dataLoaded = true;
-        this.applicationForm.patchValue({
-          moveSupramunicipal: false,
-          treeAutorefresh: false,
-          situationMap: -1
-        });
-      }
-
-    },
+    Promise.all(promises).then(() => {
+      this.activatedRoute.params.subscribe(params => {
+        this.applicationID = +params.id;
+        if (this.applicationID !== -1) {
+          console.log(this.applicationID);
+  
+          this.applicationService.get(this.applicationID).subscribe(
+            resp => {
+              console.log(resp);
+              this.applicationToEdit = resp;
+  
+  
+              this.applicationForm.setValue({
+                id: this.applicationID,
+                name: this.applicationToEdit.name,
+                type: this.applicationToEdit.type,
+                title: this.applicationToEdit.title,
+                jspTemplate: this.applicationToEdit.jspTemplate,
+                theme: this.applicationToEdit.theme,
+                situationMap: this.applicationToEdit.situationMapId,
+                scales: this.applicationToEdit.scales,
+                srs: this.applicationToEdit.srs,
+                treeAutoRefresh: this.applicationToEdit.treeAutoRefresh,
+                _links: this.applicationToEdit._links
+              });
+  
+              this.dataLoaded = true;
+            },
+            error => {
+  
+            }
+          );
+        }
+        else {
+          this.dataLoaded = true;
+          this.applicationForm.patchValue({
+            moveSupramunicipal: false,
+            treeAutorefresh: false,
+            type: this.applicationTypes[0].value,
+            situationMap: this.situationMapList[0].id
+          });
+        }
+  
+      },
       error => {
-
+  
       });
- 
+    });
 
     this.columnDefsParameters = [
       environment.selCheckboxColumnDef,
@@ -316,9 +331,6 @@ export class ApplicationFormComponent implements OnInit {
         Validators.required,
       ]),
       title: new FormControl(null, [
-        Validators.required,
-      ]),
-      tree: new FormControl(null, [
         Validators.required,
       ]),
       jspTemplate: new FormControl(null, [
@@ -619,6 +631,10 @@ export class ApplicationFormComponent implements OnInit {
 
 
   openParametersDialog(data: any) {
+
+    this.parameterForm.patchValue({
+      type: this.parametersTypes[0].value
+    })
   
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;

@@ -39,45 +39,57 @@ export class BackgroundLayersFormComponent implements OnInit {
     }
     this.permissionGroups.push(permissionGroupByDefault);
 
-    this.getPermissionGroups().subscribe(
-      resp => {
-        this.permissionGroups.push(...resp);
-      }
-    );
+    const promises: Promise<any>[] = [];
 
-    this.activatedRoute.params.subscribe(params => {
-      this.backgroundID = +params.id;
-      if (this.backgroundID !== -1) {
-        console.log(this.backgroundID);
+    promises.push(new Promise((resolve, reject) => {
+	
+	    this.getPermissionGroups().subscribe(
+        resp => {
+          this.permissionGroups.push(...resp);
+          resolve(true);
+        }
+      );
+	
+    }));
 
-        this.backgroundService.get(this.backgroundID).subscribe(
-          resp => {
-            console.log(resp);
-            this.backgroundToEdit = resp;
-            this.backgroundForm.setValue({
-              id: this.backgroundID,
-              name: this.backgroundToEdit.name,
-              description: this.backgroundToEdit.description,
-              cartographyGroup: this.backgroundToEdit.cartographyGroupId,
-              active: this.backgroundToEdit.active,
-              _links: this.backgroundToEdit._links
-            });
-          },
-          error => {
- 
-          }
-        );
-      }
-      else {
-        this.backgroundForm.patchValue({
-          active: false,
+
+    Promise.all(promises).then(() => {
+      this.activatedRoute.params.subscribe(params => {
+        this.backgroundID = +params.id;
+        if (this.backgroundID !== -1) {
+          console.log(this.backgroundID);
+  
+          this.backgroundService.get(this.backgroundID).subscribe(
+            resp => {
+              console.log(resp);
+              this.backgroundToEdit = resp;
+              this.backgroundForm.setValue({
+                id: this.backgroundID,
+                name: this.backgroundToEdit.name,
+                description: this.backgroundToEdit.description,
+                cartographyGroup: this.backgroundToEdit.cartographyGroupId,
+                active: this.backgroundToEdit.active,
+                _links: this.backgroundToEdit._links
+              });
+            },
+            error => {
+   
+            }
+          );
+        }
+        else {
+          this.backgroundForm.patchValue({
+            active: false,
+            cartographyGroup: this.permissionGroups[0].id
+          });
+        }
+  
+      },
+        error => {
+  
         });
-      }
 
-    },
-      error => {
-
-      });
+    });
 
 
   }

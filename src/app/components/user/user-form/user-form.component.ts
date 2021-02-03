@@ -87,7 +87,7 @@ export class UserFormComponent implements OnInit {
               firstName: this.userToEdit.firstName,
               lastName: this.userToEdit.firstName,
               password: this.userToEdit.password,
-              confirmPassword: "",
+              confirmPassword: this.userToEdit.password,
               administrator: this.userToEdit.administrator,
               blocked: this.userToEdit.blocked,
               _links: this.userToEdit._links

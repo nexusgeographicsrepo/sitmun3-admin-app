@@ -135,7 +135,7 @@ export class TerritoryFormComponent implements OnInit {
                 territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
                 scope: this.territoryToEdit.scope,
                 groupType: this.territoryToEdit.groupTypeId,
-                extent: ' ',
+                extent: this.territoryToEdit.extent,
                 extensionX0: this.extensions[0],
                 extensionX1: this.extensions[1],
                 extensionY0: this.extensions[2],

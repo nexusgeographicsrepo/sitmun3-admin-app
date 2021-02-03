@@ -76,52 +76,6 @@ export class ServiceFormComponent implements OnInit {
     this.initializeServiceForm();
     this.initializeParameterForm();
     this.projections = [];
-    this.activatedRoute.params.subscribe(params => {
-      this.serviceID = +params.id;
-      if (this.serviceID !== -1) {
-        this.serviceService.get(this.serviceID).subscribe(
-          resp => {
-            console.log(resp);
-            this.serviceToEdit = resp;
-            if (this.serviceToEdit.supportedSRS !== null) {
-              this.serviceToEdit.supportedSRS.forEach((projection) => {
-                this.projections.push(projection);
-              });
-
-            }
-            // this.projections = this.serviceToEdit.supportedSRS.split(';');
-            this.parametersUrl = this.serviceToEdit._links.parameters.href;
-            this.serviceForm.setValue({
-              id: this.serviceID,
-              name: this.serviceToEdit.name,
-              type: this.serviceToEdit.type,
-              serviceURL: this.serviceToEdit.serviceURL,
-              proxyUrl: this.serviceToEdit.proxyUrl,
-              supportedSRS: this.serviceToEdit.supportedSRS,
-              getInformationURL: this.serviceToEdit.getInformationURL,
-              blocked: this.serviceToEdit.blocked,
-              _links: this.serviceToEdit._links
-            });
-
-            this.dataLoaded = true;
-          },
-          error => {
-
-          }
-        );
-      }
-      else{
-        this.serviceForm.patchValue({
-          blocked: false,
-        })
-        this.dataLoaded = true;
-      }
-
-    },
-      error => {
-
-      });
-
 
   }
 
@@ -129,23 +83,82 @@ export class ServiceFormComponent implements OnInit {
 
 
     let serviceTypeByDefault = {
-      value: null,
+      value: -1,
       description: '-------'
     }
     this.serviceTypes.push(serviceTypeByDefault);
 
-    this.utils.getCodeListValues('service.type').subscribe(
-      resp => {
-        this.serviceTypes.push(...resp);
-      }
-    );
+    const promises: Promise<any>[] = [];
+
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('service.type').subscribe(
+        resp => {
+          this.serviceTypes.push(...resp);
+          resolve(true);
+        }
+      );
+    }));
 
 
-    this.utils.getCodeListValues('serviceParameter.type').subscribe(
-      resp => {
-        this.requestTypes.push(...resp);
-      }
-    );
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('serviceParameter.type').subscribe(
+        resp => {
+          this.requestTypes.push(...resp);
+          resolve(true);
+        }
+      );
+    }));
+
+    Promise.all(promises).then(() => {
+
+      this.activatedRoute.params.subscribe(params => {
+        this.serviceID = +params.id;
+        if (this.serviceID !== -1) {
+          this.serviceService.get(this.serviceID).subscribe(
+            resp => {
+              console.log(resp);
+              this.serviceToEdit = resp;
+              if (this.serviceToEdit.supportedSRS !== null) {
+                this.serviceToEdit.supportedSRS.forEach((projection) => {
+                  this.projections.push(projection);
+                });
+  
+              }
+              // this.projections = this.serviceToEdit.supportedSRS.split(';');
+              this.parametersUrl = this.serviceToEdit._links.parameters.href;
+              this.serviceForm.setValue({
+                id: this.serviceID,
+                name: this.serviceToEdit.name,
+                type: this.serviceToEdit.type,
+                serviceURL: this.serviceToEdit.serviceURL,
+                proxyUrl: this.serviceToEdit.proxyUrl,
+                supportedSRS: this.serviceToEdit.supportedSRS,
+                getInformationURL: this.serviceToEdit.getInformationURL,
+                blocked: this.serviceToEdit.blocked,
+                _links: this.serviceToEdit._links
+              });
+  
+              this.dataLoaded = true;
+            },
+            error => {
+  
+            }
+          );
+        }
+        else{
+          this.serviceForm.patchValue({
+            blocked: false,
+            type: this.serviceTypes[0].value
+          })
+          this.dataLoaded = true;
+        }
+  
+      },
+      error => {
+  
+      });
+
+    });
 
     this.columnDefsParameters = [
 
@@ -362,6 +375,10 @@ export class ServiceFormComponent implements OnInit {
 
 
   openParametersDialog(data: any) {
+
+    this.parameterForm.patchValue({
+      type:  this.requestTypes[0].value
+    })
   
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;

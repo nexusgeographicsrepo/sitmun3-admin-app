@@ -129,7 +129,7 @@ export class BackgroundLayersFormComponent implements OnInit {
   onSaveButtonClicked(){
     let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
     if(cartographyGroup==undefined){
-      cartographyGroup=""
+      cartographyGroup=null
     }
 
     var backgroundObj: Background=new Background();

@@ -132,6 +132,7 @@
     "geometryType": "Tipo Geometría",
     "transparency": "Transparencia",
     "legendType": "Tipo leyenda",
+    "legendUrl": "Url leyenda",
     "description": "Descripción",
     "datasetURL": "Url de datos",
     "territory": "Territorio",

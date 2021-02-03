@@ -134,6 +134,7 @@
     "geometryType": "Geometry Type",
     "transparency": "Transparency",
     "legendType": "Legend Type",
+    "legendUrl": "Legend Url",
     "description": "Description",
     "datasetURL": "Data URL",
     "territory": "Territory",

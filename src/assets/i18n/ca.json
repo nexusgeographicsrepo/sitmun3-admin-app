@@ -133,6 +133,7 @@
     "geometryType": "Tipus Geometria",
     "transparency": "Transparència",
     "legendType": "Tipus llegenda",
+    "legendUrl": "Url llegenda",
     "description": "Descripció",
     "datasetURL": "Url de dades",
     "territory": "Territori",

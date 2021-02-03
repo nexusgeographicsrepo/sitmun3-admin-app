@@ -44,7 +44,8 @@ export class TasksComponent implements OnInit {
   }
 
   getAllTasks = () => {
-    return this.tasksService.getAll();
+    return this.tasksService.getAll(undefined,undefined,"tasks");
+
   };
 
   newData(id: any) {

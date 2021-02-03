@@ -98,9 +98,9 @@
           (getSelectedRows)="getSelectedRowsCartographies($event)" [singleSelection]=true [globalSearch]=true>
         </app-data-grid>
       </div>
-      <button (click)="onSaveFormButtonClicked()" mat-flat-button class="updateButton"
+      <button (click)="onSaveFormButtonClicked()" mat-flat-button class="validateButton"
         *ngIf=" !newElement && currentNodeIsFolder != undefined ">{{ "update" | translate }}</button>
-      <button (click)="onSaveFormButtonClicked()" mat-flat-button class="updateButton"
+      <button (click)="onSaveFormButtonClicked()" mat-flat-button class="validateButton"
         *ngIf="newElement && currentNodeIsFolder != undefined ">{{ "save" | translate }}</button>
     </form>
 

@@ -160,10 +160,18 @@ body {
   //display: inline-block;
 }
 
+
+mat-form-field {
+  width: 100%;
+}
+#right-column {
+margin-right: 0%;
+}
+
 .validateButton {
   background-color: #ff9300;
   color: white;
-  width: 85px;
+  min-width: 85px;
   height: 40px;
   margin-top: 34px !important;
   justify-self: right !important;
@@ -361,30 +369,67 @@ h2 {
   width: 100%;
 }
 
+.colFormDiv{
+  display: inline-block;
+  width: 47.5%;
+  margin-right: 5%;
+}
+
+.colFormDivBtn {
+  margin-left: -80px;
+}
+
+.ShortColFormDiv {
+  display: inline-block;
+  width: 15%;
+  margin-right: 3%;
+}
+
+.MidColFormDiv {
+  display: inline-block;
+  width: 27%;
+  margin-right: 3%;
+}
+
+.MidLargeColFormDiv {
+  display: inline-block;
+  width: 47%;
+  margin-right: 3%;
+}
+
+.HalfMidLargeColFormDiv {
+  display: inline-block;
+  width: 22%;
+  margin-right: 3%;
+}
+
+.LargeColFormDiv {
+  display: inline-block;
+  width: 72%;
+  margin-right: 3%;
+}
+
+.longCol {
+  display: inline-block;
+  width: 75%;
+}
+
+.shortCol {
+  display: inline-block;
+  width: 20%;
+  margin-right: 5%;
+}
+
+.middleCol {
+  display: inline-block;
+  width: 50%;
+}
+
 .rowFormDiv {
-  width: 100%;
-  margin: 10px 0px;
-  display: flex;
-}
-
-.rowFormDiv.actionBtns {
-  width: 100% !important;
-  padding-top: 10px;
-}
-
-.tabForm .actionBtns {
-  margin: 0 !important;
-  padding: 20px 0 !important;
-}
-
-.rowFormDiv.actionBtns button:first-child,
-.tabForm .actionBtns button:first-child {
-  margin-left: auto;
-}
-
-.tabForm .actionBtns button:last-child {
-  margin-right: 20px !important;
-}
+    width: 100%;
+    margin: 10px 0px;
+    display: flex;
+  }
 
 //Estils etiquetes
 .mat-chip-list-wrapper .mat-standard-chip {
@@ -403,6 +448,35 @@ h2 {
   min-height: unset !important;
 }
 
+.routerTitle > h6 {
+  display: inline-block;
+}
+
+.routerTitle {
+  display: block;
+  margin-bottom: -30px;
+  margin-top: -20px;
+}
+
+.routerTitle a {
+  color: #bf0000 !important;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.title-row h2 {
+  flex-grow: 1;
+  width: unset;
+}
+
+.mat-header-cell,
+.mat-header-cell .mat-sort-header-button {
+  text-transform: capitalize;
+}
 
 .tabForm .bgColor {
   padding: 0;
@@ -452,6 +526,7 @@ h2 {
 .mat-datepicker-toggle {
   color: #bf0000 !important;
 }
+
 
 .sample-wrapper {
   width: inherit;

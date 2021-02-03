@@ -224,9 +224,9 @@ export class LayersFormComponent implements OnInit {
                 legendType: this.layerToEdit.legendType,
                 description: this.layerToEdit.description,
                 datasetURL: this.layerToEdit.datasetURL, //here
-                applyFilterToGetMap: "",
-                applyFilterToGetFeatureInfo: false,
-                applyFilterToSpatialSelection: false,
+                applyFilterToGetMap: this.layerToEdit.applyFilterToGetMap,
+                applyFilterToGetFeatureInfo: this.layerToEdit.applyFilterToGetFeatureInfo,
+                applyFilterToSpatialSelection: this.layerToEdit.applyFilterToSpatialSelection,
                 queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
                 queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
                 queryableLayers: this.layerToEdit.queryableLayers,

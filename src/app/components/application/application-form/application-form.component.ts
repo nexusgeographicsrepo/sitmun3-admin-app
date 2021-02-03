@@ -166,7 +166,6 @@ export class ApplicationFormComponent implements OnInit {
                 name: this.applicationToEdit.name,
                 type: this.applicationToEdit.type,
                 title: this.applicationToEdit.title,
-                tree: ' ',
                 jspTemplate: this.applicationToEdit.jspTemplate,
                 theme: this.applicationToEdit.theme,
                 situationMap: this.applicationToEdit.situationMapId,
@@ -332,9 +331,6 @@ export class ApplicationFormComponent implements OnInit {
         Validators.required,
       ]),
       title: new FormControl(null, [
-        Validators.required,
-      ]),
-      tree: new FormControl(null, [
         Validators.required,
       ]),
       jspTemplate: new FormControl(null, [

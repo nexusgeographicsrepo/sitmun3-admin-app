@@ -309,7 +309,10 @@
     "type": "Tipus",
     "parameter": "Paràmetre",
     "code": "Codi",
-    "description":"Descripció"
+    "description":"Descripció",
+    "cartography": "Cartografia",
+    "modificate": "Modificar",
+    "deleteCartography": "Esborrar cartografia"
   },
   "tasksQueryEntity": {
     "generalData": "Dades Generals",

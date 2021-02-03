@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TaskService, TaskGroupService, TaskParameterService, TaskAvailabilityService, TaskUIService, RoleService, TerritoryService, Task, Territory, Role } from '@sitmun/frontend-core';
+import { TaskService, TaskGroupService, CartographyService, TaskParameterService, TaskAvailabilityService, TaskUIService, RoleService, TerritoryService, Task, Territory, Role } from '@sitmun/frontend-core';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -21,6 +21,8 @@ export class TasksFormComponent implements OnInit {
   taskGroups: Array<any> = [];
   taskUIs: Array<any> = [];
   currentTaskUI;
+  initialCartography;
+  currentCartography;
 
   //Form
   taskForm: FormGroup;
@@ -28,6 +30,7 @@ export class TasksFormComponent implements OnInit {
   taskID = -1;
   dataLoaded: Boolean = false;
   themeGrid: any = environment.agGridTheme;
+  columnDefsCartographiesDialog: any[];
 
   //Grids
   columnDefsParameters: any[];
@@ -68,6 +71,7 @@ export class TasksFormComponent implements OnInit {
     private territoryService: TerritoryService,
     private taskAvailabilityService: TaskAvailabilityService,
     private taskParameterService: TaskParameterService,
+    private cartographyService: CartographyService,
     private http: HttpClient,
     public utils: UtilsService,
   ) {
@@ -117,6 +121,7 @@ export class TasksFormComponent implements OnInit {
                 name: this.taskToEdit.name,
                 taskGroup: this.taskToEdit.groupId,
                 ui: this.taskUIs[0].id,
+                cartography: null,
                 _links: this.taskToEdit._links
               });
   
@@ -143,10 +148,26 @@ export class TasksFormComponent implements OnInit {
 
     });
 
+
+    this.columnDefsCartographiesDialog = [
+      {
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: false,
+        editable: false,
+        filter: false,
+        minWidth: 45,
+        maxWidth: 45,
+        lockPosition: true
+      },
+      { headerName: 'ID', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('tasksEntity.name'), field: 'name', editable: false },
+    ];
+
     this.columnDefsParameters = [
       environment.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('tasksEntity.type'), field: 'type' },
-      { headerName: this.utils.getTranslate('tasksEntity.parameter'), field: 'parameter', },
+      { headerName: this.utils.getTranslate('tasksEntity.parameter'), field: 'name', },
       { headerName: this.utils.getTranslate('tasksEntity.value'), field: 'value' },
       { headerName: this.utils.getTranslate('tasksEntity.order'), field: 'order', editable:false },
       { headerName: this.utils.getTranslate('tasksEntity.status'), field: 'status', editable: false },
@@ -193,6 +214,7 @@ export class TasksFormComponent implements OnInit {
     name: new FormControl(null, []),
     taskGroup: new FormControl(null, []),
     ui: new FormControl(null, []),
+    cartography: new FormControl(null, []),
     _links: new FormControl(null, []),
 
   })}
@@ -201,14 +223,61 @@ export class TasksFormComponent implements OnInit {
   initializeParameterForm(): void {
 
   this.parameterForm = new FormGroup({
-    required: new FormControl(null, []),
-    user: new FormControl(null, []),
-    format: new FormControl(null, []),
-    url: new FormControl(null, []),
+    type: new FormControl(null, []),
+    name: new FormControl(null, []),
     value: new FormControl(null, []),
     order: new FormControl(null, []),
 
   })}
+
+  // Cartography Field Dialog
+
+    // ******** Cartography Dialog  ******** //
+
+    getAllCartographiesDialog = () => {
+      return this.cartographyService.getAll();
+    }
+  
+  
+    openCartographyDialog(data: any) {
+      const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+      dialogRef.componentInstance.getAllsTable = [this.getAllCartographiesDialog];
+      dialogRef.componentInstance.singleSelectionTable = [true];
+      dialogRef.componentInstance.columnDefsTable = [this.columnDefsCartographiesDialog];
+      dialogRef.componentInstance.themeGrid = this.themeGrid;
+      dialogRef.componentInstance.title = this.utils.getTranslate("tasksEntity.cartography");
+      dialogRef.componentInstance.titlesTable = [""];
+      dialogRef.componentInstance.nonEditable = false;
+  
+  
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if (result.event === 'Add') {
+            console.log(result.data)
+            this.currentCartography= result.data[0][0];
+            this.taskForm.patchValue({
+              cartography:this.currentCartography.name
+            })
+            console.log(this.currentCartography);
+            console.log(this.taskForm.value.cartography);
+          }
+        }
+  
+      });
+  
+  
+    }
+
+
+  onDeleteButtonClicked(){
+
+    this.taskForm.patchValue({
+      cartography: null
+    })
+    this.currentCartography=null;
+
+  }
 
   // AG-GRID
 
@@ -478,19 +547,22 @@ export class TasksFormComponent implements OnInit {
 
     let requiredField = this.checkRequiredField();
 
+
+
     if(requiredField == null)
     {
+
+      //TODO Update cartography when save works
       console.log(this.taskForm.value)
       let taskGroup= this.taskGroups.find(x => x.id===this.taskForm.value.taskGroup )
       let ui= this.taskUIs.find(x => x.id===this.taskForm.value.ui )
-  
+      this.updateCartography(this.currentCartography)
       var taskObj: Task= new Task();
       taskObj.name= this.taskForm.value.name;
       taskObj.id= this.taskForm.value.id;
       taskObj.group= taskGroup;
       taskObj.ui= ui;
       taskObj._links= this.taskForm.value._links;
-  
   
       this.taskService.save(this.taskForm.value)
       .subscribe(resp => {
@@ -523,6 +595,13 @@ export class TasksFormComponent implements OnInit {
   checkRequiredField(): String{
     if(this.taskForm.value.name == null) return 'name'
     else return null
+  }
+
+  updateCartography(cartography)
+  {
+    let url=this.taskToEdit._links.cartography.href.split('{', 1)[0];
+    this.utils.updateUriList(url,[cartography._links.self.href]);
+    this.initialCartography= this.currentCartography
   }
 
 }

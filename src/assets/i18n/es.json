@@ -279,6 +279,15 @@
     "layers": "Capas",
     "code": "Código",
     "groupTask": "Grupo tarea",
+    "status": "Estado"
+  },
+  "tasksEntity": {
+    "generalData": "Datos Generales",
+    "tasks": "Tareas",
+    "task": "Tarea",
+    "name": "Nombre",
+    "informationType": "Tipo de información",
+    "groupTask": "Grupo tarea",
     "status": "Estado",
     "taskUI": "Tarea UI",
     "parameters": "Parámetros",
@@ -291,16 +300,11 @@
     "paramUrl": "Param. URL",
     "type": "Tipo",
     "parameter": "Parámetro",
-    "description":"Descripción"
-  },
-  "tasksEntity": {
-    "generalData": "Datos Generales",
-    "tasks": "Tareas",
-    "task": "Tarea",
-    "name": "Nombre",
-    "informationType": "Tipo de información",
-    "groupTask": "Grupo tarea",
-    "status": "Estado"
+    "code": "Código",
+    "description":"Descripción",
+    "cartography": "Cartografia",
+    "modificate": "Modificar",
+    "deleteCartography": "Eliminar cartografia"
   },
   "tasksQueryEntity": {
     "generalData": "Datos Generales",

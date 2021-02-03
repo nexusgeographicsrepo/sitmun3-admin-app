@@ -280,6 +280,15 @@
     "layers": "Layers",
     "code": "Code",
     "groupTask": "GroupTask",
+    "status": "Status"
+  },
+  "tasksEntity": {
+    "generalData": "General Data",
+    "tasks": "Tasks",
+    "task": "Tasca",
+    "name": "Name",
+    "informationType": "Information Type",
+    "groupTask": "GroupTask",
     "status": "Status",
     "taskUI": "Task UI",
     "parameters": "Parameters",
@@ -292,16 +301,11 @@
     "paramUrl": "Param. URL",
     "type": "Type",
     "parameter": "Parameter",
-    "description":"Description"
-  },
-  "tasksEntity": {
-    "generalData": "General Data",
-    "tasks": "Tasks",
-    "task": "Tasca",
-    "name": "Name",
-    "informationType": "Information Type",
-    "groupTask": "GroupTask",
-    "status": "Status"
+    "description":"Description",
+    "code": "Code",
+    "cartography": "Cartography",
+    "modificate": "Modificate",
+    "deleteCartography": "Delete cartography"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

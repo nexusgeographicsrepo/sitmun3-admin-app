@@ -50,6 +50,41 @@
             </div>
 
       </div>
+
+    <div class="rowFormDiv">     
+
+        <div class="colFormDiv" >
+            <label class="formLabel">
+              {{'tasksEntity.cartography' | translate}}
+            </label>
+            <mat-form-field appearance="outline">
+              <input matInput [readonly]="true" type="text" formControlName="cartography" required>
+            </mat-form-field>
+          </div>
+
+    </div>
+
+    <div class="rowFormDiv">    
+
+        <div class="colFormDiv" >
+
+            <button *ngIf="dataLoaded" (click)="openCartographyDialog()"  mat-flat-button class="cartographyButtonModificate"  >
+                <mat-icon fontSet="material-icons-round"> folder_open </mat-icon>
+                {{ "tasksEntity.modificate" | translate }}
+              </button>
+
+              <button *ngIf="dataLoaded && this.taskForm.value.cartography"  (click)="onDeleteButtonClicked()"  mat-flat-button class="cartographyButtonDelete"  >
+                <mat-icon fontSet="material-icons-round"> clear </mat-icon>
+                {{ "tasksEntity.deleteCartography" | translate }}
+              </button>
+
+       </div>
+
+    </div>
+
+    
+
+
     </form>
 </div>
 
@@ -127,14 +162,16 @@
     
         <div class="rowFormDiv">
         
-           <div class="colFormDiv" >
-                <label class="formLabel">
-                    {{'tasksEntity.fix' | translate}}
-                </label>
-                <mat-checkbox formControlName="required"> </mat-checkbox>
+           <div class="matRadioFormDiv" >
+                <!-- <label class="formLabel"> {{'tasksEntity.fix' | translate}} </label> -->
+                <mat-radio-group formControlName="type">
+                    <mat-radio-button class="radioButtonForm" value="Fix">{{'tasksEntity.fix' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm" value="Usuari">{{'tasksEntity.user' | translate}}</mat-radio-button>
+                    <mat-radio-button  value="Format datainput (WPS)">{{'tasksEntity.formatWPS' | translate}}</mat-radio-button>
+                  </mat-radio-group>
             </div>
         
-           <div class="colFormDiv" >
+           <!-- <div class="colFormDiv" >
                 <label class="formLabel">
                     {{'tasksEntity.user' | translate}}
                 </label>
@@ -146,7 +183,7 @@
                     {{'tasksEntity.formatWPS' | translate}}
                 </label>
                 <mat-checkbox formControlName="format"> </mat-checkbox>
-            </div>
+            </div> -->
 
 
 
@@ -160,7 +197,7 @@
                 {{'tasksEntity.paramUrl' | translate}}
             </label>
             <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="url" required>
+                <input matInput type="text" formControlName="name" required>
             </mat-form-field>
         </div>
 

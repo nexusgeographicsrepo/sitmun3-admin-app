@@ -239,7 +239,7 @@ export class TasksFormComponent implements OnInit {
     }
   
   
-    openCartographyDialog(data: any) {
+    openCartographyDialog() {
       const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
       dialogRef.componentInstance.getAllsTable = [this.getAllCartographiesDialog];
       dialogRef.componentInstance.singleSelectionTable = [true];

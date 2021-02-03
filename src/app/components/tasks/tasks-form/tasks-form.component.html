@@ -62,27 +62,18 @@
             </mat-form-field>
           </div>
 
-    </div>
-
-    <div class="rowFormDiv">    
-
-        <div class="colFormDiv" >
-
-            <button *ngIf="dataLoaded" (click)="openCartographyDialog()"  mat-flat-button class="cartographyButtonModificate"  >
-                <mat-icon fontSet="material-icons-round"> folder_open </mat-icon>
-                {{ "tasksEntity.modificate" | translate }}
-              </button>
-
-              <button *ngIf="dataLoaded && this.taskForm.value.cartography"  (click)="onDeleteButtonClicked()"  mat-flat-button class="cartographyButtonDelete"  >
-                <mat-icon fontSet="material-icons-round"> clear </mat-icon>
-                {{ "tasksEntity.deleteCartography" | translate }}
-              </button>
-
-       </div>
+          <button  *ngIf="dataLoaded && !this.taskForm.value.cartography" title="{{ 'add' | translate }}" mat-mini-fab class=".mat-green"  (click)="openCartographyDialog()" >
+            <mat-icon fontSet="material-icons-round" > add </mat-icon>
+        </button>
+          <button  *ngIf="dataLoaded && this.taskForm.value.cartography" title="{{ 'tasksEntity.modificate' | translate }}" mat-mini-fab class=".mat-orange" (click)="openCartographyDialog()" >
+            <mat-icon fontSet="material-icons-round" > create </mat-icon>
+        </button>
+          <button  *ngIf="dataLoaded && this.taskForm.value.cartography" title="{{ 'tasksEntity.deleteCartography' | translate }}" mat-mini-fab class=".mat-red" (click)="onDeleteButtonClicked()" >
+            <mat-icon fontSet="material-icons-round" > delete </mat-icon>
+        </button>
 
     </div>
-
-    
+  
 
 
     </form>

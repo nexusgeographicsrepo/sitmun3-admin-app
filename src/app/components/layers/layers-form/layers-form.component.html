@@ -6,8 +6,8 @@
   <span class="divider"></span>
 </div>
 
+<form [formGroup]='layerForm' #f="ngForm"	(ngSubmit)="onSaveButtonClicked()">
 <div class="formDiv">
-  <form [formGroup]='layerForm' #f="ngForm"	(ngSubmit)="onSaveButtonClicked()">
     <div class="formHeader">
       <h5> {{'layersEntity.generalData' | translate}} </h5>
       <button type="submit" mat-flat-button  class="saveButton">
@@ -252,7 +252,7 @@
 
     </div>
 
-  </form>
+
 </div>
 
 <div class="tableDiv" *ngIf=" dataLoaded">
@@ -271,7 +271,6 @@
 
       <ng-template matExpansionPanelContent>
         <div class="formDiv">
-          <form [formGroup]='layerForm' #f="ngForm" 	(ngSubmit)="onSaveButtonClicked()" >
 
 
             <div class="rowFormDiv">
@@ -326,7 +325,6 @@
           </div>
          </div> -->
 
-          </form>
         </div>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid'
@@ -434,6 +432,7 @@
 
   </mat-accordion>
 </div>
+</form>
 
 <ng-template #newParameterDialog>
 

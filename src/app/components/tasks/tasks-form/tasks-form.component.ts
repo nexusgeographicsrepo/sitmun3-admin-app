@@ -120,8 +120,8 @@ export class TasksFormComponent implements OnInit {
                 id: this.taskID,
                 name: this.taskToEdit.name,
                 taskGroup: this.taskToEdit.groupId,
-                ui: this.taskUIs[0].id,
-                cartography: 'ri',
+                ui: this.taskToEdit.uiId,
+                cartography: null,
                 _links: this.taskToEdit._links
               });
   

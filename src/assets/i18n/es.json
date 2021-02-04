@@ -329,7 +329,8 @@
     "select": "Select",
     "description": "Descripción",
     "order": "Orden",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksDownloadEntity": {
     "generalData": "Datos Generales",
@@ -346,7 +347,8 @@
     "extent": "Extensión",
     "roles": "Roles",
     "territories": "Territorios",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksDocumentEntity": {
     "generalData": "Datos Generales",
@@ -364,7 +366,8 @@
     "cartography": "Cartografía",
     "territories": "Territorios",
     "name": "Nombre",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksEditionEntity": {
     "generalData": "Datos Generales",
@@ -399,7 +402,8 @@
     "roles": "Roles",
     "territories": "Territorios",
     "columns": "Columnas",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksExtractionFMEEntity": {
     "generalData": "Datos Generales",
@@ -415,7 +419,8 @@
     "territories": "Territorios",
     "description": "Descripción",
     "value": "Valor",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksLocatorEntity": {
     "generalData": "Datos Generales",
@@ -439,7 +444,8 @@
     "select": "Select",
     "description": "Descripción",
     "order": "Orden",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksMoreInfoEntity": {
     "generalData": "Datos Generales",
@@ -464,7 +470,8 @@
     "description": "Descripción",
     "value": "Valor",
     "order": "Orden",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksReportEntity": {
     "generalData": "Datos Generales",
@@ -481,7 +488,8 @@
     "territories": "Territorios",
     "roles": "Roles",
     "id": "ID",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "tasksThematicEntity": {
     "generalData": "Datos Generales",
@@ -497,7 +505,8 @@
     "territories": "Territorios",
     "description": "Descripción",
     "value": "Valor",
-    "status": "Estado"
+    "status": "Estado",
+    "taskName": "Nombre tarea"
   },
   "loginEntity": {
     "username": "Usuario",

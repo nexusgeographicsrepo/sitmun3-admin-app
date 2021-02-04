@@ -21,7 +21,7 @@
         <div class="rowFormDiv">
 
             <div class="MidColFormDiv">
-                <label class="formLabel" >
+                <label class="formLabel requiredInput" >
                     {{'tasksEditionEntity.id' | translate}}
                 </label>
                 <mat-form-field appearance="outline">
@@ -30,7 +30,7 @@
                 </div>
 
             <div class="LargeColFormDiv">
-                <label class="formLabel">
+                <label class="formLabel requiredInput">
                     {{'tasksEditionEntity.editionType' | translate}}
                 </label>
                 <mat-radio-group aria-label="Select an option" formControlName="editionType">
@@ -49,7 +49,7 @@
         <div class="rowFormDiv">
 
             <div class="MidColFormDiv" > 
-                <label class="formLabel ">
+                <label class="formLabel requiredInput">
                     {{'tasksEditionEntity.taskGroup' | translate}}
                 </label>
                 <mat-form-field appearance="outline" >
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="MidLargeColFormDiv" > 
-                <label class="formLabel ">
+                <label class="formLabel requiredInput">
                     {{'tasksEditionEntity.service' | translate}}
                 </label>
                 <mat-form-field appearance="outline" >
@@ -75,7 +75,7 @@
                 </div>
 
             <div class="MidColFormDiv" > 
-                <label class="formLabel ">
+                <label class="formLabel requiredInput">
                     {{'tasksEditionEntity.layerName' | translate}}
                 </label>
                 <mat-form-field appearance="outline" >
@@ -144,15 +144,15 @@
         
         <div class="rowFormDiv">
 
-            <div class="checkTwoFormDiv" > 
+            <div class="ShortColFormDiv" > 
                 <label class="formLabel">
                     {{'tasksEditionEntity.municipalityFilter' | translate}}
                 </label>
                 <mat-checkbox formControlName="municipalityFilter"> </mat-checkbox>
             </div>
 
-            <div class="singleFormDiv">
-                <label class="formLabel" >
+            <div class="colFormDiv">
+                <label class="formLabel requiredInput" >
                     {{'tasksEditionEntity.fieldName' | translate}}
                 </label>
                 <mat-form-field appearance="outline">

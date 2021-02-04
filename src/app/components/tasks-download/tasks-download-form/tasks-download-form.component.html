@@ -21,7 +21,7 @@
         <div class="rowFormDiv">
             <div class="colFormDiv">
               <label class="formLabel requiredInput">
-                {{'tasksDownloadEntity.task' | translate}}
+                {{'tasksDownloadEntity.taskName' | translate}}
               </label>
               <mat-form-field appearance="outline">
                 <input matInput type="text" formControlName="task" required>
@@ -29,7 +29,7 @@
             </div>
   
             <div class="colFormDiv" > 
-              <label class="formLabel requiredInput">
+              <label class="formLabel">
                 {{'tasksDownloadEntity.groupTask' | translate}}
               </label>
               <mat-form-field appearance="outline" >
@@ -51,7 +51,7 @@
               </div>
   
               <div class="colFormDiv" id="right-column">
-                <label class="formLabel">
+                <label class="formLabel requiredInput">
                   {{'tasksDownloadEntity.extent' | translate}}
                 </label>
                 <mat-form-field appearance="outline">

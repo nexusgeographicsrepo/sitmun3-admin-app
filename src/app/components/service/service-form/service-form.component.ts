@@ -209,15 +209,9 @@ export class ServiceFormComponent implements OnInit {
       serviceURL: new FormControl(null, [
         Validators.required,
       ]),
-      proxyUrl: new FormControl(null, [
-        Validators.required,
-      ]),
-      supportedSRS: new FormControl(null, [
-        Validators.required,
-      ]),
-      getInformationURL: new FormControl(null, [
-        Validators.required,
-      ]),
+      proxyUrl: new FormControl(null,),
+      supportedSRS: new FormControl(null),
+      getInformationURL: new FormControl(null,),
       _links: new FormControl(null, []),
       blocked: new FormControl(null, []), 
     });
@@ -447,26 +441,31 @@ export class ServiceFormComponent implements OnInit {
     // this.serviceForm.patchValue({
     //   supportedSRS: this.projections.join(';')
     // })
-    this.serviceForm.patchValue({
-      supportedSRS: this.projections
-    })
-  console.log(this.serviceForm.value);
-    this.serviceService.save(this.serviceForm.value)
-    .subscribe(resp => {
-      console.log(resp);
-      this.serviceToEdit=resp;
-      this.serviceID=resp.id;
+    if(this.serviceForm.valid)
+    {
       this.serviceForm.patchValue({
-        id: resp.id,
-        _links: resp._links
+        supportedSRS: this.projections
       })
-      this.getAllElementsEventParameters.next(true);
-      this.getAllElementsEventLayers.next(true);
-    },
-    error=> {
-      console.log(error);
-    });
-
+    console.log(this.serviceForm.value);
+      this.serviceService.save(this.serviceForm.value)
+      .subscribe(resp => {
+        console.log(resp);
+        this.serviceToEdit=resp;
+        this.serviceID=resp.id;
+        this.serviceForm.patchValue({
+          id: resp.id,
+          _links: resp._links
+        })
+        this.getAllElementsEventParameters.next(true);
+        this.getAllElementsEventLayers.next(true);
+      },
+      error=> {
+        console.log(error);
+      });
+    }
+  	else{
+      this.utils.showRequiredFieldsError();
+    }
 
 
 

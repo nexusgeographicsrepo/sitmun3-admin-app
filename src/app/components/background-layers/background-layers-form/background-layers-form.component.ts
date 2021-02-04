@@ -111,47 +111,50 @@ export class BackgroundLayersFormComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
       ]),
-      description: new FormControl(null, [
-        Validators.required,
-      ]),
-      cartographyGroup: new FormControl(null, [
-        Validators.required,
-      ]),
-      active: new FormControl(null, [
-        Validators.required,
-      ]),
-      _links: new FormControl(null, []),
+      description: new FormControl(null),
+      cartographyGroup: new FormControl(null),
+      active: new FormControl(null),
+      _links: new FormControl(null),
 
     });
 
   }
 
   onSaveButtonClicked(){
-    let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
-    if(cartographyGroup==undefined){
-      cartographyGroup=null
+    
+    if(this.backgroundForm.valid)
+    {
+      let cartographyGroup= this.permissionGroups.find(x => x.id===this.backgroundForm.value.cartographyGroup )
+      if(cartographyGroup==undefined){
+        cartographyGroup=null
+      }
+  
+      var backgroundObj: Background=new Background();
+      backgroundObj.name= this.backgroundForm.value.name;
+      backgroundObj.description= this.backgroundForm.value.description;
+      backgroundObj.cartographyGroup=cartographyGroup
+      backgroundObj.active= this.backgroundForm.value.active;
+      backgroundObj._links= this.backgroundForm.value._links;
+  
+      this.backgroundService.save(backgroundObj)
+        .subscribe(resp => {
+          console.log(resp);
+          this.backgroundToEdit=resp;
+          this.backgroundID=resp.id;
+          this.backgroundForm.patchValue({
+            id: resp.id,
+            _links: resp._links
+          })
+        },
+        error=>{
+          console.log("error")
+        });
+    }
+    else {
+      this.utils.showRequiredFieldsError();
     }
 
-    var backgroundObj: Background=new Background();
-    backgroundObj.name= this.backgroundForm.value.name;
-    backgroundObj.description= this.backgroundForm.value.description;
-    backgroundObj.cartographyGroup=cartographyGroup
-    backgroundObj.active= this.backgroundForm.value.active;
-    backgroundObj._links= this.backgroundForm.value._links;
 
-    this.backgroundService.save(backgroundObj)
-      .subscribe(resp => {
-        console.log(resp);
-        this.backgroundToEdit=resp;
-        this.backgroundID=resp.id;
-        this.backgroundForm.patchValue({
-          id: resp.id,
-          _links: resp._links
-        })
-      },
-      error=>{
-        console.log("error")
-      });
     }
 
 }

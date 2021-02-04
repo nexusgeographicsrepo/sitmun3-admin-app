@@ -78,19 +78,24 @@ export class TaskGroupFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.taskGroupService.save(this.formtaskGroup.value)
-      .subscribe(resp => {
-        console.log(resp); 
-        this.taskGroupToEdit=resp;
-        this.formtaskGroup.patchValue({
-          id: resp.id,
-          _links: resp._links
-        })
-      },
-      error => {
-        console.log(error);
-      });
-
+    if(this.formtaskGroup.valid)
+    {
+        this.taskGroupService.save(this.formtaskGroup.value)
+          .subscribe(resp => {
+            console.log(resp); 
+            this.taskGroupToEdit=resp;
+            this.formtaskGroup.patchValue({
+              id: resp.id,
+              _links: resp._links
+            })
+          },
+          error => {
+            console.log(error);
+          });
+    }
+    else{
+      this.utils.showRequiredFieldsError();
+    }
 
   }
 

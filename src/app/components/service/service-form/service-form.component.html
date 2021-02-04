@@ -10,24 +10,25 @@
 
 
 <div class="formDiv">
-  <div class="formHeader">
-    <h5> {{'serviceEntity.generalData' | translate}} </h5>
-    <button   mat-flat-button class="saveButton" (click)="onSaveButtonClicked()" >
-      <mat-icon fontSet="material-icons-round"  > save </mat-icon>
-      {{ "save" | translate }}
-    </button>
-    <button (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
-      <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
-      {{ "return" | translate }}
-    </button>
-  </div>
-  <span class="divider"></span>
   <form [formGroup]='serviceForm' #f="ngForm"> 
+      <div class="formHeader">
+        <h5> {{'serviceEntity.generalData' | translate}} </h5>
+        <button type="submit"  mat-flat-button class="saveButton" (click)="onSaveButtonClicked()" >
+          <mat-icon fontSet="material-icons-round"  > save </mat-icon>
+          {{ "save" | translate }}
+        </button>
+        <button type="button" (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
+          <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
+          {{ "return" | translate }}
+        </button>
+      </div>
+      <span class="divider"></span>
+
 
 
       <div class="rowFormDiv">
       
-          <div class="thirdColumnColFormDiv" >
+          <div class="MidColFormDiv" >
             <label class="formLabel requiredInput">
               {{'serviceEntity.name' | translate}}
             </label>
@@ -36,19 +37,19 @@
             </mat-form-field>
           </div>
   
-          <div class="thirdColumnColFormDiv" >
+          <div class="MidColFormDiv" >
             <label class="formLabel requiredInput">
               {{'serviceEntity.type' | translate}}
             </label>
             <mat-form-field appearance="outline" >
-              <mat-select matInput formControlName="type" class="form-control" >
+              <mat-select matInput formControlName="type" class="form-control" required >
                 <mat-option [value]="serviceType.value" *ngFor="let serviceType of serviceTypes">
                   {{ serviceType.description}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="thirdColumnColFormDiv">
+          <div class="ShortColFormDiv " id="right-column">
             <label class="formLabel">
               {{'serviceEntity.available' | translate}}
             </label>
@@ -56,12 +57,12 @@
           </div>
           
           
-            <button *ngIf="serviceID==-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
-            <button *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.updateData" | translate }}</button>
+            <button type="button" *ngIf="serviceID==-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
+            <button type="button" *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.updateData" | translate }}</button>
      </div>
 
       <div class="rowFormDiv">
-          <div class="colFormDiv" >
+          <div class="MidColFormDiv" >
             <label class="formLabel requiredInput">
               {{'serviceEntity.url' | translate}}
             </label>
@@ -69,7 +70,7 @@
               <input matInput type="text" formControlName="serviceURL" required>
             </mat-form-field>
           </div>
-          <div class="colFormDiv" >
+          <div class="MidColFormDiv" >
             <label class="formLabel">
               {{'serviceEntity.metadataURL' | translate}}
             </label>
@@ -78,7 +79,7 @@
             </mat-form-field>
         </div>
 
-        <div class="colFormDiv" >
+        <div class="MidColFormDiv" >
           <label class="formLabel">
             {{'serviceEntity.projections' | translate}}
           </label>

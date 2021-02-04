@@ -21,7 +21,7 @@
         <div class="rowFormDiv">
             <div class="colFormDiv">
               <label class="formLabel requiredInput">
-                {{'tasksMoreInfoEntity.task' | translate}}
+                {{'tasksMoreInfoEntity.taskName' | translate}}
               </label>
               <mat-form-field appearance="outline">
                 <input matInput type="text" formControlName="task" required>
@@ -29,7 +29,7 @@
             </div>
   
             <div class="colFormDiv" > 
-              <label class="formLabel requiredInput">
+              <label class="formLabel ">
                 {{'tasksMoreInfoEntity.groupTask' | translate}}
               </label>
               <mat-form-field appearance="outline" >
@@ -43,7 +43,7 @@
   
 
             <div class="colFormDiv">
-                <label class="formLabel">
+                <label class="formLabel requiredInput">
                   {{'tasksMoreInfoEntity.accessType' | translate}}
                 </label>
                 <mat-form-field appearance="outline">
@@ -63,7 +63,7 @@
   
 
         <div class="rowFormDiv">
-            <div class="colFormTwoColumnsDiv" >
+            <div class="colFormDiv" >
                 <label class="formLabel requiredInput">
                     {{'tasksMoreInfoEntity.connection' | translate}}
                   </label>
@@ -75,7 +75,7 @@
                     </mat-select>
                   </mat-form-field>
             </div>
-            <div class="colFormTwoColumnsDiv" id="right-column">
+            <div class="colFormDiv" id="right-column">
                 <label class="formLabel">
                   {{'tasksMoreInfoEntity.associatedLayer' | translate}}
                 </label>

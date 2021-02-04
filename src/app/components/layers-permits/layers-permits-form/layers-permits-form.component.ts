@@ -215,8 +215,15 @@ export class LayersPermitsFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
+
+    var urlReq = `${this.layersPermitsToEdit._links.roles.href}`
+    if (this.layersPermitsToEdit._links.roles.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
    
-    return (this.http.get(`${this.layersPermitsToEdit._links.roles.href}`))
+    return (this.http.get(urlReq))
        .pipe(map(data => data['_embedded']['roles']));
 
   }
@@ -310,22 +317,27 @@ export class LayersPermitsFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.cartographyGroupService.save(this.formLayersPermits.value)
-    .subscribe(resp => {
-      console.log(resp);
-      this.layersPermitsToEdit=resp;
-      this.layersPermitsID=resp.id
-      this.formLayersPermits.patchValue({
-        id: resp.id,
-        _links: resp._links
-      })
-      this.getAllElementsEventCartographies.next(true);
-      this.getAllElementsEventRoles.next(true);
-    },
-    error => {
-      console.log(error);
-    });
-
+    if(this.formLayersPermits.valid)
+    {
+        this.cartographyGroupService.save(this.formLayersPermits.value)
+        .subscribe(resp => {
+          console.log(resp);
+          this.layersPermitsToEdit=resp;
+          this.layersPermitsID=resp.id
+          this.formLayersPermits.patchValue({
+            id: resp.id,
+            _links: resp._links
+          })
+          this.getAllElementsEventCartographies.next(true);
+          this.getAllElementsEventRoles.next(true);
+        },
+        error => {
+          console.log(error);
+        });
+    }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
 
   }
 

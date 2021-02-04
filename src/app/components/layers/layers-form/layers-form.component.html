@@ -6,20 +6,21 @@
   <span class="divider"></span>
 </div>
 
+<form [formGroup]='layerForm' #f="ngForm"	(ngSubmit)="onSaveButtonClicked()">
 <div class="formDiv">
-  <div class="formHeader">
-    <h5> {{'layersEntity.generalData' | translate}} </h5>
-    <button mat-flat-button (click)="onSaveButtonClicked()" class="saveButton">
-      <mat-icon fontSet="material-icons-round"> save </mat-icon>
-      {{ "save" | translate }}
-    </button>
-    <button (click)="utils.navigateBack()" mat-flat-button class="returnButton">
-      <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
-      {{ "return" | translate }}
-    </button>
-  </div>
-  <span class="divider"></span>
-  <form [formGroup]='layerForm' #f="ngForm">
+    <div class="formHeader">
+      <h5> {{'layersEntity.generalData' | translate}} </h5>
+      <button type="submit" mat-flat-button  class="saveButton">
+        <mat-icon fontSet="material-icons-round"> save </mat-icon>
+        {{ "save" | translate }}
+      </button>
+      <button type="button" (click)="utils.navigateBack()" mat-flat-button class="returnButton">
+        <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
+        {{ "return" | translate }}
+      </button>
+    </div>
+    <span class="divider"></span>
+
 
     <div class="rowFormDiv">
       <div class="colFormDiv">
@@ -63,7 +64,7 @@
     </div>
 
     <div class="rowFormDiv">
-      <div class="fiveColumnColFormDiv">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.minimumScale' | translate}}
         </label>
@@ -72,7 +73,7 @@
         </mat-form-field>
       </div>
 
-      <div class="fiveColumnColFormDiv">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.maximumScale' | translate}}
         </label>
@@ -82,7 +83,7 @@
       </div>
 
 
-      <div class="fiveColumnColFormDiv">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.order' | translate}}
         </label>
@@ -91,7 +92,7 @@
         </mat-form-field>
       </div>
 
-      <div class="fiveColumnColFormDiv">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.transparency' | translate}}
         </label>
@@ -174,7 +175,7 @@
           {{'layersEntity.municipalFilterFields' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="applyFilterToGetMap" required>
+          <input matInput type="text" formControlName="applyFilterToGetMap" >
         </mat-form-field>
       </div>
 
@@ -203,14 +204,14 @@
 
     <div class="rowFormDiv">
 
-      <div class="colFormDivInformation">
+      <div class="ShortColFormDiv">
         <label class="formLabel">
           {{'layersEntity.information' | translate}}
         </label>
         <mat-checkbox formControlName="queryableFeatureEnabled"> </mat-checkbox>
       </div>
 
-      <div class="colFormDivShortCheckbox">
+      <div class="ShortColFormDiv">
         <label class="formLabel">
           {{'layersEntity.defaultInformation' | translate}}
         </label>
@@ -228,7 +229,7 @@
 
     </div>
     <div class="rowFormDiv">
-      <div class="colFormDivShortCheckbox">
+      <div class="ShortColFormDiv">
         <label class="formLabel">
           {{'layersEntity.thematic' | translate}}
         </label>
@@ -251,7 +252,7 @@
 
     </div>
 
-  </form>
+
 </div>
 
 <div class="tableDiv" *ngIf=" dataLoaded">
@@ -270,11 +271,10 @@
 
       <ng-template matExpansionPanelContent>
         <div class="formDiv">
-          <form [formGroup]='layerForm' #f="ngForm">
 
 
             <div class="rowFormDiv">
-              <div class="colFormDivShortCheckbox">
+              <div class="ShortColFormDiv">
                 <label class="formLabel">
                   {{'layersEntity.selectable' | translate}}
                 </label>
@@ -325,7 +325,6 @@
           </div>
          </div> -->
 
-          </form>
         </div>
         <div class="appDataGridEditDiv">
           <app-data-grid [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid'
@@ -433,6 +432,7 @@
 
   </mat-accordion>
 </div>
+</form>
 
 <ng-template #newParameterDialog>
 
@@ -483,7 +483,7 @@
             {{'layersEntity.order' | translate}}
           </label>
           <mat-form-field appearance="outline">
-            <input matInput type="number" formControlName="order" required>
+            <input matInput type="number" formControlName="order" >
           </mat-form-field>
         </div>
 

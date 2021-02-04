@@ -436,8 +436,8 @@ export class LayersFormComponent implements OnInit {
     this.layerForm = new FormGroup({
       id: new FormControl(null, []),
       name: new FormControl(null, [Validators.required]),
-      service: new FormControl(null),
-      layers: new FormControl(null),
+      service: new FormControl(null, [Validators.required]),
+      layers: new FormControl(null, [Validators.required]),
       minimumScale: new FormControl(null, []),
       maximumScale: new FormControl(null, []),
       geometryType: new FormControl(null, []),
@@ -448,17 +448,17 @@ export class LayersFormComponent implements OnInit {
       legendUrl: new FormControl(null, []),
       description: new FormControl(null, []),
       datasetURL: new FormControl(null, []),//here
-      applyFilterToGetMap: new FormControl(null, []),
+      applyFilterToGetMap: new FormControl(null, [Validators.required]),
       applyFilterToGetFeatureInfo: new FormControl(null, []),
       applyFilterToSpatialSelection: new FormControl(null, []),
       queryableFeatureEnabled: new FormControl(null, []),
       queryableFeatureAvailable: new FormControl(null, []),
-      queryableLayers: new FormControl(null, []),
+      queryableLayers: new FormControl(null, [Validators.required]),
       thematic: new FormControl(null, []),
       blocked: new FormControl(null, []),
-      selectableFeatureEnabled: new FormControl(null, []),
-      spatialSelectionService: new FormControl(null, []),
-      selectableLayers: new FormControl(null, []),
+      selectableFeatureEnabled: new FormControl(null, [], ),
+      spatialSelectionService: new FormControl(null, [Validators.required]),
+      selectableLayers: new FormControl(null, [Validators.required]),
       spatialSelectionConnection: new FormControl(null, []),
       _links: new FormControl(null, []),
     });
@@ -935,6 +935,10 @@ export class LayersFormComponent implements OnInit {
     //Save Button
   
     onSaveButtonClicked(){
+
+      if(this.layerForm.valid)
+      {
+
       let service= this.services.find(x => x.id===this.layerForm.value.service )
       if(service==undefined){
         service=null
@@ -991,7 +995,10 @@ export class LayersFormComponent implements OnInit {
         this.getAllElementsEventNodes.next(true);
 
       });
-
+    }
+    else{
+        this.utils.showRequiredFieldsError();
+      }
   
     }
 }

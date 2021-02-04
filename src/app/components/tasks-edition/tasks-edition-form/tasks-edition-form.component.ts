@@ -243,10 +243,7 @@ export class TasksEditionFormComponent implements OnInit {
     }
     return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['task-availabilities']) );
-    
-     
-     const aux: Array<any> = [];
-     return of(aux);
+
      
    }
  

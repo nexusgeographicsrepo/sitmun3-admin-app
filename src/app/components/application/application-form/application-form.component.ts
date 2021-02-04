@@ -330,15 +330,9 @@ export class ApplicationFormComponent implements OnInit {
       type: new FormControl(null, [
         Validators.required,
       ]),
-      title: new FormControl(null, [
-        Validators.required,
-      ]),
-      jspTemplate: new FormControl(null, [
-        Validators.required,
-      ]),
-      theme: new FormControl(null, [
-        Validators.required,
-      ]),
+      title: new FormControl(null),
+      jspTemplate: new FormControl(null),
+      theme: new FormControl(null),
       /*mobileUrl: new FormControl(null, [
         Validators.required,
       ]),
@@ -351,18 +345,10 @@ export class ApplicationFormComponent implements OnInit {
       moveSupramunicipal: new FormControl(null, [
         Validators.required,
       ]),*/
-      situationMap: new FormControl(null, [
-        Validators.required,
-      ]),
-      scales: new FormControl(null, [
-        Validators.required,
-      ]),
-      srs: new FormControl(null, [
-        Validators.required,
-      ]),
-      treeAutoRefresh: new FormControl(null, [
-        Validators.required,
-      ]),
+      situationMap: new FormControl(null, ),
+      scales: new FormControl(null),
+      srs: new FormControl(null),
+      treeAutoRefresh: new FormControl(null),
       _links: new FormControl(null, []),
 
     });
@@ -393,7 +379,14 @@ export class ApplicationFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.applicationToEdit._links.parameters.href}`))
+    var urlReq = `${this.applicationToEdit._links.parameters.href}`
+    if (this.applicationToEdit._links.parameters.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
       .pipe(map(data =>  data[`_embedded`][`application-parameters`].filter(elem=> elem.type!="PRINT_TEMPLATE")
       ));
   } 
@@ -451,7 +444,14 @@ export class ApplicationFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.applicationToEdit._links.parameters.href}`))
+    var urlReq = `${this.applicationToEdit._links.parameters.href}`
+    if (this.applicationToEdit._links.parameters.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
     .pipe(map(data =>  data[`_embedded`][`application-parameters`].filter(elem=> elem.type=="PRINT_TEMPLATE")
       ));
   }
@@ -486,7 +486,15 @@ export class ApplicationFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    return (this.http.get(`${this.applicationToEdit._links.availableRoles.href}`))
+
+    var urlReq = `${this.applicationToEdit._links.availableRoles.href}`
+    if (this.applicationToEdit._links.availableRoles.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
       .pipe(map(data => data[`_embedded`][`roles`]));
   }
 
@@ -798,56 +806,60 @@ export class ApplicationFormComponent implements OnInit {
 
     // Save button
 
-    onSaveButtonClicked(){
+  onSaveButtonClicked(){
 
-
-      let situationMap= this.situationMapList.find(x => x.id===this.applicationForm.value.situationMap )
-      if(situationMap==undefined){
-        situationMap=null
-      }
-  
-      var appObj: Application=new Application();
-     
-      appObj.name= this.applicationForm.value.name;
-      appObj.type= this.applicationForm.value.type;
-      appObj.title= this.applicationForm.value.title;
-      appObj.jspTemplate= this.applicationForm.value.jspTemplate;
-      appObj.theme= this.applicationForm.value.theme;
-      appObj.scales= (this.applicationForm.value.scales.toString()).split(",");
-      appObj.srs= this.applicationForm.value.srs;
-      appObj.treeAutoRefresh= this.applicationForm.value.treeAutoRefresh;
-      appObj._links= this.applicationForm.value._links;
-      appObj.situationMap=situationMap;
-      if(this.applicationID==-1){
-        appObj.createdDate=new Date();
-      }else{
-        appObj.id=this.applicationForm.value.id;
-        appObj.createdDate=this.applicationToEdit.createdDate
-      }
-  
- 
-      this.applicationService.save(appObj)
-      .subscribe(resp => {
-        console.log(resp);
-        this.applicationToEdit = resp;
-        this.applicationID = this.applicationToEdit.id;
-        this.applicationForm.patchValue({
-          id: resp.id,
-          _links: resp._links
-        })
-        this.getAllElementsEventParameters.next(true);
-        this.getAllElementsEventTemplateConfiguration.next(true);
-        this.getAllElementsEventRoles.next(true);
-        this.getAllElementsEventBackground.next(true);
-        this.getAllElementsEventTree.next(true);
-      },
-      error => {
-        console.log(error)
-      });
-
-
-  
+    if(this.applicationForm.valid)
+    {
+        let situationMap= this.situationMapList.find(x => x.id===this.applicationForm.value.situationMap )
+        if(situationMap==undefined){
+          situationMap=null
+        }
+    
+        var appObj: Application=new Application();
+        
+        appObj.name= this.applicationForm.value.name;
+        appObj.type= this.applicationForm.value.type;
+        appObj.title= this.applicationForm.value.title;
+        appObj.jspTemplate= this.applicationForm.value.jspTemplate;
+        appObj.theme= this.applicationForm.value.theme;
+        appObj.scales= (this.applicationForm.value.scales.toString()).split(",");
+        appObj.srs= this.applicationForm.value.srs;
+        appObj.treeAutoRefresh= this.applicationForm.value.treeAutoRefresh;
+        appObj._links= this.applicationForm.value._links;
+        appObj.situationMap=situationMap;
+        if(this.applicationID==-1){
+          appObj.createdDate=new Date();
+        }else{
+          appObj.id=this.applicationForm.value.id;
+          appObj.createdDate=this.applicationToEdit.createdDate
+        }
+    
+    
+        this.applicationService.save(appObj)
+        .subscribe(resp => {
+          console.log(resp);
+          this.applicationToEdit = resp;
+          this.applicationID = this.applicationToEdit.id;
+          this.applicationForm.patchValue({
+            id: resp.id,
+            _links: resp._links
+          })
+          this.getAllElementsEventParameters.next(true);
+          this.getAllElementsEventTemplateConfiguration.next(true);
+          this.getAllElementsEventRoles.next(true);
+          this.getAllElementsEventBackground.next(true);
+          this.getAllElementsEventTree.next(true);
+        },
+        error => {
+          console.log(error)
+        });
     }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
+
+
+  }
 
 
 }

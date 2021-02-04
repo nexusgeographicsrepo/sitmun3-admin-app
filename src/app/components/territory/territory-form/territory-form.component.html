@@ -8,19 +8,20 @@
 
 
 <div class="formDiv">
-  <div class="formHeader">
-    <h5> {{'taskGroupEntity.generalData' | translate}} </h5>
-    <button mat-flat-button (click)="onSaveButtonClicked()" class="saveButton">
-      <mat-icon fontSet="material-icons-round"> save </mat-icon>
-      {{ "save" | translate }}
-    </button>
-    <button (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
-      <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
-      {{ "return" | translate }}
-    </button>
-  </div>
-  <span class="divider"></span>
-  <form [formGroup]='territoryForm' #f="ngForm">
+  <form [formGroup]='territoryForm' #f="ngForm" 	(ngSubmit)="onSaveButtonClicked()">
+    <div class="formHeader">
+      <h5> {{'taskGroupEntity.generalData' | translate}} </h5>
+      <button mat-flat-button  class="saveButton">
+        <mat-icon fontSet="material-icons-round"> save </mat-icon>
+        {{ "save" | translate }}
+      </button>
+      <button type="button" (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
+        <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
+        {{ "return" | translate }}
+      </button>
+    </div>
+    <span class="divider"></span>
+
     <div class="rowFormDiv">
       <div class="HalfMidLargeColFormDiv">
         <label class="formLabel requiredInput">
@@ -36,7 +37,7 @@
           {{'territoryEntity.name' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="name" required>
+          <input matInput type="text" formControlName="name" >
         </mat-form-field>
       </div>
 

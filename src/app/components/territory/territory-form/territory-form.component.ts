@@ -264,39 +264,19 @@ export class TerritoryFormComponent implements OnInit {
       code: new FormControl(null, [
         Validators.required,
       ]),
-      name: new FormControl(null, [
-        Validators.required,
-      ]),
-      territorialAuthorityAddress: new FormControl(null, [
-        Validators.required,
-      ]),
-      territorialAuthorityLogo: new FormControl(null, [
-        Validators.required,
-      ]),
-      scope: new FormControl(null, [
-        Validators.required,
-      ]),
-      groupType: new FormControl(null, [
-        Validators.required,
-      ]),
-      extensionX0: new FormControl(null, [
-        Validators.required,
-      ]),
-      extensionX1: new FormControl(null, [
-        Validators.required,
-      ]),
-      extensionY0: new FormControl(null, [
-        Validators.required,
-      ]),
-      extensionY1: new FormControl(null, [
-        Validators.required,
-      ]),
-      extent: new FormControl(null, []),
-      note: new FormControl(null, [
-        Validators.required,
-      ]),
-      blocked: new FormControl(null, []),
-      _links: new FormControl(null, []),
+      name: new FormControl(null),
+      territorialAuthorityAddress: new FormControl(null),
+      territorialAuthorityLogo: new FormControl(null),
+      scope: new FormControl(null),
+      groupType: new FormControl(null),
+      extensionX0: new FormControl(null),
+      extensionX1: new FormControl(null),
+      extensionY0: new FormControl(null),
+      extensionY1: new FormControl(null),
+      extent: new FormControl(null),
+      note: new FormControl(null),
+      blocked: new FormControl(null),
+      _links: new FormControl(null),
 
     })
 
@@ -882,54 +862,61 @@ export class TerritoryFormComponent implements OnInit {
   //Save button
 
   onSaveButtonClicked() {
-    console.log(this.territoryForm.value)
-    this.updateExtent();
 
-    let groupType = this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
-    if (groupType == undefined) {
-      groupType = "";
+    if(this.territoryForm.valid)
+    {
+        console.log(this.territoryForm.value)
+        this.updateExtent();
+    
+        let groupType = this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
+        if (groupType == undefined) {
+          groupType = "";
+        }
+    
+    
+        this.terrritoryObj = new Territory();
+        this.terrritoryObj.id = this.territoryID,
+          this.terrritoryObj.code = this.territoryForm.value.code,
+          this.terrritoryObj.name = this.territoryForm.value.name,
+          this.terrritoryObj.territorialAuthorityAddress = this.territoryForm.value.territorialAuthorityAddress,
+          this.terrritoryObj.territorialAuthorityLogo = this.territoryForm.value.territorialAuthorityLogo,
+          //this.terrritoryObj.territorialAuthorityLogo= null,
+          this.terrritoryObj.scope = this.territoryForm.value.scope,
+          this.terrritoryObj.groupType = groupType,
+          console.log(this.terrritoryObj.groupType);
+        this.terrritoryObj.extent = this.territoryForm.value.extent,
+          this.terrritoryObj.note = this.territoryForm.value.note,
+          this.terrritoryObj.blocked = this.territoryForm.value.blocked,
+          this.terrritoryObj._links = this.territoryForm.value._links
+    
+        if (this.territoryID == -1) {
+          this.terrritoryObj.createdDate = new Date();
+        } else {
+          this.terrritoryObj.id = this.territoryForm.value.id;
+          this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
+        }
+        this.territoryService.save(this.terrritoryObj)
+          .subscribe(resp => {
+            console.log(resp);
+            this.territoryToEdit = resp;
+            this.territoryID = resp.id;
+            this.territoryForm.patchValue({
+              id: resp.id,
+              _links: resp._links
+            })
+            this.getAllElementsEventPermits.next(true);
+            this.getAllElementsEventCartographies.next(true);
+            this.getAllElementsEventTasks.next(true);
+            this.getAllElementsEventTerritoriesMemberOf.next(true);
+            this.getAllElementsEventTerritoriesMembers.next(true);
+          },
+            error => {
+              console.log(error);
+            });
     }
-
-
-    this.terrritoryObj = new Territory();
-    this.terrritoryObj.id = this.territoryID,
-      this.terrritoryObj.code = this.territoryForm.value.code,
-      this.terrritoryObj.name = this.territoryForm.value.name,
-      this.terrritoryObj.territorialAuthorityAddress = this.territoryForm.value.territorialAuthorityAddress,
-      this.terrritoryObj.territorialAuthorityLogo = this.territoryForm.value.territorialAuthorityLogo,
-      //this.terrritoryObj.territorialAuthorityLogo= null,
-      this.terrritoryObj.scope = this.territoryForm.value.scope,
-      this.terrritoryObj.groupType = groupType,
-      console.log(this.terrritoryObj.groupType);
-    this.terrritoryObj.extent = this.territoryForm.value.extent,
-      this.terrritoryObj.note = this.territoryForm.value.note,
-      this.terrritoryObj.blocked = this.territoryForm.value.blocked,
-      this.terrritoryObj._links = this.territoryForm.value._links
-
-    if (this.territoryID == -1) {
-      this.terrritoryObj.createdDate = new Date();
-    } else {
-      this.terrritoryObj.id = this.territoryForm.value.id;
-      this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
+    else {
+      this.utils.showRequiredFieldsError();
     }
-    this.territoryService.save(this.terrritoryObj)
-      .subscribe(resp => {
-        console.log(resp);
-        this.territoryToEdit = resp;
-        this.territoryID = resp.id;
-        this.territoryForm.patchValue({
-          id: resp.id,
-          _links: resp._links
-        })
-        this.getAllElementsEventPermits.next(true);
-        this.getAllElementsEventCartographies.next(true);
-        this.getAllElementsEventTasks.next(true);
-        this.getAllElementsEventTerritoriesMemberOf.next(true);
-        this.getAllElementsEventTerritoriesMembers.next(true);
-      },
-        error => {
-          console.log(error);
-        });
 
   }
 

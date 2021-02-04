@@ -47,7 +47,7 @@
       loading</app-data-tree>
   </div>
   <div class="formDivTreeRight">
-    <form [formGroup]='treeNodeForm' #f="ngForm">
+    <form [formGroup]='treeNodeForm' #f="ngForm" (ngSubmit)="onSaveFormButtonClicked()">
       <div class="rowFormDiv">
         <div class="colFormDiv" *ngIf="currentNodeIsFolder != undefined">
           <label class="formLabel requiredInput">

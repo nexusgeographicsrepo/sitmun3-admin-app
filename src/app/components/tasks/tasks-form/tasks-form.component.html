@@ -7,15 +7,17 @@
 </div>
 
 <div class="formDiv">
-  <div class="formHeader">
-    <h5> {{'tasksEntity.generalData' | translate}} </h5>
-    <button mat-flat-button (click)='onSaveButtonClicked()' class="saveButton">
-      <mat-icon fontSet="material-icons-round"> save </mat-icon>
-      {{ "save" | translate }}
-    </button>
-  </div>
-  <span class="divider"></span>
-  <form [formGroup]='taskForm' #f="ngForm">
+  <form [formGroup]='taskForm' #f="ngForm" (ngSubmit)="onSaveButtonClicked()">
+    <div class="formHeader">
+      
+      <h5> {{'tasksEntity.generalData' | translate}} </h5>
+      <button mat-flat-button type="submit"  class="saveButton" >
+        <mat-icon fontSet="material-icons-round"> save </mat-icon>
+        {{ "save" | translate }}
+      </button>
+    </div>
+    <span class="divider"></span>
+
     <div class="rowFormDiv">
       <div class="colFormDiv">
         <label class="formLabel requiredInput">
@@ -61,7 +63,7 @@
           {{'tasksEntity.cartography' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput [readonly]="true" type="text" formControlName="cartography" required>
+          <input matInput [readonly]="true" type="text" formControlName="cartography" >
         </mat-form-field>
       </div>
       <div class="HalfMidLargeColFormDiv">
@@ -200,7 +202,7 @@
           <label *ngIf="parameterForm.value.type==='DATAINPUT'" class="formLabel requiredInput">
             {{'tasksEntity.formatWPS' | translate}} </label>
           <mat-form-field appearance="outline">
-            <input matInput type="text" formControlName="value" required>
+            <input matInput type="text" formControlName="value" >
           </mat-form-field>
         </div>
 
@@ -209,7 +211,7 @@
             {{'tasksEntity.order' | translate}}
           </label>
           <mat-form-field appearance="outline">
-            <input matInput type="number" formControlName="order" required>
+            <input matInput type="number" formControlName="order" >
           </mat-form-field>
         </div>
 

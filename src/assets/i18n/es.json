@@ -29,8 +29,9 @@
   "projectionMessage": "Introdueix EPSG:Código",
   "projectionsMessage": "Introduce todas las proyecciones EPSG:Código separadas por intros",
   "passwordMessage" : "Los campos contraseña y confirmar contraseña no coinciden!",
-  "requiredFieldMessage": "Rellene el campo ",
-  "caution": "Importante",
+  "requiredFieldMessage": "Rellene todos los campos obligatorios",
+  "caution": "Peligro",
+  "atention": "Atención",
   "lang": {
     "catalan": "Catalán",
     "spanish": "Castellano",

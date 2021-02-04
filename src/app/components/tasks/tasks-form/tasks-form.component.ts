@@ -121,7 +121,7 @@ export class TasksFormComponent implements OnInit {
                 name: this.taskToEdit.name,
                 taskGroup: this.taskToEdit.groupId,
                 ui: this.taskUIs[0].id,
-                cartography: null,
+                cartography: 'ri',
                 _links: this.taskToEdit._links
               });
   
@@ -210,12 +210,12 @@ export class TasksFormComponent implements OnInit {
 
   initializeTasksForm(): void {
   this.taskForm = new FormGroup({
-    id: new FormControl(null, []),
-    name: new FormControl(null, []),
-    taskGroup: new FormControl(null, []),
-    ui: new FormControl(null, []),
-    cartography: new FormControl(null, []),
-    _links: new FormControl(null, []),
+    id: new FormControl(null),
+    name: new FormControl(null, Validators.required),
+    taskGroup: new FormControl(null),
+    ui: new FormControl(null),
+    cartography: new FormControl(null),
+    _links: new FormControl(null),
 
   })}
   
@@ -563,11 +563,7 @@ export class TasksFormComponent implements OnInit {
 
   onSaveButtonClicked(): void {
 
-    let requiredField = this.checkRequiredField();
-
-
-
-    if(requiredField == null)
+    if(this.taskForm.valid)
     {
 
       //TODO Update cartography when save works
@@ -601,20 +597,11 @@ export class TasksFormComponent implements OnInit {
     }
 
     else {
-      let message= this.utils.getTranslate("requiredFieldMessage").concat(this.utils.getTranslate(`tasksEntity.${requiredField}`))
-      const dialogRef = this.dialog.open(DialogMessageComponent);
-      dialogRef.componentInstance.title = this.utils.getTranslate("caution");
-      dialogRef.componentInstance.message = message
-      dialogRef.componentInstance.hideCancelButton = true;
-      dialogRef.afterClosed().subscribe();
+      this.utils.showRequiredFieldsError();
     }
 
   }
 
-  checkRequiredField(): String{
-    if(this.taskForm.value.name == null) return 'name'
-    else return null
-  }
 
   updateCartography(cartography)
   {

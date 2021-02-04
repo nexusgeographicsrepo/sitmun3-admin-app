@@ -29,8 +29,9 @@
   "projectionMessage": "Introduce EPSG:Code",
   "projectionsMessage": "Introduce all projections like EPSG:Code separated by intro",
   "passwordMessage" : "Password/confirm passwords fields don't match!",
-  "requiredFieldMessage": "  You must fill the field ",
-  "caution": "Important",
+  "requiredFieldMessage": "  You must fill all required fields ",
+  "caution": "Caution",
+  "atention": "Atention",
   "lang": {
     "catalan": "Catalan",
     "spanish": "Spanish",

@@ -7,11 +7,11 @@
   <form [formGroup]='formConnection' #f="ngForm" 	(ngSubmit)="onSaveButtonClicked()"> 
       <div class="formHeader">
         <h5> {{'connectionEntity.generalData' | translate}} </h5>
-        <button   mat-flat-button class="saveButton"  >
+        <button type="submit"  mat-flat-button class="saveButton"  >
           <mat-icon fontSet="material-icons-round"  > save </mat-icon>
           {{ "save" | translate }}
         </button>
-        <button (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
+        <button type="button" (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
           <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
           {{ "return" | translate }}
         </button>
@@ -68,7 +68,7 @@
             </mat-form-field>
           </div>
 
-          <button *ngIf="connectionID!=-1" (click)="validateConnection()" mat-flat-button class="validateButton" >{{ "validate" | translate }}</button>
+          <button type="button" *ngIf="connectionID!=-1" (click)="validateConnection()" mat-flat-button class="validateButton" >{{ "validate" | translate }}</button>
     </div>
 
 

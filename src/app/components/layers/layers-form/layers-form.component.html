@@ -10,11 +10,11 @@
   <form [formGroup]='layerForm' #f="ngForm"	(ngSubmit)="onSaveButtonClicked()">
     <div class="formHeader">
       <h5> {{'layersEntity.generalData' | translate}} </h5>
-      <button mat-flat-button  class="saveButton">
+      <button type="submit" mat-flat-button  class="saveButton">
         <mat-icon fontSet="material-icons-round"> save </mat-icon>
         {{ "save" | translate }}
       </button>
-      <button (click)="utils.navigateBack()" mat-flat-button class="returnButton">
+      <button type="button" (click)="utils.navigateBack()" mat-flat-button class="returnButton">
         <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
         {{ "return" | translate }}
       </button>

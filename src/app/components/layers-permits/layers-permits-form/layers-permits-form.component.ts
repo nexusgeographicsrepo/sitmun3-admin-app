@@ -317,22 +317,27 @@ export class LayersPermitsFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    this.cartographyGroupService.save(this.formLayersPermits.value)
-    .subscribe(resp => {
-      console.log(resp);
-      this.layersPermitsToEdit=resp;
-      this.layersPermitsID=resp.id
-      this.formLayersPermits.patchValue({
-        id: resp.id,
-        _links: resp._links
-      })
-      this.getAllElementsEventCartographies.next(true);
-      this.getAllElementsEventRoles.next(true);
-    },
-    error => {
-      console.log(error);
-    });
-
+    if(this.formLayersPermits.valid)
+    {
+        this.cartographyGroupService.save(this.formLayersPermits.value)
+        .subscribe(resp => {
+          console.log(resp);
+          this.layersPermitsToEdit=resp;
+          this.layersPermitsID=resp.id
+          this.formLayersPermits.patchValue({
+            id: resp.id,
+            _links: resp._links
+          })
+          this.getAllElementsEventCartographies.next(true);
+          this.getAllElementsEventRoles.next(true);
+        },
+        error => {
+          console.log(error);
+        });
+    }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
 
   }
 

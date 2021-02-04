@@ -13,11 +13,11 @@
   <form [formGroup]='serviceForm' #f="ngForm"> 
       <div class="formHeader">
         <h5> {{'serviceEntity.generalData' | translate}} </h5>
-        <button   mat-flat-button class="saveButton" (click)="onSaveButtonClicked()" >
+        <button type="submit"  mat-flat-button class="saveButton" (click)="onSaveButtonClicked()" >
           <mat-icon fontSet="material-icons-round"  > save </mat-icon>
           {{ "save" | translate }}
         </button>
-        <button (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
+        <button type="button" (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
           <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
           {{ "return" | translate }}
         </button>
@@ -57,8 +57,8 @@
           </div>
           
           
-            <button *ngIf="serviceID==-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
-            <button *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.updateData" | translate }}</button>
+            <button type="button" *ngIf="serviceID==-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.getData" | translate }}</button>
+            <button type="button" *ngIf="serviceID!=-1" (click)="getCapabilitiesService()" mat-flat-button class="validateButton" >{{ "serviceEntity.updateData" | translate }}</button>
      </div>
 
       <div class="rowFormDiv">

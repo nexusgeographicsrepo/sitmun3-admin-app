@@ -87,7 +87,7 @@ export class UserFormComponent implements OnInit {
               firstName: this.userToEdit.firstName,
               lastName: this.userToEdit.firstName,
               password: this.userToEdit.password,
-              confirmPassword: "",
+              confirmPassword: this.userToEdit.password,
               administrator: this.userToEdit.administrator,
               blocked: this.userToEdit.blocked,
               _links: this.userToEdit._links
@@ -186,15 +186,9 @@ export class UserFormComponent implements OnInit {
       firstName: new FormControl(null, [
         Validators.required,
       ]),
-      lastName: new FormControl(null, [
-        Validators.required,
-      ]),
-      password: new FormControl(null, [
-        Validators.required,
-      ]),
-      confirmPassword: new FormControl(null, [
-        Validators.required, this.matchValues('password'),
-      ]),
+      lastName: new FormControl(null),
+      password: new FormControl(null),
+      confirmPassword: new FormControl(null,), // [this.matchValues('password'),]
       administrator: new FormControl(null, []),
       blocked: new FormControl(null, []),
       _links: new FormControl(null, []),
@@ -488,72 +482,77 @@ export class UserFormComponent implements OnInit {
 
   onSaveButtonClicked(){
 
-    if(this.userForm.value.password === this.userForm.value.confirmPassword)
-    {
-        let userObj: User = new User();
-        userObj.username=this.userForm.value.username;
-        userObj.password=this.userForm.value.password;
-        userObj.firstName=this.userForm.value.firstName;
-        userObj.lastName=this.userForm.value.lastName;
-        userObj.blocked=this.userForm.value.blocked;
-        userObj.administrator=this.userForm.value.administrator;
-        userObj._links=this.userForm.value._links;
-
-        if(this.userID === -1){
-          console.log(userObj)
-          this.userService.create(userObj)
-          .subscribe( (resp:User) => {
-            console.log(resp)
-                this.userToEdit=resp;
-                this.userID=resp.id;
-                this.userForm.patchValue({
-                  id: resp.id,
-                  _links: resp._links
-                })
-                console.log(this.userToEdit);
-                this.getAllElementsEventTerritoryData.next(true);
-                this.getAllElementsEventPermits.next(true);
-              }, error => {
-                console.log(error)
-              });   
-        
-        }
-        else 
+    if(this.userForm.valid)
         {
-          userObj.id=this.userID;
-          this.userService.update(userObj)
-          .subscribe( (resp:User) => {
-            console.log(resp)
-                this.userToEdit=resp
-                this.userID=resp.id;
-                this.userForm.patchValue({
-                  id: resp.id,
-                  _links: resp._links
-                })
-                console.log(this.userToEdit);
-                this.getAllElementsEventTerritoryData.next(true);
-                this.getAllElementsEventPermits.next(true);
-              }, error => {
-                console.log(error)
-              });   
-        
+    
+        if(this.userForm.value.password === this.userForm.value.confirmPassword)
+        {
+            let userObj: User = new User();
+            userObj.username=this.userForm.value.username;
+            userObj.password=this.userForm.value.password;
+            userObj.firstName=this.userForm.value.firstName;
+            userObj.lastName=this.userForm.value.lastName;
+            userObj.blocked=this.userForm.value.blocked;
+            userObj.administrator=this.userForm.value.administrator;
+            userObj._links=this.userForm.value._links;
+    
+            if(this.userID === -1){
+              console.log(userObj)
+              this.userService.create(userObj)
+              .subscribe( (resp:User) => {
+                console.log(resp)
+                    this.userToEdit=resp;
+                    this.userID=resp.id;
+                    this.userForm.patchValue({
+                      id: resp.id,
+                      _links: resp._links
+                    })
+                    console.log(this.userToEdit);
+                    this.getAllElementsEventTerritoryData.next(true);
+                    this.getAllElementsEventPermits.next(true);
+                  }, error => {
+                    console.log(error)
+                  });   
+            
+            }
+            else 
+            {
+              userObj.id=this.userID;
+              this.userService.update(userObj)
+              .subscribe( (resp:User) => {
+                console.log(resp)
+                    this.userToEdit=resp
+                    this.userID=resp.id;
+                    this.userForm.patchValue({
+                      id: resp.id,
+                      _links: resp._links
+                    })
+                    console.log(this.userToEdit);
+                    this.getAllElementsEventTerritoryData.next(true);
+                    this.getAllElementsEventPermits.next(true);
+                  }, error => {
+                    console.log(error)
+                  });   
+            
+            }
+    
+      
         }
-
-  
+        else{
+    
+          const dialogRef = this.dialog.open(DialogMessageComponent);
+          dialogRef.componentInstance.title = "Error";
+          dialogRef.componentInstance.message = this.utils.getTranslate("passwordMessage");
+          dialogRef.componentInstance.hideCancelButton = true;
+          dialogRef.afterClosed().subscribe();
+    
+        }
+    
+    
     }
-    else{
-
-      const dialogRef = this.dialog.open(DialogMessageComponent);
-      dialogRef.componentInstance.title = "Error";
-      dialogRef.componentInstance.message = this.utils.getTranslate("passwordMessage");
-      dialogRef.componentInstance.hideCancelButton = true;
-      dialogRef.afterClosed().subscribe();
-
+    else {
+      this.utils.showRequiredFieldsError();
     }
-
-
-
-
 
 
   }

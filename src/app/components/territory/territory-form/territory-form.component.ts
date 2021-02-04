@@ -210,7 +210,6 @@ export class TerritoryFormComponent implements OnInit {
     this.columnDefsTasks = [
       environment.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 

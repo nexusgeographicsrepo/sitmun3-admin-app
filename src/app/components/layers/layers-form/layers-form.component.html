@@ -150,7 +150,7 @@
       </div>
 
 
-      <div class="colFormDiv" id="right-column">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.metadataURL' | translate}}
         </label>
@@ -188,7 +188,7 @@
       </div>
 
       <div class="colFormDiv">
-        <label class="formLabel">
+        <label class="formLabel" >
           {{'layersEntity.filterSpatialSeleciontByMunicipality' | translate}}
         </label>
         <mat-checkbox (change)="onMunicipalityFilterChange($event)" formControlName="applyFilterToSpatialSelection">
@@ -204,21 +204,21 @@
 
     <div class="rowFormDiv">
 
-      <div class="ShortColFormDiv">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.information' | translate}}
         </label>
         <mat-checkbox formControlName="queryableFeatureEnabled"> </mat-checkbox>
       </div>
 
-      <div class="ShortColFormDiv">
+      <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.defaultInformation' | translate}}
         </label>
         <mat-checkbox formControlName="queryableFeatureAvailable"> </mat-checkbox>
       </div>
 
-      <div class="colFormDiv">
+      <div class="colFormDiv"  >
         <label class="formLabel requiredInput">
           {{'layersEntity.informationLayer' | translate}}
         </label>

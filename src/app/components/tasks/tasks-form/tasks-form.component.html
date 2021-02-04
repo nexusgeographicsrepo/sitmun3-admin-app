@@ -74,15 +74,15 @@
         <label class="formLabel">
           &nbsp;
         </label>
-        <button *ngIf="dataLoaded && !this.taskForm.value.cartography" title="{{ 'add' | translate }}" mat-mini-fab
+        <button type="button" *ngIf="dataLoaded && !this.taskForm.value.cartography" title="{{ 'add' | translate }}" mat-mini-fab
           class="mat-green mini-fab " (click)="openCartographyDialog()">
           <mat-icon> add </mat-icon>
         </button>
-        <button *ngIf="dataLoaded && this.taskForm.value.cartography" title="{{ 'tasksEntity.modificate' | translate }}"
+        <button type="button" *ngIf="dataLoaded && this.taskForm.value.cartography" title="{{ 'tasksEntity.modificate' | translate }}"
           mat-mini-fab class="mat-orange mini-fab" (click)="openCartographyDialog()">
           <mat-icon> create </mat-icon>
         </button>
-        <button *ngIf="dataLoaded && this.taskForm.value.cartography"
+        <button type="button" *ngIf="dataLoaded && this.taskForm.value.cartography"
           title="{{ 'tasksEntity.deleteCartography' | translate }}" mat-mini-fab class="mat-red mini-fab"
           (click)="onDeleteButtonClicked()">
           <mat-icon> delete </mat-icon>

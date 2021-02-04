@@ -127,7 +127,9 @@
   color: #FF9300 !important;
 }
 
-
+mat-form-field.ng-invalid .mat-form-field-outline-thick.mat-form-field-outline-thick{
+  color: #BF0000 !important;
+}
 //Mat slide green
 mat-slide-toggle.mat-green.mat-checked .mat-slide-toggle-bar {
   background-color: rgba(104, 162, 37, 0.5);

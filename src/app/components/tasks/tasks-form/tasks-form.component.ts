@@ -292,7 +292,14 @@ export class TasksFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.taskToEdit._links.parameters.href}`))
+    var urlReq = `${this.taskToEdit._links.parameters.href}`
+    if (this.taskToEdit._links.parameters.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
       .pipe(map(data =>  data[`_embedded`][`task-parameters`]));
   } 
 
@@ -400,8 +407,15 @@ export class TasksFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
+
+    var urlReq = `${this.taskToEdit._links.roles.href}`
+    if (this.taskToEdit._links.roles.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
    
-    return (this.http.get(`${this.taskToEdit._links.roles.href}`))
+    return (this.http.get(urlReq))
        .pipe(map(data => data['_embedded']['roles']));
 
   }

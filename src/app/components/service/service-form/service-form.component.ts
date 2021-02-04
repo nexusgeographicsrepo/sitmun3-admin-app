@@ -274,7 +274,16 @@ export class ServiceFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    return (this.http.get(`${this.serviceToEdit._links.parameters.href}`))
+
+    var urlReq = `${this.serviceToEdit._links.parameters.href}`
+    if (this.serviceToEdit._links.parameters.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+
+    return (this.http.get(urlReq))
       .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 

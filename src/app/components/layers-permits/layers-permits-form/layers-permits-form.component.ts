@@ -215,8 +215,15 @@ export class LayersPermitsFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
+
+    var urlReq = `${this.layersPermitsToEdit._links.roles.href}`
+    if (this.layersPermitsToEdit._links.roles.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
    
-    return (this.http.get(`${this.layersPermitsToEdit._links.roles.href}`))
+    return (this.http.get(urlReq))
        .pipe(map(data => data['_embedded']['roles']));
 
   }

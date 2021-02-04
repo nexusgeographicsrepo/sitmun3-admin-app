@@ -393,7 +393,14 @@ export class ApplicationFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.applicationToEdit._links.parameters.href}`))
+    var urlReq = `${this.applicationToEdit._links.parameters.href}`
+    if (this.applicationToEdit._links.parameters.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
       .pipe(map(data =>  data[`_embedded`][`application-parameters`].filter(elem=> elem.type!="PRINT_TEMPLATE")
       ));
   } 
@@ -451,7 +458,14 @@ export class ApplicationFormComponent implements OnInit {
       return of(aux);
     }
 
-    return (this.http.get(`${this.applicationToEdit._links.parameters.href}`))
+    var urlReq = `${this.applicationToEdit._links.parameters.href}`
+    if (this.applicationToEdit._links.parameters.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
     .pipe(map(data =>  data[`_embedded`][`application-parameters`].filter(elem=> elem.type=="PRINT_TEMPLATE")
       ));
   }
@@ -486,7 +500,15 @@ export class ApplicationFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    return (this.http.get(`${this.applicationToEdit._links.availableRoles.href}`))
+
+    var urlReq = `${this.applicationToEdit._links.availableRoles.href}`
+    if (this.applicationToEdit._links.availableRoles.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    return (this.http.get(urlReq))
       .pipe(map(data => data[`_embedded`][`roles`]));
   }
 

@@ -201,7 +201,13 @@ export class TreesFormComponent implements OnInit {
 
   
   onSaveButtonClicked(){ 
-    this.getAllElementsNodes.next(true);
+    if(this.treeForm.valid)
+    {    
+      this.getAllElementsNodes.next(true);
+    }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
   }
 
   updateNode(){
@@ -210,8 +216,14 @@ export class TreesFormComponent implements OnInit {
   }
 
   onSaveFormButtonClicked(){
-    if(!this.currentNodeIsFolder) {this.getAllElementsEventCartographies.next(this.treeNodeForm.value)}
-    else { this.updateTreeLeft(null) }
+    if(this.treeNodeForm.valid)
+    {
+      if(!this.currentNodeIsFolder) {this.getAllElementsEventCartographies.next(this.treeNodeForm.value)}
+      else { this.updateTreeLeft(null) }
+    }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
     
   }
 

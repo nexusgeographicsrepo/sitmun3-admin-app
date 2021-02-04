@@ -171,7 +171,7 @@ margin-right: 0%;
 .validateButton {
   background-color: #ff9300;
   color: white;
-  min-width: 85px;
+  min-width: 85px !important;
   height: 40px;
   margin-top: 34px !important;
   justify-self: right !important;
@@ -736,7 +736,7 @@ h2 {
 }
 .requiredInput::after{
   content: "*";
-  color: red;
+  color: #BF0000;
   font-weight: bold;
 }
 

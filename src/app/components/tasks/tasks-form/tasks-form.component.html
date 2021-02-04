@@ -64,12 +64,12 @@
           <input matInput [readonly]="true" type="text" formControlName="cartography" required>
         </mat-form-field>
       </div>
-      <div class="colFormDivBtn">
+      <div class="HalfMidLargeColFormDiv">
         <label class="formLabel">
           &nbsp;
         </label>
         <button *ngIf="dataLoaded && !this.taskForm.value.cartography" title="{{ 'add' | translate }}" mat-mini-fab
-          class="mat-green mini-fab" (click)="openCartographyDialog()">
+          class="mat-green mini-fab " (click)="openCartographyDialog()">
           <mat-icon> add </mat-icon>
         </button>
         <button *ngIf="dataLoaded && this.taskForm.value.cartography" title="{{ 'tasksEntity.modificate' | translate }}"
@@ -169,12 +169,12 @@
 
       <div class="rowFormDiv">
 
-        <div class="matRadioFormDiv">
+        <div class="oneLargeColFormDiv">
           <mat-radio-group formControlName="type">
             <mat-radio-button class="radioButtonForm" value="VALOR">{{'tasksEntity.fix' | translate}}</mat-radio-button>
             <mat-radio-button class="radioButtonForm" value="CAMPO">{{'tasksEntity.user' | translate}}
             </mat-radio-button>
-            <mat-radio-button value="DATAINPUT">{{'tasksEntity.formatWPS' | translate}}</mat-radio-button>
+            <mat-radio-button id="right-column" value="DATAINPUT">{{'tasksEntity.formatWPS' | translate}}</mat-radio-button>
           </mat-radio-group>
         </div>
 
@@ -183,7 +183,7 @@
 
       <div class="rowFormDiv">
 
-        <div class="threeColDialogFormDiv">
+        <div class="MidLargeColFormDiv">
           <label class="formLabel requiredInput">
             {{'tasksEntity.paramUrl' | translate}}
           </label>
@@ -192,7 +192,7 @@
           </mat-form-field>
         </div>
 
-        <div class="threeColDialogFormDiv">
+        <div class="MidLargeColFormDiv">
           <label *ngIf="parameterForm.value.type==='VALOR'" class="formLabel requiredInput"> {{'tasksEntity.value' |
             translate}} </label>
           <label *ngIf="parameterForm.value.type==='CAMPO'" class="formLabel requiredInput"> {{'tasksEntity.textFilter'
@@ -204,7 +204,7 @@
           </mat-form-field>
         </div>
 
-        <div class="threeColDialogFormDiv">
+        <div class="MidLargeColFormDiv">
           <label class="formLabel">
             {{'tasksEntity.order' | translate}}
           </label>

@@ -20,7 +20,7 @@
   
         <div class="rowFormDiv">
 
-            <div class="singleFormDiv">
+            <div class="MidColFormDiv">
                 <label class="formLabel" >
                     {{'tasksEditionEntity.id' | translate}}
                 </label>
@@ -29,15 +29,15 @@
                 </mat-form-field>
                 </div>
 
-            <div class="matRadioFormDiv">
+            <div class="LargeColFormDiv">
                 <label class="formLabel">
                     {{'tasksEditionEntity.editionType' | translate}}
                 </label>
                 <mat-radio-group aria-label="Select an option" formControlName="editionType">
-                    <mat-radio-button value="1"> {{'tasksEditionEntity.cartographyTableWFT' | translate}}</mat-radio-button>
-                    <mat-radio-button value="2"> {{'tasksEditionEntity.dataTable' | translate}}</mat-radio-button>
-                    <mat-radio-button value="3"> {{'tasksEditionEntity.relationTable' | translate}}</mat-radio-button>
-                    <mat-radio-button value="4"> {{'tasksEditionEntity.searchView' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm"  value="1"> {{'tasksEditionEntity.cartographyTableWFT' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm" value="2"> {{'tasksEditionEntity.dataTable' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm" value="3"> {{'tasksEditionEntity.relationTable' | translate}}</mat-radio-button>
+                    <mat-radio-button class="radioButtonForm" value="4"> {{'tasksEditionEntity.searchView' | translate}}</mat-radio-button>
                   </mat-radio-group>
             </div>
 
@@ -48,7 +48,7 @@
 
         <div class="rowFormDiv">
 
-            <div class="singleFormDiv" > 
+            <div class="MidColFormDiv" > 
                 <label class="formLabel ">
                     {{'tasksEditionEntity.taskGroup' | translate}}
                 </label>
@@ -61,7 +61,7 @@
                 </mat-form-field>
                 </div>
 
-                <div class="threeFormDiv" > 
+                <div class="MidLargeColFormDiv" > 
                 <label class="formLabel ">
                     {{'tasksEditionEntity.service' | translate}}
                 </label>
@@ -74,7 +74,7 @@
                 </mat-form-field>
                 </div>
 
-            <div class="singleFormDiv" > 
+            <div class="MidColFormDiv" > 
                 <label class="formLabel ">
                     {{'tasksEditionEntity.layerName' | translate}}
                 </label>
@@ -91,7 +91,7 @@
 
         <div class="rowFormDiv">
 
-            <div class="singleFormDiv" > 
+            <div class="colFormDiv" > 
                 <label class="formLabel">
                     {{'tasksEditionEntity.emptyGeometryParameter' | translate}}
                 </label>

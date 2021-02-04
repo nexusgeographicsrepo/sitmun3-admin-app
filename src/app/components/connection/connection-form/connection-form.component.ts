@@ -319,21 +319,27 @@ export class ConnectionFormComponent implements OnInit {
 
   onSaveButtonClicked() {
 
-    this.connectionService.save(this.formConnection.value).subscribe(
-      result => {
-        console.log(result);
-        this.connectionToEdit = result;
-        this.connectionID = result.id
-        this.formConnection.patchValue({
-          id: result.id,
-          _links: result._links
-        })
-        //this.getAllElementsEventCartographies.next(true);
-        this.getAllElementsEventTasks.next(true);
-      },
-      error => {
-        console.log(error);
-      });
+    if(this.formConnection.valid)
+    {
+      this.connectionService.save(this.formConnection.value).subscribe(
+        result => {
+          console.log(result);
+          this.connectionToEdit = result;
+          this.connectionID = result.id
+          this.formConnection.patchValue({
+            id: result.id,
+            _links: result._links
+          })
+          //this.getAllElementsEventCartographies.next(true);
+          this.getAllElementsEventTasks.next(true);
+        },
+        error => {
+          console.log(error);
+        });
+    }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
   }
 
   validateConnection() {

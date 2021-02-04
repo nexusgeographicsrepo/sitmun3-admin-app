@@ -176,8 +176,16 @@ margin-right: 0%;
   margin-top: 34px !important;
   justify-self: right !important;
 }
-.returnButton {
-  
+
+ .deleteButton {
+  color: #BF0000;
+  border: #BF0000 solid 1px !important;
+  min-width: 85px !important;
+  height: 40px;
+  float: right;
+}
+ 
+.returnButton, .actionButton {
   color: #ff9300;
   border: #ff9300 solid 1px !important;
   min-width: 85px !important;
@@ -185,7 +193,7 @@ margin-right: 0%;
   float: right;
 }
 
-.saveButton {
+.saveButton, .newButton {
   background-color: #68a225;
   color: white;
   min-width: 85px !important;
@@ -219,7 +227,7 @@ h2 {
 }
 
 .appDataGridDiv {
-  height: calc(100% - 230px);
+  height: calc(100% - 190px);
   margin: 50px;
 }
 
@@ -376,7 +384,7 @@ h2 {
 }
 
 .colFormDivBtn {
-  margin-left: -80px;
+  margin-left: -40px;
 }
 
 .ShortColFormDiv {

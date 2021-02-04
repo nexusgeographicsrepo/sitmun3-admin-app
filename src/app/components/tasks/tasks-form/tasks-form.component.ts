@@ -177,7 +177,7 @@ export class TasksFormComponent implements OnInit {
     this.columnDefsTerritories = [
 
       environment.selCheckboxColumnDef,
-      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: 'Id', field: 'territoryId', editable: false },
       { headerName: this.utils.getTranslate('tasksEntity.name'), field: 'territoryName', editable: false },
       { headerName: this.utils.getTranslate('tasksEntity.status'), field: 'status', editable: false },
 
@@ -372,7 +372,7 @@ export class TasksFormComponent implements OnInit {
     data.forEach(territory => {
       territory.task= this.taskToEdit;
       if (territory.status === 'Pending creation') {
-        let index= data.findIndex(element => element.territoryCode === territory.territoryCode && !element.new)
+        let index= data.findIndex(element => element.territoryId === territory.territoryId && !element.new)
         if(index === -1)
         {
           territoriesToCreate.push(territory)
@@ -517,6 +517,7 @@ export class TasksFormComponent implements OnInit {
         id: null,
         territoryCode: element.code,
         territoryName: element.name,
+        territoryId: element.id,
         createdDate: element.createdDate,
         owner: null,
         territory: element,

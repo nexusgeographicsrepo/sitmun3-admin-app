@@ -230,8 +230,6 @@ export class TasksReportFormComponent implements OnInit {
     }
     return (this.http.get(urlReq))
     .pipe( map( data =>  data['_embedded']['roles']) );
-     const aux: Array<any> = [];
-     return of(aux);
  
    }
  

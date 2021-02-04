@@ -200,17 +200,17 @@ export class TerritoryFormComponent implements OnInit {
 
     this.columnDefsCartographies = [
       environment.selCheckboxColumnDef,
-      { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'layers', editable: false },
+      { headerName: 'Id', field: 'cartographyId', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'cartographyName', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'cartographyLayers', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
 
     this.columnDefsTasks = [
       environment.selCheckboxColumnDef,
-      { headerName: 'Id', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroup', editable: false },
+      { headerName: 'Id', field: 'taskId', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroupName', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
@@ -562,7 +562,15 @@ export class TerritoryFormComponent implements OnInit {
     let cartographiesToDelete = [];
     data.forEach(cartography => {
       cartography.territory = this.territoryToEdit;
-      if (cartography.status === 'Pending creation') { cartographiesToCreate.push(cartography) }
+      if (cartography.status === 'Pending creation') {
+        let index= data.findIndex(element => element.cartographyId === cartography.cartographyId && !element.new)
+        if(index === -1)
+        {
+          cartographiesToCreate.push(cartography)
+          cartography.new=false;
+        }
+
+      }
       if (cartography.status === 'Deleted' && cartography._links) { cartographiesToDelete.push(cartography) }
     });
     const promises: Promise<any>[] = [];
@@ -608,10 +616,18 @@ export class TerritoryFormComponent implements OnInit {
     data.forEach(task => {
       if (task.status === 'Deleted' && task._links) { tasksToDelete.push(task) }
       if (task.status === 'Pending creation') {
-        let taskToCreate: TaskAvailability = new TaskAvailability();
-        taskToCreate.territory = this.territoryToEdit;
-        taskToCreate.task = task;
-        tasksToCreate.push(taskToCreate)
+
+        let index= data.findIndex(element => element.taskId === task.taskId && !element.new)
+        if(index === -1)
+        {
+          task.new=false;
+          let taskToCreate: TaskAvailability = new TaskAvailability();
+          taskToCreate.territory = this.territoryToEdit;
+          taskToCreate.task = task;
+          tasksToCreate.push(taskToCreate)
+        }
+
+
       }
     });
     const promises: Promise<any>[] = [];
@@ -797,6 +813,10 @@ export class TerritoryFormComponent implements OnInit {
         //TODO Put fields when backend return them
         id: null,
         cartography: element,
+        cartographyId: element.id,
+        cartographyLayers: element.layers,
+        cartographyName: element.name,
+        new: true,
 
       }
       newData.push(item);
@@ -828,12 +848,29 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
-          this.addElementsEventTasks.next(result.data[0])
+          this.addElementsEventTasks.next(this.adaptFormatTask(result.data[0]))
         }
       }
 
     });
+    
 
+  }
+
+  adaptFormatTask(dataToAdapt: any[]) {
+    let newData: any[] = [];
+
+    dataToAdapt.forEach(element => {
+      let item:any = {...element}
+      item.id = null;
+      item.taskGroupName= element.groupName
+      item.taskId= element.id
+      item.new=true
+      newData.push(item);
+
+    });
+
+    return newData;
   }
 
 

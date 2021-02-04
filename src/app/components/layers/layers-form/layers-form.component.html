@@ -288,7 +288,7 @@
 
                 <mat-form-field appearance="outline">
                   <mat-select matInput formControlName="spatialSelectionService" class="form-control">
-                    <mat-option [value]="service.name" *ngFor="let service of spatialConfigurationServices">
+                    <mat-option [value]="service.id" *ngFor="let service of spatialConfigurationServices">
                       {{ service.name}}
                     </mat-option>
                   </mat-select>

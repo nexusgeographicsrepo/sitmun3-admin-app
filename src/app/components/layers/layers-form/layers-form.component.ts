@@ -176,7 +176,7 @@ export class LayersFormComponent implements OnInit {
     }));
 
     let serviceByDefault = {
-      id: -1,
+      id: null,
       name: '-------'
     }
 
@@ -189,6 +189,7 @@ export class LayersFormComponent implements OnInit {
       resp.forEach(service => {
         if(service.type==='WFS') {wfsServices.push(service)}
       });  
+      console.log(this.services);
       resolve(true);
       return wfsServices;
 
@@ -199,7 +200,7 @@ export class LayersFormComponent implements OnInit {
     }));
 
     Promise.all(promises).then(() => {
-  
+      console.log(this.spatialConfigurationServices);
       this.activatedRoute.params.subscribe(params => {
         this.layerID = +params.id;
         if (this.layerID !== -1) {
@@ -213,7 +214,7 @@ export class LayersFormComponent implements OnInit {
               this.layerForm.setValue({
                 id: this.layerID,
                 name: this.layerToEdit.name,
-                service: this.layerToEdit.serviceName,
+                service: this.layerToEdit.serviceId,
                 layers: this.layerToEdit.layers,
                 minimumScale: this.layerToEdit.minimumScale,
                 maximumScale: this.layerToEdit.maximumScale,
@@ -234,7 +235,7 @@ export class LayersFormComponent implements OnInit {
                 thematic: this.layerToEdit.thematic,
                 blocked: this.layerToEdit.blocked,
                 selectableFeatureEnabled: this.layerToEdit.selectableFeatureEnabled,
-                spatialSelectionService: "",
+                spatialSelectionService: this.layerToEdit.spatialSelectionServiceId,
                 selectableLayers: this.layerToEdit.selectableLayers,
                 spatialSelectionConnection:"",
                 _links: this.layerToEdit._links
@@ -349,7 +350,7 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsTerritories = [
 
       environment.selCheckboxColumnDef,
-      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: 'Id', field: 'territoryId', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territoryCode', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable: false },
@@ -951,7 +952,7 @@ export class LayersFormComponent implements OnInit {
   
       let cartography= new Cartography();
       cartography.name= this.layerForm.value.name,
-      cartography.service= service,
+      cartography.service= this.layerForm.value.service,
       cartography.layers= this.layerForm.value.layers,
       cartography.minimumScale= this.layerForm.value.minimumScale,
       cartography.maximumScale= this.layerForm.value.maximumScale,
@@ -979,22 +980,22 @@ export class LayersFormComponent implements OnInit {
     
 
 
-      this.cartographyService.save(cartography)
-      .subscribe(resp => {
-        console.log(resp);
-        this.layerToEdit=resp;
-        this.layerID=resp.id;
-        this.layerForm.patchValue({
-          id: resp.id,
-          _links: resp._links
-        })
+      // this.cartographyService.save(cartography)
+      // .subscribe(resp => {
+      //   console.log(resp);
+      //   this.layerToEdit=resp;
+      //   this.layerID=resp.id;
+      //   this.layerForm.patchValue({
+      //     id: resp.id,
+      //     _links: resp._links
+      //   })
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventSpatialConfigurations.next(true);
         this.getAllElementsEventTerritories.next(true);
         this.getAllElementsEventLayersConfigurations.next(true);
         this.getAllElementsEventNodes.next(true);
 
-      });
+      // });
     }
     else{
         this.utils.showRequiredFieldsError();

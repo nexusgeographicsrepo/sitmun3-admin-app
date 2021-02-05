@@ -125,7 +125,7 @@ export class LayersFormComponent implements OnInit {
     }));
 
     let legendTypeByDefault = {
-      value: null,
+      value: -1,
       description: '-------'
     }
     this.legendTypes.push(legendTypeByDefault);
@@ -176,7 +176,7 @@ export class LayersFormComponent implements OnInit {
     }));
 
     let serviceByDefault = {
-      id: null,
+      id: -1,
       name: '-------'
     }
 
@@ -190,13 +190,9 @@ export class LayersFormComponent implements OnInit {
         if(service.type==='WFS') {wfsServices.push(service)}
       });  
       console.log(this.services);
+      this.spatialConfigurationServices.push(...wfsServices)
       resolve(true);
-      return wfsServices;
-
-    }).subscribe(
-      resp =>  this.spatialConfigurationServices.push(...resp)
-      
-    )
+    }).subscribe()
     }));
 
     Promise.all(promises).then(() => {
@@ -240,6 +236,19 @@ export class LayersFormComponent implements OnInit {
                 spatialSelectionConnection:"",
                 _links: this.layerToEdit._links
               });
+
+              if(this.layerToEdit.spatialSelectionServiceId == null)
+              {
+                this.layerForm.patchValue({
+                  spatialSelectionService: this.spatialConfigurationServices[0].id
+                })
+              }
+              if(this.layerToEdit.legendType == null)
+              {
+                this.layerForm.patchValue({
+                  legendType: this.legendTypes[0].id
+                })
+              }
   
                 
               var urlReq=`${this.layerToEdit._links.parameters.href}`
@@ -300,7 +309,9 @@ export class LayersFormComponent implements OnInit {
           this.layerForm.patchValue({
             blocked: false,
             thematic: false,
-            service: this.services[0].id
+            service: this.services[0].id,
+            spatialSelectionService: this.spatialConfigurationServices[0].id,
+            legendType: this.legendTypes[0].value,
           })
           this.layerForm.get('geometryType').disable();
           this.layerForm.get('applyFilterToGetMap').disable();

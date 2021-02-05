@@ -468,10 +468,11 @@ export class UserFormComponent implements OnInit {
           territory: territory.name,
           territoryComplete: territory,
           territoryId: territory.id,
-          userId: this.userToEdit.id,
+          userId: null,
           new: true
           
         }
+        if(this.userToEdit) {item.userId= this.userToEdit.id}
         itemsToAdd.push(item);
       })
     })
@@ -496,30 +497,30 @@ export class UserFormComponent implements OnInit {
             userObj.administrator=this.userForm.value.administrator;
             userObj._links=this.userForm.value._links;
     
-            if(this.userID === -1){
-              console.log(userObj)
-              this.userService.create(userObj)
-              .subscribe( (resp:User) => {
-                console.log(resp)
-                    this.userToEdit=resp;
-                    this.userID=resp.id;
-                    this.userForm.patchValue({
-                      id: resp.id,
-                      _links: resp._links
-                    })
-                    console.log(this.userToEdit);
-                    this.getAllElementsEventTerritoryData.next(true);
-                    this.getAllElementsEventPermits.next(true);
-                  }, error => {
-                    console.log(error)
-                  });   
+            // if(this.userID === -1){
+            //   console.log(userObj)
+            //   this.userService.create(userObj)
+            //   .subscribe( (resp:User) => {
+            //     console.log(resp)
+            //         this.userToEdit=resp;
+            //         this.userID=resp.id;
+            //         this.userForm.patchValue({
+            //           id: resp.id,
+            //           _links: resp._links
+            //         })
+            //         console.log(this.userToEdit);
+            //         this.getAllElementsEventTerritoryData.next(true);
+            //         this.getAllElementsEventPermits.next(true);
+            //       }, error => {
+            //         console.log(error)
+            //       });   
             
-            }
-            else 
-            {
-              userObj.id=this.userID;
-              this.userService.update(userObj)
-              .subscribe( (resp:User) => {
+            // }
+            // else 
+            // {
+              // userObj.id=this.userID;
+              this.userService.save(userObj)
+              .subscribe( resp => {
                 console.log(resp)
                     this.userToEdit=resp
                     this.userID=resp.id;
@@ -534,7 +535,7 @@ export class UserFormComponent implements OnInit {
                     console.log(error)
                   });   
             
-            }
+            // }
     
       
         }

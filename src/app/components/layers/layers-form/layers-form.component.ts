@@ -479,8 +479,8 @@ export class LayersFormComponent implements OnInit {
 
   initializeParameterForm(): void {
     this.parameterForm = new FormGroup({
-      value: new FormControl(null, []),
-      name: new FormControl(null, []),
+      value: new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [Validators.required]),
       format: new FormControl(null, []),
       order: new FormControl(null, []),
     })
@@ -777,6 +777,7 @@ export class LayersFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('layersEntity.parametersConfiguration');
+    dialogRef.componentInstance.form=this.parameterForm;
 
 
 
@@ -812,6 +813,7 @@ export class LayersFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newSpatialConfigurationDialog;
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.spatialSelection');
+    dialogRef.componentInstance.form=this.parameterForm;
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){

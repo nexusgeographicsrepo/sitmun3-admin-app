@@ -43,7 +43,9 @@ export class LayersComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.serviceName'), field: 'serviceName',editable: false }, //service
       { headerName: this.utils.getTranslate('layersEntity.order'), field: 'order', },
       { headerName: this.utils.getTranslate('layersEntity.layers'), field: 'layers' },
-      { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'createdDate' }, // type: 'dateColumn'
+      { headerName: this.utils.getTranslate('layersEntity.createdDate'), field: 'createdDate',
+        filter: 'agDateColumnFilter', filterParams: this.utils.getDateFilterParams(),
+        editable: false, cellRenderer: (data) => { return this.utils.getDateFormated(data) } }, // type: 'dateColumn'
       { headerName: this.utils.getTranslate('layersEntity.minimumScale'), field: 'minimumScale' },
       { headerName: this.utils.getTranslate('layersEntity.maximumScale'), field: 'maximumScale' },
       { headerName: this.utils.getTranslate('layersEntity.metadataURL'), field: 'metadataURL' },
@@ -77,6 +79,7 @@ export class LayersComponent implements OnInit {
       this.http.get(cartography._links.service.href).subscribe( (result:Service) => {
         newCartography.id = null;
         newCartography.service=result;
+        newCartography.createdDate = new Date();
         newCartography._links = null;
         newCartography.name = 'copia_'.concat(newCartography.name)
         console.log(newCartography);

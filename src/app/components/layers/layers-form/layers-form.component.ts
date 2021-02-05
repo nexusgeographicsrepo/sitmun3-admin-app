@@ -2,7 +2,11 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+<<<<<<< HEAD
 import { CartographyService, ServiceService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from '@sitmun/frontend-core';
+=======
+import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from 'dist/sitmun-frontend-core/';
+>>>>>>> d5a17ab7c8bbff526a32687def125cf2bb1ad867
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';

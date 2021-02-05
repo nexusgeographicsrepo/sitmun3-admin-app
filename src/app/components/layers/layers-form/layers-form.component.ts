@@ -865,6 +865,7 @@ export class LayersFormComponent implements OnInit {
     dataToAdapt.forEach(element => {
       let item = {
         id: null,
+        territoryId: element.id,
         territoryCode: element.code,
         territoryName: element.name,
         createdDate: element.createdDate,

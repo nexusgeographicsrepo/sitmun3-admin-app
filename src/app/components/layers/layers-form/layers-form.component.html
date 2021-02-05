@@ -362,6 +362,27 @@
       </ng-template>
     </mat-expansion-panel>
 
+    <!-- Territorial Filter table -->
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title>
+          {{ "layersEntity.territorialFilter" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <div class="appDataGridEditDiv">
+          <app-data-grid [columnDefs]="columnDefsTerritorialFilter" [themeGrid]='themeGrid' [getAll]='getAllTerritorialFilters'
+            [eventAddItemsSubscription]='addElementsTerritorialFilter.asObservable()'
+            [eventGetAllRowsSubscription]='getAllElementsTerritorialFilter.asObservable()'
+            [eventRefreshSubscription]='dataUpdatedEventTerritorialFilter.asObservable()' [discardChangesButton]=true
+            [redoButton]=true [undoButton]=true [deleteButton]=true [newButton]=true
+            (getAllRows)="getAllRowsTerritorialFilters($event)" defaultColumnSorting="order" [actionButton]=true
+            (duplicate)='duplicateTerritorialFilters($event)' (new)="openTerritorialFilterDialog($event)"> </app-data-grid>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+
 
     <!-- Territory configuration table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
@@ -545,6 +566,107 @@
 
 
       </div>
+
+    </form>
+  </div>
+
+
+</ng-template>
+
+
+<ng-template #newTerritorialFilterDialog>
+
+  <div class="formDiv">
+    <form [formGroup]='territorialFilterForm' #f="ngForm">
+
+
+      <div class="rowFormDiv">
+
+        <div class="MidLargeColFormDiv">
+          <label class="formLabel requiredInput">
+            {{'layersEntity.name' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="name" >
+          </mat-form-field>
+        </div>
+
+        <div class="MidLargeColFormDiv">
+          <label class="formLabel">
+            {{'layersEntity.column' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="column" >
+          </mat-form-field>
+        </div>
+
+        
+        <div class="MidLargeColFormDiv">
+          <label class="formLabel">
+            {{'layersEntity.value' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="value" >
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="rowFormDiv">
+
+        <div class="MidLargeColFormDiv">
+          <label class="formLabel ">
+            {{'layersEntity.type' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <mat-select matInput formControlName="type" class="form-control">
+              <mat-option [value]="filterType.value" *ngFor="let filterType of filterTypes">
+                {{ filterType.description}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        
+        <div class="MidLargeColFormDiv">
+          <label class="formLabel ">
+            {{'layersEntity.valueType' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <mat-select matInput formControlName="valueType" class="form-control">
+              <mat-option [value]="valueType.value" *ngFor="let valueType of filterValueTypes">
+                {{ valueType.description}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div class="MidLargeColFormDiv">
+          <label class="formLabel ">
+            {{'layersEntity.typeId' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <mat-select matInput formControlName="typeId" class="form-control">
+              <mat-option [value]="typeId.id" *ngFor="let typeId of filterTypeIds">
+                {{ typeId.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+      </div>
+
+      
+      <div class="rowFormDiv">
+        <div class="colFormDiv">
+          <label class="formLabel requiredInput">
+            {{'layersEntity.required' | translate}}
+          </label>
+          <mat-checkbox formControlName="required"> </mat-checkbox>
+        </div>
+      </div>
+
 
     </form>
   </div>

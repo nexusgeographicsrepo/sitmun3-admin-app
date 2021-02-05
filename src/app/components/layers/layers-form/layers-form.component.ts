@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from '@sitmun/frontend-core';
+import { CartographyService, ServiceService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from '@sitmun/frontend-core';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -30,6 +30,9 @@ export class LayersFormComponent implements OnInit {
   services: Array<any> = [];
   spatialConfigurationServices: Array<any> = [];
   spatialConfigurationConnections: Array<any> = [];
+  filterTypes: Array<any> = [];
+  filterValueTypes: Array<any> = [];
+  filterTypeIds: Array<any> = [];
   currentService;
 
   parameterFormatTypes: Array<any> = [];
@@ -46,6 +49,10 @@ export class LayersFormComponent implements OnInit {
   columnDefsSpatialConfigurations: any[];
   getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject <boolean>();
   dataUpdatedEventSpatialConfigurations: Subject<boolean> = new Subject<boolean>();
+
+  columnDefsTerritorialFilter: any[];
+  getAllElementsTerritorialFilter: Subject<boolean> = new Subject <boolean>();
+  dataUpdatedEventTerritorialFilter: Subject<boolean> = new Subject<boolean>();
 
 
   columnDefsTerritories: any[];
@@ -73,11 +80,17 @@ export class LayersFormComponent implements OnInit {
     static: true
   }) private newSpatialConfigurationDialog: TemplateRef <any>;
 
+  @ViewChild('newTerritorialFilterDialog',{
+    static: true
+  }) private newTerritorialFilterDialog: TemplateRef <any>;
+
   columnDefsCartographyGroupsDialog: any[];
   addElementsEventCartographyGroups: Subject<any[]> = new Subject <any[]>();
 
-  columnDefsSpatialSelectionDialog: any[];  
   addElementsEventSpatialConfigurations: Subject<any[]> = new Subject <any[]>();
+
+  public territorialFilterForm: FormGroup;
+  addElementsTerritorialFilter: Subject<any[]> = new Subject <any[]>();
 
   columnDefsTerritoriesDialog: any[];
   addElementsEventTerritories: Subject<any[]> = new Subject <any[]>();
@@ -97,11 +110,13 @@ export class LayersFormComponent implements OnInit {
     private cartographyParameterService: CartographyParameterService,
     private treeNodeService: TreeNodeService,
     private territoryService: TerritoryService,
+    private territoryTypeService: TerritoryTypeService,
     private http: HttpClient,
     public utils: UtilsService
   ) {
     this.initializeLayersForm();
     this.initializeParameterForm();
+    this.initializeTerritorialFilterForm();
 
   }
 
@@ -144,6 +159,45 @@ export class LayersFormComponent implements OnInit {
     this.utils.getCodeListValues('cartographyParameter.type').subscribe(
       resp => {
         this.parameterTypes.push(...resp);
+        resolve(true);
+      }
+    )
+    }));
+
+    promises.push(new Promise((resolve, reject) => {
+    this.utils.getCodeListValues('cartographyFilter.type').subscribe(
+      resp => {
+        this.filterTypes.push(...resp);
+        resolve(true);
+      }
+    )
+    }));
+
+    let valueTypeByDefault = {
+      value: -1,
+      description: '-------'
+    }
+    this.filterValueTypes.push(valueTypeByDefault);
+
+    promises.push(new Promise((resolve, reject) => {
+    this.utils.getCodeListValues('cartographyFilter.valueType').subscribe(
+      resp => {
+        this.filterValueTypes.push(...resp);
+        resolve(true);
+      }
+    )
+    }));
+
+    let typeIdByDefault = {
+      id: -1,
+      name: '-------'
+    }
+    this.filterTypeIds.push(typeIdByDefault);
+
+    promises.push(new Promise((resolve, reject) => {
+    this.territoryTypeService.getAll().subscribe(
+      resp => {
+        this.filterTypeIds.push(...resp);
         resolve(true);
       }
     )
@@ -358,6 +412,18 @@ export class LayersFormComponent implements OnInit {
 
     ];
 
+    this.columnDefsTerritorialFilter = [
+
+      environment.selCheckboxColumnDef,
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
+      { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type' },
+      { headerName: this.utils.getTranslate('layersEntity.valueType'), field: 'valueType'}, 
+      { headerName: this.utils.getTranslate('layersEntity.column'), field: 'column'}, 
+      { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
+
+    ];
+
     this.columnDefsTerritories = [
 
       environment.selCheckboxColumnDef,
@@ -371,7 +437,7 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsLayersConfiguration = [
 
       environment.selCheckboxColumnDef,
-      { headerName: this.utils.getTranslate('layersEntity.id'), field: 'id', editable: false },
+      { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable:false },
 
@@ -404,11 +470,6 @@ export class LayersFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
-    this.columnDefsSpatialSelectionDialog = [
-      environment.selCheckboxColumnDef,
-      { headerName: 'ID', field: 'id', editable: false },
-      { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
-    ];
 
     this.columnDefsCartographyGroupsDialog = [
       environment.selCheckboxColumnDef,
@@ -486,10 +547,19 @@ export class LayersFormComponent implements OnInit {
     })
   }
 
-
-
-
-
+  
+  initializeTerritorialFilterForm(): void {
+    this.territorialFilterForm = new FormGroup({
+      id: new FormControl(null, ),
+      name: new FormControl(null, [Validators.required]),
+      required: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      typeId: new FormControl(null),
+      column: new FormControl(null),
+      value: new FormControl(null, []),
+      valueType: new FormControl(null, []),
+    })
+  }
   // AG-GRID
 
 
@@ -618,6 +688,72 @@ export class LayersFormComponent implements OnInit {
       // this.utils.updateUriList(url,spatialSelectionsToPut, this.dataUpdatedEventSpatialConfigurations)
     // });
   // }
+
+  
+  // ******** Territorial Filters  ******** //
+  getAllTerritorialFilters = (): Observable<any> => {
+
+    if(this.layerID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+    var urlReq=`${this.layerToEdit._links.filters.href}`
+    if(this.layerToEdit._links.filters.templated){
+      var url=new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection","view")
+      urlReq=url.toString();
+    }
+
+    return (this.http.get(urlReq))
+    .pipe( map( data =>  data['_embedded']['cartography-filters']));
+
+  }
+  getAllRowsTerritorialFilters(data: any[] )
+  {
+    // console.log(data);
+    // let territorialFilterToSave = [];
+    // let parameterToDelete = [];
+    // const promises: Promise<any>[] = [];
+    // data.forEach(parameter => {
+    //   if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
+    //     if(! parameter._links) {
+    //       console.log(this.layerToEdit);
+    //       parameter.cartography=this.layerToEdit;
+    //     } //If is new, you need the service link
+    //     territorialFilterToSave.push(parameter)
+    //   }
+    //   if(parameter.status === 'Deleted' && parameter._links ) {parameterToDelete.push(parameter) }
+    // });
+
+    // territorialFilterToSave.forEach(saveElement => {
+    //   promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
+    // });
+
+    // parameterToDelete.forEach(deletedElement => {
+    //   promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
+    // });
+
+    // Promise.all(promises).then(() => {
+    //   this.dataUpdatedEventParameters.next(true);
+    // });
+	
+
+  }
+
+  duplicateTerritorialFilters(data)
+  {
+    let territorialFiltersToDuplicate= []
+    data.forEach(territorialFilter => {
+      let newTerritorialFilter= {...territorialFilter};
+      newTerritorialFilter.name='copia_'.concat(newTerritorialFilter.name),
+      newTerritorialFilter.id=null,
+      territorialFiltersToDuplicate.push(newTerritorialFilter);
+    });
+
+    this.addElementsEventParameters.next(territorialFiltersToDuplicate);
+
+  }
 
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
@@ -798,11 +934,6 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Spatial Selection Dialog  ******** //
 
-  getAllSpatialSelectionDialog = () => {
-    const aux: Array<any> = [];
-    return of(aux);
-    // return this.cartographyService.getAll();
-  }
 
   openSpatialSelectionDialog(data: any) {
 
@@ -829,6 +960,38 @@ export class LayersFormComponent implements OnInit {
 
 
   }
+
+  // ******** Territorial Filter Dialog  ******** //
+
+  openTerritorialFilterDialog(data: any) {
+
+    this.territorialFilterForm.patchValue({
+      type: this.filterTypes[0].value,
+      valueType: this.filterValueTypes[0].value,
+      typeId: this.filterTypeIds[0].id,
+      required: false
+    })
+
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.newTerritorialFilterDialog;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.territorialFilter');
+    dialogRef.componentInstance.form=this.territorialFilterForm;
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if( result.event==='Add') { 
+          let item= this.territorialFilterForm.value;
+          item.giid= this.layerToEdit.id
+          this.addElementsTerritorialFilter.next([item])
+          console.log(this.territorialFilterForm.value)
+        }
+      }
+      this.territorialFilterForm.reset();
+    });
+
+
+  }
+  
 
   // ******** Territory Dialog  ******** //
 
@@ -1005,6 +1168,7 @@ export class LayersFormComponent implements OnInit {
         })
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventSpatialConfigurations.next(true);
+        this.getAllElementsTerritorialFilter.next(true);
         this.getAllElementsEventTerritories.next(true);
         this.getAllElementsEventLayersConfigurations.next(true);
         this.getAllElementsEventNodes.next(true);

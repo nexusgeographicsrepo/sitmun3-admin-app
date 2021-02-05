@@ -104,6 +104,7 @@ import {
   UserPositionService,
   ApplicationBackgroundService,
   TaskParameterService,
+  TerritoryTypeService,
   TreeNodeService,
 } from '@sitmun/frontend-core';
 import { UtilsService } from './services/utils.service';
@@ -186,7 +187,7 @@ import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.com
     { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
     { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService,
-    ApplicationService, TreeService, TaskAvailabilityService, BackgroundService, CartographyService, CartographyGroupService,
+    ApplicationService, TreeService, TerritoryTypeService, TaskAvailabilityService, BackgroundService, CartographyService, CartographyGroupService,
     TaskGroupService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
     Principal, UserPositionService, AccountService,CartographyAvailabilityService,ServiceParameterService,ApplicationParameterService,
     CartographyParameterService,  TaskUIService, TaskParameterService, ApplicationBackgroundService, TreeNodeService,

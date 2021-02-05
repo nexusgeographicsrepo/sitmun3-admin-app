@@ -357,9 +357,9 @@ export class ApplicationFormComponent implements OnInit {
 
   initializeParameterForm(): void {
     this.parameterForm = new FormGroup({
-      name: new FormControl(null, []),
-      type: new FormControl(null, []),
-      value: new FormControl(null, []),
+      name: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      value: new FormControl(null, [Validators.required]),
 
     })
   }
@@ -647,6 +647,7 @@ export class ApplicationFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
+    dialogRef.componentInstance.form=this.parameterForm;
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
@@ -676,6 +677,7 @@ export class ApplicationFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newTemplateDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('serviceEntity.configurationParameters');
+    dialogRef.componentInstance.form=this.parameterForm;
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){

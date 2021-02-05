@@ -224,8 +224,8 @@ export class TasksFormComponent implements OnInit {
 
   this.parameterForm = new FormGroup({
     type: new FormControl(null, []),
-    name: new FormControl(null, []),
-    value: new FormControl(null, []),
+    name: new FormControl(null, [Validators.required]),
+    value: new FormControl(null, [Validators.required]),
     order: new FormControl(null, []),
 
   })}
@@ -459,6 +459,7 @@ export class TasksFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('tasksEntity.parameters');
+    dialogRef.componentInstance.form=this.parameterForm;
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){

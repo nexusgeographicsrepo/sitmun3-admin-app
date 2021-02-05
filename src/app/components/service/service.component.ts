@@ -73,6 +73,7 @@ export class ServiceComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(service => {
       service.id = null;
+      service.createdDate = new Date();
       service.name = 'copia_'.concat(service.name)
       promises.push(new Promise((resolve, reject) => {​​​​​​​ this.serviceService.create(service).subscribe((resp) =>{​​​​​​​resolve(true)}​​​​​​​)}​​​​​​​));
       Promise.all(promises).then(() => {

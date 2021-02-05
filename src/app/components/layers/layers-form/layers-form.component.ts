@@ -2,11 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-<<<<<<< HEAD
-import { CartographyService, ServiceService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from '@sitmun/frontend-core';
-=======
-import { CartographyService, ServiceService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from 'dist/sitmun-frontend-core/';
->>>>>>> d5a17ab7c8bbff526a32687def125cf2bb1ad867
+import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory,Connection,ApplicationService, CartographyGroup, CartographyAvailabilityService,CartographyParameterService, HalParam, HalOptions, Cartography } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -112,6 +108,7 @@ export class LayersFormComponent implements OnInit {
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
     private cartographyParameterService: CartographyParameterService,
+    private cartographyFilterService: CartographyFilterService,
     private treeNodeService: TreeNodeService,
     private territoryService: TerritoryService,
     private territoryTypeService: TerritoryTypeService,
@@ -178,7 +175,7 @@ export class LayersFormComponent implements OnInit {
     }));
 
     let valueTypeByDefault = {
-      value: -1,
+      value: null,
       description: '-------'
     }
     this.filterValueTypes.push(valueTypeByDefault);
@@ -562,6 +559,7 @@ export class LayersFormComponent implements OnInit {
       column: new FormControl(null),
       value: new FormControl(null, []),
       valueType: new FormControl(null, []),
+      _links: new FormControl(null, []),
     })
   }
   // AG-GRID
@@ -715,32 +713,31 @@ export class LayersFormComponent implements OnInit {
   }
   getAllRowsTerritorialFilters(data: any[] )
   {
-    // console.log(data);
-    // let territorialFilterToSave = [];
-    // let parameterToDelete = [];
-    // const promises: Promise<any>[] = [];
-    // data.forEach(parameter => {
-    //   if (parameter.status === 'Pending creation' || parameter.status === 'Modified') {
-    //     if(! parameter._links) {
-    //       console.log(this.layerToEdit);
-    //       parameter.cartography=this.layerToEdit;
-    //     } //If is new, you need the service link
-    //     territorialFilterToSave.push(parameter)
-    //   }
-    //   if(parameter.status === 'Deleted' && parameter._links ) {parameterToDelete.push(parameter) }
-    // });
+    console.log(data);
+    let territorialFilterToSave = [];
+    let territorialFilterToDelete = [];
+    const promises: Promise<any>[] = [];
+    data.forEach(territoryFilter => {
+      if (territoryFilter.status === 'Pending creation' || territoryFilter.status === 'Modified') {
+        if(! territoryFilter._links) {
+          territoryFilter.cartography=this.layerToEdit;
+        } //If is new, you need the service link
+        territorialFilterToSave.push(territoryFilter)
+      }
+      if(territoryFilter.status === 'Deleted' && territoryFilter._links ) {territorialFilterToDelete.push(territoryFilter) }
+    });
 
-    // territorialFilterToSave.forEach(saveElement => {
-    //   promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
-    // });
+    territorialFilterToSave.forEach(saveElement => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
+    });
 
-    // parameterToDelete.forEach(deletedElement => {
-    //   promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
-    // });
+    territorialFilterToDelete.forEach(deletedElement => {
+      promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
+    });
 
-    // Promise.all(promises).then(() => {
-    //   this.dataUpdatedEventParameters.next(true);
-    // });
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventTerritorialFilter.next(true);
+    });
 	
 
   }

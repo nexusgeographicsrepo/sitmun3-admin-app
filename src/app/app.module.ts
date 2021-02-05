@@ -105,6 +105,7 @@ import {
   ApplicationBackgroundService,
   TaskParameterService,
   TerritoryTypeService,
+  CartographyFilterService,
   TreeNodeService,
 } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
@@ -190,7 +191,7 @@ import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.com
     ApplicationService, TreeService, TerritoryTypeService, TaskAvailabilityService, BackgroundService, CartographyService, CartographyGroupService,
     TaskGroupService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
     Principal, UserPositionService, AccountService,CartographyAvailabilityService,ServiceParameterService,ApplicationParameterService,
-    CartographyParameterService,  TaskUIService, TaskParameterService, ApplicationBackgroundService, TreeNodeService,
+    CartographyParameterService, CartographyFilterService,  TaskUIService, TaskParameterService, ApplicationBackgroundService, TreeNodeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MessagesInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthExpiredInterceptor, multi: true }

@@ -2,11 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayersFormComponent } from './layers-form.component';
 import { RouterModule } from '@angular/router';
-<<<<<<< HEAD
-import {  CartographyService, ServiceService, TerritoryTypeService, ConnectionService, TreeNodeService, TerritoryService, CartographyGroupService, CartographyAvailabilityService,CartographyParameterService, CodeListService  } from '@sitmun/frontend-core';
-=======
-import {  CartographyService, ServiceService, ConnectionService, TreeNodeService, TerritoryService, CartographyGroupService, CartographyAvailabilityService,CartographyParameterService, CodeListService  } from 'dist/sitmun-frontend-core/';
->>>>>>> d5a17ab7c8bbff526a32687def125cf2bb1ad867
+import {  CartographyService, ServiceService, TerritoryTypeService, ConnectionService, TreeNodeService, TerritoryService, CartographyGroupService, CartographyAvailabilityService,CartographyParameterService, CodeListService  } from  'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';

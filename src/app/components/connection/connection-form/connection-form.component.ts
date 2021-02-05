@@ -349,14 +349,13 @@ export class ConnectionFormComponent implements OnInit {
       user: this.formConnection.value.user,
       password: this.formConnection.value.password
     }
-    /*this.connectionService.testConnection(connection).subscribe(
+    this.connectionService.testConnection(connection).subscribe(
       result => {
-        debugger
+        
       },
       error => {
         console.log(error);
       });
-*/
   }
 
 }

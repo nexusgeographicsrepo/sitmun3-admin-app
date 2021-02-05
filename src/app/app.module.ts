@@ -12,7 +12,7 @@ import { APP_ROUTING } from './app-routes';
 
 //interceptors
 import { MessagesInterceptor } from './interceptors/messages.interceptor';
-import { AuthInterceptor, AuthExpiredInterceptor } from '@sitmun/frontend-core';
+import { AuthInterceptor, AuthExpiredInterceptor } from 'dist/sitmun-frontend-core/';
 
 //i18n
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -105,7 +105,7 @@ import {
   ApplicationBackgroundService,
   TaskParameterService,
   TreeNodeService,
-} from '@sitmun/frontend-core';
+} from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
 import { SidenavService } from './services/sidenav.service';
 import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.component';

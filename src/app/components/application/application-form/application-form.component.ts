@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService, ApplicationParameterService, RoleService,
    HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService,
-   ApplicationBackgroundService, Role, Background, Tree, Application, CodeList } from '@sitmun/frontend-core';
+   ApplicationBackgroundService, Role, Background, Tree, Application, CodeList } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';

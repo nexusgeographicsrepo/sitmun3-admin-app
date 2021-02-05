@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TaskService, TaskGroupService, CartographyService, TaskParameterService, TaskAvailabilityService, TaskUIService, RoleService, TerritoryService, Task, Territory, Role } from '@sitmun/frontend-core';
+import { TaskService, TaskGroupService, CartographyService, TaskParameterService, TaskAvailabilityService, TaskUIService, RoleService, TerritoryService, Task, Territory, Role } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TreeService, TreeNodeService, CartographyService, Tree, TreeNode, Cartography } from '@sitmun/frontend-core';
+import { TreeService, TreeNodeService, CartographyService, Tree, TreeNode, Cartography } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';

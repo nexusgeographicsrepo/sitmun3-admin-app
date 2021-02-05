@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceService, Service } from '@sitmun/frontend-core';
+import { ServiceService, Service } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from '../../services/utils.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';

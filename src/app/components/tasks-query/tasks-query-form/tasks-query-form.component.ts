@@ -218,24 +218,7 @@ export class TasksQueryFormComponent implements OnInit {
        _links: new FormControl(null, []),
      })
    }
- 
-   addNewTasksQuery() {
-     console.log(this.formTasksQuery.value);
-     this.taskService.create(this.formTasksQuery.value)
-       .subscribe(resp => {
-         console.log(resp);
-         // this.router.navigate(["/company", resp.id, "formConnection"]);
-       });
-   }
- 
-   updateConnection() {
-     console.log(this.formTasksQuery.value);
- 
-     this.taskService.update(this.formTasksQuery.value)
-       .subscribe(resp => {
-         console.log(resp);
-       });
-   }
+
 
      // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {

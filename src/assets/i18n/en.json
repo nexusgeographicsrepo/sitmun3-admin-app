@@ -257,6 +257,7 @@
     "memberOfTerritories": "Parent Territories",
     "members": "Child Territories",
     "permissions": "Permissions",
+    "permissionsChildren": "Children permissions",
     "cartography": "Cartography",
     "task": "Tasca",
     "tasks": "Tasks",

@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { UserConfiguration } from '@sitmun/frontend-core';
 
 
 @Component({
@@ -22,20 +23,24 @@ export class TerritoryFormComponent implements OnInit {
   //Form
   themeGrid: any = environment.agGridTheme;
   scopeTypes: Array<any> = [];
-  groupTypeOfThisTerritory;
+  groupTypeOfThisTerritory:any;
   territoryForm: FormGroup;
-  territoryToEdit;
+  territoryToEdit:any;
   territoryID = -1;
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
   dataLoaded: Boolean = false;
-  idGroupType;
-  terrritoryObj;
+  idGroupType:any;
+  terrritoryObj:any;
 
   //Grids
   columnDefsPermits: any[];
   getAllElementsEventPermits: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventPermits: Subject<boolean> = new Subject<boolean>();
+
+  columnDefsPermitsChild: any[];
+  getAllElementsEventPermitsChild: Subject<boolean> = new Subject<boolean>();
+  dataUpdatedEventPermitsChild: Subject<boolean> = new Subject<boolean>();
 
   columnDefsMemberOf: any[];
   getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject<boolean>();
@@ -165,10 +170,7 @@ export class TerritoryFormComponent implements OnInit {
         error => {
 
         });
-      });
-
-
-
+    });
 
 
     this.columnDefsPermits = [
@@ -177,7 +179,14 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
+    ];
 
+    this.columnDefsPermitsChild = [
+      environment.selCheckboxColumnDef,
+      { headerName: 'Id', field: 'id', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'roleChildren', editable: false },
+      { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
     ];
 
     this.columnDefsMemberOf = [
@@ -186,7 +195,6 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
-
     ];
 
     this.columnDefsMembers = [
@@ -195,7 +203,6 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
-
     ];
 
     this.columnDefsCartographies = [
@@ -204,7 +211,6 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'cartographyName', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'cartographyLayers', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
-
     ];
 
     this.columnDefsTasks = [
@@ -212,7 +218,6 @@ export class TerritoryFormComponent implements OnInit {
       { headerName: 'Id', field: 'taskId', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroupName', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
-
     ];
 
     this.columnDefsTerritoriesDialog = [
@@ -283,45 +288,11 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   getTerritoryGroups() {
-    // return (this.http.get(`http://localhost:8080/api/territory-group-types`))
-    //   .pipe(map(data => data[`_embedded`][`territory-group-types`]));
     return this.territoryGroupTypeService.getAll();
   }
 
   getTerritoryGroupOfThisTerritory() {
-    // return (this.http.get(`http://localhost:8080/api/territory-group-types/${this.territoryID}`));
-
     return this.territoryGroupTypeService.get(this.territoryID);
-  }
-
-  addNewTerritory() {
-    this.updateExtent();
-    this.updateScope('large');
-    console.log(this.territoryForm.value);
-
-    this.territoryService.create(this.territoryForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
-      });
-    this.updateScope('short');
-
-
-  }
-
-  updateTerritory() {
-    this.updateExtent();
-    this.updateScope('large');
-    this.territoryForm.patchValue({
-      logo: null
-    });
-    console.log(this.territoryForm.value);
-    this.territoryService.save(this.territoryForm.value)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-    this.updateScope('short');
-
   }
 
   updateExtent() {
@@ -331,48 +302,8 @@ export class TerritoryFormComponent implements OnInit {
     });
   }
 
-  private updateScope(currentFormat: string) {
-    let scopeToUpdate = this.translateScopeType(currentFormat, this.territoryForm.get('scope').value)
-    this.territoryForm.patchValue({
-      scope: scopeToUpdate
-    });
-  }
-
-  updateGroupType() {
-
-    let linkGroupType;
-    this.idGroupType = this.territoryForm.value.groupType;
-    if (this.idGroupType == -1) {
-      this.territoryForm.patchValue({
-        groupType: null
-      })
-    }
-    else {
-
-    }
-    console.log(linkGroupType)
-  }
-
-
-  private translateScopeType(currentFormat: string, type: string) {
-
-    if (currentFormat === 'large') {
-      if (type === 'Municipal') { return 'M' }
-      else if (type === 'Supramunicipal') { return 'R' }
-      else if (type === 'Total') { return 'T' }
-      else if (type === 'selectType') { return null }
-    }
-    else if (currentFormat === 'short') {
-      if (type === 'M') { return 'Municipal' }
-      else if (type === 'R') { return 'Supramunicipal' }
-      else if (type === 'T') { return 'Total' }
-      else if (type === null) { return '------' }
-    }
-
-  }
 
   // AG-GRID
-
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
 
@@ -386,12 +317,28 @@ export class TerritoryFormComponent implements OnInit {
     params2.push(param);
     let query: HalOptions = { params: params2 };
 
-    return this.userConfigurationService.getAll(query);
-
+    return this.userConfigurationService.getAll(query)
+      .pipe(map((data: any[]) => data.filter(elem => elem.roleChildren == null)
+      ));;
   }
 
+  // ******** Permitsn Children ******** //
+  getAllPermitsChild = (): Observable<any> => {
 
+    if (this.territoryID == -1) {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
 
+    let params2: HalParam[] = [];
+    let param: HalParam = { key: 'territory.id', value: this.territoryID }
+    params2.push(param);
+    let query: HalOptions = { params: params2 };
+
+    return this.userConfigurationService.getAll(query)
+      .pipe(map((data: any[]) => data.filter(elem => elem.roleChildren != null)
+      ));;
+  }
 
   getAllRowsPermits(data: any[]) {
 
@@ -420,7 +367,6 @@ export class TerritoryFormComponent implements OnInit {
     });
 
     usersConfDelete.forEach(deletedElement => {
-
       if (deletedElement._links) {
         promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
       }
@@ -435,8 +381,6 @@ export class TerritoryFormComponent implements OnInit {
 
   // ******** MembersOf ******** //
   getAllMembersOf = (): Observable<any> => {
-
-
     if (this.territoryID == -1) {
       const aux: Array<any> = [];
       return of(aux);
@@ -498,12 +442,7 @@ export class TerritoryFormComponent implements OnInit {
     return (this.http.get(urlReq))
       .pipe(map(data => data['_embedded']['territories']));
 
-
   }
-
-
-
-
 
   getAllRowsMembers(data: any[]) {
 
@@ -531,9 +470,6 @@ export class TerritoryFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       let url = this.territoryToEdit._links.members.href.split('{', 1)[0];
       this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMembers)
-      // this.terrritoryObj.substituteAllRelation('members',territoriesToPut).subscribe(
-      //   result => {console.log(result)}
-      // )
     });
   }
 
@@ -563,11 +499,10 @@ export class TerritoryFormComponent implements OnInit {
     data.forEach(cartography => {
       cartography.territory = this.territoryToEdit;
       if (cartography.status === 'Pending creation') {
-        let index= data.findIndex(element => element.cartographyId === cartography.cartographyId && !element.new)
-        if(index === -1)
-        {
+        let index = data.findIndex(element => element.cartographyId === cartography.cartographyId && !element.new)
+        if (index === -1) {
           cartographiesToCreate.push(cartography)
-          cartography.new=false;
+          cartography.new = false;
         }
 
       }
@@ -604,11 +539,7 @@ export class TerritoryFormComponent implements OnInit {
 
     return (this.http.get(urlReq))
       .pipe(map(data => data['_embedded']['task-availabilities']));
-
-
   }
-
-
 
   getAllRowsTasks(data: any[]) {
     let tasksToDelete = [];
@@ -617,17 +548,14 @@ export class TerritoryFormComponent implements OnInit {
       if (task.status === 'Deleted' && task._links) { tasksToDelete.push(task) }
       if (task.status === 'Pending creation') {
 
-        let index= data.findIndex(element => element.taskId === task.taskId && !element.new)
-        if(index === -1)
-        {
-          task.new=false;
+        let index = data.findIndex(element => element.taskId === task.taskId && !element.new)
+        if (index === -1) {
+          task.new = false;
           let taskToCreate: TaskAvailability = new TaskAvailability();
           taskToCreate.territory = this.territoryToEdit;
           taskToCreate.task = task;
           tasksToCreate.push(taskToCreate)
         }
-
-
       }
     });
     const promises: Promise<any>[] = [];
@@ -685,8 +613,6 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.titlesTable = [this.utils.getTranslate('territoryEntity.users'), this.utils.getTranslate('territoryEntity.roles')];
     dialogRef.componentInstance.nonEditable = false;
 
-
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
@@ -702,7 +628,6 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   // ******** Territory Member Of Dialog  ******** //
-
   getAllTerritoriesMemberOfDialog = () => {
     return this.territoryService.getAll().
       pipe(
@@ -737,11 +662,9 @@ export class TerritoryFormComponent implements OnInit {
         }
       }
     });
-
   }
 
   // ******** Territory Members Dialog  ******** //
-
   getAllTerritoriesMembersDialog = () => {
     return this.territoryService.getAll().
       pipe(
@@ -774,10 +697,9 @@ export class TerritoryFormComponent implements OnInit {
         }
       }
     });
-
   }
-  // ******** Cartography Dialog  ******** //
 
+  // ******** Cartography Dialog  ******** //
   getAllCartographiesDialog = () => {
     return this.cartographyService.getAll();
   }
@@ -791,8 +713,6 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.layers');
     dialogRef.componentInstance.titlesTable = [''];
     dialogRef.componentInstance.nonEditable = false;
-
-
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -817,7 +737,6 @@ export class TerritoryFormComponent implements OnInit {
         cartographyLayers: element.layers,
         cartographyName: element.name,
         new: true,
-
       }
       newData.push(item);
 
@@ -827,7 +746,6 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   // ******** Tasks Dialog  ******** //
-
   getAllTasksDialog = () => {
     return this.taskService.getAll();
   }
@@ -843,37 +761,29 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.titlesTable = [''];
     dialogRef.componentInstance.nonEditable = false;
 
-
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
           this.addElementsEventTasks.next(this.adaptFormatTask(result.data[0]))
         }
       }
-
     });
-    
-
   }
 
   adaptFormatTask(dataToAdapt: any[]) {
     let newData: any[] = [];
 
     dataToAdapt.forEach(element => {
-      let item:any = {...element}
+      let item: any = { ...element }
       item.id = null;
-      item.taskGroupName= element.groupName
-      item.taskId= element.id
-      item.new=true
+      item.taskGroupName = element.groupName
+      item.taskId = element.id
+      item.new = true
       newData.push(item);
-
     });
 
     return newData;
   }
-
-
 
   getRowsToAddPermits(territory: Territory, roles: Role[], users: any[]) {
     let itemsToAdd: any[] = [];
@@ -897,64 +807,57 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   //Save button
-
   onSaveButtonClicked() {
 
-    if(this.territoryForm.valid)
-    {
-        console.log(this.territoryForm.value)
-        this.updateExtent();
-    
-        let groupType = this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
-        if (groupType == undefined) {
-          groupType = "";
-        }
-    
-    
-        this.terrritoryObj = new Territory();
-        this.terrritoryObj.id = this.territoryID,
-          this.terrritoryObj.code = this.territoryForm.value.code,
-          this.terrritoryObj.name = this.territoryForm.value.name,
-          this.terrritoryObj.territorialAuthorityAddress = this.territoryForm.value.territorialAuthorityAddress,
-          this.terrritoryObj.territorialAuthorityLogo = this.territoryForm.value.territorialAuthorityLogo,
-          //this.terrritoryObj.territorialAuthorityLogo= null,
-          this.terrritoryObj.scope = this.territoryForm.value.scope,
-          this.terrritoryObj.groupType = groupType,
-          console.log(this.terrritoryObj.groupType);
-        this.terrritoryObj.extent = this.territoryForm.value.extent,
-          this.terrritoryObj.note = this.territoryForm.value.note,
-          this.terrritoryObj.blocked = this.territoryForm.value.blocked,
-          this.terrritoryObj._links = this.territoryForm.value._links
-    
-        if (this.territoryID == -1) {
-          this.terrritoryObj.createdDate = new Date();
-        } else {
-          this.terrritoryObj.id = this.territoryForm.value.id;
-          this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
-        }
-        this.territoryService.save(this.terrritoryObj)
-          .subscribe(resp => {
-            console.log(resp);
-            this.territoryToEdit = resp;
-            this.territoryID = resp.id;
-            this.territoryForm.patchValue({
-              id: resp.id,
-              _links: resp._links
-            })
-            this.getAllElementsEventPermits.next(true);
-            this.getAllElementsEventCartographies.next(true);
-            this.getAllElementsEventTasks.next(true);
-            this.getAllElementsEventTerritoriesMemberOf.next(true);
-            this.getAllElementsEventTerritoriesMembers.next(true);
-          },
-            error => {
-              console.log(error);
-            });
+    if (this.territoryForm.valid) {
+      console.log(this.territoryForm.value)
+      this.updateExtent();
+
+      let groupType = this.territoryGroups.find(element => element.id == this.territoryForm.value.groupType)
+      if (groupType == undefined) {
+        groupType = "";
+      }
+
+      this.terrritoryObj = new Territory();
+      this.terrritoryObj.id = this.territoryID,
+      this.terrritoryObj.code = this.territoryForm.value.code,
+      this.terrritoryObj.name = this.territoryForm.value.name,
+      this.terrritoryObj.territorialAuthorityAddress = this.territoryForm.value.territorialAuthorityAddress,
+      this.terrritoryObj.territorialAuthorityLogo = this.territoryForm.value.territorialAuthorityLogo,
+      this.terrritoryObj.scope = this.territoryForm.value.scope,
+      this.terrritoryObj.groupType = groupType,
+      this.terrritoryObj.extent = this.territoryForm.value.extent,
+      this.terrritoryObj.note = this.territoryForm.value.note,
+      this.terrritoryObj.blocked = this.territoryForm.value.blocked,
+      this.terrritoryObj._links = this.territoryForm.value._links
+
+      if (this.territoryID == -1) {
+        this.terrritoryObj.createdDate = new Date();
+      } else {
+        this.terrritoryObj.id = this.territoryForm.value.id;
+        this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
+      }
+      this.territoryService.save(this.terrritoryObj)
+        .subscribe(resp => {
+          console.log(resp);
+          this.territoryToEdit = resp;
+          this.territoryID = resp.id;
+          this.territoryForm.patchValue({
+            id: resp.id,
+            _links: resp._links
+          })
+          this.getAllElementsEventPermits.next(true);
+          this.getAllElementsEventCartographies.next(true);
+          this.getAllElementsEventTasks.next(true);
+          this.getAllElementsEventTerritoriesMemberOf.next(true);
+          this.getAllElementsEventTerritoriesMembers.next(true);
+        },
+          error => {
+            console.log(error);
+          });
     }
     else {
       this.utils.showRequiredFieldsError();
     }
-
   }
-
 }

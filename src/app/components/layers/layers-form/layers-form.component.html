@@ -278,7 +278,7 @@
                 <label class="formLabel">
                   {{'layersEntity.selectable' | translate}}
                 </label>
-                <mat-checkbox formControlName="selectableFeatureEnabled"> </mat-checkbox>
+                <mat-checkbox formControlName="selectableFeatureEnabled" (change)="onSelectableFeatureEnabledChange($event)"> </mat-checkbox>
               </div>
 
               <div class="colFormDiv">

@@ -162,26 +162,16 @@ export class TasksDownloadFormComponent implements OnInit {
     })
   }
 
-  addNewTasksDownload() {
-    console.log(this.formTasksDownload.value);
-    this.taskService.create(this.formTasksDownload.value)
-      .subscribe(resp => {
-        console.log(resp);
-        // this.router.navigate(["/company", resp.id, "formConnection"]);
-      });
-  }
 
-  updateConnection() {
-    console.log(this.formTasksDownload.value);
-
-    this.taskService.update(this.formTasksDownload.value)
-      .subscribe(resp => {
-        console.log(resp);
-      });
-  }
   
   // ******** Roles ******** //
   getAllRoles = () => {
+
+    if(this.taskDownloadID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
     
     return (this.http.get(`${this.taskDownloadToEdit._links.roles.href}`))
     .pipe( map( data =>  data['_embedded']['roles']) );
@@ -216,6 +206,13 @@ export class TasksDownloadFormComponent implements OnInit {
 
   // ******** Territories  ******** //
   getAllTerritories = () => {
+
+    if(this.taskDownloadID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
     var urlReq=`${this.taskDownloadToEdit._links.availabilities.href}`
     if(this.taskDownloadToEdit._links.availabilities.templated){
       var url=new URL(urlReq.split("{")[0]);

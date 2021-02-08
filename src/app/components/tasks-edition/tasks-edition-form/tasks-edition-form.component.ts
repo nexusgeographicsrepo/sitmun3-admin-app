@@ -95,6 +95,7 @@ export class TasksEditionFormComponent implements OnInit {
       }).subscribe()
       }));
 
+    Promise.all(promises).then(() => {
      this.activatedRoute.params.subscribe(params => {
        this.taskEditionID = +params.id;
        if (this.taskEditionID !== -1) {
@@ -134,6 +135,7 @@ export class TasksEditionFormComponent implements OnInit {
        error => {
  
        });
+      });
 
        this.columnDefsColumns = [
         environment.selCheckboxColumnDef,
@@ -244,6 +246,12 @@ export class TasksEditionFormComponent implements OnInit {
    
    // ******** Columns ******** //
    getAllColumns = () => {
+
+    if(this.taskEditionID == -1)
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
      
      // return (this.http.get(`${this.formTasksEdition.value._links.cartographies.href}`))
      // .pipe( map( data =>  data['_embedded']['cartographies']) );

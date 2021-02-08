@@ -406,7 +406,7 @@ export class TerritoryFormComponent implements OnInit {
       }
       if (userConf.status === 'Pending creation') {
         console.log(item);
-        let index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new)
+        let index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && !element.new)
         if (index === -1) {
           userConf.new = false;
           usersConfToCreate.push(item)

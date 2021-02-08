@@ -88,6 +88,9 @@ export class TasksReportFormComponent implements OnInit {
            }
          );
        }
+       else{
+        this.dataLoaded=true;
+       }
  
      },
        error => {

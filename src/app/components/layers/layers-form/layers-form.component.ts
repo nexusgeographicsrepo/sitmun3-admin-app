@@ -1127,32 +1127,37 @@ export class LayersFormComponent implements OnInit {
       if(selectService==undefined){
         selectService=null
       }
+
+      let legendType= this.legendTypes.find(x => x.id===this.layerForm.value.legendType )
+      if(legendType==undefined){
+        legendType=null
+      }
   
       let cartography= new Cartography();
       cartography.name= this.layerForm.value.name,
-      cartography.service= this.layerForm.value.service,
+      cartography.service= service,
       cartography.layers= this.layerForm.value.layers,
       cartography.minimumScale= this.layerForm.value.minimumScale,
       cartography.maximumScale= this.layerForm.value.maximumScale,
       cartography.geometryType= this.layerForm.value.geometryType,
       cartography.order= this.layerForm.value.order,
       cartography.transparency= this.layerForm.value.transparency,
-      cartography.metadataUrl= this.layerForm.value.metadataURL,
-      cartography.legendTip= this.layerForm.value.legendType,
-      cartography.legendUrl= this.layerForm.value.legendUrl,
-      /*cartography.description= this.layerForm.value.description,
-      cartography.datasetURL= this.layerForm.value.datasetURL, //here
-      cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap,
-      cartography.applyFilterToGetFeatureInfo= this.layerForm.value.applyFilterToGetFeatureInfo,
-      cartography.applyFilterToSpatialSelection= this.layerForm.value.applyFilterToSpatialSelection,*/
-      cartography.queryAct= this.layerForm.value.queryableFeatureEnabled,
-      cartography.queryable= this.layerForm.value.queryableFeatureAvailable,
-      cartography.queryLay= this.layerForm.value.queryableLayers,
-      cartography.themeable= this.layerForm.value.thematic,
+      cartography.metadataURL= this.layerForm.value.metadataURL,
+      // cartography.legendType= legendType
+      cartography.legendURL= this.layerForm.value.legendUrl,
+      cartography.description= this.layerForm.value.description,
+      // cartography.datasetURL= this.layerForm.value.datasetURL, 
+      // cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap,
+      // cartography.applyFilterToGetFeatureInfo= this.layerForm.value.applyFilterToGetFeatureInfo,
+      // cartography.applyFilterToSpatialSelection= this.layerForm.value.applyFilterToSpatialSelection
+      cartography.queryableFeatureEnabled= this.layerForm.value.queryableFeatureEnabled,
+      cartography.queryableFeatureAvailable= this.layerForm.value.queryableFeatureAvailable,
+      cartography.queryableLayers= this.layerForm.value.queryableLayers,
+      cartography.thematic= this.layerForm.value.thematic,
       cartography.blocked= this.layerForm.value.blocked,
-      cartography.selectable= this.layerForm.value.selectableFeatureEnabled,
+      cartography.selectableFeatureEnabled= this.layerForm.value.selectableFeatureEnabled,
       cartography.selectionService= selectService,
-      cartography.selectionLayer= this.layerForm.value.selectableLayers,
+      // cartography.selectionLayer= this.layerForm.value.selectableLayers,
       cartography.connection= null,
       cartography._links= this.layerForm.value._links
     

@@ -112,7 +112,7 @@
                   <app-data-grid  [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
                   [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()' 
                   [discardChangesButton]=true [redoButton]=true [undoButton]=true  [deleteButton]=true [newButton]=true 
-                  (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (remove)="removeParameters($event)" (new)='openParametersDialog()'  > </app-data-grid>
+                  (getAllRows)="getAllRowsParameters($event)" [actionButton]=true  (new)='openParametersDialog()'  > </app-data-grid>
               </div>
           </ng-template>
         

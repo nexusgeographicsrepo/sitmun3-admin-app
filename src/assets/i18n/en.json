@@ -69,6 +69,7 @@
     "generalData": "General Data",
     "user": "User",
     "firstname": "First name",
+    "name": "Name",
     "lastname": "Last name",
     "administrator": "Administrator",
     "blocked": "Blocked",

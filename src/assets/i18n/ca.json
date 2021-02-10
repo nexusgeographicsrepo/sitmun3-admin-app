@@ -68,6 +68,7 @@
     "generalData": "Dades Generals",
     "user": "Usuari",
     "firstname": "Nom",
+    "name": "Nom",
     "lastname": "Cognom",
     "administrator": "Administrador",
     "blocked": "Bloquejat",

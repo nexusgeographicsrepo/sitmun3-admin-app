@@ -12,8 +12,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
 import { DialogGridComponent, DialogFormComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
-import { Xml2js } from "xml2js";
-
+import * as xml2js from 'xml2js';
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
@@ -35,6 +34,7 @@ export class ServiceFormComponent implements OnInit {
   projections: Array<string>;
   serviceTypes: Array<any> = [];
   requestTypes: Array<any> = [];
+  serviceCapabilitiesData:any={};
 
   //Grids
   themeGrid: any = environment.agGridTheme;
@@ -122,7 +122,6 @@ export class ServiceFormComponent implements OnInit {
                 this.serviceToEdit.supportedSRS.forEach((projection) => {
                   this.projections.push(projection);
                 });
-  
               }
               // this.projections = this.serviceToEdit.supportedSRS.split(';');
               this.parametersUrl = this.serviceToEdit._links.parameters.href;
@@ -130,6 +129,7 @@ export class ServiceFormComponent implements OnInit {
                 id: this.serviceID,
                 name: this.serviceToEdit.name,
                 type: this.serviceToEdit.type,
+                description: this.serviceToEdit.description,
                 serviceURL: this.serviceToEdit.serviceURL,
                 proxyUrl: this.serviceToEdit.proxyUrl,
                 supportedSRS: this.serviceToEdit.supportedSRS,
@@ -203,6 +203,7 @@ export class ServiceFormComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
       ]),
+      description: new FormControl(null,[]),
       type: new FormControl(null, [
         Validators.required,
       ]),
@@ -249,15 +250,33 @@ export class ServiceFormComponent implements OnInit {
       this.projections.splice(index, 1);
     }
   }
-  getCapabilitiesService(){
-    this.http.get(`${this.serviceForm.value.serviceURL}?request=GetCapabilities`).subscribe(resp => {
-      debugger;
+
+  getCapabilitiesDataService(){
+    this.http.get(`${this.serviceForm.value.serviceURL}?request=GetCapabilities`, { responseType: 'text' }).subscribe(resp => {
+
       console.log(resp);
       // this.router.navigate(["/company", resp.id, "formConnection"]);
+      const parser = new xml2js.Parser({ explicitArray:false,strict: false, trim: true });
+      parser.parseString(resp, (err, result) => {
+        this.serviceCapabilitiesData=result;
+        this.changeServiceDataByCapabilities();
+   
+      });
     });
   }
 
-
+  changeServiceDataByCapabilities(){
+    debugger;
+    if (this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.CAPABILITY.LAYER.SRS !== null) {
+      this.projections=[];
+      this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.CAPABILITY.LAYER.SRS.forEach((projection) => {
+        this.projections.push(projection);
+      });
+    }
+    this.serviceForm.patchValue({
+      description: this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.SERVICE.ABSTRACT,
+    })
+  }
   // AG-GRID
 
   // ******** Parameters configuration ******** //

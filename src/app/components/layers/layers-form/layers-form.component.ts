@@ -344,7 +344,7 @@ export class LayersFormComponent implements OnInit {
 
               if (!this.layerToEdit.thematic) { this.layerForm.get('geometryType').disable(); }
 
-              if (!this.layerToEdit.selectableFeatureEnabled) { 
+              if (!this.layerToEdit.selectableFeatureEnabled) {
                 this.layerForm.get('spatialSelectionService').disable();
                 this.layerForm.get('selectableLayers').disable();
               }
@@ -514,7 +514,7 @@ export class LayersFormComponent implements OnInit {
     if (value.checked) {
       this.layerForm.get('spatialSelectionService').enable();
       this.layerForm.get('selectableLayers').enable();
-    } else{
+    } else {
       this.layerForm.get('spatialSelectionService').disable();
       this.layerForm.get('selectableLayers').disable();
     }
@@ -1156,8 +1156,6 @@ export class LayersFormComponent implements OnInit {
         // cartography.selectionLayer= this.layerForm.value.selectableLayers,
         cartography.connection = null,
         cartography._links = this.layerForm.value._links
-
-      debugger;
 
       this.cartographyService.save(cartography)
         .subscribe(resp => {

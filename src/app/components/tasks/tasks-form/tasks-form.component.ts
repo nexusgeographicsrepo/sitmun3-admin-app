@@ -451,10 +451,6 @@ export class TasksFormComponent implements OnInit {
 
   openParametersDialog(data: any) {
 
-    this.parameterForm.patchValue({
-      type: "VALOR"
-    });
-
 
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;

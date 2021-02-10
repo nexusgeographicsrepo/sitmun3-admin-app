@@ -338,19 +338,8 @@ export class ApplicationFormComponent implements OnInit {
       title: new FormControl(null),
       jspTemplate: new FormControl(null),
       theme: new FormControl(null),
-      /*mobileUrl: new FormControl(null, [
-        Validators.required,
-      ]),
-      mobileCSS: new FormControl(null, [
-        Validators.required,
-      ]),
-      defaultTool: new FormControl(null, [
-        Validators.required,
-      ]),
-      moveSupramunicipal: new FormControl(null, [
-        Validators.required,
-      ]),*/
-      situationMap: new FormControl(null, ),
+
+      situationMap: new FormControl(null,[] ),
       scales: new FormControl(null),
       srs: new FormControl(null),
       treeAutoRefresh: new FormControl(null),
@@ -817,8 +806,9 @@ export class ApplicationFormComponent implements OnInit {
 
     if(this.applicationForm.valid)
     {
+        debugger;
         let situationMap= this.situationMapList.find(x => x.id===this.applicationForm.value.situationMap )
-        if(situationMap==undefined){
+        if(situationMap==undefined || situationMap.id==-1 ){
           situationMap=null
         }
     
@@ -836,6 +826,7 @@ export class ApplicationFormComponent implements OnInit {
         appObj.situationMap=situationMap;
         if(this.applicationID==-1){
           appObj.createdDate=new Date();
+          appObj.id=null;
         }else{
           appObj.id=this.applicationForm.value.id;
           appObj.createdDate=this.applicationToEdit.createdDate

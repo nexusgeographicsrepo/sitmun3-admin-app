@@ -282,6 +282,7 @@
     "roles": "Rols",
     "taskGroup": "Grup tasca",
     "layers": "Capes",
+    "permits": "Permisos",
     "status": "Estat"
   },
   "roleEntity": {

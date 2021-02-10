@@ -270,6 +270,7 @@
     "roles": "Roles",
     "taskGroup": "Task group",
     "layers": "Layers",
+    "permits": "Permits",
     "status": "Status"
   },
   "roleEntity": {

@@ -266,7 +266,6 @@ export class ServiceFormComponent implements OnInit {
   }
 
   changeServiceDataByCapabilities(){
-    debugger;
     if (this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.CAPABILITY.LAYER.SRS !== null) {
       this.projections=[];
       this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.CAPABILITY.LAYER.SRS.forEach((projection) => {

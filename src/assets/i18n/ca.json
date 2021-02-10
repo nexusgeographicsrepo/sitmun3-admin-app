@@ -32,6 +32,7 @@
   "requiredFieldMessage": "Empleni tots els camps obligatoris ",
   "duplicateMessage": "Si dupliques les dades sense guardar els canvis, les modificacions seran sobreescrites, vols continuar?",
   "addChildRoles": "Vols afegir rols fills al territori seleccionat?",
+  "extentError" : "L'extensió introduida no és vàlida",
   "caution": "Perill",
   "atention": "Atenció",
   "lang": {

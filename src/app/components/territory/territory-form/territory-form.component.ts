@@ -324,11 +324,10 @@ export class TerritoryFormComponent implements OnInit {
     let query: HalOptions = { params: params2 };
 
     return this.userConfigurationService.getAll(query)
-      .pipe(map((data: any[]) => data.filter(elem => elem.roleChildren == null)
+      .pipe(map((data: any[]) => data.filter(elem => elem.appliesToChildrenTerritories==false)
       ));;
   }
 
-  // ******** Permits Children ******** //
   getAllPermitsChild = (): Observable<any> => {
 
     if (this.territoryID == -1) {
@@ -342,7 +341,7 @@ export class TerritoryFormComponent implements OnInit {
     let query: HalOptions = { params: params2 };
 
     return this.userConfigurationService.getAll(query)
-      .pipe(map((data: any[]) => data.filter(elem => elem.roleChildren != null)
+      .pipe(map((data: any[]) => data.filter(elem => elem.appliesToChildrenTerritories==true)
       ));;
   }
 

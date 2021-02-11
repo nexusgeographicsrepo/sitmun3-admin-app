@@ -271,6 +271,7 @@
     "taskGroup": "Task group",
     "layers": "Layers",
     "permits": "Permits",
+    "inheritPermissionsOfParents": "Inherit permissions from parents",
     "status": "Status"
   },
   "roleEntity": {

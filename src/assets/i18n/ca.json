@@ -283,6 +283,7 @@
     "taskGroup": "Grup tasca",
     "layers": "Capes",
     "permits": "Permisos",
+    "inheritPermissionsOfParents": "Permisos heredats dels pares",
     "status": "Estat"
   },
   "roleEntity": {

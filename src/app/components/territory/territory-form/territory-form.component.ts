@@ -42,6 +42,8 @@ export class TerritoryFormComponent implements OnInit {
   getAllElementsEventPermitsChild: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventPermitsChild: Subject<boolean> = new Subject<boolean>();
 
+  dataUpdatedEventInheritPermissions: Subject<boolean> = new Subject<boolean>();
+
   columnDefsMemberOf: any[];
   getAllElementsEventTerritoriesMemberOf: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventMemberOf: Subject<boolean> = new Subject<boolean>();
@@ -388,6 +390,60 @@ export class TerritoryFormComponent implements OnInit {
     });
 
   }
+
+
+  // ******** InheritPermissionsOfParents ******** //
+
+  getAllInheritPermissions = (): Observable<any> => {
+
+    if (this.territoryID == -1) {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+    var urlReq = `${this.territoryToEdit._links.memberOf.href}`
+    if (this.territoryToEdit._links.memberOf.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    let rowsToShow = []
+    const promises: Promise<any>[] = [];
+    return this.http.get(urlReq).pipe(map(data =>{
+      let territoriesMemberOf=data['_embedded']['territories'];
+        if(territoriesMemberOf.length == 0) {
+          return [];
+         }
+         else{
+          territoriesMemberOf.forEach(territoryMemberOf => {
+            let params2: HalParam[] = [];
+            let param: HalParam = { key: 'territory.id', value: territoryMemberOf.id }
+            params2.push(param);
+            let query: HalOptions = { params: params2 };
+              this.userConfigurationService.getAll(query)
+                .pipe(map((data: any[]) => {
+                  data.forEach(element => {
+                    if (element.roleChildren != null)
+                    {
+                        rowsToShow.push(element);
+                    }
+                  });
+ 
+                } 
+                ));
+          });
+          return rowsToShow;
+         }
+
+      }));
+
+    // Promise.all(promises).then(() => {
+	  //     return of(rowsToShow)
+    // });
+    
+  }
+
 
   // ******** MembersOf ******** //
   getAllMembersOf = (): Observable<any> => {

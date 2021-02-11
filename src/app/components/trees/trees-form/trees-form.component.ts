@@ -246,10 +246,10 @@ export class TreesFormComponent implements OnInit {
     
   }
 
-  updateAllTrees(treesToUpdate: any[], depth:number,mapNewIdentificators: Map <number, any[]>, newId, newParent)
+  updateAllTrees(treesToUpdate: any[], depth:number,mapNewIdentificators: Map <number, any[]>, promises: Promise<any>[], newId, newParent)
   {
     console.log(treesToUpdate);
-    const promises: Promise<any>[] = [];
+
 
     treesToUpdate.forEach((tree, index) => {
 
@@ -321,7 +321,7 @@ export class TreesFormComponent implements OnInit {
                   treesToUpdate.splice(0,0,result)
                   if(mapNewIdentificators.has(oldId))
                   {
-                    this.updateAllTrees(mapNewIdentificators.get(oldId),1, mapNewIdentificators, result.id,result)
+                    this.updateAllTrees(mapNewIdentificators.get(oldId),depth++, mapNewIdentificators, promises, result.id,result)
                   }
 
                   resolve(true);
@@ -345,6 +345,7 @@ export class TreesFormComponent implements OnInit {
               this.treeNodeService.remove(treeNodeObj).subscribe(
                 result => {
                   console.log(result);
+                  treesToUpdate.splice(index,1);
                   resolve(true)
                 },
                 error => {
@@ -361,7 +362,7 @@ export class TreesFormComponent implements OnInit {
 
     });
     Promise.all(promises).then(() => {
-	    if(depth === 0){this.refreshTreeEvent.next(true);}
+      if(depth === 0) {this.refreshTreeEvent.next(true)}
     });
       
   }
@@ -377,7 +378,8 @@ export class TreesFormComponent implements OnInit {
     .subscribe(resp => {
       this.treeToEdit=resp;
       let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
-      this.updateAllTrees(data,0,mapNewIdentificators, null, null);
+      const promises: Promise<any>[] = [];
+      this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);
     },
     error=>{
       console.log(error);

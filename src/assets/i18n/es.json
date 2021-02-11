@@ -269,6 +269,7 @@
     "roles": "Roles",
     "taskGroup": "Grupo tarea",
     "layers": "Capas",
+    "inheritPermissionsOfParents": "Permisos heredadados de los padres",
     "status": "Estado"
   },
   "roleEntity": {

@@ -27,6 +27,7 @@ export class TreesFormComponent implements OnInit {
   newElement: Boolean = false;
   sendNodeUpdated: Subject<any> = new Subject <any>();
   getAllElementsNodes: Subject<boolean> = new Subject <boolean>();
+  refreshTreeEvent: Subject<boolean> = new Subject <boolean>();
   createNodeEvent: Subject<boolean> = new Subject <boolean>();
   getAllElementsEventCartographies: Subject<boolean> = new Subject <boolean>();
   columnDefsCartographies: any[];
@@ -158,6 +159,8 @@ export class TreesFormComponent implements OnInit {
       currentType='node'
     }
     console.log(node);
+    let status="Modified"
+    if(node.id < 0) { status = "Pending creation"}
     this.treeNodeForm.patchValue({
       id: node.id,
       name: node.name,
@@ -169,7 +172,7 @@ export class TreesFormComponent implements OnInit {
       children: node.children,
       parent: node.parent,
       isFolder: node.isFolder,
-      status: "Modified",
+      status: status,
       type:currentType
     })
   }
@@ -248,8 +251,10 @@ export class TreesFormComponent implements OnInit {
   updateAllTrees(treesToUpdate: any[])
   {
     console.log(treesToUpdate);
-    treesToUpdate.forEach(tree => {
+    const promises: Promise<any>[] = [];
+    treesToUpdate.forEach((tree) => {
 
+	
       if(tree.status)
       {
         var treeNodeObj: TreeNode=new TreeNode();
@@ -275,7 +280,12 @@ export class TreesFormComponent implements OnInit {
           if (currentParent !== undefined)
           {
 
-            treeNodeObj.parent= currentParent;
+            if(tree.status === "Pending creation"){
+              treeNodeObj.parent= currentParent._links.self.href;
+            }
+            else if ( tree.status === "Modified" ){
+              treeNodeObj.parent= currentParent;
+            }
             console.log(treeNodeObj)
 
             if(treeNodeObj._links)
@@ -287,35 +297,53 @@ export class TreesFormComponent implements OnInit {
             }
       
             console.log(treeNodeObj)
+            promises.push(new Promise((resolve, reject) => {
             this.treeNodeService.save(treeNodeObj).subscribe(
               result => {
                 console.log(result);
+                tree=result;
+                resolve(true);
               },
               error => {
                 console.log(error);
               }
             )
+          }));
+		
           }
 
 
         }
         else {
-          console.log(tree);
-          this.treeNodeService.remove(treeNodeObj).subscribe(
-            result => {
-              console.log(result);
-            },
-            error => {
-              console.log(error);
-            }
-          )
+          if(tree.id >= 0)
+          {
+            promises.push(new Promise((resolve, reject) => {
+              this.treeNodeService.remove(treeNodeObj).subscribe(
+                result => {
+                  console.log(result);
+                  resolve(true)
+                },
+                error => {
+                  console.log(error);
+                }
+              )
+            }));
+          }
         }
+
 
       }
 
 
     });
+    Promise.all(promises).then(() => {
+	      this.refreshTreeEvent.next(true);
+    });
+      
+
   }
+
+  
 
   
 

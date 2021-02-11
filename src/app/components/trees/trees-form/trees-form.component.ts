@@ -117,8 +117,6 @@ export class TreesFormComponent implements OnInit {
       status: new FormControl(null, []),
       cartographyName: new FormControl(null, []),
       
-
-
     })
   }
 
@@ -248,11 +246,12 @@ export class TreesFormComponent implements OnInit {
     
   }
 
-  updateAllTrees(treesToUpdate: any[])
+  updateAllTrees(treesToUpdate: any[], depth:number,mapNewIdentificators: Map <number, any[]>, newId, newParent)
   {
     console.log(treesToUpdate);
     const promises: Promise<any>[] = [];
-    treesToUpdate.forEach((tree) => {
+
+    treesToUpdate.forEach((tree, index) => {
 
 	
       if(tree.status)
@@ -272,43 +271,68 @@ export class TreesFormComponent implements OnInit {
 
           let currentParent;
           if(tree.parent !== null) {
-            currentParent= treesToUpdate.find(element => element.id === tree.parent ); 
-            currentParent.tree=this.treeToEdit;
+            if(tree.parent >= 0)
+            {
+              currentParent= treesToUpdate.find(element => element.id === tree.parent ) 
+              currentParent.tree=this.treeToEdit;
+            }
+            else{
+              if(newId == null)
+              {
+                if(mapNewIdentificators.has(tree.parent)) { mapNewIdentificators[tree.parent].push(tree)  }
+                else{
+                  mapNewIdentificators.set(tree.parent,[tree])
+                }
+                currentParent=undefined;
+              }
+              else{
+                currentParent= newParent;
+              }
+            }
+
           }
           else { currentParent=null;}
           
           if (currentParent !== undefined)
           {
 
-            if(tree.status === "Pending creation"){
-              treeNodeObj.parent= currentParent._links.self.href;
-            }
-            else if ( tree.status === "Modified" ){
-              treeNodeObj.parent= currentParent;
-            }
-            console.log(treeNodeObj)
-
-            if(treeNodeObj._links)
-            {
-              treeNodeObj._links.cartography.href=treeNodeObj._links.cartography.href.split("{")[0];
-              treeNodeObj._links.parent.href=treeNodeObj._links.parent.href.split("{")[0];
-              treeNodeObj._links.treeNode.href=treeNodeObj._links.treeNode.href.split("{")[0];
-              treeNodeObj.tree._links.allNodes.href=treeNodeObj.tree._links.allNodes.href.split("{")[0];
-            }
-      
-            console.log(treeNodeObj)
-            promises.push(new Promise((resolve, reject) => {
-            this.treeNodeService.save(treeNodeObj).subscribe(
-              result => {
-                console.log(result);
-                tree=result;
-                resolve(true);
-              },
-              error => {
-                console.log(error);
+              if(tree.status === "Pending creation"){
+                treeNodeObj.parent= currentParent._links.self.href;
               }
-            )
-          }));
+              else if ( tree.status === "Modified" ){
+                treeNodeObj.parent= currentParent;
+              }
+              console.log(treeNodeObj)
+  
+              if(treeNodeObj._links)
+              {
+                treeNodeObj._links.cartography.href=treeNodeObj._links.cartography.href.split("{")[0];
+                treeNodeObj._links.parent.href=treeNodeObj._links.parent.href.split("{")[0];
+                treeNodeObj._links.treeNode.href=treeNodeObj._links.treeNode.href.split("{")[0];
+                treeNodeObj.tree._links.allNodes.href=treeNodeObj.tree._links.allNodes.href.split("{")[0];
+              }
+        
+              console.log(treeNodeObj)
+              promises.push(new Promise((resolve, reject) => {
+              this.treeNodeService.save(treeNodeObj).subscribe(
+                result => {
+                  let oldId=tree.id;
+                  treesToUpdate.splice(index,1);
+                  treesToUpdate.splice(0,0,result)
+                  if(mapNewIdentificators.has(oldId))
+                  {
+                    this.updateAllTrees(mapNewIdentificators.get(oldId),1, mapNewIdentificators, result.id,result)
+                  }
+
+                  resolve(true);
+                },
+                error => {
+                  console.log(error);
+                }
+              )
+            }));
+            
+
 		
           }
 
@@ -337,10 +361,9 @@ export class TreesFormComponent implements OnInit {
 
     });
     Promise.all(promises).then(() => {
-	      this.refreshTreeEvent.next(true);
+	    if(depth === 0){this.refreshTreeEvent.next(true);}
     });
       
-
   }
 
   
@@ -353,7 +376,8 @@ export class TreesFormComponent implements OnInit {
     this.treeService.save( this.treeForm.value)
     .subscribe(resp => {
       this.treeToEdit=resp;
-      this.updateAllTrees(data);
+      let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
+      this.updateAllTrees(data,0,mapNewIdentificators, null, null);
     },
     error=>{
       console.log(error);

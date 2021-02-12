@@ -181,8 +181,10 @@ export class TreesFormComponent implements OnInit {
     this.newElement=true;
     this.currentNodeIsFolder=false
     console.log(parent);
+    let parentId = parent.id;
+    if(parent.name === "Root") {parentId=null}
     this.treeNodeForm.patchValue({
-      parent: parent.id,
+      parent: parentId ,
       isFolder: false,
       children: [],
       status: "Pending creation"
@@ -195,8 +197,10 @@ export class TreesFormComponent implements OnInit {
     this.treeNodeForm.reset();
     this.newElement=true;
     this.currentNodeIsFolder=true
+    let parentId = parent.id;
+    if(parent.name === "Root") {parentId=null}
     this.treeNodeForm.patchValue({
-      parent: parent.id,
+      parent: parentId,
       isFolder: true,
       children: [],
       status: "Pending creation"
@@ -254,6 +258,7 @@ export class TreesFormComponent implements OnInit {
     this.treeService.save( this.treeForm.value)
     .subscribe(resp => {
       this.treeToEdit=resp;
+      this.treeID=resp.id;
       let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
       const promises: Promise<any>[] = [];
       this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);
@@ -312,10 +317,10 @@ export class TreesFormComponent implements OnInit {
           if (currentParent !== undefined)
           {
 
-              if(tree.status === "Pending creation"){
+              if(tree.status === "Pending creation" && currentParent!=null){
                 treeNodeObj.parent= currentParent._links.self.href;
               }
-              else if ( tree.status === "Modified" ){
+              else if ( tree.status === "Modified" && currentParent!=null){
                 treeNodeObj.parent= currentParent;
               }
               console.log(treeNodeObj)

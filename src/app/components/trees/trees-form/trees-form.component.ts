@@ -210,19 +210,19 @@ export class TreesFormComponent implements OnInit {
   onSaveButtonClicked(){ 
     if(this.treeForm.valid)
     {    
-      if(this.treeID === -1)
-      {
-        this.treeService.save( this.treeForm.value)
-        .subscribe(resp => {
-          this.treeToEdit=resp;
-        },
-        error=>{
-          console.log(error);
-        });
-      }
-      else {
+      // if(this.treeID === -1)
+      // {
+      //   this.treeService.save( this.treeForm.value)
+      //   .subscribe(resp => {
+      //     this.treeToEdit=resp;
+      //   },
+      //   error=>{
+      //     console.log(error);
+      //   });
+      // }
+      // else {
         this.getAllElementsNodes.next(true);
-      }
+      // }
     }
     else {
       this.utils.showRequiredFieldsError();
@@ -246,13 +246,29 @@ export class TreesFormComponent implements OnInit {
     
   }
 
-  updateAllTrees(treesToUpdate: any[], depth:number,mapNewIdentificators: Map <number, any[]>, promises: Promise<any>[], newId, newParent)
+    
+
+  getAllNodes(data: TreeNode[])
+  {
+    console.log(data);
+    this.treeService.save( this.treeForm.value)
+    .subscribe(resp => {
+      this.treeToEdit=resp;
+      let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
+      const promises: Promise<any>[] = [];
+      this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);
+    },
+    error=>{
+      console.log(error);
+    });
+
+  }
+
+  async updateAllTrees(treesToUpdate: any[], depth:number,mapNewIdentificators: Map <number, any[]>, promises: Promise<any>[], newId, newParent)
   {
     console.log(treesToUpdate);
-
-
-    treesToUpdate.forEach((tree, index) => {
-
+      for(let i = 0; i<treesToUpdate.length; i++){
+        let tree= treesToUpdate[i];
 	
       if(tree.status)
       {
@@ -317,7 +333,7 @@ export class TreesFormComponent implements OnInit {
               this.treeNodeService.save(treeNodeObj).subscribe(
                 result => {
                   let oldId=tree.id;
-                  treesToUpdate.splice(index,1);
+                  treesToUpdate.splice(i,1);
                   treesToUpdate.splice(0,0,result)
                   if(mapNewIdentificators.has(oldId))
                   {
@@ -341,18 +357,9 @@ export class TreesFormComponent implements OnInit {
         else {
           if(tree.id >= 0)
           {
-            promises.push(new Promise((resolve, reject) => {
-              this.treeNodeService.remove(treeNodeObj).subscribe(
-                result => {
-                  console.log(result);
-                  treesToUpdate.splice(index,1);
-                  resolve(true)
-                },
-                error => {
-                  console.log(error);
-                }
-              )
-            }));
+              let idDeletedElement=tree.id;
+              await this.treeNodeService.remove(treeNodeObj).toPromise();
+
           }
         }
 
@@ -360,33 +367,13 @@ export class TreesFormComponent implements OnInit {
       }
 
 
-    });
+    };
     Promise.all(promises).then(() => {
       if(depth === 0) {this.refreshTreeEvent.next(true)}
     });
       
   }
 
-  
-
-  
-
-  getAllNodes(data: TreeNode[])
-  {
-    console.log(data);
-    this.treeService.save( this.treeForm.value)
-    .subscribe(resp => {
-      this.treeToEdit=resp;
-      let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
-      const promises: Promise<any>[] = [];
-      this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);
-    },
-    error=>{
-      console.log(error);
-    });
-
-    
-  }
 
   getSelectedRowsCartographies(data: any[] )
   {

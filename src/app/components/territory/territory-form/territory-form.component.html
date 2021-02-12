@@ -210,7 +210,7 @@
 
         <ng-template matExpansionPanelContent>
           <div class="appDataGridEditDiv">
-            <app-data-grid [columnDefs]="columnDefsPermitsChild" [themeGrid]='themeGrid' [getAll]='getAllInheritPermissions'
+            <app-data-grid [columnDefs]="columnDefsPermitsInherit" [themeGrid]='themeGrid' [getAll]='getAllInheritPermissions'
                [hideDuplicateButton]=true
               [eventRefreshSubscription]='dataUpdatedEventInheritPermissions.asObservable()'>
             </app-data-grid>

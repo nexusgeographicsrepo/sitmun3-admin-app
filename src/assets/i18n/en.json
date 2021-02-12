@@ -16,6 +16,7 @@
   "redo": "Redo",
   "undo": "Undo",
   "return": "Return",
+  "pendingDelete":"Pending delete",
   "search/replace": "Search/Replace",
   "selectType": "Select type",
   "ok-created": "Items created successfully",

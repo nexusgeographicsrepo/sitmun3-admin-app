@@ -16,6 +16,7 @@
   "redo": "Rehacer",
   "undo": "Deshacer",
   "return": "Volver",
+  "pendingDelete":"Pendiente eliminar",
   "search/replace": "Buscar/Reemplazar",
   "selectType": "Selecciona el tipo",
   "ok-created": "Los elementos se han creado correctamente",

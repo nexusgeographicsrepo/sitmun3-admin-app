@@ -120,7 +120,11 @@ export class UserFormComponent implements OnInit {
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territory', editable: false },
       { headerName: this.utils.getTranslate('userEntity.role'), field: 'role', editable: false },
-      { headerName: this.utils.getTranslate('userEntity.childRole'), field: 'roleChildren', editable: false },
+      {
+        headerName: this.utils.getTranslate('userEntity.appliesToChildrenTerritories'), field: 'appliesToChildrenTerritories', editable: false,
+        cellRenderer: 'btnCheckboxRendererComponent', floatingFilterComponent: 'btnCheckboxFilterComponent',
+        floatingFilterComponentParams: { suppressFilterButton: true },
+      },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
 
     ];
@@ -239,20 +243,16 @@ export class UserFormComponent implements OnInit {
 
       if (userConf.status === 'Pending creation') {
         let item = {
-          role: null,
-          roleChildren: null,
+          role: userConf.roleComplete,
+          appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
           territory: userConf.territoryComplete,
           user: this.userToEdit
         }
         let index;
-        if(userConf.roleChildrenId == null){
-          item.role= userConf.roleComplete,
-          index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new)
-        }
-        else{
-          item.roleChildren= userConf.roleChildrenComplete,
-          index = data.findIndex(element => element.roleChildrenId === item.roleChildren.id && element.territoryId === item.territory.id && element.userId === item.user.id && !element.new)
-        }
+        item.role= userConf.roleComplete,
+        index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id && 
+          element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
+
         if (index === -1) {
           userConf.new = false;
           usersConfToCreate.push(item)
@@ -423,7 +423,6 @@ export class UserFormComponent implements OnInit {
     let itemsToAdd: any[] = [];
       roles.forEach(role => {
         let item;
-        if(!rolesAreChildren) {
           item = {
             role: role.name,
             roleComplete: role,
@@ -432,23 +431,11 @@ export class UserFormComponent implements OnInit {
             territoryComplete: territory,
             territoryId: territory.id,
             userId: this.userID,
-            new: true
+            new: true,
+            appliesToChildrenTerritories: rolesAreChildren
           }
-        }
-        else {
-          item = {
-            roleChildren: role.name,
-            roleChildrenComplete: role,
-            roleChildrenId: role.id,
-            roleId: null,
-            roleMId: role.id,
-            territory: territory.name,
-            territoryComplete: territory,
-            territoryId: territory.id,
-            userId: this.userID,
-            new: true
-          }
-        }
+
+        
         if (this.userToEdit) { item.userId = this.userToEdit.id }
         itemsToAdd.push(item);
       })
@@ -528,12 +515,12 @@ export class UserFormComponent implements OnInit {
         this.userService.save(userObj)
           .subscribe(resp => {
             console.log(resp)
-            this.userToEdit = resp
-            this.userID = resp.id;
-            this.userForm.patchValue({
-              id: resp.id,
-              _links: resp._links
-            })
+            // this.userToEdit = resp
+            // this.userID = resp.id;
+            // this.userForm.patchValue({
+              // id: resp.id,
+              // _links: resp._links
+            // })
             console.log(this.userToEdit);
             this.getAllElementsEventTerritoryData.next(true);
             this.getAllElementsEventPermits.next(true);

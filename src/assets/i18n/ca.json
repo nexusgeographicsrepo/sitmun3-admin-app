@@ -88,6 +88,7 @@
     "dataCreated": "Alta",
     "code": "Codi",
     "status": "Estat",
+    "appliesToChildrenTerritories" : "Aplicat als fills",
     "childRole": "Rol fill"
   },
   "connectionEntity": {

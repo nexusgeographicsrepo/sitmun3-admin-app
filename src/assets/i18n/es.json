@@ -88,6 +88,7 @@
     "expirationDate": "Caducidad",
     "dataCreated": "Alta",
     "code": "Código",
+    "appliesToChildrenTerritories" : "Aplicado a los hijos",
     "status": "Estado"
   },
   "connectionEntity": {

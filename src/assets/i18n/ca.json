@@ -219,7 +219,8 @@
     "description": "Descripció",
     "active": "Actiu",
     "cartographyGroup": "Grup cartografia",
-    "status": "Estat"
+    "status": "Estat",
+    "createdDate": "Alta"
   },
   "applicationEntity": {
     "generalData": "Dades Generals",

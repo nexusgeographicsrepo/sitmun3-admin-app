@@ -8,6 +8,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { config } from 'src/config';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import { iterateExtend } from '@syncfusion/ej2-angular-grids';
@@ -41,7 +42,7 @@ export class LayersFormComponent implements OnInit {
 
 
   //Grids
-  themeGrid: any = environment.agGridTheme;
+  themeGrid: any = config.agGridTheme;
   columnDefsParameters: any[];
   getAllElementsEventParameters: Subject<boolean> = new Subject<boolean>();
   dataUpdatedEventParameters: Subject<boolean> = new Subject<boolean>();
@@ -392,7 +393,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsParameters = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.field'), field: 'value' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       {
@@ -411,7 +412,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsSpatialConfigurations = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.column'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.label'), field: 'value' },
       {
@@ -427,7 +428,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsTerritorialFilter = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.type'), field: 'type' },
@@ -439,7 +440,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsTerritories = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'territoryId', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'territoryCode', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'territoryName', editable: false },
@@ -449,7 +450,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsLayersConfiguration = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('layersEntity.status'), field: 'status', editable: false },
@@ -458,7 +459,7 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsNodes = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'nodeName' },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name' },
@@ -467,7 +468,7 @@ export class LayersFormComponent implements OnInit {
     ];
 
     this.columnDefsParametersDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('layersEntity.field'), field: 'field', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.alias'), field: 'alias', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.format'), field: 'format', editable: false },
@@ -477,7 +478,7 @@ export class LayersFormComponent implements OnInit {
 
 
     this.columnDefsTerritoriesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
@@ -485,13 +486,13 @@ export class LayersFormComponent implements OnInit {
 
 
     this.columnDefsCartographyGroupsDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsNodesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('layersEntity.name'), field: 'name', editable: false },
     ];

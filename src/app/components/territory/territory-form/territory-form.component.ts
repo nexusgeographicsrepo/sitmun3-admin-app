@@ -8,6 +8,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { config } from 'src/config';
 import { DialogGridComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import { UserConfiguration } from '@sitmun/frontend-core';
@@ -21,7 +22,7 @@ import { UserConfiguration } from '@sitmun/frontend-core';
 export class TerritoryFormComponent implements OnInit {
 
   //Form
-  themeGrid: any = environment.agGridTheme;
+  themeGrid: any = config.agGridTheme;
   scopeTypes: Array<any> = [];
   groupTypeOfThisTerritory: any;
   territoryForm: FormGroup;
@@ -183,7 +184,7 @@ export class TerritoryFormComponent implements OnInit {
 
 
     this.columnDefsPermits = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role', editable: false },
@@ -191,7 +192,7 @@ export class TerritoryFormComponent implements OnInit {
     ];
 
     this.columnDefsPermitsChild = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.role'), field: 'role', editable: false },
@@ -200,7 +201,7 @@ export class TerritoryFormComponent implements OnInit {
 
 
     this.columnDefsPermitsInherit = [
-     // environment.selCheckboxColumnDef,
+     // config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.user'), field: 'user', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.territory'), field: 'territory', editable: false },
@@ -209,7 +210,7 @@ export class TerritoryFormComponent implements OnInit {
     ];
 
     this.columnDefsMemberOf = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
@@ -217,7 +218,7 @@ export class TerritoryFormComponent implements OnInit {
     ];
 
     this.columnDefsMembers = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name' },
@@ -225,7 +226,7 @@ export class TerritoryFormComponent implements OnInit {
     ];
 
     this.columnDefsCartographies = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'cartographyId', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'cartographyName', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.layers'), field: 'cartographyLayers', editable: false },
@@ -233,44 +234,44 @@ export class TerritoryFormComponent implements OnInit {
     ];
 
     this.columnDefsTasks = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'taskId', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.taskGroup'), field: 'taskGroupName', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.status'), field: 'status', editable: false },
     ];
 
     this.columnDefsTerritoriesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsCartographiesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsTasksDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsUsersDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('roleEntity.username'), field: 'username', editable: false },
     ];
 
     this.columnDefsRolesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsTerritoriesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('territoryEntity.name'), field: 'name', editable: false },

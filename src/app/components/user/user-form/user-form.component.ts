@@ -8,6 +8,7 @@ import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { config } from 'src/config';
 import { DialogGridComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -31,7 +32,7 @@ export class UserFormComponent implements OnInit {
   dataLoaded: Boolean = false;
 
   //Grids
-  themeGrid: any = environment.agGridTheme;
+  themeGrid: any = config.agGridTheme;
   columnDefsPermits: any[];
   addElementsEventPermits: Subject<any[]> = new Subject<any[]>();
   dataUpdatedEventPermits: Subject<boolean> = new Subject<boolean>();
@@ -116,7 +117,7 @@ export class UserFormComponent implements OnInit {
 
     this.columnDefsPermits = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'Id', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territory', editable: false },
       { headerName: this.utils.getTranslate('userEntity.role'), field: 'role', editable: false },
@@ -131,7 +132,7 @@ export class UserFormComponent implements OnInit {
 
     this.columnDefsData = [
 
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territoryName' },
       { headerName: this.utils.getTranslate('userEntity.position'), field: 'name' },
       { headerName: this.utils.getTranslate('userEntity.organization'), field: 'organization' },
@@ -147,20 +148,20 @@ export class UserFormComponent implements OnInit {
     ];
 
     this.columnDefsTerritoryDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.code'), field: 'code', editable: false },
       { headerName: this.utils.getTranslate('userEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsRolesDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: 'ID', field: 'id', editable: false },
       { headerName: this.utils.getTranslate('userEntity.name'), field: 'name', editable: false },
     ];
 
     this.columnDefsTerritoryDataDialog = [
-      environment.selCheckboxColumnDef,
+      config.selCheckboxColumnDef,
       { headerName: this.utils.getTranslate('userEntity.territory'), field: 'territory' },
       { headerName: this.utils.getTranslate('userEntity.position'), field: 'type' },
       { headerName: this.utils.getTranslate('userEntity.organization'), field: 'organization' },

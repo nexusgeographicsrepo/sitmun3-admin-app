@@ -207,7 +207,8 @@
     "description": "Descripción",
     "activo": "Activo",
     "cartographyGroup": "Grupo cartografía",
-    "status": "Estado"
+    "status": "Estado",
+    "createdDate": "Alta"
   },
   "applicationEntity": {
     "generalData": "Datos Generales",

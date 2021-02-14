@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { config } from 'src/config';
 import { Observable, of, Subject } from 'rxjs';
 import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class TreesFormComponent implements OnInit {
 
-  themeGrid: any = environment.agGridTheme;
+  themeGrid: any = config.agGridTheme;
   treeID: number = -1;
   treeForm: FormGroup;
   treeNodeForm: FormGroup;

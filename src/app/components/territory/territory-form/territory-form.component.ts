@@ -359,7 +359,7 @@ export class TerritoryFormComponent implements OnInit {
       ));;
   }
 
-  getAllRowsPermits(data: any[]) {
+  getAllRowsPermits(data: any[], permitsChildren: boolean) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
@@ -368,18 +368,19 @@ export class TerritoryFormComponent implements OnInit {
       if (userConf.status === 'pendingCreation') {
         let item = {
           role: userConf.roleComplete,
-          appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
+          appliesToChildrenTerritories: permitsChildren,
           territory: this.territoryToEdit,
           user: userConf.userComplete,
         }
         console.log(item);
         let index;
-        if (userConf.roleChildren == null) {
-          index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && !element.appliesToChildrenTerritories && !element.new)
-        }
-        else {
-          index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
-        }
+        // if (userConf.roleChildren == null) {
+        index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
+           element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
+        // }
+        // else {
+        //   index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
+        // }
         if (index === -1) {
           userConf.new = false;
           usersConfToCreate.push(item)

@@ -326,9 +326,9 @@ export class ApplicationFormComponent implements OnInit {
 
   initializeParameterForm(): void {
     this.parameterForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
-      value: new FormControl(null, [Validators.required]),
+      name: new FormControl(null),
+      type: new FormControl(null),
+      value: new FormControl(null),
 
     })
   }

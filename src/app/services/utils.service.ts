@@ -196,7 +196,8 @@ export class UtilsService {
     {
       headerName: 'Id',
       field: customId ? customId : 'id',
-      editable: false
+      editable: false,
+      minWidth: 80,
     }
 
     return columnDef;
@@ -226,7 +227,8 @@ export class UtilsService {
       editable: false,
       cellRenderer: (data) => {
         return this.getDateFormated(data)
-      }
+      },
+      minWidth: 140,
     }
 
     return columnDef;
@@ -263,6 +265,7 @@ export class UtilsService {
       cellRenderer: 'btnCheckboxRendererComponent',
       floatingFilterComponent: 'btnCheckboxFilterComponent',
       floatingFilterComponentParams: { suppressFilterButton: true },
+      minWidth: 110,
     }
 
     return columnDef;

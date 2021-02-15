@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
       this.utils.getIdColumnDef(),
       this.utils.getEditableColumnDef('userEntity.user', 'username'),
       this.utils.getEditableColumnDef('userEntity.firstname', 'firstName'),
-      this.utils.getEditableColumnDef('userEntity.lastName', 'lastName'),
+      this.utils.getEditableColumnDef('userEntity.lastname', 'lastName'),
       /*{
         headerName: this.utils.getTranslate('userEntity.administrator'), field: 'administrator', editable: false,
         cellRenderer: 'btnCheckboxRendererComponent', floatingFilterComponent: 'btnCheckboxFilterComponent',

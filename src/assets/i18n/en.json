@@ -177,7 +177,12 @@
     "selectable": "Selectable",
     "service": "Service",
     "layer": "Layer",
-    "connection":"Connection"
+    "connection":"Connection",
+    "territorialFilter": "Territorial filter",
+    "value": "Value",
+    "valueType": "Value type",
+    "typeId": "Id type",
+    "required": "Required"
   },
   "layersPermitsEntity": {
     "generalData": "General Data",

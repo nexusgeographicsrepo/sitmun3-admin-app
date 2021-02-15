@@ -208,8 +208,9 @@ export class UtilsService {
     {
       headerName: this.getTranslate('status'),
       field: 'status',
+      editable: false,
       valueFormatter: (params) => {
-        if (params.value != undefined) {
+        if (params.value != undefined && params.value !== '') {
           return this.getTranslate(params.value)
         }
       }

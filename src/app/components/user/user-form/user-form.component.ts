@@ -379,7 +379,7 @@ export class UserFormComponent implements OnInit {
           console.log(territorySelected);
           this.addElementsEventPermits.next(this.getRowsToAddPermits(this.userToEdit, territorySelected, result.data[1], false));
           // rowsToAdd.push(...tableUserConfWithoutRoleM);
-           if(territorySelected.scope==="R") {
+           if(territorySelected.scope==="R" && result.data[1].length>0) {
             const dialogChildRolesWantedMessageRef = this.dialog.open(DialogMessageComponent);
             dialogChildRolesWantedMessageRef.componentInstance.title=this.utils.getTranslate("atention");
             dialogChildRolesWantedMessageRef.componentInstance.message=this.utils.getTranslate("addChildRoles");

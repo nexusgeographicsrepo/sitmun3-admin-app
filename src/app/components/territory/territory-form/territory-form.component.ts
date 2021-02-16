@@ -699,11 +699,19 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
-          let rowsToAdd = this.getRowsToAddPermits(this.territoryToEdit, result.data[1], result.data[0], childrenTable)
-          console.log(rowsToAdd);
-          if (!childrenTable) { this.addElementsEventPermits.next(rowsToAdd) }
-          else { this.addElementsEventChildrenPermits.next(rowsToAdd) }
-
+          if(result.data[0].length>0 && result.data[1].length>0){
+            let rowsToAdd = this.getRowsToAddPermits(this.territoryToEdit, result.data[1], result.data[0], childrenTable)
+            console.log(rowsToAdd);
+            if (!childrenTable) { this.addElementsEventPermits.next(rowsToAdd) }
+            else { this.addElementsEventChildrenPermits.next(rowsToAdd) }
+          }
+          else{
+            const dialogRef = this.dialog.open(DialogMessageComponent);
+            dialogRef.componentInstance.title = this.utils.getTranslate("atention");
+            dialogRef.componentInstance.message = this.utils.getTranslate("doubleSelectionMessage");
+            dialogRef.componentInstance.hideCancelButton = true;
+            dialogRef.afterClosed().subscribe();
+          }
         }
       }
 

@@ -395,43 +395,52 @@ export class UserFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
-          console.log(result.data);
-          let territorySelected = result.data[0][0];
-          console.log(territorySelected);
-          this.addElementsEventPermits.next(this.getRowsToAddPermits(this.userToEdit, territorySelected, result.data[1], false));
-          // rowsToAdd.push(...tableUserConfWithoutRoleM);
-           if(territorySelected.scope==="R" && result.data[1].length>0) {
-            const dialogChildRolesWantedMessageRef = this.dialog.open(DialogMessageComponent);
-            dialogChildRolesWantedMessageRef.componentInstance.title = this.utils.getTranslate("atention");
-            dialogChildRolesWantedMessageRef.componentInstance.message = this.utils.getTranslate("addChildRoles");
-            dialogChildRolesWantedMessageRef.afterClosed().subscribe(messageResult => {
-              if (messageResult) {
-                if (messageResult.event === 'Accept') {
-                  const dialogRefChildRoles = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
-                  dialogRefChildRoles.componentInstance.getAllsTable = [this.getAllRolesDialog];
-                  dialogRefChildRoles.componentInstance.singleSelectionTable = [false];
-                  dialogRefChildRoles.componentInstance.columnDefsTable = [this.columnDefsRolesDialog];
-                  dialogRefChildRoles.componentInstance.themeGrid = this.themeGrid;
-                  dialogRefChildRoles.componentInstance.title = this.utils.getTranslate('userEntity.permissions');
-                  dialogRefChildRoles.componentInstance.titlesTable = [this.utils.getTranslate('userEntity.roles')];
-                  dialogRefChildRoles.componentInstance.nonEditable = false;
-                  dialogRefChildRoles.afterClosed().subscribe(childsResult => {
-                    if (childsResult) {
-                      if (childsResult.event === 'Add') {
-                        this.addElementsEventPermits.next(this.getRowsToAddPermits(this.userToEdit, territorySelected, childsResult.data[0], true));
-                      }
-                    }
+          if(result.data[0].length>0 && result.data[1].length>0){
 
-                  });
+            console.log(result.data);
+            let territorySelected = result.data[0][0];
+            console.log(territorySelected);
+            this.addElementsEventPermits.next(this.getRowsToAddPermits(this.userToEdit, territorySelected, result.data[1], false));
+            // rowsToAdd.push(...tableUserConfWithoutRoleM);
+             if(territorySelected.scope==="R" ) {
+              const dialogChildRolesWantedMessageRef = this.dialog.open(DialogMessageComponent);
+              dialogChildRolesWantedMessageRef.componentInstance.title = this.utils.getTranslate("atention");
+              dialogChildRolesWantedMessageRef.componentInstance.message = this.utils.getTranslate("addChildRoles");
+              dialogChildRolesWantedMessageRef.afterClosed().subscribe(messageResult => {
+                if (messageResult) {
+                  if (messageResult.event === 'Accept') {
+                    const dialogRefChildRoles = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+                    dialogRefChildRoles.componentInstance.getAllsTable = [this.getAllRolesDialog];
+                    dialogRefChildRoles.componentInstance.singleSelectionTable = [false];
+                    dialogRefChildRoles.componentInstance.columnDefsTable = [this.columnDefsRolesDialog];
+                    dialogRefChildRoles.componentInstance.themeGrid = this.themeGrid;
+                    dialogRefChildRoles.componentInstance.title = this.utils.getTranslate('userEntity.permissions');
+                    dialogRefChildRoles.componentInstance.titlesTable = [this.utils.getTranslate('userEntity.roles')];
+                    dialogRefChildRoles.componentInstance.nonEditable = false;
+                    dialogRefChildRoles.afterClosed().subscribe(childsResult => {
+                      if (childsResult) {
+                        if (childsResult.event === 'Add') {
+                          this.addElementsEventPermits.next(this.getRowsToAddPermits(this.userToEdit, territorySelected, childsResult.data[0], true));
+                        }
+                      }
+  
+                    });
+                  }
                 }
-              }
-            });
+              });
+  
+            }
+            // console.log(rowsToAdd);
+            // this.addElementsEventPermits.next(rowsToAdd);
 
           }
-          // console.log(rowsToAdd);
-          // this.addElementsEventPermits.next(rowsToAdd);
-
-
+          else{
+            const dialogRef = this.dialog.open(DialogMessageComponent);
+            dialogRef.componentInstance.title = this.utils.getTranslate("atention");
+            dialogRef.componentInstance.message = this.utils.getTranslate("doubleSelectionMessage");
+            dialogRef.componentInstance.hideCancelButton = true;
+            dialogRef.afterClosed().subscribe();
+          }
 
         }
       }

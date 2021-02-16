@@ -82,6 +82,7 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "permissions": "Permissions",
+    "permissionsChildren": "Children permissions",
     "role": "Role",
     "roles": "Roles",
     "territories": "Territories",
@@ -94,8 +95,9 @@
     "expirationDate": "Expiration",
     "dataCreated": "Created date",
     "code": "Code",
+    "status": "Status",
     "appliesToChildrenTerritories" : "Applied to children",
-    "status": "Status"
+    "childRole": "Children role"
   },
   "connectionEntity": {
     "generalData": "General Data",
@@ -200,9 +202,15 @@
     "status": "Status"
   },
   "treesEntity": {
+    "generalData": "General Data",
     "trees": "Trees",
     "name": "Name",
-    "status": "Status"
+    "status": "Status",
+    "tooltip": "Tooltip",
+    "radio": "Radio",
+    "visible": "Visible",
+    "cartography":"Cartography",
+    "configuration" : "Configuration"
   },
   "taskGroupEntity": {
     "generalData": "General Data",
@@ -295,6 +303,7 @@
     "applications": "Applications",
     "users": "Users",
     "cartography": "Cartography",
+    "permissiongroupLayersConfiguration": "Permission group layers configuration",
     "tasks": "Tasks",
     "username": "Username",
     "territory": "Territory",
@@ -389,7 +398,8 @@
     "territories": "Territories",
     "name": "Name",
     "status": "Status",
-    "taskName": "Task name"
+    "taskName": "Task name",
+    "roles": "Roles"
   },
   "tasksEditionEntity": {
     "generalData": "General Data",

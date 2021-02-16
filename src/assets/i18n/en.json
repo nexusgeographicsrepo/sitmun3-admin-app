@@ -20,6 +20,7 @@
   "pendingCreation":"Pendent Creation",
   "pendingModify":"Pendent modify",
   "status":"Status",
+  "statusOK": "Sin cambios",
   "search/replace": "Search/Replace",
   "selectType": "Select type",
   "ok-created": "Items created successfully",
@@ -566,5 +567,6 @@
   "loadingOoo": "Loading ...",
   "noRowsToShow": "No rows to display",
   "enabled": "Enabled",
-  "disabled": "Disabled"
+  "disabled": "Disabled",
+  "rowsToShow": "Rows to show"
 }

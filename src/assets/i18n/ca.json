@@ -396,7 +396,8 @@
     "territories": "Territoris",
     "name": "Nom",
     "status": "Estat",
-    "taskName": "Nom tasca"
+    "taskName": "Nom tasca",
+    "roles": "Rols"
   },
   "tasksEditionEntity": {
     "generalData": "Dades Generals",

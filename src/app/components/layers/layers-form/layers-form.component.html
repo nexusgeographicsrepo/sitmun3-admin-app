@@ -327,7 +327,7 @@
 
         </div>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid'
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsSpatialConfigurations" [themeGrid]='themeGrid'
             [getAll]='getAllSpatialConfigurations'
             [eventAddItemsSubscription]='addElementsEventSpatialConfigurations.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventSpatialConfigurations.asObservable()'
@@ -351,7 +351,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsParameters" [themeGrid]='themeGrid' [getAll]='getAllParameters'
             [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventParameters.asObservable()' [discardChangesButton]=true
@@ -372,7 +372,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsTerritorialFilter" [themeGrid]='themeGrid' [getAll]='getAllTerritorialFilters'
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsTerritorialFilter" [themeGrid]='themeGrid' [getAll]='getAllTerritorialFilters'
             [eventAddItemsSubscription]='addElementsTerritorialFilter.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsTerritorialFilter.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventTerritorialFilter.asObservable()' [discardChangesButton]=true
@@ -394,7 +394,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsTerritories" [themeGrid]='themeGrid' [getAll]='getAllTerritories'
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsTerritories" [themeGrid]='themeGrid' [getAll]='getAllTerritories'
             [eventAddItemsSubscription]='addElementsEventTerritories.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventTerritories.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventTerritories.asObservable()' [discardChangesButton]=true
@@ -416,7 +416,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsLayersConfiguration" [themeGrid]='themeGrid'
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsLayersConfiguration" [themeGrid]='themeGrid'
             [getAll]='getAllLayersConfiguration'
             [eventAddItemsSubscription]='addElementsEventCartographyGroups.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventLayersConfigurations.asObservable()'
@@ -439,7 +439,7 @@
 
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
-          <app-data-grid [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes'
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes'
             [eventAddItemsSubscription]='addElementsEventNodes.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventNodes.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventNodes.asObservable()' [discardChangesButton]=true

@@ -127,8 +127,7 @@
           <app-data-grid [columnDefs]="columnDefsData" [themeGrid]='themeGrid' [getAll]='getAllDataTerritory'  
           [eventAddItemsSubscription]='addElementsEventTerritoryData.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventTerritoryData.asObservable()' 
           [eventRefreshSubscription]='dataUpdatedEventTerritoryData.asObservable()' [discardChangesButton]=true [redoButton]=true
-          [undoButton]=true  [deleteButton]=true [addButton]=true [hideDuplicateButton]=true 
-          (getAllRows)="getAllRowsDataTerritories($event)" [actionButton]=true (add)="openTerritoryDataDialog($event)"> </app-data-grid>
+          [undoButton]=true  [hideDuplicateButton]=true (getAllRows)="getAllRowsDataTerritories($event)" [actionButton]=true > </app-data-grid>
       </div>
     </ng-template>
   

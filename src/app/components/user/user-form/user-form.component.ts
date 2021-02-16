@@ -217,19 +217,39 @@ export class UserFormComponent implements OnInit {
 
 
 
-  getAllRowsPermits(data: any[]) {
+ async getAllRowsPermits(data: any[]) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
-    data.forEach(userConf => {
+    let territoriesToAdd= [];
+    let territoriesToDelete= [];
+    // data.forEach(userConf => {
+    for(let i = 0; i<data.length; i++){
+      let userConf= data[i];
 
       if (userConf.status === 'pendingCreation') {
+
+        
         let item = {
           role: userConf.roleComplete,
           appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
           territory: userConf.territoryComplete,
           user: this.userToEdit
         }
+
+    
+
+
+        let indexTerritory = data.findIndex(element => element.territoryId === item.territory.id && !element.new )
+        if(indexTerritory === -1)
+        {
+          let itemTerritory = {
+            territory: userConf.territoryComplete,
+            user: this.userToEdit
+          }
+          territoriesToAdd.push(itemTerritory)
+        }
+
         let index;
         item.role = userConf.roleComplete,
           index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id &&
@@ -240,27 +260,60 @@ export class UserFormComponent implements OnInit {
           usersConfToCreate.push(item)
         }
       }
-      if (userConf.status === 'pendingDelete' && userConf._links) { usersConfDelete.push(userConf) }
-    });
+      if (userConf.status === 'pendingDelete' && userConf._links) {
+
+        
+        let indexTerritory = data.findIndex(element =>  element.territoryId === userConf.territoryId && element.status !== 'pendingDelete' )
+        if(indexTerritory === -1)
+        {
+          await this.userPositionService.getAll()
+          .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory )
+          )).toPromise().then(data => {
+            console.log(data);
+            territoriesToDelete.push(data)
+          })
+
+        }
+
+        usersConfDelete.push(userConf)
+        }
+    };
+
+    
     const promises: Promise<any>[] = [];
+    const promisesTerritories: Promise<any>[] = [];
+    
     usersConfToCreate.forEach(newElement => {
       promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
 
     usersConfDelete.forEach(deletedElement => {
-
       if (deletedElement._links) {
         promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
 
       }
-
+    });
+    
+    territoriesToAdd.forEach(newElement => {
+      promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
 
+    // territoriesToDelete.forEach(deletedElement => {
+    //   promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+    // });
+    
+
+    
     Promise.all(promises).then(() => {
       this.dataUpdatedEventPermits.next(true);
     });
-
+    
+    Promise.all(promisesTerritories).then(() => {
+      this.dataUpdatedEventTerritoryData.next(true);
+    });
+    
   }
+
 
   // ******** Data of Territory ******** //
   getAllDataTerritory = (): Observable<any> => {
@@ -289,32 +342,19 @@ export class UserFormComponent implements OnInit {
 
 
   getAllRowsDataTerritories(data: any[]) {
-    // let territoriesToCreate = [];
-    // let territoriesToDelete = [];
-    // data.forEach(territory => {
-    //   if (territory.status === 'pendingCreation') {territoriesToCreate.push(territory) }
-    //   if(territory.status === 'pendingDelete' && territory._links) {territoriesToDelete.push(territory._links.self.href) }
-    // });
+    let territoriesToEdit = [];
+    data.forEach(territory => {
+      if (territory.status === 'pendingModify') {territoriesToEdit.push(territory) }
+    });
 
-    // territoriesToCreate.forEach(newElement => {
+    const promises: Promise<any>[] = [];
+    territoriesToEdit.forEach(editedElement => {
+      promises.push(new Promise((resolve, reject) => { this.userPositionService.save(editedElement).subscribe((resp) => { resolve(true) }) }));
+    });
 
-    //   this.userPositionService.save(newElement).subscribe(
-    //     result => {
-    //       console.log(result)
-    //     }
-    //   )
-
-    // });
-
-    // territoriesToDelete.forEach(deletedElement => {
-
-    //   this.userPositionService.remove(deletedElement).subscribe(
-    //     result => {
-    //       console.log(result)
-    //     }
-    //   )
-
-    // });
+    Promise.all(promises).then(() => {
+      this.dataUpdatedEventTerritoryData.next(true);
+    });
 
   }
 

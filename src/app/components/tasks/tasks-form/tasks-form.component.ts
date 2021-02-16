@@ -337,9 +337,9 @@ export class TasksFormComponent implements OnInit {
     let parametersToDuplicate= []
     data.forEach(parameter => {
       let newParameter={...parameter}
-      newParameter.name= 'copia_'.concat(newParameter.name),
-      
-      
+      newParameter.name= 'copia_'.concat(newParameter.name);
+      newParameter.id= null;
+      newParameter._links= null;
       parametersToDuplicate.push(newParameter);
     });
     this.addElementsEventParameters.next(parametersToDuplicate);
@@ -454,6 +454,9 @@ export class TasksFormComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(DialogFormComponent);
+    this.parameterForm.patchValue({
+      type: "VALOR"
+    })
     dialogRef.componentInstance.HTMLReceived=this.newParameterDialog;
     dialogRef.componentInstance.title=this.utils.getTranslate('tasksEntity.parameters');
     dialogRef.componentInstance.form=this.parameterForm;

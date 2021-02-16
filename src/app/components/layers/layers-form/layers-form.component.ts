@@ -607,6 +607,7 @@ export class LayersFormComponent implements OnInit {
 
     Promise.all(promises).then(() => {
       this.dataUpdatedEventParameters.next(true);
+      this.dataUpdatedEventSpatialConfigurations.next(true);
     });
 
 
@@ -617,8 +618,9 @@ export class LayersFormComponent implements OnInit {
     data.forEach(parameter => {
       let newParameter = { ...parameter };
       newParameter.name = 'copia_'.concat(newParameter.name),
-        newParameter.id = null,
-        parametersToDuplicate.push(newParameter);
+      newParameter.id = null;
+      newParameter._links = null;
+      parametersToDuplicate.push(newParameter);
     });
 
     this.addElementsEventParameters.next(parametersToDuplicate);
@@ -630,7 +632,8 @@ export class LayersFormComponent implements OnInit {
     data.forEach(spatialSelection => {
       let newSpatialSelection = { ...spatialSelection };
       newSpatialSelection.name = 'copia_'.concat(newSpatialSelection.name),
-        newSpatialSelection.id = null,
+        newSpatialSelection.id = null;
+        newSpatialSelection._links = null;
         spatialSelectionsToDuplicate.push(newSpatialSelection);
     });
 
@@ -712,10 +715,11 @@ export class LayersFormComponent implements OnInit {
     data.forEach(territorialFilter => {
       let newTerritorialFilter = { ...territorialFilter };
       newTerritorialFilter.name = 'copia_'.concat(newTerritorialFilter.name),
-        newTerritorialFilter.id = null,
+        newTerritorialFilter.id = null;
+        // newTerritorialFilter._links = null;
         territorialFiltersToDuplicate.push(newTerritorialFilter);
     });
-
+    if(this)
     this.addElementsEventParameters.next(territorialFiltersToDuplicate);
 
   }
@@ -948,6 +952,12 @@ export class LayersFormComponent implements OnInit {
         if (result.event === 'Add') {
           let item = this.territorialFilterForm.value;
           item.giid = this.layerToEdit.id
+          if(this.territorialFilterForm.value.typeId === -1)
+          {
+            this.territorialFilterForm.patchValue({
+              typeId: null
+            })
+          }
           this.addElementsTerritorialFilter.next([item])
           console.log(this.territorialFilterForm.value)
         }
@@ -1104,31 +1114,31 @@ export class LayersFormComponent implements OnInit {
 
       let cartography = new Cartography();
       cartography.name = this.layerForm.value.name,
-        cartography.service = service,
-        cartography.layers = this.layerForm.value.layers,
-        cartography.minimumScale = this.layerForm.value.minimumScale,
-        cartography.maximumScale = this.layerForm.value.maximumScale,
-        cartography.geometryType = geometryType
+      cartography.service = service,
+      cartography.layers = this.layerForm.value.layers,
+      cartography.minimumScale = this.layerForm.value.minimumScale,
+      cartography.maximumScale = this.layerForm.value.maximumScale,
+      cartography.geometryType = geometryType
       cartography.order = this.layerForm.value.order,
-        cartography.transparency = this.layerForm.value.transparency,
-        cartography.metadataURL = this.layerForm.value.metadataURL,
-        cartography.legendType = legendType
+      cartography.transparency = this.layerForm.value.transparency,
+      cartography.metadataURL = this.layerForm.value.metadataURL,
+      cartography.legendType = legendType
       cartography.legendURL = this.layerForm.value.legendUrl,
-        cartography.description = this.layerForm.value.description,
-        // cartography.datasetURL= this.layerForm.value.datasetURL, 
-        // cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap,
-        // cartography.applyFilterToGetFeatureInfo= this.layerForm.value.applyFilterToGetFeatureInfo,
-        // cartography.applyFilterToSpatialSelection= this.layerForm.value.applyFilterToSpatialSelection
-        cartography.queryableFeatureEnabled = this.layerForm.value.queryableFeatureEnabled,
-        cartography.queryableFeatureAvailable = this.layerForm.value.queryableFeatureAvailable,
-        cartography.queryableLayers = this.layerForm.value.queryableLayers,
-        cartography.thematic = this.layerForm.value.thematic,
-        cartography.blocked = this.layerForm.value.blocked,
-        cartography.selectableFeatureEnabled = this.layerForm.value.selectableFeatureEnabled,
-        cartography.selectionService = selectService,
-        // cartography.selectionLayer= this.layerForm.value.selectableLayers,
-        cartography.connection = null,
-        cartography._links = this.layerForm.value._links
+      cartography.description = this.layerForm.value.description,
+      // cartography.datasetURL= this.layerForm.value.datasetURL, 
+      // cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap,
+      // cartography.applyFilterToGetFeatureInfo= this.layerForm.value.applyFilterToGetFeatureInfo,
+      // cartography.applyFilterToSpatialSelection= this.layerForm.value.applyFilterToSpatialSelection
+      cartography.queryableFeatureEnabled = this.layerForm.value.queryableFeatureEnabled,
+      cartography.queryableFeatureAvailable = this.layerForm.value.queryableFeatureAvailable,
+      cartography.queryableLayers = this.layerForm.value.queryableLayers,
+      cartography.thematic = this.layerForm.value.thematic,
+      cartography.blocked = this.layerForm.value.blocked,
+      cartography.selectableFeatureEnabled = this.layerForm.value.selectableFeatureEnabled,
+      cartography.selectionService = selectService,
+      // cartography.selectionLayer= this.layerForm.value.selectableLayers,
+      cartography.connection = null,
+      cartography._links = this.layerForm.value._links
 
       this.cartographyService.save(cartography)
         .subscribe(resp => {

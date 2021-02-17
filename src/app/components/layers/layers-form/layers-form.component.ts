@@ -264,9 +264,9 @@ export class LayersFormComponent implements OnInit {
               this.layerToEdit = resp;
               let layers= this.layerToEdit.layers.join(',');
               let queryableLayers= null
-              if(this.layerToEdit.queryableLayers != null ) {this.layerToEdit.queryableLayers.join(',')};
+              if(this.layerToEdit.queryableLayers != null ) {queryableLayers = this.layerToEdit.queryableLayers.join(',')};
               let selectableLayers= null;
-              if(this.layerToEdit.selectableLayers != null ) {this.layerToEdit.selectableLayers.join(',')};
+              if(this.layerToEdit.selectableLayers != null ) {selectableLayers = this.layerToEdit.selectableLayers.join(',')};
               this.parametersUrl = this.layerToEdit._links.parameters.href;
               this.layerForm.setValue({
                 id: this.layerID,
@@ -449,7 +449,7 @@ export class LayersFormComponent implements OnInit {
     ];
 
     this.columnDefsNodes = [
-      this.utils.getSelCheckboxColumnDef(),
+      // this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
       this.utils.getEditableColumnDef('layersEntity.name', 'name'),
       //this.utils.getEditableColumnDef('layersEntity.createdDate', 'tree'),
@@ -1140,9 +1140,9 @@ export class LayersFormComponent implements OnInit {
         service = null
       }
 
-      let selectService = this.spatialConfigurationServices.find(x => x.id === this.layerForm.value.spatialSelectionService)
-      if (selectService == undefined || selectService.id == -1) {
-        selectService = null
+      let spatialService= this.spatialConfigurationServices.find(x => x.id===this.layerForm.value.spatialSelectionService )
+      if(spatialService==undefined || spatialService.id==-1 ){
+        spatialService=null
       }
 
       // let legendType = this.legendTypes.find(x => x.id === this.layerForm.value.legendType)
@@ -1178,12 +1178,12 @@ export class LayersFormComponent implements OnInit {
       if(cartography.queryableFeatureAvailable == null) { cartography.queryableFeatureAvailable = false }
       else {cartography.queryableFeatureAvailable = this.layerForm.value.queryableFeatureAvailable };//
 
+
+      cartography.selectionService= spatialService
       if(this.layerForm.value.queryableLayers != null) {cartography.queryableLayers= this.layerForm.value.queryableLayers.split(",") };
-      // cartography.queryableLayers = [this.layerForm.value.queryableLayers],
       cartography.thematic = this.layerForm.value.thematic,
       cartography.blocked = this.layerForm.value.blocked;
       cartography.selectableFeatureEnabled = this.layerForm.value.selectableFeatureEnabled;
-      cartography.selectionService = selectService;
       if(this.layerForm.value.selectableLayers != null) {cartography.selectableLayers= this.layerForm.value.selectableLayers.split(",") };
       //
       cartography.connection = null;

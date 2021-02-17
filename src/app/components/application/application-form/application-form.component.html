@@ -216,7 +216,7 @@
           <div class="appDataGridEditDiv">
               <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsTrees" [themeGrid]='themeGrid' [getAll]='getAllTrees' 
               [eventAddItemsSubscription]='addElementsEventTree.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventTree.asObservable()' 
-              [eventRefreshSubscription]='dataUpdatedEventTree.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true [addButton]=true 
+              [eventRefreshSubscription]='dataUpdatedEventTree.asObservable()' [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true 
               [hideDuplicateButton]=true  (getAllRows)="getAllRowsTrees($event)" [actionButton]=true (add)="openTreeDialog($event)"   > </app-data-grid>
           </div>
       </ng-template>

@@ -443,7 +443,7 @@
             [eventAddItemsSubscription]='addElementsEventNodes.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventNodes.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventNodes.asObservable()' [discardChangesButton]=true
-            [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+            [redoButton]=true [undoButton]=true  [addButton]=true [hideDuplicateButton]=true
             (getAllRows)="getAllRowsNodes($event)" [actionButton]=true (add)="openNodesDialog($event)"> </app-data-grid>
         </div>
       </ng-template>

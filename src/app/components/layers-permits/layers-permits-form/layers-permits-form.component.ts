@@ -178,14 +178,26 @@ export class LayersPermitsFormComponent implements OnInit {
 
   getAllRowsCartographies(data: any[] )
   {
+    let dataChanged = false;
     let cartographiesModified = [];
     let cartographiesToPut = [];
     data.forEach(cartography => {
-      if (cartography.status === 'pendingModify') {cartographiesModified.push(cartography) }
-      if(cartography.status!== 'pendingDelete') {cartographiesToPut.push(cartography._links.self.href) }
+      if(cartography.status!== 'pendingDelete') {
+        if (cartography.status === 'pendingModify') {
+          cartographiesModified.push(cartography) 
+          dataChanged = true;
+        }
+        else if (cartography.status === 'pendingCreation') {
+          dataChanged = true;
+        }
+        cartographiesToPut.push(cartography._links.self.href) 
+      }
+      else {
+        dataChanged = true;
+      }
     });
     console.log(cartographiesModified);
-    this.updateCartographies(cartographiesModified, cartographiesToPut);
+    if(dataChanged) { this.updateCartographies(cartographiesModified, cartographiesToPut) };
   }
 
   updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
@@ -226,14 +238,26 @@ export class LayersPermitsFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
+    let dataChanged = false;
     let rolesModified = [];
     let rolesToPut = [];
     data.forEach(role => {
-      if (role.status === 'pendingModify') {rolesModified.push(role) }
-      if(role.status!== 'pendingDelete') {rolesToPut.push(role._links.self.href) }
+      if(role.status!== 'pendingDelete') {
+        if (role.status === 'pendingModify') {
+          rolesModified.push(role) 
+          dataChanged = true;
+        }
+        else if(role.status === 'pendingCreation'){
+          dataChanged = true;
+        }
+        rolesToPut.push(role._links.self.href)
+      }
+      else{
+        dataChanged = true;
+      }
     });
     console.log(rolesModified);
-    this.updateRoles(rolesModified, rolesToPut);
+    if(dataChanged) {this.updateRoles(rolesModified, rolesToPut)};
   }
 
   updateRoles(rolesModified: Role[], rolesToPut: Role[])

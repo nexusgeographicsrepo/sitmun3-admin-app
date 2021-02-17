@@ -477,7 +477,6 @@ export class ApplicationFormComponent implements OnInit {
       if(role.status!== 'pendingDelete') {
         if (role.status === 'pendingModify') {
           rolesModified.push(role) 
-          dataChanged = true;
         }
         else if(role.status === 'pendingCreation') {
           dataChanged = true;
@@ -489,20 +488,25 @@ export class ApplicationFormComponent implements OnInit {
     });
 
     console.log(rolesModified);
-    if(dataChanged){this.updateRoles(rolesModified, rolesToPut)};
+    this.updateRoles(rolesModified, rolesToPut, dataChanged);
 
   }
 
-  updateRoles(rolesModified: Role[], rolesToPut: Role[])
+  updateRoles(rolesModified: Role[], rolesToPut: Role[], dataChanged: boolean)
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
     });
-    Promise.all(promises).then(() => {
-        let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
-        this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles);
-    });
+
+     Promise.all(promises).then(() => {   
+        if(dataChanged)
+        {
+          let url=this.applicationToEdit._links.availableRoles.href.split('{', 1)[0];
+          this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles);
+        }
+        else{ this.dataUpdatedEventRoles.next(true) }
+      });
   }
   
  
@@ -600,7 +604,6 @@ export class ApplicationFormComponent implements OnInit {
       if(tree.status!== 'pendingDelete') {
         if (tree.status === 'pendingModify') {
           treesModified.push(tree);
-          dataChanged=true
         }
         else if (tree.status === 'pendingCreation'){
           dataChanged = true;
@@ -613,19 +616,24 @@ export class ApplicationFormComponent implements OnInit {
     });
 
     console.log(treesModified);
-    if(dataChanged) {this.updateTrees(treesModified, treesToPut)};
+    this.updateTrees(treesModified, treesToPut, dataChanged);
   }
 
-  updateTrees(treesModified: Tree[], treesToPut: Tree[],)
+  updateTrees(treesModified: Tree[], treesToPut: Tree[], dataChanged: boolean)
   {
     const promises: Promise<any>[] = [];
     treesModified.forEach(tree => {
       promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).subscribe((resp) => { resolve(true) }) }));
     });
-    Promise.all(promises).then(() => {
-      let url=this.applicationToEdit._links.trees.href.split('{', 1)[0];
-      this.utils.updateUriList(url,treesToPut,this.dataUpdatedEventTree)
-    });
+      Promise.all(promises).then(() => {
+        if(dataChanged)
+        {
+          let url=this.applicationToEdit._links.trees.href.split('{', 1)[0];
+          this.utils.updateUriList(url,treesToPut,this.dataUpdatedEventTree)
+        }
+        else {this.dataUpdatedEventTree.next(true); }
+      });
+
   }
 
 

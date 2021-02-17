@@ -185,7 +185,6 @@ export class LayersPermitsFormComponent implements OnInit {
       if(cartography.status!== 'pendingDelete') {
         if (cartography.status === 'pendingModify') {
           cartographiesModified.push(cartography) 
-          dataChanged = true;
         }
         else if (cartography.status === 'pendingCreation') {
           dataChanged = true;
@@ -197,18 +196,21 @@ export class LayersPermitsFormComponent implements OnInit {
       }
     });
     console.log(cartographiesModified);
-    if(dataChanged) { this.updateCartographies(cartographiesModified, cartographiesToPut) };
+    this.updateCartographies(cartographiesModified, cartographiesToPut, dataChanged);
   }
 
-  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[])
+  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[], dataChanged: boolean)
   {
     const promises: Promise<any>[] = [];
     cartographiesModified.forEach(cartography => {
       promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.layersPermitsToEdit._links.members.href.split('{', 1)[0];
-      this.utils.updateUriList(url,cartographiesToPut, this.dataUpdatedEventCartographies)
+      if(dataChanged){
+        let url=this.layersPermitsToEdit._links.members.href.split('{', 1)[0];
+        this.utils.updateUriList(url,cartographiesToPut, this.dataUpdatedEventCartographies)
+      }
+      else { this.dataUpdatedEventCartographies.next(true) }
     });
   }
 
@@ -245,7 +247,6 @@ export class LayersPermitsFormComponent implements OnInit {
       if(role.status!== 'pendingDelete') {
         if (role.status === 'pendingModify') {
           rolesModified.push(role) 
-          dataChanged = true;
         }
         else if(role.status === 'pendingCreation'){
           dataChanged = true;
@@ -257,18 +258,22 @@ export class LayersPermitsFormComponent implements OnInit {
       }
     });
     console.log(rolesModified);
-    if(dataChanged) {this.updateRoles(rolesModified, rolesToPut)};
+    this.updateRoles(rolesModified, rolesToPut, dataChanged);
   }
 
-  updateRoles(rolesModified: Role[], rolesToPut: Role[])
+  updateRoles(rolesModified: Role[], rolesToPut: Role[], dataChanged: boolean)
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.layersPermitsToEdit._links.roles.href.split('{', 1)[0];
-      this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles)
+      if(dataChanged)
+      {
+        let url=this.layersPermitsToEdit._links.roles.href.split('{', 1)[0];
+        this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles)
+      }
+      else { this.dataUpdatedEventRoles.next(true) }
     });
   }
 

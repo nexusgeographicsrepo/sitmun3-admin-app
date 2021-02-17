@@ -831,7 +831,6 @@ export class LayersFormComponent implements OnInit {
       if (layer.status !== 'pendingDelete') {
         if (layer.status === 'pendingModify') {
           layersConfigurationModified.push(layer) 
-          dataChanged = true;
         }
         else if (layer.status === 'pendingCreation') {
            dataChanged = true;
@@ -841,17 +840,22 @@ export class LayersFormComponent implements OnInit {
       else {dataChanged = true}
     });
     console.log(layersConfigurationModified);
-    if(dataChanged) {this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut)};
+    this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut, dataChanged);
   }
 
-  updateLayersConfigurations(layersConfigurationModified: CartographyGroup[], layersConfigurationToPut: CartographyGroup[]) {
+  updateLayersConfigurations(layersConfigurationModified: CartographyGroup[], layersConfigurationToPut: CartographyGroup[], dataChanged: boolean) {
     const promises: Promise<any>[] = [];
     layersConfigurationModified.forEach(cartography => {
       promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartography).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url = this.layerToEdit._links.permissions.href.split('{', 1)[0];
-      this.utils.updateUriList(url, layersConfigurationToPut, this.dataUpdatedEventLayersConfiguration)
+      if(dataChanged){
+        let url = this.layerToEdit._links.permissions.href.split('{', 1)[0];
+        this.utils.updateUriList(url, layersConfigurationToPut, this.dataUpdatedEventLayersConfiguration)
+      }
+      else{
+        this.dataUpdatedEventLayersConfiguration.next(true);
+      }
     });
   }
 

@@ -358,17 +358,6 @@ export class UserFormComponent implements OnInit {
 
   }
 
-  updateTerritories(territoriesModified: Territory[], territoriesToPut: Territory[]) {
-    const promises: Promise<any>[] = [];
-    territoriesModified.forEach(territory => {
-      //TODO Table STM_POST
-      // promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
-    });
-    Promise.all(promises).then(() => {
-      let url = this.userToEdit._links.positions.href.split('{', 1)[0];
-      this.utils.updateUriList(url, territoriesToPut)
-    });
-  }
 
   // ******** Permits Dialog  ******** //
 

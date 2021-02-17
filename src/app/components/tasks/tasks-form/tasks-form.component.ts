@@ -423,25 +423,36 @@ export class TasksFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
+    let dataChanged = false;
     let rolesModified = [];
     let rolesToPut = [];
     data.forEach(role => {
-      if (role.status === 'pendingModify') {rolesModified.push(role) }
-      if(role.status!== 'pendingDelete') {rolesToPut.push(role._links.self.href) }
+      if(role.status!== 'pendingDelete') {
+        if (role.status === 'pendingModify') {rolesModified.push(role) }
+        else if (role.status === 'pendingCreation') {dataChanged = true }
+        rolesToPut.push(role._links.self.href) 
+      }
+      else {dataChanged = false}
     });
     console.log(rolesModified);
-    this.updateRoles(rolesModified, rolesToPut);
+    this.updateRoles(rolesModified, rolesToPut, dataChanged);
   }
 
-  updateRoles(rolesModified: Role[], rolesToPut: Role[])
+  updateRoles(rolesModified: Role[], rolesToPut: Role[], dataChanged: boolean)
   {
     const promises: Promise<any>[] = [];
     rolesModified.forEach(role => {
       promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url=this.taskToEdit._links.roles.href.split('{', 1)[0];
-      this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles)
+      if(dataChanged)
+      {
+        let url=this.taskToEdit._links.roles.href.split('{', 1)[0];
+        this.utils.updateUriList(url,rolesToPut, this.dataUpdatedEventRoles)
+      }
+      else{
+        this.dataUpdatedEventRoles.next(true)
+      }
     });
   }
 

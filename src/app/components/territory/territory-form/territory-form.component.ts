@@ -479,25 +479,33 @@ export class TerritoryFormComponent implements OnInit {
 
 
   getAllRowsMembersOf(data: any[]) {
+    let dataChanged = false;
     let territoriesModified = [];
     let territoriesToPut = [];
     data.forEach(territory => {
-      if (territory.status === 'pendingModify') { territoriesModified.push(territory) }
-      if (territory.status !== 'pendingDelete') { territoriesToPut.push(territory._links.self.href) }
+      if (territory.status !== 'pendingDelete') { 
+        if (territory.status === 'pendingModify') { territoriesModified.push(territory) }
+        else if (territory.status === 'pendingCreation') { dataChanged = true }
+        territoriesToPut.push(territory._links.self.href)
+      }
+      else {dataChanged = true}
     });
 
     console.log(territoriesModified);
-    this.updateTerritoriesMembersOf(territoriesModified, territoriesToPut);
+    this.updateTerritoriesMembersOf(territoriesModified, territoriesToPut, dataChanged);
   }
 
-  updateTerritoriesMembersOf(territoriesModified: Territory[], territoriesToPut: Territory[]) {
+  updateTerritoriesMembersOf(territoriesModified: Territory[], territoriesToPut: Territory[], dataChanged: boolean) {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
       promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url = this.territoryToEdit._links.memberOf.href.split('{', 1)[0];
-      this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMemberOf)
+      if(dataChanged){
+        let url = this.territoryToEdit._links.memberOf.href.split('{', 1)[0];
+        this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMemberOf)
+      }
+      else { this.dataUpdatedEventMemberOf.next(true) }
     });
   }
 
@@ -523,31 +531,35 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   getAllRowsMembers(data: any[]) {
-
-    if (this.territoryID == -1) {
-      const aux: Array<any> = [];
-      return of(aux);
-    }
-
+    let dataChanged = false;
     let territoriesModified = [];
     let territoriesToPut = [];
     data.forEach(territory => {
-      if (territory.status === 'pendingModify') { territoriesModified.push(territory) }
-      if (territory.status !== 'pendingDelete') { territoriesToPut.push(territory._links.self.href) }
+      if (territory.status !== 'pendingDelete') {
+        if (territory.status === 'pendingModify') { territoriesModified.push(territory) }
+        else if (territory.status === 'pendingCreation') { dataChanged=true }
+        territoriesToPut.push(territory._links.self.href)
+      }
+      else {dataChanged = true}
     });
     console.log(territoriesModified);
-    this.updateTerritoriesMembers(territoriesModified, territoriesToPut);
+    this.updateTerritoriesMembers(territoriesModified, territoriesToPut, dataChanged);
 
   }
 
-  updateTerritoriesMembers(territoriesModified: Territory[], territoriesToPut: Territory[]) {
+  updateTerritoriesMembers(territoriesModified: Territory[], territoriesToPut: Territory[], dataChanged:boolean) {
     const promises: Promise<any>[] = [];
     territoriesModified.forEach(territory => {
       promises.push(new Promise((resolve, reject) => { this.territoryService.update(territory).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
-      let url = this.territoryToEdit._links.members.href.split('{', 1)[0];
-      this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMembers)
+      if(dataChanged){
+        let url = this.territoryToEdit._links.members.href.split('{', 1)[0];
+        this.utils.updateUriList(url, territoriesToPut, this.dataUpdatedEventMembers)
+      }
+      else{
+        this.dataUpdatedEventMembers.next(true)
+      }
     });
   }
 

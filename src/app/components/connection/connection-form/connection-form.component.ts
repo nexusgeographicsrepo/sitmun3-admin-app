@@ -220,13 +220,26 @@ export class ConnectionFormComponent implements OnInit {
 
 
   getAllRowsTasks(data: any[]) {
+    let dataChanged = false;
     let tasksModified = [];
     let tasksToPut = [];
     data.forEach(task => {
-      if (task.status === 'pendingModify') { tasksModified.push(task) }
-      if (task.status !== 'pendingDelete') { tasksToPut.push(task._links.self.href) }
+
+      if (task.status !== 'pendingDelete') { 
+        if (task.status === 'pendingModify') {
+          tasksModified.push(task);
+          dataChanged = true;
+        }
+        else if (task.status === 'pendingCreation'){
+          dataChanged = true;
+        }
+        tasksToPut.push(task._links.self.href)
+      }
+      else {
+        dataChanged = true;
+      }
     });
-    this.updateTasks(tasksModified, tasksToPut);
+    if (dataChanged) {this.updateTasks(tasksModified, tasksToPut)};
 
   }
 

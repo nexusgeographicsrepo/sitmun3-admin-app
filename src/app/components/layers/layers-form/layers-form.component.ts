@@ -322,36 +322,38 @@ export class LayersFormComponent implements OnInit {
                 urlReq = url.toString();
               }
 
-
-              this.http.get(urlReq).pipe(
-                map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "FILTRO" || elem.type == "FILTRO_INFO" || elem.type == "FILTRO_ESPACIAL")
-                ))
-                .subscribe(result => {
-                  console.log(result)
-                  result.forEach(element => {
-
-                    if (element.type === 'FILTRO') {
-                      this.layerForm.patchValue({
-                        applyFilterToGetMap: element.value
-                      })
-                    }
-                    else if (element.type === 'FILTRO_INFO') {
-                      this.layerForm.patchValue({
-                        applyFilterToGetFeatureInfo: element.value
-                      })
-                    }
-                    else if (element.type === 'FILTRO_ESPACIAl') {
-                      this.layerForm.patchValue({
-                        applyFilterToSpatialSelection: element.value
-                      })
+              if(this.layerToEdit.applyFilterToGetMap == null || this.layerToEdit.applyFilterToGetFeatureInfo == null || this.layerToEdit.applyFilterToSpatialSelection == null)
+              {
+                this.http.get(urlReq).pipe(
+                  map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "FILTRO" || elem.type == "FILTRO_INFO" || elem.type == "FILTRO_ESPACIAL")
+                  ))
+                  .subscribe(result => {
+                    console.log(result)
+                    result.forEach(element => {
+  
+                      if (element.type === 'FILTRO' && this.layerToEdit.applyFilterToGetMap == null ) {
+                        this.layerForm.patchValue({
+                          applyFilterToGetMap: element.value
+                        })
+                      }
+                      else if (element.type === 'FILTRO_INFO' && this.layerToEdit.applyFilterToGetFeatureInfo == null) {
+                        this.layerForm.patchValue({
+                          applyFilterToGetFeatureInfo: element.value
+                        })
+                      }
+                      else if (element.type === 'FILTRO_ESPACIAl' && this.layerToEdit.applyFilterToSpatialSelection == null) {
+                        this.layerForm.patchValue({
+                          applyFilterToSpatialSelection: element.value
+                        })
+                      }
+                    });
+  
+  
+                    if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
+                      { this.layerForm.get('applyFilterToGetMap').disable(); }
                     }
                   });
-
-
-                  if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
-                    { this.layerForm.get('applyFilterToGetMap').disable(); }
-                  }
-                });
+              }
 
               if (!this.layerToEdit.thematic) { this.layerForm.get('geometryType').disable(); }
               if (!this.layerToEdit.queryableFeatureEnabled){

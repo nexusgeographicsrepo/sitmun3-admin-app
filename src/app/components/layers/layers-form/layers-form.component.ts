@@ -823,9 +823,9 @@ export class LayersFormComponent implements OnInit {
 
 
   getAllRowsLayersConfiguration(data: any[]) {
+    let dataChanged = false;
     let layersConfigurationModified = [];
     let layersConfigurationToPut = [];
-    let dataChanged = false;
     data.forEach(layer => {
 
       if (layer.status !== 'pendingDelete') {
@@ -833,9 +833,12 @@ export class LayersFormComponent implements OnInit {
           layersConfigurationModified.push(layer) 
           dataChanged = true;
         }
-        else if (layer.status === 'pendingCreation') { dataChanged = true; }
-         layersConfigurationToPut.push(layer._links.self.href) 
+        else if (layer.status === 'pendingCreation') {
+           dataChanged = true;
         }
+        layersConfigurationToPut.push(layer._links.self.href) 
+      }
+      else {dataChanged = true}
     });
     console.log(layersConfigurationModified);
     if(dataChanged) {this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut)};

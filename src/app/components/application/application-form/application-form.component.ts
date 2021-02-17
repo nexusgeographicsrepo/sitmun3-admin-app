@@ -469,15 +469,27 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsRoles(data: any[] )
   {
+    let dataChanged = false;
     let rolesModified = [];
     let rolesToPut = [];
     data.forEach(role => {
-      if (role.status === 'pendingModify') {rolesModified.push(role) }
-      if(role.status!== 'pendingDelete') {rolesToPut.push(role._links.self.href) }
+      
+      if(role.status!== 'pendingDelete') {
+        if (role.status === 'pendingModify') {
+          rolesModified.push(role) 
+          dataChanged = true;
+        }
+        else if(role.status === 'pendingCreation') {
+          dataChanged = true;
+        }
+        rolesToPut.push(role._links.self.href)
+       }
+      else {dataChanged = true}
+
     });
 
     console.log(rolesModified);
-    this.updateRoles(rolesModified, rolesToPut);
+    if(dataChanged){this.updateRoles(rolesModified, rolesToPut)};
 
   }
 
@@ -580,15 +592,28 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllRowsTrees(data: any[] )
   {
+    let dataChanged = false;
     let treesModified = [];
     let treesToPut = [];
     data.forEach(tree => {
-      if (tree.status === 'pendingModify') {treesModified.push(tree) }
-      if(tree.status!== 'pendingDelete') {treesToPut.push(tree._links.self.href) }
+
+      if(tree.status!== 'pendingDelete') {
+        if (tree.status === 'pendingModify') {
+          treesModified.push(tree);
+          dataChanged=true
+        }
+        else if (tree.status === 'pendingCreation'){
+          dataChanged = true;
+        }
+        treesToPut.push(tree._links.self.href)
+      }
+      else{
+        dataChanged = true;
+      }
     });
 
     console.log(treesModified);
-    this.updateTrees(treesModified, treesToPut);
+    if(dataChanged) {this.updateTrees(treesModified, treesToPut)};
   }
 
   updateTrees(treesModified: Tree[], treesToPut: Tree[],)

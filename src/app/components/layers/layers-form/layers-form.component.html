@@ -208,14 +208,14 @@
         <label class="formLabel">
           {{'layersEntity.information' | translate}}
         </label>
-        <mat-checkbox formControlName="queryableFeatureEnabled"> </mat-checkbox>
+        <mat-checkbox formControlName="queryableFeatureEnabled" (change)="onQueryableFeatureEnabledChange($event)"> </mat-checkbox>
       </div>
 
       <div class="colFormDiv">
         <label class="formLabel">
           {{'layersEntity.defaultInformation' | translate}}
         </label>
-        <mat-checkbox formControlName="queryableFeatureAvailable"> </mat-checkbox>
+        <mat-checkbox formControlName="queryableFeatureAvailable" > </mat-checkbox>
       </div>
 
       <div class="colFormDiv"  >

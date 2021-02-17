@@ -87,8 +87,8 @@ export class UserFormComponent implements OnInit {
               username: this.userToEdit.username,
               firstName: this.userToEdit.firstName,
               lastName: this.userToEdit.firstName,
-              password: this.userToEdit.password,
-              confirmPassword: this.userToEdit.password,
+              password: null,
+              confirmPassword: null,
               administrator: this.userToEdit.administrator,
               blocked: this.userToEdit.blocked,
               _links: this.userToEdit._links
@@ -546,12 +546,12 @@ export class UserFormComponent implements OnInit {
         this.userService.save(userObj)
           .subscribe(resp => {
             console.log(resp)
-            // this.userToEdit = resp
-            // this.userID = resp.id;
-            // this.userForm.patchValue({
-            // id: resp.id,
-            // _links: resp._links
-            // })
+            this.userToEdit = resp
+            this.userID = resp.id;
+            this.userForm.patchValue({
+            id: resp.id,
+            _links: resp._links
+            })
             console.log(this.userToEdit);
             this.getAllElementsEventTerritoryData.next(true);
             this.getAllElementsEventPermits.next(true);

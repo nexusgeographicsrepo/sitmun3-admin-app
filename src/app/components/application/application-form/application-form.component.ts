@@ -230,7 +230,7 @@ export class ApplicationFormComponent implements OnInit {
     ];
 
     this.columnDefsTrees = [
-      this.utils.getSelCheckboxColumnDef(),
+      // this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
       this.utils.getEditableColumnDef('applicationEntity.name','name'),
       this.utils.getStatusColumnDef(),
@@ -601,18 +601,14 @@ export class ApplicationFormComponent implements OnInit {
     let treesToPut = [];
     data.forEach(tree => {
 
-      if(tree.status!== 'pendingDelete') {
-        if (tree.status === 'pendingModify') {
-          treesModified.push(tree);
-        }
-        else if (tree.status === 'pendingCreation'){
-          dataChanged = true;
-        }
-        treesToPut.push(tree._links.self.href)
+      if (tree.status === 'pendingModify') {
+        treesModified.push(tree);
       }
-      else{
+      else if (tree.status === 'pendingCreation'){
         dataChanged = true;
       }
+      treesToPut.push(tree._links.self.href)
+
     });
 
     console.log(treesModified);

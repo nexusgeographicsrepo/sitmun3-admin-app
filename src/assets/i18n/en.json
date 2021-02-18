@@ -293,7 +293,8 @@
     "layers": "Layers",
     "permits": "Permits",
     "inheritPermissionsOfParents": "Inherit permissions from parents",
-    "status": "Status"
+    "status": "Status",
+    "username": "Username"
   },
   "roleEntity": {
     "generalData": "General Data",

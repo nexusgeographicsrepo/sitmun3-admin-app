@@ -293,7 +293,8 @@
     "layers": "Capes",
     "permits": "Permisos",
     "inheritPermissionsOfParents": "Permisos heredats dels pares",
-    "status": "Estat"
+    "status": "Estat",
+    "username": "Nom d'usuari"
   },
   "roleEntity": {
     "generalData": "Dades Generals",

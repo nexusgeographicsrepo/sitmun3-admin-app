@@ -171,7 +171,7 @@ export class TasksFormComponent implements OnInit {
       { headerName: this.utils.getTranslate('tasksEntity.parameter'), field: 'name', },
       { headerName: this.utils.getTranslate('tasksEntity.value'), field: 'value' },
       { headerName: this.utils.getTranslate('tasksEntity.order'), field: 'order', editable:false },
-      { headerName: this.utils.getTranslate('tasksEntity.status'), field: 'status', editable: false },
+      this.utils.getStatusColumnDef(),
 
     ];
 
@@ -180,7 +180,7 @@ export class TasksFormComponent implements OnInit {
       this.utils.getSelCheckboxColumnDef(),
       { headerName: 'Id', field: 'territoryId', editable: false },
       { headerName: this.utils.getTranslate('tasksEntity.name'), field: 'territoryName', editable: false },
-      { headerName: this.utils.getTranslate('tasksEntity.status'), field: 'status', editable: false },
+      this.utils.getStatusColumnDef(),
 
     ];
 
@@ -188,7 +188,7 @@ export class TasksFormComponent implements OnInit {
       this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
       { headerName: this.utils.getTranslate('tasksEntity.name'), field: 'name' },
-      { headerName: this.utils.getTranslate('tasksEntity.status'), field: 'status', editable:false },
+      this.utils.getStatusColumnDef(),
     ];
 
 
@@ -204,7 +204,6 @@ export class TasksFormComponent implements OnInit {
       this.utils.getIdColumnDef(),
       { headerName: this.utils.getTranslate('tasksEntity.name'), field: 'name' },
       { headerName: this.utils.getTranslate('tasksEntity.description'), field: 'description' },
-      { headerName: this.utils.getTranslate('tasksEntity.status'), field: 'status', editable:false },
     ];
 
   }

@@ -217,12 +217,13 @@ export class UserFormComponent implements OnInit {
 
 
 
- async getAllRowsPermits(data: any[]) {
+  getAllRowsPermits(data: any[]) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
     let territoriesToAdd= [];
     let territoriesToDelete= [];
+    const promisesCheckTerritories: Promise<any>[] = [];
     // data.forEach(userConf => {
     for(let i = 0; i<data.length; i++){
       let userConf= data[i];
@@ -266,12 +267,17 @@ export class UserFormComponent implements OnInit {
         let indexTerritory = data.findIndex(element =>  element.territoryId === userConf.territoryId && element.status !== 'pendingDelete' )
         if(indexTerritory === -1)
         {
-          await this.userPositionService.getAll()
-          .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory )
-          )).toPromise().then(data => {
-            console.log(data);
-            territoriesToDelete.push(data)
-          })
+          promisesCheckTerritories.push(new Promise((resolve, reject) => {
+            this.userPositionService.getAll()
+            .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory && elem.userId === this.userID )
+            )).subscribe(data => {
+              console.log(data);
+              if (data.length >0 && territoriesToDelete.findIndex(element => element.territoryName === userConf.territory) === -1) {
+                territoriesToDelete.push(data[0])
+              }
+              resolve(true);
+            })
+          }));
 
         }
 
@@ -279,10 +285,7 @@ export class UserFormComponent implements OnInit {
         }
     };
 
-    
-    const promises: Promise<any>[] = [];
-    const promisesTerritories: Promise<any>[] = [];
-    
+    const promises: Promise<any>[] = [];  
     usersConfToCreate.forEach(newElement => {
       promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
@@ -293,24 +296,37 @@ export class UserFormComponent implements OnInit {
 
       }
     });
-    
-    territoriesToAdd.forEach(newElement => {
-      promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-    });
 
-    // territoriesToDelete.forEach(deletedElement => {
-    //   promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
-    // });
-    
-
-    
+          
     Promise.all(promises).then(() => {
       this.dataUpdatedEventPermits.next(true);
     });
     
-    Promise.all(promisesTerritories).then(() => {
-      this.dataUpdatedEventTerritoryData.next(true);
+
+    Promise.all(promisesCheckTerritories).then(() => {
+
+
+      const promisesTerritories: Promise<any>[] = [];
+
+      territoriesToAdd.forEach(newElement => {
+        promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+      });
+  
+      territoriesToDelete.forEach(deletedElement => {
+        promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+      });
+      
+  
+
+      
+      Promise.all(promisesTerritories).then(() => {
+        this.dataUpdatedEventTerritoryData.next(true);
+      });
+
+
     });
+
+
     
   }
 

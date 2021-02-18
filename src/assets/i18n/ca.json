@@ -16,6 +16,7 @@
   "redo": "Refer",
   "undo": "Desfer",
   "return": "Tornar",
+  "copy_": "copia_",
   "pendingDelete":"Pendent eliminar",
   "pendingCreation":"Pendent crear",
   "pendingModify":"Pendent modificar",

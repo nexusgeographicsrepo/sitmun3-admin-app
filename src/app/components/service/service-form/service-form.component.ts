@@ -325,7 +325,7 @@ export class ServiceFormComponent implements OnInit {
     let parametersToDuplicate= []
     data.forEach(parameter => {
       let newParameter={
-        name: 'copia_'.concat(parameter.name),
+        name: this.utils.getTranslate('copy_').concat(parameter.name),
         type: parameter.type,
         value: parameter.value
       }

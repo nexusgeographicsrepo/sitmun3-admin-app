@@ -16,6 +16,7 @@
   "redo": "Rehacer",
   "undo": "Deshacer",
   "return": "Volver",
+  "copy_": "copia_",
   "pendingDelete":"Pendiente eliminar",
   "pendingCreation":"Pendiente crear",
   "pendingModify":"Pendiente modificar",

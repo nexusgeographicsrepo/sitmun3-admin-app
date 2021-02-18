@@ -637,7 +637,7 @@ export class LayersFormComponent implements OnInit {
     let parametersToDuplicate = []
     data.forEach(parameter => {
       let newParameter = { ...parameter };
-      newParameter.name = 'copia_'.concat(newParameter.name),
+      newParameter.name = this.utils.getTranslate('copy_').concat(newParameter.name),
       newParameter.id = null;
       newParameter._links = null;
       parametersToDuplicate.push(newParameter);
@@ -651,7 +651,7 @@ export class LayersFormComponent implements OnInit {
     let spatialSelectionsToDuplicate = []
     data.forEach(spatialSelection => {
       let newSpatialSelection = { ...spatialSelection };
-      newSpatialSelection.name = 'copia_'.concat(newSpatialSelection.name),
+      newSpatialSelection.name = this.utils.getTranslate('copy_').concat(newSpatialSelection.name),
         newSpatialSelection.id = null;
         newSpatialSelection._links = null;
         spatialSelectionsToDuplicate.push(newSpatialSelection);
@@ -734,7 +734,7 @@ export class LayersFormComponent implements OnInit {
     let territorialFiltersToDuplicate = []
     data.forEach(territorialFilter => {
       let newTerritorialFilter = { ...territorialFilter };
-      newTerritorialFilter.name = 'copia_'.concat(newTerritorialFilter.name),
+      newTerritorialFilter.name = this.utils.getTranslate('copy_').concat(newTerritorialFilter.name),
         newTerritorialFilter.id = null;
         // newTerritorialFilter._links = null;
         territorialFiltersToDuplicate.push(newTerritorialFilter);

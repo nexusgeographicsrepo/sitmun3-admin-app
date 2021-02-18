@@ -336,7 +336,7 @@ export class TasksFormComponent implements OnInit {
     let parametersToDuplicate= []
     data.forEach(parameter => {
       let newParameter={...parameter}
-      newParameter.name= 'copia_'.concat(newParameter.name);
+      newParameter.name= this.utils.getTranslate('copy_').concat(newParameter.name);
       newParameter.id= null;
       newParameter._links= null;
       parametersToDuplicate.push(newParameter);

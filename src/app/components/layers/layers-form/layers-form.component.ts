@@ -175,11 +175,7 @@ export class LayersFormComponent implements OnInit {
       )
     }));
 
-    let valueTypeByDefault = {
-      value: null,
-      description: '-------'
-    }
-    this.filterValueTypes.push(valueTypeByDefault);
+
 
     promises.push(new Promise((resolve, reject) => {
       this.utils.getCodeListValues('cartographyFilter.valueType').subscribe(

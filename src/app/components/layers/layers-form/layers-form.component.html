@@ -646,7 +646,7 @@
             {{'layersEntity.typeId' | translate}}
           </label>
           <mat-form-field appearance="outline">
-            <mat-select matInput formControlName="typeId" class="form-control">
+            <mat-select matInput formControlName="territorialLevel" class="form-control">
               <mat-option [value]="typeId.id" *ngFor="let typeId of filterTypeIds">
                 {{ typeId.name}}
               </mat-option>

@@ -279,7 +279,7 @@ export class LayersFormComponent implements OnInit {
                 legendUrl: this.layerToEdit.legendURL,
                 description: this.layerToEdit.description,
                 datasetURL: this.layerToEdit.datasetURL, //here
-                applyFilterToGetMap: this.layerToEdit.applyFilterToGetMap,
+                applyFilterToGetMap: null,
                 applyFilterToGetFeatureInfo: this.layerToEdit.applyFilterToGetFeatureInfo,
                 applyFilterToSpatialSelection: this.layerToEdit.applyFilterToSpatialSelection,
                 queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
@@ -337,7 +337,7 @@ export class LayersFormComponent implements OnInit {
                           applyFilterToGetFeatureInfo: element.value
                         })
                       }
-                      else if (element.type === 'FILTRO_ESPACIAl' && this.layerToEdit.applyFilterToSpatialSelection == null) {
+                      else if (element.type === 'FILTRO_ESPACIAL' && this.layerToEdit.applyFilterToSpatialSelection == null) {
                         this.layerForm.patchValue({
                           applyFilterToSpatialSelection: element.value
                         })
@@ -572,7 +572,7 @@ export class LayersFormComponent implements OnInit {
       name: new FormControl(null, [Validators.required]),
       required: new FormControl(null, [Validators.required]),
       type: new FormControl(null, [Validators.required]),
-      typeId: new FormControl(null),
+      territorialLevel: new FormControl(null),
       column: new FormControl(null),
       value: new FormControl(null, []),
       valueType: new FormControl(null, []),
@@ -978,7 +978,7 @@ export class LayersFormComponent implements OnInit {
     this.territorialFilterForm.patchValue({
       type: this.filterTypes[0].value,
       valueType: this.filterValueTypes[0].value,
-      typeId: this.filterTypeIds[0].id,
+      territorialLevel: this.filterTypeIds[0].id,
       required: false
     })
 
@@ -987,9 +987,17 @@ export class LayersFormComponent implements OnInit {
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.territorialFilter');
     dialogRef.componentInstance.form = this.territorialFilterForm;
 
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
+          let territorialLevel= this.filterTypeIds.find(x => x.id===this.layerForm.value.territorialLevel )
+          if(territorialLevel==undefined || territorialLevel.id==-1 ){
+            territorialLevel=null
+          }
+          this.territorialFilterForm.patchValue({
+            territorialLevel : territorialLevel
+          })
           let item = this.territorialFilterForm.value;
           item.giid = this.layerToEdit.id
           if(this.territorialFilterForm.value.typeId === -1)
@@ -1166,7 +1174,7 @@ export class LayersFormComponent implements OnInit {
       cartography.legendURL = this.layerForm.value.legendUrl;
       cartography.description = this.layerForm.value.description;
       cartography.datasetURL= this.layerForm.value.datasetURL; //
-      cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap;
+      // cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap;
       cartography.applyFilterToGetFeatureInfo= this.layerForm.value.applyFilterToGetFeatureInfo;
       cartography.applyFilterToSpatialSelection= this.layerForm.value.applyFilterToSpatialSelection;
       cartography.queryableFeatureEnabled = this.layerForm.value.queryableFeatureEnabled;
@@ -1187,6 +1195,20 @@ export class LayersFormComponent implements OnInit {
 
       this.cartographyService.save(cartography)
         .subscribe(resp => {
+
+          if(this.layerForm.value.applyFilterToGetMap!= null){
+            let item = {
+              id: null,
+              name: "FILTRO",
+              type: "FILTRO",
+              order: 0,
+              format: null,
+              value: this.layerForm.value.applyFilterToGetMap
+            }
+            this.addElementsEventParameters.next([item])
+
+          }
+
           console.log(resp);
           this.layerToEdit = resp;
           this.layerID = resp.id;

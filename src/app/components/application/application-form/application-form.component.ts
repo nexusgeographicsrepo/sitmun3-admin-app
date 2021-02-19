@@ -254,7 +254,6 @@ export class ApplicationFormComponent implements OnInit {
       this.utils.getIdColumnDef(),
       this.utils.getNonEditableColumnDef('applicationEntity.name','name'),
       this.utils.getEditableColumnDef('applicationEntity.note','description'),
-      this.utils.getEditableColumnDef('applicationEntity.application','application'),
     ];
 
     this.columnDefsBackgroundDialog = [

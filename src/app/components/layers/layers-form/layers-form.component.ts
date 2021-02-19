@@ -22,6 +22,7 @@ export class LayersFormComponent implements OnInit {
 
   //Form
   private parametersUrl: string;
+  parameteApplyFilterToGetMap;
   layerForm: FormGroup;
   layerToEdit;
   layerID = -1;
@@ -328,6 +329,7 @@ export class LayersFormComponent implements OnInit {
                     result.forEach(element => {
   
                       if (element.type === 'FILTRO' && this.layerToEdit.applyFilterToGetMap == null ) {
+                        this.parameteApplyFilterToGetMap=element;
                         this.layerForm.patchValue({
                           applyFilterToGetMap: element.value
                         })
@@ -601,7 +603,7 @@ export class LayersFormComponent implements OnInit {
       ));
 
   }
-  getAllRowsParameters(data: any[]) {
+  getAllRowsParameters(data: any[], parameterApplyFilterToGetMap: boolean) {
     console.log(data);
     let parameterToSave = [];
     let parameterToDelete = [];
@@ -626,8 +628,11 @@ export class LayersFormComponent implements OnInit {
     });
 
     Promise.all(promises).then(() => {
-      this.dataUpdatedEventParameters.next(true);
-      this.dataUpdatedEventSpatialConfigurations.next(true);
+      if(!parameterApplyFilterToGetMap)
+      {
+        this.dataUpdatedEventParameters.next(true);
+        this.dataUpdatedEventSpatialConfigurations.next(true);
+      }
     });
 
 
@@ -1196,18 +1201,39 @@ export class LayersFormComponent implements OnInit {
       this.cartographyService.save(cartography)
         .subscribe(resp => {
 
-          if(this.layerForm.value.applyFilterToGetMap!= null){
-            let item = {
-              id: null,
-              name: "FILTRO",
-              type: "FILTRO",
-              order: 0,
-              format: null,
-              value: this.layerForm.value.applyFilterToGetMap
+          if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection){
+            if(this.parameteApplyFilterToGetMap != null)
+            {
+              this.parameteApplyFilterToGetMap.status="pendingDelete"       
+              this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)   
+              this.layerForm.patchValue({
+                applyFilterToGetMap: null
+              })
+              this.parameteApplyFilterToGetMap = null;
             }
-            this.addElementsEventParameters.next([item])
-
           }
+          else{
+            if(this.parameteApplyFilterToGetMap != null)
+            {
+              this.parameteApplyFilterToGetMap.value=this.layerForm.value.applyFilterToGetMap
+              this.parameteApplyFilterToGetMap.status="pendingModify"           
+              this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)  
+            }
+            else{
+              let item = {
+                id: null,
+                name: "FILTRO",
+                type: "FILTRO",
+                order: 0,
+                format: null,
+                status: "pendingCreation",
+                value: this.layerForm.value.applyFilterToGetMap
+              }
+              this.getAllRowsParameters([item],true)   
+            }
+          }
+
+          
 
           console.log(resp);
           this.layerToEdit = resp;

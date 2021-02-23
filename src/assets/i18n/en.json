@@ -21,6 +21,7 @@
   "pendingCreation":"Pendent creation",
   "pendingModify":"Pendent modify",
   "status":"Status",
+  "value": "Value",
   "statusOK": "Without changes",
   "search/replace": "Search/Replace",
   "selectType": "Select type",

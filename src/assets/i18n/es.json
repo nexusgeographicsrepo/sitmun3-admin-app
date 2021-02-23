@@ -21,6 +21,7 @@
   "pendingCreation":"Pendiente crear",
   "pendingModify":"Pendiente modificar",
   "status":"Estado",
+  "value": "Valor",
   "statusOK": "Sin cambios",
   "search/replace": "Buscar/Reemplazar",
   "selectType": "Selecciona el tipo",

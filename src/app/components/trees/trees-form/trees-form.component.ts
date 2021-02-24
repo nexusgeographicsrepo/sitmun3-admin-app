@@ -283,7 +283,7 @@ export class TreesFormComponent implements OnInit {
         treeNodeObj.tree= this.treeToEdit;
         treeNodeObj._links= tree._links;
 
-        if(tree.status !== "Deleted")
+        if(tree.status !== "pendingDelete")
         {
 
           let currentParent;

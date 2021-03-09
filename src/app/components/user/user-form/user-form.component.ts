@@ -246,7 +246,8 @@ export class UserFormComponent implements OnInit {
         {
           let itemTerritory = {
             territory: userConf.territoryComplete,
-            user: this.userToEdit
+            user: this.userToEdit,
+            createdDate: new Date()
           }
           territoriesToAdd.push(itemTerritory)
         }

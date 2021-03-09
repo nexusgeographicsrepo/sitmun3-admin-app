@@ -402,6 +402,8 @@ export class UserFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable = [true, false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoryDialog, this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.changeHeightButton = true;
+    dialogRef.componentInstance.heightByDefault = '5';
     dialogRef.componentInstance.title = this.utils.getTranslate('userEntity.permissions');
     dialogRef.componentInstance.titlesTable = [this.utils.getTranslate('userEntity.territories'), this.utils.getTranslate('userEntity.roles')];
     dialogRef.componentInstance.nonEditable = false;

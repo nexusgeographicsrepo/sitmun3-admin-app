@@ -699,6 +699,8 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable = [false, false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsUsersDialog, this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.changeHeightButton = true;
+    dialogRef.componentInstance.heightByDefault = '5';
     if (childrenTable) {
       dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.permissionsChildren');
     }

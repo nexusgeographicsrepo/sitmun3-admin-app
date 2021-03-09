@@ -346,7 +346,7 @@ export class LayersFormComponent implements OnInit {
                     }
                   });
               }
-
+              
               if (!this.layerToEdit.thematic) { this.layerForm.get('geometryType').disable(); }
               if (!this.layerToEdit.queryableFeatureEnabled){
                 this.layerForm.get('queryableFeatureAvailable').disable();
@@ -377,6 +377,7 @@ export class LayersFormComponent implements OnInit {
             spatialSelectionService: this.spatialConfigurationServices[0].id,
             geometryType: this.geometryTypes[0].value,
             legendType: this.legendTypes[0].value,
+            queryableFeatureEnabled: false,
           })
           this.layerForm.get('geometryType').disable();
           this.layerForm.get('applyFilterToGetMap').disable();

@@ -570,7 +570,7 @@ export class LayersFormComponent implements OnInit {
       type: new FormControl(null, [Validators.required]),
       territorialLevel: new FormControl(null),
       column: new FormControl(null),
-      value: new FormControl(null, []),
+      values: new FormControl(null, []),
       valueType: new FormControl(null, []),
       _links: new FormControl(null, []),
     })
@@ -998,6 +998,7 @@ export class LayersFormComponent implements OnInit {
             territorialLevel : territorialLevel
           })
           let item = this.territorialFilterForm.value;
+          if(item.values!= null) { item.values = item.values.split(",") }
           item.giid = this.layerToEdit.id
           // if(this.territorialFilterForm.value.typeId === -1)
           // {

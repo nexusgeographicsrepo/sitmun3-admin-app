@@ -37,18 +37,18 @@
               </mat-form-field>
             </div>
 
-            <div class="colFormDiv" >
+            <!-- <div class="colFormDiv" >
               <label class="formLabel">
                 {{'backgroundEntity.cartographyGroup' | translate}}
               </label>
               <mat-form-field appearance="outline">
                 <mat-select matInput formControlName="cartographyGroup" class="form-control">
-                  <mat-option [value]="group.id" *ngFor="let group of permissionGroups">
-                    {{group.name}}
+                  <mat-option [value]="group.value" *ngFor="let group of permissionGroups">
+                    {{group.description}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-            </div>
+            </div> -->
 
             <div class="colFormDiv" >
               <label class="formLabel">
@@ -59,4 +59,50 @@
 
       </div>
     </form>
+</div>
+
+<div class="tableDiv" *ngIf="dataLoaded">
+  <mat-accordion multi>
+
+    <!-- Cartography configuration table -->
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title>
+          {{ "layersPermitsEntity.cartographiesConfiguration" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <div class="appDataGridEditDiv">
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsCartographies" [themeGrid]='themeGrid' [getAll]='getAllCartographies'
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+            [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()' 
+            [eventRefreshSubscription]='dataUpdatedEventCartographies.asObservable()' [actionButton]=true (getAllRows)="getAllRowsCartographies($event)" 
+            (add)="openCartographyDialog($event)" > </app-data-grid>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+
+    <!-- Rols table -->
+    <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+      <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+        <mat-panel-title>
+          {{ "layersPermitsEntity.roles" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <div class="appDataGridEditDiv">
+          <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsRoles" [themeGrid]='themeGrid' [getAll]='getAllRoles'
+            [discardChangesButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+            [eventAddItemsSubscription]='addElementsEventRoles.asObservable()' [eventGetAllRowsSubscription]='getAllElementsEventRoles.asObservable()' 
+            [eventRefreshSubscription]='dataUpdatedEventRoles.asObservable()' [actionButton]=true (getAllRows)="getAllRowsRoles($event)" 
+            (add)="openRolesDialog($event)" > </app-data-grid>
+        </div>
+      </ng-template>
+
+    </mat-expansion-panel>
+
+
+  </mat-accordion>
 </div>

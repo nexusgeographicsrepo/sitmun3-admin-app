@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { config } from 'src/config';
 import { DialogGridComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -361,7 +362,16 @@ export class UserFormComponent implements OnInit {
   getAllRowsDataTerritories(data: any[]) {
     let territoriesToEdit = [];
     data.forEach(territory => {
-      if (territory.status === 'pendingModify') {territoriesToEdit.push(territory) }
+      if (territory.status === 'pendingModify') {
+        if(territory.expirationDate != null)
+        {
+          let date = new Date(territory.expirationDate)
+          territory.expirationDate=date.toISOString();
+          console.log(territory.expirationDate)
+        }
+        territoriesToEdit.push(territory)   
+
+       }
     });
 
     const promises: Promise<any>[] = [];

@@ -226,14 +226,14 @@ export class UtilsService {
     return columnDef;
   }
 
-  getDateColumnDef(alias, field) {
+  getDateColumnDef(alias, field,editable?:boolean) {
     let columnDef =
     {
       headerName: this.getTranslate(alias),
       field: field,
       filter: 'agDateColumnFilter',
       filterParams: this.getDateFilterParams(),
-      editable: false,
+      editable: editable?editable:false,
       cellRenderer: (data) => {
         return this.getDateFormated(data)
       },

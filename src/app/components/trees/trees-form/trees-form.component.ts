@@ -100,6 +100,9 @@ export class TreesFormComponent implements OnInit {
       tooltip: new FormControl(null, []),
       cartography: new FormControl(null, []),
       radio: new FormControl(null, []),
+      datasetURL: new FormControl(null, []),
+      metadataURL: new FormControl(null, []),
+      description: new FormControl(null, []),
       active: new FormControl(null, []),
       _links: new FormControl(null, []),
       children: new FormControl(null, []),
@@ -159,6 +162,9 @@ export class TreesFormComponent implements OnInit {
       order: node.order,
       cartography: node.cartographyName,
       radio: node.radio,
+      description: node.description,
+      datasetURL: node.datasetURL,
+      metadataURL: node.metadataURL,
       active: node.active,
       _links: node._links,
       children: node.children,
@@ -280,6 +286,9 @@ export class TreesFormComponent implements OnInit {
         treeNodeObj.order= tree.order;
         treeNodeObj.active= tree.active;
         treeNodeObj.cartography= tree.cartography;
+        treeNodeObj.datasetURL= tree.datasetURL;
+        treeNodeObj.metadataURL= tree.metadataURL;
+        treeNodeObj.description= tree.description;
         treeNodeObj.tree= this.treeToEdit;
         treeNodeObj._links= tree._links;
 

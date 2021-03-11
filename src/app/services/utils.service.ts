@@ -127,6 +127,7 @@ export class UtilsService {
     return filterParams;
   }
 
+
   //Update grids
 
   updateUriList(requestURI: string, data: any[], eventRefresh?) {
@@ -208,6 +209,8 @@ export class UtilsService {
     {
       headerName: this.getTranslate('status'),
       field: 'status',
+      filter: 'agTextColumnFilter',
+      filterParams: { textFormatter: (filterValue) => this.getTranslate(filterValue) },
       editable: false,
       valueFormatter: (params) => {
         if (params.value != undefined && params.value !== '') {
@@ -220,7 +223,7 @@ export class UtilsService {
         'pendingModify': function (params) { return params.value === 'pendingModify' },
         'pendingDelete': function (params) { return params.value === 'pendingDelete' },
         'pendingCreation': function (params) { return params.value === 'pendingCreation' },
-        'stable': function (params) { return params.value === undefined || params.value === '' }
+        'stable': function (params) { return params.value === undefined || params.value === 'statusOK'}
       }
     }
     return columnDef;

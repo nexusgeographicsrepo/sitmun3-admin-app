@@ -3,11 +3,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Subject } from 'rxjs';
-import { HalOptions, HalParam, CodeListService } from 'dist/sitmun-frontend-core/';
+import { Observable, of, Subject } from 'rxjs';
+import { HalOptions, HalParam, CodeListService, Translation, Language, LanguageService, TranslationService } from 'dist/sitmun-frontend-core/';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogMessageComponent, DialogTranslationComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
+import { config } from 'src/config';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +26,8 @@ export class UtilsService {
     private router: Router,
     private http: HttpClient,
     private location: Location,
+    private languageService: LanguageService,
+    private translationService: TranslationService,
     private codeListService: CodeListService) { }
 
 
@@ -295,4 +300,80 @@ export class UtilsService {
     }
     return columnDef;
   }
+
+  //Translation
+
+  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation): Promise<any[]>{
+
+  
+
+    const dialogRef = this.dialog.open(DialogTranslationComponent, { panelClass: 'translateDialogs' });
+    if(catalanTranslation!= null) { dialogRef.componentInstance.catalanValue=catalanTranslation.translation };
+    if(spanishTranslation!= null) { dialogRef.componentInstance.spanishValue=spanishTranslation.translation };
+    if(englishTranslation!= null) { dialogRef.componentInstance.englishValue=englishTranslation.translation };
+
+    let translationsResult = null;
+
+    let result = null;
+      result= await dialogRef.afterClosed().toPromise();
+        if (result) {
+          if( result.event==='Accept') { 
+  
+            if(catalanTranslation != null){
+              catalanTranslation.translation= result.data.catalanValue 
+            }
+            else{
+              catalanTranslation= new Translation();
+              catalanTranslation.translation= result.data.catalanValue;
+              catalanTranslation.column='GEO_NAME';
+              catalanTranslation.language=config.languagesObjects.catalan;
+            }
+  
+            if(spanishTranslation != null){
+              spanishTranslation.translation= result.data.spanishValue 
+            }
+            else{
+              spanishTranslation= new Translation();
+              spanishTranslation.translation= result.data.spanishValue;
+              spanishTranslation.column='GEO_NAME';
+              spanishTranslation.language=config.languagesObjects.spanish;
+            }
+  
+  
+            if(englishTranslation != null){
+              englishTranslation.translation= result.data.englishValue 
+            }
+            else{
+              englishTranslation= new Translation();
+              englishTranslation.translation= result.data.englishValue;
+              englishTranslation.column='GEO_NAME';
+              englishTranslation.language=config.languagesObjects.english;
+            }
+            console.log(result.data);
+            console.log(catalanTranslation);
+            console.log(spanishTranslation);
+            console.log(englishTranslation);
+  
+            translationsResult=[catalanTranslation,spanishTranslation,englishTranslation]
+
+          }
+        }
+
+      return translationsResult;
+
+  }
+
+  saveAllTranslations(id, translations)
+  {
+    translations.forEach(translation => {
+      console.log(translation);
+      translation.element=id;
+      this.translationService.save(translation).subscribe(
+        result => {
+          console.log(result)
+        }
+      )
+    });
+  }
+
 }

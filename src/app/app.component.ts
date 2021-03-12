@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from './services/sidenav.service';
-import { Principal, LoginService, AuthService } from 'dist/sitmun-frontend-core/';
+import { Principal, LoginService, AuthService, LanguageService, Language } from 'dist/sitmun-frontend-core/';
 import { environment } from 'src/environments/environment';
 import { config } from 'src/config';
 
@@ -26,7 +26,8 @@ export class AppComponent {
     /** Translate service */public trans: TranslateService, 
     /** Identity service */public principal: Principal,
     /** Login service */public loginService: LoginService,
-    /** Auth service */public authService: AuthService
+    /** Auth service */public authService: AuthService,
+    /** Language service */public languageService: LanguageService
     ) {
     this.translate = trans;
 
@@ -45,6 +46,7 @@ export class AppComponent {
       this.translate.setDefaultLang(defaultLang);
       this.translate.use(defaultLang);
     }
+    
   }
 
   /** Change app language*/
@@ -71,6 +73,67 @@ export class AppComponent {
         this.currentAccount = account;
       });
     }
+    this.loadLanguages();
+  }
+
+  //Load from server all languages that we will use
+  loadLanguages(){
+    let catalanLanguage = null;
+    let spanishLanguage = null;
+    let englishLanguage = null;
+    this.languageService.getAll().subscribe(
+      result => {
+        console.log(result);
+        result.forEach(language => {
+          if(language.name == 'catalan') { catalanLanguage= language }
+          if(language.name == 'spanish') { spanishLanguage= language }
+          if(language.name == 'english') { englishLanguage= language }
+        });
+
+        if(catalanLanguage != null){
+          config.languagesObjects.catalan=catalanLanguage;
+        }
+        else{
+          let catalanLanguageObj = new Language();
+          catalanLanguageObj.name= 'catalan';
+          catalanLanguageObj.shortname= 'ca';
+          this.languageService.save(catalanLanguageObj).subscribe(
+            result => {
+              config.languagesObjects.catalan=result;
+            }
+          )
+        }
+
+        if(spanishLanguage != null){
+          config.languagesObjects.spanish=spanishLanguage;
+        }
+        else{
+          let spanishLanguageObj = new Language();
+          spanishLanguageObj.name= 'spanish';
+          spanishLanguageObj.shortname= 'es';
+          this.languageService.save(spanishLanguageObj).subscribe(
+            result => {
+              config.languagesObjects.spanish=result;
+            }
+          )
+        }
+
+        if(englishLanguage != null){
+          config.languagesObjects.english=englishLanguage;
+        }
+        else{
+          let englishLanguageObj = new Language();
+          englishLanguageObj.name= 'english';
+          englishLanguageObj.shortname= 'en';
+          this.languageService.save(englishLanguageObj).subscribe(
+            result => {
+              config.languagesObjects.english=result;
+            }
+          )
+        }
+
+      }
+    )
   }
 
 }

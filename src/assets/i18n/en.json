@@ -73,6 +73,15 @@
     "taskGroup": "Task group",
     "status": "Status"
   },
+  "dashboard": {
+    "newUsers": "New users",
+    "services": "Services",
+    "tasks": "Tasks",
+    "territories": "Territories",
+    "cartographies": "Cartographies",
+    "applications": "Applications",
+    "applicationsTerritories": "Applications territories"
+  },
   "userEntity": {
     "generalData": "General Data",
     "user": "User",

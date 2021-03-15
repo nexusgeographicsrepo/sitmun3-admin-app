@@ -109,6 +109,7 @@ import {
   TaskParameterService,
   TerritoryTypeService,
   CartographyFilterService,
+  DashboardService,
   TreeNodeService,
 } from 'dist/sitmun-frontend-core/';
 import { UtilsService } from './services/utils.service';
@@ -194,7 +195,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     { provide: LOCALE_ID, useValue: 'es-ES' },
     RoleService, ConnectionService, UserService, TerritoryService, ServiceService,
     ApplicationService, TreeService, TranslationService, TerritoryTypeService, TaskAvailabilityService, BackgroundService, CartographyService, CartographyGroupService,
-    TaskGroupService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
+    TaskGroupService, DashboardService, TaskService, UserConfigurationService, CodeListService, LoginService, AuthService,
     Principal, UserPositionService, AccountService,CartographyAvailabilityService,ServiceParameterService,ApplicationParameterService,
     CartographyParameterService, LanguageService, CartographyFilterService,  TaskUIService, TaskParameterService, ApplicationBackgroundService, TreeNodeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

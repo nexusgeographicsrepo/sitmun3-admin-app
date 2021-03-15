@@ -73,6 +73,15 @@
     "taskGroup": "Grup tasca",
     "status": "Estat"
   },
+  "dashboard": {
+    "newUsers": "Nous usuaris",
+    "services": "Serveis",
+    "tasks": "Tasques",
+    "territories": "Territoris",
+    "cartographies": "Cartografies",
+    "applications": "Aplicacions",
+    "applicationsTerritories": "Aplicacions de territoris"
+  },
   "userEntity": {
     "generalData": "Dades Generals",
     "user": "Usuari",

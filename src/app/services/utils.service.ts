@@ -303,7 +303,7 @@ export class UtilsService {
 
   //Translation
 
-  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation): Promise<any[]>{
+  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, column): Promise<any[]>{
 
   
 
@@ -325,7 +325,7 @@ export class UtilsService {
             else{
               catalanTranslation= new Translation();
               catalanTranslation.translation= result.data.catalanValue;
-              catalanTranslation.column='GEO_NAME';
+              catalanTranslation.column=column;
               catalanTranslation.language=config.languagesObjects.catalan;
             }
   
@@ -335,7 +335,7 @@ export class UtilsService {
             else{
               spanishTranslation= new Translation();
               spanishTranslation.translation= result.data.spanishValue;
-              spanishTranslation.column='GEO_NAME';
+              spanishTranslation.column=column;
               spanishTranslation.language=config.languagesObjects.spanish;
             }
   
@@ -346,7 +346,7 @@ export class UtilsService {
             else{
               englishTranslation= new Translation();
               englishTranslation.translation= result.data.englishValue;
-              englishTranslation.column='GEO_NAME';
+              englishTranslation.column=column;
               englishTranslation.language=config.languagesObjects.english;
             }
             console.log(result.data);

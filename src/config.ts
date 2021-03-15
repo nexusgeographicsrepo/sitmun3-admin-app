@@ -47,5 +47,8 @@ export const config = {
     catalan: null,
     spanish: null,
     english: null,
+  },
+  translationColumns: {
+    cartography : 'GEO_NAME',
   }
 };

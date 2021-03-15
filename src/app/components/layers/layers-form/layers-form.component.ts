@@ -552,7 +552,7 @@ export class LayersFormComponent implements OnInit {
   async onTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, config.translationColumns.cartography);
     if(dialogResult!=null){
       this.translationsModified=true;
       this.catalanTranslation=dialogResult[0];

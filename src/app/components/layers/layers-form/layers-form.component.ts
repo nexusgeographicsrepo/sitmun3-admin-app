@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory, Connection, ApplicationService, CartographyGroup, CartographyAvailabilityService, CartographyParameterService, HalParam, HalOptions, Cartography, TreeNode } from 'dist/sitmun-frontend-core/';
+import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory, Connection, ApplicationService, CartographyGroup, CartographyAvailabilityService, CartographyParameterService, HalParam, HalOptions, Cartography, TreeNode, TranslationService, Translation } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -19,6 +19,12 @@ import { iterateExtend } from '@syncfusion/ej2-angular-grids';
   styleUrls: ['./layers-form.component.scss']
 })
 export class LayersFormComponent implements OnInit {
+
+  //Translations
+  translationsModified: boolean = false;
+  catalanTranslation: Translation = null;
+  spanishTranslation: Translation = null;
+  englishTranslation: Translation = null;
 
   //Form
   private parametersUrl: string;
@@ -106,6 +112,7 @@ export class LayersFormComponent implements OnInit {
     private router: Router,
     private cartographyService: CartographyService,
     private connectionService: ConnectionService,
+    private translationService: TranslationService,
     private serviceService: ServiceService,
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
@@ -304,6 +311,29 @@ export class LayersFormComponent implements OnInit {
                   geometryType: this.geometryTypes[0].value
                 })
               }
+
+              
+              
+                this.translationService.getAll()
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID)
+                )).subscribe( result => {
+                  console.log(result);
+                  // result.forEach(translation => {
+                  //   if(translation.translation == "G"){
+                  //     this.catalanTranslation=translation
+                  //   }
+                  //   if(translation.translation == "O"){
+                  //     this.spanishTranslation=translation
+                  //   }
+                  //   if(translation.translation == "N"){
+                  //     this.englishTranslation=translation
+                  //   }
+                  // });
+                  console.log(this.catalanTranslation);
+                }
+          
+                );;
+              
 
 
               var urlReq = `${this.layerToEdit._links.parameters.href}`
@@ -518,6 +548,20 @@ export class LayersFormComponent implements OnInit {
       this.layerForm.get('queryableLayers').disable();
     }
   }
+
+  async onTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, config.translationColumns.cartography);
+    if(dialogResult!=null){
+      this.translationsModified=true;
+      this.catalanTranslation=dialogResult[0];
+      this.spanishTranslation=dialogResult[1];
+      this.englishTranslation=dialogResult[2];
+      console.log(this.catalanTranslation=dialogResult[0]);
+    }
+  }
+
 
   initializeLayersForm(): void {
 
@@ -1238,6 +1282,13 @@ export class LayersFormComponent implements OnInit {
             id: resp.id,
             _links: resp._links
           })
+
+          if(this.translationsModified){
+
+            this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+            this.translationsModified = false;
+          }
+
           this.getAllElementsEventParameters.next(true);
           this.getAllElementsEventSpatialConfigurations.next(true);
           this.getAllElementsTerritorialFilter.next(true);

@@ -42,5 +42,13 @@ export const config = {
     trees: 'trees',
     users: 'users',
     userPosition:'user-positions'
+  },
+  languagesObjects: {
+    catalan: null,
+    spanish: null,
+    english: null,
+  },
+  translationColumns: {
+    cartography : 'GEO_NAME',
   }
 };

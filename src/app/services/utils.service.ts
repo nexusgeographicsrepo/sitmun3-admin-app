@@ -368,11 +368,13 @@ export class UtilsService {
     translations.forEach(translation => {
       console.log(translation);
       translation.element=id;
-      this.translationService.save(translation).subscribe(
-        result => {
-          console.log(result)
-        }
-      )
+      if(translation.translation != null){
+        this.translationService.save(translation).subscribe(
+          result => {
+            console.log(result)
+          }
+        )   
+      }
     });
   }
 

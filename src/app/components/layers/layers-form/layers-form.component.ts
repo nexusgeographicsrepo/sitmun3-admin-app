@@ -1283,9 +1283,10 @@ export class LayersFormComponent implements OnInit {
             _links: resp._links
           })
 
-          if(this.translationsModified != null){
+          if(this.translationsModified){
 
             this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+            this.translationsModified = false;
           }
 
           this.getAllElementsEventParameters.next(true);

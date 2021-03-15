@@ -114,6 +114,7 @@ import {
 import { UtilsService } from './services/utils.service';
 import { SidenavService } from './services/sidenav.service';
 import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
@@ -165,7 +166,8 @@ import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.com
     TasksReportFormComponent,
     TasksThematicFormComponent,
     LoginComponent,
-    TasksFormComponent
+    TasksFormComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

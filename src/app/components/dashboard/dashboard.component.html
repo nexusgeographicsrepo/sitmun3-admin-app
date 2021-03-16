@@ -1,0 +1,26 @@
+<mat-grid-list cols="1" rowHeight="2:1" *ngIf="dataLoaded">
+    <mat-grid-tile>
+      <mat-grid-list style="width: 100%" cols="4" rowHeight="1:1">
+        <div *ngFor="let kpi of KPIsTable; let i = index">
+        <mat-grid-tile>
+            <mat-drawer-container class="mat-drawer-container">
+                <mat-drawer mode="side" opened>Drawer content</mat-drawer>
+                <mat-drawer-content>
+                    {{kpi.number}}
+                    <br>
+                    {{kpi.text}}
+                </mat-drawer-content>
+            </mat-drawer-container>
+        </mat-grid-tile>
+    </div>
+      </mat-grid-list>
+    </mat-grid-tile>
+      <mat-grid-tile>
+      <mat-grid-list style="width: 100%" cols="2" rowHeight="1:1">
+        <mat-grid-tile>
+            <app-datagraph *ngIf="dataLoaded" [data]="this.cartographyChartData" type="bar"> </app-datagraph>
+        </mat-grid-tile>
+        <mat-grid-tile>2</mat-grid-tile>
+      </mat-grid-list>
+    </mat-grid-tile>
+</mat-grid-list>

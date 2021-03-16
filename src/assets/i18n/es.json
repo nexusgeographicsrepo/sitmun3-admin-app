@@ -73,6 +73,15 @@
     "taskGroup": "Grupo tarea",
     "status": "Estado"
   },
+  "dashboard": {
+    "newUsers": "Nuevos usuarios",
+    "services": "Servicios",
+    "tasks": "Tareas",
+    "territories": "Territorios",
+    "cartographies": "Cartografías",
+    "applications": "Aplicaciones",
+    "applicationsTerritories": "Aplicaciones de territorios"
+  },
   "userEntity": {
     "generalData": "Datos Generales",
     "user": "Usuario",

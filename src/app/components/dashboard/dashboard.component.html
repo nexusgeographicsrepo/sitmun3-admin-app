@@ -3,7 +3,7 @@
       <mat-grid-list style="width: 100%" cols="4" rowHeight="1:1">
         <div *ngFor="let kpi of KPIsTable; let i = index">
         <mat-grid-tile>
-            <mat-drawer-container class="example-container">
+            <mat-drawer-container class="mat-drawer-container">
                 <mat-drawer mode="side" opened>Drawer content</mat-drawer>
                 <mat-drawer-content>
                     {{kpi.number}}
@@ -17,7 +17,9 @@
     </mat-grid-tile>
       <mat-grid-tile>
       <mat-grid-list style="width: 100%" cols="2" rowHeight="1:1">
-        <mat-grid-tile>1</mat-grid-tile>
+        <mat-grid-tile>
+            <app-datagraph *ngIf="dataLoaded" [data]="this.cartographyChartData" type="bar"> </app-datagraph>
+        </mat-grid-tile>
         <mat-grid-tile>2</mat-grid-tile>
       </mat-grid-list>
     </mat-grid-tile>

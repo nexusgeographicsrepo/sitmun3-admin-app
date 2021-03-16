@@ -224,7 +224,8 @@
     "metadataURL":"URL metadatos",
     "datasetURL": "URL dataset",
     "description":"Descripción",
-    "configuration" : "Configuración"
+    "configuration" : "Configuración",
+    "image": "Imagen"
   },
   "taskGroupEntity": {
     "generalData": "Datos Generales",

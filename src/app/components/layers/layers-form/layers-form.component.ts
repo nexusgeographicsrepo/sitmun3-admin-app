@@ -318,17 +318,17 @@ export class LayersFormComponent implements OnInit {
                 .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID)
                 )).subscribe( result => {
                   console.log(result);
-                  // result.forEach(translation => {
-                  //   if(translation.translation == "G"){
-                  //     this.catalanTranslation=translation
-                  //   }
-                  //   if(translation.translation == "O"){
-                  //     this.spanishTranslation=translation
-                  //   }
-                  //   if(translation.translation == "N"){
-                  //     this.englishTranslation=translation
-                  //   }
-                  // });
+                  result.forEach(translation => {
+                    if(translation.languageName == "catalan"){
+                      this.catalanTranslation=translation
+                    }
+                    if(translation.languageName == "spanish"){
+                      this.spanishTranslation=translation
+                    }
+                    if(translation.languageName == "english"){
+                      this.englishTranslation=translation
+                    }
+                  });
                   console.log(this.catalanTranslation);
                 }
           

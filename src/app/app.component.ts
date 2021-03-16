@@ -73,7 +73,7 @@ export class AppComponent {
         this.currentAccount = account;
       });
     }
-    // this.loadLanguages();
+    this.loadLanguages();
   }
 
   //Load from server all languages that we will use

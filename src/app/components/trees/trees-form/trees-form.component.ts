@@ -62,6 +62,8 @@ export class TreesFormComponent implements OnInit {
             this.treeForm.setValue({
               id: this.treeID,
               name: this.treeToEdit.name,
+              description: this.treeToEdit.description,
+              image: this.treeToEdit.image,
               _links: this.treeToEdit._links
             });
 
@@ -89,6 +91,8 @@ export class TreesFormComponent implements OnInit {
     this.treeForm = new FormGroup({
       id: new FormControl(null, []),
       name: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, []),
+      image: new FormControl(null, []),
       _links: new FormControl(null, [])
     })
   }

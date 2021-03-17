@@ -151,21 +151,8 @@ export class ServiceFormComponent implements OnInit {
               .pipe(map((data: any[]) => data.filter(elem => elem.element == this.serviceID && elem.column == config.translationColumns.serviceDescription)
               )).subscribe( result => {
                 console.log(result);
-                result.forEach(translation => {
-                  if(translation.languageName == "catalan"){
-                    this.catalanTranslation=translation
-                  }
-                  if(translation.languageName == "spanish"){
-                    this.spanishTranslation=translation
-                  }
-                  if(translation.languageName == "english"){
-                    this.englishTranslation=translation
-                  }
-                });
-                console.log(this.catalanTranslation);
-              }
-        
-              );;
+                this.saveTranslations(result);
+              });;
   
               this.dataLoaded = true;
             },
@@ -497,7 +484,7 @@ export class ServiceFormComponent implements OnInit {
 
   }
 
-  onSaveButtonClicked(){
+   onSaveButtonClicked(){
     // this.serviceForm.patchValue({
     //   supportedSRS: this.projections.join(';')
     // })
@@ -508,7 +495,7 @@ export class ServiceFormComponent implements OnInit {
       })
     console.log(this.serviceForm.value);
       this.serviceService.save(this.serviceForm.value)
-      .subscribe(resp => {
+      .subscribe(async resp => {
         console.log(resp);
         this.serviceToEdit=resp;
         this.serviceID=resp.id;
@@ -518,8 +505,10 @@ export class ServiceFormComponent implements OnInit {
         })
         
         if(this.translationsModified){
-
-          this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+          
+          let translationsResult=await this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+          console.log(translationsResult);
+          this.saveTranslations(translationsResult);
           this.translationsModified = false;
         }
         this.getAllElementsEventParameters.next(true);
@@ -535,7 +524,23 @@ export class ServiceFormComponent implements OnInit {
 
 
 
-}
+  }
+
+  saveTranslations(translations){
+        translations.forEach(translation => {
+        if(translation.languageName == "catalan"){
+          this.catalanTranslation=translation
+        }
+        if(translation.languageName == "spanish"){
+          this.spanishTranslation=translation
+        }
+        if(translation.languageName == "english"){
+          this.englishTranslation=translation
+        }
+      });
+      console.log(this.catalanTranslation);
+
+  }
 
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TreeService, TreeNodeService, CartographyService, Tree, TreeNode, Cartography } from 'dist/sitmun-frontend-core/';
+import { TreeService, TreeNodeService, Translation, TranslationService, CartographyService, Tree, TreeNode, Cartography } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -16,6 +16,19 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./trees-form.component.scss']
 })
 export class TreesFormComponent implements OnInit {
+
+  
+  //Translations
+  nameTranslationsModified: boolean = false;
+  descriptionTranslationsModified: boolean = false;
+  
+  catalanNameTranslation: Translation = null;
+  spanishNameTranslation: Translation = null;
+  englishNameTranslation: Translation = null;
+
+  catalanDescriptionTranslation: Translation = null;
+  spanishDescriptionTranslation: Translation = null;
+  englishDescriptionTranslation: Translation = null;
 
   themeGrid: any = config.agGridTheme;
   treeID: number = -1;
@@ -37,6 +50,7 @@ export class TreesFormComponent implements OnInit {
     private router: Router,
     private treeService: TreeService,
     private treeNodeService: TreeNodeService,
+    private translationService: TranslationService,
     private cartographyService: CartographyService,
     private http: HttpClient,
     public utils: UtilsService,
@@ -65,6 +79,38 @@ export class TreesFormComponent implements OnInit {
               description: this.treeToEdit.description,
               image: this.treeToEdit.image,
               _links: this.treeToEdit._links
+            });
+
+            this.translationService.getAll()
+            .pipe(map((data: any[]) => data.filter(elem => elem.element == this.treeID)
+            )).subscribe( result => {
+              console.log(result);
+              result.forEach(translation => {
+                if(translation.languageName == "catalan"){
+                  if(translation.column == config.translationColumns.treeName){
+                    this.catalanNameTranslation=translation
+                  }
+                  else if(translation.column == config.translationColumns.treeDescription){
+                    this.catalanDescriptionTranslation=translation
+                  }
+                }
+                if(translation.languageName == "spanish"){
+                  if(translation.column == config.translationColumns.treeName){
+                    this.spanishNameTranslation=translation
+                  }
+                  else if(translation.column == config.translationColumns.treeDescription){
+                    this.spanishDescriptionTranslation=translation
+                  }
+                }
+                if(translation.languageName == "english"){
+                  if(translation.column == config.translationColumns.treeName){
+                    this.englishNameTranslation=translation
+                  }
+                  else if(translation.column == config.translationColumns.treeDescription){
+                    this.englishDescriptionTranslation=translation
+                  }
+                }
+              });
             });
 
             this.dataLoaded = true;
@@ -118,6 +164,30 @@ export class TreesFormComponent implements OnInit {
       cartographyName: new FormControl(null, []),
       
     })
+  }
+
+  async onNameTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, config.translationColumns.treeName);
+    if(dialogResult!=null){
+      this.nameTranslationsModified=true;
+      this.catalanNameTranslation=dialogResult[0];
+      this.spanishNameTranslation=dialogResult[1];
+      this.englishNameTranslation=dialogResult[2];
+    }
+  }
+
+  async onDescriptionTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, config.translationColumns.treeDescription);
+    if(dialogResult!=null){
+      this.descriptionTranslationsModified=true;
+      this.catalanDescriptionTranslation=dialogResult[0];
+      this.spanishDescriptionTranslation=dialogResult[1];
+      this.englishDescriptionTranslation=dialogResult[2];
+    }
   }
 
   getAllCartographies = (): Observable<any> => {
@@ -265,6 +335,26 @@ export class TreesFormComponent implements OnInit {
     .subscribe(resp => {
       this.treeToEdit=resp;
       this.treeID=resp.id;
+
+      if(this.nameTranslationsModified || this.descriptionTranslationsModified){
+        let translations = [];
+        if(this.nameTranslationsModified)
+        {
+          translations.push(this.catalanNameTranslation)
+          translations.push(this.spanishNameTranslation)
+          translations.push(this.englishNameTranslation)
+          this.nameTranslationsModified = false;
+        }
+        if(this.descriptionTranslationsModified){
+          translations.push(this.catalanDescriptionTranslation)
+          translations.push(this.spanishDescriptionTranslation)
+          translations.push(this.englishDescriptionTranslation)
+          this.descriptionTranslationsModified = false;
+        }
+
+      this.utils.saveAllTranslations(resp.id,translations);
+      }
+
       let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
       const promises: Promise<any>[] = [];
       this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);

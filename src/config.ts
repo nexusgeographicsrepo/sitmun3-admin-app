@@ -56,5 +56,7 @@ export const config = {
     applicationTitle: 'APP_TITLE',
     backgroundName: 'BAC_NAME',
     backgroundDescription: 'BAC_DESC',
+    treeName: 'TRE_NAME',
+    treeDescription: 'TRE_ABSTRACT',
   }
 };

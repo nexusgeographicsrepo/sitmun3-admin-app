@@ -363,19 +363,20 @@ export class UtilsService {
 
   }
 
-  saveAllTranslations(id, translations)
+  async saveAllTranslations(id, translations)
   {
-    translations.forEach(translation => {
+    let allTranslations = [];
+    translations.forEach(async translation => {
       console.log(translation);
       translation.element=id;
       if(translation && translation.translation != null){
-        this.translationService.save(translation).subscribe(
-          result => {
-            console.log(result)
-          }
-        )   
+        let currentTranslation= await this.translationService.save(translation).toPromise();
+        allTranslations.push(currentTranslation);
       }
     });
+
+    return allTranslations;
   }
+
 
 }

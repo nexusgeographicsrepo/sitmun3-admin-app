@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService, CartographyService,Connection, Cartography, ServiceParameterService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, CartographyService, Translation, TranslationService, Connection, Cartography, ServiceParameterService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -20,6 +20,12 @@ import * as xml2js from 'xml2js';
   styleUrls: ['./service-form.component.scss']
 })
 export class ServiceFormComponent implements OnInit {
+
+  //Translations
+  translationsModified: boolean = false;
+  catalanTranslation: Translation = null;
+  spanishTranslation: Translation = null;
+  englishTranslation: Translation = null;
 
   //form
   dataLoaded: Boolean = false;
@@ -67,6 +73,7 @@ export class ServiceFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private serviceService: ServiceService,
+    private translationService: TranslationService,
     private http: HttpClient,
     public utils: UtilsService,
     public dialog: MatDialog,
@@ -138,6 +145,27 @@ export class ServiceFormComponent implements OnInit {
                 blocked: this.serviceToEdit.blocked,
                 _links: this.serviceToEdit._links
               });
+
+                            
+              this.translationService.getAll()
+              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.serviceID && elem.column == config.translationColumns.serviceDescription)
+              )).subscribe( result => {
+                console.log(result);
+                result.forEach(translation => {
+                  if(translation.languageName == "catalan"){
+                    this.catalanTranslation=translation
+                  }
+                  if(translation.languageName == "spanish"){
+                    this.spanishTranslation=translation
+                  }
+                  if(translation.languageName == "english"){
+                    this.englishTranslation=translation
+                  }
+                });
+                console.log(this.catalanTranslation);
+              }
+        
+              );;
   
               this.dataLoaded = true;
             },
@@ -268,6 +296,20 @@ export class ServiceFormComponent implements OnInit {
       description: this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.SERVICE.ABSTRACT,
     })
   }
+
+  async onTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, config.translationColumns.serviceDescription);
+    if(dialogResult!=null){
+      this.translationsModified=true;
+      this.catalanTranslation=dialogResult[0];
+      this.spanishTranslation=dialogResult[1];
+      this.englishTranslation=dialogResult[2];
+      console.log(this.catalanTranslation=dialogResult[0]);
+    }
+  }
+
   // AG-GRID
 
   // ******** Parameters configuration ******** //
@@ -475,6 +517,12 @@ export class ServiceFormComponent implements OnInit {
           id: resp.id,
           _links: resp._links
         })
+        
+        if(this.translationsModified){
+
+          this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+          this.translationsModified = false;
+        }
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventLayers.next(true);
       },

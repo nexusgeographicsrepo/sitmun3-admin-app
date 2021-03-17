@@ -50,6 +50,7 @@ export const config = {
   },
   translationColumns: {
     cartographyName : 'GEO_NAME',
-    roleName : 'ROL_NAME',
+    territoryName : 'TER_NAME',
+    serviceDescription: 'SER_ABSTRACT',
   }
 };

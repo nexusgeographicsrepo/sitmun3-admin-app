@@ -315,7 +315,7 @@ export class LayersFormComponent implements OnInit {
               
               
                 this.translationService.getAll()
-                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID)
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID && elem.column == config.translationColumns.cartographyName)
                 )).subscribe( result => {
                   console.log(result);
                   result.forEach(translation => {

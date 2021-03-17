@@ -49,6 +49,7 @@ export const config = {
     english: null,
   },
   translationColumns: {
-    cartography : 'GEO_NAME',
+    cartographyName : 'GEO_NAME',
+    roleName : 'ROL_NAME',
   }
 };

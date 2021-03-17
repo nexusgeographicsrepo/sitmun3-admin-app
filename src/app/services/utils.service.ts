@@ -368,7 +368,7 @@ export class UtilsService {
     translations.forEach(translation => {
       console.log(translation);
       translation.element=id;
-      if(translation.translation != null){
+      if(translation && translation.translation != null){
         this.translationService.save(translation).subscribe(
           result => {
             console.log(result)

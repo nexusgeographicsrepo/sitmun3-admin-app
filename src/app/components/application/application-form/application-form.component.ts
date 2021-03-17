@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService, ApplicationParameterService, RoleService,
    HalOptions, HalParam, CartographyGroupService, TreeService, BackgroundService,
-   ApplicationBackgroundService, Role, Background, Tree, Application, CodeList } from 'dist/sitmun-frontend-core/';
+   ApplicationBackgroundService, TranslationService, Translation, Role, Background, Tree, Application, CodeList } from 'dist/sitmun-frontend-core/';
 
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
@@ -24,6 +24,18 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./application-form.component.scss']
 })
 export class ApplicationFormComponent implements OnInit {
+
+  //Translations
+  nameTranslationsModified: boolean = false;
+  titleTranslationsModified: boolean = false;
+  
+  catalanNameTranslation: Translation = null;
+  spanishNameTranslation: Translation = null;
+  englishNameTranslation: Translation = null;
+
+  catalanTitleTranslation: Translation = null;
+  spanishTitleTranslation: Translation = null;
+  englishTitleTranslation: Translation = null;
 
   situationMapList: Array<any> = [];
   parametersTypes: Array<any> = [];
@@ -85,6 +97,7 @@ export class ApplicationFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicationService: ApplicationService,
+    private translationService: TranslationService,
     private backgroundService: BackgroundService,
     private applicationParameterService:ApplicationParameterService,
     private applicationBackgroundService:ApplicationBackgroundService,
@@ -168,6 +181,40 @@ export class ApplicationFormComponent implements OnInit {
                 treeAutoRefresh: this.applicationToEdit.treeAutoRefresh,
                 _links: this.applicationToEdit._links
               });
+
+              this.translationService.getAll()
+              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.applicationID)
+              )).subscribe( result => {
+                console.log(result);
+                result.forEach(translation => {
+                  if(translation.languageName == "catalan"){
+                    if(translation.column == config.translationColumns.applicationName){
+                      this.catalanNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.applicationTitle){
+                      this.catalanTitleTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == "spanish"){
+                    if(translation.column == config.translationColumns.applicationName){
+                      this.spanishNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.applicationTitle){
+                      this.spanishTitleTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == "english"){
+                    if(translation.column == config.translationColumns.applicationName){
+                      this.englishNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.applicationTitle){
+                      this.englishTitleTranslation=translation
+                    }
+                  }
+                });
+              }
+        
+              );;
   
               this.dataLoaded = true;
             },
@@ -330,6 +377,30 @@ export class ApplicationFormComponent implements OnInit {
       value: new FormControl(null),
 
     })
+  }
+
+  async onNameTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, config.translationColumns.applicationName);
+    if(dialogResult!=null){
+      this.nameTranslationsModified=true;
+      this.catalanNameTranslation=dialogResult[0];
+      this.spanishNameTranslation=dialogResult[1];
+      this.englishNameTranslation=dialogResult[2];
+    }
+  }
+
+  async onTitleTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTitleTranslation, this.spanishTitleTranslation, this.englishTitleTranslation, config.translationColumns.applicationTitle);
+    if(dialogResult!=null){
+      this.titleTranslationsModified=true;
+      this.catalanTitleTranslation=dialogResult[0];
+      this.spanishTitleTranslation=dialogResult[1];
+      this.englishTitleTranslation=dialogResult[2];
+    }
   }
 
 
@@ -845,6 +916,24 @@ export class ApplicationFormComponent implements OnInit {
             id: resp.id,
             _links: resp._links
           })
+          if(this.nameTranslationsModified || this.titleTranslationsModified){
+              let translations = [];
+              if(this.nameTranslationsModified)
+              {
+                translations.push(this.catalanNameTranslation)
+                translations.push(this.spanishNameTranslation)
+                translations.push(this.englishNameTranslation)
+                this.nameTranslationsModified = false;
+              }
+              if(this.titleTranslationsModified){
+                translations.push(this.catalanTitleTranslation)
+                translations.push(this.spanishTitleTranslation)
+                translations.push(this.englishTitleTranslation)
+                this.titleTranslationsModified = false;
+              }
+
+            this.utils.saveAllTranslations(resp.id,translations);
+          }
           this.getAllElementsEventParameters.next(true);
           this.getAllElementsEventTemplateConfiguration.next(true);
           this.getAllElementsEventRoles.next(true);

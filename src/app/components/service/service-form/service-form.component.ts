@@ -306,7 +306,6 @@ export class ServiceFormComponent implements OnInit {
       this.catalanTranslation=dialogResult[0];
       this.spanishTranslation=dialogResult[1];
       this.englishTranslation=dialogResult[2];
-      console.log(this.catalanTranslation=dialogResult[0]);
     }
   }
 

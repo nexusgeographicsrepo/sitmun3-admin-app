@@ -52,5 +52,7 @@ export const config = {
     cartographyName : 'GEO_NAME',
     territoryName : 'TER_NAME',
     serviceDescription: 'SER_ABSTRACT',
+    applicationName: 'APP_NAME',
+    applicationTitle: 'APP_TITLE',
   }
 };

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackgroundService, HalOptions, HalParam, CartographyGroupService, Background, CartographyGroup, CartographyService, RoleService, Cartography, Role } from 'dist/sitmun-frontend-core/';
+import { BackgroundService, HalOptions, HalParam, CartographyGroupService, TranslationService, Background, CartographyGroup, CartographyService, RoleService, Cartography, Role, Translation } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { of,Subject } from 'rxjs';
@@ -18,7 +18,20 @@ import { config } from 'src/config';
   styleUrls: ['./background-layers-form.component.scss']
 })
 export class BackgroundLayersFormComponent implements OnInit {
+  
+  //Translations
+  nameTranslationsModified: boolean = false;
+  descriptionTranslationsModified: boolean = false;
+  
+  catalanNameTranslation: Translation = null;
+  spanishNameTranslation: Translation = null;
+  englishNameTranslation: Translation = null;
 
+  catalanDescriptionTranslation: Translation = null;
+  spanishDescriptionTranslation: Translation = null;
+  englishDescriptionTranslation: Translation = null;
+
+  
   permissionGroups: Array<any> = [];
   cartographyGroupOfThisLayer = null;
   dataLoaded: Boolean = false;
@@ -47,6 +60,7 @@ export class BackgroundLayersFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private backgroundService: BackgroundService,
+    private translationService: TranslationService,
     private http: HttpClient,
     public utils: UtilsService,
     private cartographyService: CartographyService,
@@ -101,6 +115,40 @@ export class BackgroundLayersFormComponent implements OnInit {
                 active: this.backgroundToEdit.active,
                 _links: this.backgroundToEdit._links
               });
+
+              this.translationService.getAll()
+              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.backgroundID)
+              )).subscribe( result => {
+                console.log(result);
+                result.forEach(translation => {
+                  if(translation.languageName == "catalan"){
+                    if(translation.column == config.translationColumns.backgroundName){
+                      this.catalanNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.backgroundDescription){
+                      this.catalanDescriptionTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == "spanish"){
+                    if(translation.column == config.translationColumns.backgroundName){
+                      this.spanishNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.backgroundDescription){
+                      this.spanishDescriptionTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == "english"){
+                    if(translation.column == config.translationColumns.backgroundName){
+                      this.englishNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.backgroundDescription){
+                      this.englishDescriptionTranslation=translation
+                    }
+                  }
+                });
+              }
+        
+              );;
 
               var urlReq = `${this.backgroundToEdit._links.cartographyGroup.href}`
               this.http.get(urlReq)
@@ -194,6 +242,30 @@ export class BackgroundLayersFormComponent implements OnInit {
 
     });
 
+  }
+
+  async onNameTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, config.translationColumns.backgroundName);
+    if(dialogResult!=null){
+      this.nameTranslationsModified=true;
+      this.catalanNameTranslation=dialogResult[0];
+      this.spanishNameTranslation=dialogResult[1];
+      this.englishNameTranslation=dialogResult[2];
+    }
+  }
+
+  async onDescriptionTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, config.translationColumns.backgroundDescription);
+    if(dialogResult!=null){
+      this.descriptionTranslationsModified=true;
+      this.catalanDescriptionTranslation=dialogResult[0];
+      this.spanishDescriptionTranslation=dialogResult[1];
+      this.englishDescriptionTranslation=dialogResult[2];
+    }
   }
 
    // AG GRID
@@ -439,6 +511,26 @@ export class BackgroundLayersFormComponent implements OnInit {
             id: resp.id,
             _links: resp._links
           })
+
+          if(this.nameTranslationsModified || this.descriptionTranslationsModified){
+            let translations = [];
+            if(this.nameTranslationsModified)
+            {
+              translations.push(this.catalanNameTranslation)
+              translations.push(this.spanishNameTranslation)
+              translations.push(this.englishNameTranslation)
+              this.nameTranslationsModified = false;
+            }
+            if(this.descriptionTranslationsModified){
+              translations.push(this.catalanDescriptionTranslation)
+              translations.push(this.spanishDescriptionTranslation)
+              translations.push(this.englishDescriptionTranslation)
+              this.descriptionTranslationsModified = false;
+            }
+
+          this.utils.saveAllTranslations(resp.id,translations);
+        }
+
           this.getAllElementsEventCartographies.next(true);
           this.getAllElementsEventRoles.next(true);
         },

@@ -54,5 +54,7 @@ export const config = {
     serviceDescription: 'SER_ABSTRACT',
     applicationName: 'APP_NAME',
     applicationTitle: 'APP_TITLE',
+    backgroundName: 'BAC_NAME',
+    backgroundDescription: 'BAC_DESC',
   }
 };

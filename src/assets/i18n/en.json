@@ -241,7 +241,8 @@
     "active": "Active",
     "cartographyGroup": "Cartography group",
     "status": "Status",
-    "createdDate": "Created date"
+    "createdDate": "Created date",
+    "image": "Image"
   },
   "applicationEntity": {
     "generalData": "General Data",

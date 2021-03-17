@@ -241,7 +241,8 @@
     "active": "Activo",
     "cartographyGroup": "Grupo cartografía",
     "status": "Estado",
-    "createdDate": "Alta"
+    "createdDate": "Alta",
+    "image": "Imagen"
   },
   "applicationEntity": {
     "generalData": "Datos Generales",

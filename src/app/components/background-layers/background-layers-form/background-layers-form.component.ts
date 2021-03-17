@@ -96,6 +96,7 @@ export class BackgroundLayersFormComponent implements OnInit {
                 id: this.backgroundID,
                 name: this.backgroundToEdit.name,
                 description: this.backgroundToEdit.description,
+                image: this.backgroundToEdit.image,
                 cartographyGroup: this.permissionGroups[0].value,
                 active: this.backgroundToEdit.active,
                 _links: this.backgroundToEdit._links
@@ -186,6 +187,7 @@ export class BackgroundLayersFormComponent implements OnInit {
         Validators.required,
       ]),
       description: new FormControl(null),
+      image: new FormControl(null),
       cartographyGroup: new FormControl(null),
       active: new FormControl(null),
       _links: new FormControl(null),
@@ -423,6 +425,7 @@ export class BackgroundLayersFormComponent implements OnInit {
       backgroundObj.id= this.backgroundForm.value.id;
       backgroundObj.name= this.backgroundForm.value.name;
       backgroundObj.description= this.backgroundForm.value.description;
+      backgroundObj.image= this.backgroundForm.value.image;
       backgroundObj.cartographyGroup=cartographyGroup;
       backgroundObj.active= this.backgroundForm.value.active;
       backgroundObj._links= this.backgroundForm.value._links;

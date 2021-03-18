@@ -85,9 +85,9 @@ export class AppComponent {
       async result => {
         console.log(result);
         result.forEach(language => {
-          if(language.name == 'catalan') { catalanLanguage= language }
-          if(language.name == 'spanish') { spanishLanguage= language }
-          if(language.name == 'english') { englishLanguage= language }
+          if(language.name == 'Catala') { catalanLanguage= language }
+          if(language.name == 'Español') { spanishLanguage= language }
+          if(language.name == 'English') { englishLanguage= language }
         });
 
         if(catalanLanguage != null){
@@ -95,27 +95,27 @@ export class AppComponent {
         }
         else{
           let catalanLanguageObj = new Language();
-          catalanLanguageObj.name= 'catalan';
+          catalanLanguageObj.name= 'Catala';
           catalanLanguageObj.shortname= 'ca';
-          config.languagesObjects.catalan= await this.languageService.save(catalanLanguageObj).toPromise();
+          console.log( await this.languageService.save(catalanLanguageObj).toPromise() );
         }
 
         if(spanishLanguage != null){
           config.languagesObjects.spanish=spanishLanguage;
         }
-        else{
-          let spanishLanguageObj = new Language();
-          spanishLanguageObj.name= 'spanish';
-          spanishLanguageObj.shortname= 'es';
-          config.languagesObjects.spanish= await this.languageService.save(spanishLanguageObj).toPromise();
-        }
+        // else{
+        //   let spanishLanguageObj = new Language();
+        //   spanishLanguageObj.name= 'Español';
+        //   spanishLanguageObj.shortname= 'spa';
+        //   config.languagesObjects.spanish= await this.languageService.save(spanishLanguageObj).toPromise();
+        // }
 
         if(englishLanguage != null){
           config.languagesObjects.english=englishLanguage;
         }
         else{
           let englishLanguageObj = new Language();
-          englishLanguageObj.name= 'english';
+          englishLanguageObj.name= 'English';
           englishLanguageObj.shortname= 'en';
           config.languagesObjects.english= await this.languageService.save(englishLanguageObj).toPromise()
         }

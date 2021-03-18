@@ -121,7 +121,7 @@ export class BackgroundLayersFormComponent implements OnInit {
               )).subscribe( result => {
                 console.log(result);
                 result.forEach(translation => {
-                  if(translation.languageName == "catalan"){
+                  if(translation.languageName == "Catala"){
                     if(translation.column == config.translationColumns.backgroundName){
                       this.catalanNameTranslation=translation
                     }
@@ -129,7 +129,7 @@ export class BackgroundLayersFormComponent implements OnInit {
                       this.catalanDescriptionTranslation=translation
                     }
                   }
-                  if(translation.languageName == "spanish"){
+                  if(translation.languageName == "Español"){
                     if(translation.column == config.translationColumns.backgroundName){
                       this.spanishNameTranslation=translation
                     }
@@ -137,7 +137,7 @@ export class BackgroundLayersFormComponent implements OnInit {
                       this.spanishDescriptionTranslation=translation
                     }
                   }
-                  if(translation.languageName == "english"){
+                  if(translation.languageName == "English"){
                     if(translation.column == config.translationColumns.backgroundName){
                       this.englishNameTranslation=translation
                     }
@@ -503,7 +503,7 @@ export class BackgroundLayersFormComponent implements OnInit {
       backgroundObj._links= this.backgroundForm.value._links;
   
       this.backgroundService.save(backgroundObj)
-        .subscribe(resp => {
+        .subscribe(async resp => {
           console.log(resp);
           this.backgroundToEdit=resp;
           this.backgroundID=resp.id;
@@ -511,25 +511,20 @@ export class BackgroundLayersFormComponent implements OnInit {
             id: resp.id,
             _links: resp._links
           })
+          if(this.nameTranslationsModified)
+          {
+            this.catalanNameTranslation = await this.utils.saveTranslation(resp.id,this.catalanNameTranslation);
+            this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
+            this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
+            this.nameTranslationsModified = false;
+          }
+          if(this.descriptionTranslationsModified){
+            this.catalanDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.catalanDescriptionTranslation);
+            this.spanishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.spanishDescriptionTranslation);
+            this.englishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.englishDescriptionTranslation);
 
-          if(this.nameTranslationsModified || this.descriptionTranslationsModified){
-            let translations = [];
-            if(this.nameTranslationsModified)
-            {
-              translations.push(this.catalanNameTranslation)
-              translations.push(this.spanishNameTranslation)
-              translations.push(this.englishNameTranslation)
-              this.nameTranslationsModified = false;
-            }
-            if(this.descriptionTranslationsModified){
-              translations.push(this.catalanDescriptionTranslation)
-              translations.push(this.spanishDescriptionTranslation)
-              translations.push(this.englishDescriptionTranslation)
-              this.descriptionTranslationsModified = false;
-            }
-
-          this.utils.saveAllTranslations(resp.id,translations);
-        }
+            this.descriptionTranslationsModified = false;
+          }
 
           this.getAllElementsEventCartographies.next(true);
           this.getAllElementsEventRoles.next(true);

@@ -187,7 +187,7 @@ export class ApplicationFormComponent implements OnInit {
               )).subscribe( result => {
                 console.log(result);
                 result.forEach(translation => {
-                  if(translation.languageName == "catalan"){
+                  if(translation.languageName == "Catala"){
                     if(translation.column == config.translationColumns.applicationName){
                       this.catalanNameTranslation=translation
                     }
@@ -195,7 +195,7 @@ export class ApplicationFormComponent implements OnInit {
                       this.catalanTitleTranslation=translation
                     }
                   }
-                  if(translation.languageName == "spanish"){
+                  if(translation.languageName == "Español"){
                     if(translation.column == config.translationColumns.applicationName){
                       this.spanishNameTranslation=translation
                     }
@@ -203,7 +203,7 @@ export class ApplicationFormComponent implements OnInit {
                       this.spanishTitleTranslation=translation
                     }
                   }
-                  if(translation.languageName == "english"){
+                  if(translation.languageName == "English"){
                     if(translation.column == config.translationColumns.applicationName){
                       this.englishNameTranslation=translation
                     }
@@ -893,7 +893,7 @@ export class ApplicationFormComponent implements OnInit {
         appObj.title= this.applicationForm.value.title;
         appObj.jspTemplate= this.applicationForm.value.jspTemplate;
         appObj.theme= this.applicationForm.value.theme;
-        appObj.scales= this.applicationForm.value.scales!=null ?this.applicationForm.value.scales.toString().split(","):"";
+        appObj.scales= this.applicationForm.value.scales!=null ?this.applicationForm.value.scales.toString().split(","):null;
         appObj.srs= this.applicationForm.value.srs;
         appObj.treeAutoRefresh= this.applicationForm.value.treeAutoRefresh;
         appObj._links= this.applicationForm.value._links;
@@ -908,7 +908,7 @@ export class ApplicationFormComponent implements OnInit {
     
     
         this.applicationService.save(appObj)
-        .subscribe(resp => {
+        .subscribe(async resp => {
           console.log(resp);
           this.applicationToEdit = resp;
           this.applicationID = this.applicationToEdit.id;
@@ -916,24 +916,22 @@ export class ApplicationFormComponent implements OnInit {
             id: resp.id,
             _links: resp._links
           })
-          if(this.nameTranslationsModified || this.titleTranslationsModified){
-              let translations = [];
-              if(this.nameTranslationsModified)
-              {
-                translations.push(this.catalanNameTranslation)
-                translations.push(this.spanishNameTranslation)
-                translations.push(this.englishNameTranslation)
-                this.nameTranslationsModified = false;
-              }
-              if(this.titleTranslationsModified){
-                translations.push(this.catalanTitleTranslation)
-                translations.push(this.spanishTitleTranslation)
-                translations.push(this.englishTitleTranslation)
-                this.titleTranslationsModified = false;
-              }
 
-            this.utils.saveAllTranslations(resp.id,translations);
+          if(this.nameTranslationsModified)
+          {
+            this.catalanNameTranslation = await this.utils.saveTranslation(resp.id,this.catalanNameTranslation);
+            this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
+            this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
+            this.nameTranslationsModified = false;
           }
+          if(this.titleTranslationsModified){
+            this.catalanTitleTranslation = await this.utils.saveTranslation(resp.id,this.catalanTitleTranslation);
+            this.spanishTitleTranslation = await this.utils.saveTranslation(resp.id,this.spanishTitleTranslation);
+            this.englishTitleTranslation = await this.utils.saveTranslation(resp.id,this.englishTitleTranslation);
+
+            this.titleTranslationsModified = false;
+          }
+
           this.getAllElementsEventParameters.next(true);
           this.getAllElementsEventTemplateConfiguration.next(true);
           this.getAllElementsEventRoles.next(true);

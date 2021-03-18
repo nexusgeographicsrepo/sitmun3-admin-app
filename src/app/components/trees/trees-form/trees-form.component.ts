@@ -86,7 +86,7 @@ export class TreesFormComponent implements OnInit {
             )).subscribe( result => {
               console.log(result);
               result.forEach(translation => {
-                if(translation.languageName == "catalan"){
+                if(translation.languageName == "Catala"){
                   if(translation.column == config.translationColumns.treeName){
                     this.catalanNameTranslation=translation
                   }
@@ -94,7 +94,7 @@ export class TreesFormComponent implements OnInit {
                     this.catalanDescriptionTranslation=translation
                   }
                 }
-                if(translation.languageName == "spanish"){
+                if(translation.languageName == "Español"){
                   if(translation.column == config.translationColumns.treeName){
                     this.spanishNameTranslation=translation
                   }
@@ -102,7 +102,7 @@ export class TreesFormComponent implements OnInit {
                     this.spanishDescriptionTranslation=translation
                   }
                 }
-                if(translation.languageName == "english"){
+                if(translation.languageName == "English"){
                   if(translation.column == config.translationColumns.treeName){
                     this.englishNameTranslation=translation
                   }
@@ -332,27 +332,23 @@ export class TreesFormComponent implements OnInit {
   {
     console.log(data);
     this.treeService.save( this.treeForm.value)
-    .subscribe(resp => {
+    .subscribe(async resp => {
       this.treeToEdit=resp;
       this.treeID=resp.id;
 
-      if(this.nameTranslationsModified || this.descriptionTranslationsModified){
-        let translations = [];
-        if(this.nameTranslationsModified)
-        {
-          translations.push(this.catalanNameTranslation)
-          translations.push(this.spanishNameTranslation)
-          translations.push(this.englishNameTranslation)
-          this.nameTranslationsModified = false;
-        }
-        if(this.descriptionTranslationsModified){
-          translations.push(this.catalanDescriptionTranslation)
-          translations.push(this.spanishDescriptionTranslation)
-          translations.push(this.englishDescriptionTranslation)
-          this.descriptionTranslationsModified = false;
-        }
+      if(this.nameTranslationsModified)
+      {
+        this.catalanNameTranslation = await this.utils.saveTranslation(resp.id,this.catalanNameTranslation);
+        this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
+        this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
+        this.nameTranslationsModified = false;
+      }
+      if(this.descriptionTranslationsModified){
+        this.catalanDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.catalanDescriptionTranslation);
+        this.spanishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.spanishDescriptionTranslation);
+        this.englishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.englishDescriptionTranslation);
 
-      this.utils.saveAllTranslations(resp.id,translations);
+        this.descriptionTranslationsModified = false;
       }
 
       let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();

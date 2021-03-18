@@ -168,13 +168,13 @@ export class TerritoryFormComponent implements OnInit {
               )).subscribe( result => {
                 console.log(result);
                 result.forEach(translation => {
-                  if(translation.languageName == "catalan"){
+                  if(translation.languageName == "Catala"){
                     this.catalanTranslation=translation
                   }
-                  if(translation.languageName == "spanish"){
+                  if(translation.languageName == "Español"){
                     this.spanishTranslation=translation
                   }
-                  if(translation.languageName == "english"){
+                  if(translation.languageName == "English"){
                     this.englishTranslation=translation
                   }
                 });
@@ -994,7 +994,7 @@ export class TerritoryFormComponent implements OnInit {
           this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
         }
         this.territoryService.save(this.terrritoryObj)
-          .subscribe(resp => {
+          .subscribe(async resp => {
             console.log(resp);
             this.territoryToEdit = resp;
             this.territoryID = resp.id;
@@ -1003,11 +1003,13 @@ export class TerritoryFormComponent implements OnInit {
               _links: resp._links
             })
 
-            if(this.translationsModified){
 
-              this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+            if(this.translationsModified){
+              this.catalanTranslation = await this.utils.saveTranslation(resp.id,this.catalanTranslation);
+              this.spanishTranslation = await this.utils.saveTranslation(resp.id,this.spanishTranslation);
+              this.englishTranslation = await this.utils.saveTranslation(resp.id,this.englishTranslation);
               this.translationsModified = false;
-            }  
+            }
 
             this.getAllElementsEventPermits.next(true);
             this.getAllElementsEventCartographies.next(true);

@@ -363,19 +363,14 @@ export class UtilsService {
 
   }
 
-  async saveAllTranslations(id, translations)
-  {
-    let allTranslations = [];
-    translations.forEach(async translation => {
-      console.log(translation);
+  async saveTranslation(id, translation){
+    if(translation && translation.translation){
       translation.element=id;
-      if(translation && translation.translation != null){
-        let currentTranslation= await this.translationService.save(translation).toPromise();
-        allTranslations.push(currentTranslation);
-      }
-    });
-
-    return allTranslations;
+      return await this.translationService.save(translation).toPromise();
+    }
+    else {
+      return null;
+    }
   }
 
 

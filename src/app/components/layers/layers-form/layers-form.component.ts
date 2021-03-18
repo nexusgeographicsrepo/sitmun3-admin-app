@@ -319,13 +319,13 @@ export class LayersFormComponent implements OnInit {
                 )).subscribe( result => {
                   console.log(result);
                   result.forEach(translation => {
-                    if(translation.languageName == "catalan"){
+                    if(translation.languageName == "Catala"){
                       this.catalanTranslation=translation
                     }
-                    if(translation.languageName == "spanish"){
+                    if(translation.languageName == "Español"){
                       this.spanishTranslation=translation
                     }
-                    if(translation.languageName == "english"){
+                    if(translation.languageName == "English"){
                       this.englishTranslation=translation
                     }
                   });
@@ -1238,7 +1238,7 @@ export class LayersFormComponent implements OnInit {
       cartography._links = this.layerForm.value._links
 
       this.cartographyService.save(cartography)
-        .subscribe(resp => {
+        .subscribe(async resp => {
 
           if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection){
             if(this.parameteApplyFilterToGetMap != null)
@@ -1283,8 +1283,9 @@ export class LayersFormComponent implements OnInit {
           })
 
           if(this.translationsModified){
-
-            this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
+            this.catalanTranslation = await this.utils.saveTranslation(resp.id,this.catalanTranslation);
+            this.spanishTranslation = await this.utils.saveTranslation(resp.id,this.spanishTranslation);
+            this.englishTranslation = await this.utils.saveTranslation(resp.id,this.englishTranslation);
             this.translationsModified = false;
           }
 

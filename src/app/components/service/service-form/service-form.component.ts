@@ -505,10 +505,9 @@ export class ServiceFormComponent implements OnInit {
         })
         
         if(this.translationsModified){
-          
-          let translationsResult=await this.utils.saveAllTranslations(resp.id,[this.catalanTranslation, this.spanishTranslation, this.englishTranslation]);
-          console.log(translationsResult);
-          this.saveTranslations(translationsResult);
+          this.catalanTranslation = await this.utils.saveTranslation(resp.id,this.catalanTranslation);
+          this.spanishTranslation = await this.utils.saveTranslation(resp.id,this.spanishTranslation);
+          this.englishTranslation = await this.utils.saveTranslation(resp.id,this.englishTranslation);
           this.translationsModified = false;
         }
         this.getAllElementsEventParameters.next(true);
@@ -528,13 +527,13 @@ export class ServiceFormComponent implements OnInit {
 
   saveTranslations(translations){
         translations.forEach(translation => {
-        if(translation.languageName == "catalan"){
+        if(translation.languageName == "Catala"){
           this.catalanTranslation=translation
         }
-        if(translation.languageName == "spanish"){
+        if(translation.languageName == "Español"){
           this.spanishTranslation=translation
         }
-        if(translation.languageName == "english"){
+        if(translation.languageName == "English"){
           this.englishTranslation=translation
         }
       });

@@ -315,7 +315,7 @@ export class LayersFormComponent implements OnInit {
               
               
                 this.translationService.getAll()
-                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID && elem.column == config.translationColumns.cartographyName)
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID && elem.column == config.translationColumns.cartographyDescription)
                 )).subscribe( result => {
                   console.log(result);
                   result.forEach(translation => {
@@ -552,7 +552,7 @@ export class LayersFormComponent implements OnInit {
   async onTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, config.translationColumns.cartographyName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, config.translationColumns.cartographyDescription);
     if(dialogResult!=null){
       this.translationsModified=true;
       this.catalanTranslation=dialogResult[0];

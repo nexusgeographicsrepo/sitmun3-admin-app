@@ -49,7 +49,7 @@ export const config = {
     english: null,
   },
   translationColumns: {
-    cartographyName : 'GEO_NAME',
+    cartographyDescription : 'GEO_ABSTRACT',
     territoryName : 'TER_NAME',
     serviceDescription: 'SER_ABSTRACT',
     applicationName: 'APP_NAME',

@@ -58,5 +58,7 @@ export const config = {
     backgroundDescription: 'BAC_DESC',
     treeName: 'TRE_NAME',
     treeDescription: 'TRE_ABSTRACT',
+    treeNodeName: 'TNO_NAME',
+    treeNodeDescription: 'TNO_ABSTRACT'
   }
 };

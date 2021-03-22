@@ -10,6 +10,13 @@ import { config } from 'src/config';
 import { Observable, of, Subject } from 'rxjs';
 import { DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
+
+interface NodeTranslation {
+  catalan?: String,
+  spanish?: String,
+  english?: String
+}
+
 @Component({
   selector: 'app-trees-form',
   templateUrl: './trees-form.component.html',
@@ -17,6 +24,8 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class TreesFormComponent implements OnInit {
 
+  nameTranslations: Map<number, NodeTranslation> = new Map<number, NodeTranslation>();
+  descriptionTranslations: Map<number, NodeTranslation> = new Map<number, NodeTranslation>();
   
   //Translations
   nameTranslationsModified: boolean = false;
@@ -82,34 +91,42 @@ export class TreesFormComponent implements OnInit {
             });
 
             this.translationService.getAll()
-            .pipe(map((data: any[]) => data.filter(elem => elem.element == this.treeID)
+            .pipe(map((data: any[]) => data.filter(elem => elem.element == this.treeID || elem.column == config.translationColumns.treeNodeName ||
+              elem.column == config.translationColumns.treeNodeDescription)
             )).subscribe( result => {
               console.log(result);
               result.forEach(translation => {
-                if(translation.languageName == "Catala"){
-                  if(translation.column == config.translationColumns.treeName){
-                    this.catalanNameTranslation=translation
+                if(translation.column== config.translationColumns.treeName || translation.column== config.translationColumns.treeDescription)
+                {
+                  if(translation.languageName == "Catala"){
+                    if(translation.column == config.translationColumns.treeName){
+                      this.catalanNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.treeDescription){
+                      this.catalanDescriptionTranslation=translation
+                    }
                   }
-                  else if(translation.column == config.translationColumns.treeDescription){
-                    this.catalanDescriptionTranslation=translation
+                  if(translation.languageName == "Español"){
+                    if(translation.column == config.translationColumns.treeName){
+                      this.spanishNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.treeDescription){
+                      this.spanishDescriptionTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == "English"){
+                    if(translation.column == config.translationColumns.treeName){
+                      this.englishNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.treeDescription){
+                      this.englishDescriptionTranslation=translation
+                    }
                   }
                 }
-                if(translation.languageName == "Español"){
-                  if(translation.column == config.translationColumns.treeName){
-                    this.spanishNameTranslation=translation
-                  }
-                  else if(translation.column == config.translationColumns.treeDescription){
-                    this.spanishDescriptionTranslation=translation
-                  }
+                else{
+                  this.saveTreeNodeTranslation(translation);
                 }
-                if(translation.languageName == "English"){
-                  if(translation.column == config.translationColumns.treeName){
-                    this.englishNameTranslation=translation
-                  }
-                  else if(translation.column == config.translationColumns.treeDescription){
-                    this.englishDescriptionTranslation=translation
-                  }
-                }
+
               });
             });
 
@@ -132,6 +149,35 @@ export class TreesFormComponent implements OnInit {
     ];
 
   }
+
+  saveTreeNodeTranslation(translation){
+    if(translation.column == config.translationColumns.treeNodeName ){
+      this.storeTranslationInMap(translation,this.nameTranslations)
+    }
+    else if(translation.column == config.translationColumns.treeNodeDescription){
+      this.storeTranslationInMap(translation,this.descriptionTranslations)
+    }
+  }
+
+  private storeTranslationInMap(translation, map:Map<Number,NodeTranslation>){
+    let currentTranslation = map.get(translation.element)
+    if(currentTranslation != undefined){
+      console.log(currentTranslation)
+      if(translation.languageName=='Catala') {currentTranslation.catalan=translation; }
+      else if(translation.languageName=='Español') {currentTranslation.spanish=translation; }
+      else if(translation.languageName=='English') {currentTranslation.english=translation; }
+      map.set(translation.element,currentTranslation);
+    }
+    else{
+      let newTranslation: NodeTranslation = {catalan: null, spanish: null, english:null};
+      if(translation.languageName=='Catala') {newTranslation.catalan=translation; }
+      else if(translation.languageName=='Español') {newTranslation.spanish=translation; }
+      else if(translation.languageName=='English') {newTranslation.english=translation; }
+      map.set(translation.element,newTranslation);
+      console.log(newTranslation);
+    }
+  }
+
 
   initializeTreesForm(): void {
     this.treeForm = new FormGroup({
@@ -160,6 +206,14 @@ export class TreesFormComponent implements OnInit {
       isFolder: new FormControl(null, []),
       type: new FormControl(null, []),
       order: new FormControl(null, []),
+      catalanNameTranslation: new FormControl(null, []),
+      spanishNameTranslation: new FormControl(null, []),
+      englishNameTranslation: new FormControl(null, []),
+      catalanDescriptionTranslation: new FormControl(null, []),
+      spanishDescriptionTranslation: new FormControl(null, []),
+      englishDescriptionTranslation: new FormControl(null, []),
+      nameTranslationsModified: new FormControl(null, []),
+      descriptionTranslationsModified: new FormControl(null, []),
       status: new FormControl(null, []),
       cartographyName: new FormControl(null, []),
       
@@ -178,6 +232,22 @@ export class TreesFormComponent implements OnInit {
     }
   }
 
+  async onTreeNodeNameTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanNameTranslation,
+       this.treeNodeForm.value.spanishNameTranslation, this.treeNodeForm.value.englishNameTranslation, config.translationColumns.treeNodeName);
+    if(dialogResult!=null){
+      this.treeNodeForm.patchValue({
+       catalanNameTranslation: dialogResult[0],
+       spanishNameTranslation: dialogResult[1],
+       englishNameTranslation: dialogResult[2],
+       nameTranslationsModified: true,
+
+      })
+    }
+  }
+
   async onDescriptionTranslationButtonClicked()
   {
     let dialogResult = null
@@ -187,6 +257,22 @@ export class TreesFormComponent implements OnInit {
       this.catalanDescriptionTranslation=dialogResult[0];
       this.spanishDescriptionTranslation=dialogResult[1];
       this.englishDescriptionTranslation=dialogResult[2];
+    }
+  }
+
+  
+  async onTreeNodeDescriptionTranslationButtonClicked()
+  {
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanDescriptionTranslation,
+      this.treeNodeForm.value.spanishDescriptionTranslation, this.treeNodeForm.value.englishDescriptionTranslation, config.translationColumns.treeNodeDescription);
+    if(dialogResult!=null){
+      this.treeNodeForm.patchValue({
+        catalanDescriptionTranslation: dialogResult[0],
+        spanishDescriptionTranslation: dialogResult[1],
+        englishDescriptionTranslation: dialogResult[2],
+        descriptionTranslationsModified: true,
+       })
     }
   }
 
@@ -244,9 +330,40 @@ export class TreesFormComponent implements OnInit {
       children: node.children,
       parent: node.parent,
       isFolder: node.isFolder,
+      nameTranslationsModified: false,
+      descriptionTranslationsModified: false,
+      catalanNameTranslation: node.catalanNameTranslation,
+      spanishNameTranslation: node.spanishNameTranslation,
+      englishNameTranslation: node.englishNameTranslation,
+      catalanDescriptionTranslation: node.catalanDescriptionTranslation,
+      spanishDescriptionTranslation: node.spanishDescriptionTranslation,
+      englishDescriptionTranslation: node.englishDescriptionTranslation,
       status: status,
       type:currentType
     })
+
+    if(! node.nameTranslationsModified){
+      if(this.nameTranslations.has(node.id)){
+        let translations = this.nameTranslations.get(node.id);
+        this.treeNodeForm.patchValue({
+          catalanNameTranslation: translations.catalan,
+          spanishNameTranslation: translations.spanish,
+          englishNameTranslation: translations.english,
+        })
+      }
+    }
+
+    if(! node.descriptionTranslationsModified){
+      if(this.descriptionTranslations.has(node.id)){
+        let translations = this.descriptionTranslations.get(node.id);
+        this.treeNodeForm.patchValue({
+          catalanDescriptionTranslation: translations.catalan,
+          spanishDescriptionTranslation: translations.spanish,
+          englishDescriptionTranslation: translations.english,
+        })
+      }
+    }
+
   }
 
   createNode(parent)
@@ -290,19 +407,7 @@ export class TreesFormComponent implements OnInit {
   onSaveButtonClicked(){ 
     if(this.treeForm.valid)
     {    
-      // if(this.treeID === -1)
-      // {
-      //   this.treeService.save( this.treeForm.value)
-      //   .subscribe(resp => {
-      //     this.treeToEdit=resp;
-      //   },
-      //   error=>{
-      //     console.log(error);
-      //   });
-      // }
-      // else {
         this.getAllElementsNodes.next(true);
-      // }
     }
     else {
       this.utils.showRequiredFieldsError();
@@ -431,7 +536,24 @@ export class TreesFormComponent implements OnInit {
               console.log(treeNodeObj)
               promises.push(new Promise((resolve, reject) => {
               this.treeNodeService.save(treeNodeObj).subscribe(
-                result => {
+                async result => {
+                  if(tree.nameTranslationsModified){
+                    let translation = this.nameTranslations.get(tree.id);
+                    translation.catalan= await this.utils.saveTranslation(result.id,translation.catalan);
+                    translation.spanish= await this.utils.saveTranslation(result.id,translation.spanish);
+                    translation.english = await this.utils.saveTranslation(result.id,translation.english);
+                    this.nameTranslations.set(result.id,translation);
+                    tree.nameTranslationModified = false;
+                  }
+
+                  if(tree.descriptionTranslationsModified){
+                    let translation = this.descriptionTranslations.get(tree.id);
+                    translation.catalan= await this.utils.saveTranslation(result.id,translation.catalan);
+                    translation.spanish= await this.utils.saveTranslation(result.id,translation.spanish);
+                    translation.english = await this.utils.saveTranslation(result.id,translation.english);
+                    this.descriptionTranslations.set(result.id,translation);
+                    tree.descriptionTranslationsModified= false;
+                  }
                   let oldId=tree.id;
                   treesToUpdate.splice(i,1);
                   treesToUpdate.splice(0,0,result)
@@ -507,16 +629,40 @@ export class TreesFormComponent implements OnInit {
         cartographyName: cartography.name
       })
     }
+
+    let newNameTranslation: NodeTranslation = null;
+    let newDescriptionTranslation: NodeTranslation = null;
+
+    if(this.treeNodeForm.value.nameTranslationsModified){
+      newNameTranslation ={
+        catalan: this.treeNodeForm.value.catalanNameTranslation,
+        spanish: this.treeNodeForm.value.spanishNameTranslation,
+        english: this.treeNodeForm.value.englishNameTranslation,
+      }
+    }
+
+    if(this.treeNodeForm.value.descriptionTranslationsModified){
+      newDescriptionTranslation ={
+        catalan: this.treeNodeForm.value.catalanDescriptionTranslation,
+        spanish: this.treeNodeForm.value.spanishDescriptionTranslation,
+        english: this.treeNodeForm.value.englishDescriptionTranslation,
+      }
+    }
   
     if(this.newElement) {
       this.treeNodeForm.patchValue({
         id: this.idFictitiousCounter
       })
       console.log(this.treeNodeForm.value);
+      if(newNameTranslation){ this.nameTranslations.set(this.idFictitiousCounter,newNameTranslation) }
+      if(newDescriptionTranslation){ this.descriptionTranslations.set(this.idFictitiousCounter,newDescriptionTranslation) }
+      
       this.idFictitiousCounter--;
       this.createNodeEvent.next(this.treeNodeForm.value);
     }
     else{ 
+      if(newNameTranslation){ this.nameTranslations.set(this.treeNodeForm.value.id,newNameTranslation) }
+      if(newDescriptionTranslation){ this.descriptionTranslations.set(this.treeNodeForm.value.id,newDescriptionTranslation) }
       this.updateNode() 
     }
 

@@ -303,7 +303,7 @@ export class UtilsService {
 
   //Translation
 
-  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, column): Promise<any[]>{
+  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, araneseTranslation, column): Promise<any[]>{
 
   
 
@@ -311,6 +311,7 @@ export class UtilsService {
     if(catalanTranslation!= null) { dialogRef.componentInstance.catalanValue=catalanTranslation.translation };
     if(spanishTranslation!= null) { dialogRef.componentInstance.spanishValue=spanishTranslation.translation };
     if(englishTranslation!= null) { dialogRef.componentInstance.englishValue=englishTranslation.translation };
+    if(araneseTranslation!= null) { dialogRef.componentInstance.araneseValue=araneseTranslation.translation };
 
     let translationsResult = null;
 
@@ -338,8 +339,7 @@ export class UtilsService {
               spanishTranslation.column=column;
               spanishTranslation.language=config.languagesObjects.spanish;
             }
-  
-  
+
             if(englishTranslation != null){
               englishTranslation.translation= result.data.englishValue 
             }
@@ -349,12 +349,19 @@ export class UtilsService {
               englishTranslation.column=column;
               englishTranslation.language=config.languagesObjects.english;
             }
-            console.log(result.data);
-            console.log(catalanTranslation);
-            console.log(spanishTranslation);
-            console.log(englishTranslation);
   
-            translationsResult=[catalanTranslation,spanishTranslation,englishTranslation]
+            if(araneseTranslation != null){
+              araneseTranslation.translation= result.data.araneseValue 
+            }
+            else{
+              araneseTranslation= new Translation();
+              araneseTranslation.translation= result.data.araneseValue;
+              araneseTranslation.column=column;
+              araneseTranslation.language=config.languagesObjects.aranese;
+            }
+            console.log(result.data);
+  
+            translationsResult=[catalanTranslation,spanishTranslation,englishTranslation,araneseTranslation]
 
           }
         }

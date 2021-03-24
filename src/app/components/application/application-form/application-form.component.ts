@@ -32,10 +32,12 @@ export class ApplicationFormComponent implements OnInit {
   catalanNameTranslation: Translation = null;
   spanishNameTranslation: Translation = null;
   englishNameTranslation: Translation = null;
+  araneseNameTranslation: Translation = null;
 
   catalanTitleTranslation: Translation = null;
   spanishTitleTranslation: Translation = null;
   englishTitleTranslation: Translation = null;
+  araneseTitleTranslation: Translation = null;
 
   situationMapList: Array<any> = [];
   parametersTypes: Array<any> = [];
@@ -187,7 +189,7 @@ export class ApplicationFormComponent implements OnInit {
               )).subscribe( result => {
                 console.log(result);
                 result.forEach(translation => {
-                  if(translation.languageName == "Catala"){
+                  if(translation.languageName == config.languagesObjects.catalan.name){
                     if(translation.column == config.translationColumns.applicationName){
                       this.catalanNameTranslation=translation
                     }
@@ -195,7 +197,7 @@ export class ApplicationFormComponent implements OnInit {
                       this.catalanTitleTranslation=translation
                     }
                   }
-                  if(translation.languageName == "Español"){
+                  if(translation.languageName == config.languagesObjects.spanish.name){
                     if(translation.column == config.translationColumns.applicationName){
                       this.spanishNameTranslation=translation
                     }
@@ -203,12 +205,20 @@ export class ApplicationFormComponent implements OnInit {
                       this.spanishTitleTranslation=translation
                     }
                   }
-                  if(translation.languageName == "English"){
+                  if(translation.languageName == config.languagesObjects.english.name){
                     if(translation.column == config.translationColumns.applicationName){
                       this.englishNameTranslation=translation
                     }
                     else if(translation.column == config.translationColumns.applicationTitle){
                       this.englishTitleTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == config.languagesObjects.aranese.name){
+                    if(translation.column == config.translationColumns.applicationName){
+                      this.araneseNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.applicationTitle){
+                      this.araneseTitleTranslation=translation
                     }
                   }
                 });
@@ -382,24 +392,26 @@ export class ApplicationFormComponent implements OnInit {
   async onNameTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, config.translationColumns.applicationName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, config.translationColumns.applicationName);
     if(dialogResult!=null){
       this.nameTranslationsModified=true;
       this.catalanNameTranslation=dialogResult[0];
       this.spanishNameTranslation=dialogResult[1];
       this.englishNameTranslation=dialogResult[2];
+      this.araneseNameTranslation=dialogResult[3];
     }
   }
 
   async onTitleTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanTitleTranslation, this.spanishTitleTranslation, this.englishTitleTranslation, config.translationColumns.applicationTitle);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTitleTranslation, this.spanishTitleTranslation, this.englishTitleTranslation, this.araneseTitleTranslation, config.translationColumns.applicationTitle);
     if(dialogResult!=null){
       this.titleTranslationsModified=true;
       this.catalanTitleTranslation=dialogResult[0];
       this.spanishTitleTranslation=dialogResult[1];
       this.englishTitleTranslation=dialogResult[2];
+      this.araneseNameTranslation=dialogResult[3];
     }
   }
 
@@ -922,12 +934,14 @@ export class ApplicationFormComponent implements OnInit {
             this.catalanNameTranslation = await this.utils.saveTranslation(resp.id,this.catalanNameTranslation);
             this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
             this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
+            this.araneseNameTranslation = await this.utils.saveTranslation(resp.id,this.araneseNameTranslation);
             this.nameTranslationsModified = false;
           }
           if(this.titleTranslationsModified){
             this.catalanTitleTranslation = await this.utils.saveTranslation(resp.id,this.catalanTitleTranslation);
             this.spanishTitleTranslation = await this.utils.saveTranslation(resp.id,this.spanishTitleTranslation);
             this.englishTitleTranslation = await this.utils.saveTranslation(resp.id,this.englishTitleTranslation);
+            this.araneseTitleTranslation = await this.utils.saveTranslation(resp.id,this.araneseTitleTranslation);
 
             this.titleTranslationsModified = false;
           }

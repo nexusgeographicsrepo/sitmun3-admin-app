@@ -14,7 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 interface NodeTranslation {
   catalan?: String,
   spanish?: String,
-  english?: String
+  english?: String,
+  aranese?: String,
 }
 
 @Component({
@@ -34,10 +35,12 @@ export class TreesFormComponent implements OnInit {
   catalanNameTranslation: Translation = null;
   spanishNameTranslation: Translation = null;
   englishNameTranslation: Translation = null;
+  araneseNameTranslation: Translation = null;
 
   catalanDescriptionTranslation: Translation = null;
   spanishDescriptionTranslation: Translation = null;
   englishDescriptionTranslation: Translation = null;
+  araneseDescriptionTranslation: Translation = null;
 
   themeGrid: any = config.agGridTheme;
   treeID: number = -1;
@@ -98,7 +101,7 @@ export class TreesFormComponent implements OnInit {
               result.forEach(translation => {
                 if(translation.column== config.translationColumns.treeName || translation.column== config.translationColumns.treeDescription)
                 {
-                  if(translation.languageName == "Catala"){
+                  if(translation.languageName == config.languagesObjects.catalan.name){
                     if(translation.column == config.translationColumns.treeName){
                       this.catalanNameTranslation=translation
                     }
@@ -106,7 +109,7 @@ export class TreesFormComponent implements OnInit {
                       this.catalanDescriptionTranslation=translation
                     }
                   }
-                  if(translation.languageName == "Español"){
+                  if(translation.languageName == config.languagesObjects.spanish.name){
                     if(translation.column == config.translationColumns.treeName){
                       this.spanishNameTranslation=translation
                     }
@@ -114,12 +117,20 @@ export class TreesFormComponent implements OnInit {
                       this.spanishDescriptionTranslation=translation
                     }
                   }
-                  if(translation.languageName == "English"){
+                  if(translation.languageName == config.languagesObjects.english.name){
                     if(translation.column == config.translationColumns.treeName){
                       this.englishNameTranslation=translation
                     }
                     else if(translation.column == config.translationColumns.treeDescription){
                       this.englishDescriptionTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == config.languagesObjects.aranese.name){
+                    if(translation.column == config.translationColumns.treeName){
+                      this.araneseNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.treeDescription){
+                      this.araneseDescriptionTranslation=translation
                     }
                   }
                 }
@@ -163,16 +174,18 @@ export class TreesFormComponent implements OnInit {
     let currentTranslation = map.get(translation.element)
     if(currentTranslation != undefined){
       console.log(currentTranslation)
-      if(translation.languageName=='Catala') {currentTranslation.catalan=translation; }
-      else if(translation.languageName=='Español') {currentTranslation.spanish=translation; }
-      else if(translation.languageName=='English') {currentTranslation.english=translation; }
+      if(translation.languageName==config.languagesObjects.catalan.name) {currentTranslation.catalan=translation; }
+      else if(translation.languageName==config.languagesObjects.spanish.name) {currentTranslation.spanish=translation; }
+      else if(translation.languageName==config.languagesObjects.english.name) {currentTranslation.english=translation; }
+      else if(translation.languageName==config.languagesObjects.aranese.name) {currentTranslation.aranese=translation; }
       map.set(translation.element,currentTranslation);
     }
     else{
       let newTranslation: NodeTranslation = {catalan: null, spanish: null, english:null};
-      if(translation.languageName=='Catala') {newTranslation.catalan=translation; }
-      else if(translation.languageName=='Español') {newTranslation.spanish=translation; }
-      else if(translation.languageName=='English') {newTranslation.english=translation; }
+      if(translation.languageName==config.languagesObjects.catalan.name) {newTranslation.catalan=translation; }
+      else if(translation.languageName==config.languagesObjects.spanish.name) {newTranslation.spanish=translation; }
+      else if(translation.languageName==config.languagesObjects.english.name) {newTranslation.english=translation; }
+      else if(translation.languageName==config.languagesObjects.aranese.name) {newTranslation.aranese=translation; }
       map.set(translation.element,newTranslation);
       console.log(newTranslation);
     }
@@ -209,9 +222,11 @@ export class TreesFormComponent implements OnInit {
       catalanNameTranslation: new FormControl(null, []),
       spanishNameTranslation: new FormControl(null, []),
       englishNameTranslation: new FormControl(null, []),
+      araneseNameTranslation: new FormControl(null, []),
       catalanDescriptionTranslation: new FormControl(null, []),
       spanishDescriptionTranslation: new FormControl(null, []),
       englishDescriptionTranslation: new FormControl(null, []),
+      araneseDescriptionTranslation: new FormControl(null, []),
       nameTranslationsModified: new FormControl(null, []),
       descriptionTranslationsModified: new FormControl(null, []),
       status: new FormControl(null, []),
@@ -223,12 +238,13 @@ export class TreesFormComponent implements OnInit {
   async onNameTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, config.translationColumns.treeName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, config.translationColumns.treeName);
     if(dialogResult!=null){
       this.nameTranslationsModified=true;
       this.catalanNameTranslation=dialogResult[0];
       this.spanishNameTranslation=dialogResult[1];
       this.englishNameTranslation=dialogResult[2];
+      this.araneseNameTranslation=dialogResult[3];
     }
   }
 
@@ -236,12 +252,13 @@ export class TreesFormComponent implements OnInit {
   {
     let dialogResult = null
     dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanNameTranslation,
-       this.treeNodeForm.value.spanishNameTranslation, this.treeNodeForm.value.englishNameTranslation, config.translationColumns.treeNodeName);
+       this.treeNodeForm.value.spanishNameTranslation, this.treeNodeForm.value.englishNameTranslation, this.treeNodeForm.value.araneseNameTranslation, config.translationColumns.treeNodeName);
     if(dialogResult!=null){
       this.treeNodeForm.patchValue({
        catalanNameTranslation: dialogResult[0],
        spanishNameTranslation: dialogResult[1],
        englishNameTranslation: dialogResult[2],
+       araneseNameTranslation: dialogResult[3],
        nameTranslationsModified: true,
 
       })
@@ -251,12 +268,13 @@ export class TreesFormComponent implements OnInit {
   async onDescriptionTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, config.translationColumns.treeDescription);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, this.araneseDescriptionTranslation, config.translationColumns.treeDescription);
     if(dialogResult!=null){
       this.descriptionTranslationsModified=true;
       this.catalanDescriptionTranslation=dialogResult[0];
       this.spanishDescriptionTranslation=dialogResult[1];
       this.englishDescriptionTranslation=dialogResult[2];
+      this.araneseDescriptionTranslation=dialogResult[3];
     }
   }
 
@@ -265,12 +283,13 @@ export class TreesFormComponent implements OnInit {
   {
     let dialogResult = null
     dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanDescriptionTranslation,
-      this.treeNodeForm.value.spanishDescriptionTranslation, this.treeNodeForm.value.englishDescriptionTranslation, config.translationColumns.treeNodeDescription);
+      this.treeNodeForm.value.spanishDescriptionTranslation, this.treeNodeForm.value.englishDescriptionTranslation, this.treeNodeForm.value.DescriptionNameTranslation, config.translationColumns.treeNodeDescription);
     if(dialogResult!=null){
       this.treeNodeForm.patchValue({
         catalanDescriptionTranslation: dialogResult[0],
         spanishDescriptionTranslation: dialogResult[1],
         englishDescriptionTranslation: dialogResult[2],
+        araneseDescriptionTranslation: dialogResult[3],
         descriptionTranslationsModified: true,
        })
     }
@@ -335,9 +354,11 @@ export class TreesFormComponent implements OnInit {
       catalanNameTranslation: node.catalanNameTranslation,
       spanishNameTranslation: node.spanishNameTranslation,
       englishNameTranslation: node.englishNameTranslation,
+      araneseNameTranslation: node.araneseNameTranslation,
       catalanDescriptionTranslation: node.catalanDescriptionTranslation,
       spanishDescriptionTranslation: node.spanishDescriptionTranslation,
       englishDescriptionTranslation: node.englishDescriptionTranslation,
+      araneseDescriptionTranslation: node.araneseDescriptionTranslation,
       status: status,
       type:currentType
     })
@@ -349,6 +370,7 @@ export class TreesFormComponent implements OnInit {
           catalanNameTranslation: translations.catalan,
           spanishNameTranslation: translations.spanish,
           englishNameTranslation: translations.english,
+          araneseNameTranslation: translations.aranese,
         })
       }
     }
@@ -360,6 +382,7 @@ export class TreesFormComponent implements OnInit {
           catalanDescriptionTranslation: translations.catalan,
           spanishDescriptionTranslation: translations.spanish,
           englishDescriptionTranslation: translations.english,
+          araneseDescriptionTranslation: translations.aranese,
         })
       }
     }
@@ -446,12 +469,14 @@ export class TreesFormComponent implements OnInit {
         this.catalanNameTranslation = await this.utils.saveTranslation(resp.id,this.catalanNameTranslation);
         this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
         this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
+        this.araneseNameTranslation = await this.utils.saveTranslation(resp.id,this.araneseNameTranslation);
         this.nameTranslationsModified = false;
       }
       if(this.descriptionTranslationsModified){
         this.catalanDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.catalanDescriptionTranslation);
         this.spanishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.spanishDescriptionTranslation);
         this.englishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.englishDescriptionTranslation);
+        this.araneseDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.araneseDescriptionTranslation);
 
         this.descriptionTranslationsModified = false;
       }
@@ -542,6 +567,7 @@ export class TreesFormComponent implements OnInit {
                     translation.catalan= await this.utils.saveTranslation(result.id,translation.catalan);
                     translation.spanish= await this.utils.saveTranslation(result.id,translation.spanish);
                     translation.english = await this.utils.saveTranslation(result.id,translation.english);
+                    translation.aranese = await this.utils.saveTranslation(result.id,translation.aranese);
                     this.nameTranslations.set(result.id,translation);
                     tree.nameTranslationModified = false;
                   }
@@ -551,6 +577,7 @@ export class TreesFormComponent implements OnInit {
                     translation.catalan= await this.utils.saveTranslation(result.id,translation.catalan);
                     translation.spanish= await this.utils.saveTranslation(result.id,translation.spanish);
                     translation.english = await this.utils.saveTranslation(result.id,translation.english);
+                    translation.aranese = await this.utils.saveTranslation(result.id,translation.aranese);
                     this.descriptionTranslations.set(result.id,translation);
                     tree.descriptionTranslationsModified= false;
                   }
@@ -638,6 +665,7 @@ export class TreesFormComponent implements OnInit {
         catalan: this.treeNodeForm.value.catalanNameTranslation,
         spanish: this.treeNodeForm.value.spanishNameTranslation,
         english: this.treeNodeForm.value.englishNameTranslation,
+        aranese: this.treeNodeForm.value.araneseNameTranslation,
       }
     }
 
@@ -646,6 +674,7 @@ export class TreesFormComponent implements OnInit {
         catalan: this.treeNodeForm.value.catalanDescriptionTranslation,
         spanish: this.treeNodeForm.value.spanishDescriptionTranslation,
         english: this.treeNodeForm.value.englishDescriptionTranslation,
+        aranese: this.treeNodeForm.value.araneseDescriptionTranslation,
       }
     }
   

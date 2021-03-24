@@ -26,10 +26,12 @@ export class BackgroundLayersFormComponent implements OnInit {
   catalanNameTranslation: Translation = null;
   spanishNameTranslation: Translation = null;
   englishNameTranslation: Translation = null;
+  araneseNameTranslation: Translation = null;
 
   catalanDescriptionTranslation: Translation = null;
   spanishDescriptionTranslation: Translation = null;
   englishDescriptionTranslation: Translation = null;
+  araneseDescriptionTranslation: Translation = null;
 
   
   permissionGroups: Array<any> = [];
@@ -121,7 +123,7 @@ export class BackgroundLayersFormComponent implements OnInit {
               )).subscribe( result => {
                 console.log(result);
                 result.forEach(translation => {
-                  if(translation.languageName == "Catala"){
+                  if(translation.languageName == config.languagesObjects.catalan.name){
                     if(translation.column == config.translationColumns.backgroundName){
                       this.catalanNameTranslation=translation
                     }
@@ -129,7 +131,7 @@ export class BackgroundLayersFormComponent implements OnInit {
                       this.catalanDescriptionTranslation=translation
                     }
                   }
-                  if(translation.languageName == "Español"){
+                  if(translation.languageName == config.languagesObjects.spanish.name){
                     if(translation.column == config.translationColumns.backgroundName){
                       this.spanishNameTranslation=translation
                     }
@@ -137,12 +139,20 @@ export class BackgroundLayersFormComponent implements OnInit {
                       this.spanishDescriptionTranslation=translation
                     }
                   }
-                  if(translation.languageName == "English"){
+                  if(translation.languageName == config.languagesObjects.english.name){
                     if(translation.column == config.translationColumns.backgroundName){
                       this.englishNameTranslation=translation
                     }
                     else if(translation.column == config.translationColumns.backgroundDescription){
                       this.englishDescriptionTranslation=translation
+                    }
+                  }
+                  if(translation.languageName == config.languagesObjects.aranese.name){
+                    if(translation.column == config.translationColumns.backgroundName){
+                      this.araneseNameTranslation=translation
+                    }
+                    else if(translation.column == config.translationColumns.backgroundDescription){
+                      this.araneseDescriptionTranslation=translation
                     }
                   }
                 });
@@ -247,24 +257,26 @@ export class BackgroundLayersFormComponent implements OnInit {
   async onNameTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, config.translationColumns.backgroundName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, config.translationColumns.backgroundName);
     if(dialogResult!=null){
       this.nameTranslationsModified=true;
       this.catalanNameTranslation=dialogResult[0];
       this.spanishNameTranslation=dialogResult[1];
       this.englishNameTranslation=dialogResult[2];
+      this.araneseNameTranslation=dialogResult[3];
     }
   }
 
   async onDescriptionTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, config.translationColumns.backgroundDescription);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, this.araneseDescriptionTranslation, config.translationColumns.backgroundDescription);
     if(dialogResult!=null){
       this.descriptionTranslationsModified=true;
       this.catalanDescriptionTranslation=dialogResult[0];
       this.spanishDescriptionTranslation=dialogResult[1];
       this.englishDescriptionTranslation=dialogResult[2];
+      this.araneseDescriptionTranslation=dialogResult[3];
     }
   }
 
@@ -516,12 +528,14 @@ export class BackgroundLayersFormComponent implements OnInit {
             this.catalanNameTranslation = await this.utils.saveTranslation(resp.id,this.catalanNameTranslation);
             this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
             this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
+            this.araneseNameTranslation = await this.utils.saveTranslation(resp.id,this.araneseNameTranslation);
             this.nameTranslationsModified = false;
           }
           if(this.descriptionTranslationsModified){
             this.catalanDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.catalanDescriptionTranslation);
             this.spanishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.spanishDescriptionTranslation);
             this.englishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.englishDescriptionTranslation);
+            this.araneseDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.araneseDescriptionTranslation);
 
             this.descriptionTranslationsModified = false;
           }

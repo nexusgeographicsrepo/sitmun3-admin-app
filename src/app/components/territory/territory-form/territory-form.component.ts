@@ -26,6 +26,7 @@ export class TerritoryFormComponent implements OnInit {
   catalanTranslation: Translation = null;
   spanishTranslation: Translation = null;
   englishTranslation: Translation = null;
+  araneseTranslation: Translation = null;
 
   //Form
   themeGrid: any = config.agGridTheme;
@@ -168,14 +169,17 @@ export class TerritoryFormComponent implements OnInit {
               )).subscribe( result => {
                 console.log(result);
                 result.forEach(translation => {
-                  if(translation.languageName == "Catala"){
+                  if(translation.languageName == config.languagesObjects.catalan.name){
                     this.catalanTranslation=translation
                   }
-                  if(translation.languageName == "Español"){
+                  if(translation.languageName == config.languagesObjects.spanish.name){
                     this.spanishTranslation=translation
                   }
-                  if(translation.languageName == "English"){
+                  if(translation.languageName == config.languagesObjects.english.name){
                     this.englishTranslation=translation
+                  }
+                  if(translation.languageName == config.languagesObjects.aranese.name){
+                    this.araneseTranslation=translation
                   }
                 });
                 console.log(this.catalanTranslation);
@@ -353,12 +357,13 @@ export class TerritoryFormComponent implements OnInit {
   async onTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, config.translationColumns.territoryName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, this.araneseTranslation, config.translationColumns.territoryName);
     if(dialogResult!=null){
       this.translationsModified=true;
       this.catalanTranslation=dialogResult[0];
       this.spanishTranslation=dialogResult[1];
       this.englishTranslation=dialogResult[2];
+      this.araneseTranslation=dialogResult[3];
     }
   }
 
@@ -1008,6 +1013,7 @@ export class TerritoryFormComponent implements OnInit {
               this.catalanTranslation = await this.utils.saveTranslation(resp.id,this.catalanTranslation);
               this.spanishTranslation = await this.utils.saveTranslation(resp.id,this.spanishTranslation);
               this.englishTranslation = await this.utils.saveTranslation(resp.id,this.englishTranslation);
+              this.araneseTranslation = await this.utils.saveTranslation(resp.id,this.araneseTranslation);
               this.translationsModified = false;
             }
 

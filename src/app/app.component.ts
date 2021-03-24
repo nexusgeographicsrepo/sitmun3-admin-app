@@ -85,40 +85,11 @@ export class AppComponent {
         async result => {
           console.log(result);
           result.forEach(language => {
-            if(language.name == 'Catala') { catalanLanguage= language }
-            if(language.name == 'Español') { spanishLanguage= language }
-            if(language.name == 'English') { englishLanguage= language }
+            if(language.shortname == 'ca')  { config.languagesObjects.catalan=language; }
+            if(language.shortname == 'es') { config.languagesObjects.spanish= language }
+            if(language.shortname == 'en') { config.languagesObjects.english= language }
+            if(language.shortname == 'oc-aranese') { config.languagesObjects.aranese= language }
           });
-  
-          if(catalanLanguage != null){
-            config.languagesObjects.catalan=catalanLanguage;
-          }
-          else{
-            let catalanLanguageObj = new Language();
-            catalanLanguageObj.name= 'Catala';
-            catalanLanguageObj.shortname= 'ca';
-            config.languagesObjects.catalan= await this.languageService.save(catalanLanguageObj).toPromise();
-          }
-  
-          if(spanishLanguage != null){
-            config.languagesObjects.spanish=spanishLanguage;
-          }
-          // else{
-          //   let spanishLanguageObj = new Language();
-          //   spanishLanguageObj.name= 'Español';
-          //   spanishLanguageObj.shortname= 'spa';
-          //   config.languagesObjects.spanish= await this.languageService.save(spanishLanguageObj).toPromise();
-          // }
-  
-          if(englishLanguage != null){
-            config.languagesObjects.english=englishLanguage;
-          }
-          else{
-            let englishLanguageObj = new Language();
-            englishLanguageObj.name= 'English';
-            englishLanguageObj.shortname= 'en';
-            config.languagesObjects.english= await this.languageService.save(englishLanguageObj).toPromise()
-          }
   
         }
       )

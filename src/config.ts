@@ -21,6 +21,7 @@ export const config = {
     { id: "ca", name: "catalan" },
     { id: "es", name: "spanish" },
     { id: "en", name: "english" },
+    { id: "oc-aranese", name: "aranese" },
   ],
   defaultLang: "ca",
   _embedded: {

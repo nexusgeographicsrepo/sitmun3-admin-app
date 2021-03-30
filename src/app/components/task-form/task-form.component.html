@@ -1,0 +1,81 @@
+<div class="titleDiv">
+    <h4><mat-icon aria-hidden="false"  svgIcon="menu_tasques"></mat-icon> {{ "tasksEntity.tasks" | translate }}</h4>
+    <span class="divider"></span>
+</div>
+
+<div *ngIf="dataLoaded" class="formDiv">
+    <form [formGroup]='taskForm' #f="ngForm" (ngSubmit)="onSaveButtonClicked()">
+
+    <div class="formHeader">
+        
+        <h5> {{properties.form.label | translate}} </h5>
+        <button mat-flat-button type="submit"  class="saveButton" >
+        <mat-icon fontSet="material-icons-round"> save </mat-icon>
+        {{ "save" | translate }}
+        </button>
+        <button type="button" (click)="utils.navigateBack()"  mat-flat-button class="returnButton"  >
+        <mat-icon fontSet="material-icons-round"> arrow_back </mat-icon>
+        {{ "return" | translate }}
+        </button>
+    </div>
+    <span class="divider"></span>
+
+    <div *ngFor="let element of formElements; let i = index" >
+
+         <div *ngIf="!element.values.hidden" [ngSwitch]="element.values.control" >  
+             
+            <div *ngSwitchCase="'input'" >
+                <div class="colFormDiv">
+
+                        <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+
+                            <div *ngIf="!element.values.condition">{{element.values.label | translate}}</div>
+
+                            <div *ngIf="element.values.condition">
+                                {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                            </div>
+                                
+                        </label>
+
+                    <mat-form-field appearance="outline">
+                        <input matInput type="text" [formControlName]=element.fieldName required>
+                    </mat-form-field>
+
+
+                </div>
+
+
+
+
+
+            </div>
+            
+
+
+         </div>
+
+
+    </div>
+
+
+    </form>
+
+</div>
+
+
+
+<!-- <div id="task" >
+
+
+    <form [formGroup]='taskForm' #f="ngForm" id="taskForm" (ngSubmit)="onSaveButtonClicked()">
+
+    </form>
+
+</div> -->
+
+<!-- <div [innerHTML]="htmlString | sanitizeHtml" ></div> -->
+<!-- <ng-template #ref></ng-template>  -->
+
+<!-- <ng-container *ngIf="dataLoaded" [ngTemplateOutlet]="tref"> </ng-container> -->
+
+<!-- <div #ref ></div> -->

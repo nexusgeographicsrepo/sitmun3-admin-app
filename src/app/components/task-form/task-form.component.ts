@@ -119,6 +119,7 @@ export class TaskFormComponent implements OnInit {
           "control": "selectorPopup", 
           "selectorPopup":{
             "data":"cartography",
+            "value":"name",
             "columns":{
               "id": {
                 "label":"tasksEntity.id",

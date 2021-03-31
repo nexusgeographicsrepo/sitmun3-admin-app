@@ -114,8 +114,8 @@
                 </label>
 
                 <mat-form-field appearance="outline">
-                    <input matInput  [readonly]="true" type="text"  [value]="this.taskForm.value[element.fieldName]?.name" >
-                    <!-- <input matInput *ngIf="!this.taskForm.value[element.fieldName]" [readonly]="true" type="text"   > -->
+                    <input matInput *ngIf="this.taskForm.value[element.fieldName]"   [readonly]="true" type="text"  [value]="this.taskForm.value[element.fieldName][element.values.selectorPopup.value]" >
+                    <input matInput *ngIf="!this.taskForm.value[element.fieldName]" [formControlName]=element.fieldName [readonly]="true" type="text">
                 </mat-form-field>
                 </div>
 

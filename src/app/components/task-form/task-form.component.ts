@@ -3,6 +3,9 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-task-form',
@@ -16,7 +19,8 @@ export class TaskFormComponent implements OnInit {
   formElements = [];
   dataLoaded = false;
   taskID = -1;
-  
+  themeGrid: any = config.agGridTheme;
+
   //Selector tables
   taskGroups: Array<any> = [];
   taskUIs: Array<any> = [];
@@ -49,6 +53,28 @@ export class TaskFormComponent implements OnInit {
           "label": "tasksEntity.checkbox", 
           "control": "checkbox", 
         }, 
+        "provaRadio": { 
+          "label": "tasksEntity.type", 
+          "control": "enum", 
+          "enum": 
+            { 
+              "list": "tasksEntity.type", 
+              "elements": [ 
+                {
+                  "label": "tasksEntity.fix",
+                  "value": "VALOR"
+                }, 
+                {
+                  "label": "tasksEntity.user",
+                  "value": "FITRO"
+                }, 
+                {
+                  "label": "tasksEntity.dataInput",
+                  "value": "DATATYPE"
+                }
+              ] 
+            }
+        },
         // "provaGon": {
         //   "condition": "name",
         //   "label": [
@@ -95,10 +121,12 @@ export class TaskFormComponent implements OnInit {
             "data":"cartography",
             "columns":{
               "id": {
-                "label":"tasksEntity.id"
+                "label":"tasksEntity.id",
+                "editable": "false",
               },
               "name": {
-                "label":"tasksEntity.name"
+                "label":"tasksEntity.name",
+                "editable": "false"
               }
             }
           },
@@ -228,6 +256,7 @@ export class TaskFormComponent implements OnInit {
   
 
   constructor(
+        public dialog: MatDialog,
         public utils: UtilsService,
         public taskGroupService: TaskGroupService,
         public serviceService: ServiceService,
@@ -408,6 +437,63 @@ export class TaskFormComponent implements OnInit {
         else if(data=="cartographies") { return this.cartographies }
         else if(data=="connections") { return this.connections }
         
+
+  }
+
+  onPopupDeleteButtonClicked(field){
+      
+    this.taskForm.get(field).setValue(null);
+
+  }
+
+  openPopupDialog(field, data, columns, label, checkbox, singleSelection ){
+
+    let getAllfunction = this.getDataTable(data)
+
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.getAllsTable = [() => getAllfunction];
+    dialogRef.componentInstance.singleSelectionTable = [singleSelection];
+    dialogRef.componentInstance.columnDefsTable = [this.generateColumnDefs(columns,checkbox)];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate(label);
+    dialogRef.componentInstance.titlesTable = [""];
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          console.log(result.data)
+          this.taskForm.get(field).setValue(result.data[0][0]);
+
+          //TODO SAVE ALL ELEMENT
+        }
+      }
+
+    });
+
+
+  }
+
+  getDataTable(field)
+  {
+    if(field == "cartography") return this.cartographyService.getAll()
+  }
+
+
+
+
+
+  generateColumnDefs(columns, checkbox){
+
+    let columnResults = [];
+    if(checkbox) {columnResults.push(this.utils.getSelCheckboxColumnDef())}
+
+    let keys= Object.keys(columns);
+    let values= Object.values(columns);
+    for(let i=0; i< keys.length; i++){
+      columnResults.push({headerName: this.utils.getTranslate(values[i]['label']), field: keys[i], editable: values[i]['editable'] })
+    }
+
+    return columnResults;
 
   }
 

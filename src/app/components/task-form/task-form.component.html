@@ -27,16 +27,14 @@
             <div *ngSwitchCase="'input'" >
                 <div class="colFormDiv">
 
-                        <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
-
-                            <div *ngIf="!element.values.condition">{{element.values.label | translate}}</div>
-
-                            <div *ngIf="element.values.condition">
-                                {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
-                            </div>
-                                
+                        <label *ngIf="!element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                            {{element.values.label | translate}}
                         </label>
 
+                        <label *ngIf="element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                            {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                        </label>
+                                
                     <mat-form-field appearance="outline">
                         <input matInput type="text" [formControlName]=element.fieldName required>
                     </mat-form-field>
@@ -47,23 +45,21 @@
             <div *ngSwitchCase="'selector'" >
                 <div class="colFormDiv">
 
-                        <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    <label *ngIf="!element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                        {{element.values.label | translate}}
+                    </label>
 
-                            <div *ngIf="!element.values.condition">{{element.values.label | translate}}</div>
+                    <label *ngIf="element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                        {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                    </label>
 
-                            <div *ngIf="element.values.condition">
-                                {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
-                            </div>
-                                
-                        </label>
-
-                        <mat-form-field appearance="outline">
-                            <mat-select matInput [formControlName]=element.fieldName class="form-control">
-                              <mat-option [value]="dataElement[element.values.selector.value]" *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
-                                {{ dataElement[element.values.selector.name]}}
-                              </mat-option>
-                            </mat-select>
-                         </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-select matInput [formControlName]=element.fieldName class="form-control">
+                            <mat-option [value]="dataElement[element.values.selector.value]" *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
+                            {{ dataElement[element.values.selector.name]}}
+                            </mat-option>
+                        </mat-select>
+                        </mat-form-field>
 
                 </div>
             </div>
@@ -71,20 +67,78 @@
             <div *ngSwitchCase="'checkbox'" >
                 <div class="colFormDiv">
 
-                        <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                <label *ngIf="!element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    {{element.values.label | translate}}
+                </label>
 
-                            <div *ngIf="!element.values.condition">{{element.values.label | translate}}</div>
+                <label *ngIf="element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                </label>
 
-                            <div *ngIf="element.values.condition">
-                                {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
-                            </div>
-                                
-                        </label>
-
-                        <mat-checkbox  [formControlName]=element.fieldName> </mat-checkbox>
+                    <mat-checkbox  [formControlName]=element.fieldName> </mat-checkbox>
 
                 </div>
             </div>
+
+            <div *ngSwitchCase="'enum'" >
+                <div class="colFormDiv">
+
+
+                <label *ngIf="!element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    {{element.values.label | translate}}
+                </label>
+
+                <label *ngIf="element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                </label>
+
+                <mat-radio-group aria-label="Select an option" [formControlName]=element.fieldName>
+
+                    <mat-radio-button *ngFor="let enumElement of element.values.enum.elements;"  class="radioButtonForm"  [value]=enumElement.value> {{ enumElement.label | translate}}</mat-radio-button>
+
+                </mat-radio-group>
+
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'selectorPopup'" >
+                <div class="colFormDiv marginLeftBtn">
+
+
+                <label *ngIf="!element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    {{element.values.label | translate}}
+                </label>
+
+                <label *ngIf="element.values.condition" [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+                    {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                </label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput  [readonly]="true" type="text"  [value]="this.taskForm.value[element.fieldName]?.name" >
+                    <!-- <input matInput *ngIf="!this.taskForm.value[element.fieldName]" [readonly]="true" type="text"   > -->
+                </mat-form-field>
+                </div>
+
+                <div class="HalfMidLargeColFormDiv marginLeftBtn">
+                    <label class="formLabel">
+                      &nbsp;
+                    </label>
+                    <button type="button" *ngIf="dataLoaded && !this.taskForm.value[element.fieldName]" title="{{ 'add' | translate }}" mat-mini-fab
+                      class="mat-green mini-fab " (click)="openPopupDialog(element.fieldName, element.values.selectorPopup.data, element.values.selectorPopup.columns, element.values.label, true, true)">
+                      <mat-icon> add </mat-icon>
+                    </button>
+                    <button type="button" *ngIf="dataLoaded && this.taskForm.value[element.fieldName]" title="{{ 'tasksEntity.modificate' | translate }}"
+                      mat-mini-fab class="mat-orange mini-fab" (click)="openPopupDialog(element.fieldName, element.values.selectorPopup.data, element.values.selectorPopup.columns, element.values.label, true, true)">
+                      <mat-icon> create </mat-icon>
+                    </button>
+                    <button type="button" *ngIf="dataLoaded && this.taskForm.value[element.fieldName]"
+                      title="{{ 'tasksEntity.deleteCartography' | translate }}" mat-mini-fab class="mat-red mini-fab"
+                      (click)="onPopupDeleteButtonClicked(element.fieldName)">
+                      <mat-icon> delete </mat-icon>
+                    </button>
+                  </div>
+            </div>
+
 
 
             

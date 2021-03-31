@@ -41,13 +41,31 @@
                         <input matInput type="text" [formControlName]=element.fieldName required>
                     </mat-form-field>
 
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'selector'" >
+                <div class="colFormDiv">
+
+                        <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+
+                            <div *ngIf="!element.values.condition">{{element.values.label | translate}}</div>
+
+                            <div *ngIf="element.values.condition">
+                                {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                            </div>
+                                
+                        </label>
+
+                        <mat-form-field appearance="outline">
+                            <mat-select matInput [formControlName]=element.fieldName class="form-control">
+                              <mat-option [value]="dataElement[element.values.selector.value]" *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
+                                {{ dataElement[element.values.selector.name]}}
+                              </mat-option>
+                            </mat-select>
+                         </mat-form-field>
 
                 </div>
-
-
-
-
-
             </div>
             
 

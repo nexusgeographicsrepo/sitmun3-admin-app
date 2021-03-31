@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService } from 'dist/sitmun-frontend-core/';
+import { config } from 'src/config';
 
 @Component({
   selector: 'app-task-form',
@@ -9,12 +11,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class TaskFormComponent implements OnInit {
 
+
   taskForm: FormGroup;
   formElements = [];
   dataLoaded = false;
   taskID = -1;
-  htmlString = "";
-  @ViewChild("ref", {read: ElementRef, static:true}) tref: ElementRef;
+  
+  //Selector tables
+  taskGroups: Array<any> = [];
+  taskUIs: Array<any> = [];
+  documentTypes: Array<any> = [];
+  wfsServices: Array<any> = [];
+  fmeServices: Array<any> = [];
+  accessTypes: Array<any> = [];
+  locators: Array<any> = [];
+  cartographies: Array<any> = [];
+  connections: Array<any> = [];
+  
 
 
 
@@ -32,30 +45,32 @@ export class TaskFormComponent implements OnInit {
           "control": "input", 
           "required":true
         }, 
-        "provaGon": {
-          "condition": "name",
-          "label": [
-            {
-            "name": "VALOR",
-            "text": "tasksEntity.value"
-            },	
-            {
-            "name": "FITRO",	
-            "text": "tasksEntity.filterText"
-            },			
-            {
-            "name": "DATATYPE",	
-            "text": "tasksEntity.formatDataInput"
-            }
-          ],							
-          "control": "input",
-          "required": true
-        }, 
+        // "provaGon": {
+        //   "condition": "name",
+        //   "label": [
+        //     {
+        //     "name": "VALOR",
+        //     "text": "tasksEntity.value"
+        //     },	
+        //     {
+        //     "name": "FITRO",	
+        //     "text": "tasksEntity.filterText"
+        //     },			
+        //     {
+        //     "name": "DATATYPE",	
+        //     "text": "tasksEntity.formatDataInput"
+        //     }
+        //   ],							
+        //   "control": "input",
+        //   "required": true
+        // }, 
         "group": { 
           "label": "tasksEntity.group", 
           "control": "selector", 
           "selector":{
-            "data":"taskGroup"
+            "data":"taskGroup",
+            "name": "name",
+            "value": "id",
           },
           "required":true
         }, 
@@ -63,7 +78,9 @@ export class TaskFormComponent implements OnInit {
           "label": "tasksEntity.ui", 
           "control": "selector",
           "selector":{
-            "data":"taskUi"
+            "data":"taskUi",
+            "name": "name",
+            "value": "id",
           },
           "required":true
         }, 
@@ -206,7 +223,15 @@ export class TaskFormComponent implements OnInit {
 
   
 
-  constructor(    public utils: UtilsService) {
+  constructor(
+        public utils: UtilsService,
+        public taskGroupService: TaskGroupService,
+        public serviceService: ServiceService,
+        public cartographyService: CartographyService,
+        public connectionService: ConnectionService,
+        public taskService: TaskService,
+        public taskUIService: TaskUIService,
+        ) {
 
   }
 
@@ -220,9 +245,105 @@ export class TaskFormComponent implements OnInit {
       }
       this.initializeForm(keys,values);
       
+      const promises: Promise<any>[] = [];
 
+      promises.push(new Promise((resolve, reject) => {
+        this.taskGroupService.getAll().subscribe(
+          resp => {
+            this.taskGroups.push(...resp);
+            resolve(true);
+          }
+        );
+      }));
 
-      this.dataLoaded=true;
+      promises.push(new Promise((resolve, reject) => {
+        this.taskUIService.getAll().subscribe(
+          resp => {
+            this.taskUIs.push(...resp);
+            resolve(true);
+          }
+        );
+      }));
+
+      promises.push(new Promise((resolve, reject) => {
+        this.utils.getCodeListValues('downloadTask.scope').subscribe(
+          resp => {
+            this.documentTypes.push(...resp);
+            resolve(true);
+          }
+        );
+      }));
+
+      promises.push(new Promise((resolve, reject) => {
+        this.serviceService.getAll().map((resp) => {
+          let wfsServices = [];
+          resp.forEach(service => {
+            if(service.type==='WFS') {wfsServices.push(service)}
+          });  
+          this.wfsServices.push(...wfsServices)
+          resolve(true);
+        }).subscribe()
+        }));
+
+        promises.push(new Promise((resolve, reject) => {
+          this.cartographyService.getAll().subscribe(
+            resp => {
+              this.cartographies.push(...resp);
+              resolve(true);
+            }
+          );
+        }));
+    
+        promises.push(new Promise((resolve, reject) => {
+          this.serviceService.getAll().map((resp) => {
+            let fmeServices = [];
+            resp.forEach(service => {
+              if(service.type==='FME') {fmeServices.push(service)}
+            });  
+            console.log(this.fmeServices);
+            this.fmeServices.push(...fmeServices)
+            resolve(true);
+          }).subscribe()
+        }));
+
+        promises.push(new Promise((resolve, reject) => {
+          this.connectionService.getAll().subscribe(
+            resp => {
+              this.connections.push(...resp);
+              resolve(true);
+            }
+          );
+        }));
+    
+        promises.push(new Promise((resolve, reject) => {
+          this.utils.getCodeListValues('queryTask.scope').subscribe(
+            resp => {
+              this.accessTypes.push(...resp);
+              resolve(true);
+            }
+          );
+        }));
+
+        promises.push(new Promise((resolve, reject) => {
+          let taskTypeID=config.tasksTypes['report'];
+          let params2:HalParam[]=[];
+          let param:HalParam={key:'type.id', value:taskTypeID}
+          params2.push(param);
+          let query:HalOptions={ params:params2};
+          this.taskService.getAll(query,undefined,"tasks").subscribe(
+            resp => {
+              this.locators.push(...resp);
+              resolve(true);
+            }
+          );;
+        }));
+
+      Promise.all(promises).then(() => {
+
+        this.dataLoaded=true;
+
+      });
+
 
 
 
@@ -254,7 +375,7 @@ export class TaskFormComponent implements OnInit {
   }
 
   getFieldWithCondition(condition, table, fieldResult){
-    console.log(condition)
+
     let findResult= table.find(element => element[condition] === this.taskForm.value[condition])
 
     if(findResult != undefined) { 
@@ -267,6 +388,22 @@ export class TaskFormComponent implements OnInit {
 
   onSaveButtonClicked(){
     console.log(this.taskForm.value);
+  }
+
+  getDataSelector(data){
+
+        
+        if(data=="taskGroup"){ return this.taskGroups }
+        else if(data=="taskUi") { return this.taskUIs }
+        else if(data=="documentTypes") { return this.documentTypes }
+        else if(data=="wfsServices") { return this.wfsServices }
+        else if(data=="fmeServices") { return this.fmeServices }
+        else if(data=="accessTypes") { return this.accessTypes }
+        else if(data=="this.locators") { return this.locators }
+        else if(data=="cartographies") { return this.cartographies }
+        else if(data=="connections") { return this.connections }
+        
+
   }
 
 }

@@ -67,6 +67,26 @@
 
                 </div>
             </div>
+
+            <div *ngSwitchCase="'checkbox'" >
+                <div class="colFormDiv">
+
+                        <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'" >
+
+                            <div *ngIf="!element.values.condition">{{element.values.label | translate}}</div>
+
+                            <div *ngIf="element.values.condition">
+                                {{getFieldWithCondition(element.values.condition, element.values.label, 'text') }}
+                            </div>
+                                
+                        </label>
+
+                        <mat-checkbox  [formControlName]=element.fieldName> </mat-checkbox>
+
+                </div>
+            </div>
+
+
             
 
 

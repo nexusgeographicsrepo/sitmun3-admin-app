@@ -45,6 +45,10 @@ export class TaskFormComponent implements OnInit {
           "control": "input", 
           "required":true
         }, 
+        "checkbox": { 
+          "label": "tasksEntity.checkbox", 
+          "control": "checkbox", 
+        }, 
         // "provaGon": {
         //   "condition": "name",
         //   "label": [
@@ -360,6 +364,7 @@ export class TaskFormComponent implements OnInit {
       const key= keys[i];
       let value = null;
       if(values[i].hidden) { value=values[i].value }
+      else if(values[i].control==="checkbox") {value=false}
   
       if(values[i].required){
         this.taskForm.addControl(key,new FormControl(value,[Validators.required]));

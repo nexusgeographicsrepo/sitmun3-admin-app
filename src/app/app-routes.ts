@@ -94,8 +94,8 @@ export const APP_ROUTES: Routes = [
     {path: 'application', component: ApplicationComponent},
     {path: 'application/:id/applicationForm', component: ApplicationFormComponent},
     {path: 'login', component: LoginComponent},
-    {path: '', pathMatch: 'full', redirectTo: 'connection' },
-    {path: '**', pathMatch: 'full', redirectTo: 'connection' }
+    {path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+    {path: '**', pathMatch: 'full', redirectTo: 'dashboard' }
 
 ];
 

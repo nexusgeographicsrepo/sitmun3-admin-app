@@ -35,10 +35,9 @@ export class DashboardComponent implements OnInit {
           this.totalKPIs=result.total;
           this.sumKPIs=result.sum;
           this.cartographiesOnDate=result['cartographies-created-on-date']
-          let keys= Object.keys(this.cartographiesOnDate);
-          let values= Object.values(this.cartographiesOnDate);
-          for(let i=0; i< keys.length; i++){
-            this.cartographyChartData.push({index:keys[i], value:values[i]})
+          let keys= Object.keys(this.cartographiesOnDate).sort();
+          for(let i=0; i<keys.length; i++){
+            this.cartographyChartData.push({index:keys[i], value:this.cartographiesOnDate[keys[i]]})
           }
           console.log(this.cartographyChartData)
           resolve(true);

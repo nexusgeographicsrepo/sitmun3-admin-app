@@ -17,7 +17,7 @@
 </mat-grid-list>
 <div style="width:100%" *ngIf="dataLoaded">
   <div class="gridGraph">
-    <h4>{{ "Cartografies (falta tradruir)" | translate}}</h4>
+    <h4>{{ "Cartografies" | translate}}</h4>
     <app-datagraph *ngIf="dataLoaded" [data]="this.cartographyChartData" type="bar"> </app-datagraph>
   </div>
   <div  class="gridGraph">

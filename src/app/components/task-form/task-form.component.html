@@ -124,11 +124,11 @@
                       &nbsp;
                     </label>
                     <button type="button" *ngIf="dataLoaded && !this.taskForm.value[element.fieldName]" title="{{ 'add' | translate }}" mat-mini-fab
-                      class="mat-green mini-fab " (click)="openPopupDialog(element.fieldName, element.values.selectorPopup.data, element.values.selectorPopup.columns, element.values.label, true, true)">
+                      class="mat-green mini-fab " (click)="openPopupDialog(element.fieldName, element.values.selectorPopup.data, element.values.selectorPopup.columns, element.values.label, true, false, true, -1)">
                       <mat-icon> add </mat-icon>
                     </button>
                     <button type="button" *ngIf="dataLoaded && this.taskForm.value[element.fieldName]" title="{{ 'tasksEntity.modificate' | translate }}"
-                      mat-mini-fab class="mat-orange mini-fab" (click)="openPopupDialog(element.fieldName, element.values.selectorPopup.data, element.values.selectorPopup.columns, element.values.label, true, true)">
+                      mat-mini-fab class="mat-orange mini-fab" (click)="openPopupDialog(element.fieldName, element.values.selectorPopup.data, element.values.selectorPopup.columns, element.values.label, true, false, true, -1)">
                       <mat-icon> create </mat-icon>
                     </button>
                     <button type="button" *ngIf="dataLoaded && this.taskForm.value[element.fieldName]"
@@ -156,18 +156,35 @@
 
 
 
-<!-- <div id="task" >
+<div class="tableDiv" *ngIf="dataLoaded">
+
+    <mat-accordion *ngFor="let table of properties.tables; let i = index" multi>
 
 
-    <form [formGroup]='taskForm' #f="ngForm" id="taskForm" (ngSubmit)="onSaveButtonClicked()">
+            <mat-expansion-panel  [expanded]="true" class="agGridExpansionPanel">
 
-    </form>
+                <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+                    <mat-panel-title>
+                      {{ table.label | translate }}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
 
-</div> -->
+                <ng-template matExpansionPanelContent>
+                    <div class="appDataGridEditDiv">
+                        <app-data-grid [changeHeightButton]="true" [columnDefs]='generateColumnDefs(table.columns, false, true)' [themeGrid]='themeGrid' [getAll]='getAlls[i]'
+                        [discardChangesButton]=true [actionButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [newButton]="table.controlAdd.control==='formPopup'" [addButton]="table.controlAdd.control!=='formPopup'"
+                        [eventAddItemsSubscription]='addelements[i].asObservable()' (add)="openPopupDialog(null, table.controlAdd.data, table.controlAdd.columns, table.label, true, false, i)"> 
+                        </app-data-grid>
+                    </div>
+                  </ng-template>
 
-<!-- <div [innerHTML]="htmlString | sanitizeHtml" ></div> -->
-<!-- <ng-template #ref></ng-template>  -->
+            </mat-expansion-panel>
 
-<!-- <ng-container *ngIf="dataLoaded" [ngTemplateOutlet]="tref"> </ng-container> -->
 
-<!-- <div #ref ></div> -->
+
+
+    
+    </mat-accordion>
+
+
+</div>

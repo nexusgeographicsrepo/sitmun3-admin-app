@@ -1,11 +1,13 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-task-form',
@@ -16,22 +18,35 @@ export class TaskFormComponent implements OnInit {
 
 
   taskForm: FormGroup;
+  taskToEdit;
   formElements = [];
   dataLoaded = false;
-  taskID = -1;
+  taskID = 1;
   themeGrid: any = config.agGridTheme;
+  getAlls = [];
+
+  //Events data grid
+  addelements= [];
 
   //Selector tables
   taskGroups: Array<any> = [];
+  taskGroupsNeeded: boolean = false;
   taskUIs: Array<any> = [];
+  taskUIsNeeded: boolean = false;
   documentTypes: Array<any> = [];
+  documentTypesNeeded: boolean = false;
   wfsServices: Array<any> = [];
+  wfsServicesNeeded: boolean = false;
   fmeServices: Array<any> = [];
+  fmeServicesNeeded: boolean = false;
   accessTypes: Array<any> = [];
+  accessTypesNeeded: boolean = false;
   locators: Array<any> = [];
+  locatorsNeeded: boolean = false;
   cartographies: Array<any> = [];
+  cartographiesNeeded: boolean = false;
   connections: Array<any> = [];
-  
+  connectionsNeeded: boolean = false;
 
 
 
@@ -145,54 +160,62 @@ export class TaskFormComponent implements OnInit {
             "data":"roles", 
             "columns":{
               "id": {
-                "label":"tasksEntity.id"
-              }
+                "label":"tasksEntity.id",
+                "editable": "false",
+              },
+              "name": { 
+                "label": "tasksEntity.parameter", 
+                "editable": "false,"
+              },
             }
           },
           "columns" : {
             "id": {
-              "label":"tasksEntity.id"
-            }
+              "label":"tasksEntity.id",
+              "editable":"true"
+            },
+            "name": { 
+              "label": "tasksEntity.parameter", 
+              "editable": "false,"
+            },
           }
         },	
         { 
-          "link":"availabilities",
-          "label": "tasksEntity.territory", 
+          "link":"roles",
+          "label": "tasksEntity.roles", 
           "controlAdd": {
             "control":"selectorPopup",
             "data":"availabilities", 
             "columns":{
               "id": {
-                "label":"tasksEntity.id"
+                "label":"tasksEntity.id",
+                "editable":"true"
               }
             }
           } ,
           "columns" : {
             "id": {
-              "label":"tasksEntity.id"
-            }
+              "label":"tasksEntity.id",
+              "editable": "false",
+            },            
+            "name": { 
+              "label": "tasksEntity.parameter", 
+              "editable": "false,"
+            },
           }					
         }, 
         {
-          "link":"parameters",
+          "link":"roles",
           "label": "tasksEntity.parameters",
           "columns" : {
-            "type": { 
-              "label": "tasksEntity.type",
-              "typeColumn": "string" 
-            },
+            "id": {
+              "label":"tasksEntity.id",
+              "editable": "false",
+            },            
             "name": { 
               "label": "tasksEntity.parameter", 
-              "typeColumn": "string"
+              "editable": "false,"
             },
-            "value": { 
-              "label": "tasksEntity.value",
-              "typeColumn": "string"
-            },
-            "order": { 
-              "label": "tasksEntity.order", 
-              "typeColumn": "integer"
-            }
           },
           "controlAdd": {
             "control":"formPopup",
@@ -263,8 +286,10 @@ export class TaskFormComponent implements OnInit {
         public serviceService: ServiceService,
         public cartographyService: CartographyService,
         public connectionService: ConnectionService,
+        public roleService: RoleService,
         public taskService: TaskService,
         public taskUIService: TaskUIService,
+        private http: HttpClient,
         ) {
 
   }
@@ -276,49 +301,72 @@ export class TaskFormComponent implements OnInit {
       let values= Object.values(this.properties.form.elements);
       for(let i=0; i< keys.length; i++){
         this.formElements.push({fieldName:keys[i], values:values[i]})
+        if(values[i][`control`] === "selector") this.setSelectorToNeeded(values[i][`selector`][`data`])
       }
       this.initializeForm(keys,values);
       
+      this.properties.tables.forEach(table => {
+         this.getAlls.push(() => this.getDataTableByLink(table.link))  
+         let addElementsEvent: Subject<any[]> = new Subject<any[]>();
+         this.addelements.push(addElementsEvent);
+      });
+
+      
       const promises: Promise<any>[] = [];
 
-      promises.push(new Promise((resolve, reject) => {
-        this.taskGroupService.getAll().subscribe(
-          resp => {
-            this.taskGroups.push(...resp);
-            resolve(true);
-          }
-        );
-      }));
+      if(this.taskGroupsNeeded)
+      {
+        promises.push(new Promise((resolve, reject) => {
+          this.taskGroupService.getAll().subscribe(
+            resp => {
+              this.taskGroups.push(...resp);
+              resolve(true);
+            }
+          );
+        }));
+  
+      }
 
-      promises.push(new Promise((resolve, reject) => {
-        this.taskUIService.getAll().subscribe(
-          resp => {
-            this.taskUIs.push(...resp);
-            resolve(true);
-          }
-        );
-      }));
+      if(this.taskUIsNeeded)
+      {
+        promises.push(new Promise((resolve, reject) => {
+          this.taskUIService.getAll().subscribe(
+            resp => {
+              this.taskUIs.push(...resp);
+              resolve(true);
+            }
+          );
+        }));
+      }
 
-      promises.push(new Promise((resolve, reject) => {
-        this.utils.getCodeListValues('downloadTask.scope').subscribe(
-          resp => {
-            this.documentTypes.push(...resp);
-            resolve(true);
-          }
-        );
-      }));
+      if(this.documentTypesNeeded){
 
-      promises.push(new Promise((resolve, reject) => {
-        this.serviceService.getAll().map((resp) => {
-          let wfsServices = [];
-          resp.forEach(service => {
-            if(service.type==='WFS') {wfsServices.push(service)}
-          });  
-          this.wfsServices.push(...wfsServices)
-          resolve(true);
-        }).subscribe()
+        promises.push(new Promise((resolve, reject) => {
+          this.utils.getCodeListValues('downloadTask.scope').subscribe(
+            resp => {
+              this.documentTypes.push(...resp);
+              resolve(true);
+            }
+          );
         }));
 
+      }
+
+      if(this.wfsServicesNeeded)
+      {
+        promises.push(new Promise((resolve, reject) => {
+          this.serviceService.getAll().map((resp) => {
+            let wfsServices = [];
+            resp.forEach(service => {
+              if(service.type==='WFS') {wfsServices.push(service)}
+            });  
+            this.wfsServices.push(...wfsServices)
+            resolve(true);
+          }).subscribe()
+          }));
+      }
+
+      if(this.cartographiesNeeded){
         promises.push(new Promise((resolve, reject) => {
           this.cartographyService.getAll().subscribe(
             resp => {
@@ -327,7 +375,10 @@ export class TaskFormComponent implements OnInit {
             }
           );
         }));
-    
+      }
+
+      if(this.fmeServicesNeeded)
+      {
         promises.push(new Promise((resolve, reject) => {
           this.serviceService.getAll().map((resp) => {
             let fmeServices = [];
@@ -339,7 +390,10 @@ export class TaskFormComponent implements OnInit {
             resolve(true);
           }).subscribe()
         }));
+      }
 
+      if(this.connectionsNeeded)
+      {
         promises.push(new Promise((resolve, reject) => {
           this.connectionService.getAll().subscribe(
             resp => {
@@ -348,7 +402,9 @@ export class TaskFormComponent implements OnInit {
             }
           );
         }));
-    
+      }
+
+      if(this.accessTypesNeeded){
         promises.push(new Promise((resolve, reject) => {
           this.utils.getCodeListValues('queryTask.scope').subscribe(
             resp => {
@@ -357,7 +413,9 @@ export class TaskFormComponent implements OnInit {
             }
           );
         }));
+      }
 
+      if(this.locatorsNeeded){
         promises.push(new Promise((resolve, reject) => {
           let taskTypeID=config.tasksTypes['report'];
           let params2:HalParam[]=[];
@@ -371,10 +429,17 @@ export class TaskFormComponent implements OnInit {
             }
           );;
         }));
+      }
 
       Promise.all(promises).then(() => {
 
-        this.dataLoaded=true;
+        this.taskService.get(1).subscribe(
+          resp => {
+            console.log(resp);
+            this.taskToEdit = resp;
+            this.dataLoaded=true;
+          })
+
 
       });
 
@@ -407,6 +472,18 @@ export class TaskFormComponent implements OnInit {
     }
 
 
+  }
+
+  setSelectorToNeeded(selector){
+    if(selector=="taskGroup"){ this.taskGroupsNeeded = true}
+    else if(selector=="taskUi") { this.taskUIsNeeded = true }
+    else if(selector=="documentTypes") { this.documentTypesNeeded = true }
+    else if(selector=="wfsServices") { this.wfsServicesNeeded = true }
+    else if(selector=="fmeServices") { this.fmeServicesNeeded = true }
+    else if(selector=="accessTypes") { this.accessTypesNeeded = true }
+    else if(selector=="this.locators") { this.locatorsNeeded = true }
+    else if(selector=="cartographies") { this.cartographiesNeeded = true }
+    else if(selector=="connections") { this.connectionsNeeded = true }
   }
 
   getFieldWithCondition(condition, table, fieldResult){
@@ -447,14 +524,14 @@ export class TaskFormComponent implements OnInit {
 
   }
 
-  openPopupDialog(field, data, columns, label, checkbox, singleSelection ){
+  openPopupDialog(field, data, columns, label, checkbox, status, singleSelection, index ){
 
     let getAllfunction = this.getDataTable(data)
 
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
     dialogRef.componentInstance.getAllsTable = [() => getAllfunction];
     dialogRef.componentInstance.singleSelectionTable = [singleSelection];
-    dialogRef.componentInstance.columnDefsTable = [this.generateColumnDefs(columns,checkbox)];
+    dialogRef.componentInstance.columnDefsTable = [this.generateColumnDefs(columns,checkbox, status)];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate(label);
     dialogRef.componentInstance.titlesTable = [""];
@@ -463,7 +540,12 @@ export class TaskFormComponent implements OnInit {
       if (result) {
         if (result.event === 'Add') {
           console.log(result.data)
-          this.taskForm.get(field).setValue(result.data[0][0]);
+          if(index < 0){
+            this.taskForm.get(field).setValue(result.data[0][0]);
+          }
+          else{
+            this.addelements[index].next(result.data[0])
+          }
 
           //TODO SAVE ALL ELEMENT
         }
@@ -474,16 +556,39 @@ export class TaskFormComponent implements OnInit {
 
   }
 
+
+
   getDataTable(field)
   {
     if(field == "cartography") return this.cartographyService.getAll()
+    if(field == "service") return this.serviceService.getAll()
+    if(field == "roles") return this.roleService.getAll()
+    if(field == "connection") return this.connectionService.getAll()
+  }
+
+  getDataTableByLink= (link): Observable<any> =>{
+    
+    if (this.taskID == -1 || this.taskToEdit._links[link] == undefined) {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+
+    var urlReq = `${this.taskToEdit._links[link].href}`
+    if (this.taskToEdit._links[link].templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+    return (this.http.get(urlReq)).pipe(map(data => data['_embedded'][link]));
+
   }
 
 
 
 
 
-  generateColumnDefs(columns, checkbox){
+  generateColumnDefs(columns, checkbox, status){
 
     let columnResults = [];
     if(checkbox) {columnResults.push(this.utils.getSelCheckboxColumnDef())}
@@ -493,6 +598,7 @@ export class TaskFormComponent implements OnInit {
     for(let i=0; i< keys.length; i++){
       columnResults.push({headerName: this.utils.getTranslate(values[i]['label']), field: keys[i], editable: values[i]['editable'] })
     }
+    if(status) {columnResults.push(this.utils.getStatusColumnDef())}
 
     return columnResults;
 

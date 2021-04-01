@@ -24,6 +24,7 @@ export class TaskFormComponent implements OnInit {
   taskID = 1;
   themeGrid: any = config.agGridTheme;
   getAlls = [];
+  columnDefsTables = [];
 
   //Events data grid
   addelements= [];
@@ -304,11 +305,15 @@ export class TaskFormComponent implements OnInit {
         if(values[i][`control`] === "selector") this.setSelectorToNeeded(values[i][`selector`][`data`])
       }
       this.initializeForm(keys,values);
-      
+
+      let getAll;
       this.properties.tables.forEach(table => {
-         this.getAlls.push(() => this.getDataTableByLink(table.link))  
+         getAll= () => this.getDataTableByLink(table.link)
+         this.getAlls.push(getAll)  
          let addElementsEvent: Subject<any[]> = new Subject<any[]>();
          this.addelements.push(addElementsEvent);
+         let columnDefs= this.generateColumnDefs(table.columns,true,true);
+         this.columnDefsTables.push(columnDefs);
       });
 
       
@@ -544,6 +549,8 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.get(field).setValue(result.data[0][0]);
           }
           else{
+            console.log(this.addelements);
+            console.log(index);
             this.addelements[index].next(result.data[0])
           }
 
@@ -561,9 +568,11 @@ export class TaskFormComponent implements OnInit {
   getDataTable(field)
   {
     if(field == "cartography") return this.cartographyService.getAll()
-    if(field == "service") return this.serviceService.getAll()
-    if(field == "roles") return this.roleService.getAll()
-    if(field == "connection") return this.connectionService.getAll()
+    else if(field == "service") return this.serviceService.getAll()
+    else if(field == "roles") return this.roleService.getAll()
+    else if(field == "connection") return this.connectionService.getAll()
+    else return null;
+    
   }
 
   getDataTableByLink= (link): Observable<any> =>{

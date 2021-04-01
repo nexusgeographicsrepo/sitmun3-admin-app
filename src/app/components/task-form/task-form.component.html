@@ -171,9 +171,9 @@
 
                 <ng-template matExpansionPanelContent>
                     <div class="appDataGridEditDiv">
-                        <app-data-grid [changeHeightButton]="true" [columnDefs]='generateColumnDefs(table.columns, false, true)' [themeGrid]='themeGrid' [getAll]='getAlls[i]'
+                        <app-data-grid [changeHeightButton]="true" [columnDefs]='columnDefsTables[i]' [themeGrid]='themeGrid' [getAll]='getAlls[i]'
                         [discardChangesButton]=true [actionButton]=true [redoButton]=true [undoButton]=true [deleteButton]=true [newButton]="table.controlAdd.control==='formPopup'" [addButton]="table.controlAdd.control!=='formPopup'"
-                        [eventAddItemsSubscription]='addelements[i].asObservable()' (add)="openPopupDialog(null, table.controlAdd.data, table.controlAdd.columns, table.label, true, false, i)"> 
+                        [hideDuplicateButton]="table.controlAdd.control!=='formPopup'" [eventAddItemsSubscription]='addelements[i].asObservable()' (add)="openPopupDialog(null, table.controlAdd.data, table.controlAdd.columns, table.label, true, false, false, i)"> 
                         </app-data-grid>
                     </div>
                   </ng-template>

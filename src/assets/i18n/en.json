@@ -359,7 +359,9 @@
     "id": "ID",
     "roles": "Roles",
     "group": "Task group",
-    "ui": "UI"
+    "ui": "UI",
+    "formatDataInput":"Format data input",
+    "paramURL": "URL parameters"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

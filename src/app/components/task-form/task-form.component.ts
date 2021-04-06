@@ -1,13 +1,14 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { NgTemplateNameDirective } from './ng-template-name.directive';
 
 @Component({
   selector: 'app-task-form',
@@ -28,6 +29,15 @@ export class TaskFormComponent implements OnInit {
 
   //Events data grid
   addelements= [];
+
+  //Form tables
+  forms = [];
+  tableFormElements = [];
+  templateRefs = [];
+  @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
+  // @ViewChild('newPopupFormDialog',{
+  //   static: true
+  // }) private newPopupFormDialog: TemplateRef <any>;
 
   //Selector tables
   taskGroups: Array<any> = [];
@@ -153,6 +163,76 @@ export class TaskFormComponent implements OnInit {
     },
     "tables":
       [
+        {
+          "link":"roles",
+          "label": "tasksEntity.parameters",
+          "columns" : {
+            "id": {
+              "label":"tasksEntity.id",
+              "editable": "false",
+            },            
+            "name": { 
+              "label": "tasksEntity.parameter", 
+              "editable": "false,"
+            },
+          },
+          "controlAdd": {
+            "control":"formPopup",
+            "label": "tasksEntity.paramData",			
+            "elements":{
+              "type": { 
+                "label": "tasksEntity.type", 
+                "control": "enum", 
+                "enum": 
+                  { 
+                    "list": "tasksEntity.type", 
+                    "elements": [ 
+                      {
+                        "label": "tasksEntity.fix",
+                        "value": "VALOR"
+                      }, 
+                      {
+                        "label": "tasksEntity.user",
+                        "value": "FITRO"
+                      }, 
+                      {
+                        "label": "tasksEntity.dataInput",
+                        "value": "DATATYPE"
+                      }
+                    ] 
+                  }
+              },
+              "name": { 
+                "label":"tasksEntity.paramURL", 
+                "control": "input",
+                "required":true,
+              },
+              "value": {
+                "condition": "type",
+                "label": [
+                  {
+                  "type": "VALOR",
+                  "text": "tasksEntity.value"
+                  },	
+                  {
+                  "type": "FITRO",	
+                  "text": "tasksEntity.filterText"
+                  },			
+                  {
+                  "type": "DATATYPE",	
+                  "text": "tasksEntity.formatDataInput"
+                  }
+                ],							
+                "control": "input",
+                "required": true
+              }, 
+              "order": { 
+                "label": "tasksEntity.order", 
+                "control": "input"
+              }
+            }	
+          }
+        },
         { 
           "link":"roles",
           "label": "tasksEntity.roles", 
@@ -181,100 +261,97 @@ export class TaskFormComponent implements OnInit {
             },
           }
         },	
-        // { 
-        //   "link":"roles",
-        //   "label": "tasksEntity.roles", 
-        //   "controlAdd": {
-        //     "control":"selectorPopup",
-        //     "data":"availabilities", 
-        //     "columns":{
-        //       "id": {
-        //         "label":"tasksEntity.id",
-        //         "editable":"true"
-        //       }
-        //     }
-        //   } ,
-        //   "columns" : {
-        //     "id": {
-        //       "label":"tasksEntity.id",
-        //       "editable": "false",
-        //     },            
-        //     "name": { 
-        //       "label": "tasksEntity.parameter", 
-        //       "editable": "false,"
-        //     },
-        //   }					
-        // }, 
-        // {
-        //   "link":"roles",
-        //   "label": "tasksEntity.parameters",
-        //   "columns" : {
-        //     "id": {
-        //       "label":"tasksEntity.id",
-        //       "editable": "false",
-        //     },            
-        //     "name": { 
-        //       "label": "tasksEntity.parameter", 
-        //       "editable": "false,"
-        //     },
-        //   },
-        //   "controlAdd": {
-        //     "control":"formPopup",
-        //     "label": "tasksEntity.paramData",			
-        //     "elements":{
-        //       "type": { 
-        //         "label": "tasksEntity.type", 
-        //         "control": "enum", 
-        //         "enum": 
-        //           { 
-        //             "list": "tasksEntity.type", 
-        //             "elements": [ 
-        //               {
-        //                 "label": "tasksEntity.fix",
-        //                 "value": "VALOR"
-        //               }, 
-        //               {
-        //                 "label": "tasksEntity.user",
-        //                 "value": "FITRO"
-        //               }, 
-        //               {
-        //                 "label": "tasksEntity.dataInput",
-        //                 "value": "DATATYPE"
-        //               }
-        //             ] 
-        //           }
-        //       },
-        //       "name": { 
-        //         "label":"tasksEntity.paramURL", 
-        //         "control": "input",
-        //         "required":true,
-        //       },
-        //       "value": {
-        //         "condition": "type",
-        //         "label": [
-        //           {
-        //           "type": "VALOR",
-        //           "text": "tasksEntity.value"
-        //           },	
-        //           {
-        //           "type": "FITRO",	
-        //           "text": "tasksEntity.filterText"
-        //           },			
-        //           {
-        //           "type": "DATATYPE",	
-        //           "text": "tasksEntity.formatDataInput"
-        //           }
-        //         ],							
-        //         "control": "input",
-        //         "required": true
-        //       }, 
-        //       "order": { 
-        //         "label": "tasksEntity.order", 
-        //         "control": "input"
-        //       }
-        //     }	
-        //   }
-        // } 
+        { 
+          "link":"roles",
+          "label": "tasksEntity.roles", 
+          "controlAdd": {
+            "control":"selectorPopup",
+            "data":"availabilities", 
+            "columns":{
+              "id": {
+                "label":"tasksEntity.id",
+                "editable":"true"
+              }
+            }
+          } ,
+          "columns" : {
+            "id": {
+              "label":"tasksEntity.id",
+              "editable": "false",
+            },            
+            "name": { 
+              "label": "tasksEntity.parameter", 
+              "editable": "false,"
+            },
+          }					
+        }, 
+        {
+          "link":"roles",
+          "label": "tasksEntity.parameters",
+          "columns" : {
+            "id": {
+              "label":"tasksEntity.id",
+              "editable": "false",
+            },            
+            "name": { 
+              "label": "tasksEntity.parameter", 
+              "editable": "false,"
+            },
+          },
+          "controlAdd": {
+            "control":"formPopup",
+            "label": "tasksEntity.paramData",			
+            "elements":{
+              "type": { 
+                "label": "tasksEntity.type", 
+                "control": "enum", 
+                "enum": 
+                  { 
+                    "list": "tasksEntity.type", 
+                    "elements": [ 
+                      {
+                        "label": "tasksEntity.fix",
+                        "value": "VALOR"
+                      }, 
+                      {
+                        "label": "tasksEntity.user",
+                        "value": "FITRO"
+                      }, 
+                      {
+                        "label": "tasksEntity.dataInput",
+                        "value": "DATATYPE"
+                      }
+                    ] 
+                  }
+              },
+              "name": { 
+                "label":"tasksEntity.paramURL", 
+                "control": "input",
+                "required":true,
+              },
+              "value": {
+                "condition": "type",
+                "label": [
+                  {
+                  "type": "VALOR",
+                  "text": "tasksEntity.value"
+                  },	
+                  {
+                  "type": "FITRO",	
+                  "text": "tasksEntity.filterText"
+                  },			
+                  {
+                  "type": "DATATYPE",	
+                  "text": "tasksEntity.formatDataInput"
+                  }
+                ],							
+                "control": "input",
+                "required": true
+              }, 
+            }	
+          }
+        },
+      
       ]
     }
 
@@ -295,6 +372,13 @@ export class TaskFormComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => { 
+      console.log(this.templates)
+      this.templateRefs = this.templates.toArray()
+    });
+  }
+
   ngOnInit(): void {
     if(this.properties.form){
 
@@ -304,15 +388,40 @@ export class TaskFormComponent implements OnInit {
         this.formElements.push({fieldName:keys[i], values:values[i]})
         if(values[i][`control`] === "selector") this.setSelectorToNeeded(values[i][`selector`][`data`])
       }
-      this.initializeForm(keys,values);
+      this.taskForm=this.initializeForm(keys,values);
       let getAll;
       this.properties.tables.forEach(table => {
         getAll= () => this.getDataTableByLink(table.link)
         this.getAlls.push(getAll)  
-         let addElementsEvent: Subject<any[]> = new Subject<any[]>();
-         this.addelements.push(addElementsEvent);
-         let columnDefs= this.generateColumnDefs(table.columns,true,true);
-         this.columnDefsTables.push(columnDefs);
+        let addElementsEvent: Subject<any[]> = new Subject<any[]>();
+        this.addelements.push(addElementsEvent);
+        let columnDefs= this.generateColumnDefs(table.columns,true,true);
+        this.columnDefsTables.push(columnDefs);
+
+        if(table.controlAdd.control =="formPopup")
+        {
+          let formPopup;
+          let keysFormPopup= Object.keys(table.controlAdd.elements);
+          let valuesFormPopup= Object.values(table.controlAdd.elements);
+          let currentFormElements = [];
+          for(let i=0; i< keysFormPopup.length; i++){
+            currentFormElements.push({fieldName:keysFormPopup[i], values:valuesFormPopup[i]})
+            if(valuesFormPopup[i][`control`] === "selector") this.setSelectorToNeeded(valuesFormPopup[i][`selector`][`data`])
+          }
+          this.tableFormElements.push(currentFormElements)
+          formPopup=this.initializeForm(keysFormPopup,valuesFormPopup, true);
+          console.log(formPopup);
+          this.forms.push(formPopup);
+
+
+          
+          
+        }
+        else {
+          this.tableFormElements.push(null)
+          this.forms.push(null)
+        }
+
       });
 
       
@@ -457,23 +566,25 @@ export class TaskFormComponent implements OnInit {
     console.log(this.properties.form)
   }
 
-  initializeForm(keys: Array<any>, values: Array<any>){
-    this.taskForm=new FormGroup({})
+  initializeForm(keys: Array<any>, values: Array<any>, popupForm?:boolean){
+    let form=new FormGroup({})
     for(let i=0; i< keys.length; i++){
       const key= keys[i];
       let value = null;
       if(values[i].hidden) { value=values[i].value }
       else if(values[i].control==="checkbox") {value=false}
+      else if(values[i].control==="enum" && popupForm) { value=values[i].enum.elements[0].value  }
   
       if(values[i].required){
-        this.taskForm.addControl(key,new FormControl(value,[Validators.required]));
+        form.addControl(key,new FormControl(value,[Validators.required]));
       }
       else{
-        this.taskForm.addControl(key,new FormControl(value,[]));
+        form.addControl(key,new FormControl(value,[]));
       }
 
   
     }
+    return form;
 
 
   }
@@ -490,9 +601,9 @@ export class TaskFormComponent implements OnInit {
     else if(selector=="connections") { this.connectionsNeeded = true }
   }
 
-  getFieldWithCondition(condition, table, fieldResult){
+  getFieldWithCondition(condition, table, fieldResult, form){
 
-    let findResult= table.find(element => element[condition] === this.taskForm.value[condition])
+    let findResult= table.find(element => element[condition] === form.value[condition])
 
     if(findResult != undefined) { 
       findResult=findResult[fieldResult] 
@@ -558,6 +669,30 @@ export class TaskFormComponent implements OnInit {
     });
 
 
+  }
+
+  openPopupFormDialog(index, label){
+    console.log(this.templateRefs)
+    console.log( this.templates.find(dir => dir.name === index))
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived=this.templates.find(dir => dir.name === index).template;
+    dialogRef.componentInstance.title=this.utils.getTranslate(label);
+    dialogRef.componentInstance.form=this.forms[index]
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.event==='Add') {
+          // let item= this.parameterForm.value;
+          // this.addElementsEventParameters.next([item])
+          // console.log(this.parameterForm.value)
+          console.log(this.forms[index].value);
+
+          
+        }
+      }
+      this.forms[index].reset();
+
+    });
   }
 
 

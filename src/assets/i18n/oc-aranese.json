@@ -359,7 +359,9 @@
     "id": "ID",
     "roles": "Rols",
     "group": "Grup tasca",
-    "ui": "UI"
+    "ui": "UI",
+    "formatDataInput":"Format de les dades entrades",
+    "paramURL": "Paràmetres de la URL"
   },
   "tasksQueryEntity": {
     "generalData": "Dades Generals",

@@ -117,6 +117,7 @@ import { SidenavService } from './services/sidenav.service';
 import { TasksFormComponent } from './components/tasks/tasks-form/tasks-form.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';
+import { NgTemplateNameDirective } from './components/task-form/ng-template-name.directive';
 
 
 
@@ -171,6 +172,7 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
     TasksFormComponent,
     DashboardComponent,
     TaskFormComponent,
+    NgTemplateNameDirective,
   ],
   imports: [
     BrowserModule,

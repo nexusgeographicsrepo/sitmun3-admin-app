@@ -24,6 +24,7 @@ export class TaskFormComponent implements OnInit {
   taskID = 1;
   themeGrid: any = config.agGridTheme;
   getAlls = [];
+  columnDefsTables = [];
 
   //Events data grid
   addelements= [];
@@ -64,32 +65,32 @@ export class TaskFormComponent implements OnInit {
           "control": "input", 
           "required":true
         }, 
-        "checkbox": { 
-          "label": "tasksEntity.checkbox", 
-          "control": "checkbox", 
-        }, 
-        "provaRadio": { 
-          "label": "tasksEntity.type", 
-          "control": "enum", 
-          "enum": 
-            { 
-              "list": "tasksEntity.type", 
-              "elements": [ 
-                {
-                  "label": "tasksEntity.fix",
-                  "value": "VALOR"
-                }, 
-                {
-                  "label": "tasksEntity.user",
-                  "value": "FITRO"
-                }, 
-                {
-                  "label": "tasksEntity.dataInput",
-                  "value": "DATATYPE"
-                }
-              ] 
-            }
-        },
+        // "checkbox": { 
+        //   "label": "tasksEntity.checkbox", 
+        //   "control": "checkbox", 
+        // }, 
+        // "provaRadio": { 
+        //   "label": "tasksEntity.type", 
+        //   "control": "enum", 
+        //   "enum": 
+        //     { 
+        //       "list": "tasksEntity.type", 
+        //       "elements": [ 
+        //         {
+        //           "label": "tasksEntity.fix",
+        //           "value": "VALOR"
+        //         }, 
+        //         {
+        //           "label": "tasksEntity.user",
+        //           "value": "FITRO"
+        //         }, 
+        //         {
+        //           "label": "tasksEntity.dataInput",
+        //           "value": "DATATYPE"
+        //         }
+        //       ] 
+        //     }
+        // },
         // "provaGon": {
         //   "condition": "name",
         //   "label": [
@@ -164,7 +165,7 @@ export class TaskFormComponent implements OnInit {
                 "editable": "false",
               },
               "name": { 
-                "label": "tasksEntity.parameter", 
+                "label": "tasksEntity.name", 
                 "editable": "false,"
               },
             }
@@ -175,105 +176,105 @@ export class TaskFormComponent implements OnInit {
               "editable":"true"
             },
             "name": { 
-              "label": "tasksEntity.parameter", 
+              "label": "tasksEntity.name", 
               "editable": "false,"
             },
           }
         },	
-        { 
-          "link":"roles",
-          "label": "tasksEntity.roles", 
-          "controlAdd": {
-            "control":"selectorPopup",
-            "data":"availabilities", 
-            "columns":{
-              "id": {
-                "label":"tasksEntity.id",
-                "editable":"true"
-              }
-            }
-          } ,
-          "columns" : {
-            "id": {
-              "label":"tasksEntity.id",
-              "editable": "false",
-            },            
-            "name": { 
-              "label": "tasksEntity.parameter", 
-              "editable": "false,"
-            },
-          }					
-        }, 
-        {
-          "link":"roles",
-          "label": "tasksEntity.parameters",
-          "columns" : {
-            "id": {
-              "label":"tasksEntity.id",
-              "editable": "false",
-            },            
-            "name": { 
-              "label": "tasksEntity.parameter", 
-              "editable": "false,"
-            },
-          },
-          "controlAdd": {
-            "control":"formPopup",
-            "label": "tasksEntity.paramData",			
-            "elements":{
-              "type": { 
-                "label": "tasksEntity.type", 
-                "control": "enum", 
-                "enum": 
-                  { 
-                    "list": "tasksEntity.type", 
-                    "elements": [ 
-                      {
-                        "label": "tasksEntity.fix",
-                        "value": "VALOR"
-                      }, 
-                      {
-                        "label": "tasksEntity.user",
-                        "value": "FITRO"
-                      }, 
-                      {
-                        "label": "tasksEntity.dataInput",
-                        "value": "DATATYPE"
-                      }
-                    ] 
-                  }
-              },
-              "name": { 
-                "label":"tasksEntity.paramURL", 
-                "control": "input",
-                "required":true,
-              },
-              "value": {
-                "condition": "type",
-                "label": [
-                  {
-                  "type": "VALOR",
-                  "text": "tasksEntity.value"
-                  },	
-                  {
-                  "type": "FITRO",	
-                  "text": "tasksEntity.filterText"
-                  },			
-                  {
-                  "type": "DATATYPE",	
-                  "text": "tasksEntity.formatDataInput"
-                  }
-                ],							
-                "control": "input",
-                "required": true
-              }, 
-              "order": { 
-                "label": "tasksEntity.order", 
-                "control": "input"
-              }
-            }	
-          }
-        } 
+        // { 
+        //   "link":"roles",
+        //   "label": "tasksEntity.roles", 
+        //   "controlAdd": {
+        //     "control":"selectorPopup",
+        //     "data":"availabilities", 
+        //     "columns":{
+        //       "id": {
+        //         "label":"tasksEntity.id",
+        //         "editable":"true"
+        //       }
+        //     }
+        //   } ,
+        //   "columns" : {
+        //     "id": {
+        //       "label":"tasksEntity.id",
+        //       "editable": "false",
+        //     },            
+        //     "name": { 
+        //       "label": "tasksEntity.parameter", 
+        //       "editable": "false,"
+        //     },
+        //   }					
+        // }, 
+        // {
+        //   "link":"roles",
+        //   "label": "tasksEntity.parameters",
+        //   "columns" : {
+        //     "id": {
+        //       "label":"tasksEntity.id",
+        //       "editable": "false",
+        //     },            
+        //     "name": { 
+        //       "label": "tasksEntity.parameter", 
+        //       "editable": "false,"
+        //     },
+        //   },
+        //   "controlAdd": {
+        //     "control":"formPopup",
+        //     "label": "tasksEntity.paramData",			
+        //     "elements":{
+        //       "type": { 
+        //         "label": "tasksEntity.type", 
+        //         "control": "enum", 
+        //         "enum": 
+        //           { 
+        //             "list": "tasksEntity.type", 
+        //             "elements": [ 
+        //               {
+        //                 "label": "tasksEntity.fix",
+        //                 "value": "VALOR"
+        //               }, 
+        //               {
+        //                 "label": "tasksEntity.user",
+        //                 "value": "FITRO"
+        //               }, 
+        //               {
+        //                 "label": "tasksEntity.dataInput",
+        //                 "value": "DATATYPE"
+        //               }
+        //             ] 
+        //           }
+        //       },
+        //       "name": { 
+        //         "label":"tasksEntity.paramURL", 
+        //         "control": "input",
+        //         "required":true,
+        //       },
+        //       "value": {
+        //         "condition": "type",
+        //         "label": [
+        //           {
+        //           "type": "VALOR",
+        //           "text": "tasksEntity.value"
+        //           },	
+        //           {
+        //           "type": "FITRO",	
+        //           "text": "tasksEntity.filterText"
+        //           },			
+        //           {
+        //           "type": "DATATYPE",	
+        //           "text": "tasksEntity.formatDataInput"
+        //           }
+        //         ],							
+        //         "control": "input",
+        //         "required": true
+        //       }, 
+        //       "order": { 
+        //         "label": "tasksEntity.order", 
+        //         "control": "input"
+        //       }
+        //     }	
+        //   }
+        // } 
       ]
     }
 
@@ -304,11 +305,14 @@ export class TaskFormComponent implements OnInit {
         if(values[i][`control`] === "selector") this.setSelectorToNeeded(values[i][`selector`][`data`])
       }
       this.initializeForm(keys,values);
-      
+      let getAll;
       this.properties.tables.forEach(table => {
-         this.getAlls.push(() => this.getDataTableByLink(table.link))  
+        getAll= () => this.getDataTableByLink(table.link)
+        this.getAlls.push(getAll)  
          let addElementsEvent: Subject<any[]> = new Subject<any[]>();
          this.addelements.push(addElementsEvent);
+         let columnDefs= this.generateColumnDefs(table.columns,true,true);
+         this.columnDefsTables.push(columnDefs);
       });
 
       

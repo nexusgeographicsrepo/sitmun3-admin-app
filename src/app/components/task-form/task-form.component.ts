@@ -33,6 +33,8 @@ export class TaskFormComponent implements OnInit {
   //Form tables
   forms = [];
   tableFormElements = [];
+  keysForms = [];
+  valuesForms = [];
   templateRefs = [];
   @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
   // @ViewChild('newPopupFormDialog',{
@@ -402,7 +404,10 @@ export class TaskFormComponent implements OnInit {
         {
           let formPopup;
           let keysFormPopup= Object.keys(table.controlAdd.elements);
+          this.keysForms.push(keysFormPopup);
           let valuesFormPopup= Object.values(table.controlAdd.elements);
+          this.valuesForms.push(valuesFormPopup);
+
           let currentFormElements = [];
           for(let i=0; i< keysFormPopup.length; i++){
             currentFormElements.push({fieldName:keysFormPopup[i], values:valuesFormPopup[i]})
@@ -418,6 +423,8 @@ export class TaskFormComponent implements OnInit {
           
         }
         else {
+          this.keysForms.push(null);
+          this.valuesForms.push(null);
           this.tableFormElements.push(null)
           this.forms.push(null)
         }
@@ -589,6 +596,7 @@ export class TaskFormComponent implements OnInit {
 
   }
 
+
   setSelectorToNeeded(selector){
     if(selector=="taskGroup"){ this.taskGroupsNeeded = true}
     else if(selector=="taskUi") { this.taskUIsNeeded = true }
@@ -691,6 +699,7 @@ export class TaskFormComponent implements OnInit {
         }
       }
       this.forms[index].reset();
+      this.forms[index]= this.initializeForm(this.keysForms[index], this.valuesForms[index], true)
 
     });
   }

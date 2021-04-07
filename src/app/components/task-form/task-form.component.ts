@@ -75,7 +75,7 @@ export class TaskFormComponent implements OnInit {
         "name": { 
           "label": "tasksEntity.name", 
           "control": "input", 
-          "required":true
+          "required":false
         }, 
         "scope": {
           "label": "tasksEntity.typeDocument",

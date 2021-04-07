@@ -40,7 +40,15 @@
                 </label>
 
                 <mat-form-field appearance="outline">
-                    <mat-select matInput [formControlName]=element.fieldName class="form-control">
+
+                    <mat-select *ngIf="element.values.selector.data === 'codelist-values'" matInput [formControlName]=element.fieldName class="form-control">
+                        <mat-option [value]="dataElement[element.values.selector.value]"
+                            *ngFor="let dataElement of getDataCodeListSelector(element.values.selector.queryParams.codeListName)">
+                            {{ dataElement[element.values.selector.name]}}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-select *ngIf="element.values.selector.data !== 'codelist-values'" matInput [formControlName]=element.fieldName class="form-control">
                         <mat-option [value]="dataElement[element.values.selector.value]"
                             *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
                             {{ dataElement[element.values.selector.name]}}
@@ -164,12 +172,21 @@
                     </label>
     
                     <mat-form-field appearance="outline">
-                        <mat-select matInput [formControlName]=element.fieldName class="form-control">
+                        
+                        <mat-select *ngIf="element.values.selector.data === 'codelist-values'" matInput [formControlName]=element.fieldName class="form-control">
+                            <mat-option [value]="dataElement[element.values.selector.value]"
+                                *ngFor="let dataElement of getDataCodeListSelector(element.values.selector.queryParams.codeListName)">
+                                {{ dataElement[element.values.selector.name]}}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-select *ngIf="element.values.selector.data !== 'codelist-values'" matInput [formControlName]=element.fieldName class="form-control">
                             <mat-option [value]="dataElement[element.values.selector.value]"
                                 *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
                                 {{ dataElement[element.values.selector.name]}}
                             </mat-option>
                         </mat-select>
+
                     </mat-form-field>
                 </div>
     

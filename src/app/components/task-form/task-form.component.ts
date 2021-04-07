@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService, CodeListService } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -9,6 +9,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NgTemplateNameDirective } from './ng-template-name.directive';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-task-form',
@@ -26,6 +27,9 @@ export class TaskFormComponent implements OnInit {
   themeGrid: any = config.agGridTheme;
   getAlls = [];
   columnDefsTables = [];
+
+  //codeLists
+  codeListsMap: Map<string, Array<any>> = new Map<string, Array<any>>();
 
   //Events data grid
   addelements= [];
@@ -46,14 +50,10 @@ export class TaskFormComponent implements OnInit {
   taskGroupsNeeded: boolean = false;
   taskUIs: Array<any> = [];
   taskUIsNeeded: boolean = false;
-  documentTypes: Array<any> = [];
-  documentTypesNeeded: boolean = false;
   wfsServices: Array<any> = [];
   wfsServicesNeeded: boolean = false;
   fmeServices: Array<any> = [];
   fmeServicesNeeded: boolean = false;
-  accessTypes: Array<any> = [];
-  accessTypesNeeded: boolean = false;
   locators: Array<any> = [];
   locatorsNeeded: boolean = false;
   cartographies: Array<any> = [];
@@ -77,6 +77,20 @@ export class TaskFormComponent implements OnInit {
           "control": "input", 
           "required":true
         }, 
+        "scope": {
+          "label": "tasksEntity.typeDocument",
+          "control": "selector",
+          "selector":{
+              "data":"codelist-values",
+              "queryParams": {
+                  "codeListName":"downloadTask.scope",
+                  "projection": "view"
+              },
+              "name": "description",
+              "value": "value",
+          },
+          "required":true
+        },
         // "checkbox": { 
         //   "label": "tasksEntity.checkbox", 
         //   "control": "checkbox", 
@@ -350,6 +364,20 @@ export class TaskFormComponent implements OnInit {
                 "control": "input",
                 "required": true
               }, 
+              "scope": {
+                "label": "tasksEntity.typeDocument",
+                "control": "selector",
+                "selector":{
+                    "data":"codelist-values",
+                    "queryParams": {
+                        "codeListName":"downloadTask.scope",
+                        "projection": "view"
+                    },
+                    "name": "description",
+                    "value": "value",
+                },
+                "required":true
+              },
             }	
           }
         },
@@ -370,6 +398,7 @@ export class TaskFormComponent implements OnInit {
         public taskService: TaskService,
         public taskUIService: TaskUIService,
         private http: HttpClient,
+        private codeListService: CodeListService
         ) {
 
   }
@@ -381,6 +410,21 @@ export class TaskFormComponent implements OnInit {
     });
   }
 
+  async getCodeListValue(queryParams){
+    let params2: HalParam[] = [];
+    let keys= Object.keys(queryParams);
+    keys.forEach(key => {
+      let param: HalParam = { key: key, value: queryParams[key] }
+      params2.push(param);
+    });
+
+    let query: HalOptions = { params: params2 };
+
+    let result = await this.codeListService.getAll(query).toPromise();
+    this.codeListsMap.set(queryParams.codeListName, result);
+
+  }
+
   ngOnInit(): void {
     if(this.properties.form){
 
@@ -388,7 +432,15 @@ export class TaskFormComponent implements OnInit {
       let values= Object.values(this.properties.form.elements);
       for(let i=0; i< keys.length; i++){
         this.formElements.push({fieldName:keys[i], values:values[i]})
-        if(values[i][`control`] === "selector") this.setSelectorToNeeded(values[i][`selector`][`data`])
+        if(values[i][`control`] === "selector"){
+          if(values[i][`selector`][`data`] === "codelist-values")
+          {
+            this.getCodeListValue(values[i][`selector`][`queryParams`])
+          }
+          else{
+            this.setSelectorToNeeded(values[i][`selector`][`data`])
+          }
+        }
       }
       this.taskForm=this.initializeForm(keys,values);
       let getAll;
@@ -411,7 +463,17 @@ export class TaskFormComponent implements OnInit {
           let currentFormElements = [];
           for(let i=0; i< keysFormPopup.length; i++){
             currentFormElements.push({fieldName:keysFormPopup[i], values:valuesFormPopup[i]})
-            if(valuesFormPopup[i][`control`] === "selector") this.setSelectorToNeeded(valuesFormPopup[i][`selector`][`data`])
+            if(valuesFormPopup[i][`control`] === "selector")
+            {
+              if(valuesFormPopup[i][`selector`][`data`] === "codelist-values")
+              {
+                this.getCodeListValue(valuesFormPopup[i][`selector`][`queryParams`])
+              }
+              else{
+                this.setSelectorToNeeded(valuesFormPopup[i][`selector`][`data`])
+              }
+
+            } 
           }
           this.tableFormElements.push(currentFormElements)
           formPopup=this.initializeForm(keysFormPopup,valuesFormPopup, true);
@@ -459,18 +521,6 @@ export class TaskFormComponent implements OnInit {
         }));
       }
 
-      if(this.documentTypesNeeded){
-
-        promises.push(new Promise((resolve, reject) => {
-          this.utils.getCodeListValues('downloadTask.scope').subscribe(
-            resp => {
-              this.documentTypes.push(...resp);
-              resolve(true);
-            }
-          );
-        }));
-
-      }
 
       if(this.wfsServicesNeeded)
       {
@@ -518,17 +568,6 @@ export class TaskFormComponent implements OnInit {
           this.connectionService.getAll().subscribe(
             resp => {
               this.connections.push(...resp);
-              resolve(true);
-            }
-          );
-        }));
-      }
-
-      if(this.accessTypesNeeded){
-        promises.push(new Promise((resolve, reject) => {
-          this.utils.getCodeListValues('queryTask.scope').subscribe(
-            resp => {
-              this.accessTypes.push(...resp);
               resolve(true);
             }
           );
@@ -600,10 +639,8 @@ export class TaskFormComponent implements OnInit {
   setSelectorToNeeded(selector){
     if(selector=="taskGroup"){ this.taskGroupsNeeded = true}
     else if(selector=="taskUi") { this.taskUIsNeeded = true }
-    else if(selector=="documentTypes") { this.documentTypesNeeded = true }
     else if(selector=="wfsServices") { this.wfsServicesNeeded = true }
     else if(selector=="fmeServices") { this.fmeServicesNeeded = true }
-    else if(selector=="accessTypes") { this.accessTypesNeeded = true }
     else if(selector=="this.locators") { this.locatorsNeeded = true }
     else if(selector=="cartographies") { this.cartographiesNeeded = true }
     else if(selector=="connections") { this.connectionsNeeded = true }
@@ -630,15 +667,17 @@ export class TaskFormComponent implements OnInit {
         
         if(data=="taskGroup"){ return this.taskGroups }
         else if(data=="taskUi") { return this.taskUIs }
-        else if(data=="documentTypes") { return this.documentTypes }
         else if(data=="wfsServices") { return this.wfsServices }
         else if(data=="fmeServices") { return this.fmeServices }
-        else if(data=="accessTypes") { return this.accessTypes }
         else if(data=="this.locators") { return this.locators }
         else if(data=="cartographies") { return this.cartographies }
         else if(data=="connections") { return this.connections }
         
 
+  }
+
+  getDataCodeListSelector(data){
+    return this.codeListsMap.get(data);
   }
 
   onPopupDeleteButtonClicked(field){

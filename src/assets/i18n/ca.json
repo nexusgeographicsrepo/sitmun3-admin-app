@@ -361,7 +361,9 @@
     "group": "Grup tasca",
     "ui": "UI",
     "formatDataInput":"Format de les dades entrades",
-    "paramURL": "Paràmetres de la URL"
+    "paramURL": "Paràmetres de la URL",
+    "dataInput":"Dades Entrades",
+    "filterText": "Filtre de text"
     
   },
   "tasksQueryEntity": {

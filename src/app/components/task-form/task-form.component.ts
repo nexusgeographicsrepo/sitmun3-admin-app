@@ -685,8 +685,8 @@ export class TaskFormComponent implements OnInit {
           // let item= this.parameterForm.value;
           // this.addElementsEventParameters.next([item])
           // console.log(this.parameterForm.value)
-          console.log(this.forms[index].value);
 
+          this.addelements[index].next([this.forms[index].value])
           
         }
       }

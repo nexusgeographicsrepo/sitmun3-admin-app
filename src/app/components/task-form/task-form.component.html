@@ -25,7 +25,7 @@
         <div *ngFor="let element of formElements; let i = index" class="colFormDiv" [hidden]="element.values.hidden" [ngSwitch]="element.values.control">
             <div *ngSwitchCase="'input'">
                 <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                    {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm) : (element.values.label | translate) }}
+                    {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
                 </label>
 
                 <mat-form-field appearance="outline">
@@ -36,7 +36,7 @@
             <div *ngSwitchCase="'selector'" >
 
                 <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                    {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm) : (element.values.label | translate) }}
+                    {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
                 </label>
 
                 <mat-form-field appearance="outline">
@@ -51,7 +51,7 @@
 
             <div *ngSwitchCase="'checkbox'" >
                 <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                    {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text') : (element.values.label | translate)  }}
+                    {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
                 </label>
 
                 <mat-checkbox [formControlName]=element.fieldName> </mat-checkbox>
@@ -61,7 +61,7 @@
             <div *ngSwitchCase="'enum'">
 
                 <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                    {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm) : (element.values.label | translate) }}
+                    {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
                 </label>
 
                 <mat-radio-group aria-label="Select an option" [formControlName]=element.fieldName>
@@ -74,7 +74,7 @@
             <div *ngSwitchCase="'selectorPopup'" class="selectorPopup">
 
                 <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                    {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm) : (element.values.label | translate) }}
+                    {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
                 </label>
 
                 <mat-form-field appearance="outline">
@@ -149,7 +149,7 @@
             <div *ngFor="let element of tableFormElements[index]; let i = index" class="colFormDiv" [hidden]="element.values.hidden" [ngSwitch]="element.values.control">
                 <div *ngSwitchCase="'input'">
                     <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                        {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', form) : (element.values.label | translate) }}
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
                     </label>
     
                     <mat-form-field appearance="outline">
@@ -160,7 +160,7 @@
                 <div *ngSwitchCase="'selector'" >
     
                     <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                        {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', form) : (element.values.label | translate) }}
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
                     </label>
     
                     <mat-form-field appearance="outline">
@@ -175,7 +175,7 @@
     
                 <div *ngSwitchCase="'checkbox'" >
                     <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                        {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', form) : (element.values.label | translate)  }}
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
                     </label>
     
                     <mat-checkbox [formControlName]=element.fieldName> </mat-checkbox>
@@ -185,7 +185,7 @@
                 <div *ngSwitchCase="'enum'">
     
                     <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                        {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', form) : (element.values.label | translate) }}
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
                     </label>
     
                     <mat-radio-group aria-label="Select an option" [formControlName]=element.fieldName>
@@ -198,7 +198,7 @@
                 <div *ngSwitchCase="'selectorPopup'" class="selectorPopup">
     
                     <label [ngClass]="element.values.required?'formLabel requiredInput':'formLabel'">
-                        {{element.values.condition ? getFieldWithCondition(element.values.condition, element.values.label, 'text', form) : (element.values.label | translate) }}
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
                     </label>
     
                     <mat-form-field appearance="outline">

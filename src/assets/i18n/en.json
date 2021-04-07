@@ -361,7 +361,9 @@
     "group": "Task group",
     "ui": "UI",
     "formatDataInput":"Format data input",
-    "paramURL": "URL parameters"
+    "paramURL": "URL parameters",
+    "dataInput":"Data input",
+    "filterText": "Filter text"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

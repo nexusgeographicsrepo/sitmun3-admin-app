@@ -419,7 +419,15 @@
     "queries": "Queries",
     "tasksThematic": "Tasks-Thematic",
     "origin": "Origin",
-    "creator": "Creator"
+    "creator": "Creator",
+    "extend": "Extend",
+    "territory": "Territory",
+    "accesType":"Acces type",
+    "autocomplete": "Autocomplete",
+    "anput": "Anput",
+    "combo": "Combo",
+    "label": "Label",
+    "informe": "Report"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

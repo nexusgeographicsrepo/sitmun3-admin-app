@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ServiceService, TaskService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService, CodeListService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, TaskService, TaskTypeService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService, CodeListService, TerritoryService } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -27,7 +27,8 @@ export class TaskFormComponent implements OnInit {
   themeGrid: any = config.agGridTheme;
   getAlls = [];
   columnDefsTables = [];
-
+  taskType;
+  properties;
   //codeLists
   codeListsMap: Map<string, Array<any>> = new Map<string, Array<any>>();
 
@@ -63,327 +64,327 @@ export class TaskFormComponent implements OnInit {
 
 
 
-  properties = { 
-    "form":{
-      "label": "tasksEntity.generalData",
-      "elements": {
-        "type": { 
-          "hidden": true, 
-          "value": 1,
-          "required":true
-        },
-        "name": { 
-          "label": "tasksEntity.name", 
-          "control": "input", 
-          "required":false
-        }, 
-        "scope": {
-          "label": "tasksEntity.typeDocument",
-          "control": "selector",
-          "selector":{
-              "data":"codelist-values",
-              "queryParams": {
-                  "codeListName":"downloadTask.scope",
-                  "projection": "view"
-              },
-              "name": "description",
-              "value": "value",
-          },
-          "required":true
-        },
-        // "checkbox": { 
-        //   "label": "tasksEntity.checkbox", 
-        //   "control": "checkbox", 
-        // }, 
-        // "provaRadio": { 
-        //   "label": "tasksEntity.type", 
-        //   "control": "enum", 
-        //   "enum": 
-        //     { 
-        //       "list": "tasksEntity.type", 
-        //       "elements": [ 
-        //         {
-        //           "label": "tasksEntity.fix",
-        //           "value": "VALOR"
-        //         }, 
-        //         {
-        //           "label": "tasksEntity.user",
-        //           "value": "FITRO"
-        //         }, 
-        //         {
-        //           "label": "tasksEntity.dataInput",
-        //           "value": "DATATYPE"
-        //         }
-        //       ] 
-        //     }
-        // },
-        // "provaGon": {
-        //   "condition": "name",
-        //   "label": [
-        //     {
-        //     "name": "VALOR",
-        //     "text": "tasksEntity.value"
-        //     },	
-        //     {
-        //     "name": "FITRO",	
-        //     "text": "tasksEntity.filterText"
-        //     },			
-        //     {
-        //     "name": "DATATYPE",	
-        //     "text": "tasksEntity.formatDataInput"
-        //     }
-        //   ],							
-        //   "control": "input",
-        //   "required": true
-        // }, 
-        "group": { 
-          "label": "tasksEntity.group", 
-          "control": "selector", 
-          "selector":{
-            "data":"taskGroup",
-            "name": "name",
-            "value": "id",
-          },
-          "required":true
-        }, 
-        "ui": { 
-          "label": "tasksEntity.ui", 
-          "control": "selector",
-          "selector":{
-            "data":"taskUi",
-            "name": "name",
-            "value": "id",
-          },
-          "required":true
-        }, 
-        "cartography": { 
-          "label": "tasksEntity.cartography", 
-          "control": "selectorPopup", 
-          "selectorPopup":{
-            "data":"cartography",
-            "value":"name",
-            "columns":{
-              "id": {
-                "label":"tasksEntity.id",
-                "editable": "false",
-              },
-              "name": {
-                "label":"tasksEntity.name",
-                "editable": "false"
-              }
-            }
-          },
-          "required":true
-        }
-      },
-    },
-    "tables":
-      [
-        {
-          "link":"roles",
-          "label": "tasksEntity.parameters",
-          "columns" : {
-            "id": {
-              "label":"tasksEntity.id",
-              "editable": "false",
-            },            
-            "name": { 
-              "label": "tasksEntity.parameter", 
-              "editable": "false,"
-            },
-          },
-          "controlAdd": {
-            "control":"formPopup",
-            "label": "tasksEntity.paramData",			
-            "elements":{
-              "type": { 
-                "label": "tasksEntity.type", 
-                "control": "enum", 
-                "enum": 
-                  { 
-                    "list": "tasksEntity.type", 
-                    "elements": [ 
-                      {
-                        "label": "tasksEntity.fix",
-                        "value": "VALOR"
-                      }, 
-                      {
-                        "label": "tasksEntity.user",
-                        "value": "FITRO"
-                      }, 
-                      {
-                        "label": "tasksEntity.dataInput",
-                        "value": "DATATYPE"
-                      }
-                    ] 
-                  }
-              },
-              "name": { 
-                "label":"tasksEntity.paramURL", 
-                "control": "input",
-                "required":true,
-              },
-              "value": {
-                "condition": "type",
-                "label": [
-                  {
-                  "type": "VALOR",
-                  "text": "tasksEntity.value"
-                  },	
-                  {
-                  "type": "FITRO",	
-                  "text": "tasksEntity.filterText"
-                  },			
-                  {
-                  "type": "DATATYPE",	
-                  "text": "tasksEntity.formatDataInput"
-                  }
-                ],							
-                "control": "input",
-                "required": true
-              }, 
-              "order": { 
-                "label": "tasksEntity.order", 
-                "control": "input"
-              }
-            }	
-          }
-        },
-        { 
-          "link":"roles",
-          "label": "tasksEntity.roles", 
-          "controlAdd": {
-            "control":"selectorPopup",
-            "data":"roles", 
-            "columns":{
-              "id": {
-                "label":"tasksEntity.id",
-                "editable": "false",
-              },
-              "name": { 
-                "label": "tasksEntity.name", 
-                "editable": "false,"
-              },
-            }
-          },
-          "columns" : {
-            "id": {
-              "label":"tasksEntity.id",
-              "editable":"true"
-            },
-            "name": { 
-              "label": "tasksEntity.name", 
-              "editable": "false,"
-            },
-          }
-        },	
-        { 
-          "link":"roles",
-          "label": "tasksEntity.roles", 
-          "controlAdd": {
-            "control":"selectorPopup",
-            "data":"availabilities", 
-            "columns":{
-              "id": {
-                "label":"tasksEntity.id",
-                "editable":"true"
-              }
-            }
-          } ,
-          "columns" : {
-            "id": {
-              "label":"tasksEntity.id",
-              "editable": "false",
-            },            
-            "name": { 
-              "label": "tasksEntity.parameter", 
-              "editable": "false,"
-            },
-          }					
-        }, 
-        {
-          "link":"roles",
-          "label": "tasksEntity.parameters",
-          "columns" : {
-            "id": {
-              "label":"tasksEntity.id",
-              "editable": "false",
-            },            
-            "name": { 
-              "label": "tasksEntity.parameter", 
-              "editable": "false,"
-            },
-          },
-          "controlAdd": {
-            "control":"formPopup",
-            "label": "tasksEntity.paramData",			
-            "elements":{
-              "type": { 
-                "label": "tasksEntity.type", 
-                "control": "enum", 
-                "enum": 
-                  { 
-                    "list": "tasksEntity.type", 
-                    "elements": [ 
-                      {
-                        "label": "tasksEntity.fix",
-                        "value": "VALOR"
-                      }, 
-                      {
-                        "label": "tasksEntity.user",
-                        "value": "FITRO"
-                      }, 
-                      {
-                        "label": "tasksEntity.dataInput",
-                        "value": "DATATYPE"
-                      }
-                    ] 
-                  }
-              },
-              "name": { 
-                "label":"tasksEntity.paramURL", 
-                "control": "input",
-                "required":true,
-              },
-              "value": {
-                "condition": "type",
-                "label": [
-                  {
-                  "type": "VALOR",
-                  "text": "tasksEntity.value"
-                  },	
-                  {
-                  "type": "FITRO",	
-                  "text": "tasksEntity.filterText"
-                  },			
-                  {
-                  "type": "DATATYPE",	
-                  "text": "tasksEntity.formatDataInput"
-                  }
-                ],							
-                "control": "input",
-                "required": true
-              }, 
-              "scope": {
-                "label": "tasksEntity.typeDocument",
-                "control": "selector",
-                "selector":{
-                    "data":"codelist-values",
-                    "queryParams": {
-                        "codeListName":"downloadTask.scope",
-                        "projection": "view"
-                    },
-                    "name": "description",
-                    "value": "value",
-                },
-                "required":true
-              },
-            }	
-          }
-        },
+  // properties = { 
+  //   "form":{
+  //     "label": "tasksEntity.generalData",
+  //     "elements": {
+  //       "type": { 
+  //         "hidden": true, 
+  //         "value": 1,
+  //         "required":true
+  //       },
+  //       "name": { 
+  //         "label": "tasksEntity.name", 
+  //         "control": "input", 
+  //         "required":false
+  //       }, 
+  //       "scope": {
+  //         "label": "tasksEntity.typeDocument",
+  //         "control": "selector",
+  //         "selector":{
+  //             "data":"codelist-values",
+  //             "queryParams": {
+  //                 "codeListName":"downloadTask.scope",
+  //                 "projection": "view"
+  //             },
+  //             "name": "description",
+  //             "value": "value",
+  //         },
+  //         "required":true
+  //       },
+  //       // "checkbox": { 
+  //       //   "label": "tasksEntity.checkbox", 
+  //       //   "control": "checkbox", 
+  //       // }, 
+  //       // "provaRadio": { 
+  //       //   "label": "tasksEntity.type", 
+  //       //   "control": "enum", 
+  //       //   "enum": 
+  //       //     { 
+  //       //       "list": "tasksEntity.type", 
+  //       //       "elements": [ 
+  //       //         {
+  //       //           "label": "tasksEntity.fix",
+  //       //           "value": "VALOR"
+  //       //         }, 
+  //       //         {
+  //       //           "label": "tasksEntity.user",
+  //       //           "value": "FITRO"
+  //       //         }, 
+  //       //         {
+  //       //           "label": "tasksEntity.dataInput",
+  //       //           "value": "DATATYPE"
+  //       //         }
+  //       //       ] 
+  //       //     }
+  //       // },
+  //       "provaGon": {
+  //         "condition": "name",
+  //         "label": [
+  //           {
+  //           "name": "VALOR",
+  //           "text": "tasksEntity.value"
+  //           },	
+  //           {
+  //           "name": "FITRO",	
+  //           "text": "tasksEntity.filterText"
+  //           },			
+  //           {
+  //           "name": "DATATYPE",	
+  //           "text": "tasksEntity.formatDataInput"
+  //           }
+  //         ],							
+  //         "control": "input",
+  //         "required": true
+  //       }, 
+  //       "group": { 
+  //         "label": "tasksEntity.group", 
+  //         "control": "selector", 
+  //         "selector":{
+  //           "data":"taskGroup",
+  //           "name": "name",
+  //           "value": "id",
+  //         },
+  //         "required":true
+  //       }, 
+  //       "ui": { 
+  //         "label": "tasksEntity.ui", 
+  //         "control": "selector",
+  //         "selector":{
+  //           "data":"taskUi",
+  //           "name": "name",
+  //           "value": "id",
+  //         },
+  //         "required":true
+  //       }, 
+  //       "cartography": { 
+  //         "label": "tasksEntity.cartography", 
+  //         "control": "selectorPopup", 
+  //         "selectorPopup":{
+  //           "data":"cartography",
+  //           "value":"name",
+  //           "columns":{
+  //             "id": {
+  //               "label":"tasksEntity.id",
+  //               "editable": "false",
+  //             },
+  //             "name": {
+  //               "label":"tasksEntity.name",
+  //               "editable": "false"
+  //             }
+  //           }
+  //         },
+  //         "required":true
+  //       }
+  //     },
+  //   },
+  //   "tables":
+  //     [
+  //       {
+  //         "link":"roles",
+  //         "label": "tasksEntity.parameters",
+  //         "columns" : {
+  //           "id": {
+  //             "label":"tasksEntity.id",
+  //             "editable": "false",
+  //           },            
+  //           "name": { 
+  //             "label": "tasksEntity.parameter", 
+  //             "editable": "false,"
+  //           },
+  //         },
+  //         "controlAdd": {
+  //           "control":"formPopup",
+  //           "label": "tasksEntity.paramData",			
+  //           "elements":{
+  //             "type": { 
+  //               "label": "tasksEntity.type", 
+  //               "control": "enum", 
+  //               "enum": 
+  //                 { 
+  //                   "list": "tasksEntity.type", 
+  //                   "elements": [ 
+  //                     {
+  //                       "label": "tasksEntity.fix",
+  //                       "value": "VALOR"
+  //                     }, 
+  //                     {
+  //                       "label": "tasksEntity.user",
+  //                       "value": "FITRO"
+  //                     }, 
+  //                     {
+  //                       "label": "tasksEntity.dataInput",
+  //                       "value": "DATATYPE"
+  //                     }
+  //                   ] 
+  //                 }
+  //             },
+  //             "name": { 
+  //               "label":"tasksEntity.paramURL", 
+  //               "control": "input",
+  //               "required":true,
+  //             },
+  //             "value": {
+  //               "condition": "type",
+  //               "label": [
+  //                 {
+  //                 "type": "VALOR",
+  //                 "text": "tasksEntity.value"
+  //                 },	
+  //                 {
+  //                 "type": "FITRO",	
+  //                 "text": "tasksEntity.filterText"
+  //                 },			
+  //                 {
+  //                 "type": "DATATYPE",	
+  //                 "text": "tasksEntity.formatDataInput"
+  //                 }
+  //               ],							
+  //               "control": "input",
+  //               "required": true
+  //             }, 
+  //             "order": { 
+  //               "label": "tasksEntity.order", 
+  //               "control": "input"
+  //             }
+  //           }	
+  //         }
+  //       },
+  //       { 
+  //         "link":"roles",
+  //         "label": "tasksEntity.roles", 
+  //         "controlAdd": {
+  //           "control":"selectorPopup",
+  //           "data":"roles", 
+  //           "columns":{
+  //             "id": {
+  //               "label":"tasksEntity.id",
+  //               "editable": "false",
+  //             },
+  //             "name": { 
+  //               "label": "tasksEntity.name", 
+  //               "editable": "false,"
+  //             },
+  //           }
+  //         },
+  //         "columns" : {
+  //           "id": {
+  //             "label":"tasksEntity.id",
+  //             "editable":"true"
+  //           },
+  //           "name": { 
+  //             "label": "tasksEntity.name", 
+  //             "editable": "false,"
+  //           },
+  //         }
+  //       },	
+  //       { 
+  //         "link":"roles",
+  //         "label": "tasksEntity.roles", 
+  //         "controlAdd": {
+  //           "control":"selectorPopup",
+  //           "data":"availabilities", 
+  //           "columns":{
+  //             "id": {
+  //               "label":"tasksEntity.id",
+  //               "editable":"true"
+  //             }
+  //           }
+  //         } ,
+  //         "columns" : {
+  //           "id": {
+  //             "label":"tasksEntity.id",
+  //             "editable": "false",
+  //           },            
+  //           "name": { 
+  //             "label": "tasksEntity.parameter", 
+  //             "editable": "false,"
+  //           },
+  //         }					
+  //       }, 
+  //       {
+  //         "link":"roles",
+  //         "label": "tasksEntity.parameters",
+  //         "columns" : {
+  //           "id": {
+  //             "label":"tasksEntity.id",
+  //             "editable": "false",
+  //           },            
+  //           "name": { 
+  //             "label": "tasksEntity.parameter", 
+  //             "editable": "false,"
+  //           },
+  //         },
+  //         "controlAdd": {
+  //           "control":"formPopup",
+  //           "label": "tasksEntity.paramData",			
+  //           "elements":{
+  //             "type": { 
+  //               "label": "tasksEntity.type", 
+  //               "control": "enum", 
+  //               "enum": 
+  //                 { 
+  //                   "list": "tasksEntity.type", 
+  //                   "elements": [ 
+  //                     {
+  //                       "label": "tasksEntity.fix",
+  //                       "value": "VALOR"
+  //                     }, 
+  //                     {
+  //                       "label": "tasksEntity.user",
+  //                       "value": "FITRO"
+  //                     }, 
+  //                     {
+  //                       "label": "tasksEntity.dataInput",
+  //                       "value": "DATATYPE"
+  //                     }
+  //                   ] 
+  //                 }
+  //             },
+  //             "name": { 
+  //               "label":"tasksEntity.paramURL", 
+  //               "control": "input",
+  //               "required":true,
+  //             },
+  //             "value": {
+  //               "condition": "type",
+  //               "label": [
+  //                 {
+  //                 "type": "VALOR",
+  //                 "text": "tasksEntity.value"
+  //                 },	
+  //                 {
+  //                 "type": "FITRO",	
+  //                 "text": "tasksEntity.filterText"
+  //                 },			
+  //                 {
+  //                 "type": "DATATYPE",	
+  //                 "text": "tasksEntity.formatDataInput"
+  //                 }
+  //               ],							
+  //               "control": "input",
+  //               "required": true
+  //             }, 
+  //             "scope": {
+  //               "label": "tasksEntity.typeDocument",
+  //               "control": "selector",
+  //               "selector":{
+  //                   "data":"codelist-values",
+  //                   "queryParams": {
+  //                       "codeListName":"downloadTask.scope",
+  //                       "projection": "view"
+  //                   },
+  //                   "name": "description",
+  //                   "value": "value",
+  //               },
+  //               "required":true
+  //             },
+  //           }	
+  //         }
+  //       },
       
-      ]
-    }
+  //     ]
+  //   }
 
   
 
@@ -398,7 +399,9 @@ export class TaskFormComponent implements OnInit {
         public taskService: TaskService,
         public taskUIService: TaskUIService,
         private http: HttpClient,
-        private codeListService: CodeListService
+        private codeListService: CodeListService,
+        private territoryService: TerritoryService,
+        private taskTypeService: TaskTypeService
         ) {
 
   }
@@ -425,7 +428,15 @@ export class TaskFormComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+
+    this.taskType= await this.taskTypeService.get(6).toPromise()
+    this.properties=this.taskType.specification;
+    console.log(this.properties);
+
+    
+
+
     if(this.properties.form){
 
       let keys= Object.keys(this.properties.form.elements);
@@ -621,9 +632,9 @@ export class TaskFormComponent implements OnInit {
       else if(values[i].control==="checkbox") {value=false}
       else if(values[i].control==="enum" && popupForm) { value=values[i].enum.elements[0].value  }
   
-      if(values[i].required){
-        form.addControl(key,new FormControl(value,[Validators.required]));
-      }
+      // if(values[i].required){
+      //   form.addControl(key,new FormControl(value,[Validators.required]));
+      // }
       else{
         form.addControl(key,new FormControl(value,[]));
       }
@@ -643,19 +654,30 @@ export class TaskFormComponent implements OnInit {
     else if(selector=="fmeServices") { this.fmeServicesNeeded = true }
     else if(selector=="this.locators") { this.locatorsNeeded = true }
     else if(selector=="cartographies") { this.cartographiesNeeded = true }
-    else if(selector=="connections") { this.connectionsNeeded = true }
+    else if(selector=="connection") { this.connectionsNeeded = true }
   }
 
   getFieldWithCondition(condition, table, fieldResult, form){
+   
+    if(table == undefined) { return false; }
+
+    if(condition == undefined || !Array.isArray(table)) {
+       return table;
+    }
 
     let findResult= table.find(element => element[condition] === form.value[condition])
 
     if(findResult != undefined) { 
       findResult=findResult[fieldResult] 
     }
+    else{
+      if(fieldResult == "hidden" || fieldResult == "required" ) { findResult = false }
+    }
     
     return findResult;
   }
+
+
  
 
   onSaveButtonClicked(){
@@ -671,7 +693,7 @@ export class TaskFormComponent implements OnInit {
         else if(data=="fmeServices") { return this.fmeServices }
         else if(data=="this.locators") { return this.locators }
         else if(data=="cartographies") { return this.cartographies }
-        else if(data=="connections") { return this.connections }
+        else if(data=="connection") { return this.connections }
         
 
   }
@@ -751,11 +773,11 @@ export class TaskFormComponent implements OnInit {
     if(field == "service") return this.serviceService.getAll()
     if(field == "roles") return this.roleService.getAll()
     if(field == "connection") return this.connectionService.getAll()
+    if(field == "availabilities") return this.territoryService.getAll()
   }
 
   getDataTableByLink= (link): Observable<any> =>{
-    
-    if (this.taskID == -1 || this.taskToEdit._links[link] == undefined) {
+    if (this.taskID == -1 || !this.taskToEdit._links[link]) {
       const aux: Array<any> = [];
       return of(aux);
     }

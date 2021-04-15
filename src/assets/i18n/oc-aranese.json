@@ -419,7 +419,15 @@
     "queries": "Consultes",
     "tasksThematic": "Tasques-Temàtic",
     "origin": "Origen",
-    "creator": "Creador"
+    "creator": "Creador",
+    "extend": "Extensió",
+    "territory": "Territori",
+    "accesType":"Tipus d'accés",
+    "autocomplete": "Autocompletar",
+    "anput": "Anput",
+    "combo": "Combo",
+    "label": "Etiqueta",
+    "informe": "Report"
   },
   "tasksQueryEntity": {
     "generalData": "Dades Generals",

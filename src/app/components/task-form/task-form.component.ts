@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NgTemplateNameDirective } from './ng-template-name.directive';
 import { threadId } from 'worker_threads';
+import { forEach } from 'jszip';
 
 @Component({
   selector: 'app-task-form',
@@ -197,6 +198,20 @@ export class TaskFormComponent implements OnInit {
   //           "control":"formPopup",
   //           "label": "tasksEntity.paramData",			
   //           "elements":{
+  //             "scope": {
+  //               "label": "tasksEntity.typeDocument",
+  //               "control": "selector",
+  //               "selector":{
+  //                   "data":"codelist-values",
+  //                   "queryParams": {
+  //                       "codeListName":"queryTask.scope",
+  //                       "projection": "view"
+  //                   },
+  //                   "name": "description",
+  //                   "value": "value",
+  //               },
+  //               "required":true
+  //             },
   //             "type": { 
   //               "label": "tasksEntity.type", 
   //               "control": "enum", 
@@ -428,9 +443,68 @@ export class TaskFormComponent implements OnInit {
 
   }
 
+  async initializeNonCodelistSelectors(){
+
+
+    let tmpTable;
+
+    if(this.taskGroupsNeeded){
+      tmpTable = await  this.taskGroupService.getAll().toPromise()
+      debugger;
+      this.taskGroups.push(...tmpTable)
+    }
+
+    if(this.taskUIsNeeded){
+      tmpTable = await  this.taskUIService.getAll().toPromise()
+      this.taskUIs.push(...tmpTable)
+    }
+
+    if(this.cartographiesNeeded){
+      tmpTable = await  this.cartographyService.getAll().toPromise()
+      this.cartographies.push(...tmpTable)   
+    }
+
+    if(this.connectionsNeeded){
+      tmpTable = await  this.connectionService.getAll().toPromise()
+      this.connections.push(...tmpTable)   
+    }
+
+    if(this.wfsServicesNeeded){
+      await this.serviceService.getAll().map((resp) => {
+        let wfsServices = [];
+        resp.forEach(service => {
+          if(service.type==='WFS') {wfsServices.push(service)}
+        });  
+        this.wfsServices.push(...wfsServices)
+      }).toPromise();
+    }
+
+    if(this.fmeServicesNeeded){
+      await this.serviceService.getAll().map((resp) => {
+        let fmeServices = [];
+        resp.forEach(service => {
+          if(service.type==='FME') {fmeServices.push(service)}
+        });  
+        console.log(this.fmeServices);
+        this.fmeServices.push(...fmeServices)
+      }).toPromise()
+    }
+
+    if(this.locatorsNeeded){
+      let taskTypeID=config.tasksTypes['report'];
+      let params2:HalParam[]=[];
+      let param:HalParam={key:'type.id', value:taskTypeID}
+      params2.push(param);
+      let query:HalOptions={ params:params2};
+      tmpTable = await this.taskService.getAll(query,undefined,"tasks").toPromise()
+      this.locators.push(...tmpTable);
+    }
+
+  }
+
   async ngOnInit() {
 
-    this.taskType= await this.taskTypeService.get(6).toPromise()
+    this.taskType= await this.taskTypeService.get(1).toPromise()
     this.properties=this.taskType.specification;
     console.log(this.properties);
 
@@ -446,16 +520,18 @@ export class TaskFormComponent implements OnInit {
         if(values[i][`control`] === "selector"){
           if(values[i][`selector`][`data`] === "codelist-values")
           {
-            this.getCodeListValue(values[i][`selector`][`queryParams`])
+            await this.getCodeListValue(values[i][`selector`][`queryParams`])
           }
           else{
             this.setSelectorToNeeded(values[i][`selector`][`data`])
           }
         }
       }
-      this.taskForm=this.initializeForm(keys,values);
+
+
+
       let getAll;
-      this.properties.tables.forEach(table => {
+      for(const table of this.properties.tables){
         getAll= () => this.getDataTableByLink(table.link)
         this.getAlls.push(getAll)  
         let addElementsEvent: Subject<any[]> = new Subject<any[]>();
@@ -486,14 +562,11 @@ export class TaskFormComponent implements OnInit {
 
             } 
           }
+          await this.initializeNonCodelistSelectors();
           this.tableFormElements.push(currentFormElements)
           formPopup=this.initializeForm(keysFormPopup,valuesFormPopup, true);
           console.log(formPopup);
           this.forms.push(formPopup);
-
-
-          
-          
         }
         else {
           this.keysForms.push(null);
@@ -502,126 +575,41 @@ export class TaskFormComponent implements OnInit {
           this.forms.push(null)
         }
 
-      });
+      };
+      this.taskForm=this.initializeForm(keys,values);
 
-      
-      const promises: Promise<any>[] = [];
+        //Promises
 
-      if(this.taskGroupsNeeded)
-      {
-        promises.push(new Promise((resolve, reject) => {
-          this.taskGroupService.getAll().subscribe(
-            resp => {
-              this.taskGroups.push(...resp);
-              resolve(true);
-            }
-          );
-        }));
-  
-      }
-
-      if(this.taskUIsNeeded)
-      {
-        promises.push(new Promise((resolve, reject) => {
-          this.taskUIService.getAll().subscribe(
-            resp => {
-              this.taskUIs.push(...resp);
-              resolve(true);
-            }
-          );
-        }));
-      }
-
-
-      if(this.wfsServicesNeeded)
-      {
-        promises.push(new Promise((resolve, reject) => {
-          this.serviceService.getAll().map((resp) => {
-            let wfsServices = [];
-            resp.forEach(service => {
-              if(service.type==='WFS') {wfsServices.push(service)}
-            });  
-            this.wfsServices.push(...wfsServices)
-            resolve(true);
-          }).subscribe()
-          }));
-      }
-
-      if(this.cartographiesNeeded){
-        promises.push(new Promise((resolve, reject) => {
-          this.cartographyService.getAll().subscribe(
-            resp => {
-              this.cartographies.push(...resp);
-              resolve(true);
-            }
-          );
-        }));
-      }
-
-      if(this.fmeServicesNeeded)
-      {
-        promises.push(new Promise((resolve, reject) => {
-          this.serviceService.getAll().map((resp) => {
-            let fmeServices = [];
-            resp.forEach(service => {
-              if(service.type==='FME') {fmeServices.push(service)}
-            });  
-            console.log(this.fmeServices);
-            this.fmeServices.push(...fmeServices)
-            resolve(true);
-          }).subscribe()
-        }));
-      }
-
-      if(this.connectionsNeeded)
-      {
-        promises.push(new Promise((resolve, reject) => {
-          this.connectionService.getAll().subscribe(
-            resp => {
-              this.connections.push(...resp);
-              resolve(true);
-            }
-          );
-        }));
-      }
-
-      if(this.locatorsNeeded){
-        promises.push(new Promise((resolve, reject) => {
-          let taskTypeID=config.tasksTypes['report'];
-          let params2:HalParam[]=[];
-          let param:HalParam={key:'type.id', value:taskTypeID}
-          params2.push(param);
-          let query:HalOptions={ params:params2};
-          this.taskService.getAll(query,undefined,"tasks").subscribe(
-            resp => {
-              this.locators.push(...resp);
-              resolve(true);
-            }
-          );;
-        }));
-      }
-
-      Promise.all(promises).then(() => {
 
         this.taskService.get(1).subscribe(
           resp => {
             console.log(resp);
             this.taskToEdit = resp;
+            let tmp= {
+              name: "NAME",
+              group: 11
+            }
+            let taskKeys=Object.keys(tmp);
+            // taskKeys.forEach(key => {
+            //   if(this.taskForm.get(key) != null){
+                
+            //     this.taskForm.get(key).setValue(tmp[key])
+            //   }
+            //   else{
+            //     this.taskForm.addControl(key,new FormControl(tmp[key],[]));
+            //   }
+            // });
             this.dataLoaded=true;
+
+
+
           })
-
-
-      });
-
-
-
-
-
 
     }
 
     console.log(this.properties.form)
   }
+
 
   initializeForm(keys: Array<any>, values: Array<any>, popupForm?:boolean){
     let form=new FormGroup({})
@@ -631,13 +619,21 @@ export class TaskFormComponent implements OnInit {
       if(values[i].hidden) { value=values[i].value }
       else if(values[i].control==="checkbox") {value=false}
       else if(values[i].control==="enum" && popupForm) { value=values[i].enum.elements[0].value  }
+      else if(values[i].control==="selector"){
+        if(values[i].selector.data === 'codelist-values'){
+          value=this.getDataCodeListSelector(values[i].selector.queryParams.codeListName)[0][values[i].selector.value];
+        }
+        else{
+          debugger;
+          value=this.getDataSelector(values[i].selector.data)[0][values[i].selector.value]
+        }
+      }
   
       // if(values[i].required){
       //   form.addControl(key,new FormControl(value,[Validators.required]));
       // }
-      else{
-        form.addControl(key,new FormControl(value,[]));
-      }
+      form.addControl(key,new FormControl(value,[]));
+
 
   
     }
@@ -655,6 +651,19 @@ export class TaskFormComponent implements OnInit {
     else if(selector=="this.locators") { this.locatorsNeeded = true }
     else if(selector=="cartographies") { this.cartographiesNeeded = true }
     else if(selector=="connection") { this.connectionsNeeded = true }
+  }
+
+  getCompleteValueFromSelector(selector, id, field, codelist: boolean){
+      let completeValue;
+      if(codelist){
+        completeValue= this.getDataCodeListSelector(selector)
+      }
+      else{
+        completeValue= this.getDataSelector(selector).filter(element => element[field] == id )
+      }
+      if(completeValue == undefined) { completeValue = null }
+
+      return completeValue;
   }
 
   getFieldWithCondition(condition, table, fieldResult, form){

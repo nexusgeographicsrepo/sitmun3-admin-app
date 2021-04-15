@@ -160,7 +160,7 @@
 
     
             <div *ngFor="let element of tableFormElements[index]; let i = index" class="colFormDiv" 
-            [hidden]="getFieldWithCondition(element.values.condition, element.values.hidden, 'hidden', form )" [ngSwitch]="element.values.control">
+            [hidden]="getFieldWithCondition(element.values.condition, element.values.hidden, 'hidden', form )" [ngSwitch]="getFieldWithCondition(element.values.condition, element.values.control, 'control', form )">
                 <div *ngSwitchCase="'input'">
                     <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )?'formLabel requiredInput':'formLabel'">
                         {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}

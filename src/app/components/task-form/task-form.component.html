@@ -139,6 +139,7 @@
                         [addButton]="table.controlAdd.control!=='formPopup'"
                         [hideDuplicateButton]="table.controlAdd.control!=='formPopup'"
                         [eventAddItemsSubscription]='addelements[i].asObservable()'
+                        defaultColumnSorting="order"
                         (add)="openPopupDialog(null, table.controlAdd.data, table.controlAdd.columns, table.label, true, false, false, i)"
                         (new)="openPopupFormDialog(i, table.label)">
                         

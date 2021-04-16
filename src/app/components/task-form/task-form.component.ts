@@ -450,7 +450,6 @@ export class TaskFormComponent implements OnInit {
 
     if(this.taskGroupsNeeded){
       tmpTable = await  this.taskGroupService.getAll().toPromise()
-      debugger;
       this.taskGroups.push(...tmpTable)
     }
 
@@ -624,7 +623,6 @@ export class TaskFormComponent implements OnInit {
           value=this.getDataCodeListSelector(values[i].selector.queryParams.codeListName)[0][values[i].selector.value];
         }
         else{
-          debugger;
           value=this.getDataSelector(values[i].selector.data)[0][values[i].selector.value]
         }
       }

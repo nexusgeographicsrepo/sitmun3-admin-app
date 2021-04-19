@@ -9,8 +9,6 @@ import { Observable, of, pipe, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NgTemplateNameDirective } from './ng-template-name.directive';
-import { threadId } from 'worker_threads';
-import { forEach } from 'jszip';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -518,19 +516,19 @@ export class TaskFormComponent implements OnInit {
 
   async ngOnInit() {
 
-    // this.taskType= await this.taskTypeService.get(6).toPromise()
-    // this.properties=this.taskType.specification;
 
-    this.taskToEdit= await this.taskService.get(this.taskID).toPromise();
-    var urlReq = `${this.taskToEdit._links.type.href}`
-    if (this.taskToEdit._links.type.templated) {
-      var url = new URL(urlReq.split("{")[0]);
-      url.searchParams.append("projection", "view")
-      urlReq = url.toString();
+    if(this.taskID != -1){
+      this.taskToEdit= await this.taskService.get(this.taskID).toPromise();
+      var urlReq = `${this.taskToEdit._links.type.href}`
+      if (this.taskToEdit._links.type.templated) {
+        var url = new URL(urlReq.split("{")[0]);
+        url.searchParams.append("projection", "view")
+        urlReq = url.toString();
+      }
+  
+      this.taskType=await this.http.get(urlReq).toPromise();
+      this.properties=this.taskType.specification;
     }
-
-    this.taskType=await this.http.get(urlReq).toPromise();
-    this.properties=this.taskType.specification;
 
 
 
@@ -543,7 +541,7 @@ export class TaskFormComponent implements OnInit {
     
 
 
-    if(this.properties.form){
+    if(this.properties){
 
       let keys= Object.keys(this.properties.form.elements);
       let values= Object.values(this.properties.form.elements);
@@ -626,8 +624,6 @@ export class TaskFormComponent implements OnInit {
 
 
     }
-
-    console.log(this.properties.form)
   }
 
   getAllRowsTable(data: any[], index )

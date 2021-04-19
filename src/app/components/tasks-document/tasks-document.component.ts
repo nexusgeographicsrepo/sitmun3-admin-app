@@ -4,7 +4,7 @@ import {  Router } from '@angular/router';
 import { of,Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { config } from 'src/config';
-import { HalOptions, HalParam, TaskService, TaskTypeService } from 'dist/sitmun-frontend-core/';
+import { HalOptions, HalParam, TaskService } from 'dist/sitmun-frontend-core/';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -21,7 +21,6 @@ export class TasksDocumentComponent implements OnInit {
   constructor(private utils: UtilsService,
               private router: Router,
               public taskService: TaskService,
-              public taskTypeService: TaskTypeService,
               )
               {}
 

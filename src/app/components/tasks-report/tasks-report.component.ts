@@ -61,7 +61,7 @@ export class TasksReportComponent implements OnInit {
   newData(id: any)
   {
     this.saveAgGridStateEvent.next(true);
-    this.router.navigate(['tasksReport', id, 'tasksReportForm']);  
+    this.router.navigate(["taskForm",id]);
   }
   
   applyChanges( data: any[])

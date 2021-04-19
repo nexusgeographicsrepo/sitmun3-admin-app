@@ -57,7 +57,7 @@ export class TasksQueryComponent implements OnInit {
   newData(id: any)
   {
     this.saveAgGridStateEvent.next(true);
-    this.router.navigate(['tasksQuery', id, 'tasksQueryForm']);  
+    this.router.navigate(["taskForm",id]);
   }
   
   applyChanges( data: any[])

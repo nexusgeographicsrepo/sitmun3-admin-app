@@ -424,6 +424,7 @@ export class TaskFormComponent implements OnInit {
 
           this.activatedRoute.params.subscribe(params => {
             this.taskID = +params.id;
+            this.taskTypeName= params.type
           })
 
 
@@ -526,9 +527,11 @@ export class TaskFormComponent implements OnInit {
         urlReq = url.toString();
       }
   
-      this.taskType=await this.http.get(urlReq).toPromise();
-      this.properties=this.taskType.specification;
+      // this.taskType=await this.http.get(urlReq).toPromise();
     }
+    this.taskType= await this.taskTypeService.getAll().pipe(map((data: any[]) => data.filter(elem => elem.title==this.taskTypeName))).toPromise();
+    this.properties=this.taskType[0].specification;
+    this.taskType=this.taskType[0];
 
 
 
@@ -610,16 +613,18 @@ export class TaskFormComponent implements OnInit {
       await this.initializeNonCodelistSelectors();
       this.taskForm=this.initializeForm(keys,values);
 
-      let taskKeys=Object.keys( this.taskToEdit);
-      taskKeys.forEach(key => {
-        if(this.taskForm.get(key) != null){
-          
-          this.taskForm.get(key).setValue( this.taskToEdit[key])
-        }
-        else{
-          this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
-        }
-      });
+      if(this.taskID!= -1){   
+              let taskKeys=Object.keys( this.taskToEdit);
+              taskKeys.forEach(key => {
+                if(this.taskForm.get(key) != null){
+                  
+                  this.taskForm.get(key).setValue( this.taskToEdit[key])
+                }
+                else{
+                  this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
+                }
+              });
+      }
       this.dataLoaded=true;
 
 

@@ -74,7 +74,7 @@ export class TasksDocumentComponent implements OnInit {
   {
     this.saveAgGridStateEvent.next(true);
     // this.router.navigate(['tasksDocument', id, 'tasksDocumentForm']);
-    this.router.navigate(["taskForm",id]);
+    this.router.navigate(["taskForm", id, config.tasksTypesNames.document]);
   }
   
   applyChanges( data: any[])

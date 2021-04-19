@@ -59,7 +59,7 @@ export class TasksDownloadComponent implements OnInit {
   newData(id: any)
   {
     this.saveAgGridStateEvent.next(true);
-    this.router.navigate(["taskForm",id]);
+    this.router.navigate(["taskForm", id, config.tasksTypesNames.download]);
   }
   
   applyChanges( data: any[])

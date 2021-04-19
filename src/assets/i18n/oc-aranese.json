@@ -436,7 +436,8 @@
     "Report": "Informe",
     "Cartography table (WFS)": "Edició",
     "Thematic": "Temàtic",
-    "Extraction (FME)" :"Extracció FME"
+    "Extraction (FME)" :"Extracció FME",
+    "Basic": "General"
   },
   "tasksQueryEntity": {
     "generalData": "Dades Generals",

@@ -436,7 +436,8 @@
     "Report": "Report",
     "Cartography table (WFS)": "Edition",
     "Thematic": "Thematic",
-    "Extraction (FME)" :"Extraction FME"
+    "Extraction (FME)" :"Extraction FME",
+    "Basic": "General"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

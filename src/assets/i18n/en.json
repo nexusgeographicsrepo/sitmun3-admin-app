@@ -427,7 +427,16 @@
     "anput": "Anput",
     "combo": "Combo",
     "label": "Label",
-    "informe": "Report"
+    "informe": "Report",
+    "Document": "Document",
+    "Download": "Download",
+    "Query": "Query",
+    "More info": "More information",
+    "Locator": "Locator",
+    "Report": "Report",
+    "Cartography table (WFS)": "Edition",
+    "Thematic": "Thematic",
+    "Extraction (FME)" :"Extraction FME"
   },
   "tasksQueryEntity": {
     "generalData": "General Data",

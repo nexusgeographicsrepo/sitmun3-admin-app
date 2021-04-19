@@ -367,6 +367,7 @@ export class TaskFormComponent implements OnInit {
   getAlls = [];
   columnDefsTables = [];
   taskTypeName;
+  taskTypeNameTranslated;
   taskType
   properties;
   //codeLists
@@ -425,6 +426,7 @@ export class TaskFormComponent implements OnInit {
           this.activatedRoute.params.subscribe(params => {
             this.taskID = +params.id;
             this.taskTypeName= params.type
+            this.taskTypeNameTranslated= this.utils.getTranslate(`tasksEntity.${this.taskTypeName}`)
           })
 
 
@@ -604,19 +606,8 @@ export class TaskFormComponent implements OnInit {
 
       if(this.taskID!= -1){   
         this.taskService.get(this.taskID).subscribe(result => {
-          
           this.taskToEdit=result;
-          let taskKeys=Object.keys( this.taskToEdit);
-          taskKeys.forEach(key => {
-            if(this.taskForm.get(key) != null){
-              
-              this.taskForm.get(key).setValue( this.taskToEdit[key])
-            }
-            else{
-              this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
-            }
-          });
-
+          this.setTaskValues();        
         });
       }
       this.dataLoaded=true;
@@ -638,10 +629,11 @@ export class TaskFormComponent implements OnInit {
       let value = null;
       if(values[i].control==="selector"){
         if(values[i].selector.queryParams){
-            value=this.getDataDynamicSelectors(values[i].selector.data, values[i].label)[0][values[i].selector.value];        }
+            value=this.getDataDynamicSelectors(values[i].selector.data, values[i].label)[0][values[i].selector.value];        
+        }
         else{
           value=this.getDataFixedSelectors(values[i].selector.data)[0][values[i].selector.value]
-        }
+        } //[values[i].selector.value]
       }
       else if(values[i].hidden) { value=values[i].value }
       else if(values[i].control==="checkbox") {value=false}
@@ -657,6 +649,37 @@ export class TaskFormComponent implements OnInit {
   
     }
     return form;
+
+
+  }
+
+  setTaskValues(){
+    let taskKeys=Object.keys( this.taskToEdit);
+    taskKeys.forEach(key => {
+
+      if(this.taskForm.get(key) == null){
+        this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
+      }
+      else{
+        // if(!this.keyIsFromSelector(key)){
+          this.taskForm.get(key).setValue( this.taskToEdit[key])
+        // }
+      }
+    });
+
+  }
+
+  keyIsFromSelector(key){
+    if(key == "groupId") {
+      if(this.taskForm.get("group") != null){
+        this.taskForm.get("group").setValue( this.taskToEdit[key])
+      }
+    }
+    else{
+      return false;
+    }
+
+    return true;
 
 
   }

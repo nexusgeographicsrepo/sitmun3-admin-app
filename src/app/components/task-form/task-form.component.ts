@@ -518,17 +518,6 @@ export class TaskFormComponent implements OnInit {
   async ngOnInit() {
 
 
-    if(this.taskID != -1){
-      this.taskToEdit= await this.taskService.get(this.taskID).toPromise();
-      var urlReq = `${this.taskToEdit._links.type.href}`
-      if (this.taskToEdit._links.type.templated) {
-        var url = new URL(urlReq.split("{")[0]);
-        url.searchParams.append("projection", "view")
-        urlReq = url.toString();
-      }
-  
-      // this.taskType=await this.http.get(urlReq).toPromise();
-    }
     this.taskType= await this.taskTypeService.getAll().pipe(map((data: any[]) => data.filter(elem => elem.title==this.taskTypeName))).toPromise();
     this.properties=this.taskType[0].specification;
     this.taskType=this.taskType[0];
@@ -614,16 +603,21 @@ export class TaskFormComponent implements OnInit {
       this.taskForm=this.initializeForm(keys,values);
 
       if(this.taskID!= -1){   
-              let taskKeys=Object.keys( this.taskToEdit);
-              taskKeys.forEach(key => {
-                if(this.taskForm.get(key) != null){
-                  
-                  this.taskForm.get(key).setValue( this.taskToEdit[key])
-                }
-                else{
-                  this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
-                }
-              });
+        this.taskService.get(this.taskID).subscribe(result => {
+          
+          this.taskToEdit=result;
+          let taskKeys=Object.keys( this.taskToEdit);
+          taskKeys.forEach(key => {
+            if(this.taskForm.get(key) != null){
+              
+              this.taskForm.get(key).setValue( this.taskToEdit[key])
+            }
+            else{
+              this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
+            }
+          });
+
+        });
       }
       this.dataLoaded=true;
 

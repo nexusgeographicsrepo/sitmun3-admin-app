@@ -24,6 +24,7 @@
 
         <div *ngFor="let element of formElements; let i = index" class="colFormDiv" [hidden]="getFieldWithCondition(element.values.condition, element.values.hidden, 'hidden', taskForm )" 
         [ngSwitch]="getFieldWithCondition(element.values.condition, element.values.control, 'control', taskForm )">
+
             <div *ngSwitchCase="'input'">
                 <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm )?'formLabel requiredInput':'formLabel'">
                     {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
@@ -35,6 +36,18 @@
                 </mat-form-field>
             </div>
 
+            <div *ngSwitchCase="'textArea'">
+                <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm )?'formLabel requiredInput':'formLabel'">
+                    {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', taskForm ) | translate) : (element.values.label | translate) }}
+                </label>
+
+                <mat-form-field appearance="outline">
+                    <textarea matInput type="text" [formControlName]=element.fieldName
+                        [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm )" >
+                    </textarea>
+                </mat-form-field>
+            </div>
+
             <div *ngSwitchCase="'selector'" >
 
                 <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm)?'formLabel requiredInput':'formLabel'">
@@ -43,21 +56,21 @@
 
                 <mat-form-field appearance="outline">
 
-                    <mat-select *ngIf="element.values.selector.data === 'codelist-values'" matInput  [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm )"
+                    <mat-select matInput  [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm )"
                      [formControlName]=element.fieldName class="form-control">
                         <mat-option [value]="dataElement[element.values.selector.value]" 
-                            *ngFor="let dataElement of getDataCodeListSelector(element.values.selector.queryParams.codeListName)">
+                            *ngFor="let dataElement of getDataSelector(element.values.selector.data, element.values.selector.queryParams, element.values.label)">
                             {{ dataElement[element.values.selector.name]}}
                         </mat-option>
                     </mat-select>
-
+<!-- 
                     <mat-select *ngIf="element.values.selector.data !== 'codelist-values'" matInput   [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', taskForm )"   
                     [formControlName]=element.fieldName class="form-control">
                         <mat-option [value]="dataElement[element.values.selector.value]"
-                            *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
+                            *ngFor="let dataElement of getDataFixedSelectors(element.values.selector.data)">
                             {{ dataElement[element.values.selector.name]}}
                         </mat-option>
-                    </mat-select>
+                    </mat-select> -->
                 </mat-form-field>
             </div>
 
@@ -141,7 +154,7 @@
                         [eventAddItemsSubscription]='addelements[i].asObservable()'
                         defaultColumnSorting="order"
                         (add)="openPopupDialog(null, table.controlAdd.data, table.controlAdd.columns, table.label, true, false, false, i)"
-                        (new)="openPopupFormDialog(i, table.label)">
+                        (new)="openPopupFormDialog(i, table.label)" (getAllRows)="getAllRowsTable($event, i)">
                         
                     </app-data-grid>
                 </div>
@@ -162,6 +175,7 @@
     
             <div *ngFor="let element of tableFormElements[index]; let i = index" class="colFormDiv" 
             [hidden]="getFieldWithCondition(element.values.condition, element.values.hidden, 'hidden', form )" [ngSwitch]="getFieldWithCondition(element.values.condition, element.values.control, 'control', form )">
+                
                 <div *ngSwitchCase="'input'">
                     <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )?'formLabel requiredInput':'formLabel'">
                         {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
@@ -169,6 +183,18 @@
     
                     <mat-form-field appearance="outline">
                         <input matInput type="text" [formControlName]=element.fieldName [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )" > 
+                    </mat-form-field>
+                </div>
+                
+                <div *ngSwitchCase="'textArea'">
+                    <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )?'formLabel requiredInput':'formLabel'">
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
+                    </label>
+    
+                    <mat-form-field appearance="outline">
+                        <textarea 
+                            matInput type="text" [formControlName]=element.fieldName [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )" >
+                        </textarea> 
                     </mat-form-field>
                 </div>
     
@@ -180,19 +206,31 @@
     
                     <mat-form-field appearance="outline">
                         
-                        <mat-select *ngIf="element.values.selector.data === 'codelist-values'" matInput [formControlName]=element.fieldName
+                        <mat-select  matInput [formControlName]=element.fieldName
                         [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )" class="form-control">
                             <mat-option [value]="dataElement[element.values.selector.value]"
-                                *ngFor="let dataElement of getDataCodeListSelector(element.values.selector.queryParams.codeListName)">
+                                *ngFor="let dataElement of getDataSelector(element.values.selector.data, element.values.selector.queryParams, element.values.label)">
                                 {{ dataElement[element.values.selector.name]}}
                             </mat-option>
                         </mat-select>
 
-                        <mat-select *ngIf="element.values.selector.data !== 'codelist-values'" matInput [formControlName]=element.fieldName
+                    </mat-form-field>
+                </div>
+
+                    
+                <div *ngSwitchCase="'enumBySQLElement'" >
+    
+                    <label [ngClass]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )?'formLabel requiredInput':'formLabel'">
+                        {{element.values.condition ? (getFieldWithCondition(element.values.condition, element.values.label, 'text', form ) | translate) : (element.values.label | translate) }}
+                    </label>
+    
+                    <mat-form-field appearance="outline">
+                        
+                        <mat-select  matInput [formControlName]=element.fieldName
                         [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )" class="form-control">
-                            <mat-option [value]="dataElement[element.values.selector.value]"
-                                *ngFor="let dataElement of getDataSelector(element.values.selector.data)">
-                                {{ dataElement[element.values.selector.name]}}
+                            <mat-option [value]="dataElement"
+                                *ngFor="let dataElement of getDataSQLElement(element.values.element, element.values.patternToSearch)">
+                                {{ dataElement}}
                             </mat-option>
                         </mat-select>
 
@@ -262,4 +300,3 @@
 
 </ng-template>
 </div>
-

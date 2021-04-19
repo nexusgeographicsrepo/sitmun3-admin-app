@@ -5,12 +5,13 @@ import { ServiceService, TaskService, TaskTypeService, TaskGroupService, Cartogr
 import { config } from 'src/config';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, pipe, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { NgTemplateNameDirective } from './ng-template-name.directive';
 import { threadId } from 'worker_threads';
 import { forEach } from 'jszip';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -18,50 +19,6 @@ import { forEach } from 'jszip';
   styleUrls: ['./task-form.component.scss'],
 })
 export class TaskFormComponent implements OnInit {
-
-
-  taskForm: FormGroup;
-  taskToEdit;
-  formElements = [];
-  dataLoaded = false;
-  taskID = 1;
-  themeGrid: any = config.agGridTheme;
-  getAlls = [];
-  columnDefsTables = [];
-  taskType;
-  properties;
-  //codeLists
-  codeListsMap: Map<string, Array<any>> = new Map<string, Array<any>>();
-
-  //Events data grid
-  addelements= [];
-
-  //Form tables
-  forms = [];
-  tableFormElements = [];
-  keysForms = [];
-  valuesForms = [];
-  templateRefs = [];
-  @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
-  // @ViewChild('newPopupFormDialog',{
-  //   static: true
-  // }) private newPopupFormDialog: TemplateRef <any>;
-
-  //Selector tables
-  taskGroups: Array<any> = [];
-  taskGroupsNeeded: boolean = false;
-  taskUIs: Array<any> = [];
-  taskUIsNeeded: boolean = false;
-  wfsServices: Array<any> = [];
-  wfsServicesNeeded: boolean = false;
-  fmeServices: Array<any> = [];
-  fmeServicesNeeded: boolean = false;
-  locators: Array<any> = [];
-  locatorsNeeded: boolean = false;
-  cartographies: Array<any> = [];
-  cartographiesNeeded: boolean = false;
-  connections: Array<any> = [];
-  connectionsNeeded: boolean = false;
 
 
 
@@ -403,6 +360,52 @@ export class TaskFormComponent implements OnInit {
 
   
 
+  taskForm: FormGroup;
+  taskToEdit;
+  formElements = [];
+  dataLoaded = false;
+  taskID = 1;
+  themeGrid: any = config.agGridTheme;
+  getAlls = [];
+  columnDefsTables = [];
+  taskTypeName;
+  taskType
+  properties;
+  //codeLists
+  codeListsMap: Map<string, Array<any>> = new Map<string, Array<any>>();
+  tasksMap: Map<string, Array<any>> = new Map<string, Array<any>>();
+
+  //Events data grid
+  addelements= [];
+
+  //Form tables
+  forms = [];
+  tableFormElements = [];
+  keysForms = [];
+  valuesForms = [];
+  templateRefs = [];
+  @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
+  // @ViewChild('newPopupFormDialog',{
+  //   static: true
+  // }) private newPopupFormDialog: TemplateRef <any>;
+
+  //Selector tables
+  taskGroups: Array<any> = [];
+  taskGroupsNeeded: boolean = false;
+  taskUIs: Array<any> = [];
+  taskUIsNeeded: boolean = false;
+  wfsServices: Array<any> = [];
+  wfsServicesNeeded: boolean = false;
+  fmeServices: Array<any> = [];
+  fmeServicesNeeded: boolean = false;
+  locators: Array<any> = [];
+  locatorsNeeded: boolean = false;
+  cartographies: Array<any> = [];
+  cartographiesNeeded: boolean = false;
+  connections: Array<any> = [];
+  connectionsNeeded: boolean = false;
+
+
   constructor(
         public dialog: MatDialog,
         public utils: UtilsService,
@@ -416,8 +419,15 @@ export class TaskFormComponent implements OnInit {
         private http: HttpClient,
         private codeListService: CodeListService,
         private territoryService: TerritoryService,
-        private taskTypeService: TaskTypeService
+        private taskTypeService: TaskTypeService,
+        public activatedRoute:ActivatedRoute,
+        public router: Router,
         ) {
+
+          this.activatedRoute.params.subscribe(params => {
+            this.taskID = +params.id;
+          })
+
 
   }
 
@@ -428,7 +438,7 @@ export class TaskFormComponent implements OnInit {
     });
   }
 
-  async getCodeListValue(queryParams){
+  async setDynamicSelectorValue(queryParams, data, mapKey){
     let params2: HalParam[] = [];
     let keys= Object.keys(queryParams);
     keys.forEach(key => {
@@ -437,38 +447,43 @@ export class TaskFormComponent implements OnInit {
     });
 
     let query: HalOptions = { params: params2 };
-
-    let result = await this.codeListService.getAll(query).toPromise();
-    this.codeListsMap.set(queryParams.codeListName, result);
+    let result;
+    if(data=="codelist-values"){
+      result = await this.codeListService.getAll(query).toPromise();
+      this.codeListsMap.set(mapKey, result);
+    }
+    else if(data=="tasks"){
+      result = await this.taskService.getAll(query).toPromise();
+      this.tasksMap.set(mapKey, result);
+    }
 
   }
 
   async initializeNonCodelistSelectors(){
 
-
     let tmpTable;
 
-    if(this.taskGroupsNeeded){
+    if(this.taskGroupsNeeded && this.taskGroups.length < 1){
       tmpTable = await  this.taskGroupService.getAll().toPromise()
       this.taskGroups.push(...tmpTable)
     }
 
-    if(this.taskUIsNeeded){
+    if(this.taskUIsNeeded && this.taskUIs.length < 1){
       tmpTable = await  this.taskUIService.getAll().toPromise()
       this.taskUIs.push(...tmpTable)
     }
 
-    if(this.cartographiesNeeded){
+    if(this.cartographiesNeeded  && this.cartographies.length < 1){
       tmpTable = await  this.cartographyService.getAll().toPromise()
       this.cartographies.push(...tmpTable)   
     }
 
-    if(this.connectionsNeeded){
+    if(this.connectionsNeeded  && this.connections.length < 1){
       tmpTable = await  this.connectionService.getAll().toPromise()
       this.connections.push(...tmpTable)   
     }
 
-    if(this.wfsServicesNeeded){
+    if(this.wfsServicesNeeded && this.wfsServices.length < 1){
       await this.serviceService.getAll().map((resp) => {
         let wfsServices = [];
         resp.forEach(service => {
@@ -478,7 +493,7 @@ export class TaskFormComponent implements OnInit {
       }).toPromise();
     }
 
-    if(this.fmeServicesNeeded){
+    if(this.fmeServicesNeeded  && this.fmeServices.length < 1){
       await this.serviceService.getAll().map((resp) => {
         let fmeServices = [];
         resp.forEach(service => {
@@ -489,7 +504,7 @@ export class TaskFormComponent implements OnInit {
       }).toPromise()
     }
 
-    if(this.locatorsNeeded){
+    if(this.locatorsNeeded && this.locators.length < 1){
       let taskTypeID=config.tasksTypes['report'];
       let params2:HalParam[]=[];
       let param:HalParam={key:'type.id', value:taskTypeID}
@@ -503,9 +518,27 @@ export class TaskFormComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.taskType= await this.taskTypeService.get(1).toPromise()
+    // this.taskType= await this.taskTypeService.get(6).toPromise()
+    // this.properties=this.taskType.specification;
+
+    this.taskToEdit= await this.taskService.get(this.taskID).toPromise();
+    var urlReq = `${this.taskToEdit._links.type.href}`
+    if (this.taskToEdit._links.type.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+
+    this.taskType=await this.http.get(urlReq).toPromise();
     this.properties=this.taskType.specification;
-    console.log(this.properties);
+
+
+
+
+    // this.taskType= await this.taskTypeService.getAll().pipe(map((data: any[]) => data.filter(elem => elem.title==this.taskTypeName))).toPromise();
+    // console.log(this.taskType);
+    // this.properties=this.taskType[0].specification;
+
 
     
 
@@ -517,11 +550,12 @@ export class TaskFormComponent implements OnInit {
       for(let i=0; i< keys.length; i++){
         this.formElements.push({fieldName:keys[i], values:values[i]})
         if(values[i][`control`] === "selector"){
-          if(values[i][`selector`][`data`] === "codelist-values")
+          if(values[i][`selector`][`queryParams`])
           {
-            await this.getCodeListValue(values[i][`selector`][`queryParams`])
+            await this.setDynamicSelectorValue(values[i][`selector`][`queryParams`], values[i][`selector`][`data`], values[i][`label`])
           }
           else{
+            console.log(values[i][`selector`][`data`])
             this.setSelectorToNeeded(values[i][`selector`][`data`])
           }
         }
@@ -551,17 +585,17 @@ export class TaskFormComponent implements OnInit {
             currentFormElements.push({fieldName:keysFormPopup[i], values:valuesFormPopup[i]})
             if(valuesFormPopup[i][`control`] === "selector")
             {
-              if(valuesFormPopup[i][`selector`][`data`] === "codelist-values")
+              if(valuesFormPopup[i][`selector`][`queryParams`])
               {
-                this.getCodeListValue(valuesFormPopup[i][`selector`][`queryParams`])
+                await this.setDynamicSelectorValue(valuesFormPopup[i][`selector`][`queryParams`], valuesFormPopup[i][`selector`][`data`], values[i][`label`])
               }
               else{
-                this.setSelectorToNeeded(valuesFormPopup[i][`selector`][`data`])
+                this.setSelectorToNeeded(valuesFormPopup[i][`selector`][`data`]);
+                await this.initializeNonCodelistSelectors();
               }
 
             } 
           }
-          await this.initializeNonCodelistSelectors();
           this.tableFormElements.push(currentFormElements)
           formPopup=this.initializeForm(keysFormPopup,valuesFormPopup, true);
           console.log(formPopup);
@@ -575,38 +609,30 @@ export class TaskFormComponent implements OnInit {
         }
 
       };
+      await this.initializeNonCodelistSelectors();
       this.taskForm=this.initializeForm(keys,values);
 
-        //Promises
+      let taskKeys=Object.keys( this.taskToEdit);
+      taskKeys.forEach(key => {
+        if(this.taskForm.get(key) != null){
+          
+          this.taskForm.get(key).setValue( this.taskToEdit[key])
+        }
+        else{
+          this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
+        }
+      });
+      this.dataLoaded=true;
 
-
-        this.taskService.get(1).subscribe(
-          resp => {
-            console.log(resp);
-            this.taskToEdit = resp;
-            let tmp= {
-              name: "NAME",
-              group: 11
-            }
-            let taskKeys=Object.keys(tmp);
-            // taskKeys.forEach(key => {
-            //   if(this.taskForm.get(key) != null){
-                
-            //     this.taskForm.get(key).setValue(tmp[key])
-            //   }
-            //   else{
-            //     this.taskForm.addControl(key,new FormControl(tmp[key],[]));
-            //   }
-            // });
-            this.dataLoaded=true;
-
-
-
-          })
 
     }
 
     console.log(this.properties.form)
+  }
+
+  getAllRowsTable(data: any[], index )
+  {
+      console.log(data);
   }
 
 
@@ -615,17 +641,17 @@ export class TaskFormComponent implements OnInit {
     for(let i=0; i< keys.length; i++){
       const key= keys[i];
       let value = null;
-      if(values[i].hidden) { value=values[i].value }
-      else if(values[i].control==="checkbox") {value=false}
-      else if(values[i].control==="enum" && popupForm) { value=values[i].enum.elements[0].value  }
-      else if(values[i].control==="selector"){
-        if(values[i].selector.data === 'codelist-values'){
-          value=this.getDataCodeListSelector(values[i].selector.queryParams.codeListName)[0][values[i].selector.value];
-        }
+      if(values[i].control==="selector"){
+        if(values[i].selector.queryParams){
+            value=this.getDataDynamicSelectors(values[i].selector.data, values[i].label)[0][values[i].selector.value];        }
         else{
-          value=this.getDataSelector(values[i].selector.data)[0][values[i].selector.value]
+          value=this.getDataFixedSelectors(values[i].selector.data)[0][values[i].selector.value]
         }
       }
+      else if(values[i].hidden) { value=values[i].value }
+      else if(values[i].control==="checkbox") {value=false}
+      else if(values[i].control==="enum" && popupForm) { value=values[i].enum.elements[0].value  }
+
   
       // if(values[i].required){
       //   form.addControl(key,new FormControl(value,[Validators.required]));
@@ -651,21 +677,8 @@ export class TaskFormComponent implements OnInit {
     else if(selector=="connection") { this.connectionsNeeded = true }
   }
 
-  getCompleteValueFromSelector(selector, id, field, codelist: boolean){
-      let completeValue;
-      if(codelist){
-        completeValue= this.getDataCodeListSelector(selector)
-      }
-      else{
-        completeValue= this.getDataSelector(selector).filter(element => element[field] == id )
-      }
-      if(completeValue == undefined) { completeValue = null }
-
-      return completeValue;
-  }
 
   getFieldWithCondition(condition, table, fieldResult, form){
-   
     if(table == undefined) { return false; }
 
     if(condition == undefined || !Array.isArray(table)) {
@@ -691,22 +704,43 @@ export class TaskFormComponent implements OnInit {
     console.log(this.taskForm.value);
   }
 
-  getDataSelector(data){
 
-        
-        if(data=="taskGroup"){ return this.taskGroups }
-        else if(data=="taskUi") { return this.taskUIs }
-        else if(data=="wfsServices") { return this.wfsServices }
-        else if(data=="fmeServices") { return this.fmeServices }
-        else if(data=="this.locators") { return this.locators }
-        else if(data=="cartographies") { return this.cartographies }
-        else if(data=="connection") { return this.connections }
+  getDataSQLElement(value, pattern){
+    if(!this.taskForm.get(value).value) { return [] };
+    let regex=new RegExp("[${]+[\\w\\d]+[}]", "g")
+    let sentence: string=this.taskForm.get(value).value;
+    return sentence.match(regex);
+  }
+
+
+  getDataSelector(data, queryParams, label){
+    if(queryParams){
+        return this.getDataDynamicSelectors(data, label)
+    }
+    else{
+        return this.getDataFixedSelectors(data);
+    }
         
 
   }
 
-  getDataCodeListSelector(data){
-    return this.codeListsMap.get(data);
+  getDataFixedSelectors(data){
+    if(data=="taskGroup"){ return this.taskGroups }
+    else if(data=="taskUi") { return this.taskUIs }
+    else if(data=="wfsServices") { return this.wfsServices }
+    else if(data=="fmeServices") { return this.fmeServices }
+    else if(data=="this.locators") { return this.locators }
+    else if(data=="cartographies") { return this.cartographies }
+    else if(data=="connection") { return this.connections }
+  }
+
+  getDataDynamicSelectors(data, field){
+    if(data=='codelist-values'){
+      return this.codeListsMap.get(field);
+    }
+    if(data=='tasks'){
+      return this.tasksMap.get(field);
+    }
   }
 
   onPopupDeleteButtonClicked(field){

@@ -18,346 +18,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class TaskFormComponent implements OnInit {
 
-
-
-  // properties = { 
-  //   "form":{
-  //     "label": "tasksEntity.generalData",
-  //     "elements": {
-  //       "type": { 
-  //         "hidden": true, 
-  //         "value": 1,
-  //         "required":true
-  //       },
-  //       "name": { 
-  //         "label": "tasksEntity.name", 
-  //         "control": "input", 
-  //         "required":false
-  //       }, 
-  //       "scope": {
-  //         "label": "tasksEntity.typeDocument",
-  //         "control": "selector",
-  //         "selector":{
-  //             "data":"codelist-values",
-  //             "queryParams": {
-  //                 "codeListName":"downloadTask.scope",
-  //                 "projection": "view"
-  //             },
-  //             "name": "description",
-  //             "value": "value",
-  //         },
-  //         "required":true
-  //       },
-  //       // "checkbox": { 
-  //       //   "label": "tasksEntity.checkbox", 
-  //       //   "control": "checkbox", 
-  //       // }, 
-  //       // "provaRadio": { 
-  //       //   "label": "tasksEntity.type", 
-  //       //   "control": "enum", 
-  //       //   "enum": 
-  //       //     { 
-  //       //       "list": "tasksEntity.type", 
-  //       //       "elements": [ 
-  //       //         {
-  //       //           "label": "tasksEntity.fix",
-  //       //           "value": "VALOR"
-  //       //         }, 
-  //       //         {
-  //       //           "label": "tasksEntity.user",
-  //       //           "value": "FITRO"
-  //       //         }, 
-  //       //         {
-  //       //           "label": "tasksEntity.dataInput",
-  //       //           "value": "DATATYPE"
-  //       //         }
-  //       //       ] 
-  //       //     }
-  //       // },
-  //       "provaGon": {
-  //         "condition": "name",
-  //         "label": [
-  //           {
-  //           "name": "VALOR",
-  //           "text": "tasksEntity.value"
-  //           },	
-  //           {
-  //           "name": "FITRO",	
-  //           "text": "tasksEntity.filterText"
-  //           },			
-  //           {
-  //           "name": "DATATYPE",	
-  //           "text": "tasksEntity.formatDataInput"
-  //           }
-  //         ],							
-  //         "control": "input",
-  //         "required": true
-  //       }, 
-  //       "group": { 
-  //         "label": "tasksEntity.group", 
-  //         "control": "selector", 
-  //         "selector":{
-  //           "data":"taskGroup",
-  //           "name": "name",
-  //           "value": "id",
-  //         },
-  //         "required":true
-  //       }, 
-  //       "ui": { 
-  //         "label": "tasksEntity.ui", 
-  //         "control": "selector",
-  //         "selector":{
-  //           "data":"taskUi",
-  //           "name": "name",
-  //           "value": "id",
-  //         },
-  //         "required":true
-  //       }, 
-  //       "cartography": { 
-  //         "label": "tasksEntity.cartography", 
-  //         "control": "selectorPopup", 
-  //         "selectorPopup":{
-  //           "data":"cartography",
-  //           "value":"name",
-  //           "columns":{
-  //             "id": {
-  //               "label":"tasksEntity.id",
-  //               "editable": "false",
-  //             },
-  //             "name": {
-  //               "label":"tasksEntity.name",
-  //               "editable": "false"
-  //             }
-  //           }
-  //         },
-  //         "required":true
-  //       }
-  //     },
-  //   },
-  //   "tables":
-  //     [
-  //       {
-  //         "link":"roles",
-  //         "label": "tasksEntity.parameters",
-  //         "columns" : {
-  //           "id": {
-  //             "label":"tasksEntity.id",
-  //             "editable": "false",
-  //           },            
-  //           "name": { 
-  //             "label": "tasksEntity.parameter", 
-  //             "editable": "false,"
-  //           },
-  //         },
-  //         "controlAdd": {
-  //           "control":"formPopup",
-  //           "label": "tasksEntity.paramData",			
-  //           "elements":{
-  //             "scope": {
-  //               "label": "tasksEntity.typeDocument",
-  //               "control": "selector",
-  //               "selector":{
-  //                   "data":"codelist-values",
-  //                   "queryParams": {
-  //                       "codeListName":"queryTask.scope",
-  //                       "projection": "view"
-  //                   },
-  //                   "name": "description",
-  //                   "value": "value",
-  //               },
-  //               "required":true
-  //             },
-  //             "type": { 
-  //               "label": "tasksEntity.type", 
-  //               "control": "enum", 
-  //               "enum": 
-  //                 { 
-  //                   "list": "tasksEntity.type", 
-  //                   "elements": [ 
-  //                     {
-  //                       "label": "tasksEntity.fix",
-  //                       "value": "VALOR"
-  //                     }, 
-  //                     {
-  //                       "label": "tasksEntity.user",
-  //                       "value": "FITRO"
-  //                     }, 
-  //                     {
-  //                       "label": "tasksEntity.dataInput",
-  //                       "value": "DATATYPE"
-  //                     }
-  //                   ] 
-  //                 }
-  //             },
-  //             "name": { 
-  //               "label":"tasksEntity.paramURL", 
-  //               "control": "input",
-  //               "required":true,
-  //             },
-  //             "value": {
-  //               "condition": "type",
-  //               "label": [
-  //                 {
-  //                 "type": "VALOR",
-  //                 "text": "tasksEntity.value"
-  //                 },	
-  //                 {
-  //                 "type": "FITRO",	
-  //                 "text": "tasksEntity.filterText"
-  //                 },			
-  //                 {
-  //                 "type": "DATATYPE",	
-  //                 "text": "tasksEntity.formatDataInput"
-  //                 }
-  //               ],							
-  //               "control": "input",
-  //               "required": true
-  //             }, 
-  //             "order": { 
-  //               "label": "tasksEntity.order", 
-  //               "control": "input"
-  //             }
-  //           }	
-  //         }
-  //       },
-  //       { 
-  //         "link":"roles",
-  //         "label": "tasksEntity.roles", 
-  //         "controlAdd": {
-  //           "control":"selectorPopup",
-  //           "data":"roles", 
-  //           "columns":{
-  //             "id": {
-  //               "label":"tasksEntity.id",
-  //               "editable": "false",
-  //             },
-  //             "name": { 
-  //               "label": "tasksEntity.name", 
-  //               "editable": "false,"
-  //             },
-  //           }
-  //         },
-  //         "columns" : {
-  //           "id": {
-  //             "label":"tasksEntity.id",
-  //             "editable":"true"
-  //           },
-  //           "name": { 
-  //             "label": "tasksEntity.name", 
-  //             "editable": "false,"
-  //           },
-  //         }
-  //       },	
-  //       { 
-  //         "link":"roles",
-  //         "label": "tasksEntity.roles", 
-  //         "controlAdd": {
-  //           "control":"selectorPopup",
-  //           "data":"availabilities", 
-  //           "columns":{
-  //             "id": {
-  //               "label":"tasksEntity.id",
-  //               "editable":"true"
-  //             }
-  //           }
-  //         } ,
-  //         "columns" : {
-  //           "id": {
-  //             "label":"tasksEntity.id",
-  //             "editable": "false",
-  //           },            
-  //           "name": { 
-  //             "label": "tasksEntity.parameter", 
-  //             "editable": "false,"
-  //           },
-  //         }					
-  //       }, 
-  //       {
-  //         "link":"roles",
-  //         "label": "tasksEntity.parameters",
-  //         "columns" : {
-  //           "id": {
-  //             "label":"tasksEntity.id",
-  //             "editable": "false",
-  //           },            
-  //           "name": { 
-  //             "label": "tasksEntity.parameter", 
-  //             "editable": "false,"
-  //           },
-  //         },
-  //         "controlAdd": {
-  //           "control":"formPopup",
-  //           "label": "tasksEntity.paramData",			
-  //           "elements":{
-  //             "type": { 
-  //               "label": "tasksEntity.type", 
-  //               "control": "enum", 
-  //               "enum": 
-  //                 { 
-  //                   "list": "tasksEntity.type", 
-  //                   "elements": [ 
-  //                     {
-  //                       "label": "tasksEntity.fix",
-  //                       "value": "VALOR"
-  //                     }, 
-  //                     {
-  //                       "label": "tasksEntity.user",
-  //                       "value": "FITRO"
-  //                     }, 
-  //                     {
-  //                       "label": "tasksEntity.dataInput",
-  //                       "value": "DATATYPE"
-  //                     }
-  //                   ] 
-  //                 }
-  //             },
-  //             "name": { 
-  //               "label":"tasksEntity.paramURL", 
-  //               "control": "input",
-  //               "required":true,
-  //             },
-  //             "value": {
-  //               "condition": "type",
-  //               "label": [
-  //                 {
-  //                 "type": "VALOR",
-  //                 "text": "tasksEntity.value"
-  //                 },	
-  //                 {
-  //                 "type": "FITRO",	
-  //                 "text": "tasksEntity.filterText"
-  //                 },			
-  //                 {
-  //                 "type": "DATATYPE",	
-  //                 "text": "tasksEntity.formatDataInput"
-  //                 }
-  //               ],							
-  //               "control": "input",
-  //               "required": true
-  //             }, 
-  //             "scope": {
-  //               "label": "tasksEntity.typeDocument",
-  //               "control": "selector",
-  //               "selector":{
-  //                   "data":"codelist-values",
-  //                   "queryParams": {
-  //                       "codeListName":"downloadTask.scope",
-  //                       "projection": "view"
-  //                   },
-  //                   "name": "description",
-  //                   "value": "value",
-  //               },
-  //               "required":true
-  //             },
-  //           }	
-  //         }
-  //       },
-      
-  //     ]
-  //   }
-
-  
-
   taskForm: FormGroup;
   taskToEdit;
   formElements = [];
@@ -376,6 +36,10 @@ export class TaskFormComponent implements OnInit {
 
   //Events data grid
   addelements= [];
+  getAllElementsEvent = [];
+  //Table's arrays
+  sqlElementModification = [];
+
 
   //Form tables
   forms = [];
@@ -383,6 +47,7 @@ export class TaskFormComponent implements OnInit {
   keysForms = [];
   valuesForms = [];
   templateRefs = [];
+  formSQLElement = [];
   @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
   // @ViewChild('newPopupFormDialog',{
   //   static: true
@@ -556,11 +221,16 @@ export class TaskFormComponent implements OnInit {
 
 
       let getAll;
+      let index= -1;
       for(const table of this.properties.tables){
+        index++;
         getAll= () => this.getDataTableByLink(table.link)
         this.getAlls.push(getAll)  
         let addElementsEvent: Subject<any[]> = new Subject<any[]>();
+        let getAllElements: Subject<boolean> = new Subject <boolean>();
         this.addelements.push(addElementsEvent);
+        this.getAllElementsEvent.push(getAllElements)
+        this.sqlElementModification.push({modifications: false, element: null, tableElements: []});
         let columnDefs= this.generateColumnDefs(table.columns,true,true);
         this.columnDefsTables.push(columnDefs);
 
@@ -573,6 +243,7 @@ export class TaskFormComponent implements OnInit {
           this.valuesForms.push(valuesFormPopup);
 
           let currentFormElements = [];
+          let currentlySqlElement = null;
           for(let i=0; i< keysFormPopup.length; i++){
             currentFormElements.push({fieldName:keysFormPopup[i], values:valuesFormPopup[i]})
             if(valuesFormPopup[i][`control`] === "selector")
@@ -587,7 +258,14 @@ export class TaskFormComponent implements OnInit {
               }
 
             } 
+            if(valuesFormPopup[i][`control`] === "enumBySQLElement") {
+               currentlySqlElement=valuesFormPopup[i][`element`] 
+               this.sqlElementModification[index].element=keysFormPopup[i];
+              }
+
+
           }
+          this.formSQLElement.push(currentlySqlElement)
           this.tableFormElements.push(currentFormElements)
           formPopup=this.initializeForm(keysFormPopup,valuesFormPopup, true);
           console.log(formPopup);
@@ -598,6 +276,7 @@ export class TaskFormComponent implements OnInit {
           this.valuesForms.push(null);
           this.tableFormElements.push(null)
           this.forms.push(null)
+          this.formSQLElement.push(null)
         }
 
       };
@@ -607,10 +286,14 @@ export class TaskFormComponent implements OnInit {
       if(this.taskID!= -1){   
         this.taskService.get(this.taskID).subscribe(result => {
           this.taskToEdit=result;
-          this.setTaskValues();        
+          this.setTaskValues();    
+          this.dataLoaded=true;    
         });
       }
-      this.dataLoaded=true;
+      else{
+        this.dataLoaded=true;    
+      }
+      
 
 
     }
@@ -618,7 +301,15 @@ export class TaskFormComponent implements OnInit {
 
   getAllRowsTable(data: any[], index )
   {
-      console.log(data);
+    if(this.sqlElementModification[index].modifications){
+      let result = [];
+      for (const element of data) {
+        result.push(element[this.sqlElementModification[index].element])
+      }
+      this.sqlElementModification[index].tableElements=result;
+      this.sqlElementModification[index].modifications=false;
+
+    }
   }
 
 
@@ -723,11 +414,17 @@ export class TaskFormComponent implements OnInit {
   }
 
 
-  getDataSQLElement(value, pattern){
+  getDataSQLElement(value, pattern, index){
     if(!this.taskForm.get(value).value) { return [] };
     let regex=new RegExp("[${]+[\\w\\d]+[}]", "g")
     let sentence: string=this.taskForm.get(value).value;
-    return sentence.match(regex);
+    let coincidences=sentence.match(regex)
+    if(this.sqlElementModification[index].tableElements.length>0)
+    {
+      coincidences = coincidences.filter(element =>  !this.sqlElementModification[index].tableElements.includes(element) )
+    }
+    return coincidences;
+    
   }
 
 
@@ -800,7 +497,6 @@ export class TaskFormComponent implements OnInit {
   }
 
   openPopupFormDialog(index, label){
-    console.log(this.templateRefs)
     console.log( this.templates.find(dir => dir.name === index))
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived=this.templates.find(dir => dir.name === index).template;
@@ -810,19 +506,23 @@ export class TaskFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if(result.event==='Add') {
-          // let item= this.parameterForm.value;
-          // this.addElementsEventParameters.next([item])
-          // console.log(this.parameterForm.value)
-
           this.addelements[index].next([this.forms[index].value])
+          if(this.formSQLElement[index] !== null ){
+            this.sqlElementModification[index].modifications=true;
+            this.getAllElementsEvent[index].next(true)
+          }
           
         }
       }
       this.forms[index].reset();
       this.forms[index]= this.initializeForm(this.keysForms[index], this.valuesForms[index], true)
 
+
+
     });
   }
+
+
 
 
 
@@ -836,7 +536,7 @@ export class TaskFormComponent implements OnInit {
   }
 
   getDataTableByLink= (link): Observable<any> =>{
-    if (this.taskID == -1 || !this.taskToEdit._links[link]) {
+    if (this.taskID == -1 || !this.taskToEdit ||!this.taskToEdit._links[link]) {
       const aux: Array<any> = [];
       return of(aux);
     }

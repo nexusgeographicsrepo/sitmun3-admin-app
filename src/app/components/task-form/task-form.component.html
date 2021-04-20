@@ -152,6 +152,7 @@
                         [addButton]="table.controlAdd.control!=='formPopup'"
                         [hideDuplicateButton]="table.controlAdd.control!=='formPopup'"
                         [eventAddItemsSubscription]='addelements[i].asObservable()'
+                        [eventGetAllRowsSubscription]='getAllElementsEvent[i].asObservable()'
                         defaultColumnSorting="order"
                         (add)="openPopupDialog(null, table.controlAdd.data, table.controlAdd.columns, table.label, true, false, false, i)"
                         (new)="openPopupFormDialog(i, table.label)" (getAllRows)="getAllRowsTable($event, i)">
@@ -229,7 +230,7 @@
                         <mat-select  matInput [formControlName]=element.fieldName
                         [required]="getFieldWithCondition(element.values.condition, element.values.required, 'required', form )" class="form-control">
                             <mat-option [value]="dataElement"
-                                *ngFor="let dataElement of getDataSQLElement(element.values.element, element.values.patternToSearch)">
+                                *ngFor="let dataElement of getDataSQLElement(element.values.element, element.values.patternToSearch, i)">
                                 {{ dataElement}}
                             </mat-option>
                         </mat-select>

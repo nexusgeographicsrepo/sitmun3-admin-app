@@ -623,6 +623,7 @@ class DataGridComponent {
             if (item.id == undefined || (this.rowData.find(element => element.id === item.id)) == undefined) {
                 if (this.statusColumn) {
                     item.status = 'pendingCreation';
+                    item.newItem = true;
                 }
                 itemsToAdd.push(item);
                 this.rowData.push(item);
@@ -756,7 +757,12 @@ class DataGridComponent {
         if (this.statusColumn) {
             this.gridApi.forEachNode(function (node) {
                 if (node.data.status === 'pendingModify' || node.data.status === 'pendingDelete') {
-                    node.data.status = 'statusOK';
+                    if (node.data.newItem) {
+                        node.data.status = 'pendingCreation';
+                    }
+                    else {
+                        node.data.status = 'statusOK';
+                    }
                 }
                 console.log(node);
             });

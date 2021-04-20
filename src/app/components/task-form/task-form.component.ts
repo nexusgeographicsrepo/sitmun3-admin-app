@@ -20,6 +20,7 @@ export class TaskFormComponent implements OnInit {
 
   taskForm: FormGroup;
   taskToEdit;
+  savedTask;
   formElements = [];
   dataLoaded = false;
   taskID = 1;
@@ -318,7 +319,7 @@ export class TaskFormComponent implements OnInit {
     for(let i=0; i< keys.length; i++){
       const key= keys[i];
       let value = null;
-      if(values[i].control==="selector"){
+      if(values[i].control==="selector" && (this.taskID== -1 || popupForm) ){
         if(values[i].selector.queryParams){
             value=this.getDataDynamicSelectors(values[i].selector.data, values[i].label)[0][values[i].selector.value];        
         }
@@ -347,33 +348,35 @@ export class TaskFormComponent implements OnInit {
   setTaskValues(){
     let taskKeys=Object.keys( this.taskToEdit);
     taskKeys.forEach(key => {
-
-      if(this.taskForm.get(key) == null){
-        this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
+      let keySpecification = this.properties.form.elements[key]
+      if(!keySpecification){
+        if(!config.taskSelectorFieldsForm[key] || !this.properties.form.elements[config.taskSelectorFieldsForm[key]] ){
+          this.taskForm.addControl(key,new FormControl( this.taskToEdit[key],[]));
+        }
+        else{
+          keySpecification = this.properties.form.elements[config.taskSelectorFieldsForm[key]]
+          if(keySpecification.control==="selector"){
+            this.taskForm.get(config.taskSelectorFieldsForm[key]).setValue( this.taskToEdit[key])
+          }
+        }
       }
       else{
-        // if(!this.keyIsFromSelector(key)){
           this.taskForm.get(key).setValue( this.taskToEdit[key])
-        // }
       }
     });
 
   }
 
-  keyIsFromSelector(key){
-    if(key == "groupId") {
-      if(this.taskForm.get("group") != null){
-        this.taskForm.get("group").setValue( this.taskToEdit[key])
-      }
-    }
-    else{
-      return false;
-    }
-
-    return true;
-
-
-  }
+  // setSelectorValueWithProjection(key, keySpecification){
+  //   let data = null;
+  //   let formField = config.taskSelectorFieldsData[key];
+  //   data= this.getDataSelector(formField, keySpecification.selector.queryParams, keySpecification.label)
+  //   let value=data.find(element => element[keySpecification.selector.value] === this.taskToEdit[key])
+  //   this.taskForm.get(config.taskSelectorFieldsForm[key]).setValue(value[keySpecification.selector.value]) 
+    
+    
+  //   // this.taskForm.get(key).setValue(this.taskToEdit[key])
+  // }
 
 
   setSelectorToNeeded(selector){
@@ -410,7 +413,27 @@ export class TaskFormComponent implements OnInit {
  
 
   onSaveButtonClicked(){
-    console.log(this.taskForm.value);
+    this.savedTask = this.taskForm.value
+    this.savedTaskTreatment(this.savedTask)
+    console.log(this.savedTask);
+  }
+
+  savedTaskTreatment(taskSaved){
+    let keys= Object.keys(taskSaved)
+
+    keys.forEach(key => {
+      let keySpecification = this.properties.form.elements[key]
+      if(keySpecification){
+
+        if(keySpecification.control == "selector"){
+          console.log(key);
+          let data=this.getDataSelector(keySpecification.selector.data, keySpecification.selector.queryParams, keySpecification.label)
+          taskSaved[key]=data.find(element => element[keySpecification.selector.value] === taskSaved[key])
+        }
+
+      }
+      
+    });
   }
 
 

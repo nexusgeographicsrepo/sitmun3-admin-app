@@ -903,6 +903,7 @@
                 if (item.id == undefined || (_this.rowData.find(function (element) { return element.id === item.id; })) == undefined) {
                     if (_this.statusColumn) {
                         item.status = 'pendingCreation';
+                        item.newItem = true;
                     }
                     itemsToAdd.push(item);
                     _this.rowData.push(item);
@@ -1059,7 +1060,12 @@
             if (this.statusColumn) {
                 this.gridApi.forEachNode(function (node) {
                     if (node.data.status === 'pendingModify' || node.data.status === 'pendingDelete') {
-                        node.data.status = 'statusOK';
+                        if (node.data.newItem) {
+                            node.data.status = 'pendingCreation';
+                        }
+                        else {
+                            node.data.status = 'statusOK';
+                        }
                     }
                     console.log(node);
                 });

@@ -334,7 +334,8 @@ export class TaskFormComponent implements OnInit {
   restoreElementsSqlSelector(data:any[], index){
     let sqlElement = this.sqlElementModification[index];
     data.forEach(element => {
-      sqlElement.tableElements.splice(element[this.sqlElementModification[index].element].value,1)
+      let elementIndex=sqlElement.tableElements.findIndex(tableElement => tableElement === element[sqlElement.element])
+      sqlElement.tableElements.splice(elementIndex,1)
     });
   }
 
@@ -470,7 +471,7 @@ export class TaskFormComponent implements OnInit {
   onSaveButtonClicked(){
     if(this.taskForm.valid)
     {
-      this.savedTask = this.taskForm.value
+      this.savedTask = {...this.taskForm.value}
       this.savedTaskTreatment(this.savedTask)
       let indexTextArea = this.getIndexControl("textArea");
       if(indexTextArea != -1){
@@ -481,6 +482,7 @@ export class TaskFormComponent implements OnInit {
         });
       }
       console.log(this.savedTask);
+      console.log(this.taskForm.value);
     }
     else {
       this.utils.showRequiredFieldsError();
@@ -549,11 +551,23 @@ export class TaskFormComponent implements OnInit {
     let regex=new RegExp("[${]+[\\w\\d]+[}]", "g")
     let sentence: string=this.taskForm.get(value).value;
     let coincidences=sentence.match(regex)
-    if(this.sqlElementModification[index].tableElements.length>0)
-    {
-      coincidences = coincidences.filter(element =>  !this.sqlElementModification[index].tableElements.includes(element) )
+    let coincidencesNotUsed= [];
+    let tableWithUsedElements= [...this.sqlElementModification[index].tableElements]
+    if(coincidences.length>0){
+      for (const coincidence of coincidences) {
+        let indexElement= tableWithUsedElements.findIndex(element => element === coincidence)
+        if(indexElement < 0) { coincidencesNotUsed.push(coincidence)  }
+        else{
+          tableWithUsedElements.splice(indexElement,1)
+        }
+      }
     }
-    return coincidences;
+    // if(this.sqlElementModification[index].tableElements.length>0)
+    // {
+    //   let indexElement = tableWithUsedElements.findIndex(element => )
+    //   coincidences = coincidences.filter(element =>  !this.sqlElementModification[index].tableElements.includes(element) )
+    // }
+    return coincidencesNotUsed;
     
   }
 

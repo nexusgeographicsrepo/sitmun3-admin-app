@@ -289,6 +289,7 @@ export class TaskFormComponent implements OnInit {
 
       if(this.taskID!= -1){   
         this.taskService.get(this.taskID).subscribe(result => {
+          console.log(result)
           this.taskToEdit=result;
           this.initializeSelectorsPopups();
           this.setTaskValues();    
@@ -693,7 +694,9 @@ export class TaskFormComponent implements OnInit {
       url.searchParams.append("projection", "view")
       urlReq = url.toString();
     }
-    return (this.http.get(urlReq)).pipe(map(data => data['_embedded'][link]));
+    let embeddedKey = link;
+    if(link == "availabilities") { embeddedKey="task-availabilities" }
+    return (this.http.get(urlReq)).pipe(map(data => data['_embedded'][embeddedKey]));
 
   }
 

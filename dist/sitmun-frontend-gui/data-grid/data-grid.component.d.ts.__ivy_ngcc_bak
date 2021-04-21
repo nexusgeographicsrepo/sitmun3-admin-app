@@ -58,6 +58,7 @@ export declare class DataGridComponent implements OnInit {
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     add: EventEmitter<number>;
+    discardChanges: EventEmitter<any[]>;
     sendChanges: EventEmitter<any[]>;
     duplicate: EventEmitter<any[]>;
     getSelectedRows: EventEmitter<any[]>;

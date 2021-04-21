@@ -23,7 +23,7 @@
     <span class="divider"></span>
 
     <div class="rowFormDiv">
-      <div class="HalfMidLargeColFormDiv">
+      <div class="FirstColFormDiv">
         <label class="formLabel requiredInput">
           {{'territoryEntity.code' | translate}}
         </label>
@@ -32,7 +32,7 @@
         </mat-form-field>
       </div>
 
-      <div class="HalfMidLargeColFormDiv">
+      <div class="LargeColFormDiv">
         <label class="formLabel requiredInput">
           {{'territoryEntity.name' | translate}}
         </label>
@@ -42,7 +42,7 @@
         </mat-form-field>
       </div>
 
-      <div class="colFormDiv">
+      <div class="LargeColFormDiv">
         <label class="formLabel">
           {{'territoryEntity.address' | translate}}
         </label>
@@ -135,7 +135,7 @@
           {{'territoryEntity.note' | translate}}
         </label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="note">
+          <textarea matInput type="text" formControlName="note"> </textarea>
         </mat-form-field>
       </div>
 

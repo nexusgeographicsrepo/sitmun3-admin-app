@@ -33,10 +33,6 @@ export const config = {
     'VISEdition': "Location view",
     'HIDDENEdition': "edicionHIDDEN",
   },
-  taskSelectorFieldsData:{
-    "groupId": "taskGroup",
-    "uiId": "taskUi"
-  },
   taskSelectorFieldsForm:{
     "groupId": "group",
     "uiId": "ui"

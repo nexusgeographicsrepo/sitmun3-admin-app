@@ -20,7 +20,7 @@ export class TaskFormComponent implements OnInit {
 
   taskForm: FormGroup;
   taskToEdit;
-  savedTask;
+
   formElements = [];
   dataLoaded = false;
   taskID = 1;
@@ -50,9 +50,12 @@ export class TaskFormComponent implements OnInit {
   templateRefs = [];
   formSQLElement = [];
   @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
-  // @ViewChild('newPopupFormDialog',{
-  //   static: true
-  // }) private newPopupFormDialog: TemplateRef <any>;
+
+
+  //Save
+  saveButtonClicked = false;
+  savedTask;
+ 
 
   //Selector tables
   taskGroups: Array<any> = [];
@@ -231,7 +234,7 @@ export class TaskFormComponent implements OnInit {
         let getAllElements: Subject<boolean> = new Subject <boolean>();
         this.addelements.push(addElementsEvent);
         this.getAllElementsEvent.push(getAllElements)
-        this.sqlElementModification.push({modifications: false, element: null, tableElements: []});
+        this.sqlElementModification.push({modifications: false, toSave: false, element: null, mainFormElement:null, tableElements: []});
         let columnDefs= this.generateColumnDefs(table.columns,true,true);
         this.columnDefsTables.push(columnDefs);
 
@@ -287,6 +290,7 @@ export class TaskFormComponent implements OnInit {
       if(this.taskID!= -1){   
         this.taskService.get(this.taskID).subscribe(result => {
           this.taskToEdit=result;
+          this.initializeSelectorsPopups();
           this.setTaskValues();    
           this.dataLoaded=true;    
         });
@@ -302,16 +306,44 @@ export class TaskFormComponent implements OnInit {
 
   getAllRowsTable(data: any[], index )
   {
-    if(this.sqlElementModification[index].modifications){
+    let sqlElement = this.sqlElementModification[index];
+    sqlElement.tableElements=[];
+    let toSave: boolean = sqlElement.toSave;
+    if(sqlElement.modifications || sqlElement.toSave){
       let result = [];
       for (const element of data) {
-        result.push(element[this.sqlElementModification[index].element])
+        if(element.status!= "pendingDelete"){
+          result.push(element[sqlElement.element])
+          if(toSave){
+            console.log(`replace ${element[sqlElement.element]} with ${element["value"]}`)
+            this.savedTask[sqlElement.mainFormElement]= this.savedTask[sqlElement.mainFormElement].replace(element[sqlElement.element], element["value"]);
+          }
+        }
       }
-      this.sqlElementModification[index].tableElements=result;
-      this.sqlElementModification[index].modifications=false;
+      sqlElement.tableElements=result;
+      sqlElement.modifications=false;
+      sqlElement.toSave=false;
+      console.log(this.savedTask);
+
+    }
+    else{
 
     }
   }
+
+  restoreElementsSqlSelector(data:any[], index){
+    let sqlElement = this.sqlElementModification[index];
+    data.forEach(element => {
+      sqlElement.tableElements.splice(element[this.sqlElementModification[index].element].value,1)
+    });
+  }
+
+  // removeElementsSqlSelector(data:any[], index){
+  //   let sqlElement = this.sqlElementModification[index];
+  //   data.forEach(element => {
+  //     sqlElement.tableElements.push(element[sqlElement.element])
+  //   });
+  // }
 
 
   initializeForm(keys: Array<any>, values: Array<any>, popupForm?:boolean){
@@ -345,9 +377,31 @@ export class TaskFormComponent implements OnInit {
 
   }
 
-  setTaskValues(){
+  async initializeSelectorsPopups(){
+    let formKeys=Object.keys(this.properties.form.elements)
+    for (const key of formKeys) {
+      let keySpecification = this.properties.form.elements[key]
+      if(keySpecification.control==="selectorPopup"){
+        var urlReq = `${this.taskToEdit._links[key].href}`
+        if (this.taskToEdit._links[key].templated) {
+          var url = new URL(urlReq.split("{")[0]);
+          url.searchParams.append("projection", "view")
+          urlReq = url.toString();
+        }
+        urlReq="http://localhost:8080/api/cartographies/1228?projection=view"
+        let value= await (this.http.get(urlReq)).toPromise();
+        // let value= await (this.http.get(urlReq)).pipe(map(data => data['_embedded'][key])).toPromise();
+        this.taskForm.get(key).setValue(value)
+      }
+
+
+    }
+
+  }
+
+  async setTaskValues(){
     let taskKeys=Object.keys( this.taskToEdit);
-    taskKeys.forEach(key => {
+    for (const key of taskKeys) {
       let keySpecification = this.properties.form.elements[key]
       if(!keySpecification){
         if(!config.taskSelectorFieldsForm[key] || !this.properties.form.elements[config.taskSelectorFieldsForm[key]] ){
@@ -361,9 +415,10 @@ export class TaskFormComponent implements OnInit {
         }
       }
       else{
-          this.taskForm.get(key).setValue( this.taskToEdit[key])
+        let value=this.taskToEdit[key]
+        this.taskForm.get(key).setValue(value)
       }
-    });
+    };
 
   }
 
@@ -413,9 +468,62 @@ export class TaskFormComponent implements OnInit {
  
 
   onSaveButtonClicked(){
-    this.savedTask = this.taskForm.value
-    this.savedTaskTreatment(this.savedTask)
-    console.log(this.savedTask);
+    if(this.taskForm.valid)
+    {
+      this.savedTask = this.taskForm.value
+      this.savedTaskTreatment(this.savedTask)
+      let indexTextArea = this.getIndexControl("textArea");
+      if(indexTextArea != -1){
+        let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables)
+        console.log(markResult)
+        markResult.forEach(tableIndex => {
+          this.getAllElementsEvent[tableIndex].next(true)
+        });
+      }
+      console.log(this.savedTask);
+    }
+    else {
+      this.utils.showRequiredFieldsError();
+    }
+  }
+
+  getIndexControl(control){
+    let keys= Object.keys(this.properties.form.elements);
+    let i = -1;
+    for (const key of keys) {
+      i++;
+      if( this.properties.form.elements[key].control  && Array.isArray(this.properties.form.elements[key].control)){
+        for (const element of this.properties.form.elements[key].control) {
+          if(element.control==control) {
+            return i 
+         }
+        }
+      }
+      else if(this.properties.form.elements[key].control===control){
+        return i;
+      }
+    };
+    return -1;
+  }
+
+  markIndexSqlElementToBeSaved(tables){
+    let tablesMarked = [];
+    tables.forEach((table, index) => {
+      if(table.controlAdd.control=="formPopup"){
+        let keys= Object.keys(table.controlAdd.elements)
+        for(let i =0; i< keys.length; i++){
+          if(table.controlAdd.elements[keys[i]].control=="enumBySQLElement"){
+            tablesMarked.push(index);
+            this.sqlElementModification[index].toSave= true;
+            this.sqlElementModification[index].mainFormElement= table.controlAdd.elements[keys[i]].element;
+            break;
+          }
+        };
+      }
+    });
+
+    return tablesMarked;
+
   }
 
   savedTaskTreatment(taskSaved){
@@ -426,7 +534,6 @@ export class TaskFormComponent implements OnInit {
       if(keySpecification){
 
         if(keySpecification.control == "selector"){
-          console.log(key);
           let data=this.getDataSelector(keySpecification.selector.data, keySpecification.selector.queryParams, keySpecification.label)
           taskSaved[key]=data.find(element => element[keySpecification.selector.value] === taskSaved[key])
         }
@@ -532,6 +639,7 @@ export class TaskFormComponent implements OnInit {
           this.addelements[index].next([this.forms[index].value])
           if(this.formSQLElement[index] !== null ){
             this.sqlElementModification[index].modifications=true;
+            // this.sqlElementModification[index].tableElements.splice(this.forms[index].get(this.sqlElementModification[index].element).value,1)
             this.getAllElementsEvent[index].next(true)
           }
           

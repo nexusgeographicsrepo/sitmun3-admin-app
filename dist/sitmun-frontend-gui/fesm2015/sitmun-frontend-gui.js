@@ -351,6 +351,7 @@ class DataGridComponent {
         this.remove = new EventEmitter();
         this.new = new EventEmitter();
         this.add = new EventEmitter();
+        this.discardChanges = new EventEmitter();
         this.sendChanges = new EventEmitter();
         this.getSelectedRows = new EventEmitter();
         this.duplicate = new EventEmitter();
@@ -755,6 +756,8 @@ class DataGridComponent {
         //this.previousChangeCounter = 0;
         this.redoCounter = 0;
         if (this.statusColumn) {
+            /** @type {?} */
+            let rowsWithStatusModified = [];
             this.gridApi.forEachNode(function (node) {
                 if (node.data.status === 'pendingModify' || node.data.status === 'pendingDelete') {
                     if (node.data.newItem) {
@@ -763,10 +766,12 @@ class DataGridComponent {
                     else {
                         node.data.status = 'statusOK';
                     }
+                    rowsWithStatusModified.push(node.data);
                 }
                 console.log(node);
             });
             this.someStatusHasChangedToDelete = false;
+            this.discardChanges.emit(rowsWithStatusModified);
         }
         this.gridApi.redrawRows();
         //this.params.colDef.cellStyle =  {backgroundColor: '#FFFFFF'};
@@ -1004,6 +1009,7 @@ DataGridComponent.propDecorators = {
     remove: [{ type: Output }],
     new: [{ type: Output }],
     add: [{ type: Output }],
+    discardChanges: [{ type: Output }],
     sendChanges: [{ type: Output }],
     duplicate: [{ type: Output }],
     getSelectedRows: [{ type: Output }],
@@ -1113,6 +1119,8 @@ if (false) {
     DataGridComponent.prototype.new;
     /** @type {?} */
     DataGridComponent.prototype.add;
+    /** @type {?} */
+    DataGridComponent.prototype.discardChanges;
     /** @type {?} */
     DataGridComponent.prototype.sendChanges;
     /** @type {?} */

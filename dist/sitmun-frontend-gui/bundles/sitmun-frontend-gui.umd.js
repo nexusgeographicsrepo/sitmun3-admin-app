@@ -617,6 +617,7 @@
             this.remove = new core.EventEmitter();
             this.new = new core.EventEmitter();
             this.add = new core.EventEmitter();
+            this.discardChanges = new core.EventEmitter();
             this.sendChanges = new core.EventEmitter();
             this.getSelectedRows = new core.EventEmitter();
             this.duplicate = new core.EventEmitter();
@@ -1058,6 +1059,8 @@
             //this.previousChangeCounter = 0;
             this.redoCounter = 0;
             if (this.statusColumn) {
+                /** @type {?} */
+                var rowsWithStatusModified_1 = [];
                 this.gridApi.forEachNode(function (node) {
                     if (node.data.status === 'pendingModify' || node.data.status === 'pendingDelete') {
                         if (node.data.newItem) {
@@ -1066,10 +1069,12 @@
                         else {
                             node.data.status = 'statusOK';
                         }
+                        rowsWithStatusModified_1.push(node.data);
                     }
                     console.log(node);
                 });
                 this.someStatusHasChangedToDelete = false;
+                this.discardChanges.emit(rowsWithStatusModified_1);
             }
             this.gridApi.redrawRows();
             //this.params.colDef.cellStyle =  {backgroundColor: '#FFFFFF'};
@@ -1308,6 +1313,7 @@
         remove: [{ type: core.Output }],
         new: [{ type: core.Output }],
         add: [{ type: core.Output }],
+        discardChanges: [{ type: core.Output }],
         sendChanges: [{ type: core.Output }],
         duplicate: [{ type: core.Output }],
         getSelectedRows: [{ type: core.Output }],
@@ -1417,6 +1423,8 @@
         DataGridComponent.prototype.new;
         /** @type {?} */
         DataGridComponent.prototype.add;
+        /** @type {?} */
+        DataGridComponent.prototype.discardChanges;
         /** @type {?} */
         DataGridComponent.prototype.sendChanges;
         /** @type {?} */

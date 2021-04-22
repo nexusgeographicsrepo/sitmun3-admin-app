@@ -324,6 +324,9 @@ export class TaskFormComponent implements OnInit {
       sqlElement.tableElements=result;
       sqlElement.modifications=false;
       sqlElement.toSave=false;
+      if(toSave){
+        this.saveTask();
+      }
       console.log(this.savedTask);
 
     }
@@ -476,13 +479,16 @@ export class TaskFormComponent implements OnInit {
     {
       this.savedTask = {...this.taskForm.value}
       this.savedTaskTreatment(this.savedTask)
-      let indexTextArea = this.getIndexControl("textArea");
-      if(indexTextArea != -1){
+      let keyTextArea = this.getControlsModified("textArea");
+      if(keyTextArea && this.taskForm.get(keyTextArea).value ){
         let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables)
         console.log(markResult)
         markResult.forEach(tableIndex => {
           this.getAllElementsEvent[tableIndex].next(true)
         });
+      }
+      else{
+        this.saveTask();
       }
       console.log(this.savedTask);
       console.log(this.taskForm.value);
@@ -492,7 +498,7 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
-  getIndexControl(control){
+  getControlsModified(control){
     let keys= Object.keys(this.properties.form.elements);
     let i = -1;
     for (const key of keys) {
@@ -500,15 +506,15 @@ export class TaskFormComponent implements OnInit {
       if( this.properties.form.elements[key].control  && Array.isArray(this.properties.form.elements[key].control)){
         for (const element of this.properties.form.elements[key].control) {
           if(element.control==control) {
-            return i 
+            return key; 
          }
         }
       }
       else if(this.properties.form.elements[key].control===control){
-        return i;
+        return key;
       }
     };
-    return -1;
+    return null;
   }
 
   markIndexSqlElementToBeSaved(tables){
@@ -529,6 +535,26 @@ export class TaskFormComponent implements OnInit {
 
     return tablesMarked;
 
+  }
+
+  saveTask(){
+    let allChangesSaved = true;
+    //Verify that all SqlElements are saved
+    this.sqlElementModification.forEach(element => {
+      if(element.toSave || element.modifications) { allChangesSaved = false }
+    });
+    if(allChangesSaved){
+      this.taskService.save(this.savedTask).subscribe( result =>{
+        console.log(result);
+        if(this.taskForm.get("id")) { this.taskForm.get("id").setValue(result.id); }
+        else { this.taskForm.addControl("id",new FormControl(result.id,[])); }
+
+        if(this.taskForm.get("_links")) { this.taskForm.get("_links").setValue(result.id); }
+        else { this.taskForm.addControl("_links",new FormControl(result._links,[])); }
+        
+        
+      })
+    }
   }
 
   savedTaskTreatment(taskSaved){

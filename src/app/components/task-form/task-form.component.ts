@@ -336,16 +336,18 @@ export class TaskFormComponent implements OnInit {
     let sqlElement = this.sqlElementModification[index];
     data.forEach(element => {
       let elementIndex=sqlElement.tableElements.findIndex(tableElement => tableElement === element[sqlElement.element])
-      sqlElement.tableElements.splice(elementIndex,1)
+      if(elementIndex != -1){
+        sqlElement.tableElements.splice(elementIndex,1)
+      }
     });
   }
 
-  // removeElementsSqlSelector(data:any[], index){
-  //   let sqlElement = this.sqlElementModification[index];
-  //   data.forEach(element => {
-  //     sqlElement.tableElements.push(element[sqlElement.element])
-  //   });
-  // }
+  removeElementsSqlSelector(data:any[], index){
+    let sqlElement = this.sqlElementModification[index];
+    data.forEach(element => {
+      sqlElement.tableElements.push(element[sqlElement.element])
+    });
+  }
 
 
   initializeForm(keys: Array<any>, values: Array<any>, popupForm?:boolean){

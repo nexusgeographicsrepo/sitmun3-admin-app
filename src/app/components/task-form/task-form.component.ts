@@ -479,9 +479,9 @@ export class TaskFormComponent implements OnInit {
     {
       this.savedTask = {...this.taskForm.value}
       this.savedTaskTreatment(this.savedTask)
-      let keyTextArea = this.getControlsModified("textArea");
-      if(keyTextArea && this.taskForm.get(keyTextArea).value ){
-        let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables)
+      let keysTextAreaNotNull = this.getControlsModified("textArea");
+      if(keysTextAreaNotNull.length>0){
+        let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables, keysTextAreaNotNull)
         console.log(markResult)
         markResult.forEach(tableIndex => {
           this.getAllElementsEvent[tableIndex].next(true)
@@ -491,7 +491,6 @@ export class TaskFormComponent implements OnInit {
         this.saveTask();
       }
       console.log(this.savedTask);
-      console.log(this.taskForm.value);
     }
     else {
       this.utils.showRequiredFieldsError();
@@ -501,33 +500,37 @@ export class TaskFormComponent implements OnInit {
   getControlsModified(control){
     let keys= Object.keys(this.properties.form.elements);
     let i = -1;
+    let keysNotNull = [];
     for (const key of keys) {
       i++;
       if( this.properties.form.elements[key].control  && Array.isArray(this.properties.form.elements[key].control)){
         for (const element of this.properties.form.elements[key].control) {
-          if(element.control==control) {
-            return key; 
+          if(element.control==control && this.taskForm.get(key).value ) {
+            keysNotNull.push(key) 
          }
         }
       }
-      else if(this.properties.form.elements[key].control===control){
-        return key;
+      else if(this.properties.form.elements[key].control===control  && this.taskForm.get(key).value ){
+           keysNotNull.push(key);
       }
     };
-    return null;
+    return keysNotNull;
   }
 
-  markIndexSqlElementToBeSaved(tables){
+  markIndexSqlElementToBeSaved(tables, keysNotNull){
     let tablesMarked = [];
     tables.forEach((table, index) => {
       if(table.controlAdd.control=="formPopup"){
         let keys= Object.keys(table.controlAdd.elements)
         for(let i =0; i< keys.length; i++){
           if(table.controlAdd.elements[keys[i]].control=="enumBySQLElement"){
-            tablesMarked.push(index);
-            this.sqlElementModification[index].toSave= true;
-            this.sqlElementModification[index].mainFormElement= table.controlAdd.elements[keys[i]].element;
-            break;
+            if(keysNotNull.includes(table.controlAdd.elements[keys[i]].element))
+            {
+              tablesMarked.push(index);
+              this.sqlElementModification[index].toSave= true;
+              this.sqlElementModification[index].mainFormElement= table.controlAdd.elements[keys[i]].element;
+              break;
+            }
           }
         };
       }

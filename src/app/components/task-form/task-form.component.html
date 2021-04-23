@@ -147,7 +147,7 @@
                 <div class="appDataGridEditDiv">
                     <app-data-grid [changeHeightButton]="true" [columnDefs]='columnDefsTables[i]'
                         [themeGrid]='themeGrid' [getAll]='getAlls[i]' [discardChangesButton]=true [actionButton]=true
-                        [redoButton]=true [undoButton]=true [deleteButton]=true
+                        [redoButton]="!formHasSqlElementSelector[i]" [undoButton]="!formHasSqlElementSelector[i]" [deleteButton]=true [discardNonReverseStatus]="formHasSqlElementSelector[i]"
                         [newButton]="table.controlAdd.control==='formPopup'"
                         [addButton]="table.controlAdd.control!=='formPopup'"
                         [hideDuplicateButton]="table.controlAdd.control!=='formPopup'"

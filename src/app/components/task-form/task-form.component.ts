@@ -44,6 +44,7 @@ export class TaskFormComponent implements OnInit {
 
   //Form tables
   forms = [];
+  formHasSqlElementSelector = [];
   tableFormElements = [];
   keysForms = [];
   valuesForms = [];
@@ -281,6 +282,7 @@ export class TaskFormComponent implements OnInit {
           this.tableFormElements.push(null)
           this.forms.push(null)
           this.formSQLElement.push(null)
+          this.formHasSqlElementSelector.push(false);
         }
 
       };
@@ -355,6 +357,7 @@ export class TaskFormComponent implements OnInit {
 
   initializeForm(keys: Array<any>, values: Array<any>, popupForm?:boolean){
     let form=new FormGroup({})
+    let hasEnumBySQLElement = false;
     for(let i=0; i< keys.length; i++){
       const key= keys[i];
       let value = null;
@@ -370,6 +373,9 @@ export class TaskFormComponent implements OnInit {
       else if(values[i].control==="checkbox") {value=false}
       else if(values[i].control==="enum" && popupForm) { value=values[i].enum.elements[0].value  }
 
+      if(values[i].control==="enumBySQLElement" && popupForm ){
+        hasEnumBySQLElement= true;
+      }
   
       // if(values[i].required){
       //   form.addControl(key,new FormControl(value,[Validators.required]));
@@ -378,6 +384,9 @@ export class TaskFormComponent implements OnInit {
 
 
   
+    }
+    if(popupForm){
+      this.formHasSqlElementSelector.push(hasEnumBySQLElement);
     }
     return form;
 

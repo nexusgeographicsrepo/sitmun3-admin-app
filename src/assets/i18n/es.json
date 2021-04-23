@@ -50,6 +50,7 @@
     "aranese": "Aranés"
   },
   "sideMenu": {
+    "basics": "Básicas",
     "generalData": "Datos Generales",
     "connection": "Conexión",
     "service": "Servicio",

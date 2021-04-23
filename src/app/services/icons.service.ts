@@ -71,6 +71,10 @@ export class IconsService {
           icon: 'menu_tasques',
           children: [
             {
+              id: 'tasks',
+              translation: 'basics',
+            },
+            {
               id: 'tasksDownload',
             },
 

@@ -50,6 +50,7 @@
     "aranese": "Aranese"
   },
   "sideMenu": {
+    "basics": "Basics",
     "generalData": "General Data",
     "connection": "Connection",
     "service": "Service",

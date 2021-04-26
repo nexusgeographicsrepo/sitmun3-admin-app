@@ -102,16 +102,20 @@ export class IconsService {
               id: 'tasksEdition',
               children: [
                 {
-                  id: 'cartographyTableWFT',
+                  id: 'tasksEditionCartographyTable',
+                  translation: 'cartographyTableWFT'
                 },
                 {
-                  id: 'dataTable',
+                  id: 'tasksEditionDataTable',
+                  translation: 'dataTable',
                 },
                 {
-                  id: 'relationTable',
+                  id: 'tasksEditionRelationTable',
+                  translation: 'relationTable',
                 },
                 {
-                  id: 'searchView',
+                  id: 'tasksEditionSearchView',
+                  translation: 'searchView',
                 },
               ]
             },

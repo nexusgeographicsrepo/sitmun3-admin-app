@@ -439,7 +439,10 @@
     "More info": "More information",
     "Locator": "Locator",
     "Report": "Report",
-    "Cartography table (WFS)": "Edition",
+    "Cartography table (WFS)": "Tabla de cartografía(WFS-T)",
+    "Data table": "Tabla de datos",
+    "Relation table": "Tabla de relación",
+    "Location view": "Vista de búsqueda",
     "Thematic": "Thematic",
     "Extraction (FME)" :"Extraction FME",
     "Basic": "General"

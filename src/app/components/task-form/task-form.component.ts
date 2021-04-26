@@ -318,7 +318,6 @@ export class TaskFormComponent implements OnInit {
         if(element.status!= "pendingDelete"){
           result.push(element[sqlElement.element])
           if(toSave){
-            console.log(`replace ${element[sqlElement.element]} with ${element["value"]}`)
             this.savedTask[sqlElement.mainFormElement]= this.savedTask[sqlElement.mainFormElement].replace(element[sqlElement.element], element["value"]);
           }
         }

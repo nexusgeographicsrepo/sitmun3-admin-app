@@ -444,7 +444,7 @@
     "generalData": "General Data",
     "tasksQuery": "Tasks-Queries",
     "name": "Name",
-    "task": "Tasca",
+    "task": "Task",
     "informationType": "Information Type",
     "accessType": "Access Type",
     "command": "Command",
@@ -473,7 +473,7 @@
     "application": "Application",
     "code": "Code",
     "note": "Observations",
-    "task": "Tasca",
+    "task": "Task",
     "groupTask": "Group task",
     "path": "Path",
     "extent": "Extension",
@@ -485,7 +485,7 @@
   "tasksDocumentEntity": {
     "generalData": "General Data",
     "tasksDocument": "Tasks-Document",
-    "task": "Tasca",
+    "task": "Task",
     "informationType": "Information type",
     "path": "Path",
     "extent": "Extension",
@@ -558,7 +558,7 @@
   "tasksLocatorEntity": {
     "generalData": "General Data",
     "tasksLocator": "Tasks-Locator",
-    "task": "Tasca",
+    "task": "Task",
     "informationType": "Information Type",
     "accesType": "Access Type",
     "command": "Command",
@@ -583,7 +583,7 @@
   "tasksMoreInfoEntity": {
     "generalData": "General Data",
     "tasksMoreInfo": "Tasks-More Information",
-    "task": "Tasca",
+    "task": "Task",
     "informationType": "Information type",
     "accesType": "Access type",
     "command": "Command",
@@ -609,7 +609,7 @@
   "tasksReportEntity": {
     "generalData": "General Data",
     "tasksReport": "Tasks-Report",
-    "task": "Tasca",
+    "task": "Task",
     "informationType": "Information type",
     "template": "Template",
     "taskGroup": "Task group",

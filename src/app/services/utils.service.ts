@@ -101,8 +101,23 @@ export class UtilsService {
 
 
   getDateFormated(data) {
-    return data.value ? (new Date(data.value)).toLocaleDateString() : ''
+    if(!data.value) { return null; }
+    if(data.value.length<=10){
+     return this.transformFromMonthDayYearToDayMonthYear(data.value)
+    }
+    else{
+      return data.value ? (new Date(data.value)).toLocaleDateString() : ''
+    }
+  
   }
+
+  transformFromMonthDayYearToDayMonthYear(data){
+    let values = data.split("/");
+    if(values.length > 3 || values.length < 1) {return null};
+    //new Date format is mm/dd/yyyy and we receive dd/mm/yyyy
+    return  (new Date(`${values[1]}/${values[0]}/${values[2]}`)).toLocaleDateString()
+  }
+
 
 
   getDateFilterParams() {
@@ -110,7 +125,14 @@ export class UtilsService {
       comparator: function (filterLocalDateAtMidnight, cellValue) {
         var dateAsString = cellValue;
         if (dateAsString == null) return -1;
-        var cellDate = new Date(cellValue);
+        let cellDate;
+        if(cellValue.length<=10){
+          cellDate=new Date( this.transformFromMonthDayYearToDayMonthYear(cellValue));
+        }
+        else{ 
+          cellDate= new Date(cellValue)
+        }
+
         if (filterLocalDateAtMidnight.toLocaleDateString() === cellDate.toLocaleDateString()) {
           return 0;
         }

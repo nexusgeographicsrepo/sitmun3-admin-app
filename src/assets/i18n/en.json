@@ -17,6 +17,8 @@
   "undo": "Undo",
   "return": "Return",
   "copy_": "copy_",
+  "expandAll": "Expand",
+  "collapseAll": "Collapse",
   "pendingDelete":"Pending delete",
   "pendingCreation":"Pendent creation",
   "pendingModify":"Pendent modify",

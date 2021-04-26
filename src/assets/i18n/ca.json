@@ -17,6 +17,8 @@
   "undo": "Desfer",
   "return": "Tornar",
   "copy_": "copia_",
+  "expandAll": "Expandir",
+  "collapseAll": "Contreure",
   "pendingDelete":"Pendent eliminar",
   "pendingCreation":"Pendent crear",
   "pendingModify":"Pendent modificar",

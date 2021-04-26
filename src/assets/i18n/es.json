@@ -17,6 +17,8 @@
   "undo": "Deshacer",
   "return": "Volver",
   "copy_": "copia_",
+  "expandAll": "Expander",
+  "collapseAll": "Contraer",
   "pendingDelete":"Pendiente eliminar",
   "pendingCreation":"Pendiente crear",
   "pendingModify":"Pendiente modificar",

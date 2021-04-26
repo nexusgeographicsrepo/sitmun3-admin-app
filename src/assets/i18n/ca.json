@@ -73,7 +73,12 @@
     "tasksExtractionFME": "Extracció FME",
     "application": "Aplicació",
     "taskGroup": "Grup tasca",
-    "status": "Estat"
+    "status": "Estat",
+    "editionType": "Tipus d'edició",
+    "cartographyTableWFT": "Taula de cartografia(WFS-T)",
+    "dataTable": "Taula de dades",
+    "relationTable": "Taula de relació",
+    "searchView": "Vista cerca"
   },
   "dashboard": {
     "newUsers": "Nous usuaris",

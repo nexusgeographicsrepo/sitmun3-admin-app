@@ -73,7 +73,11 @@
     "tasksExtractionFME": "FME Extraction",
     "application": "Application",
     "taskGroup": "Task group",
-    "status": "Status"
+    "status": "Status",
+    "cartographyTableWFT": "Cartography table (WFS-T)",
+    "dataTable": "Data table",
+    "relationTable": "Relationship table",
+    "searchView": "Search view"
   },
   "dashboard": {
     "newUsers": "New users",

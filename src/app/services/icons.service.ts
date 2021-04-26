@@ -100,6 +100,20 @@ export class IconsService {
 
             {
               id: 'tasksEdition',
+              children: [
+                {
+                  id: 'cartographyTableWFT',
+                },
+                {
+                  id: 'dataTable',
+                },
+                {
+                  id: 'relationTable',
+                },
+                {
+                  id: 'searchView',
+                },
+              ]
             },
 
             {

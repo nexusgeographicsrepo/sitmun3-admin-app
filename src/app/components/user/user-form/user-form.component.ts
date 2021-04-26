@@ -127,7 +127,7 @@ export class UserFormComponent implements OnInit {
 
     this.columnDefsData = [
       this.utils.getSelCheckboxColumnDef(),
-      this.utils.getEditableColumnDef('userEntity.territory', 'territoryName'),
+      this.utils.getNonEditableColumnDef('userEntity.territory', 'territoryName'),
       this.utils.getEditableColumnDef('userEntity.position', 'name'),
       this.utils.getEditableColumnDef('userEntity.organization', 'organization'),
       this.utils.getEditableColumnDef('userEntity.mail', 'email'),

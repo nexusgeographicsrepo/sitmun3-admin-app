@@ -286,7 +286,7 @@
             [eventAddItemsSubscription]='addElementsEventCartographies.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventCartographies.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventCartographies.asObservable()' [deleteButton]=true
-            [addButton]=true [actionButton]=true (getAllRows)="getAllRowsCartographies($event)"
+            [addButton]=true [actionButton]=true addFieldRestriction="cartographyId" (getAllRows)="getAllRowsCartographies($event)"
             (add)="openCartographyDialog($event)"> </app-data-grid>
         </div>
 
@@ -308,7 +308,7 @@
             [eventAddItemsSubscription]='addElementsEventTasks.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventTasks.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventTasks.asObservable()' [deleteButton]=true [addButton]=true
-            [actionButton]=true (getAllRows)="getAllRowsTasks($event)" (add)="openTasksDialog($event)">
+            [actionButton]=true addFieldRestriction="taskId" (getAllRows)="getAllRowsTasks($event)" (add)="openTasksDialog($event)">
           </app-data-grid>
         </div>
 

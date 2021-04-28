@@ -252,6 +252,7 @@ export class UtilsService {
     {
       headerName: this.getTranslate(alias),
       field: field,
+      editable: true,
     }
 
     return columnDef;

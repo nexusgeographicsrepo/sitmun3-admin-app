@@ -751,7 +751,13 @@ export class TaskFormComponent implements OnInit {
     let keys= Object.keys(columns);
     let values= Object.values(columns);
     for(let i=0; i< keys.length; i++){
-      columnResults.push({headerName: this.utils.getTranslate(values[i]['label']), field: keys[i], editable: values[i]['editable'] })
+      if(values[i]['editable'] === "true"){
+        columnResults.push(this.utils.getEditableColumnDef(values[i]['label'], keys[i]))
+      }
+      else{
+        columnResults.push(this.utils.getNonEditableColumnDef(values[i]['label'], keys[i]))    
+      }
+      // columnResults.push({headerName: this.utils.getTranslate(values[i]['label']), field: keys[i], editable: values[i]['editable'] })
     }
     if(status) {columnResults.push(this.utils.getStatusColumnDef())}
 

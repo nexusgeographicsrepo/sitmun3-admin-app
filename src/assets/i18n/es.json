@@ -58,7 +58,7 @@
     "service": "Servicio",
     "layers": "Capas",
     "trees": "Árboles",
-    "backgroundLayers": "Capas de fondos",
+    "backgroundLayers": "Capas de fondo",
     "layersPermits": "Permisos sobre las capas",
     "territory": "Territorio",
     "role": "Rol",
@@ -88,7 +88,11 @@
     "territories": "Territorios",
     "cartographies": "Cartografías",
     "applications": "Aplicaciones",
-    "applicationsTerritories": "Aplicaciones de territorios"
+    "applicationsTerritories": "Aplicaciones de territorios",
+    "usersAppSitmunMun": "Usuarios aplicación SITMUN municipal",
+    "usersAppSitmunProv": "Usuarios aplicación SITMUN provincial",
+    "usersAppSitmunSupra": "Usuarios aplicación SITMUN supramunicipal",
+    "users": "Usuarios"
   },
   "userEntity": {
     "generalData": "Datos Generales",
@@ -243,7 +247,7 @@
   },
   "backgroundEntity": {
     "generalData": "Datos Generales",
-    "backgroundLayers": "Capas de fondos",
+    "backgroundLayers": "Capas de fondo",
     "name": "Nombre",
     "description": "Descripción",
     "active": "Activo",

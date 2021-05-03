@@ -88,7 +88,11 @@
     "territories": "Territories",
     "cartographies": "Cartographies",
     "applications": "Applications",
-    "applicationsTerritories": "Applications territories"
+    "applicationsTerritories": "Applications territories",
+    "usersAppSitmunMun": "Users application SITMUN municipal",
+    "usersAppSitmunProv": "Users application SITMUN provincial",
+    "usersAppSitmunSupra": "Users application SITMUN supramunicipal",
+    "users": "Users"
   },
   "userEntity": {
     "generalData": "General Data",

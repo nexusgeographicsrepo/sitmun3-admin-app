@@ -131,7 +131,7 @@
             [eventAddItemsSubscription]='addElementsEventParameters.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventParameters.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventParameters.asObservable()' [discardChangesButton]=true
-            [redoButton]=true [undoButton]=true [deleteButton]=true [newButton]=true
+            [redoButton]=true [undoButton]=true [deleteButton]=true [newButton]=true addFieldRestriction="name"
             (getAllRows)="getAllRowsParameters($event)" [actionButton]=true (duplicate)='duplicateParameters($event)'
             (new)="openParametersDialog($event)"> </app-data-grid>
         </div>

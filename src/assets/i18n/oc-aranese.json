@@ -17,6 +17,8 @@
   "undo": "Desfer",
   "return": "Tornar",
   "copy_": "copia_",
+  "expandAll": "Expandir",
+  "collapseAll": "Contreure",
   "pendingDelete":"Pendent eliminar",
   "pendingCreation":"Pendent crear",
   "pendingModify":"Pendent modificar",
@@ -86,7 +88,11 @@
     "territories": "Territoris",
     "cartographies": "Cartografies",
     "applications": "Aplicacions",
-    "applicationsTerritories": "Aplicacions de territoris"
+    "applicationsTerritories": "Aplicacions de territoris",
+    "usersAppSitmunMun": "Usuaris aplicació SITMUN municipal",
+    "usersAppSitmunProv": "Usuaris aplicació SITMUN provincial",
+    "usersAppSitmunSupra": "Usuaris aplicació SITMUN supramunicipal",
+    "users": "Usuaris"
   },
   "userEntity": {
     "generalData": "Dades Generals",

@@ -17,6 +17,8 @@
   "undo": "Deshacer",
   "return": "Volver",
   "copy_": "copia_",
+  "expandAll": "Expander",
+  "collapseAll": "Contraer",
   "pendingDelete":"Pendiente eliminar",
   "pendingCreation":"Pendiente crear",
   "pendingModify":"Pendiente modificar",
@@ -56,7 +58,7 @@
     "service": "Servicio",
     "layers": "Capas",
     "trees": "Árboles",
-    "backgroundLayers": "Capas de fondos",
+    "backgroundLayers": "Capas de fondo",
     "layersPermits": "Permisos sobre las capas",
     "territory": "Territorio",
     "role": "Rol",
@@ -86,7 +88,11 @@
     "territories": "Territorios",
     "cartographies": "Cartografías",
     "applications": "Aplicaciones",
-    "applicationsTerritories": "Aplicaciones de territorios"
+    "applicationsTerritories": "Aplicaciones de territorios",
+    "usersAppSitmunMun": "Usuarios aplicación SITMUN municipal",
+    "usersAppSitmunProv": "Usuarios aplicación SITMUN provincial",
+    "usersAppSitmunSupra": "Usuarios aplicación SITMUN supramunicipal",
+    "users": "Usuarios"
   },
   "userEntity": {
     "generalData": "Datos Generales",
@@ -177,7 +183,7 @@
     "permissiongroupLayersConfiguration": "Configuración de permisos sobre capas",
     "nodos": "Nodos",
     "column": "Columna",
-    "labelo": "Hashtag",
+    "label": "Hashtag",
     "type": "Tipo",
     "help": "Ayuda",
     "selectPath": "Select/Path",
@@ -241,7 +247,7 @@
   },
   "backgroundEntity": {
     "generalData": "Datos Generales",
-    "backgroundLayers": "Capas de fondos",
+    "backgroundLayers": "Capas de fondo",
     "name": "Nombre",
     "description": "Descripción",
     "active": "Activo",

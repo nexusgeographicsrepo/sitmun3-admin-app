@@ -851,6 +851,7 @@ class DataGridComponent {
         this.getSelectedRows = new EventEmitter();
         this.duplicate = new EventEmitter();
         this.getAllRows = new EventEmitter();
+        this.gridModified = new EventEmitter();
         this.changeCounter = 0;
         this.previousChangeCounter = 0;
         this.redoCounter = 0;
@@ -1236,6 +1237,7 @@ class DataGridComponent {
             itemsChanged.push(this.gridApi.getRowNode(key).data);
         }
         this.sendChanges.emit(itemsChanged);
+        this.gridModified.emit(false);
         this.changesMap.clear();
         this.changeCounter = 0;
         this.previousChangeCounter = 0;
@@ -1274,6 +1276,7 @@ class DataGridComponent {
             });
             this.someStatusHasChangedToDelete = false;
             this.discardChanges.emit(rowsWithStatusModified);
+            this.gridModified.emit(false);
         }
         this.gridApi.redrawRows();
         //this.params.colDef.cellStyle =  {backgroundColor: '#FFFFFF'};
@@ -1292,6 +1295,9 @@ class DataGridComponent {
         this.gridApi.stopEditing(false);
         this.gridApi.undoCellEditing();
         this.changeCounter -= 1;
+        if (this.changeCounter == 0) {
+            this.gridModified.emit(false);
+        }
         this.redoCounter += 1;
     }
     /**
@@ -1310,6 +1316,9 @@ class DataGridComponent {
     onCellEditingStopped(e) {
         if (this.modificationChange) {
             this.changeCounter++;
+            if (this.changeCounter == 1) {
+                this.gridModified.emit(true);
+            }
             this.redoCounter = 0;
             this.onCellValueChanged(e);
             this.modificationChange = false;
@@ -1467,7 +1476,7 @@ class DataGridComponent {
     }
 }
 DataGridComponent.ɵfac = function DataGridComponent_Factory(t) { return new (t || DataGridComponent)(ɵngcc0.ɵɵdirectiveInject(ɵngcc6.MatDialog), ɵngcc0.ɵɵdirectiveInject(ɵngcc5.TranslateService), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef)); };
-DataGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DataGridComponent, selectors: [["app-data-grid"]], inputs: { frameworkComponents: "frameworkComponents", eventRefreshSubscription: "eventRefreshSubscription", eventGetSelectedRowsSubscription: "eventGetSelectedRowsSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", eventSaveAgGridStateSubscription: "eventSaveAgGridStateSubscription", eventAddItemsSubscription: "eventAddItemsSubscription", columnDefs: "columnDefs", getAll: "getAll", discardChangesButton: "discardChangesButton", discardNonReverseStatus: "discardNonReverseStatus", id: "id", undoButton: "undoButton", defaultColumnSorting: "defaultColumnSorting", redoButton: "redoButton", applyChangesButton: "applyChangesButton", deleteButton: "deleteButton", newButton: "newButton", actionButton: "actionButton", addButton: "addButton", globalSearch: "globalSearch", changeHeightButton: "changeHeightButton", defaultHeight: "defaultHeight", themeGrid: "themeGrid", singleSelection: "singleSelection", nonEditable: "nonEditable", title: "title", hideExportButton: "hideExportButton", hideDuplicateButton: "hideDuplicateButton", hideSearchReplaceButton: "hideSearchReplaceButton", addFieldRestriction: "addFieldRestriction" }, outputs: { remove: "remove", new: "new", add: "add", discardChanges: "discardChanges", sendChanges: "sendChanges", getSelectedRows: "getSelectedRows", duplicate: "duplicate", getAllRows: "getAllRows", getAgGridState: "getAgGridState" }, decls: 23, vars: 29, consts: [["id", "grup1", 1, "editDivBtns"], [3, "translate", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-red", "id", "deleteChangesButton", "type", "button", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "undo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "redo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-green", "id", "applyChangesButton", 3, "title", "disabled", "click", 4, "ngIf"], ["id", "grup2", 1, "actionsDivBtns"], ["type", "text", "class", "searchGenericInput", "placeholder", "", "ml-2", "", 3, "ngModel", "keyup", "ngModelChange", 4, "ngIf"], ["class", "toogleButton", "name", "fontStyle", "aria-label", "Font Style", "value", "5", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", "class", "deleteButton", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "actionButton", "class", "actionButton", 3, "matMenuTriggerFor", 4, "ngIf"], ["menu", "matMenu"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-menu-item", "", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "class", "newButton", 3, "click", 4, "ngIf"], [1, "row", 2, "height", "100%"], ["id", "myGrid", 2, "width", "100%", "height", "100%"], ["rowSelection", "multiple", "multiSortKey", "key", 2, "width", "100%", "height", "100%", "min-height", "200px", 3, "floatingFilter", "rowData", "columnDefs", "gridOptions", "animateRows", "pagination", "modules", "undoRedoCellEditing", "undoRedoCellEditingLimit", "suppressRowClickSelection", "frameworkComponents", "filterModified", "cellEditingStopped", "cellValueChanged", "gridReady", "firstDataRendered"], [3, "translate"], ["type", "button", "mat-mini-fab", "", "id", "deleteChangesButton", "type", "button", 1, "mini-fab", "mat-red", 3, "title", "disabled", "click"], ["fontSet", "material-icons-round"], ["type", "button", "mat-mini-fab", "", "id", "undo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "redo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "applyChangesButton", 1, "mini-fab", "mat-green", 3, "title", "disabled", "click"], ["type", "text", "placeholder", "", "ml-2", "", 1, "searchGenericInput", 3, "ngModel", "keyup", "ngModelChange"], ["name", "fontStyle", "aria-label", "Font Style", "value", "5", 1, "toogleButton"], ["value", "5", 3, "change"], ["value", "20", 3, "change"], ["value", "50", 3, "change"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", 1, "deleteButton", 3, "disabled", "click"], ["type", "button", "mat-flat-button", "", "id", "actionButton", 1, "actionButton", 3, "matMenuTriggerFor"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click"], ["type", "button", "mat-menu-item", ""], ["type", "button", "mat-flat-button", "", 1, "newButton", 3, "click"]], template: function DataGridComponent_Template(rf, ctx) { if (rf & 1) {
+DataGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DataGridComponent, selectors: [["app-data-grid"]], inputs: { frameworkComponents: "frameworkComponents", eventRefreshSubscription: "eventRefreshSubscription", eventGetSelectedRowsSubscription: "eventGetSelectedRowsSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", eventSaveAgGridStateSubscription: "eventSaveAgGridStateSubscription", eventAddItemsSubscription: "eventAddItemsSubscription", columnDefs: "columnDefs", getAll: "getAll", discardChangesButton: "discardChangesButton", discardNonReverseStatus: "discardNonReverseStatus", id: "id", undoButton: "undoButton", defaultColumnSorting: "defaultColumnSorting", redoButton: "redoButton", applyChangesButton: "applyChangesButton", deleteButton: "deleteButton", newButton: "newButton", actionButton: "actionButton", addButton: "addButton", globalSearch: "globalSearch", changeHeightButton: "changeHeightButton", defaultHeight: "defaultHeight", themeGrid: "themeGrid", singleSelection: "singleSelection", nonEditable: "nonEditable", title: "title", hideExportButton: "hideExportButton", hideDuplicateButton: "hideDuplicateButton", hideSearchReplaceButton: "hideSearchReplaceButton", addFieldRestriction: "addFieldRestriction" }, outputs: { remove: "remove", new: "new", add: "add", discardChanges: "discardChanges", sendChanges: "sendChanges", getSelectedRows: "getSelectedRows", duplicate: "duplicate", getAllRows: "getAllRows", gridModified: "gridModified", getAgGridState: "getAgGridState" }, decls: 23, vars: 29, consts: [["id", "grup1", 1, "editDivBtns"], [3, "translate", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-red", "id", "deleteChangesButton", "type", "button", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "undo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "redo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-green", "id", "applyChangesButton", 3, "title", "disabled", "click", 4, "ngIf"], ["id", "grup2", 1, "actionsDivBtns"], ["type", "text", "class", "searchGenericInput", "placeholder", "", "ml-2", "", 3, "ngModel", "keyup", "ngModelChange", 4, "ngIf"], ["class", "toogleButton", "name", "fontStyle", "aria-label", "Font Style", "value", "5", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", "class", "deleteButton", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "actionButton", "class", "actionButton", 3, "matMenuTriggerFor", 4, "ngIf"], ["menu", "matMenu"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-menu-item", "", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "class", "newButton", 3, "click", 4, "ngIf"], [1, "row", 2, "height", "100%"], ["id", "myGrid", 2, "width", "100%", "height", "100%"], ["rowSelection", "multiple", "multiSortKey", "key", 2, "width", "100%", "height", "100%", "min-height", "200px", 3, "floatingFilter", "rowData", "columnDefs", "gridOptions", "animateRows", "pagination", "modules", "undoRedoCellEditing", "undoRedoCellEditingLimit", "suppressRowClickSelection", "frameworkComponents", "filterModified", "cellEditingStopped", "cellValueChanged", "gridReady", "firstDataRendered"], [3, "translate"], ["type", "button", "mat-mini-fab", "", "id", "deleteChangesButton", "type", "button", 1, "mini-fab", "mat-red", 3, "title", "disabled", "click"], ["fontSet", "material-icons-round"], ["type", "button", "mat-mini-fab", "", "id", "undo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "redo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "applyChangesButton", 1, "mini-fab", "mat-green", 3, "title", "disabled", "click"], ["type", "text", "placeholder", "", "ml-2", "", 1, "searchGenericInput", 3, "ngModel", "keyup", "ngModelChange"], ["name", "fontStyle", "aria-label", "Font Style", "value", "5", 1, "toogleButton"], ["value", "5", 3, "change"], ["value", "20", 3, "change"], ["value", "50", 3, "change"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", 1, "deleteButton", 3, "disabled", "click"], ["type", "button", "mat-flat-button", "", "id", "actionButton", 1, "actionButton", 3, "matMenuTriggerFor"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click"], ["type", "button", "mat-menu-item", ""], ["type", "button", "mat-flat-button", "", 1, "newButton", 3, "click"]], template: function DataGridComponent_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵelementStart(0, "div", 0);
         ɵngcc0.ɵɵtemplate(1, DataGridComponent_span_1_Template, 1, 1, "span", 1);
         ɵngcc0.ɵɵtemplate(2, DataGridComponent_button_2_Template, 4, 4, "button", 2);
@@ -1579,7 +1588,8 @@ DataGridComponent.propDecorators = {
     duplicate: [{ type: Output }],
     getSelectedRows: [{ type: Output }],
     getAllRows: [{ type: Output }],
-    getAgGridState: [{ type: Output }]
+    getAgGridState: [{ type: Output }],
+    gridModified: [{ type: Output }]
 };
 /*@__PURE__*/ (function () { ɵngcc0.ɵsetClassMetadata(DataGridComponent, [{
         type: Component,
@@ -1605,6 +1615,8 @@ DataGridComponent.propDecorators = {
         }], duplicate: [{
             type: Output
         }], getAllRows: [{
+            type: Output
+        }], gridModified: [{
             type: Output
         }], eventRefreshSubscription: [{
             type: Input
@@ -1788,6 +1800,8 @@ if (false) {
     DataGridComponent.prototype.getAllRows;
     /** @type {?} */
     DataGridComponent.prototype.getAgGridState;
+    /** @type {?} */
+    DataGridComponent.prototype.gridModified;
     /** @type {?} */
     DataGridComponent.prototype.dialog;
     /** @type {?} */

@@ -67,6 +67,7 @@ export declare class DataGridComponent implements OnInit {
     getSelectedRows: EventEmitter<any[]>;
     getAllRows: EventEmitter<any[]>;
     getAgGridState: EventEmitter<any[]>;
+    gridModified: EventEmitter<boolean>;
     constructor(dialog: MatDialog, translate: TranslateService, elRef: ElementRef);
     ngOnInit(): void;
     firstDataRendered(): void;

@@ -100,7 +100,7 @@ class BtnEditRenderedComponent {
 BtnEditRenderedComponent.decorators = [
     { type: Component, args: [{
                 selector: 'app-btn-edit-rendered',
-                template: "<button mat-mini-fab class=\"buttonEdit\"  type=\"button\"  (click)=\"btnClickedHandler($event)\" >\n  <mat-icon class=\"iconEdit\"   fontSet=\"material-icons-round\" > edit </mat-icon>\n</button> ",
+                template: "<button mat-mini-fab class=\"buttonEdit\"  type=\"button\"  (click)=\"btnClickedHandler($event)\" >\r\n  <mat-icon class=\"iconEdit\"   fontSet=\"material-icons-round\" > edit </mat-icon>\r\n</button> ",
                 styles: [".buttonEdit{background-color:#ddd;box-shadow:none;color:#000;height:20px;margin-top:3px;width:20px}.iconEdit{font-size:13px;margin-left:-2px;margin-top:-10px}"]
             }] }
 ];
@@ -357,6 +357,7 @@ class DataGridComponent {
         this.getSelectedRows = new EventEmitter();
         this.duplicate = new EventEmitter();
         this.getAllRows = new EventEmitter();
+        this.gridModified = new EventEmitter();
         this.changeCounter = 0;
         this.previousChangeCounter = 0;
         this.redoCounter = 0;
@@ -742,6 +743,7 @@ class DataGridComponent {
             itemsChanged.push(this.gridApi.getRowNode(key).data);
         }
         this.sendChanges.emit(itemsChanged);
+        this.gridModified.emit(false);
         this.changesMap.clear();
         this.changeCounter = 0;
         this.previousChangeCounter = 0;
@@ -780,6 +782,7 @@ class DataGridComponent {
             });
             this.someStatusHasChangedToDelete = false;
             this.discardChanges.emit(rowsWithStatusModified);
+            this.gridModified.emit(false);
         }
         this.gridApi.redrawRows();
         //this.params.colDef.cellStyle =  {backgroundColor: '#FFFFFF'};
@@ -798,6 +801,9 @@ class DataGridComponent {
         this.gridApi.stopEditing(false);
         this.gridApi.undoCellEditing();
         this.changeCounter -= 1;
+        if (this.changeCounter == 0) {
+            this.gridModified.emit(false);
+        }
         this.redoCounter += 1;
     }
     /**
@@ -816,6 +822,9 @@ class DataGridComponent {
     onCellEditingStopped(e) {
         if (this.modificationChange) {
             this.changeCounter++;
+            if (this.changeCounter == 1) {
+                this.gridModified.emit(true);
+            }
             this.redoCounter = 0;
             this.onCellValueChanged(e);
             this.modificationChange = false;
@@ -1024,7 +1033,8 @@ DataGridComponent.propDecorators = {
     duplicate: [{ type: Output }],
     getSelectedRows: [{ type: Output }],
     getAllRows: [{ type: Output }],
-    getAgGridState: [{ type: Output }]
+    getAgGridState: [{ type: Output }],
+    gridModified: [{ type: Output }]
 };
 if (false) {
     /** @type {?} */
@@ -1147,6 +1157,8 @@ if (false) {
     DataGridComponent.prototype.getAllRows;
     /** @type {?} */
     DataGridComponent.prototype.getAgGridState;
+    /** @type {?} */
+    DataGridComponent.prototype.gridModified;
     /** @type {?} */
     DataGridComponent.prototype.dialog;
     /** @type {?} */

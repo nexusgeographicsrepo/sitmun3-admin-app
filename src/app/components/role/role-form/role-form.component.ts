@@ -25,6 +25,7 @@ export class RoleFormComponent implements OnInit {
   roleToEdit;
   roleSaved: Role;
   roleID: number = -1;
+  duplicateID = -1;
   dataLoaded: Boolean = false;
 
   //Grids
@@ -83,10 +84,13 @@ export class RoleFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.roleID = +params.id;
-      if (this.roleID !== -1) {
+      if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+      if (this.roleID !== -1 || this.duplicateID != -1) {
+        let idToGet = this.roleID !== -1? this.roleID: this.duplicateID 
         console.log(this.roleID);
 
-        this.roleService.get(this.roleID).subscribe(
+        this.roleService.get(idToGet).subscribe(
           resp => {
             console.log(resp);
             this.roleToEdit = resp;
@@ -96,6 +100,18 @@ export class RoleFormComponent implements OnInit {
               description: this.roleToEdit.description,
               _links: this.roleToEdit._links
             });
+
+            if(this.roleID !== -1){
+              this.formRole.patchValue({
+              id: this.roleID,
+              name: this.roleToEdit.name,
+              });
+                }
+            else{
+              this.formRole.patchValue({
+              name: this.utils.getTranslate('copy_').concat(this.roleToEdit.name),
+              });
+            }
 
             this.dataLoaded = true;
           },
@@ -196,7 +212,7 @@ export class RoleFormComponent implements OnInit {
   // ******** Users ******** //
   getAllUsers = (): Observable<any> => {
 
-    if(this.roleID == -1)
+    if (this.roleID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -251,8 +267,12 @@ export class RoleFormComponent implements OnInit {
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
 
-    if (this.roleID!== -1)
+    if (this.roleID == -1 && this.duplicateID == -1) 
     {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+    else {
       var urlReq = `${this.roleToEdit._links.tasks.href}`
       if (this.roleToEdit._links.tasks.templated) {
         var url = new URL(urlReq.split("{")[0]);
@@ -261,10 +281,7 @@ export class RoleFormComponent implements OnInit {
       }
       return (this.http.get(urlReq))
       .pipe(map(data => data['_embedded']['tasks']));
-    }
-    else {
-      const aux: Array<any> = [];
-      return of(aux);
+
     }
 
 
@@ -312,8 +329,13 @@ export class RoleFormComponent implements OnInit {
 
   // ******** Cartography Groups ******** //
   getAllCartographiesGroups = (): Observable<any> => {
-    if (this.roleID!== -1)
+    if (this.roleID == -1 && this.duplicateID == -1) 
     {
+      const aux: Array<any> = [];
+      return of(aux);
+
+    }
+    else {
       var urlReq = `${this.roleToEdit._links.permissions.href}`
       if (this.roleToEdit._links.permissions.templated) {
         var url = new URL(urlReq.split("{")[0]);
@@ -322,10 +344,6 @@ export class RoleFormComponent implements OnInit {
       }
       return (this.http.get(urlReq))
       .pipe(map(data => data['_embedded']['cartography-groups']));
-    }
-    else {
-      const aux: Array<any> = [];
-      return of(aux);
     }
     
 
@@ -365,8 +383,13 @@ export class RoleFormComponent implements OnInit {
     // ******** Applications ******** //
     getAllApplications = (): Observable<any> => {
       // //TODO Change the link when available
-      if (this.roleID!== -1)
+      if (this.roleID == -1 && this.duplicateID == -1) 
       {
+        const aux: Array<any> = [];
+        return of(aux);
+
+      }
+      else {
         var urlReq = `${this.roleToEdit._links.applications.href}`
         if (this.roleToEdit._links.applications.templated) {
           var url = new URL(urlReq.split("{")[0]);
@@ -375,10 +398,6 @@ export class RoleFormComponent implements OnInit {
         }
         return (this.http.get(urlReq))
         .pipe(map(data => data['_embedded']['applications']));
-      }
-      else {
-        const aux: Array<any> = [];
-        return of(aux);
       }
 
     }
@@ -577,6 +596,13 @@ export class RoleFormComponent implements OnInit {
 
     this.roleService.save( this.formRole.value)
     .subscribe(resp => {
+
+      if (this.roleID == -1 && this.duplicateID != -1) {
+        this.formRole.patchValue({
+          _links: null
+        })
+      }
+
       this.roleToEdit=resp;
       this.roleID=resp.id
       this.formRole.patchValue({

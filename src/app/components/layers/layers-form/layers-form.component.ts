@@ -781,9 +781,11 @@ export class LayersFormComponent implements OnInit {
       if (territoryFilter.status === 'pendingCreation' || territoryFilter.status === 'pendingModify') {
         if(territoryFilter.status === 'pendingCreation') {
           territoryFilter.cartography = this.layerToEdit; 
-          let territorialLevelOfElement= this.filterTypeIds.find(x => x.id===territoryFilter.territorialLevel )
-          territoryFilter.territorialLevel = territorialLevelOfElement;
-          territoryFilter._links = null;
+          if(!territoryFilter.territorialLevel){
+             territoryFilter.territorialLevel = { _links:{self:{href:territoryFilter._links.territorialLevel.href.split("{")[0]}} };
+             territoryFilter.id=null;
+             territoryFilter._links = null;
+            }
        }
         territorialFilterToSave.push(territoryFilter)
       }
@@ -1070,13 +1072,13 @@ export class LayersFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
-          // let territorialLevel= this.filterTypeIds.find(x => x.id===this.territorialFilterForm.value.territorialLevel )
-          // if(territorialLevel==undefined || territorialLevel.id==-1 ){
-          //   territorialLevel=null
-          // }
-          // this.territorialFilterForm.patchValue({
-          //   territorialLevel : territorialLevel
-          // })
+          let territorialLevel= this.filterTypeIds.find(x => x.id===this.territorialFilterForm.value.territorialLevel )
+          if(territorialLevel==undefined || territorialLevel.id==-1 ){
+            territorialLevel=null
+          }
+          this.territorialFilterForm.patchValue({
+            territorialLevel : territorialLevel
+          })
           let item = this.territorialFilterForm.value;
           if(item.values!= null) { item.values = item.values.split(",") }
           item.giid = this.layerToEdit.id

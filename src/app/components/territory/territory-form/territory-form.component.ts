@@ -35,6 +35,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryForm: FormGroup;
   territoryToEdit: any;
   territoryID = -1;
+  duplicateID = -1;
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
   dataLoaded: Boolean = false;
@@ -138,18 +139,19 @@ export class TerritoryFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.activatedRoute.params.subscribe(params => {
         this.territoryID = +params.id;
-        if (this.territoryID !== -1) {
-          this.territoryService.get(this.territoryID).subscribe(
+        if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+        if (this.territoryID !== -1 || this.duplicateID != -1) {
+          let idToGet = this.territoryID !== -1? this.territoryID: this.duplicateID  
+          this.territoryService.get(idToGet).subscribe(
             resp => {
               console.log(resp);
               this.territoryToEdit = resp;
 
               this.extensions = this.territoryToEdit.extent.split(' ');
 
-              this.territoryForm.setValue({
-                id: this.territoryID,
+              this.territoryForm.patchValue({
                 code: this.territoryToEdit.code,
-                name: this.territoryToEdit.name,
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
                 territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
                 scope: this.territoryToEdit.scope,
@@ -164,28 +166,47 @@ export class TerritoryFormComponent implements OnInit {
                 _links: this.territoryToEdit._links
               });
 
-              this.translationService.getAll()
-              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.territoryID && elem.column == config.translationColumns.territoryName)
-              )).subscribe( result => {
-                console.log(result);
-                result.forEach(translation => {
-                  if(translation.languageName == config.languagesObjects.catalan.name){
-                    this.catalanTranslation=translation
-                  }
-                  if(translation.languageName == config.languagesObjects.spanish.name){
-                    this.spanishTranslation=translation
-                  }
-                  if(translation.languageName == config.languagesObjects.english.name){
-                    this.englishTranslation=translation
-                  }
-                  if(translation.languageName == config.languagesObjects.aranese.name){
-                    this.araneseTranslation=translation
-                  }
+
+              if(this.territoryID !=-1){
+
+
+
+                this.territoryForm.patchValue({
+                id: this.territoryID,
+                name: this.territoryToEdit.name,
                 });
-                console.log(this.catalanTranslation);
+                    
+
+
+                this.translationService.getAll()
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.territoryID && elem.column == config.translationColumns.territoryName)
+                )).subscribe( result => {
+                  console.log(result);
+                  result.forEach(translation => {
+                    if(translation.languageName == config.languagesObjects.catalan.name){
+                      this.catalanTranslation=translation
+                    }
+                    if(translation.languageName == config.languagesObjects.spanish.name){
+                      this.spanishTranslation=translation
+                    }
+                    if(translation.languageName == config.languagesObjects.english.name){
+                      this.englishTranslation=translation
+                    }
+                    if(translation.languageName == config.languagesObjects.aranese.name){
+                      this.araneseTranslation=translation
+                    }
+                  });
+                  console.log(this.catalanTranslation);
+                }
+          
+                );;
+              } 
+              else{
+                this.territoryForm.patchValue({
+                name: this.utils.getTranslate('copy_').concat(this.territoryToEdit.name),
+                });
               }
-        
-              );;
+
 
               if (!this.territoryToEdit.groupTypeId) {
                 this.territoryForm.patchValue({
@@ -372,7 +393,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -504,7 +525,7 @@ export class TerritoryFormComponent implements OnInit {
 
   // ******** MembersOf ******** //
   getAllMembersOf = (): Observable<any> => {
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -558,7 +579,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Members ******** //
   getAllMembers = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -611,7 +632,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Cartography ******** //
   getAllCartographies = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -638,6 +659,10 @@ export class TerritoryFormComponent implements OnInit {
         if (index === -1) {
           cartographiesToCreate.push(cartography)
           cartography.new = false;
+          cartography._links=null;
+          if(! cartography.cartography){
+            cartography.cartography= { _links:{self:{href:cartography._links.cartography.href.split("{")[0]}} };
+          }
         }
 
       }
@@ -660,7 +685,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -983,6 +1008,13 @@ export class TerritoryFormComponent implements OnInit {
         if (groupType == undefined || groupType.id === -1) {
           groupType = null;
         }
+
+        if (this.territoryID == -1 && this.duplicateID != -1) {
+          this.territoryForm.patchValue({
+            _links: null
+          })
+        }
+      
 
         this.terrritoryObj = new Territory();
         this.terrritoryObj.id = this.territoryID,

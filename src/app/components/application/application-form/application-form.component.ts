@@ -44,7 +44,9 @@ export class ApplicationFormComponent implements OnInit {
   //Dialog
   applicationForm: FormGroup;
   applicationToEdit;
+  applicationSaved: Application;
   applicationID = -1;
+  duplicateID = -1;
   dataLoaded: Boolean = false;
   themeGrid: any = config.agGridTheme;
 
@@ -162,17 +164,19 @@ export class ApplicationFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.activatedRoute.params.subscribe(params => {
         this.applicationID = +params.id;
-        if (this.applicationID !== -1) {
-          console.log(this.applicationID);
+        if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+
+        if (this.applicationID !== -1 || this.duplicateID != -1) {
   
-          this.applicationService.get(this.applicationID).subscribe(
+          let idToGet = this.applicationID !== -1? this.applicationID: this.duplicateID
+
+
+          this.applicationService.get(idToGet).subscribe(
             resp => {
               console.log(resp);
               this.applicationToEdit = resp;
   
-              this.applicationForm.setValue({
-                id: this.applicationID,
-                name: this.applicationToEdit.name,
+              this.applicationForm.patchValue({
                 type: this.applicationToEdit.type,
                 title: this.applicationToEdit.title,
                 jspTemplate: this.applicationToEdit.jspTemplate,
@@ -184,48 +188,65 @@ export class ApplicationFormComponent implements OnInit {
                 _links: this.applicationToEdit._links
               });
 
-              this.translationService.getAll()
-              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.applicationID)
-              )).subscribe( result => {
-                console.log(result);
-                result.forEach(translation => {
-                  if(translation.languageName == config.languagesObjects.catalan.name){
-                    if(translation.column == config.translationColumns.applicationName){
-                      this.catalanNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.applicationTitle){
-                      this.catalanTitleTranslation=translation
-                    }
-                  }
-                  if(translation.languageName == config.languagesObjects.spanish.name){
-                    if(translation.column == config.translationColumns.applicationName){
-                      this.spanishNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.applicationTitle){
-                      this.spanishTitleTranslation=translation
-                    }
-                  }
-                  if(translation.languageName == config.languagesObjects.english.name){
-                    if(translation.column == config.translationColumns.applicationName){
-                      this.englishNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.applicationTitle){
-                      this.englishTitleTranslation=translation
-                    }
-                  }
-                  if(translation.languageName == config.languagesObjects.aranese.name){
-                    if(translation.column == config.translationColumns.applicationName){
-                      this.araneseNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.applicationTitle){
-                      this.araneseTitleTranslation=translation
-                    }
-                  }
+              if(this.applicationID !== -1){
+                this.applicationForm.patchValue({
+                  id: this.applicationID,
+                  name: this.applicationToEdit.name,
+                  passwordSet: this.applicationToEdit.passwordSet,
                 });
               }
-        
-              );;
-  
+              else{
+                this.applicationForm.patchValue({
+                  name: this.utils.getTranslate('copy_').concat(this.applicationToEdit.name),
+                });
+              }
+
+
+              if(this.applicationID != -1)
+              {
+                this.translationService.getAll()
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.applicationID)
+                )).subscribe( result => {
+                  console.log(result);
+                  result.forEach(translation => {
+                    if(translation.languageName == config.languagesObjects.catalan.name){
+                      if(translation.column == config.translationColumns.applicationName){
+                        this.catalanNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.applicationTitle){
+                        this.catalanTitleTranslation=translation
+                      }
+                    }
+                    if(translation.languageName == config.languagesObjects.spanish.name){
+                      if(translation.column == config.translationColumns.applicationName){
+                        this.spanishNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.applicationTitle){
+                        this.spanishTitleTranslation=translation
+                      }
+                    }
+                    if(translation.languageName == config.languagesObjects.english.name){
+                      if(translation.column == config.translationColumns.applicationName){
+                        this.englishNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.applicationTitle){
+                        this.englishTitleTranslation=translation
+                      }
+                    }
+                    if(translation.languageName == config.languagesObjects.aranese.name){
+                      if(translation.column == config.translationColumns.applicationName){
+                        this.araneseNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.applicationTitle){
+                        this.araneseTitleTranslation=translation
+                      }
+                    }
+                  });
+                }
+          
+                );;
+                
+              }
               this.dataLoaded = true;
             },
             error => {
@@ -424,7 +445,7 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllParameters = (): Observable<any> => {
 
-    if(this.applicationID == -1)
+    if (this.applicationID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -449,10 +470,13 @@ export class ApplicationFormComponent implements OnInit {
     let parameterToDelete = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if(! parameter._links) {
           parameter.application=this.applicationToEdit} //If is new, you need the application link
+          if(parameter.status === 'pendingCreation'){
+            parameter._links=null;
+            parameter.id = null;
+          }
           parameterToSave.push(parameter)
-      }
+      
       if(parameter.status === 'pendingDelete' && parameter._links) {parameterToDelete.push(parameter) }
     });
     const promises: Promise<any>[] = [];
@@ -489,7 +513,7 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Template configuration ******** //
 
   getAllTemplates = (): Observable<any> => {
-    if(this.applicationID == -1)
+    if (this.applicationID == -1 && this.duplicateID == -1) 
     { 
       const aux: Array<any> = [];
       return of(aux);
@@ -532,7 +556,7 @@ export class ApplicationFormComponent implements OnInit {
   // ******** Roles ******** //
 
   getAllRoles = (): Observable<any> => {
-    if(this.applicationID == -1)
+    if (this.applicationID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -597,7 +621,7 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllBackgrounds = (): Observable<any> => {
 
-    if(this.applicationID == -1)
+    if (this.applicationID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -623,14 +647,16 @@ export class ApplicationFormComponent implements OnInit {
     let backgroundsToDelete = [];
     const promises: Promise<any>[] = [];
     data.forEach(background => {
-
       if (background.status === 'pendingCreation') {
+
         let index= data.findIndex(element => element.backgroundDescription === background.backgroundDescription && element.backgroundName === background.backgroundName && !element.new )
-        if (index === -1)
-        {
+        if (index === -1){
+        
           background.new=false;
           backgroundsToCreate.push(background) 
         }
+
+        
       }
       if(background.status === 'pendingDelete' ) {backgroundsToDelete.push(background) }
     });
@@ -656,7 +682,7 @@ export class ApplicationFormComponent implements OnInit {
 
   getAllTrees = (): Observable<any> => {
 
-    if(this.applicationID == -1)
+    if (this.applicationID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -900,6 +926,12 @@ export class ApplicationFormComponent implements OnInit {
         if(situationMap==undefined || situationMap.id==-1 ){
           situationMap=null
         }
+
+        if (this.applicationID == -1 && this.duplicateID != -1) {
+          this.applicationForm.patchValue({
+            _links: null
+          })
+        }
     
         var appObj: Application=new Application();
         
@@ -926,6 +958,7 @@ export class ApplicationFormComponent implements OnInit {
         .subscribe(async resp => {
           console.log(resp);
           this.applicationToEdit = resp;
+          this.applicationSaved = resp;
           this.applicationID = this.applicationToEdit.id;
           this.applicationForm.patchValue({
             id: resp.id,

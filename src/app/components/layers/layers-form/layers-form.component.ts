@@ -33,6 +33,8 @@ export class LayersFormComponent implements OnInit {
   layerForm: FormGroup;
   layerToEdit;
   layerID = -1;
+  duplicateID = -1;
+  firstSaveDone: Boolean = false;
   dataLoaded: Boolean = false;
   geometryTypes: Array<any> = [];
   legendTypes: Array<any> = [];
@@ -254,10 +256,13 @@ export class LayersFormComponent implements OnInit {
       console.log(this.spatialConfigurationServices);
       this.activatedRoute.params.subscribe(params => {
         this.layerID = +params.id;
-        if (this.layerID !== -1) {
+        if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+        if (this.layerID !== -1 || this.duplicateID != -1) {
+          let idToGet = this.layerID !== -1? this.layerID: this.duplicateID  
 
           //getCartography Entity
-          this.cartographyService.get(this.layerID).subscribe(
+          this.cartographyService.get(idToGet).subscribe(
             resp => {
               console.log(resp);
               this.layerToEdit = resp;
@@ -267,9 +272,7 @@ export class LayersFormComponent implements OnInit {
               let selectableLayers= null;
               if(this.layerToEdit.selectableLayers != null ) {selectableLayers = this.layerToEdit.selectableLayers.join(',')};
               this.parametersUrl = this.layerToEdit._links.parameters.href;
-              this.layerForm.setValue({
-                id: this.layerID,
-                name: this.layerToEdit.name,
+              this.layerForm.patchValue({
                 service: this.layerToEdit.serviceId,
                 layers: layers,
                 minimumScale: this.layerToEdit.minimumScale,
@@ -297,6 +300,18 @@ export class LayersFormComponent implements OnInit {
                 _links: this.layerToEdit._links
               });
 
+              if(this.layerID !== -1){
+                this.layerForm.patchValue({
+                id: this.layerID,
+                name: this.layerToEdit.name,
+                });
+              }
+              else{
+                this.layerForm.patchValue({
+                name: this.utils.getTranslate('copy_').concat(this.layerToEdit.name),
+                });
+              }
+
               if (this.layerToEdit.spatialSelectionServiceId == null) {
                 this.layerForm.patchValue({
                   spatialSelectionService: this.spatialConfigurationServices[0].id
@@ -314,29 +329,32 @@ export class LayersFormComponent implements OnInit {
               }
 
               
-              
-                this.translationService.getAll()
-                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID && elem.column == config.translationColumns.cartographyDescription)
-                )).subscribe( result => {
-                  console.log(result);
-                  result.forEach(translation => {
-                    if(translation.languageName == config.languagesObjects.catalan.name){
-                      this.catalanTranslation=translation
-                    }
-                    if(translation.languageName == config.languagesObjects.spanish.name){
-                      this.spanishTranslation=translation
-                    }
-                    if(translation.languageName == config.languagesObjects.english.name){
-                      this.englishTranslation=translation
-                    }
-                    if(translation.languageName == config.languagesObjects.aranese.name){
-                      this.araneseTranslation=translation
-                    }
-                  });
-                  console.log(this.catalanTranslation);
+                if(this.layerID != -1) {
+                  this.translationService.getAll()
+                  .pipe(map((data: any[]) => data.filter(elem => elem.element == this.layerID && elem.column == config.translationColumns.cartographyDescription)
+                  )).subscribe( result => {
+                    console.log(result);
+                    result.forEach(translation => {
+                      if(translation.languageName == config.languagesObjects.catalan.name){
+                        this.catalanTranslation=translation
+                      }
+                      if(translation.languageName == config.languagesObjects.spanish.name){
+                        this.spanishTranslation=translation
+                      }
+                      if(translation.languageName == config.languagesObjects.english.name){
+                        this.englishTranslation=translation
+                      }
+                      if(translation.languageName == config.languagesObjects.aranese.name){
+                        this.araneseTranslation=translation
+                      }
+                    });
+                    console.log(this.catalanTranslation);
+                  }
+            
+                  );;
+
                 }
-          
-                );;
+                
               
 
 
@@ -358,10 +376,9 @@ export class LayersFormComponent implements OnInit {
                       let value;
   
                       if (element.type === 'FILTRO' && this.layerToEdit.applyFilterToGetMap == null ) {
-                        value = (true == element.value)
                         this.parameteApplyFilterToGetMap=element;
                         this.layerForm.patchValue({
-                          applyFilterToGetMap: value
+                          applyFilterToGetMap: element.value
                         })
                       }
                       else if (element.type === 'FILTRO_INFO' && this.layerToEdit.applyFilterToGetFeatureInfo == null) {
@@ -635,7 +652,7 @@ export class LayersFormComponent implements OnInit {
   // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
 
-    if (this.layerID == -1) {
+    if (this.layerID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -658,10 +675,12 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if (!parameter._links) {
-          console.log(this.layerToEdit);
-          parameter.cartography = this.layerToEdit;
-        } //If is new, you need the service link
+        if(parameter.status === 'pendingCreation') {
+           parameter.cartography = this.layerToEdit; 
+           parameter._links = null;
+           parameter.id = null;
+        }
+        
         parameterToSave.push(parameter)
       }
       if (parameter.status === 'pendingDelete' && parameter._links) { parameterToDelete.push(parameter) }
@@ -717,7 +736,7 @@ export class LayersFormComponent implements OnInit {
   // ******** Spatial configuration ******** //
   getAllSpatialConfigurations = (): Observable<any> => {
 
-    if (this.layerID == -1) {
+    if (this.layerID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -738,7 +757,7 @@ export class LayersFormComponent implements OnInit {
   // ******** Territorial Filters  ******** //
   getAllTerritorialFilters = (): Observable<any> => {
 
-    if (this.layerID == -1) {
+    if (this.layerID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -760,9 +779,12 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(territoryFilter => {
       if (territoryFilter.status === 'pendingCreation' || territoryFilter.status === 'pendingModify') {
-        if (!territoryFilter._links) {
-          territoryFilter.cartography = this.layerToEdit;
-        } //If is new, you need the service link
+        if(territoryFilter.status === 'pendingCreation') {
+          territoryFilter.cartography = this.layerToEdit; 
+          let territorialLevelOfElement= this.filterTypeIds.find(x => x.id===territoryFilter.territorialLevel )
+          territoryFilter.territorialLevel = territorialLevelOfElement;
+          territoryFilter._links = null;
+       }
         territorialFilterToSave.push(territoryFilter)
       }
       if (territoryFilter.status === 'pendingDelete' && territoryFilter._links) { territorialFilterToDelete.push(territoryFilter) }
@@ -799,7 +821,7 @@ export class LayersFormComponent implements OnInit {
 
   // ******** Territories ******** //
   getAllTerritories = (): Observable<any> => {
-    if (this.layerID == -1) {
+    if (this.layerID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -825,6 +847,7 @@ export class LayersFormComponent implements OnInit {
       if (territory.status === 'pendingCreation') {
         let index = data.findIndex(element => element.territoryCode === territory.territoryCode && !element.new)
         if (index === -1) {
+          territory._links=null;
           territoriesToCreate.push(territory)
           territory.new = false;
         }
@@ -855,7 +878,7 @@ export class LayersFormComponent implements OnInit {
   getAllLayersConfiguration = (): Observable<any> => {
 
 
-    if (this.layerID == -1) {
+    if (this.layerID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -946,7 +969,10 @@ export class LayersFormComponent implements OnInit {
       node._links.cartography.href=urlReq
       nodeAct._links=node._links
       nodeAct.cartography=this.layerForm.value
-      if (node.status === 'pendingModify' || node.status === 'pendingCreation') { nodesToPut.push(nodeAct) }
+      if (node.status === 'pendingModify' || node.status === 'pendingCreation') {
+        if(node.status==='pendingCreation') { node._links=null; }
+         nodesToPut.push(nodeAct) 
+        }
       else if (node.status === 'pendingDelete') { nodesToDelete.push(nodeAct) }
     });
 
@@ -1044,13 +1070,13 @@ export class LayersFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.event === 'Add') {
-          let territorialLevel= this.filterTypeIds.find(x => x.id===this.territorialFilterForm.value.territorialLevel )
-          if(territorialLevel==undefined || territorialLevel.id==-1 ){
-            territorialLevel=null
-          }
-          this.territorialFilterForm.patchValue({
-            territorialLevel : territorialLevel
-          })
+          // let territorialLevel= this.filterTypeIds.find(x => x.id===this.territorialFilterForm.value.territorialLevel )
+          // if(territorialLevel==undefined || territorialLevel.id==-1 ){
+          //   territorialLevel=null
+          // }
+          // this.territorialFilterForm.patchValue({
+          //   territorialLevel : territorialLevel
+          // })
           let item = this.territorialFilterForm.value;
           if(item.values!= null) { item.values = item.values.split(",") }
           item.giid = this.layerToEdit.id
@@ -1196,6 +1222,12 @@ export class LayersFormComponent implements OnInit {
 
     if (this.layerForm.valid) {
 
+      if (this.layerID == -1 && this.duplicateID != -1) {
+        this.layerForm.patchValue({
+          _links: null
+        })
+      }
+
       let service = this.services.find(x => x.id === this.layerForm.value.service)
       if (service == undefined) {
         service = null
@@ -1253,7 +1285,15 @@ export class LayersFormComponent implements OnInit {
       this.cartographyService.save(cartography)
         .subscribe(async resp => {
 
-          if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection){
+          console.log(resp);
+          this.layerToEdit = resp;
+          this.layerID = resp.id;
+          this.layerForm.patchValue({
+            id: resp.id,
+            _links: resp._links
+          })
+
+          if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection && this.firstSaveDone){
             if(this.parameteApplyFilterToGetMap != null)
             {
               this.parameteApplyFilterToGetMap.status="pendingDelete"       
@@ -1265,7 +1305,7 @@ export class LayersFormComponent implements OnInit {
             }
           }
           else{
-            if(this.parameteApplyFilterToGetMap != null)
+            if(this.parameteApplyFilterToGetMap != null && this.firstSaveDone )
             {
               this.parameteApplyFilterToGetMap.value=this.layerForm.value.applyFilterToGetMap
               this.parameteApplyFilterToGetMap.status="pendingModify"           
@@ -1285,15 +1325,9 @@ export class LayersFormComponent implements OnInit {
             }
           }
 
-          
+          this.firstSaveDone=true;
 
-          console.log(resp);
-          this.layerToEdit = resp;
-          this.layerID = resp.id;
-          this.layerForm.patchValue({
-            id: resp.id,
-            _links: resp._links
-          })
+
 
           if(this.translationsModified){
             this.catalanTranslation = await this.utils.saveTranslation(resp.id,this.catalanTranslation);

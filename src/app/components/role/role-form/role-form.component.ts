@@ -94,9 +94,7 @@ export class RoleFormComponent implements OnInit {
           resp => {
             console.log(resp);
             this.roleToEdit = resp;
-            this.formRole.setValue({
-              id: this.roleID,
-              name: this.roleToEdit.name,
+            this.formRole.patchValue({
               description: this.roleToEdit.description,
               _links: this.roleToEdit._links
             });

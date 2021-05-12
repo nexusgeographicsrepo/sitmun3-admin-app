@@ -138,9 +138,7 @@ export class ServiceFormComponent implements OnInit {
               }
               // this.projections = this.serviceToEdit.supportedSRS.split(';');
               this.parametersUrl = this.serviceToEdit._links.parameters.href;
-              this.serviceForm.setValue({
-                id: this.serviceID,
-                name: this.serviceToEdit.name,
+              this.serviceForm.patchValue({
                 type: this.serviceToEdit.type,
                 description: this.serviceToEdit.description,
                 serviceURL: this.serviceToEdit.serviceURL,

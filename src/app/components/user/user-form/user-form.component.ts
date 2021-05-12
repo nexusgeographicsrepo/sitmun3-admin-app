@@ -30,6 +30,7 @@ export class UserFormComponent implements OnInit {
   userForm: FormGroup;
   userToEdit: User;
   userID = -1;
+  duplicateID = -1;
   dataLoaded: Boolean = false;
 
   //Grids
@@ -76,25 +77,39 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.userID = +params.id;
-      if (this.userID !== -1) {
+      if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+      if (this.userID !== -1 || this.duplicateID != -1) {
+        let idToGet = this.userID !== -1? this.userID: this.duplicateID  
         console.log(this.userID);
 
-        this.userService.get(this.userID).subscribe(
+        this.userService.get(idToGet).subscribe(
           resp => {
             console.log(resp);
             this.userToEdit = resp;
-            this.userForm.setValue({
-              id: this.userID,
-              username: this.userToEdit.username,
+            this.userForm.patchValue({
               firstName: this.userToEdit.firstName,
               lastName: this.userToEdit.firstName,
               password: null,
               confirmPassword: null,
-              passwordSet: this.userToEdit.passwordSet,
               administrator: this.userToEdit.administrator,
               blocked: this.userToEdit.blocked,
               _links: this.userToEdit._links
             });
+
+            if(this.userID !== -1){
+                this.userForm.patchValue({
+                id: this.userID,
+                username: this.userToEdit.username,
+                passwordSet: this.userToEdit.passwordSet,
+              });
+            }
+            else{
+              this.userForm.patchValue({
+              username: this.utils.getTranslate('copy_').concat(this.userToEdit.username),
+              passwordSet: false,
+              });
+            }
 
             this.dataLoaded = true;
           },
@@ -194,13 +209,13 @@ export class UserFormComponent implements OnInit {
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
 
-    if (this.userID == -1) {
+    if (this.userID == -1 && this.duplicateID == -1)  {
       const aux: Array<any> = [];
       return of(aux);
     }
 
     let params2: HalParam[] = [];
-    let param: HalParam = { key: 'user.id', value: this.userID }
+    let param: HalParam = { key: 'user.id', value: this.userID!=-1?this.userID:this.duplicateID }
     params2.push(param);
     let query: HalOptions = { params: params2 };
 
@@ -223,13 +238,26 @@ export class UserFormComponent implements OnInit {
 
       if (userConf.status === 'pendingCreation') {
 
-        
-        let item = {
-          role: userConf.roleComplete,
-          appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
-          territory: userConf.territoryComplete,
-          user: this.userToEdit
+        let item;
+
+        if(userConf._links){
+          item = {
+           role: { _links:{self:{href:userConf._links.role.href}} },
+           appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
+           territory:{ _links:{self:{href:userConf._links.territory.href.split("{")[0]}} },
+            user: this.userToEdit
+          }
         }
+        else{
+          item = {
+            role: userConf.roleComplete,
+            appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
+            territory: userConf.territoryComplete,
+            user: this.userToEdit
+          }
+        }
+        
+ 
 
     
 
@@ -237,16 +265,31 @@ export class UserFormComponent implements OnInit {
         let indexTerritory = data.findIndex(element => element.territoryId === item.territory.id && !element.new )
         if(indexTerritory === -1)
         {
-          let itemTerritory = {
-            territory: userConf.territoryComplete,
-            user: this.userToEdit,
-            createdDate: new Date()
+
+          let itemTerritory;
+          if(userConf._links){
+            itemTerritory = {
+              territory: userConf.territoryComplete,
+              user: this.userToEdit,
+              createdDate: new Date(),
+              id: null,
+              _links: null,
+            }
+            
           }
+          else{
+            itemTerritory = {
+              territory: userConf.territoryComplete,
+              user: this.userToEdit,
+              createdDate: new Date()
+            }
+          }
+          
+
           territoriesToAdd.push(itemTerritory)
         }
 
         let index;
-        item.role = userConf.roleComplete,
           index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id &&
             element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
 
@@ -328,7 +371,7 @@ export class UserFormComponent implements OnInit {
   // ******** Data of Territory ******** //
   getAllDataTerritory = (): Observable<any> => {
 
-    if (this.userID == -1) {
+    if (this.userID == -1 && this.duplicateID == -1)  {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -354,14 +397,24 @@ export class UserFormComponent implements OnInit {
   getAllRowsDataTerritories(data: any[]) {
     let territoriesToEdit = [];
     data.forEach(territory => {
-      if (territory.status === 'pendingModify') {
+      if (territory.status === 'pendingModify' || territory.status === 'pendingCreation') {
         if(territory.expirationDate != null)
         {
           let date = new Date(territory.expirationDate)
           territory.expirationDate=date.toISOString();
           console.log(territory.expirationDate)
         }
-        territoriesToEdit.push(territory)   
+        // if(territory.status == 'pendingCreation'){
+        //   let item ={
+        //     createdDate: new Date(),
+        //     territory:{ _links:{self:{href:territory._links.territory.href.split("{")[0]}} },
+        //     user: this.userToEdit
+        //   }
+        //   territoriesToEdit.push(item)  
+        //   //      item.territory = item.territory._links.self.href;
+        // }
+          territoriesToEdit.push(territory)   
+        
 
        }
     });
@@ -546,6 +599,13 @@ export class UserFormComponent implements OnInit {
     if (this.userForm.valid) {
 
       if (this.userForm.value.password === this.userForm.value.confirmPassword) {
+
+        if (this.userID == -1 && this.duplicateID != -1) {
+          this.userForm.patchValue({
+            _links: null
+          })
+        }
+
         let userObj: User = new User();
         userObj.username = this.userForm.value.username;
         userObj.password = this.userForm.value.password;

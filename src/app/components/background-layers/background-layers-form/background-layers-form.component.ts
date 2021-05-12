@@ -178,17 +178,15 @@ export class BackgroundLayersFormComponent implements OnInit {
           
                 );;
 
-                var urlReq = `${this.backgroundToEdit._links.cartographyGroup.href}`
-                this.http.get(urlReq)
-                .pipe(map(data =>{
-                  console.log(data);
-                  this.cartographyGroupOfThisLayer= data;
-                  this.dataLoaded = true;
-                } )).subscribe();
+
               }
-              else{
+              var urlReq = `${this.backgroundToEdit._links.cartographyGroup.href}`
+              this.http.get(urlReq)
+              .pipe(map(data =>{
+                console.log(data);
+                this.cartographyGroupOfThisLayer= data;
                 this.dataLoaded = true;
-              }
+              } )).subscribe();
              
 
 
@@ -310,7 +308,7 @@ export class BackgroundLayersFormComponent implements OnInit {
   // ******** Cartographies configuration ******** //
   getAllCartographies = () => {
 
-    if(this.cartographyGroupOfThisLayer == null)
+    if(this.cartographyGroupOfThisLayer == null && this.backgroundID == -1 && this.duplicateID == -1)
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -372,7 +370,7 @@ export class BackgroundLayersFormComponent implements OnInit {
   // ******** Roles  ******** //
   getAllRoles = () => {
 
-    if(this.cartographyGroupOfThisLayer == null)
+    if(this.cartographyGroupOfThisLayer == null && this.backgroundID == -1 && this.duplicateID == -1)
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -500,6 +498,12 @@ export class BackgroundLayersFormComponent implements OnInit {
       cartographyGroupObj.name = this.backgroundForm.value.name;
       cartographyGroupObj.type = this.backgroundForm.value.cartographyGroup;
       cartographyGroupObj._links = null;
+
+      if (this.backgroundID == -1 && this.duplicateID != -1) {
+        this.cartographyGroupOfThisLayer = null;
+      }
+
+
       if(this.cartographyGroupOfThisLayer == null)
       {
         this.cartographyGroupService.save(cartographyGroupObj)

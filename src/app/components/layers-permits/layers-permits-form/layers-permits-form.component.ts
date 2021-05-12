@@ -23,6 +23,7 @@ export class LayersPermitsFormComponent implements OnInit {
   formLayersPermits: FormGroup;
   layersPermitsToEdit;
   layersPermitsID = -1;
+  duplicateID = -1;
   themeGrid: any = config.agGridTheme;
   permissionGroupTypes: Array<any> = [];
   dataLoaded: Boolean = false;
@@ -73,19 +74,33 @@ export class LayersPermitsFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.activatedRoute.params.subscribe(params => {
         this.layersPermitsID = +params.id;
-        if (this.layersPermitsID !== -1) {
+        if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+        if (this.layersPermitsID !== -1 || this.duplicateID != -1) {
+          let idToGet = this.layersPermitsID !== -1? this.layersPermitsID: this.duplicateID  
+      
           console.log(this.layersPermitsID);
   
-          this.cartographyGroupService.get(this.layersPermitsID).subscribe(
+          this.cartographyGroupService.get(idToGet).subscribe(
             resp => {
               console.log(resp);
               this.layersPermitsToEdit = resp;
-              this.formLayersPermits.setValue({
-                id: this.layersPermitsID,
-                name: this.layersPermitsToEdit.name,
+              this.formLayersPermits.patchValue({
                 type: this.layersPermitsToEdit.type,
                 _links: this.layersPermitsToEdit._links
               });
+
+              if(this.layersPermitsID !== -1){
+                this.formLayersPermits.patchValue({
+                id: this.layersPermitsID,
+                name: this.layersPermitsToEdit.name,
+                });
+                  }
+              else{
+                this.formLayersPermits.patchValue({
+                name: this.utils.getTranslate('copy_').concat(this.layersPermitsToEdit.name),
+                });
+              }
   
               this.dataLoaded = true;
             },
@@ -158,7 +173,7 @@ export class LayersPermitsFormComponent implements OnInit {
   // ******** Cartographies configuration ******** //
   getAllCartographies = () => {
 
-    if(this.layersPermitsID == -1)
+    if (this.layersPermitsID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -220,7 +235,7 @@ export class LayersPermitsFormComponent implements OnInit {
   // ******** Roles  ******** //
   getAllRoles = () => {
 
-    if(this.layersPermitsID == -1)
+    if (this.layersPermitsID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -348,6 +363,13 @@ export class LayersPermitsFormComponent implements OnInit {
 
     if(this.formLayersPermits.valid)
     {
+
+      if (this.layersPermitsID == -1 && this.duplicateID != -1) {
+        this.formLayersPermits.patchValue({
+          _links: null
+        })
+      }
+
         this.cartographyGroupService.save(this.formLayersPermits.value)
         .subscribe(resp => {
           console.log(resp);

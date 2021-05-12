@@ -34,6 +34,7 @@ export class ServiceFormComponent implements OnInit {
   serviceForm: FormGroup;
   serviceToEdit;
   serviceID = -1;
+  duplicateID = -1;
   visible = true;
   selectable = true;
   removable = true;
@@ -122,8 +123,11 @@ export class ServiceFormComponent implements OnInit {
 
       this.activatedRoute.params.subscribe(params => {
         this.serviceID = +params.id;
-        if (this.serviceID !== -1) {
-          this.serviceService.get(this.serviceID).subscribe(
+        if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+        if (this.serviceID !== -1 || this.duplicateID != -1) {
+          let idToGet = this.serviceID !== -1? this.serviceID: this.duplicateID  
+          this.serviceService.get(idToGet).subscribe(
             resp => {
               console.log(resp);
               this.serviceToEdit = resp;
@@ -147,13 +151,27 @@ export class ServiceFormComponent implements OnInit {
                 _links: this.serviceToEdit._links
               });
 
-                            
-              this.translationService.getAll()
-              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.serviceID && elem.column == config.translationColumns.serviceDescription)
-              )).subscribe( result => {
-                console.log(result);
-                this.saveTranslations(result);
-              });;
+              if(this.serviceID != -1){
+                this.serviceForm.patchValue({
+                  id: this.serviceID,
+                  name: this.serviceToEdit.name,
+                  });
+
+                this.translationService.getAll()
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.serviceID && elem.column == config.translationColumns.serviceDescription)
+                )).subscribe( result => {
+                  console.log(result);
+                  this.saveTranslations(result);
+                });;
+              } 
+              else{
+                this.serviceForm.patchValue({
+                  name: this.utils.getTranslate('copy_').concat(this.serviceToEdit.name),
+                  });
+              }   
+
+
+
   
               this.dataLoaded = true;
             },
@@ -309,7 +327,7 @@ export class ServiceFormComponent implements OnInit {
   // ******** Parameters configuration ******** //
   getAllParameters = (): Observable<any> => {
     
-    if(this.serviceID == -1)
+    if (this.serviceID == -1 && this.duplicateID == -1) 
     {
       const aux: Array<any> = [];
       return of(aux);
@@ -335,10 +353,13 @@ export class ServiceFormComponent implements OnInit {
     let parameterToDelete = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if(! parameter._links) {
-          parameter.service=this.serviceToEdit} //If is new, you need the service link
+        if(parameter.status === 'pendingCreation'){
+            parameter.id = null;
+            parameter._links=null;
+            parameter.service=this.serviceToEdit
+          } //If is new, you need the service link
           parameterToSave.push(parameter)
-      }
+        }
       if(parameter.status === 'pendingDelete' && parameter._links) {parameterToDelete.push(parameter) }
     });
     const promises: Promise<any>[] = [];
@@ -375,8 +396,7 @@ export class ServiceFormComponent implements OnInit {
   // ******** Layers ******** //
   getAllLayers = (): Observable<any> => {
 
-    if(this.serviceID == -1)
-    {
+    if (this.serviceID == -1 && this.duplicateID == -1){
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -499,6 +519,13 @@ export class ServiceFormComponent implements OnInit {
     // })
     if(this.serviceForm.valid)
     {
+
+      if (this.serviceID == -1 && this.duplicateID != -1) {
+        this.serviceForm.patchValue({
+          _links: null
+        })
+      }
+
       this.serviceForm.patchValue({
         supportedSRS: this.projections
       })

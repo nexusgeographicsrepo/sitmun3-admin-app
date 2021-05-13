@@ -492,7 +492,7 @@
           <mat-form-field appearance="outline">
             <mat-select matInput formControlName="format" class="form-control">
               <mat-option [value]="formatType.value" *ngFor="let formatType of parameterFormatTypes">
-                {{ formatType.value}}
+                {{ formatType.description}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -557,7 +557,7 @@
           <mat-form-field appearance="outline">
             <mat-select matInput formControlName="format" class="form-control">
               <mat-option [value]="formatType.value" *ngFor="let formatType of parameterFormatTypes">
-                {{ formatType.value}}
+                {{ formatType.description}}
               </mat-option>
             </mat-select>
           </mat-form-field>

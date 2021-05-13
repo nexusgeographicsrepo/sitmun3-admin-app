@@ -44,6 +44,7 @@ export class TreesFormComponent implements OnInit {
 
   themeGrid: any = config.agGridTheme;
   treeID: number = -1;
+  duplicateID = -1;
   treeForm: FormGroup;
   treeNodeForm: FormGroup;
   idFictitiousCounter=-1;
@@ -51,6 +52,7 @@ export class TreesFormComponent implements OnInit {
   dataLoaded: Boolean = false;
   currentNodeIsFolder: Boolean;
   newElement: Boolean = false;
+  duplicateToDo = false;
   sendNodeUpdated: Subject<any> = new Subject <any>();
   getAllElementsNodes: Subject<boolean> = new Subject <boolean>();
   refreshTreeEvent: Subject<boolean> = new Subject <boolean>();
@@ -78,68 +80,86 @@ export class TreesFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.treeID = +params.id;
-      if (this.treeID !== -1) {
+      if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+      if (this.treeID !== -1 || this.duplicateID != -1) {
+        let idToGet = this.treeID !== -1? this.treeID: this.duplicateID 
         console.log(this.treeID);
 
-        this.treeService.get(this.treeID).subscribe(
+        this.treeService.get(idToGet).subscribe(
           resp => {
             console.log(resp);
             this.treeToEdit = resp;
-            this.treeForm.setValue({
-              id: this.treeID,
-              name: this.treeToEdit.name,
+            this.treeForm.patchValue({
               description: this.treeToEdit.description,
               image: this.treeToEdit.image,
               _links: this.treeToEdit._links
             });
 
-            this.translationService.getAll()
-            .pipe(map((data: any[]) => data.filter(elem => elem.element == this.treeID || elem.column == config.translationColumns.treeNodeName ||
-              elem.column == config.translationColumns.treeNodeDescription)
-            )).subscribe( result => {
-              console.log(result);
-              result.forEach(translation => {
-                if(translation.column== config.translationColumns.treeName || translation.column== config.translationColumns.treeDescription)
-                {
-                  if(translation.languageName == config.languagesObjects.catalan.name){
-                    if(translation.column == config.translationColumns.treeName){
-                      this.catalanNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.treeDescription){
-                      this.catalanDescriptionTranslation=translation
-                    }
-                  }
-                  if(translation.languageName == config.languagesObjects.spanish.name){
-                    if(translation.column == config.translationColumns.treeName){
-                      this.spanishNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.treeDescription){
-                      this.spanishDescriptionTranslation=translation
-                    }
-                  }
-                  if(translation.languageName == config.languagesObjects.english.name){
-                    if(translation.column == config.translationColumns.treeName){
-                      this.englishNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.treeDescription){
-                      this.englishDescriptionTranslation=translation
-                    }
-                  }
-                  if(translation.languageName == config.languagesObjects.aranese.name){
-                    if(translation.column == config.translationColumns.treeName){
-                      this.araneseNameTranslation=translation
-                    }
-                    else if(translation.column == config.translationColumns.treeDescription){
-                      this.araneseDescriptionTranslation=translation
-                    }
-                  }
-                }
-                else{
-                  this.saveTreeNodeTranslation(translation);
-                }
-
+            if(this.treeID !== -1){
+              this.treeForm.patchValue({
+              id: this.treeID,
+              name: this.treeToEdit.name,
               });
-            });
+            }
+            else{
+              this.treeForm.patchValue({
+              name: this.utils.getTranslate('copy_').concat(this.treeToEdit.name),
+              });
+              this.duplicateToDo=true;
+            }
+
+            if(this.treeID !=-1)
+            {
+              this.translationService.getAll()
+              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.treeID || elem.column == config.translationColumns.treeNodeName ||
+                elem.column == config.translationColumns.treeNodeDescription)
+              )).subscribe( result => {
+                console.log(result);
+                result.forEach(translation => {
+                  if(translation.column== config.translationColumns.treeName || translation.column== config.translationColumns.treeDescription)
+                  {
+                    if(translation.languageName == config.languagesObjects.catalan.name){
+                      if(translation.column == config.translationColumns.treeName){
+                        this.catalanNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.treeDescription){
+                        this.catalanDescriptionTranslation=translation
+                      }
+                    }
+                    if(translation.languageName == config.languagesObjects.spanish.name){
+                      if(translation.column == config.translationColumns.treeName){
+                        this.spanishNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.treeDescription){
+                        this.spanishDescriptionTranslation=translation
+                      }
+                    }
+                    if(translation.languageName == config.languagesObjects.english.name){
+                      if(translation.column == config.translationColumns.treeName){
+                        this.englishNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.treeDescription){
+                        this.englishDescriptionTranslation=translation
+                      }
+                    }
+                    if(translation.languageName == config.languagesObjects.aranese.name){
+                      if(translation.column == config.translationColumns.treeName){
+                        this.araneseNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.treeDescription){
+                        this.araneseDescriptionTranslation=translation
+                      }
+                    }
+                  }
+                  else{
+                    this.saveTreeNodeTranslation(translation);
+                  }
+  
+                });
+              });
+            }
+            
 
             this.dataLoaded = true;
           },
@@ -302,7 +322,11 @@ export class TreesFormComponent implements OnInit {
   }
 
   getAllTreeNodes= (): Observable<any> => {
-    if(this.treeID!=-1){
+    if(this.treeID == -1 && this.duplicateID == -1){
+      const aux: Array<any> = [];
+      return of(aux);
+
+    }else{
       var urlReq = `${this.treeForm.value._links.allNodes.href}`
       if (this.treeForm.value._links.allNodes.templated) {
         var url = new URL(urlReq.split("{")[0]);
@@ -311,9 +335,6 @@ export class TreesFormComponent implements OnInit {
       }
       return (this.http.get(urlReq))
         .pipe(map(data => data['_embedded']['tree-nodes']));
-    }else{
-      const aux: Array<any> = [];
-      return of(aux);
     }
   }
 
@@ -458,11 +479,24 @@ export class TreesFormComponent implements OnInit {
 
   getAllNodes(data: TreeNode[])
   {
+    		
+	  if (this.treeID == -1 && this.duplicateID != -1) {
+      this.treeForm.patchValue({
+        _links: null
+      })
+    }
+  
+
     console.log(data);
     this.treeService.save( this.treeForm.value)
     .subscribe(async resp => {
       this.treeToEdit=resp;
       this.treeID=resp.id;
+
+      this.treeForm.patchValue({
+        _links : resp._links,
+        id: resp.id
+      })
 
       if(this.nameTranslationsModified)
       {
@@ -510,7 +544,14 @@ export class TreesFormComponent implements OnInit {
         treeNodeObj.metadataURL= tree.metadataURL;
         treeNodeObj.description= tree.description;
         treeNodeObj.tree= this.treeToEdit;
-        treeNodeObj._links= tree._links;
+
+
+        if(this.duplicateToDo){
+          treeNodeObj._links= null;
+        }
+        else{
+          treeNodeObj._links= tree._links;
+        }
 
         if(tree.status !== "pendingDelete")
         {
@@ -621,7 +662,10 @@ export class TreesFormComponent implements OnInit {
 
     };
     Promise.all(promises).then(() => {
-      if(depth === 0) {this.refreshTreeEvent.next(true)}
+      if(depth === 0) {
+        this.refreshTreeEvent.next(true)
+        this.duplicateToDo=false;
+      }
     });
       
   }

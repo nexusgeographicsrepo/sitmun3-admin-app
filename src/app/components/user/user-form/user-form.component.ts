@@ -12,6 +12,7 @@ import { config } from 'src/config';
 import { DialogGridComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
+import { resolve } from 'dns';
 
 
 
@@ -225,12 +226,13 @@ export class UserFormComponent implements OnInit {
 
 
 
-  getAllRowsPermits(data: any[]) {
+  async getAllRowsPermits(data: any[]) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
     let territoriesToAdd= [];
     let territoriesToDelete= [];
+    let territoriesIdDuplicated = [];
     const promisesCheckTerritories: Promise<any>[] = [];
     // data.forEach(userConf => {
     for(let i = 0; i<data.length; i++){
@@ -239,13 +241,52 @@ export class UserFormComponent implements OnInit {
       if (userConf.status === 'pendingCreation') {
 
         let item;
+        
+
+        let itemTerritory;
 
         if(userConf._links){
+
+          
+          
+          let urlReqRole = `${userConf._links.role.href}`
+          if (userConf._links.role.href) {
+            let url = new URL(urlReqRole.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqRole = url.toString();
+          }
+          // let roleComplete = await this.http.get(urlReqRole).pipe(map(data => data[`_links`][`self`][`href`])).toPromise();
+          let roleComplete = await this.http.get(urlReqRole).toPromise();
+
+          let urlReqTerritory = `${userConf._links.territory.href}`
+          if (userConf._links.territory.href) {
+            let url = new URL(urlReqTerritory.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqTerritory = url.toString();
+          }
+          // let territoryComplete = await this.http.get(urlReqTerritory).pipe(map(data => data[`_links`][`self`][`href`])).toPromise();
+          let territoryComplete = await this.http.get(urlReqTerritory).toPromise();
+          let indexTerritory = territoriesIdDuplicated.findIndex(element => element == territoryComplete[`id`] )
+
           item = {
-           role: { _links:{self:{href:userConf._links.role.href}} },
+           role: roleComplete,
            appliesToChildrenTerritories: userConf.appliesToChildrenTerritories,
-           territory:{ _links:{self:{href:userConf._links.territory.href.split("{")[0]}} },
+           territory: territoryComplete,
             user: this.userToEdit
+          }
+
+          if(indexTerritory === -1)
+          {
+              territoriesIdDuplicated.push(territoryComplete[`id`]);
+              itemTerritory = {
+                territory: territoryComplete,
+                user: this.userToEdit,
+                createdDate: new Date(),
+                id: null,
+                _links: null,
+              }
+              territoriesToAdd.push(itemTerritory)
+ 
           }
         }
         else{
@@ -255,39 +296,21 @@ export class UserFormComponent implements OnInit {
             territory: userConf.territoryComplete,
             user: this.userToEdit
           }
-        }
-        
- 
+          let indexTerritory = data.findIndex(element => element.territoryId === item.territory.id && !element.new )
 
-    
-
-
-        let indexTerritory = data.findIndex(element => element.territoryId === item.territory.id && !element.new )
-        if(indexTerritory === -1)
-        {
-
-          let itemTerritory;
-          if(userConf._links){
-            itemTerritory = {
-              territory: userConf.territoryComplete,
-              user: this.userToEdit,
-              createdDate: new Date(),
-              id: null,
-              _links: null,
-            }
-            
-          }
-          else{
+          if(indexTerritory === -1)
+          {
             itemTerritory = {
               territory: userConf.territoryComplete,
               user: this.userToEdit,
               createdDate: new Date()
             }
+               
+            territoriesToAdd.push(itemTerritory)
           }
-          
 
-          territoriesToAdd.push(itemTerritory)
         }
+
 
         let index;
           index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id &&

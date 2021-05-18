@@ -483,7 +483,7 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsNodes = [
       this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
-      this.utils.getEditableColumnDef('layersEntity.name', 'name'),
+      this.utils.getNonEditableColumnDef('layersEntity.name', 'name'),
       this.utils.getNonEditableColumnDef('layersEntity.treeName', 'treeName'),
       this.utils.getStatusColumnDef()
     ];

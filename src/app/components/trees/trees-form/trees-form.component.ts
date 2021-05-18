@@ -517,7 +517,8 @@ export class TreesFormComponent implements OnInit {
 
       let mapNewIdentificators: Map <number, any[]> = new Map<number, any[]>();
       const promises: Promise<any>[] = [];
-      this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);
+       this.updateAllTrees(data,0,mapNewIdentificators, promises,  null, null);
+      this.refreshTreeEvent.next(true)
     },
     error=>{
       console.log(error);
@@ -539,19 +540,30 @@ export class TreesFormComponent implements OnInit {
         treeNodeObj.tooltip= tree.tooltip;
         treeNodeObj.order= tree.order;
         treeNodeObj.active= tree.active;
-        treeNodeObj.cartography= tree.cartography;
         treeNodeObj.datasetURL= tree.datasetURL;
         treeNodeObj.metadataURL= tree.metadataURL;
         treeNodeObj.description= tree.description;
         treeNodeObj.tree= this.treeToEdit;
 
 
-        if(this.duplicateToDo){
-          treeNodeObj._links= null;
+
+        if(tree.status === "pendingCreation" && tree._links && !tree.isFolder && !tree.cartography){
+
+            let urlReqCartography = `${tree._links.cartography.href}`
+            if (tree._links.cartography.href) {
+              let url = new URL(urlReqCartography.split("{")[0]);
+              url.searchParams.append("projection", "view")
+              urlReqCartography = url.toString();
+            }
+            tree.cartography = await this.http.get(urlReqCartography).toPromise();
+          
         }
         else{
-          treeNodeObj._links= tree._links;
+          if(tree.status !== "pendingCreation") { treeNodeObj._links= tree._links; }
+          
         }
+        treeNodeObj.cartography= tree.cartography;
+
 
         if(tree.status !== "pendingDelete")
         {
@@ -566,7 +578,7 @@ export class TreesFormComponent implements OnInit {
             else{
               if(newId == null)
               {
-                if(mapNewIdentificators.has(tree.parent)) { mapNewIdentificators[tree.parent].push(tree)  }
+                if(mapNewIdentificators.has(tree.parent)) { mapNewIdentificators.get(tree.parent).push(tree)  }
                 else{
                   mapNewIdentificators.set(tree.parent,[tree])
                 }
@@ -585,7 +597,7 @@ export class TreesFormComponent implements OnInit {
           
           if (currentParent !== undefined)
           {
-
+  
               if(tree.status === "pendingCreation" && currentParent!=null){
                 treeNodeObj.parent= currentParent._links.self.href;
               }
@@ -662,10 +674,7 @@ export class TreesFormComponent implements OnInit {
 
     };
     Promise.all(promises).then(() => {
-      if(depth === 0) {
-        this.refreshTreeEvent.next(true)
-        this.duplicateToDo=false;
-      }
+        this.refreshTreeEvent.next(true);
     });
       
   }

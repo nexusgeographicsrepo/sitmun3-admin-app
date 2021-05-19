@@ -432,6 +432,7 @@ export class TerritoryFormComponent implements OnInit {
     let usersConfDelete = [];
     const promisesDuplicate: Promise<any>[] = [];
     const promisesCurrentUserConf: Promise<any>[] = [];
+    const promises: Promise<any>[] = [];
     console.log(data);
     for(let i = 0; i<data.length; i++){
       let userConf= data[i];
@@ -492,7 +493,9 @@ export class TerritoryFormComponent implements OnInit {
               }
               if (index === -1) {
                 userConf.new = false;
-                usersConfToCreate.push(item)
+                // usersConfToCreate.push(item)
+                promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(item).subscribe((resp) => { resolve(true) }) }));
+
               }
               resolve(true);
             })
@@ -529,9 +532,9 @@ export class TerritoryFormComponent implements OnInit {
       if (userConf.status === 'pendingDelete' && userConf._links) { usersConfDelete.push(userConf) }
     };
 
-    Promise.all(promisesCurrentUserConf).then( () =>{ 
 
-      const promises: Promise<any>[] = [];
+
+
       usersConfToCreate.forEach(newElement => {
         promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
       });
@@ -543,11 +546,11 @@ export class TerritoryFormComponent implements OnInit {
   
       });
   
-      Promise.all(promises).then(() => {
+      Promise.all([...promises,...promisesDuplicate]).then(() => {
         this.dataUpdatedEventPermits.next(true);
       });
 
-    })
+    
 
 
 
@@ -1195,11 +1198,11 @@ export class TerritoryFormComponent implements OnInit {
               this.translationsModified = false;
             }
 
-            this.getAllElementsEventPermits.next(true);
             this.getAllElementsEventCartographies.next(true);
             this.getAllElementsEventTasks.next(true);
             this.getAllElementsEventTerritoriesMemberOf.next(true);
             this.getAllElementsEventTerritoriesMembers.next(true);
+            this.getAllElementsEventPermits.next(true);
           },
             error => {
               console.log(error);

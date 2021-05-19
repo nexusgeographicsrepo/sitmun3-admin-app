@@ -675,7 +675,7 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if(parameter.status === 'pendingCreation') {
+        if(parameter.status === 'pendingCreation'  || parameter.new) {
            parameter.cartography = this.layerToEdit; 
            parameter._links = null;
            parameter.id = null;
@@ -683,7 +683,7 @@ export class LayersFormComponent implements OnInit {
         promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
         parameterToSave.push(parameter)
       }
-      if (parameter.status === 'pendingDelete' && parameter._links) {
+      if (parameter.status === 'pendingDelete' && parameter._links && !parameter.new ) {
         promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));
 
         }
@@ -774,7 +774,7 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(territoryFilter => {
       if (territoryFilter.status === 'pendingCreation' || territoryFilter.status === 'pendingModify') {
-        if(territoryFilter.status === 'pendingCreation') {
+        if(territoryFilter.status === 'pendingCreation'  || territoryFilter.new) {
           territoryFilter.cartography = this.layerToEdit; 
           if(!territoryFilter.territorialLevel){
              territoryFilter.territorialLevel = { _links:{self:{href:territoryFilter._links.territorialLevel.href.split("{")[0]}} };
@@ -786,7 +786,7 @@ export class LayersFormComponent implements OnInit {
         promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.save(territoryFilter).subscribe((resp) => { resolve(true) }) }));
 
       }
-      if (territoryFilter.status === 'pendingDelete' && territoryFilter._links) {
+      if (territoryFilter.status === 'pendingDelete' && territoryFilter._links && !territoryFilter.new ) {
         //  territorialFilterToDelete.push(territoryFilter) 
          promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.remove(territoryFilter).subscribe((resp) => { resolve(true) }) }));
 
@@ -868,7 +868,7 @@ export class LayersFormComponent implements OnInit {
 
         }
       }
-      if (territory.status === 'pendingDelete' && territory._links) {
+      if (territory.status === 'pendingDelete' && territory._links && !territory.new ) {
         promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.remove(territory).subscribe((resp) => { resolve(true) }) }));
 
         //  territoriesToDelete.push(territory) 
@@ -918,13 +918,15 @@ export class LayersFormComponent implements OnInit {
 
   getAllRowsLayersConfiguration(data: any[]) {
     let dataChanged = false;
-    let layersConfigurationModified = [];
+    const promises: Promise<any>[] = [];
     let layersConfigurationToPut = [];
     data.forEach(layer => {
 
       if (layer.status !== 'pendingDelete') {
         if (layer.status === 'pendingModify') {
-          layersConfigurationModified.push(layer) 
+          if(layer.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(layer).subscribe((resp) => { resolve(true) }) }));
+
         }
         else if (layer.status === 'pendingCreation') {
            dataChanged = true;
@@ -932,15 +934,6 @@ export class LayersFormComponent implements OnInit {
         layersConfigurationToPut.push(layer._links.self.href) 
       }
       else {dataChanged = true}
-    });
-    console.log(layersConfigurationModified);
-    this.updateLayersConfigurations(layersConfigurationModified, layersConfigurationToPut, dataChanged);
-  }
-
-  updateLayersConfigurations(layersConfigurationModified: CartographyGroup[], layersConfigurationToPut: CartographyGroup[], dataChanged: boolean) {
-    const promises: Promise<any>[] = [];
-    layersConfigurationModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartography).subscribe((resp) => { resolve(true) }) }));
     });
     Promise.all(promises).then(() => {
       if(dataChanged){
@@ -952,6 +945,7 @@ export class LayersFormComponent implements OnInit {
       }
     });
   }
+
 
   // ******** Nodes configuration ******** //
   getAllNodes = (): Observable<any> => {
@@ -996,7 +990,7 @@ export class LayersFormComponent implements OnInit {
 
         //  nodesToPut.push(nodeAct) 
         }
-      else if (node.status === 'pendingDelete') {
+      else if (node.status === 'pendingDelete'  && !node.new ) {
         //  nodesToDelete.push(nodeAct) 
         promises.push(new Promise((resolve, reject) => { this.treeNodeService.remove(node).subscribe((resp) => { resolve(true) }) }));
 

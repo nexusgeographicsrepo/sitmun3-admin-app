@@ -239,13 +239,14 @@ export class ConnectionFormComponent implements OnInit {
 
   getAllRowsTasks(data: any[]) {
     let dataChanged = false;
-    let tasksModified = [];
     let tasksToPut = [];
+    const promises: Promise<any>[] = [];
     data.forEach(task => {
 
       if (task.status !== 'pendingDelete') { 
         if (task.status === 'pendingModify') {
-          tasksModified.push(task);
+          if(task.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).subscribe((resp) => { resolve(true) }) }));
         }
         else if (task.status === 'pendingCreation'){
           dataChanged = true;
@@ -256,15 +257,6 @@ export class ConnectionFormComponent implements OnInit {
         dataChanged = true;
       }
     });
-    this.updateTasks(tasksModified, tasksToPut, dataChanged);
-
-  }
-
-  updateTasks(tasksModified: Task[], tasksToPut: Task[], dataChanged:boolean) {
-    const promises: Promise<any>[] = [];
-    tasksModified.forEach(task => {
-      promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).subscribe((resp) => { resolve(true) }) }));
-    });
     Promise.all(promises).then(() => {
       if(dataChanged){
         let url = this.connectionToEdit._links.tasks.href.split('{', 1)[0];
@@ -272,6 +264,7 @@ export class ConnectionFormComponent implements OnInit {
       }
       else{ this.dataUpdatedEventTasks.next(true) }
     });
+
   }
 
   // ******** Cartography Dialog  ******** //

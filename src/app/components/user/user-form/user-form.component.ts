@@ -321,7 +321,7 @@ export class UserFormComponent implements OnInit {
           usersConfToCreate.push(item)
         }
       }
-      if (userConf.status === 'pendingDelete' && userConf._links) {
+      if (userConf.status === 'pendingDelete' && userConf._links && !userConf.new ) {
 
         
         let indexTerritory = data.findIndex(element =>  element.territoryId === userConf.territoryId && element.status !== 'pendingDelete' )

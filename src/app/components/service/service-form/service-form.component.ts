@@ -352,14 +352,14 @@ export class ServiceFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if(parameter.status === 'pendingCreation'){
+        if(parameter.status === 'pendingCreation'  || parameter.new){
             parameter.id = null;
             parameter._links=null;
             parameter.service=this.serviceToEdit
           } //If is new, you need the service link
           promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
         }
-      if(parameter.status === 'pendingDelete' && parameter._links) {
+      if(parameter.status === 'pendingDelete' && parameter._links  && !parameter.new ) {
         promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));    
         // parameterToDelete.push(parameter) 
       }
@@ -421,26 +421,20 @@ export class ServiceFormComponent implements OnInit {
   getAllRowsLayers(data: any[] )
   {
     let dataChanged = false;
-    let layersModified = [];
+    const promises: Promise<any>[] = [];
     let layersToPut = [];
     data.forEach(cartography => {
       if(cartography.status!== 'pendingDelete') {
-        if (cartography.status === 'pendingModify') {layersModified.push(cartography) }
+        if (cartography.status === 'pendingModify') {
+          if(cartography.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).subscribe((resp) => { resolve(true) }) }));
+        }
         else if (cartography.status === 'pendingCreation') {dataChanged = true }
         layersToPut.push(cartography._links.self.href)
       }
       else {dataChanged = true}
     });
 
-    this.updateLayers(layersModified, layersToPut, dataChanged );
-  }
-
-  updateLayers(layersModified: Cartography[], layersToPut: Cartography[], dataChanged: boolean)
-  {
-    const promises: Promise<any>[] = [];
-    layersModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).subscribe((resp) => { resolve(true) }) }));
-    });
     Promise.all(promises).then(() => {
       if(dataChanged){
         let url=this.serviceToEdit._links.layers.href.split('{', 1)[0];

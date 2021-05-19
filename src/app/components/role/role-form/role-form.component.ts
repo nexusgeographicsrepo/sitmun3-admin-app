@@ -289,12 +289,13 @@ export class RoleFormComponent implements OnInit {
   getAllRowsTasks(data: any[] )
   {
     let dataChanged = false;
-    let tasksModified = [];
+    const promises: Promise<any>[] = [];
     let tasksToPut = [];
     data.forEach(task => {
       if(task.status!== 'pendingDelete') {
         if (task.status === 'pendingModify') {
-          tasksModified.push(task) 
+          if(task.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).subscribe((resp) => { resolve(true) }) }));
         }
         else if(task.status === 'pendingCreation'){
           dataChanged = true;
@@ -305,16 +306,6 @@ export class RoleFormComponent implements OnInit {
         dataChanged = true;
       }
     });
-    this.updateTasks(tasksModified, tasksToPut, dataChanged);
-
-  }
-
-  updateTasks(tasksModified: Task[], tasksToPut: Task[], dataChanged: boolean)
-  {
-    const promises: Promise<any>[] = [];
-      tasksModified.forEach(task => {
-        promises.push(new Promise((resolve, reject) => { this.tasksService.update(task).subscribe((resp) => { resolve(true) }) }));
-      });
     Promise.all(promises).then(() => {
       if(dataChanged)
       {
@@ -323,6 +314,7 @@ export class RoleFormComponent implements OnInit {
       }
       else { this.dataUpdatedEventTasks.next(true) }
       });
+
   }
 
   // ******** Cartography Groups ******** //
@@ -350,34 +342,29 @@ export class RoleFormComponent implements OnInit {
   getAllRowsCartographiesGroups(data: any[] )
   {
     let dataChanged = false;
-    let cartographiesGroupModified = [];
+    const promises: Promise<any>[] = [];
     let cartographiesGroupToPut = [];
     data.forEach(cartographyGroup => {
       if(cartographyGroup.status!== 'pendingDelete') {
-        if (cartographyGroup.status === 'pendingModify') { cartographiesGroupModified.push(cartographyGroup) }
+        if (cartographyGroup.status === 'pendingModify') {
+          if(cartographyGroup.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartographyGroup).subscribe((resp) => { resolve(true) }) }));
+
+          }
         else if (cartographyGroup.status === 'pendingCreation') { dataChanged = true };
         cartographiesGroupToPut.push(cartographyGroup._links.self.href) 
       }
       else { dataChanged = true }
     });
-
-    this.updateCartographiesGroups(cartographiesGroupModified, cartographiesGroupToPut, dataChanged );
-  }
-
-  updateCartographiesGroups(cartographiesGroupsModified: CartographyGroup[], cartographiesGroupsToPut: CartographyGroup[], dataChanged:boolean)
-  {
-    const promises: Promise<any>[] = [];
-    cartographiesGroupsModified.forEach(cartographyGroup => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(cartographyGroup).subscribe((resp) => { resolve(true) }) }));
-    });
     Promise.all(promises).then(() => {
       if(dataChanged){
         let url=this.roleToEdit._links.permissions.href.split('{', 1)[0];
-        this.utils.updateUriList(url,cartographiesGroupsToPut, this.dataUpdatedEventCartographies)
+        this.utils.updateUriList(url,cartographiesGroupToPut, this.dataUpdatedEventCartographies)
       }
       else { this.dataUpdatedEventCartographies.next(true) }
     });
   }
+
     // ******** Applications ******** //
     getAllApplications = (): Observable<any> => {
       // //TODO Change the link when available
@@ -403,27 +390,18 @@ export class RoleFormComponent implements OnInit {
     getAllRowsApplications(data: any[] )
     {
       let dataChanged = false;
-      let applicationsModified = [];
+      const promises: Promise<any>[] = [];
       let applicationsToPut = [];
       data.forEach(application => {
         if(application.status!== 'pendingDelete') {
-          if (application.status === 'pendingModify') {applicationsModified.push(application) }
+          if (application.status === 'pendingModify') {
+            if(application.new){ dataChanged = true; }
+            promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).subscribe((resp) => { resolve(true) }) }));
+          }
           else if( application.status === 'pendingCreation') {dataChanged = true}
           applicationsToPut.push(application._links.self.href) 
         }
         else {dataChanged = true}
-      });
-
-      console.log(applicationsModified);
-      this.updateApplications(applicationsModified, applicationsToPut, dataChanged);
-    
-    }
-
-    updateApplications(applicationsModified: Application[], applicationsToPut: Application[], dataChanged: boolean)
-    {
-      const promises: Promise<any>[] = [];
-      applicationsModified.forEach(application => {
-        promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).subscribe((resp) => { resolve(true) }) }));
       });
       Promise.all(promises).then(() => {
         if(dataChanged){
@@ -432,8 +410,8 @@ export class RoleFormComponent implements OnInit {
         }
         else {this.dataUpdatedEventApplications.next(true)}
       });
+    
     }
-  
     
     // ******** Users Dialog  ******** //
 

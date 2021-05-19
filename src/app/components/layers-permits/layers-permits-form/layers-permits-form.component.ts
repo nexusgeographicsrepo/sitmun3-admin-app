@@ -194,12 +194,13 @@ export class LayersPermitsFormComponent implements OnInit {
   getAllRowsCartographies(data: any[] )
   {
     let dataChanged = false;
-    let cartographiesModified = [];
+    const promises: Promise<any>[] = [];
     let cartographiesToPut = [];
     data.forEach(cartography => {
       if(cartography.status!== 'pendingDelete') {
         if (cartography.status === 'pendingModify') {
-          cartographiesModified.push(cartography) 
+          if(cartography.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).subscribe((resp) => { resolve(true) }) }));
         }
         else if (cartography.status === 'pendingCreation') {
           dataChanged = true;
@@ -210,16 +211,6 @@ export class LayersPermitsFormComponent implements OnInit {
         dataChanged = true;
       }
     });
-    console.log(cartographiesModified);
-    this.updateCartographies(cartographiesModified, cartographiesToPut, dataChanged);
-  }
-
-  updateCartographies(cartographiesModified: Cartography[], cartographiesToPut: Cartography[], dataChanged: boolean)
-  {
-    const promises: Promise<any>[] = [];
-    cartographiesModified.forEach(cartography => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyService.update(cartography).subscribe((resp) => { resolve(true) }) }));
-    });
     Promise.all(promises).then(() => {
       if(dataChanged){
         let url=this.layersPermitsToEdit._links.members.href.split('{', 1)[0];
@@ -228,9 +219,6 @@ export class LayersPermitsFormComponent implements OnInit {
       else { this.dataUpdatedEventCartographies.next(true) }
     });
   }
-
-
-
 
   // ******** Roles  ******** //
   getAllRoles = () => {
@@ -256,12 +244,14 @@ export class LayersPermitsFormComponent implements OnInit {
   getAllRowsRoles(data: any[] )
   {
     let dataChanged = false;
-    let rolesModified = [];
+    const promises: Promise<any>[] = [];
     let rolesToPut = [];
     data.forEach(role => {
       if(role.status!== 'pendingDelete') {
         if (role.status === 'pendingModify') {
-          rolesModified.push(role) 
+          if(role.new){ dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
+
         }
         else if(role.status === 'pendingCreation'){
           dataChanged = true;
@@ -272,16 +262,6 @@ export class LayersPermitsFormComponent implements OnInit {
         dataChanged = true;
       }
     });
-    console.log(rolesModified);
-    this.updateRoles(rolesModified, rolesToPut, dataChanged);
-  }
-
-  updateRoles(rolesModified: Role[], rolesToPut: Role[], dataChanged: boolean)
-  {
-    const promises: Promise<any>[] = [];
-    rolesModified.forEach(role => {
-      promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
-    });
     Promise.all(promises).then(() => {
       if(dataChanged)
       {
@@ -291,7 +271,6 @@ export class LayersPermitsFormComponent implements OnInit {
       else { this.dataUpdatedEventRoles.next(true) }
     });
   }
-
 
   // ******** Cartography Dialog  ******** //
 

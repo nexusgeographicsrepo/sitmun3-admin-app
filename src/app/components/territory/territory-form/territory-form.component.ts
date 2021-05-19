@@ -529,7 +529,7 @@ export class TerritoryFormComponent implements OnInit {
         }
 
       }
-      if (userConf.status === 'pendingDelete' && userConf._links) { usersConfDelete.push(userConf) }
+      if (userConf.status === 'pendingDelete' && userConf._links  && !userConf.new ) { usersConfDelete.push(userConf) }
     };
 
 
@@ -769,7 +769,7 @@ export class TerritoryFormComponent implements OnInit {
 
 
       }
-      if (cartography.status === 'pendingDelete' && cartography._links) {
+      if (cartography.status === 'pendingDelete' && cartography._links && !cartography.new ) {
         promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.remove(cartography).subscribe((resp) => { resolve(true) }) }));
 
         //  cartographiesToDelete.push(cartography) 
@@ -804,7 +804,7 @@ export class TerritoryFormComponent implements OnInit {
   getAllRowsTasks(data: any[]) {
     const promises: Promise<any>[] = [];
     data.forEach(task => {
-      if (task.status === 'pendingDelete' && task._links) {
+      if (task.status === 'pendingDelete' && task._links  && !task.new ) {
         promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.remove(task).subscribe((resp) => { resolve(true) }) }));
         //  tasksToDelete.push(task) 
         }

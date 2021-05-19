@@ -733,23 +733,57 @@ export class TerritoryFormComponent implements OnInit {
   getAllRowsCartographies(data: any[]) {
     let cartographiesToCreate = [];
     let cartographiesToDelete = [];
+    const promises: Promise<any>[] = [];
+    const promisesDuplicate: Promise<any>[] = [];
     data.forEach(cartography => {
       cartography.territory = this.territoryToEdit;
       if (cartography.status === 'pendingCreation') {
+
         let index = data.findIndex(element => element.cartographyId === cartography.cartographyId && !element.new)
         if (index === -1) {
-          cartographiesToCreate.push(cartography)
+          cartography.territory= this.territoryToEdit;
           cartography.new = false;
-          cartography._links=null;
-          if(! cartography.cartography){
-            cartography.cartography= { _links:{self:{href:cartography._links.cartography.href.split("{")[0]}} };
+          if(cartography._links){
+            cartography.id=null;
+            let urlReqCartography= `${cartography._links.cartography.href}`
+            let url = new URL(urlReqCartography.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqCartography = url.toString();
+  
+            cartography._links=null;
+            promises.push(new Promise((resolve, reject) => {
+                this.http.get(urlReqCartography).subscribe(result => {
+                  cartography.cartography=result;
+                  this.cartographyAvailabilityService.save(cartography).subscribe((resp) => { resolve(true) });
+                })
+            }))
+            
+  
+          }
+          else{
+            cartographiesToCreate.push(cartography)
           }
         }
+
+
+
+
+        // let index = data.findIndex(element => element.cartographyId === cartography.cartographyId && !element.new)
+        // if (index === -1) {
+        //   cartographiesToCreate.push(cartography)
+        //   cartography.new = false;
+        //   cartography._links=null;
+        //   if(! cartography.cartography){
+        //     cartography.cartography= { _links:{self:{href:cartography._links.cartography.href.split("{")[0]}} };
+        //   }
+        // }
 
       }
       if (cartography.status === 'pendingDelete' && cartography._links) { cartographiesToDelete.push(cartography) }
     });
-    const promises: Promise<any>[] = [];
+
+
+
     cartographiesToCreate.forEach(newElement => {
       promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });
@@ -785,21 +819,47 @@ export class TerritoryFormComponent implements OnInit {
   getAllRowsTasks(data: any[]) {
     let tasksToDelete = [];
     let tasksToCreate = [];
+    const promises: Promise<any>[] = [];
     data.forEach(task => {
       if (task.status === 'pendingDelete' && task._links) { tasksToDelete.push(task) }
       if (task.status === 'pendingCreation') {
-
+        task.territory=this.territoryToEdit;
         let index = data.findIndex(element => element.taskId === task.taskId && !element.new)
         if (index === -1) {
           task.new = false;
           let taskToCreate: TaskAvailability = new TaskAvailability();
           taskToCreate.territory = this.territoryToEdit;
-          taskToCreate.task = task;
-          tasksToCreate.push(taskToCreate)
+          if(task._links){
+            task.id=null;
+            let urlReqTask= `${task._links.task.href}`
+            let url = new URL(urlReqTask.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqTask = url.toString();
+  
+            task._links=null;
+
+            promises.push(new Promise((resolve, reject) => {
+                this.http.get(urlReqTask).subscribe(result => {
+                  
+
+                  task.task=result;
+                  taskToCreate.task = task.task;
+                  this.taskAvailabilityService.save(task).subscribe((resp) => { resolve(true) });
+                })
+            }))
+            
+  
+          }
+          else{
+            taskToCreate.task = task;
+            tasksToCreate.push(taskToCreate)
+          }
+
+
         }
       }
     });
-    const promises: Promise<any>[] = [];
+
 
     tasksToCreate.forEach(task => {
       promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(task).subscribe((resp) => { resolve(true) }) }));

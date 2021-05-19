@@ -646,14 +646,36 @@ export class ApplicationFormComponent implements OnInit {
     let backgroundsToCreate = [];
     let backgroundsToDelete = [];
     const promises: Promise<any>[] = [];
+    const promisesBackground: Promise<any>[] = [];
     data.forEach(background => {
       if (background.status === 'pendingCreation') {
 
         let index= data.findIndex(element => element.backgroundDescription === background.backgroundDescription && element.backgroundName === background.backgroundName && !element.new )
         if (index === -1){
-        
           background.new=false;
-          backgroundsToCreate.push(background) 
+          background.application= this.applicationToEdit;
+          if(background._links){ //Duplicate
+            let urlReqBackground = `${background._links.background.href}`
+            background.id = null;
+            if (background._links.background.href) {
+              let url = new URL(urlReqBackground.split("{")[0]);
+              url.searchParams.append("projection", "view")
+              urlReqBackground = url.toString();
+            }
+            background._links=null;
+            promisesBackground.push(new Promise((resolve, reject) => {
+                this.http.get(urlReqBackground).subscribe(result => {
+                    background.background=result;
+                    backgroundsToCreate.push(background) 
+                    resolve(true);
+                })
+            }))
+          }
+          else{
+            backgroundsToCreate.push(background) 
+          }
+        
+
         }
 
         
@@ -661,17 +683,25 @@ export class ApplicationFormComponent implements OnInit {
       if(background.status === 'pendingDelete' ) {backgroundsToDelete.push(background) }
     });
 
-    backgroundsToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-    });
+    Promise.all(promisesBackground).then( () => {
+      backgroundsToCreate.forEach(newElement => {
+        promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+      });
+  
+      backgroundsToDelete.forEach(deletedElement => {
+        promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+      });
 
-    backgroundsToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
-    });
 
-    Promise.all(promises).then(() => {
-      this.dataUpdatedEventBackground.next(true);
-    });
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEventBackground.next(true);
+      });
+
+    })
+
+
+
+
 
   }
 
@@ -871,7 +901,6 @@ export class ApplicationFormComponent implements OnInit {
     let newBackgrounds = [];
     data.forEach(background => {
       let newBackground = {
-        application: this.applicationToEdit,
         background: background,
         backgroundDescription: background.description,
         backgroundName: background.name,

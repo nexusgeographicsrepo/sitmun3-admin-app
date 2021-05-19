@@ -397,9 +397,10 @@ export class TerritoryFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
+    let idToUse = this.territoryID == -1? this.duplicateID:this.territoryID
 
     let params2: HalParam[] = [];
-    let param: HalParam = { key: 'territory.id', value: this.territoryID }
+    let param: HalParam = { key: 'territory.id', value: idToUse }
     params2.push(param);
     let query: HalOptions = { params: params2 };
 
@@ -410,13 +411,13 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllPermitsChild = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
-
+    let idToUse = this.territoryID == -1? this.duplicateID:this.territoryID
     let params2: HalParam[] = [];
-    let param: HalParam = { key: 'territory.id', value: this.territoryID }
+    let param: HalParam = { key: 'territory.id', value: idToUse }
     params2.push(param);
     let query: HalOptions = { params: params2 };
 
@@ -425,50 +426,130 @@ export class TerritoryFormComponent implements OnInit {
       ));;
   }
 
-  getAllRowsPermits(data: any[], permitsChildren: boolean) {
+  async getAllRowsPermits(data: any[], permitsChildren: boolean) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
+    const promisesDuplicate: Promise<any>[] = [];
+    const promisesCurrentUserConf: Promise<any>[] = [];
     console.log(data);
-    data.forEach(userConf => {
+    for(let i = 0; i<data.length; i++){
+      let userConf= data[i];
       if (userConf.status === 'pendingCreation') {
-        let item = {
-          role: userConf.roleComplete,
-          appliesToChildrenTerritories: permitsChildren,
-          territory: this.territoryToEdit,
-          user: userConf.userComplete,
+        let item;
+        if(userConf._links){
+
+          let urlReqRole = `${userConf._links.role.href}`
+          if (userConf._links.role.href) {
+            let url = new URL(urlReqRole.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqRole = url.toString();
+          }
+
+          let urlReqUser = `${userConf._links.user.href}`
+          if (userConf._links.user.href) {
+            let url = new URL(urlReqUser.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqUser = url.toString();
+          }
+          let roleComplete; 
+          let userComplete;
+
+          promisesDuplicate.push(new Promise((resolve, reject) => {
+
+            promisesCurrentUserConf.push(new Promise((resolve, reject) => {
+              this.http.get(urlReqRole).subscribe(result => {
+                roleComplete = result;
+                resolve(true);
+              })
+            
+            }))
+
+            promisesCurrentUserConf.push(new Promise((resolve, reject) => {
+              this.http.get(urlReqUser).subscribe(result => {
+                userComplete = result;
+                resolve(true);
+              })
+            
+            }))
+
+
+            Promise.all(promisesCurrentUserConf).then( () =>{
+              
+              item = {
+                role: roleComplete,
+                appliesToChildrenTerritories: permitsChildren,
+                territory: this.territoryToEdit,
+                user: userComplete,
+              }
+              let index;
+              if (userConf.roleChildren == null) {
+              index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
+                 element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
+              }
+              else {
+                index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
+              }
+              if (index === -1) {
+                userConf.new = false;
+                usersConfToCreate.push(item)
+              }
+              resolve(true);
+            })
+
+          }))
+
+
+
         }
-        console.log(item);
-        let index;
-        // if (userConf.roleChildren == null) {
-        index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
-           element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
-        // }
-        // else {
-        //   index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
-        // }
-        if (index === -1) {
-          userConf.new = false;
-          usersConfToCreate.push(item)
+        else{
+          item = {
+            role: userConf.roleComplete,
+            appliesToChildrenTerritories: permitsChildren,
+            territory: this.territoryToEdit,
+            user: userConf.userComplete,
+          }
+
+          console.log(item);
+          let index;
+          if (userConf.roleChildren == null) {
+          index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
+             element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
+          }
+          else {
+            index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
+          }
+          if (index === -1) {
+            userConf.new = false;
+            usersConfToCreate.push(item)
+          }
         }
+
       }
       if (userConf.status === 'pendingDelete' && userConf._links) { usersConfDelete.push(userConf) }
-    });
-    const promises: Promise<any>[] = [];
-    usersConfToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-    });
+    };
 
-    usersConfDelete.forEach(deletedElement => {
-      if (deletedElement._links) {
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
-      }
+    Promise.all(promisesCurrentUserConf).then( () =>{ 
 
-    });
+      const promises: Promise<any>[] = [];
+      usersConfToCreate.forEach(newElement => {
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+      });
+  
+      usersConfDelete.forEach(deletedElement => {
+        if (deletedElement._links) {
+          promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+        }
+  
+      });
+  
+      Promise.all(promises).then(() => {
+        this.dataUpdatedEventPermits.next(true);
+      });
 
-    Promise.all(promises).then(() => {
-      this.dataUpdatedEventPermits.next(true);
-    });
+    })
+
+
 
   }
 

@@ -680,18 +680,13 @@ export class LayersFormComponent implements OnInit {
            parameter._links = null;
            parameter.id = null;
         }
-        
+        promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
         parameterToSave.push(parameter)
       }
-      if (parameter.status === 'pendingDelete' && parameter._links) { parameterToDelete.push(parameter) }
-    });
+      if (parameter.status === 'pendingDelete' && parameter._links) {
+        promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));
 
-    parameterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
-    });
-
-    parameterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+        }
     });
 
     Promise.all(promises).then(() => {
@@ -787,17 +782,15 @@ export class LayersFormComponent implements OnInit {
              territoryFilter._links = null;
             }
        }
-        territorialFilterToSave.push(territoryFilter)
+        // territorialFilterToSave.push(territoryFilter)
+        promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.save(territoryFilter).subscribe((resp) => { resolve(true) }) }));
+
       }
-      if (territoryFilter.status === 'pendingDelete' && territoryFilter._links) { territorialFilterToDelete.push(territoryFilter) }
-    });
+      if (territoryFilter.status === 'pendingDelete' && territoryFilter._links) {
+        //  territorialFilterToDelete.push(territoryFilter) 
+         promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.remove(territoryFilter).subscribe((resp) => { resolve(true) }) }));
 
-    territorialFilterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
-    });
-
-    territorialFilterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+        }
     });
 
     Promise.all(promises).then(() => {
@@ -853,6 +846,8 @@ export class LayersFormComponent implements OnInit {
         if (index === -1) {
           if(territory._links){
             territory.id=null;
+            territory.cartographyId=this.layerToEdit.id;
+            territory.cartographyName=this.layerToEdit.name;
             let urlReqTerritory= `${territory._links.territory.href}`
             let url = new URL(urlReqTerritory.split("{")[0]);
             url.searchParams.append("projection", "view")
@@ -867,22 +862,27 @@ export class LayersFormComponent implements OnInit {
 
           }
           else{
-            territoriesToCreate.push(territory)
+            promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(territory).subscribe((resp) => { resolve(true) }) }));
+            // territoriesToCreate.push(territory)
           }
 
         }
       }
-      if (territory.status === 'pendingDelete' && territory._links) { territoriesToDelete.push(territory) }
+      if (territory.status === 'pendingDelete' && territory._links) {
+        promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.remove(territory).subscribe((resp) => { resolve(true) }) }));
+
+        //  territoriesToDelete.push(territory) 
+        }
     });
 
-    territoriesToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-    });
+    // territoriesToCreate.forEach(newElement => {
+    //   promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+    // });
 
-    territoriesToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+    // territoriesToDelete.forEach(deletedElement => {
+    //   promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
 
-    });
+    // });
 
     Promise.all(promises).then(() => {
       this.dataUpdatedEventTerritories.next(true);
@@ -976,6 +976,7 @@ export class LayersFormComponent implements OnInit {
 
     let nodesToPut = [];
     let nodesToDelete = [];
+    const promises: Promise<any>[] = [];
     data.forEach(node => {
      
       let nodeAct= new TreeNode();
@@ -988,29 +989,34 @@ export class LayersFormComponent implements OnInit {
       nodeAct.name=node.name
       node._links.cartography.href=urlReq
       nodeAct._links=node._links
-      nodeAct.cartography=this.layerForm.value
+      nodeAct.cartography=this.layerToEdit;
       if (node.status === 'pendingModify' || node.status === 'pendingCreation') {
-        if(node.status==='pendingCreation') { node._links=null; }
-         nodesToPut.push(nodeAct) 
+        // if(node.status==='pendingCreation') { node._links=null; }
+        promises.push(new Promise((resolve, reject) => { this.treeNodeService.save(nodeAct).subscribe((resp) => { resolve(true) }) }));
+
+        //  nodesToPut.push(nodeAct) 
         }
-      else if (node.status === 'pendingDelete') { nodesToDelete.push(nodeAct) }
+      else if (node.status === 'pendingDelete') {
+        //  nodesToDelete.push(nodeAct) 
+        promises.push(new Promise((resolve, reject) => { this.treeNodeService.remove(node).subscribe((resp) => { resolve(true) }) }));
+
+        }
     });
 
-    this.updateNodes(nodesToPut, nodesToDelete);
-  }
 
-  updateNodes(nodesToPut: any[], nodesToDelete: any[]) {
-    const promises: Promise<any>[] = [];
-    nodesToPut.forEach(node => {
-      promises.push(new Promise((resolve, reject) => { this.treeNodeService.save(node).subscribe((resp) => { resolve(true) }) }));
-    });
-    nodesToDelete.forEach(node => {
-      promises.push(new Promise((resolve, reject) => { this.treeNodeService.remove(node).subscribe((resp) => { resolve(true) }) }));
-    });
+    // nodesToPut.forEach(node => {
+    //   promises.push(new Promise((resolve, reject) => { this.treeNodeService.save(node).subscribe((resp) => { resolve(true) }) }));
+    // });
+    // nodesToDelete.forEach(node => {
+    //   promises.push(new Promise((resolve, reject) => { this.treeNodeService.remove(node).subscribe((resp) => { resolve(true) }) }));
+    // });
     Promise.all(promises).then(() => {
       this.dataUpdatedEventNodes.next(true);
     });
+
   }
+
+
 
   // ******** Parameters Dialog  ******** //
 

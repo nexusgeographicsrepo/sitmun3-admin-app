@@ -349,6 +349,7 @@ export class ServiceFormComponent implements OnInit {
   {
     let parameterToSave = [];
     let parameterToDelete = [];
+    const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
         if(parameter.status === 'pendingCreation'){
@@ -356,18 +357,21 @@ export class ServiceFormComponent implements OnInit {
             parameter._links=null;
             parameter.service=this.serviceToEdit
           } //If is new, you need the service link
-          parameterToSave.push(parameter)
+          promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
         }
-      if(parameter.status === 'pendingDelete' && parameter._links) {parameterToDelete.push(parameter) }
-    });
-    const promises: Promise<any>[] = [];
-    parameterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
+      if(parameter.status === 'pendingDelete' && parameter._links) {
+        promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));    
+        // parameterToDelete.push(parameter) 
+      }
     });
 
-    parameterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
-    });
+    // parameterToSave.forEach(saveElement => {
+    //   promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
+    // });
+
+    // parameterToDelete.forEach(deletedElement => {
+    //   promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));    
+    // });
 
     Promise.all(promises).then(() => {
       this.dataUpdatedEventParameters.next(true);

@@ -468,6 +468,7 @@ export class ApplicationFormComponent implements OnInit {
   {
     let parameterToSave = [];
     let parameterToDelete = [];
+    const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
           parameter.application=this.applicationToEdit} //If is new, you need the application link
@@ -475,19 +476,25 @@ export class ApplicationFormComponent implements OnInit {
             parameter._links=null;
             parameter.id = null;
           }
-          parameterToSave.push(parameter)
+          // parameterToSave.push(parameter)
+          promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
+
       
-      if(parameter.status === 'pendingDelete' && parameter._links) {parameterToDelete.push(parameter) }
-    });
-    const promises: Promise<any>[] = [];
-    parameterToSave.forEach(saveElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
+      if(parameter.status === 'pendingDelete' && parameter._links) {
+        // parameterToDelete.push(parameter) 
+        promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));
+
+      }
     });
 
-    parameterToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+    // parameterToSave.forEach(saveElement => {
+    //   promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(saveElement).subscribe((resp) => { resolve(true) }) }));
+    // });
+
+    // parameterToDelete.forEach(deletedElement => {
+    //   promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
       
-    });
+    // });
 
     Promise.all(promises).then(() => {
       this.dataUpdatedEventParameters.next(true);
@@ -673,7 +680,8 @@ export class ApplicationFormComponent implements OnInit {
             }))
           }
           else{
-            backgroundsToCreate.push(background) 
+            // backgroundsToCreate.push(background) 
+            promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(background).subscribe((resp) => { resolve(true) }) }));
           }
         
 
@@ -681,17 +689,21 @@ export class ApplicationFormComponent implements OnInit {
 
         
       }
-      if(background.status === 'pendingDelete' ) {backgroundsToDelete.push(background) }
+      if(background.status === 'pendingDelete' ) {
+        // backgroundsToDelete.push(background) 
+        promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(background).subscribe((resp) => { resolve(true) }) }));
+
+      }
     });
 
 
-      backgroundsToCreate.forEach(newElement => {
-        promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-      });
+      // backgroundsToCreate.forEach(newElement => {
+      //   promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+      // });
   
-      backgroundsToDelete.forEach(deletedElement => {
-        promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
-      });
+      // backgroundsToDelete.forEach(deletedElement => {
+      //   promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+      // });
 
 
       Promise.all(promises).then(() => {

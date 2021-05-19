@@ -844,19 +844,37 @@ export class LayersFormComponent implements OnInit {
   getAllRowsTerritories(data: any[]) {
     let territoriesToCreate = [];
     let territoriesToDelete = [];
+    const promises: Promise<any>[] = [];
     data.forEach(territory => {
       territory.cartography = this.layerToEdit;
       if (territory.status === 'pendingCreation') {
         let index = data.findIndex(element => element.territoryCode === territory.territoryCode && !element.new)
+        territory.new = false;
         if (index === -1) {
-          territory._links=null;
-          territoriesToCreate.push(territory)
-          territory.new = false;
+          if(territory._links){
+            territory.id=null;
+            let urlReqTerritory= `${territory._links.territory.href}`
+            let url = new URL(urlReqTerritory.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqTerritory = url.toString();
+            territory._links=null
+            promises.push(new Promise((resolve, reject) => {
+                this.http.get(urlReqTerritory).subscribe(result => {
+                  territory.territory=result;
+                  this.cartograhyAvailabilityService.save(territory).subscribe((resp) => { resolve(true) });
+                })
+            }))
+
+          }
+          else{
+            territoriesToCreate.push(territory)
+          }
+
         }
       }
       if (territory.status === 'pendingDelete' && territory._links) { territoriesToDelete.push(territory) }
     });
-    const promises: Promise<any>[] = [];
+
     territoriesToCreate.forEach(newElement => {
       promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
     });

@@ -663,11 +663,12 @@ export class ApplicationFormComponent implements OnInit {
               urlReqBackground = url.toString();
             }
             background._links=null;
-            promisesBackground.push(new Promise((resolve, reject) => {
+            promises.push(new Promise((resolve, reject) => {
                 this.http.get(urlReqBackground).subscribe(result => {
                     background.background=result;
-                    backgroundsToCreate.push(background) 
-                    resolve(true);
+                    this.applicationBackgroundService.save(background).subscribe((resp) => { resolve(true) });
+                    // backgroundsToCreate.push(background) 
+                    // resolve(true);
                 })
             }))
           }
@@ -683,7 +684,7 @@ export class ApplicationFormComponent implements OnInit {
       if(background.status === 'pendingDelete' ) {backgroundsToDelete.push(background) }
     });
 
-    Promise.all(promisesBackground).then( () => {
+
       backgroundsToCreate.forEach(newElement => {
         promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.save(newElement).subscribe((resp) => { resolve(true) }) }));
       });
@@ -697,7 +698,7 @@ export class ApplicationFormComponent implements OnInit {
         this.dataUpdatedEventBackground.next(true);
       });
 
-    })
+
 
 
 

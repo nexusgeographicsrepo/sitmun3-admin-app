@@ -285,7 +285,7 @@ export class LayersFormComponent implements OnInit {
                 legendUrl: this.layerToEdit.legendURL,
                 description: this.layerToEdit.description,
                 datasetURL: this.layerToEdit.datasetURL, //here
-                applyFilterToGetMap: null,
+                applyFilterToGetMap: this.layerToEdit.applyFilterToGetMap,
                 applyFilterToGetFeatureInfo: this.layerToEdit.applyFilterToGetFeatureInfo,
                 applyFilterToSpatialSelection: this.layerToEdit.applyFilterToSpatialSelection,
                 queryableFeatureEnabled: this.layerToEdit.queryableFeatureEnabled,
@@ -375,13 +375,14 @@ export class LayersFormComponent implements OnInit {
                     result.forEach(element => {
                       let value;
   
-                      if (element.type === 'FILTRO' && this.layerToEdit.applyFilterToGetMap == null ) {
-                        this.parameteApplyFilterToGetMap=element;
-                        this.layerForm.patchValue({
-                          applyFilterToGetMap: element.value
-                        })
-                      }
-                      else if (element.type === 'FILTRO_INFO' && this.layerToEdit.applyFilterToGetFeatureInfo == null) {
+                      // if (element.type === 'FILTRO' && this.layerToEdit.applyFilterToGetMap == null ) {
+                      //   value = (true == element.value)
+                      //   this.parameteApplyFilterToGetMap=element;
+                      //   this.layerForm.patchValue({
+                      //     applyFilterToGetMap: value
+                      //   })
+                      // }
+                      if (element.type === 'FILTRO_INFO' && this.layerToEdit.applyFilterToGetFeatureInfo == null) {
                         value = (true == element.value)
                         this.layerForm.patchValue({
                           applyFilterToGetFeatureInfo: value
@@ -396,9 +397,9 @@ export class LayersFormComponent implements OnInit {
                     });
   
   
-                    if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
-                      { this.layerForm.get('applyFilterToGetMap').disable(); }
-                    }
+                    // if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
+                    //   { this.layerForm.get('applyFilterToGetMap').disable(); }
+                    // }
                   });
               }
               
@@ -428,6 +429,7 @@ export class LayersFormComponent implements OnInit {
           this.layerForm.patchValue({
             blocked: false,
             thematic: false,
+            applyFilterToGetMap: false,
             service: this.services[0].id,
             spatialSelectionService: this.spatialConfigurationServices[0].id,
             geometryType: this.geometryTypes[0].value,
@@ -435,7 +437,7 @@ export class LayersFormComponent implements OnInit {
             queryableFeatureEnabled: false,
           })
           this.layerForm.get('geometryType').disable();
-          this.layerForm.get('applyFilterToGetMap').disable();
+          // this.layerForm.get('applyFilterToGetMap').disable();
           this.layerForm.get('spatialSelectionService').disable();
           this.layerForm.get('selectableLayers').disable();
           this.layerForm.get('queryableFeatureAvailable').disable();
@@ -454,8 +456,8 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsParameters = [
       this.utils.getSelCheckboxColumnDef(),
-      this.utils.getEditableColumnDef('layersEntity.field', 'value'),
-      this.utils.getEditableColumnDef('layersEntity.name', 'name'),
+      this.utils.getEditableColumnDef('layersEntity.field', 'name'),
+      this.utils.getEditableColumnDef('layersEntity.name', 'value'),
       this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
       this.utils.getEditableColumnDef('layersEntity.order', 'order'),
       this.utils.getEditableColumnDef('layersEntity.type', 'type'),
@@ -499,7 +501,7 @@ export class LayersFormComponent implements OnInit {
     this.columnDefsNodes = [
       this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
-      this.utils.getEditableColumnDef('layersEntity.name', 'name'),
+      this.utils.getNonEditableColumnDef('layersEntity.name', 'name'),
       this.utils.getNonEditableColumnDef('layersEntity.treeName', 'treeName'),
       this.utils.getStatusColumnDef()
     ];
@@ -546,13 +548,13 @@ export class LayersFormComponent implements OnInit {
     }
   }
 
-  onMunicipalityFilterChange(value) {
-    if (value.checked) {
-      this.layerForm.get('applyFilterToGetMap').enable();
-    } else if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
-      this.layerForm.get('applyFilterToGetMap').disable();
-    }
-  }
+  // onMunicipalityFilterChange(value) {
+  //   if (value.checked) {
+  //     this.layerForm.get('applyFilterToGetMap').enable();
+  //   } else if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
+  //     this.layerForm.get('applyFilterToGetMap').disable();
+  //   }
+  // }
 
   onSelectableFeatureEnabledChange(value) {
     if (value.checked) {
@@ -606,7 +608,7 @@ export class LayersFormComponent implements OnInit {
       legendUrl: new FormControl(null, []),
       description: new FormControl(null, []),
       datasetURL: new FormControl(null, []),//here
-      applyFilterToGetMap: new FormControl(null, [Validators.required]),
+      applyFilterToGetMap: new FormControl(null, []),
       applyFilterToGetFeatureInfo: new FormControl(null, []),
       applyFilterToSpatialSelection: new FormControl(null, []),
       queryableFeatureEnabled: new FormControl(null, []),
@@ -1087,7 +1089,7 @@ export class LayersFormComponent implements OnInit {
 
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived = this.newTerritorialFilterDialog;
-    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.territorialFilter');
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.filters');
     dialogRef.componentInstance.form = this.territorialFilterForm;
 
 
@@ -1287,7 +1289,7 @@ export class LayersFormComponent implements OnInit {
       cartography.legendURL = this.layerForm.value.legendUrl;
       cartography.description = this.layerForm.value.description;
       cartography.datasetURL= this.layerForm.value.datasetURL; //
-      // cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap;
+      cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap;
       cartography.applyFilterToGetFeatureInfo= (this.layerForm.value.applyFilterToGetFeatureInfo == null)? false:this.layerForm.value.applyFilterToGetFeatureInfo ;
       cartography.applyFilterToSpatialSelection= (this.layerForm.value.applyFilterToSpatialSelection == null)? false:this.layerForm.value.applyFilterToSpatialSelection ;
       cartography.queryableFeatureEnabled = this.layerForm.value.queryableFeatureEnabled;
@@ -1309,7 +1311,6 @@ export class LayersFormComponent implements OnInit {
       this.cartographyService.save(cartography)
         .subscribe(async resp => {
 
-          console.log(resp);
           this.layerToEdit = resp;
           this.layerID = resp.id;
           this.layerForm.patchValue({
@@ -1317,37 +1318,38 @@ export class LayersFormComponent implements OnInit {
             _links: resp._links
           })
 
-          if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection && this.firstSaveDone){
-            if(this.parameteApplyFilterToGetMap != null)
-            {
-              this.parameteApplyFilterToGetMap.status="pendingDelete"       
-              this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)   
-              this.layerForm.patchValue({
-                applyFilterToGetMap: null
-              })
-              this.parameteApplyFilterToGetMap = null;
-            }
-          }
-          else{
-            if(this.parameteApplyFilterToGetMap != null && this.firstSaveDone )
-            {
-              this.parameteApplyFilterToGetMap.value=this.layerForm.value.applyFilterToGetMap
-              this.parameteApplyFilterToGetMap.status="pendingModify"           
-              this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)  
-            }
-            else{
-              let item = {
-                id: null,
-                name: "FILTRO",
-                type: "FILTRO",
-                order: 0,
-                format: null,
-                status: "pendingCreation",
-                value: this.layerForm.value.applyFilterToGetMap
-              }
-              this.getAllRowsParameters([item],true)   
-            }
-          }
+
+          // if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection){
+          //   if(this.parameteApplyFilterToGetMap != null)
+          //   {
+          //     this.parameteApplyFilterToGetMap.status="pendingDelete"       
+          //     this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)   
+          //     this.layerForm.patchValue({
+          //       applyFilterToGetMap: null
+          //     })
+          //     this.parameteApplyFilterToGetMap = null;
+          //   }
+          // }
+          // else{
+          //   if(this.parameteApplyFilterToGetMap != null)
+          //   {
+          //     this.parameteApplyFilterToGetMap.value=this.layerForm.value.applyFilterToGetMap
+          //     this.parameteApplyFilterToGetMap.status="pendingModify"           
+          //     this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)  
+          //   }
+          //   else{
+          //     let item = {
+          //       id: null,
+          //       name: "FILTRO",
+          //       type: "FILTRO",
+          //       order: 0,
+          //       format: null,
+          //       status: "pendingCreation",
+          //       value: this.layerForm.value.applyFilterToGetMap
+          //     }
+          //     this.getAllRowsParameters([item],true)   
+          //   }
+          // }
 
           this.firstSaveDone=true;
 

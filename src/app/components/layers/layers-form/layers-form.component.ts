@@ -777,7 +777,11 @@ export class LayersFormComponent implements OnInit {
         if(territoryFilter.status === 'pendingCreation'  || territoryFilter.new) {
           territoryFilter.cartography = this.layerToEdit; 
           if(!territoryFilter.territorialLevel){
-             territoryFilter.territorialLevel = { _links:{self:{href:territoryFilter._links.territorialLevel.href.split("{")[0]}} };
+            let territorialLevel= this.filterTypeIds.find(x => x.id===territoryFilter.terrorialLevelId )
+            if(territorialLevel==undefined || territorialLevel.id==-1 ){
+              territorialLevel=null
+            }
+             territoryFilter.territorialLevel =territorialLevel
              territoryFilter.id=null;
              territoryFilter._links = null;
             }

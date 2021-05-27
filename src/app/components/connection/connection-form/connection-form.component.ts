@@ -129,7 +129,7 @@ export class ConnectionFormComponent implements OnInit {
     this.columnDefsTasks = [
       this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
-      this.utils.getEditableColumnDef('connectionEntity.name', 'name'),
+      this.utils.getNonEditableColumnDef('connectionEntity.name', 'name'),
       this.utils.getNonEditableColumnDef('connectionEntity.taskGroup', 'groupName'),
       this.utils.getStatusColumnDef(),
     ];

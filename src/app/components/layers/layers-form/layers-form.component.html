@@ -449,7 +449,7 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
           <app-data-grid [changeHeightButton]="true" [allNewElements]="layerID == -1" [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes'
-            [eventAddItemsSubscription]='addElementsEventNodes.asObservable()' defaultColumnSorting="name"
+            [eventAddItemsSubscription]='addElementsEventNodes.asObservable()' defaultColumnSorting=name
             [eventGetAllRowsSubscription]='getAllElementsEventNodes.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventNodes.asObservable()' [discardChangesButton]=true
             [redoButton]=true [undoButton]=true  [addButton]=true [hideDuplicateButton]=true

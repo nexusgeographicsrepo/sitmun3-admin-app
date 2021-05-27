@@ -294,9 +294,9 @@ export class ServiceFormComponent implements OnInit {
 
   changeServiceDataByCapabilities(){
   
-    let data=this.serviceCapabilitiesData.WMT_MS_CAPABILITIES!=undefined?this.serviceCapabilitiesData.WMT_MS_CAPABILITIES:this.serviceCapabilitiesData.WMT_CAPABILITIES
+    let data=this.serviceCapabilitiesData.WMT_MS_CAPABILITIES!=undefined?this.serviceCapabilitiesData.WMT_MS_CAPABILITIES:this.serviceCapabilitiesData.WMS_CAPABILITIES
     if (data!=undefined ){
-      if(data.CAPABILITY.LAYER.SRS !== null) {
+      if(data.CAPABILITY.LAYER.SRS !== null && data.CAPABILITY.LAYER.SRS !== undefined) {
         this.projections=[];
         this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.CAPABILITY.LAYER.SRS.forEach((projection) => {
           this.projections.push(projection);
@@ -311,7 +311,7 @@ export class ServiceFormComponent implements OnInit {
             cartography.metadataURL=lyr.MetadataURL.OnlineResource.$['xlink:href']
           }
 
-          if(lyr.STYLE[0].LEGENDURL!=undefined){
+          if(lyr.STYLE[0] && lyr.STYLE[0].LEGENDURL!=undefined){
             cartography.legendURL=lyr.STYLE[0].LEGENDURL.ONLINERESOURCE.$['XLINK:HREF']
           }
           this.getCapabilitiesLayers.push(cartography);
@@ -320,7 +320,7 @@ export class ServiceFormComponent implements OnInit {
     }
 
     this.serviceForm.patchValue({
-      description: this.serviceCapabilitiesData.WMT_MS_CAPABILITIES.SERVICE.ABSTRACT,
+      description: data.SERVICE.ABSTRACT,
     })
   }
 

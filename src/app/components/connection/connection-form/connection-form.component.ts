@@ -220,7 +220,7 @@ export class ConnectionFormComponent implements OnInit {
   // ******** Tasks  ******** //
   getAllTasks = () => {
 
-    if (this.connectionID == -1 && this.duplicateID == -1) {
+    if (this.connectionID == -1 ) {
       const aux: Array<any> = [];
       return of(aux);
     }

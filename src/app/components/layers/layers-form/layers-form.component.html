@@ -451,9 +451,9 @@
           <app-data-grid [changeHeightButton]="true" [allNewElements]="layerID == -1" [columnDefs]="columnDefsNodes" [themeGrid]='themeGrid' [getAll]='getAllNodes'
             [eventAddItemsSubscription]='addElementsEventNodes.asObservable()' defaultColumnSorting=name
             [eventGetAllRowsSubscription]='getAllElementsEventNodes.asObservable()'
-            [eventRefreshSubscription]='dataUpdatedEventNodes.asObservable()' [discardChangesButton]=true
-            [redoButton]=true [undoButton]=true  [addButton]=true [hideDuplicateButton]=true
-            (getAllRows)="getAllRowsNodes($event)" [actionButton]=true (add)="openNodesDialog($event)"> </app-data-grid>
+            [eventRefreshSubscription]='dataUpdatedEventNodes.asObservable()' [discardChangesButton]=false
+            [redoButton]=true [undoButton]=true  [addButton]=false [hideDuplicateButton]=true
+            (getAllRows)="getAllRowsNodes($event)" [actionButton]=false (add)="openNodesDialog($event)"> </app-data-grid>
         </div>
       </ng-template>
     </mat-expansion-panel>

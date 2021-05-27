@@ -292,6 +292,8 @@ export class ServiceFormComponent implements OnInit {
         this.changeServiceDataByCapabilities(refresh);
    
       });
+    }, error =>{
+      this.capabilitiesLoaded=true;
     })
     }
     catch(err) {
@@ -437,7 +439,7 @@ export class ServiceFormComponent implements OnInit {
       return of([])
     }
 
-    if (this.serviceID != -1 && this.duplicateID == -1){
+    if (this.serviceID != -1){
 
       var urlReq = `${this.serviceToEdit._links.layers.href}`
       if (this.serviceToEdit._links.layers.templated) {
@@ -448,7 +450,7 @@ export class ServiceFormComponent implements OnInit {
       return (this.http.get(urlReq))
       .pipe(map(data => {
         let finalCartographies = [];
-        let cartographies= data['_embedded']['cartographies']
+        let cartographies= data['_embedded']['cartographies'];
         this.getCapabilitiesLayers.forEach(capabilityLayer => {
           let index = cartographies.findIndex(element => element.name == capabilityLayer.name);
           if( index != -1){

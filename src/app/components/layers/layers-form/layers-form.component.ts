@@ -292,7 +292,7 @@ export class LayersFormComponent implements OnInit {
                 queryableFeatureAvailable: this.layerToEdit.queryableFeatureAvailable,
                 queryableLayers: queryableLayers,
                 thematic: this.layerToEdit.thematic,
-                blocked: this.layerToEdit.blocked,
+                blocked: !this.layerToEdit.blocked,
                 selectableFeatureEnabled: this.layerToEdit.selectableFeatureEnabled,
                 spatialSelectionService: this.layerToEdit.spatialSelectionServiceId,
                 selectableLayers: selectableLayers,
@@ -427,7 +427,7 @@ export class LayersFormComponent implements OnInit {
         }
         else {
           this.layerForm.patchValue({
-            blocked: false,
+            blocked: true,
             thematic: false,
             applyFilterToGetMap: false,
             service: this.services[0].id,
@@ -1301,7 +1301,7 @@ export class LayersFormComponent implements OnInit {
       cartography.selectionService= spatialService
       if(this.layerForm.value.queryableLayers != null) {cartography.queryableLayers= this.layerForm.value.queryableLayers.split(",") };
       cartography.thematic = this.layerForm.value.thematic,
-      cartography.blocked = this.layerForm.value.blocked;
+      cartography.blocked = !this.layerForm.value.blocked;
       cartography.selectableFeatureEnabled = this.layerForm.value.selectableFeatureEnabled;
       if(this.layerForm.value.selectableLayers != null) {cartography.selectableLayers= this.layerForm.value.selectableLayers.split(",") };
       //

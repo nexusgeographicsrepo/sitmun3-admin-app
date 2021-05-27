@@ -782,6 +782,12 @@ h2 {
   color: #bf0000;
 }
 
+.notAvailable::before,.pendingRegistration:before{
+  font-family: 'Material Icons';
+  content: 'fiber_manual_record';
+  color: #0165f1;
+}
+
 @media print {
   app-toolbar,
   mat-sidenav,

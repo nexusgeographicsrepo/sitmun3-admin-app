@@ -172,6 +172,7 @@ export class UtilsService {
       headerName: '',
       checkboxSelection: true,
       headerCheckboxSelection: true,
+      headerCheckboxSelectionFilteredOnly: true,
       editable: false,
       filter: false,
       minWidth: 45,

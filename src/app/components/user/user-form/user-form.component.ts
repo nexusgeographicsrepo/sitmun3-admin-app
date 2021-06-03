@@ -90,7 +90,7 @@ export class UserFormComponent implements OnInit {
             this.userToEdit = resp;
             this.userForm.patchValue({
               firstName: this.userToEdit.firstName,
-              lastName: this.userToEdit.firstName,
+              lastName: this.userToEdit.lastName,
               password: null,
               confirmPassword: null,
               administrator: this.userToEdit.administrator,

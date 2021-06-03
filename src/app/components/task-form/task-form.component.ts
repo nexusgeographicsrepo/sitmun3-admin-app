@@ -493,6 +493,7 @@ export class TaskFormComponent implements OnInit {
     {
       this.savedTask = {...this.taskForm.value}
       this.savedTaskTreatment(this.savedTask)
+      this.savedTask.type= this.taskType;
       let keysTextAreaNotNull = this.getControlsModified("textArea");
       if(keysTextAreaNotNull.length>0){
         let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables, keysTextAreaNotNull)
@@ -566,7 +567,7 @@ export class TaskFormComponent implements OnInit {
         if(this.taskForm.get("id")) { this.taskForm.get("id").setValue(result.id); }
         else { this.taskForm.addControl("id",new FormControl(result.id,[])); }
 
-        if(this.taskForm.get("_links")) { this.taskForm.get("_links").setValue(result.id); }
+        if(this.taskForm.get("_links")) { this.taskForm.get("_links").setValue(result._links); }
         else { this.taskForm.addControl("_links",new FormControl(result._links,[])); }
         
         

@@ -278,12 +278,12 @@ export class UtilsService {
     return columnDef;
   }
 
-  getBooleanColumnDef(alias, field) {
+  getBooleanColumnDef(alias, field, editable) {
     let columnDef =
     {
       headerName: this.getTranslate(alias),
       field: field,
-      editable: false,
+      editable: editable,
       cellRenderer: 'btnCheckboxRendererComponent',
       floatingFilterComponent: 'btnCheckboxFilterComponent',
       floatingFilterComponentParams: { suppressFilterButton: true },

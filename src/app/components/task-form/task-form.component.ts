@@ -44,6 +44,8 @@ export class TaskFormComponent implements OnInit {
   sqlElementModification = [];
   defaultColumnsSorting = [];
 
+  parametersTable = [];
+
 
   //Form tables
   forms = [];
@@ -239,7 +241,12 @@ export class TaskFormComponent implements OnInit {
       for(const table of this.properties.tables){
         this.tableCounter++;
         index++;
-        getAll= () => this.getDataTableByLink(table.link)
+        if(table.link== 'parameters'){
+          getAll= () =>  of(this.parametersTable);
+        }
+        else{
+          getAll= () => this.getDataTableByLink(table.link)
+        }
         this.getAlls.push(getAll)  
         let addElementsEvent: Subject<any[]> = new Subject<any[]>();
         let getAllElements: Subject<boolean> = new Subject <boolean>();
@@ -356,7 +363,7 @@ export class TaskFormComponent implements OnInit {
             delete element.status;
             delete element.newItem;
             if(element.order){ element.order=parseInt(element.order) }
-            newData.push(element);
+            newData.push((element));
   
           }
         });
@@ -368,6 +375,8 @@ export class TaskFormComponent implements OnInit {
         else{
           this.savedTask.properties.parameters=newData;
         }
+        this.parametersTable = [];
+        this.parametersTable.push(...newData);
       }
       this.currentTablesSaved++;
       this.saveTask();
@@ -498,6 +507,11 @@ export class TaskFormComponent implements OnInit {
     let keys= Object.keys(properties);
 
     keys.forEach(key => {
+
+      if(key=='parameters'){
+        this.parametersTable.push(...properties[key]);
+      }
+
       if(!this.taskForm.get(key)){
         this.taskForm.addControl(key,new FormControl( properties[key],[]));
       }

@@ -388,8 +388,8 @@ export class TaskFormComponent implements OnInit {
           uriList.push(element._links.self.href)
         }
       });
-      // this.savedTask[linkName]=this.utils.createUriList(uriList)
-      this.savedTask[linkName]=uriList;
+      this.savedTask[linkName]=this.utils.createUriList(uriList)
+      // this.savedTask[linkName]=uriList;
       this.currentTablesSaved++;
       this.saveTask();
     }

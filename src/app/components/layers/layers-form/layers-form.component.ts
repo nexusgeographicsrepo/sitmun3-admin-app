@@ -503,7 +503,6 @@ export class LayersFormComponent implements OnInit {
       this.utils.getIdColumnDef(),
       this.utils.getNonEditableColumnDef('layersEntity.name', 'name'),
       this.utils.getNonEditableColumnDef('layersEntity.treeName', 'treeName'),
-      this.utils.getStatusColumnDef()
     ];
 
     this.columnDefsParametersDialog = [
@@ -1368,7 +1367,8 @@ export class LayersFormComponent implements OnInit {
           this.getAllElementsTerritorialFilter.next(true);
           this.getAllElementsEventTerritories.next(true);
           this.getAllElementsEventLayersConfigurations.next(true);
-          this.getAllElementsEventNodes.next(true);
+          // this.getAllElementsEventNodes.next(true);
+          this.dataUpdatedEventNodes.next(true);
 
         },
         error => {console.log(error)});

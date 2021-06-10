@@ -456,8 +456,8 @@ export class LayersFormComponent implements OnInit {
 
     this.columnDefsParameters = [
       this.utils.getSelCheckboxColumnDef(),
-      this.utils.getEditableColumnDef('layersEntity.field', 'name'),
-      this.utils.getEditableColumnDef('layersEntity.name', 'value'),
+      this.utils.getEditableColumnDef('layersEntity.column', 'name'),
+      this.utils.getEditableColumnDef('layersEntity.label', 'value'),
       this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
       this.utils.getEditableColumnDef('layersEntity.order', 'order'),
       this.utils.getEditableColumnDef('layersEntity.type', 'type'),

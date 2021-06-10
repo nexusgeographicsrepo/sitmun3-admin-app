@@ -115,14 +115,13 @@ export class TerritoryFormComponent implements OnInit {
       id: -1,
       name: '-------'
     }
-    this.territoryGroups.push(territoryByDefault);
-    this.groupTypeOfThisTerritory = territoryByDefault;
 
     const promises: Promise<any>[] = [];
     promises.push(new Promise((resolve, reject) => {
       this.getTerritoryGroups().subscribe(
         resp => {
           this.territoryGroups.push(...resp);
+          this.territoryGroups.push(territoryByDefault);
           resolve(true);
         }
       )
@@ -147,8 +146,8 @@ export class TerritoryFormComponent implements OnInit {
             resp => {
               console.log(resp);
               this.territoryToEdit = resp;
-
-
+              
+              debugger;
               this.territoryForm.patchValue({
                 code: this.territoryToEdit.code,
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
@@ -222,7 +221,7 @@ export class TerritoryFormComponent implements OnInit {
         else {
           this.territoryForm.patchValue({
             blocked: false,
-            groupType: this.territoryGroups[0].id,
+            groupType: this.territoryGroups[this.territoryGroups.length -1].id,
             scope: this.scopeTypes[0].value
           });
           this.dataLoaded = true;
@@ -374,7 +373,7 @@ export class TerritoryFormComponent implements OnInit {
       minY: this.territoryForm.get('extensionY0').value,
       maxY: this.territoryForm.get('extensionY1').value,
     }
-    // let extensionToUpdate = `${this.territoryForm.get('extensionX0').value} ${this.territoryForm.get('extensionX1').value} ${this.territoryForm.get('extensionY0').value} ${this.territoryForm.get('extensionY1').value}`;
+    // let extent = `${this.territoryForm.get('extensionX0').value} ${this.territoryForm.get('extensionX1').value} ${this.territoryForm.get('extensionY0').value} ${this.territoryForm.get('extensionY1').value}`;
     this.territoryForm.patchValue({
       extent: extent
     });

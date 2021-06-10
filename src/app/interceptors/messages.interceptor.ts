@@ -23,8 +23,11 @@ export class MessagesInterceptor implements HttpInterceptor {
                     this.utilsService.disableLoading();
                 }),
                 catchError((error) => {
-                    this.utilsService.showErrorMessage(error);
-                    return throwError(error);
+                    if(error.status!=404){
+                        this.utilsService.showErrorMessage(error);
+                        return throwError(error);
+                    }
+                    return [];
                 }),
                 map((event: HttpEvent<any>) => {
                     if (event instanceof HttpResponse) {

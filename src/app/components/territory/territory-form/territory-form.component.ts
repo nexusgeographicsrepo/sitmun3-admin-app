@@ -146,8 +146,6 @@ export class TerritoryFormComponent implements OnInit {
             resp => {
               console.log(resp);
               this.territoryToEdit = resp;
-              
-              debugger;
               this.territoryForm.patchValue({
                 code: this.territoryToEdit.code,
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,

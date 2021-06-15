@@ -1150,7 +1150,7 @@ export class TerritoryFormComponent implements OnInit {
           this.terrritoryObj._links = this.territoryForm.value._links
 
         if (this.territoryID == -1) {
-          this.terrritoryObj.createdDate = new Date();
+          this.terrritoryObj.id = null;
         } else {
           this.terrritoryObj.id = this.territoryForm.value.id;
           this.terrritoryObj.createdDate = this.territoryToEdit.createdDate
@@ -1205,7 +1205,7 @@ export class TerritoryFormComponent implements OnInit {
     if (y0 == null || y0.length < 1 || y0 === "null") { nullCounter++ };
     if (y1 == null || y1.length < 1 || y1 === "null") { nullCounter++ };
 
-    return (nullCounter === 0 || nullCounter === 4) ? true : false;
+    return (nullCounter === 0 || nullCounter === 4)  ? true : false;
 
   }
 

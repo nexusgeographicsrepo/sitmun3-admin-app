@@ -149,6 +149,7 @@ export class UserFormComponent implements OnInit {
       this.utils.getEditableColumnDef('userEntity.position', 'name'),
       this.utils.getEditableColumnDef('userEntity.organization', 'organization'),
       this.utils.getEditableColumnDef('userEntity.mail', 'email'),
+      this.utils.getEditableColumnDef('userEntity.type', 'type'),
       this.utils.getDateColumnDef('userEntity.expirationDate', 'expirationDate',true),
       this.utils.getDateColumnDef('userEntity.dataCreated', 'createdDate'),
       this.utils.getStatusColumnDef()

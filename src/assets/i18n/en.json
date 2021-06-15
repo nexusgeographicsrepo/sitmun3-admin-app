@@ -444,6 +444,8 @@
     "accesType":"Acces type",
     "autocomplete": "Autocomplete",
     "anput": "Anput",
+    "input": "Input",
+    "sql": "SQL command",
     "combo": "Combo",
     "label": "Label",
     "informe": "Report",

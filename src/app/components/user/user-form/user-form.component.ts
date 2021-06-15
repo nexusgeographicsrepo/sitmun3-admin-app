@@ -573,6 +573,7 @@ export class UserFormComponent implements OnInit {
         roleId: role.id,
         territory: territory.name,
         territoryComplete: territory,
+        territoryName: territory.name,
         territoryId: territory.id,
         userId: this.userID,
         new: true,

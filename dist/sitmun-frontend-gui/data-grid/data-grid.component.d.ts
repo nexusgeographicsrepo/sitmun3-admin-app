@@ -87,6 +87,7 @@ export declare class DataGridComponent implements OnInit {
     getElements(): void;
     setSize(): void;
     addItems(newItems: any[]): void;
+    private checkElementAllowedToAdd;
     changeHeight(value: any): void;
     removeData(): void;
     newData(): void;

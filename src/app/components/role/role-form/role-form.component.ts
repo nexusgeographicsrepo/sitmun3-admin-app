@@ -176,6 +176,7 @@ export class RoleFormComponent implements OnInit {
       this.utils.getSelCheckboxColumnDef(),
       this.utils.getIdColumnDef(),
       this.utils.getNonEditableColumnDef('roleEntity.name', 'name'),
+      this.utils.getNonEditableColumnDef('roleEntity.groupTask', 'groupName'),
     ];
 
     this.columnDefsApplicationsDialog = [

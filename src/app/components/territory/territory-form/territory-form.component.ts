@@ -35,6 +35,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryForm: FormGroup;
   territoryToEdit: any;
   territoryID = -1;
+  duplicateID = -1;
   territoryGroups: Array<any> = [];
   extensions: Array<string>;
   dataLoaded: Boolean = false;
@@ -114,14 +115,13 @@ export class TerritoryFormComponent implements OnInit {
       id: -1,
       name: '-------'
     }
-    this.territoryGroups.push(territoryByDefault);
-    this.groupTypeOfThisTerritory = territoryByDefault;
 
     const promises: Promise<any>[] = [];
     promises.push(new Promise((resolve, reject) => {
       this.getTerritoryGroups().subscribe(
         resp => {
           this.territoryGroups.push(...resp);
+          this.territoryGroups.push(territoryByDefault);
           resolve(true);
         }
       )
@@ -138,54 +138,71 @@ export class TerritoryFormComponent implements OnInit {
     Promise.all(promises).then(() => {
       this.activatedRoute.params.subscribe(params => {
         this.territoryID = +params.id;
-        if (this.territoryID !== -1) {
-          this.territoryService.get(this.territoryID).subscribe(
+        if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
+      
+        if (this.territoryID !== -1 || this.duplicateID != -1) {
+          let idToGet = this.territoryID !== -1? this.territoryID: this.duplicateID  
+          this.territoryService.get(idToGet).subscribe(
             resp => {
               console.log(resp);
               this.territoryToEdit = resp;
-
-              this.extensions = this.territoryToEdit.extent.split(' ');
-
-              this.territoryForm.setValue({
-                id: this.territoryID,
+              this.territoryForm.patchValue({
                 code: this.territoryToEdit.code,
-                name: this.territoryToEdit.name,
                 territorialAuthorityAddress: this.territoryToEdit.territorialAuthorityAddress,
                 territorialAuthorityLogo: this.territoryToEdit.territorialAuthorityLogo,
                 scope: this.territoryToEdit.scope,
                 groupType: this.territoryToEdit.groupTypeId,
                 extent: this.territoryToEdit.extent,
-                extensionX0: this.extensions[0],
-                extensionX1: this.extensions[1],
-                extensionY0: this.extensions[2],
-                extensionY1: this.extensions[3],
+                extensionX0: this.territoryToEdit.extent.minX,
+                extensionX1: this.territoryToEdit.extent.maxX,
+                extensionY0: this.territoryToEdit.extent.minY,
+                extensionY1: this.territoryToEdit.extent.maxY,
                 note: this.territoryToEdit.note,
                 blocked: this.territoryToEdit.blocked,
                 _links: this.territoryToEdit._links
               });
 
-              this.translationService.getAll()
-              .pipe(map((data: any[]) => data.filter(elem => elem.element == this.territoryID && elem.column == config.translationColumns.territoryName)
-              )).subscribe( result => {
-                console.log(result);
-                result.forEach(translation => {
-                  if(translation.languageName == config.languagesObjects.catalan.name){
-                    this.catalanTranslation=translation
-                  }
-                  if(translation.languageName == config.languagesObjects.spanish.name){
-                    this.spanishTranslation=translation
-                  }
-                  if(translation.languageName == config.languagesObjects.english.name){
-                    this.englishTranslation=translation
-                  }
-                  if(translation.languageName == config.languagesObjects.aranese.name){
-                    this.araneseTranslation=translation
-                  }
+
+              if(this.territoryID !=-1){
+
+
+
+                this.territoryForm.patchValue({
+                id: this.territoryID,
+                name: this.territoryToEdit.name,
                 });
-                console.log(this.catalanTranslation);
+                    
+
+
+                this.translationService.getAll()
+                .pipe(map((data: any[]) => data.filter(elem => elem.element == this.territoryID && elem.column == config.translationColumns.territoryName)
+                )).subscribe( result => {
+                  console.log(result);
+                  result.forEach(translation => {
+                    if(translation.languageName == config.languagesObjects.catalan.name){
+                      this.catalanTranslation=translation
+                    }
+                    if(translation.languageName == config.languagesObjects.spanish.name){
+                      this.spanishTranslation=translation
+                    }
+                    if(translation.languageName == config.languagesObjects.english.name){
+                      this.englishTranslation=translation
+                    }
+                    if(translation.languageName == config.languagesObjects.aranese.name){
+                      this.araneseTranslation=translation
+                    }
+                  });
+                  console.log(this.catalanTranslation);
+                }
+          
+                );;
+              } 
+              else{
+                this.territoryForm.patchValue({
+                name: this.utils.getTranslate('copy_').concat(this.territoryToEdit.name),
+                });
               }
-        
-              );;
+
 
               if (!this.territoryToEdit.groupTypeId) {
                 this.territoryForm.patchValue({
@@ -202,7 +219,7 @@ export class TerritoryFormComponent implements OnInit {
         else {
           this.territoryForm.patchValue({
             blocked: false,
-            groupType: this.territoryGroups[0].id,
+            groupType: this.territoryGroups[this.territoryGroups.length -1].id,
             scope: this.scopeTypes[0].value
           });
           this.dataLoaded = true;
@@ -348,9 +365,15 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   updateExtent() {
-    let extensionToUpdate = `${this.territoryForm.get('extensionX0').value} ${this.territoryForm.get('extensionX1').value} ${this.territoryForm.get('extensionY0').value} ${this.territoryForm.get('extensionY1').value}`;
+    let extent  = {
+      minX: this.territoryForm.get('extensionX0').value,
+      maxX: this.territoryForm.get('extensionX1').value,
+      minY: this.territoryForm.get('extensionY0').value,
+      maxY: this.territoryForm.get('extensionY1').value,
+    }
+    // let extent = `${this.territoryForm.get('extensionX0').value} ${this.territoryForm.get('extensionX1').value} ${this.territoryForm.get('extensionY0').value} ${this.territoryForm.get('extensionY1').value}`;
     this.territoryForm.patchValue({
-      extent: extensionToUpdate
+      extent: extent
     });
   }
 
@@ -372,13 +395,14 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Permits ******** //
   getAllPermits = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
+    let idToUse = this.territoryID == -1? this.duplicateID:this.territoryID
 
     let params2: HalParam[] = [];
-    let param: HalParam = { key: 'territory.id', value: this.territoryID }
+    let param: HalParam = { key: 'territory.id', value: idToUse }
     params2.push(param);
     let query: HalOptions = { params: params2 };
 
@@ -389,13 +413,13 @@ export class TerritoryFormComponent implements OnInit {
 
   getAllPermitsChild = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
-
+    let idToUse = this.territoryID == -1? this.duplicateID:this.territoryID
     let params2: HalParam[] = [];
-    let param: HalParam = { key: 'territory.id', value: this.territoryID }
+    let param: HalParam = { key: 'territory.id', value: idToUse }
     params2.push(param);
     let query: HalOptions = { params: params2 };
 
@@ -404,50 +428,133 @@ export class TerritoryFormComponent implements OnInit {
       ));;
   }
 
-  getAllRowsPermits(data: any[], permitsChildren: boolean) {
+  async getAllRowsPermits(data: any[], permitsChildren: boolean) {
 
     let usersConfToCreate = [];
     let usersConfDelete = [];
-    console.log(data);
-    data.forEach(userConf => {
-      if (userConf.status === 'pendingCreation') {
-        let item = {
-          role: userConf.roleComplete,
-          appliesToChildrenTerritories: permitsChildren,
-          territory: this.territoryToEdit,
-          user: userConf.userComplete,
-        }
-        console.log(item);
-        let index;
-        // if (userConf.roleChildren == null) {
-        index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
-           element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
-        // }
-        // else {
-        //   index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
-        // }
-        if (index === -1) {
-          userConf.new = false;
-          usersConfToCreate.push(item)
-        }
-      }
-      if (userConf.status === 'pendingDelete' && userConf._links) { usersConfDelete.push(userConf) }
-    });
+    const promisesDuplicate: Promise<any>[] = [];
+    const promisesCurrentUserConf: Promise<any>[] = [];
     const promises: Promise<any>[] = [];
-    usersConfToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-    });
+    console.log(data);
+    for(let i = 0; i<data.length; i++){
+      let userConf= data[i];
+      if (userConf.status === 'pendingCreation') {
+        let item;
+        if(userConf._links){
 
-    usersConfDelete.forEach(deletedElement => {
-      if (deletedElement._links) {
-        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+          let urlReqRole = `${userConf._links.role.href}`
+          if (userConf._links.role.href) {
+            let url = new URL(urlReqRole.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqRole = url.toString();
+          }
+
+          let urlReqUser = `${userConf._links.user.href}`
+          if (userConf._links.user.href) {
+            let url = new URL(urlReqUser.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqUser = url.toString();
+          }
+          let roleComplete; 
+          let userComplete;
+
+          promisesDuplicate.push(new Promise((resolve, reject) => {
+
+            promisesCurrentUserConf.push(new Promise((resolve, reject) => {
+              this.http.get(urlReqRole).subscribe(result => {
+                roleComplete = result;
+                resolve(true);
+              })
+            
+            }))
+
+            promisesCurrentUserConf.push(new Promise((resolve, reject) => {
+              this.http.get(urlReqUser).subscribe(result => {
+                userComplete = result;
+                resolve(true);
+              })
+            
+            }))
+
+
+            Promise.all(promisesCurrentUserConf).then( () =>{
+              
+              item = {
+                role: roleComplete,
+                appliesToChildrenTerritories: permitsChildren,
+                territory: this.territoryToEdit,
+                user: userComplete,
+              }
+              let index;
+              if (userConf.roleChildren == null) {
+              index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
+                 element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
+              }
+              else {
+                index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
+              }
+              if (index === -1) {
+                userConf.new = false;
+                // usersConfToCreate.push(item)
+                promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(item).subscribe((resp) => { resolve(true) }) }));
+
+              }
+              resolve(true);
+            })
+
+          }))
+
+
+
+        }
+        else{
+          item = {
+            role: userConf.roleComplete,
+            appliesToChildrenTerritories: permitsChildren,
+            territory: this.territoryToEdit,
+            user: userConf.userComplete,
+          }
+
+          console.log(item);
+          let index;
+          if (userConf.roleChildren == null) {
+          index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id &&
+             element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
+          }
+          else {
+            index = data.findIndex(element => element.roleId === item.role.id && element.userId === item.user.id && element.appliesToChildrenTerritories && !element.new)
+          }
+          if (index === -1) {
+            userConf.new = false;
+            usersConfToCreate.push(item)
+          }
+        }
+
       }
+      if (userConf.status === 'pendingDelete' && userConf._links  && !userConf.new ) { usersConfDelete.push(userConf) }
+    };
 
-    });
 
-    Promise.all(promises).then(() => {
-      this.dataUpdatedEventPermits.next(true);
-    });
+
+
+      usersConfToCreate.forEach(newElement => {
+        promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+      });
+  
+      usersConfDelete.forEach(deletedElement => {
+        if (deletedElement._links) {
+          promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
+        }
+  
+      });
+  
+      Promise.all([...promises,...promisesDuplicate]).then(() => {
+        this.dataUpdatedEventPermits.next(true);
+      });
+
+    
+
+
 
   }
 
@@ -504,7 +611,7 @@ export class TerritoryFormComponent implements OnInit {
 
   // ******** MembersOf ******** //
   getAllMembersOf = (): Observable<any> => {
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -558,7 +665,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Members ******** //
   getAllMembers = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -611,7 +718,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Cartography ******** //
   getAllCartographies = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -629,28 +736,48 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   getAllRowsCartographies(data: any[]) {
-    let cartographiesToCreate = [];
-    let cartographiesToDelete = [];
+    const promises: Promise<any>[] = [];
+    const promisesDuplicate: Promise<any>[] = [];
     data.forEach(cartography => {
       cartography.territory = this.territoryToEdit;
       if (cartography.status === 'pendingCreation') {
+
         let index = data.findIndex(element => element.cartographyId === cartography.cartographyId && !element.new)
         if (index === -1) {
-          cartographiesToCreate.push(cartography)
+          cartography.territory= this.territoryToEdit;
           cartography.new = false;
+          if(cartography._links){
+            cartography.id=null;
+            let urlReqCartography= `${cartography._links.cartography.href}`
+            let url = new URL(urlReqCartography.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqCartography = url.toString();
+  
+            cartography._links=null;
+            promises.push(new Promise((resolve, reject) => {
+                this.http.get(urlReqCartography).subscribe(result => {
+                  cartography.cartography=result;
+                  this.cartographyAvailabilityService.save(cartography).subscribe((resp) => { resolve(true) });
+                })
+            }))
+            
+  
+          }
+          else{
+            promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.save(cartography).subscribe((resp) => { resolve(true) }) }));
+            // cartographiesToCreate.push(cartography)
+          }
         }
 
+
       }
-      if (cartography.status === 'pendingDelete' && cartography._links) { cartographiesToDelete.push(cartography) }
-    });
-    const promises: Promise<any>[] = [];
-    cartographiesToCreate.forEach(newElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.save(newElement).subscribe((resp) => { resolve(true) }) }));
+      if (cartography.status === 'pendingDelete' && cartography._links && !cartography.new ) {
+        promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.remove(cartography).subscribe((resp) => { resolve(true) }) }));
+
+        //  cartographiesToDelete.push(cartography) 
+        }
     });
 
-    cartographiesToDelete.forEach(deletedElement => {
-      promises.push(new Promise((resolve, reject) => { this.cartographyAvailabilityService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
-    });
 
     Promise.all(promises).then(() => {
       this.dataUpdatedEventCartographies.next(true);
@@ -660,7 +787,7 @@ export class TerritoryFormComponent implements OnInit {
   // ******** Task ******** //
   getAllTasks = (): Observable<any> => {
 
-    if (this.territoryID == -1) {
+    if (this.territoryID == -1 && this.duplicateID == -1) {
       const aux: Array<any> = [];
       return of(aux);
     }
@@ -677,33 +804,51 @@ export class TerritoryFormComponent implements OnInit {
   }
 
   getAllRowsTasks(data: any[]) {
-    let tasksToDelete = [];
-    let tasksToCreate = [];
+    const promises: Promise<any>[] = [];
     data.forEach(task => {
-      if (task.status === 'pendingDelete' && task._links) { tasksToDelete.push(task) }
+      if (task.status === 'pendingDelete' && task._links  && !task.new ) {
+        promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.remove(task).subscribe((resp) => { resolve(true) }) }));
+        //  tasksToDelete.push(task) 
+        }
       if (task.status === 'pendingCreation') {
-
+        task.territory=this.territoryToEdit;
         let index = data.findIndex(element => element.taskId === task.taskId && !element.new)
         if (index === -1) {
           task.new = false;
           let taskToCreate: TaskAvailability = new TaskAvailability();
           taskToCreate.territory = this.territoryToEdit;
-          taskToCreate.task = task;
-          tasksToCreate.push(taskToCreate)
+          if(task._links){
+            task.id=null;
+            let urlReqTask= `${task._links.task.href}`
+            let url = new URL(urlReqTask.split("{")[0]);
+            url.searchParams.append("projection", "view")
+            urlReqTask = url.toString();
+  
+            task._links=null;
+
+            promises.push(new Promise((resolve, reject) => {
+                this.http.get(urlReqTask).subscribe(result => {
+                  
+
+                  task.task=result;
+                  taskToCreate.task = task.task;
+                  this.taskAvailabilityService.save(task).subscribe((resp) => { resolve(true) });
+                })
+            }))
+            
+  
+          }
+          else{
+            taskToCreate.task = task;
+            // tasksToCreate.push(taskToCreate)
+            promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(taskToCreate).subscribe((resp) => { resolve(true) }) }));
+
+          }
+
+
         }
       }
     });
-    const promises: Promise<any>[] = [];
-
-    tasksToCreate.forEach(task => {
-      promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(task).subscribe((resp) => { resolve(true) }) }));
-
-    })
-
-    tasksToDelete.forEach(task => {
-      promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.remove(task).subscribe((resp) => { resolve(true) }) }));
-    })
-
     Promise.all(promises).then(() => {
       this.dataUpdatedEventTasks.next(true);
     });
@@ -741,6 +886,7 @@ export class TerritoryFormComponent implements OnInit {
 
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
     dialogRef.componentInstance.getAllsTable = [this.getAllUsersDialog, this.getAllRolesDialog];
+    dialogRef.componentInstance.orderTable = ['username', 'name'];
     dialogRef.componentInstance.singleSelectionTable = [false, false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsUsersDialog, this.columnDefsRolesDialog];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
@@ -798,6 +944,7 @@ export class TerritoryFormComponent implements OnInit {
 
   openTerritoryMemberOfDialog(data: any) {
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.orderTable = ['name'];
     dialogRef.componentInstance.getAllsTable = [this.getAllTerritoriesMemberOfDialog];
     dialogRef.componentInstance.singleSelectionTable = [false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoriesDialog];
@@ -835,6 +982,7 @@ export class TerritoryFormComponent implements OnInit {
 
   openTerritoryMembersDialog(data: any) {
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.orderTable = ['name'];
     dialogRef.componentInstance.getAllsTable = [this.getAllTerritoriesMembersDialog];
     dialogRef.componentInstance.singleSelectionTable = [false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoriesDialog];
@@ -861,6 +1009,7 @@ export class TerritoryFormComponent implements OnInit {
 
   openCartographyDialog(data: any) {
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.orderTable = ['name'];
     dialogRef.componentInstance.getAllsTable = [this.getAllCartographiesDialog];
     dialogRef.componentInstance.singleSelectionTable = [false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsCartographiesDialog];
@@ -908,6 +1057,7 @@ export class TerritoryFormComponent implements OnInit {
   openTasksDialog(data: any) {
 
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.orderTable = ['name'];
     dialogRef.componentInstance.getAllsTable = [this.getAllTasksDialog];
     dialogRef.componentInstance.singleSelectionTable = [false];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsTasksDialog];
@@ -979,6 +1129,13 @@ export class TerritoryFormComponent implements OnInit {
           groupType = null;
         }
 
+        if (this.territoryID == -1 && this.duplicateID != -1) {
+          this.territoryForm.patchValue({
+            _links: null
+          })
+        }
+      
+
         this.terrritoryObj = new Territory();
         this.terrritoryObj.id = this.territoryID,
           this.terrritoryObj.code = this.territoryForm.value.code,
@@ -1017,11 +1174,11 @@ export class TerritoryFormComponent implements OnInit {
               this.translationsModified = false;
             }
 
-            this.getAllElementsEventPermits.next(true);
             this.getAllElementsEventCartographies.next(true);
             this.getAllElementsEventTasks.next(true);
             this.getAllElementsEventTerritoriesMemberOf.next(true);
             this.getAllElementsEventTerritoriesMembers.next(true);
+            this.getAllElementsEventPermits.next(true);
           },
             error => {
               console.log(error);

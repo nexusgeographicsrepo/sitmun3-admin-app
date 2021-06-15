@@ -34,6 +34,7 @@ export declare class DataGridComponent implements OnInit {
     eventSaveAgGridStateSubscription: Observable<boolean>;
     eventAddItemsSubscription: Observable<boolean>;
     frameworkComponents: any;
+    components: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
     discardChangesButton: boolean;
@@ -58,6 +59,7 @@ export declare class DataGridComponent implements OnInit {
     hideDuplicateButton: boolean;
     hideSearchReplaceButton: boolean;
     addFieldRestriction: any;
+    allNewElements: any;
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     add: EventEmitter<number>;
@@ -72,6 +74,7 @@ export declare class DataGridComponent implements OnInit {
     ngOnInit(): void;
     firstDataRendered(): void;
     onGridReady(params: any): void;
+    getDatePicker(): () => void;
     areRowsSelected(): Boolean;
     emitSelectedRows(): void;
     emitAllRows(): void;

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ServiceService, TaskService, TaskTypeService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService, CodeListService, TerritoryService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, TaskService, TaskTypeService, TaskGroupService, CartographyService, ConnectionService, HalOptions, HalParam, TaskUIService, RoleService, CodeListService, TerritoryService, Task, TaskAvailabilityService, TaskAvailability } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
@@ -34,13 +34,20 @@ export class TaskFormComponent implements OnInit {
   //codeLists
   codeListsMap: Map<string, Array<any>> = new Map<string, Array<any>>();
   tasksMap: Map<string, Array<any>> = new Map<string, Array<any>>();
+  servicesMap: Map<string, Array<any>> = new Map<string, Array<any>>();
 
   //Events data grid
   addelements= [];
   getAllElementsEvent = [];
+  refreshElements = [];
   //Table's arrays
   sqlElementModification = [];
+  defaultColumnsSorting = [];
 
+  parametersTable = [];
+
+
+  indexParameter = -1;
 
   //Form tables
   forms = [];
@@ -50,12 +57,14 @@ export class TaskFormComponent implements OnInit {
   valuesForms = [];
   templateRefs = [];
   formSQLElement = [];
+  tableCounter= 0;
+  currentTablesSaved= 0;
   @ViewChildren(NgTemplateNameDirective) templates!: QueryList<NgTemplateNameDirective>;
 
 
   //Save
   saveButtonClicked = false;
-  savedTask;
+  savedTask: Task = new Task;
  
 
   //Selector tables
@@ -88,6 +97,7 @@ export class TaskFormComponent implements OnInit {
         private http: HttpClient,
         private codeListService: CodeListService,
         private territoryService: TerritoryService,
+        private taskAvailabilityService: TaskAvailabilityService,
         private taskTypeService: TaskTypeService,
         public activatedRoute:ActivatedRoute,
         public router: Router,
@@ -126,6 +136,10 @@ export class TaskFormComponent implements OnInit {
     else if(data=="tasks"){
       result = await this.taskService.getAll(query).toPromise();
       this.tasksMap.set(mapKey, result);
+    }
+    else if (data="service"){
+      result = await this.serviceService.getAll(query).toPromise();
+      this.servicesMap.set(mapKey, result);
     }
 
   }
@@ -228,15 +242,24 @@ export class TaskFormComponent implements OnInit {
       let getAll;
       let index= -1;
       for(const table of this.properties.tables){
+        this.tableCounter++;
         index++;
-        getAll= () => this.getDataTableByLink(table.link)
+        if(table.link== 'parameters'){
+          this.indexParameter=index;
+          getAll= () =>  of(this.parametersTable);
+        }
+        else{
+          getAll= () => this.getDataTableByLink(table.link)
+        }
         this.getAlls.push(getAll)  
         let addElementsEvent: Subject<any[]> = new Subject<any[]>();
         let getAllElements: Subject<boolean> = new Subject <boolean>();
+        let refreshElements: Subject<boolean> = new Subject <boolean>();
         this.addelements.push(addElementsEvent);
         this.getAllElementsEvent.push(getAllElements)
+        this.refreshElements.push(refreshElements)
         this.sqlElementModification.push({modifications: false, toSave: false, element: null, mainFormElement:null, tableElements: []});
-        let columnDefs= this.generateColumnDefs(table.columns,true,true);
+        let columnDefs= this.generateColumnDefs(table.columns,true,true, true);
         this.columnDefsTables.push(columnDefs);
 
         if(table.controlAdd.control =="formPopup")
@@ -307,7 +330,7 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
-  getAllRowsTable(data: any[], index )
+  getAllRowsTable(data: any[], index, linkName )
   {
     let sqlElement = this.sqlElementModification[index];
     sqlElement.tableElements=[];
@@ -327,13 +350,88 @@ export class TaskFormComponent implements OnInit {
       sqlElement.toSave=false;
       if(toSave){
         this.saveTask();
+        // this.getAllElementsEvent.forEach(element => {
+        //   element.next(true);
+        // });
       }
-      console.log(this.savedTask);
+      
 
     }
     else{
+    //We are saving
+    if(linkName=='parameters'){
+      if(data.length>0){
+        let newData = [];
+        data.forEach(element => {
+          if(element.status!= 'pendingDelete'){
+            delete element.status;
+            delete element.newItem;
+            if(element.order){ element.order=parseInt(element.order) }
+            newData.push((element));
+  
+          }
+        });
+        if(!this.savedTask.properties){
+          this.savedTask.properties={
+            parameters:newData
+          }      
+        }
+        else{
+          this.savedTask.properties.parameters=newData;
+        }
+        this.parametersTable = [];
+        this.parametersTable.push(...newData);
+      }
+      this.currentTablesSaved++;
+      this.saveTask();
+    }
+    else{
+      if(linkName=='roles'){
+        this.saveWithUri(data, index, linkName )
+      }
+      else if(linkName='availabilities'){
+        this.saveAvailabilities(data,index);
+      }
+    }
+
+
 
     }
+  }
+
+  saveWithUri(data: any[], index, linkName ){
+    let dataToSave = [];
+    data.forEach(element => {
+      if(element.status != 'pendingDelete'){
+        dataToSave.push(element._links.self.href);
+      }
+    });
+    let url = this.taskForm.get('_links').value[linkName].href.split('{', 1)[0];
+    this.utils.updateUriList(url,dataToSave, this.refreshElements[index])
+  }
+
+  saveAvailabilities(data: any[], index){
+    const promises: Promise<any>[] = [];
+    data.forEach(territory => {
+      if (territory.status === 'pendingDelete' && territory._links  && !territory.new ) {
+        promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.remove(territory).subscribe((resp) => { resolve(true) }) }));
+        //  tasksToDelete.push(task) 
+        }
+      if (territory.status === 'pendingCreation') {
+        territory.task=this.taskToEdit;
+        let index = data.findIndex(element => element.territoryId === territory.id && !element.new)
+        if (index === -1) {
+          territory.new = false;
+          let taskToCreate: TaskAvailability = new TaskAvailability();
+          taskToCreate.task = this.taskToEdit;
+          taskToCreate.territory = territory;
+          promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.save(taskToCreate).subscribe((resp) => { resolve(true) }) }));
+        }
+      }
+    });
+    Promise.all(promises).then(() => {
+      this.refreshElements[index].next(true);
+    });
   }
 
   restoreElementsSqlSelector(data:any[], index){
@@ -403,7 +501,6 @@ export class TaskFormComponent implements OnInit {
           url.searchParams.append("projection", "view")
           urlReq = url.toString();
         }
-        urlReq="http://localhost:8080/api/cartographies/1228?projection=view"
         let value= await (this.http.get(urlReq)).toPromise();
         // let value= await (this.http.get(urlReq)).pipe(map(data => data['_embedded'][key])).toPromise();
         this.taskForm.get(key).setValue(value)
@@ -434,19 +531,40 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.get(key).setValue(value)
       }
     };
+    if(this.taskToEdit.properties){
+      this.loadProperties(this.taskToEdit.properties);
+    }
 
   }
 
-  // setSelectorValueWithProjection(key, keySpecification){
-  //   let data = null;
-  //   let formField = config.taskSelectorFieldsData[key];
-  //   data= this.getDataSelector(formField, keySpecification.selector.queryParams, keySpecification.label)
-  //   let value=data.find(element => element[keySpecification.selector.value] === this.taskToEdit[key])
-  //   this.taskForm.get(config.taskSelectorFieldsForm[key]).setValue(value[keySpecification.selector.value]) 
-    
-    
-  //   // this.taskForm.get(key).setValue(this.taskToEdit[key])
-  // }
+  private async loadProperties(properties){
+    let keys= Object.keys(properties);
+
+    keys.forEach(key => {
+
+      if(key=='parameters'){
+        this.parametersTable.push(...properties[key]);
+      }
+
+      if(!this.taskForm.get(key)){
+        this.taskForm.addControl(key,new FormControl( properties[key],[]));
+        if(key == 'layers'){
+           this.taskForm.patchValue({
+             layout: properties[key]
+           });
+        }
+      }
+      else{
+        this.taskForm.get(key).setValue(properties[key])
+      }
+    });
+
+  }
+
+
+
+
+
 
 
   setSelectorToNeeded(selector){
@@ -475,18 +593,32 @@ export class TaskFormComponent implements OnInit {
     else{
       if(fieldResult == "hidden" || fieldResult == "required" ) { findResult = false }
     }
-    
+    if(findResult === "INPUT") { findResult="input" }
     return findResult;
   }
 
-
+  parseLinksSavedTask(){
+    let linksKeys = Object.keys(this.savedTask._links);
+    linksKeys.forEach(link => {
+      if(this.savedTask._links[link].templated){
+        this.savedTask._links[link].href=this.savedTask._links[link].href.split("{")[0]
+      }
+    });
+  }
  
 
   onSaveButtonClicked(){
     if(this.taskForm.valid)
     {
-      this.savedTask = {...this.taskForm.value}
+      let formkeys= Object.keys(this.taskForm.value);
+      formkeys.forEach(key => {
+        this.savedTask[key] = this.taskForm.get(key).value;
+      });
       this.savedTaskTreatment(this.savedTask)
+      this.savedTask.type= this.taskType;
+      if(this.savedTask._links){
+        this.parseLinksSavedTask();
+      }
       let keysTextAreaNotNull = this.getControlsModified("textArea");
       if(keysTextAreaNotNull.length>0){
         let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables, keysTextAreaNotNull)
@@ -496,7 +628,12 @@ export class TaskFormComponent implements OnInit {
         });
       }
       else{
-        this.saveTask();
+        if(this.indexParameter < 0){
+          this.saveTask()
+        }
+        else{
+          this.getAllElementsEvent[this.indexParameter].next(true);
+        }
       }
       console.log(this.savedTask);
     }
@@ -549,23 +686,35 @@ export class TaskFormComponent implements OnInit {
   }
 
   saveTask(){
-    let allChangesSaved = true;
-    //Verify that all SqlElements are saved
-    this.sqlElementModification.forEach(element => {
-      if(element.toSave || element.modifications) { allChangesSaved = false }
-    });
-    if(allChangesSaved){
-      this.taskService.save(this.savedTask).subscribe( result =>{
-        console.log(result);
-        if(this.taskForm.get("id")) { this.taskForm.get("id").setValue(result.id); }
-        else { this.taskForm.addControl("id",new FormControl(result.id,[])); }
+      let allChangesSaved = true;
+      //Verify that all SqlElements are saved
+      this.sqlElementModification.forEach(element => {
+        if(element.toSave || element.modifications) { allChangesSaved = false }
+      });
+      if(allChangesSaved){
+        this.currentTablesSaved=0;
+        console.log(this.savedTask);
+        this.taskService.save(this.savedTask).subscribe( result =>{
+          console.log(result);
+          if(this.taskForm.get("id")) { this.taskForm.get("id").setValue(result.id); }
+          else { this.taskForm.addControl("id",new FormControl(result.id,[])); }
+  
+          if(this.taskForm.get("_links")) { this.taskForm.get("_links").setValue(result._links); }
+          else { this.taskForm.addControl("_links",new FormControl(result._links,[])); }
 
-        if(this.taskForm.get("_links")) { this.taskForm.get("_links").setValue(result.id); }
-        else { this.taskForm.addControl("_links",new FormControl(result._links,[])); }
-        
-        
-      })
-    }
+          this.taskToEdit=result;
+          if(this.indexParameter > 0){
+            this.refreshElements[this.indexParameter].next(true);
+          }
+
+          this.getAllElementsEvent.forEach((element, index) => {
+            if(index != this.indexParameter)element.next(true);
+          });
+          
+          
+        })
+      }
+
   }
 
   savedTaskTreatment(taskSaved){
@@ -577,12 +726,44 @@ export class TaskFormComponent implements OnInit {
 
         if(keySpecification.control == "selector"){
           let data=this.getDataSelector(keySpecification.selector.data, keySpecification.selector.queryParams, keySpecification.label)
-          taskSaved[key]=data.find(element => element[keySpecification.selector.value] === taskSaved[key])
+          taskSaved[key]=data.find(element => element[keySpecification.selector.value] == taskSaved[key])
         }
 
       }
       
     });
+
+    this.savePropertiesTreatment();
+
+  }
+
+  savePropertiesTreatment(){
+    
+    if(this.taskTypeName == 'Document' || this.taskTypeName == 'Download' ){
+      this.savedTask.properties={
+        format: this.savedTask['format'],
+        scope: this.taskTypeName == 'Document'?this.savedTask['scope'].value:this.taskForm.get('scope').value,
+        path: this.savedTask['path'],
+      }
+      delete this.savedTask['format'];
+      delete this.savedTask['scope'];
+      delete this.savedTask['path'];
+    }
+    else if(this.taskTypeName == 'Query' || this.taskTypeName== 'More info' ){
+      this.savedTask.properties={
+        command: this.savedTask['value'],
+        scope: this.savedTask['scope'].value,
+      }
+      delete this.savedTask['value'];
+      delete this.savedTask['scope'];
+    
+    }
+    else if(this.taskTypeName == 'Extraction (FME)' ){
+      this.savedTask.properties={
+        layers: this.savedTask['layout']
+      }
+    }
+
   }
 
 
@@ -640,6 +821,9 @@ export class TaskFormComponent implements OnInit {
     if(data=='tasks'){
       return this.tasksMap.get(field);
     }
+    if(data=='service'){
+      return this.servicesMap.get(field)
+    }
   }
 
   onPopupDeleteButtonClicked(field){
@@ -655,6 +839,7 @@ export class TaskFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
     dialogRef.componentInstance.getAllsTable = [() => getAllfunction];
     dialogRef.componentInstance.singleSelectionTable = [singleSelection];
+    dialogRef.componentInstance.orderTable = [this.defaultColumnsSorting[index]];
     dialogRef.componentInstance.columnDefsTable = [this.generateColumnDefs(columns,checkbox, status)];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate(label);
@@ -743,14 +928,20 @@ export class TaskFormComponent implements OnInit {
 
 
 
-  generateColumnDefs(columns, checkbox, status){
+  generateColumnDefs(columns, checkbox, status, notDialog?){
 
     let columnResults = [];
     if(checkbox) {columnResults.push(this.utils.getSelCheckboxColumnDef())}
 
     let keys= Object.keys(columns);
     let values= Object.values(columns);
+    let hasOrderField = false;
+    let hasNameField = false;
     for(let i=0; i< keys.length; i++){
+      
+      if(keys[i]=='order' && notDialog) { hasOrderField = true }
+      if(keys[i]=='name' && notDialog) { hasNameField = true }
+
       if(values[i]['editable'] === "true"){
         columnResults.push(this.utils.getEditableColumnDef(values[i]['label'], keys[i]))
       }
@@ -760,6 +951,12 @@ export class TaskFormComponent implements OnInit {
       // columnResults.push({headerName: this.utils.getTranslate(values[i]['label']), field: keys[i], editable: values[i]['editable'] })
     }
     if(status) {columnResults.push(this.utils.getStatusColumnDef())}
+
+    if(notDialog){
+      if(hasOrderField) { this.defaultColumnsSorting.push('order') }
+      else if(hasNameField) { this.defaultColumnsSorting.push('name') }
+      else { this.defaultColumnsSorting.push(null) }
+    }
 
     return columnResults;
 

@@ -49,6 +49,7 @@ export class TerritoryComponent implements OnInit {
       this.utils.getIdColumnDef(),
       this.utils.getEditableColumnDef('territoryEntity.code', 'code'),
       this.utils.getEditableColumnDef('territoryEntity.name', 'name'),
+      this.utils.getNonEditableColumnDef('territoryEntity.groupType', 'groupTypeId'),
       this.utils.getFormattedColumnDef('territoryEntity.scope',this.scopeTypes,'scope'),
       this.utils.getDateColumnDef('territoryEntity.createdDate','createdDate')
       //{ headerName: this.utils.getTranslate('territoryEntity.administrator'), field: 'territorialAuthorityName' },
@@ -101,16 +102,17 @@ export class TerritoryComponent implements OnInit {
   }
 
   add(data: Territory[]) {
-    const promises: Promise<any>[] = [];
-    data.forEach(territory => {
-      territory.id = null;
-      territory.createdDate = new Date();
-      territory.name = this.utils.getTranslate('copy_').concat(territory.name)
-      promises.push(new Promise((resolve, reject) => { this.territoryService.create(territory).subscribe((resp) => { resolve(true) }) }));
-      Promise.all(promises).then(() => {
-        this.dataUpdatedEvent.next(true);
-      });
-    });
+    this.router.navigate(['territory', -1, 'territoryForm', data[0].id]);
+    // const promises: Promise<any>[] = [];
+    // data.forEach(territory => {
+    //   territory.id = null;
+    //   territory.createdDate = new Date();
+    //   territory.name = this.utils.getTranslate('copy_').concat(territory.name)
+    //   promises.push(new Promise((resolve, reject) => { this.territoryService.create(territory).subscribe((resp) => { resolve(true) }) }));
+    //   Promise.all(promises).then(() => {
+    //     this.dataUpdatedEvent.next(true);
+    //   });
+    // });
 
   }
 

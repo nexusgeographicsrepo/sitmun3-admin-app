@@ -140,13 +140,18 @@ class BtnCheckboxRenderedComponent {
      * @return {?}
      */
     btnCheckedHandler(event) {
-        /** @type {?} */
-        let checked = !event.target.firstElementChild.checked;
-        /** @type {?} */
-        let colId = this.params.column.colId;
-        this.params.value = checked;
-        this.params.api.undoRedoService.isFilling = true;
-        this.params.node.setDataValue(colId, checked);
+        if (this.params.colDef.editable) {
+            /** @type {?} */
+            let checked = !event.target.firstElementChild.checked;
+            /** @type {?} */
+            let colId = this.params.column.colId;
+            this.params.value = checked;
+            this.params.api.undoRedoService.isFilling = true;
+            this.params.node.setDataValue(colId, checked);
+        }
+        else {
+            event.preventDefault();
+        }
     }
     /**
      * @return {?}
@@ -349,6 +354,9 @@ class DataGridComponent {
             btnCheckboxRendererComponent: BtnCheckboxRenderedComponent,
             btnCheckboxFilterComponent: BtnCheckboxFilterComponent
         };
+        this.components = {
+            datePicker: this.getDatePicker()
+        };
         this.remove = new EventEmitter();
         this.new = new EventEmitter();
         this.add = new EventEmitter();
@@ -471,15 +479,56 @@ class DataGridComponent {
         this.getElements();
         console.log(this.columnDefs);
         if (this.defaultColumnSorting) {
-            /** @type {?} */
-            const sortModel = [
-                { colId: this.defaultColumnSorting, sort: 'asc' }
-            ];
-            this.gridApi.setSortModel(sortModel);
+            if (!Array.isArray(this.defaultColumnSorting)) {
+                /** @type {?} */
+                const sortModel = [
+                    { colId: this.defaultColumnSorting, sort: 'asc' }
+                ];
+                this.gridApi.setSortModel(sortModel);
+            }
+            else {
+                /** @type {?} */
+                let sortModel = [];
+                this.defaultColumnSorting.forEach(element => {
+                    sortModel.push({ colId: element, sort: 'asc' });
+                });
+                this.gridApi.setSortModel(sortModel);
+            }
         }
         if (this.defaultHeight != null && this.defaultHeight != undefined) {
             this.changeHeight(this.defaultHeight);
         }
+    }
+    /**
+     * @return {?}
+     */
+    getDatePicker() {
+        /**
+         * @return {?}
+         */
+        function Datepicker() { }
+        Datepicker.prototype.init = function (params) {
+            this.eInput = document.createElement('input');
+            this.eInput.value = params.value;
+            this.eInput.classList.add('ag-input');
+            this.eInput.style.height = '100%';
+            $(this.eInput).datepicker({ dateFormat: 'mm/dd/yy' });
+        };
+        Datepicker.prototype.getGui = function () {
+            return this.eInput;
+        };
+        Datepicker.prototype.afterGuiAttached = function () {
+            this.eInput.focus();
+            this.eInput.select();
+        };
+        Datepicker.prototype.getValue = function () {
+            return this.eInput.value;
+        };
+        Datepicker.prototype.destroy = function () { };
+        Datepicker.prototype.isPopup = function () {
+            return false;
+        };
+        return Datepicker;
     }
     /**
      * @return {?}
@@ -584,8 +633,15 @@ class DataGridComponent {
         this.getAll()
             .subscribe((items) => {
             if (this.statusColumn) {
+                /** @type {?} */
+                let status = this.allNewElements ? 'pendingCreation' : 'statusOK';
                 items.forEach(element => {
-                    element.status = 'statusOK';
+                    if (element.status != "notAvailable" && element.status != "pendingCreation" && element.status != "pendingRegistration") {
+                        element.status = status;
+                    }
+                    if (this.allNewElements) {
+                        element.new = true;
+                    }
                 });
             }
             this.rowData = items;
@@ -757,6 +813,8 @@ class DataGridComponent {
      */
     deleteChanges() {
         this.gridApi.stopEditing(false);
+        /** @type {?} */
+        let newElementsActived = this.allNewElements;
         while (this.changeCounter > 0) {
             this.undo();
         }
@@ -771,7 +829,7 @@ class DataGridComponent {
                     if (node.data.status === 'pendingDelete') {
                         rowsWithStatusModified.push(node.data);
                     }
-                    if (node.data.newItem) {
+                    if (node.data.newItem || newElementsActived) {
                         node.data.status = 'pendingCreation';
                     }
                     else {
@@ -845,9 +903,9 @@ class DataGridComponent {
                     addMap.set(params.colDef.field, 1);
                     this.changesMap.set(params.node.id, addMap);
                     if (this.statusColumn) {
-                        if (this.gridApi.getRowNode(params.node.id).data.status !== 'pendingCreation') {
-                            this.gridApi.getRowNode(params.node.id).data.status = 'pendingModify';
-                        }
+                        // if (this.gridApi.getRowNode(params.node.id).data.status !== 'pendingCreation') {
+                        this.gridApi.getRowNode(params.node.id).data.status = 'pendingModify';
+                        // }
                     }
                 }
                 else {
@@ -984,7 +1042,7 @@ class DataGridComponent {
 DataGridComponent.decorators = [
     { type: Component, args: [{
                 selector: 'app-data-grid',
-                template: "<div id=grup1 class=\"editDivBtns\">\r\n    <span *ngIf=\"title\" [translate]=\"title\"> </span>\r\n    <button type=\"button\" title=\"{{ 'cancel' | translate }}\" mat-mini-fab class=\"mini-fab mat-red\" *ngIf=\"discardChangesButton\"\r\n        id=\"deleteChangesButton\" type=\"button\" (click)=\"deleteChanges()\" [disabled]=\"changeCounter <= 0 && (!someStatusHasChangedToDelete || discardNonReverseStatus  )\">\r\n        <mat-icon fontSet=\"material-icons-round\"> close </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'undo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"undoButton && someColumnIsEditable\"\r\n        id=\"undo\" (click)=\"undo()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> undo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'redo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"redoButton && someColumnIsEditable\"\r\n        id=\"redo\" (click)=\"redo()\" [disabled]=\"redoCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> redo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'accept' | translate }}\" mat-mini-fab class=\"mini-fab mat-green\"\r\n        *ngIf=\"applyChangesButton\" id=\"applyChangesButton\" (click)=\"applyChanges()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> check </mat-icon>\r\n    </button>\r\n</div>\r\n\r\n<div id=grup2 class=\"actionsDivBtns\">\r\n    <label *ngIf=\"globalSearch\" [translate]=\"'search'\"> </label>\r\n    <input *ngIf=\"globalSearch\" type=\"text\" class=\"searchGenericInput\" placeholder=\"\" (keyup)=\"quickSearch()\"\r\n        [(ngModel)]=\"searchValue\" ml-2>\r\n    <label *ngIf=\"changeHeightButton\" [translate]=\"'rowsToShow'\"> </label>\r\n    <mat-button-toggle-group *ngIf=\"changeHeightButton\" class=\"toogleButton\" name=\"fontStyle\" aria-label=\"Font Style\"  value=\"5\">\r\n        <mat-button-toggle value=\"5\" (change)=\"changeHeight($event.value)\">5</mat-button-toggle>\r\n        <mat-button-toggle value=\"20\" (change)=\"changeHeight($event.value)\">20</mat-button-toggle>\r\n        <mat-button-toggle value=\"50\" (change)=\"changeHeight($event.value)\">50</mat-button-toggle>\r\n    </mat-button-toggle-group>\r\n\r\n    <button type=\"button\" *ngIf=\"deleteButton\" mat-flat-button id=\"deleteButton\" class=\"deleteButton\"\r\n        (click)=\"removeData()\" [disabled]=\"!areRowsSelected()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> delete </mat-icon>\r\n        <span [translate]=\"'remove'\"> </span>\r\n\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"actionButton\" mat-flat-button [matMenuTriggerFor]=\"menu\" id=\"actionButton\"\r\n        class=\"actionButton\">\r\n        <span [translate]=\"'actions'\"> </span>\r\n        <mat-icon fontSet=\"material-icons-round\"> keyboard_arrow_down </mat-icon>\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideExportButton\" [disabled]=\"!areRowsSelected()\" (click)=\"exportData()\"> {{\"export\" | translate}}\r\n        </button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideDuplicateButton\" [disabled]=\"!areRowsSelected()\" (click)=\"onDuplicateButtonClicked()\">\r\n            {{\"duplicate\" |\r\n            translate}}</button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideSearchReplaceButton && false\"> {{\"search/replace\" | translate}}</button>\r\n    </mat-menu>\r\n\r\n    <button type=\"button\" *ngIf=\"newButton\" mat-flat-button class=\"newButton\" (click)=\"newData()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'new'\"> </span>\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"addButton\" mat-flat-button class=\"newButton\" (click)=\"onAddButtonClicked()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'add'\"> </span>\r\n    </button>\r\n\r\n</div>\r\n\r\n<div class=\"row\" style=\" height: 100%\">\r\n    <div id=\"myGrid\" style=\" width:100%; height: 100%\">\r\n        <ag-grid-angular style=\"width: 100%; height: 100%;min-height: 200px;\" [class]=\"themeGrid\"\r\n            [floatingFilter]=\"true\" [rowData]=\"rowData\" [columnDefs]=\"columnDefs\" [gridOptions]=\"gridOptions\"\r\n            [animateRows]=\"true\" [pagination]=\"false\" [modules]=\"modules\" [undoRedoCellEditing]=\"true\"\r\n            [undoRedoCellEditingLimit]=200 [suppressRowClickSelection]=true [frameworkComponents]=\"frameworkComponents\"\r\n            rowSelection=\"multiple\" multiSortKey=\"key\" (filterModified)=\"onFilterModified()\"\r\n            (cellEditingStopped)=\"onCellEditingStopped($event)\" (cellValueChanged)=\"onCellValueChanged($event)\"\r\n            (gridReady)=\"onGridReady($event)\" (firstDataRendered)=\"firstDataRendered()\">\r\n        </ag-grid-angular>\r\n    </div>\r\n</div>",
+                template: "<div id=grup1 class=\"editDivBtns\">\r\n    <span *ngIf=\"title\" [translate]=\"title\"> </span>\r\n    <button type=\"button\" title=\"{{ 'cancel' | translate }}\" mat-mini-fab class=\"mini-fab mat-red\" *ngIf=\"discardChangesButton\"\r\n        id=\"deleteChangesButton\" type=\"button\" (click)=\"deleteChanges()\" [disabled]=\"changeCounter <= 0 && (!someStatusHasChangedToDelete || discardNonReverseStatus  )\">\r\n        <mat-icon fontSet=\"material-icons-round\"> close </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'undo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"undoButton && someColumnIsEditable\"\r\n        id=\"undo\" (click)=\"undo()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> undo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'redo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"redoButton && someColumnIsEditable\"\r\n        id=\"redo\" (click)=\"redo()\" [disabled]=\"redoCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> redo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'accept' | translate }}\" mat-mini-fab class=\"mini-fab mat-green\"\r\n        *ngIf=\"applyChangesButton\" id=\"applyChangesButton\" (click)=\"applyChanges()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> check </mat-icon>\r\n    </button>\r\n</div>\r\n\r\n<div id=grup2 class=\"actionsDivBtns\">\r\n    <label *ngIf=\"globalSearch\" [translate]=\"'search'\"> </label>\r\n    <input *ngIf=\"globalSearch\" type=\"text\" class=\"searchGenericInput\" placeholder=\"\" (keyup)=\"quickSearch()\"\r\n        [(ngModel)]=\"searchValue\" ml-2>\r\n    <label *ngIf=\"changeHeightButton\" [translate]=\"'rowsToShow'\"> </label>\r\n    <mat-button-toggle-group *ngIf=\"changeHeightButton\" class=\"toogleButton\" name=\"fontStyle\" aria-label=\"Font Style\"  value=\"5\">\r\n        <mat-button-toggle value=\"5\" (change)=\"changeHeight($event.value)\">5</mat-button-toggle>\r\n        <mat-button-toggle value=\"20\" (change)=\"changeHeight($event.value)\">20</mat-button-toggle>\r\n        <mat-button-toggle value=\"50\" (change)=\"changeHeight($event.value)\">50</mat-button-toggle>\r\n    </mat-button-toggle-group>\r\n\r\n    <button type=\"button\" *ngIf=\"deleteButton\" mat-flat-button id=\"deleteButton\" class=\"deleteButton\"\r\n        (click)=\"removeData()\" [disabled]=\"!areRowsSelected()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> delete </mat-icon>\r\n        <span [translate]=\"'remove'\"> </span>\r\n\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"actionButton\" mat-flat-button [matMenuTriggerFor]=\"menu\" id=\"actionButton\"\r\n        class=\"actionButton\">\r\n        <span [translate]=\"'actions'\"> </span>\r\n        <mat-icon fontSet=\"material-icons-round\"> keyboard_arrow_down </mat-icon>\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideExportButton\" [disabled]=\"!areRowsSelected()\" (click)=\"exportData()\"> {{\"export\" | translate}}\r\n        </button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideDuplicateButton\" [disabled]=\"!areRowsSelected()\" (click)=\"onDuplicateButtonClicked()\">\r\n            {{\"duplicate\" |\r\n            translate}}</button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideSearchReplaceButton && false\"> {{\"search/replace\" | translate}}</button>\r\n    </mat-menu>\r\n\r\n    <button type=\"button\" *ngIf=\"newButton\" mat-flat-button class=\"newButton\" (click)=\"newData()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'new'\"> </span>\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"addButton\" mat-flat-button class=\"newButton\" (click)=\"onAddButtonClicked()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'add'\"> </span>\r\n    </button>\r\n\r\n</div>\r\n\r\n<div class=\"row\" style=\" height: 100%\">\r\n    <div id=\"myGrid\" style=\" width:100%; height: 100%\">\r\n        <ag-grid-angular style=\"width: 100%; height: 100%;min-height: 200px;\" [class]=\"themeGrid\"\r\n            [floatingFilter]=\"true\" [rowData]=\"rowData\" [columnDefs]=\"columnDefs\" [gridOptions]=\"gridOptions\"\r\n            [animateRows]=\"true\" [pagination]=\"false\" [modules]=\"modules\" [undoRedoCellEditing]=\"true\"\r\n            [undoRedoCellEditingLimit]=200 [suppressRowClickSelection]=true [frameworkComponents]=\"frameworkComponents\" [components]=\"components\"\r\n            rowSelection=\"multiple\" multiSortKey=\"key\" (filterModified)=\"onFilterModified()\"\r\n            (cellEditingStopped)=\"onCellEditingStopped($event)\" (cellValueChanged)=\"onCellValueChanged($event)\"\r\n            (gridReady)=\"onGridReady($event)\" (firstDataRendered)=\"firstDataRendered()\">\r\n        </ag-grid-angular>\r\n    </div>\r\n</div>",
                 styles: ["@charset \"UTF-8\";input,label{display:inline-block;margin:5px 5px 5px 10px}.mat-flat-button.mat-orange,.mat-icon.mat-orange,.mat-mini-fab.mat-orange,.mat-raised-button.mat-orange{background-color:#ff9300!important;color:#fff!important}.mat-flat-button.mat-orange:disabled,.mat-icon.mat-orange:disabled,.mat-mini-fab.mat-orange:disabled,.mat-raised-button.mat-orange:disabled{background:#ffc97f!important;color:#fff!important}.mat-flat-button.mat-green,.mat-icon.mat-green,.mat-mini-fab.mat-green,.mat-raised-button.mat-green{background-color:#68a225!important;color:#fff!important}.mat-flat-button.mat-green:disabled,.mat-icon.mat-green:disabled,.mat-mini-fab.mat-green:disabled,.mat-raised-button.mat-green:disabled{background-color:#83976c!important;color:#fff!important}.mat-flat-button.mat-red,.mat-icon.mat-red,.mat-mini-fab.mat-red,.mat-raised-button.mat-red{background-color:#bf0000!important;color:#fff!important}.mat-flat-button.mat-red:disabled,.mat-icon.mat-red:disabled,.mat-mini-fab.mat-red:disabled,.mat-raised-button.mat-red:disabled{background-color:#da8c8e!important;color:#fff!important}.validateButton{background-color:#ff9300;color:#fff;margin-top:34px!important;min-width:85px}.deleteButton,.validateButton{-ms-grid-column-align:right!important;height:40px;justify-self:right!important}.deleteButton{border:1px solid #bf0000!important;color:#bf0000;float:inherit!important;min-width:85px!important}.deleteButton:disabled{background-color:inherit!important;border:1px solid rgba(0,0,0,.26)!important;color:rgba(0,0,0,.26) solid 1px!important}.actionButton,.returnButton{border:1px solid #ff9300!important;color:#ff9300}.actionButton,.newButton,.returnButton,.saveButton{-ms-grid-column-align:right!important;float:inherit!important;height:40px;justify-self:right!important;min-width:85px!important}.newButton,.saveButton{background-color:#68a225;color:#fff}.editDivBtns{height:30px!important;line-height:30px!important;margin-left:10px;text-align:start;width:130px}.actionsDivBtns{height:50px;text-align:end;width:calc(100% - 140px)}.actionsDivBtns,.editDivBtns{display:inline-block!important}.actionsDivBtns .searchGenericInput{display:inline-block!important;height:41px!important;margin:0 5px 5px 10px!important;width:45%!important}.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar-thumb{background:#eee}\u200B .ag-body-viewport.ag-layout-normal ::-webkit-scrollbar{height:2em;width:2em}.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar-button{background:#ccc}.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track-piece{background:#888}.mini-fab{height:28px!important;line-height:22px!important;margin-right:3px!important;margin-top:7px!important;width:28px!important}.mini-fab .mat-button-wrapper{height:24px!important;line-height:22px!important;padding:1px 0!important;width:24px!important}.mini-fab .mat-button-wrapper .mat-icon{font-size:20px;line-height:22px;padding-right:0}.toogleButton{align-items:center;height:40px;margin-right:10px;vertical-align:bottom}"]
             }] }
 ];
@@ -1001,6 +1059,7 @@ DataGridComponent.propDecorators = {
     eventSaveAgGridStateSubscription: [{ type: Input }],
     eventAddItemsSubscription: [{ type: Input }],
     frameworkComponents: [{ type: Input }],
+    components: [{ type: Input }],
     columnDefs: [{ type: Input }],
     getAll: [{ type: Input }],
     discardChangesButton: [{ type: Input }],
@@ -1025,6 +1084,7 @@ DataGridComponent.propDecorators = {
     hideDuplicateButton: [{ type: Input }],
     hideSearchReplaceButton: [{ type: Input }],
     addFieldRestriction: [{ type: Input }],
+    allNewElements: [{ type: Input }],
     remove: [{ type: Output }],
     new: [{ type: Output }],
     add: [{ type: Output }],
@@ -1092,6 +1152,8 @@ if (false) {
     /** @type {?} */
     DataGridComponent.prototype.frameworkComponents;
     /** @type {?} */
+    DataGridComponent.prototype.components;
+    /** @type {?} */
     DataGridComponent.prototype.columnDefs;
     /** @type {?} */
     DataGridComponent.prototype.getAll;
@@ -1139,6 +1201,8 @@ if (false) {
     DataGridComponent.prototype.hideSearchReplaceButton;
     /** @type {?} */
     DataGridComponent.prototype.addFieldRestriction;
+    /** @type {?} */
+    DataGridComponent.prototype.allNewElements;
     /** @type {?} */
     DataGridComponent.prototype.remove;
     /** @type {?} */
@@ -1245,6 +1309,7 @@ class DialogGridComponent {
         this.dialogRef = dialogRef;
         this.getAllRows = new Subject();
         this.allRowsReceived = [];
+        this.orderTable = [];
         this.joinTables = new EventEmitter();
         // this.nonEditable = true;
         this.tablesReceivedCounter = 0;
@@ -1294,7 +1359,7 @@ class DialogGridComponent {
 DialogGridComponent.decorators = [
     { type: Component, args: [{
                 selector: 'app-dialog-grid',
-                template: "<h5 mat-dialog-title class=\"titleDialog\">{{title}}</h5>\r\n<mat-dialog-content class=\"dialogConent\">\r\n  <div *ngFor=\"let getAll of getAllsTable; let i = index\" class=\"appDialogDataGridDiv\"  [ngStyle]=\"{'margin-top': i>0?'100px':'0px'}\">\r\n    <app-data-grid \r\n    [columnDefs]=\"columnDefsTable[i]\" [themeGrid]='themeGrid' [changeHeightButton]='changeHeightButton' [defaultHeight]='heightByDefault'  [getAll]='getAll' [globalSearch]=true [singleSelection]=\"singleSelectionTable[i]\"\r\n    [title]=\"titlesTable[i]\" [nonEditable]='nonEditable' [eventGetSelectedRowsSubscription]=\"getAllRows.asObservable()\" (getSelectedRows)='joinRowsReceived($event)' >\r\n    </app-data-grid>\r\n  </div>\r\n</mat-dialog-content>\r\n<div mat-dialog-actions align=\"end\">\r\n  <button mat-flat-button class=\"returnButton\" (click)=\"closeDialog()\">{{\"cancel\" | translate}}</button>\r\n  <button mat-flat-button class=\"saveButton\" (click)=\"getAllSelectedRows()\" cdkFocusInitial>{{\"add\" | translate}}</button>\r\n</div>\r\n\r\n",
+                template: "<h5 mat-dialog-title class=\"titleDialog\">{{title}}</h5>\r\n<mat-dialog-content class=\"dialogConent\">\r\n  <div *ngFor=\"let getAll of getAllsTable; let i = index\" class=\"appDialogDataGridDiv\"  [ngStyle]=\"{'margin-top': i>0?'100px':'0px'}\">\r\n    <app-data-grid \r\n    [columnDefs]=\"columnDefsTable[i]\" [themeGrid]='themeGrid' [changeHeightButton]='changeHeightButton' [defaultHeight]='heightByDefault'  [getAll]='getAll' [globalSearch]=true [singleSelection]=\"singleSelectionTable[i]\"\r\n    [title]=\"titlesTable[i]\" [defaultColumnSorting]='orderTable.length>=i?orderTable[i]:null' [nonEditable]='nonEditable' [eventGetSelectedRowsSubscription]=\"getAllRows.asObservable()\" (getSelectedRows)='joinRowsReceived($event)' >\r\n    </app-data-grid>\r\n  </div>\r\n</mat-dialog-content>\r\n<div mat-dialog-actions align=\"end\">\r\n  <button mat-flat-button class=\"returnButton\" (click)=\"closeDialog()\">{{\"cancel\" | translate}}</button>\r\n  <button mat-flat-button class=\"saveButton\" (click)=\"getAllSelectedRows()\" cdkFocusInitial>{{\"add\" | translate}}</button>\r\n</div>\r\n\r\n",
                 styles: [".dialogConent{height:100%;margin:inherit!important;max-height:60vh!important;overflow:auto;padding:inherit!important;width:100%}.titleDialog{margin-bottom:15px!important;margin-top:inherit!important}"]
             }] }
 ];
@@ -1330,6 +1395,8 @@ if (false) {
     DialogGridComponent.prototype.singleSelectionTable;
     /** @type {?} */
     DialogGridComponent.prototype.titlesTable;
+    /** @type {?} */
+    DialogGridComponent.prototype.orderTable;
     /** @type {?} */
     DialogGridComponent.prototype.addButtonClickedSubscription;
     /** @type {?} */
@@ -1517,11 +1584,12 @@ class FileDatabase {
     get data() { return this.dataChange.value; }
     /**
      * @param {?} dataObj
+     * @param {?} allNewElements
      * @return {?}
      */
-    initialize(dataObj) {
+    initialize(dataObj, allNewElements) {
         /** @type {?} */
-        const data = this.buildFileTree(dataObj, 0);
+        const data = this.buildFileTree(dataObj, 0, allNewElements);
         // Notify the change.
         this.dataChange.next(data);
     }
@@ -1530,9 +1598,10 @@ class FileDatabase {
      * The return value is the list of `FileNode`.
      * @param {?} arrayTreeNodes
      * @param {?} level
+     * @param {?} allNewElements
      * @return {?}
      */
-    buildFileTree(arrayTreeNodes, level) {
+    buildFileTree(arrayTreeNodes, level, allNewElements) {
         /** @type {?} */
         var map = {};
         if (arrayTreeNodes.length === 0) {
@@ -1554,6 +1623,15 @@ class FileDatabase {
                 var obj = treeNode;
                 obj.children = [];
                 obj.type = (treeNode.isFolder) ? "folder" : "node";
+                if (allNewElements) {
+                    obj.status = 'pendingCreation';
+                    if (obj.id) {
+                        obj.id = obj.id * -1;
+                    }
+                    if (obj.parent) {
+                        obj.parent = obj.parent * -1;
+                    }
+                }
                 if (!map[obj.id]) {
                     map[obj.id] = obj;
                 }
@@ -1881,7 +1959,7 @@ class DataTreeComponent {
         this.getAll()
             .subscribe((items) => {
             this.treeData = items;
-            this.database.initialize(this.treeData);
+            this.database.initialize(this.treeData, this.allNewElements);
             this.database.dataChange.subscribe(data => this.rebuildTreeForData([data]));
         });
     }
@@ -2071,9 +2149,11 @@ class DataTreeComponent {
         this.dataSource.data = [];
         this.dataSource.data = data;
         this.treeControl.expansionModel.selected.forEach((nodeAct) => {
-            /** @type {?} */
-            const node = this.treeControl.dataNodes.find((n) => n.id === nodeAct.id);
-            this.treeControl.expand(node);
+            if (nodeAct) {
+                /** @type {?} */
+                const node = this.treeControl.dataNodes.find((n) => n.id === nodeAct.id);
+                this.treeControl.expand(node);
+            }
         });
     }
     /**
@@ -2251,6 +2331,7 @@ DataTreeComponent.propDecorators = {
     eventGetAllRowsSubscription: [{ type: Input }],
     eventRefreshSubscription: [{ type: Input }],
     getAll: [{ type: Input }],
+    allNewElements: [{ type: Input }],
     emptyItem: [{ type: ViewChild, args: ['emptyItem',] }]
 };
 if (false) {
@@ -2298,6 +2379,8 @@ if (false) {
     DataTreeComponent.prototype.treeData;
     /** @type {?} */
     DataTreeComponent.prototype.getAll;
+    /** @type {?} */
+    DataTreeComponent.prototype.allNewElements;
     /** @type {?} */
     DataTreeComponent.prototype.dragNode;
     /** @type {?} */

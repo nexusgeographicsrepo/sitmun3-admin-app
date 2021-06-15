@@ -25,6 +25,8 @@
   "status":"Estat",
   "value": "Valor",
   "statusOK": "Sense canvis",
+  "notAvailable": "No disponible",
+  "pendingRegistration": "Pendent registrar",
   "search/replace": "Buscar/Reemplaçar",
   "selectType": "Selecciona el tipus",
   "ok-created": "Els elements s'han creat correctament",
@@ -77,6 +79,7 @@
     "application": "Aplicació",
     "taskGroup": "Grup tasca",
     "status": "Estat",
+    "editionType": "Tipus d'edició",
     "cartographyTableWFT": "Taula de cartografia(WFS-T)",
     "dataTable": "Taula de dades",
     "relationTable": "Taula de relació",
@@ -100,7 +103,7 @@
     "user": "Usuari",
     "firstname": "Nom",
     "name": "Nom",
-    "lastname": "Cognom",
+    "lastname": "Cognoms",
     "administrator": "Administrador",
     "blocked": "Bloquejat",
     "password": "Contrasenya",
@@ -121,7 +124,8 @@
     "code": "Codi",
     "status": "Estat",
     "appliesToChildrenTerritories" : "Aplicat als fills",
-    "childRole": "Rol fill"
+    "childRole": "Rol fill",
+    "passwordSet": "Contrasenya introduïda"
   },
   "connectionEntity": {
     "generalData": "Dades Generals",
@@ -192,6 +196,7 @@
     "format": "Format",
     "municipalFilterFields": "Camp per filtre municipal",
     "filterInfoByMunicipality": "Filtrar per municipi a la info",
+    "applyFilterToGetMap" : "Filtrar al get map",
     "filterSpatialSeleciontByMunicipality": "Filtrar per municipi a la selecció espacial",
     "information": "Informació",
     "defaultInformation": "Informació per defecte",
@@ -207,10 +212,12 @@
     "layer": "Capa",
     "connection":"Connexió",
     "territorialFilter": "Filtre territorial",
+    "filters": "Filtres",
     "value": "Valor",
     "valueType": "Tipus valor",
     "typeId": "Tipus Id",
-    "required": "Obligatori"
+    "required": "Obligatori",
+    "treeName": "Nom arbre"
   },
   "layersPermitsEntity": {
     "generalData": "Dades Generals",

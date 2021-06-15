@@ -290,9 +290,9 @@ function DialogGridComponent_div_3_Template(rf, ctx) { if (rf & 1) {
     const getAll_r1 = ctx.$implicit;
     const i_r2 = ctx.index;
     const ctx_r0 = ɵngcc0.ɵɵnextContext();
-    ɵngcc0.ɵɵproperty("ngStyle", ɵngcc0.ɵɵpureFunction1(11, _c1, i_r2 > 0 ? "100px" : "0px"));
+    ɵngcc0.ɵɵproperty("ngStyle", ɵngcc0.ɵɵpureFunction1(12, _c1, i_r2 > 0 ? "100px" : "0px"));
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("columnDefs", ctx_r0.columnDefsTable[i_r2])("themeGrid", ctx_r0.themeGrid)("changeHeightButton", ctx_r0.changeHeightButton)("defaultHeight", ctx_r0.heightByDefault)("getAll", getAll_r1)("globalSearch", true)("singleSelection", ctx_r0.singleSelectionTable[i_r2])("title", ctx_r0.titlesTable[i_r2])("nonEditable", ctx_r0.nonEditable)("eventGetSelectedRowsSubscription", ctx_r0.getAllRows.asObservable());
+    ɵngcc0.ɵɵproperty("columnDefs", ctx_r0.columnDefsTable[i_r2])("themeGrid", ctx_r0.themeGrid)("changeHeightButton", ctx_r0.changeHeightButton)("defaultHeight", ctx_r0.heightByDefault)("getAll", getAll_r1)("globalSearch", true)("singleSelection", ctx_r0.singleSelectionTable[i_r2])("title", ctx_r0.titlesTable[i_r2])("defaultColumnSorting", ctx_r0.orderTable.length >= i_r2 ? ctx_r0.orderTable[i_r2] : null)("nonEditable", ctx_r0.nonEditable)("eventGetSelectedRowsSubscription", ctx_r0.getAllRows.asObservable());
 } }
 function DialogFormComponent_ng_container_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
@@ -561,13 +561,18 @@ class BtnCheckboxRenderedComponent {
      * @return {?}
      */
     btnCheckedHandler(event) {
-        /** @type {?} */
-        let checked = !event.target.firstElementChild.checked;
-        /** @type {?} */
-        let colId = this.params.column.colId;
-        this.params.value = checked;
-        this.params.api.undoRedoService.isFilling = true;
-        this.params.node.setDataValue(colId, checked);
+        if (this.params.colDef.editable) {
+            /** @type {?} */
+            let checked = !event.target.firstElementChild.checked;
+            /** @type {?} */
+            let colId = this.params.column.colId;
+            this.params.value = checked;
+            this.params.api.undoRedoService.isFilling = true;
+            this.params.node.setDataValue(colId, checked);
+        }
+        else {
+            event.preventDefault();
+        }
     }
     /**
      * @return {?}
@@ -843,6 +848,9 @@ class DataGridComponent {
             btnCheckboxRendererComponent: BtnCheckboxRenderedComponent,
             btnCheckboxFilterComponent: BtnCheckboxFilterComponent
         };
+        this.components = {
+            datePicker: this.getDatePicker()
+        };
         this.remove = new EventEmitter();
         this.new = new EventEmitter();
         this.add = new EventEmitter();
@@ -965,15 +973,56 @@ class DataGridComponent {
         this.getElements();
         console.log(this.columnDefs);
         if (this.defaultColumnSorting) {
-            /** @type {?} */
-            const sortModel = [
-                { colId: this.defaultColumnSorting, sort: 'asc' }
-            ];
-            this.gridApi.setSortModel(sortModel);
+            if (!Array.isArray(this.defaultColumnSorting)) {
+                /** @type {?} */
+                const sortModel = [
+                    { colId: this.defaultColumnSorting, sort: 'asc' }
+                ];
+                this.gridApi.setSortModel(sortModel);
+            }
+            else {
+                /** @type {?} */
+                let sortModel = [];
+                this.defaultColumnSorting.forEach(element => {
+                    sortModel.push({ colId: element, sort: 'asc' });
+                });
+                this.gridApi.setSortModel(sortModel);
+            }
         }
         if (this.defaultHeight != null && this.defaultHeight != undefined) {
             this.changeHeight(this.defaultHeight);
         }
+    }
+    /**
+     * @return {?}
+     */
+    getDatePicker() {
+        /**
+         * @return {?}
+         */
+        function Datepicker() { }
+        Datepicker.prototype.init = function (params) {
+            this.eInput = document.createElement('input');
+            this.eInput.value = params.value;
+            this.eInput.classList.add('ag-input');
+            this.eInput.style.height = '100%';
+            $(this.eInput).datepicker({ dateFormat: 'mm/dd/yy' });
+        };
+        Datepicker.prototype.getGui = function () {
+            return this.eInput;
+        };
+        Datepicker.prototype.afterGuiAttached = function () {
+            this.eInput.focus();
+            this.eInput.select();
+        };
+        Datepicker.prototype.getValue = function () {
+            return this.eInput.value;
+        };
+        Datepicker.prototype.destroy = function () { };
+        Datepicker.prototype.isPopup = function () {
+            return false;
+        };
+        return Datepicker;
     }
     /**
      * @return {?}
@@ -1078,8 +1127,15 @@ class DataGridComponent {
         this.getAll()
             .subscribe((items) => {
             if (this.statusColumn) {
+                /** @type {?} */
+                let status = this.allNewElements ? 'pendingCreation' : 'statusOK';
                 items.forEach(element => {
-                    element.status = 'statusOK';
+                    if (element.status != "notAvailable" && element.status != "pendingCreation" && element.status != "pendingRegistration") {
+                        element.status = status;
+                    }
+                    if (this.allNewElements) {
+                        element.new = true;
+                    }
                 });
             }
             this.rowData = items;
@@ -1251,6 +1307,8 @@ class DataGridComponent {
      */
     deleteChanges() {
         this.gridApi.stopEditing(false);
+        /** @type {?} */
+        let newElementsActived = this.allNewElements;
         while (this.changeCounter > 0) {
             this.undo();
         }
@@ -1265,7 +1323,7 @@ class DataGridComponent {
                     if (node.data.status === 'pendingDelete') {
                         rowsWithStatusModified.push(node.data);
                     }
-                    if (node.data.newItem) {
+                    if (node.data.newItem || newElementsActived) {
                         node.data.status = 'pendingCreation';
                     }
                     else {
@@ -1339,9 +1397,9 @@ class DataGridComponent {
                     addMap.set(params.colDef.field, 1);
                     this.changesMap.set(params.node.id, addMap);
                     if (this.statusColumn) {
-                        if (this.gridApi.getRowNode(params.node.id).data.status !== 'pendingCreation') {
-                            this.gridApi.getRowNode(params.node.id).data.status = 'pendingModify';
-                        }
+                        // if (this.gridApi.getRowNode(params.node.id).data.status !== 'pendingCreation') {
+                        this.gridApi.getRowNode(params.node.id).data.status = 'pendingModify';
+                        // }
                     }
                 }
                 else {
@@ -1476,7 +1534,7 @@ class DataGridComponent {
     }
 }
 DataGridComponent.ɵfac = function DataGridComponent_Factory(t) { return new (t || DataGridComponent)(ɵngcc0.ɵɵdirectiveInject(ɵngcc6.MatDialog), ɵngcc0.ɵɵdirectiveInject(ɵngcc5.TranslateService), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef)); };
-DataGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DataGridComponent, selectors: [["app-data-grid"]], inputs: { frameworkComponents: "frameworkComponents", eventRefreshSubscription: "eventRefreshSubscription", eventGetSelectedRowsSubscription: "eventGetSelectedRowsSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", eventSaveAgGridStateSubscription: "eventSaveAgGridStateSubscription", eventAddItemsSubscription: "eventAddItemsSubscription", columnDefs: "columnDefs", getAll: "getAll", discardChangesButton: "discardChangesButton", discardNonReverseStatus: "discardNonReverseStatus", id: "id", undoButton: "undoButton", defaultColumnSorting: "defaultColumnSorting", redoButton: "redoButton", applyChangesButton: "applyChangesButton", deleteButton: "deleteButton", newButton: "newButton", actionButton: "actionButton", addButton: "addButton", globalSearch: "globalSearch", changeHeightButton: "changeHeightButton", defaultHeight: "defaultHeight", themeGrid: "themeGrid", singleSelection: "singleSelection", nonEditable: "nonEditable", title: "title", hideExportButton: "hideExportButton", hideDuplicateButton: "hideDuplicateButton", hideSearchReplaceButton: "hideSearchReplaceButton", addFieldRestriction: "addFieldRestriction" }, outputs: { remove: "remove", new: "new", add: "add", discardChanges: "discardChanges", sendChanges: "sendChanges", getSelectedRows: "getSelectedRows", duplicate: "duplicate", getAllRows: "getAllRows", gridModified: "gridModified", getAgGridState: "getAgGridState" }, decls: 23, vars: 29, consts: [["id", "grup1", 1, "editDivBtns"], [3, "translate", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-red", "id", "deleteChangesButton", "type", "button", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "undo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "redo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-green", "id", "applyChangesButton", 3, "title", "disabled", "click", 4, "ngIf"], ["id", "grup2", 1, "actionsDivBtns"], ["type", "text", "class", "searchGenericInput", "placeholder", "", "ml-2", "", 3, "ngModel", "keyup", "ngModelChange", 4, "ngIf"], ["class", "toogleButton", "name", "fontStyle", "aria-label", "Font Style", "value", "5", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", "class", "deleteButton", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "actionButton", "class", "actionButton", 3, "matMenuTriggerFor", 4, "ngIf"], ["menu", "matMenu"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-menu-item", "", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "class", "newButton", 3, "click", 4, "ngIf"], [1, "row", 2, "height", "100%"], ["id", "myGrid", 2, "width", "100%", "height", "100%"], ["rowSelection", "multiple", "multiSortKey", "key", 2, "width", "100%", "height", "100%", "min-height", "200px", 3, "floatingFilter", "rowData", "columnDefs", "gridOptions", "animateRows", "pagination", "modules", "undoRedoCellEditing", "undoRedoCellEditingLimit", "suppressRowClickSelection", "frameworkComponents", "filterModified", "cellEditingStopped", "cellValueChanged", "gridReady", "firstDataRendered"], [3, "translate"], ["type", "button", "mat-mini-fab", "", "id", "deleteChangesButton", "type", "button", 1, "mini-fab", "mat-red", 3, "title", "disabled", "click"], ["fontSet", "material-icons-round"], ["type", "button", "mat-mini-fab", "", "id", "undo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "redo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "applyChangesButton", 1, "mini-fab", "mat-green", 3, "title", "disabled", "click"], ["type", "text", "placeholder", "", "ml-2", "", 1, "searchGenericInput", 3, "ngModel", "keyup", "ngModelChange"], ["name", "fontStyle", "aria-label", "Font Style", "value", "5", 1, "toogleButton"], ["value", "5", 3, "change"], ["value", "20", 3, "change"], ["value", "50", 3, "change"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", 1, "deleteButton", 3, "disabled", "click"], ["type", "button", "mat-flat-button", "", "id", "actionButton", 1, "actionButton", 3, "matMenuTriggerFor"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click"], ["type", "button", "mat-menu-item", ""], ["type", "button", "mat-flat-button", "", 1, "newButton", 3, "click"]], template: function DataGridComponent_Template(rf, ctx) { if (rf & 1) {
+DataGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DataGridComponent, selectors: [["app-data-grid"]], inputs: { frameworkComponents: "frameworkComponents", components: "components", eventRefreshSubscription: "eventRefreshSubscription", eventGetSelectedRowsSubscription: "eventGetSelectedRowsSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", eventSaveAgGridStateSubscription: "eventSaveAgGridStateSubscription", eventAddItemsSubscription: "eventAddItemsSubscription", columnDefs: "columnDefs", getAll: "getAll", discardChangesButton: "discardChangesButton", discardNonReverseStatus: "discardNonReverseStatus", id: "id", undoButton: "undoButton", defaultColumnSorting: "defaultColumnSorting", redoButton: "redoButton", applyChangesButton: "applyChangesButton", deleteButton: "deleteButton", newButton: "newButton", actionButton: "actionButton", addButton: "addButton", globalSearch: "globalSearch", changeHeightButton: "changeHeightButton", defaultHeight: "defaultHeight", themeGrid: "themeGrid", singleSelection: "singleSelection", nonEditable: "nonEditable", title: "title", hideExportButton: "hideExportButton", hideDuplicateButton: "hideDuplicateButton", hideSearchReplaceButton: "hideSearchReplaceButton", addFieldRestriction: "addFieldRestriction", allNewElements: "allNewElements" }, outputs: { remove: "remove", new: "new", add: "add", discardChanges: "discardChanges", sendChanges: "sendChanges", getSelectedRows: "getSelectedRows", duplicate: "duplicate", getAllRows: "getAllRows", gridModified: "gridModified", getAgGridState: "getAgGridState" }, decls: 23, vars: 30, consts: [["id", "grup1", 1, "editDivBtns"], [3, "translate", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-red", "id", "deleteChangesButton", "type", "button", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "undo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-orange", "id", "redo", 3, "title", "disabled", "click", 4, "ngIf"], ["type", "button", "mat-mini-fab", "", "class", "mini-fab mat-green", "id", "applyChangesButton", 3, "title", "disabled", "click", 4, "ngIf"], ["id", "grup2", 1, "actionsDivBtns"], ["type", "text", "class", "searchGenericInput", "placeholder", "", "ml-2", "", 3, "ngModel", "keyup", "ngModelChange", 4, "ngIf"], ["class", "toogleButton", "name", "fontStyle", "aria-label", "Font Style", "value", "5", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", "class", "deleteButton", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "id", "actionButton", "class", "actionButton", 3, "matMenuTriggerFor", 4, "ngIf"], ["menu", "matMenu"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "mat-menu-item", "", 4, "ngIf"], ["type", "button", "mat-flat-button", "", "class", "newButton", 3, "click", 4, "ngIf"], [1, "row", 2, "height", "100%"], ["id", "myGrid", 2, "width", "100%", "height", "100%"], ["rowSelection", "multiple", "multiSortKey", "key", 2, "width", "100%", "height", "100%", "min-height", "200px", 3, "floatingFilter", "rowData", "columnDefs", "gridOptions", "animateRows", "pagination", "modules", "undoRedoCellEditing", "undoRedoCellEditingLimit", "suppressRowClickSelection", "frameworkComponents", "components", "filterModified", "cellEditingStopped", "cellValueChanged", "gridReady", "firstDataRendered"], [3, "translate"], ["type", "button", "mat-mini-fab", "", "id", "deleteChangesButton", "type", "button", 1, "mini-fab", "mat-red", 3, "title", "disabled", "click"], ["fontSet", "material-icons-round"], ["type", "button", "mat-mini-fab", "", "id", "undo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "redo", 1, "mini-fab", "mat-orange", 3, "title", "disabled", "click"], ["type", "button", "mat-mini-fab", "", "id", "applyChangesButton", 1, "mini-fab", "mat-green", 3, "title", "disabled", "click"], ["type", "text", "placeholder", "", "ml-2", "", 1, "searchGenericInput", 3, "ngModel", "keyup", "ngModelChange"], ["name", "fontStyle", "aria-label", "Font Style", "value", "5", 1, "toogleButton"], ["value", "5", 3, "change"], ["value", "20", 3, "change"], ["value", "50", 3, "change"], ["type", "button", "mat-flat-button", "", "id", "deleteButton", 1, "deleteButton", 3, "disabled", "click"], ["type", "button", "mat-flat-button", "", "id", "actionButton", 1, "actionButton", 3, "matMenuTriggerFor"], ["type", "button", "mat-menu-item", "", 3, "disabled", "click"], ["type", "button", "mat-menu-item", ""], ["type", "button", "mat-flat-button", "", 1, "newButton", 3, "click"]], template: function DataGridComponent_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵelementStart(0, "div", 0);
         ɵngcc0.ɵɵtemplate(1, DataGridComponent_span_1_Template, 1, 1, "span", 1);
         ɵngcc0.ɵɵtemplate(2, DataGridComponent_button_2_Template, 4, 4, "button", 2);
@@ -1541,7 +1599,7 @@ DataGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DataGridComponent,
         ɵngcc0.ɵɵproperty("ngIf", ctx.addButton);
         ɵngcc0.ɵɵadvance(3);
         ɵngcc0.ɵɵclassMap(ctx.themeGrid);
-        ɵngcc0.ɵɵproperty("floatingFilter", true)("rowData", ctx.rowData)("columnDefs", ctx.columnDefs)("gridOptions", ctx.gridOptions)("animateRows", true)("pagination", false)("modules", ctx.modules)("undoRedoCellEditing", true)("undoRedoCellEditingLimit", 200)("suppressRowClickSelection", true)("frameworkComponents", ctx.frameworkComponents);
+        ɵngcc0.ɵɵproperty("floatingFilter", true)("rowData", ctx.rowData)("columnDefs", ctx.columnDefs)("gridOptions", ctx.gridOptions)("animateRows", true)("pagination", false)("modules", ctx.modules)("undoRedoCellEditing", true)("undoRedoCellEditingLimit", 200)("suppressRowClickSelection", true)("frameworkComponents", ctx.frameworkComponents)("components", ctx.components);
     } }, directives: [ɵngcc7.NgIf, ɵngcc8._MatMenu, ɵngcc9.AgGridAngular, ɵngcc5.TranslateDirective, ɵngcc1.MatButton, ɵngcc2.MatIcon, ɵngcc4.DefaultValueAccessor, ɵngcc4.NgControlStatus, ɵngcc4.NgModel, ɵngcc10.MatButtonToggleGroup, ɵngcc10.MatButtonToggle, ɵngcc8.MatMenuTrigger, ɵngcc8.MatMenuItem], pipes: [ɵngcc5.TranslatePipe], styles: ["@charset \"UTF-8\";input[_ngcontent-%COMP%], label[_ngcontent-%COMP%]{display:inline-block;margin:5px 5px 5px 10px}.mat-flat-button.mat-orange[_ngcontent-%COMP%], .mat-icon.mat-orange[_ngcontent-%COMP%], .mat-mini-fab.mat-orange[_ngcontent-%COMP%], .mat-raised-button.mat-orange[_ngcontent-%COMP%]{background-color:#ff9300!important;color:#fff!important}.mat-flat-button.mat-orange[_ngcontent-%COMP%]:disabled, .mat-icon.mat-orange[_ngcontent-%COMP%]:disabled, .mat-mini-fab.mat-orange[_ngcontent-%COMP%]:disabled, .mat-raised-button.mat-orange[_ngcontent-%COMP%]:disabled{background:#ffc97f!important;color:#fff!important}.mat-flat-button.mat-green[_ngcontent-%COMP%], .mat-icon.mat-green[_ngcontent-%COMP%], .mat-mini-fab.mat-green[_ngcontent-%COMP%], .mat-raised-button.mat-green[_ngcontent-%COMP%]{background-color:#68a225!important;color:#fff!important}.mat-flat-button.mat-green[_ngcontent-%COMP%]:disabled, .mat-icon.mat-green[_ngcontent-%COMP%]:disabled, .mat-mini-fab.mat-green[_ngcontent-%COMP%]:disabled, .mat-raised-button.mat-green[_ngcontent-%COMP%]:disabled{background-color:#83976c!important;color:#fff!important}.mat-flat-button.mat-red[_ngcontent-%COMP%], .mat-icon.mat-red[_ngcontent-%COMP%], .mat-mini-fab.mat-red[_ngcontent-%COMP%], .mat-raised-button.mat-red[_ngcontent-%COMP%]{background-color:#bf0000!important;color:#fff!important}.mat-flat-button.mat-red[_ngcontent-%COMP%]:disabled, .mat-icon.mat-red[_ngcontent-%COMP%]:disabled, .mat-mini-fab.mat-red[_ngcontent-%COMP%]:disabled, .mat-raised-button.mat-red[_ngcontent-%COMP%]:disabled{background-color:#da8c8e!important;color:#fff!important}.validateButton[_ngcontent-%COMP%]{background-color:#ff9300;color:#fff;margin-top:34px!important;min-width:85px}.deleteButton[_ngcontent-%COMP%], .validateButton[_ngcontent-%COMP%]{-ms-grid-column-align:right!important;height:40px;justify-self:right!important}.deleteButton[_ngcontent-%COMP%]{border:1px solid #bf0000!important;color:#bf0000;float:inherit!important;min-width:85px!important}.deleteButton[_ngcontent-%COMP%]:disabled{background-color:inherit!important;border:1px solid rgba(0,0,0,.26)!important;color:rgba(0,0,0,.26) solid 1px!important}.actionButton[_ngcontent-%COMP%], .returnButton[_ngcontent-%COMP%]{border:1px solid #ff9300!important;color:#ff9300}.actionButton[_ngcontent-%COMP%], .newButton[_ngcontent-%COMP%], .returnButton[_ngcontent-%COMP%], .saveButton[_ngcontent-%COMP%]{-ms-grid-column-align:right!important;float:inherit!important;height:40px;justify-self:right!important;min-width:85px!important}.newButton[_ngcontent-%COMP%], .saveButton[_ngcontent-%COMP%]{background-color:#68a225;color:#fff}.editDivBtns[_ngcontent-%COMP%]{height:30px!important;line-height:30px!important;margin-left:10px;text-align:start;width:130px}.actionsDivBtns[_ngcontent-%COMP%]{height:50px;text-align:end;width:calc(100% - 140px)}.actionsDivBtns[_ngcontent-%COMP%], .editDivBtns[_ngcontent-%COMP%]{display:inline-block!important}.actionsDivBtns[_ngcontent-%COMP%]   .searchGenericInput[_ngcontent-%COMP%]{display:inline-block!important;height:41px!important;margin:0 5px 5px 10px!important;width:45%!important}.ag-body-viewport.ag-layout-normal[_ngcontent-%COMP%]   [_ngcontent-%COMP%]::-webkit-scrollbar-thumb{background:#eee}\u200B[_ngcontent-%COMP%]   .ag-body-viewport.ag-layout-normal[_ngcontent-%COMP%]   [_ngcontent-%COMP%]::-webkit-scrollbar{height:2em;width:2em}.ag-body-viewport.ag-layout-normal[_ngcontent-%COMP%]   [_ngcontent-%COMP%]::-webkit-scrollbar-button{background:#ccc}.ag-body-viewport.ag-layout-normal[_ngcontent-%COMP%]::-webkit-scrollbar-track-piece{background:#888}.mini-fab[_ngcontent-%COMP%]{height:28px!important;line-height:22px!important;margin-right:3px!important;margin-top:7px!important;width:28px!important}.mini-fab[_ngcontent-%COMP%]   .mat-button-wrapper[_ngcontent-%COMP%]{height:24px!important;line-height:22px!important;padding:1px 0!important;width:24px!important}.mini-fab[_ngcontent-%COMP%]   .mat-button-wrapper[_ngcontent-%COMP%]   .mat-icon[_ngcontent-%COMP%]{font-size:20px;line-height:22px;padding-right:0}.toogleButton[_ngcontent-%COMP%]{align-items:center;height:40px;margin-right:10px;vertical-align:bottom}"] });
 /** @nocollapse */
 DataGridComponent.ctorParameters = () => [
@@ -1556,6 +1614,7 @@ DataGridComponent.propDecorators = {
     eventSaveAgGridStateSubscription: [{ type: Input }],
     eventAddItemsSubscription: [{ type: Input }],
     frameworkComponents: [{ type: Input }],
+    components: [{ type: Input }],
     columnDefs: [{ type: Input }],
     getAll: [{ type: Input }],
     discardChangesButton: [{ type: Input }],
@@ -1580,6 +1639,7 @@ DataGridComponent.propDecorators = {
     hideDuplicateButton: [{ type: Input }],
     hideSearchReplaceButton: [{ type: Input }],
     addFieldRestriction: [{ type: Input }],
+    allNewElements: [{ type: Input }],
     remove: [{ type: Output }],
     new: [{ type: Output }],
     add: [{ type: Output }],
@@ -1595,10 +1655,12 @@ DataGridComponent.propDecorators = {
         type: Component,
         args: [{
                 selector: 'app-data-grid',
-                template: "<div id=grup1 class=\"editDivBtns\">\r\n    <span *ngIf=\"title\" [translate]=\"title\"> </span>\r\n    <button type=\"button\" title=\"{{ 'cancel' | translate }}\" mat-mini-fab class=\"mini-fab mat-red\" *ngIf=\"discardChangesButton\"\r\n        id=\"deleteChangesButton\" type=\"button\" (click)=\"deleteChanges()\" [disabled]=\"changeCounter <= 0 && (!someStatusHasChangedToDelete || discardNonReverseStatus  )\">\r\n        <mat-icon fontSet=\"material-icons-round\"> close </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'undo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"undoButton && someColumnIsEditable\"\r\n        id=\"undo\" (click)=\"undo()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> undo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'redo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"redoButton && someColumnIsEditable\"\r\n        id=\"redo\" (click)=\"redo()\" [disabled]=\"redoCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> redo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'accept' | translate }}\" mat-mini-fab class=\"mini-fab mat-green\"\r\n        *ngIf=\"applyChangesButton\" id=\"applyChangesButton\" (click)=\"applyChanges()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> check </mat-icon>\r\n    </button>\r\n</div>\r\n\r\n<div id=grup2 class=\"actionsDivBtns\">\r\n    <label *ngIf=\"globalSearch\" [translate]=\"'search'\"> </label>\r\n    <input *ngIf=\"globalSearch\" type=\"text\" class=\"searchGenericInput\" placeholder=\"\" (keyup)=\"quickSearch()\"\r\n        [(ngModel)]=\"searchValue\" ml-2>\r\n    <label *ngIf=\"changeHeightButton\" [translate]=\"'rowsToShow'\"> </label>\r\n    <mat-button-toggle-group *ngIf=\"changeHeightButton\" class=\"toogleButton\" name=\"fontStyle\" aria-label=\"Font Style\"  value=\"5\">\r\n        <mat-button-toggle value=\"5\" (change)=\"changeHeight($event.value)\">5</mat-button-toggle>\r\n        <mat-button-toggle value=\"20\" (change)=\"changeHeight($event.value)\">20</mat-button-toggle>\r\n        <mat-button-toggle value=\"50\" (change)=\"changeHeight($event.value)\">50</mat-button-toggle>\r\n    </mat-button-toggle-group>\r\n\r\n    <button type=\"button\" *ngIf=\"deleteButton\" mat-flat-button id=\"deleteButton\" class=\"deleteButton\"\r\n        (click)=\"removeData()\" [disabled]=\"!areRowsSelected()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> delete </mat-icon>\r\n        <span [translate]=\"'remove'\"> </span>\r\n\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"actionButton\" mat-flat-button [matMenuTriggerFor]=\"menu\" id=\"actionButton\"\r\n        class=\"actionButton\">\r\n        <span [translate]=\"'actions'\"> </span>\r\n        <mat-icon fontSet=\"material-icons-round\"> keyboard_arrow_down </mat-icon>\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideExportButton\" [disabled]=\"!areRowsSelected()\" (click)=\"exportData()\"> {{\"export\" | translate}}\r\n        </button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideDuplicateButton\" [disabled]=\"!areRowsSelected()\" (click)=\"onDuplicateButtonClicked()\">\r\n            {{\"duplicate\" |\r\n            translate}}</button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideSearchReplaceButton && false\"> {{\"search/replace\" | translate}}</button>\r\n    </mat-menu>\r\n\r\n    <button type=\"button\" *ngIf=\"newButton\" mat-flat-button class=\"newButton\" (click)=\"newData()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'new'\"> </span>\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"addButton\" mat-flat-button class=\"newButton\" (click)=\"onAddButtonClicked()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'add'\"> </span>\r\n    </button>\r\n\r\n</div>\r\n\r\n<div class=\"row\" style=\" height: 100%\">\r\n    <div id=\"myGrid\" style=\" width:100%; height: 100%\">\r\n        <ag-grid-angular style=\"width: 100%; height: 100%;min-height: 200px;\" [class]=\"themeGrid\"\r\n            [floatingFilter]=\"true\" [rowData]=\"rowData\" [columnDefs]=\"columnDefs\" [gridOptions]=\"gridOptions\"\r\n            [animateRows]=\"true\" [pagination]=\"false\" [modules]=\"modules\" [undoRedoCellEditing]=\"true\"\r\n            [undoRedoCellEditingLimit]=200 [suppressRowClickSelection]=true [frameworkComponents]=\"frameworkComponents\"\r\n            rowSelection=\"multiple\" multiSortKey=\"key\" (filterModified)=\"onFilterModified()\"\r\n            (cellEditingStopped)=\"onCellEditingStopped($event)\" (cellValueChanged)=\"onCellValueChanged($event)\"\r\n            (gridReady)=\"onGridReady($event)\" (firstDataRendered)=\"firstDataRendered()\">\r\n        </ag-grid-angular>\r\n    </div>\r\n</div>",
+                template: "<div id=grup1 class=\"editDivBtns\">\r\n    <span *ngIf=\"title\" [translate]=\"title\"> </span>\r\n    <button type=\"button\" title=\"{{ 'cancel' | translate }}\" mat-mini-fab class=\"mini-fab mat-red\" *ngIf=\"discardChangesButton\"\r\n        id=\"deleteChangesButton\" type=\"button\" (click)=\"deleteChanges()\" [disabled]=\"changeCounter <= 0 && (!someStatusHasChangedToDelete || discardNonReverseStatus  )\">\r\n        <mat-icon fontSet=\"material-icons-round\"> close </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'undo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"undoButton && someColumnIsEditable\"\r\n        id=\"undo\" (click)=\"undo()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> undo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'redo' | translate }}\" mat-mini-fab class=\"mini-fab mat-orange\" *ngIf=\"redoButton && someColumnIsEditable\"\r\n        id=\"redo\" (click)=\"redo()\" [disabled]=\"redoCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> redo </mat-icon>\r\n    </button>\r\n    <button type=\"button\" title=\"{{ 'accept' | translate }}\" mat-mini-fab class=\"mini-fab mat-green\"\r\n        *ngIf=\"applyChangesButton\" id=\"applyChangesButton\" (click)=\"applyChanges()\" [disabled]=\"changeCounter <= 0\">\r\n        <mat-icon fontSet=\"material-icons-round\"> check </mat-icon>\r\n    </button>\r\n</div>\r\n\r\n<div id=grup2 class=\"actionsDivBtns\">\r\n    <label *ngIf=\"globalSearch\" [translate]=\"'search'\"> </label>\r\n    <input *ngIf=\"globalSearch\" type=\"text\" class=\"searchGenericInput\" placeholder=\"\" (keyup)=\"quickSearch()\"\r\n        [(ngModel)]=\"searchValue\" ml-2>\r\n    <label *ngIf=\"changeHeightButton\" [translate]=\"'rowsToShow'\"> </label>\r\n    <mat-button-toggle-group *ngIf=\"changeHeightButton\" class=\"toogleButton\" name=\"fontStyle\" aria-label=\"Font Style\"  value=\"5\">\r\n        <mat-button-toggle value=\"5\" (change)=\"changeHeight($event.value)\">5</mat-button-toggle>\r\n        <mat-button-toggle value=\"20\" (change)=\"changeHeight($event.value)\">20</mat-button-toggle>\r\n        <mat-button-toggle value=\"50\" (change)=\"changeHeight($event.value)\">50</mat-button-toggle>\r\n    </mat-button-toggle-group>\r\n\r\n    <button type=\"button\" *ngIf=\"deleteButton\" mat-flat-button id=\"deleteButton\" class=\"deleteButton\"\r\n        (click)=\"removeData()\" [disabled]=\"!areRowsSelected()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> delete </mat-icon>\r\n        <span [translate]=\"'remove'\"> </span>\r\n\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"actionButton\" mat-flat-button [matMenuTriggerFor]=\"menu\" id=\"actionButton\"\r\n        class=\"actionButton\">\r\n        <span [translate]=\"'actions'\"> </span>\r\n        <mat-icon fontSet=\"material-icons-round\"> keyboard_arrow_down </mat-icon>\r\n    </button>\r\n    <mat-menu #menu=\"matMenu\">\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideExportButton\" [disabled]=\"!areRowsSelected()\" (click)=\"exportData()\"> {{\"export\" | translate}}\r\n        </button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideDuplicateButton\" [disabled]=\"!areRowsSelected()\" (click)=\"onDuplicateButtonClicked()\">\r\n            {{\"duplicate\" |\r\n            translate}}</button>\r\n        <button type=\"button\" mat-menu-item *ngIf=\"!hideSearchReplaceButton && false\"> {{\"search/replace\" | translate}}</button>\r\n    </mat-menu>\r\n\r\n    <button type=\"button\" *ngIf=\"newButton\" mat-flat-button class=\"newButton\" (click)=\"newData()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'new'\"> </span>\r\n    </button>\r\n    <button type=\"button\" *ngIf=\"addButton\" mat-flat-button class=\"newButton\" (click)=\"onAddButtonClicked()\">\r\n        <mat-icon fontSet=\"material-icons-round\"> add_circle_outline </mat-icon>\r\n        <span [translate]=\"'add'\"> </span>\r\n    </button>\r\n\r\n</div>\r\n\r\n<div class=\"row\" style=\" height: 100%\">\r\n    <div id=\"myGrid\" style=\" width:100%; height: 100%\">\r\n        <ag-grid-angular style=\"width: 100%; height: 100%;min-height: 200px;\" [class]=\"themeGrid\"\r\n            [floatingFilter]=\"true\" [rowData]=\"rowData\" [columnDefs]=\"columnDefs\" [gridOptions]=\"gridOptions\"\r\n            [animateRows]=\"true\" [pagination]=\"false\" [modules]=\"modules\" [undoRedoCellEditing]=\"true\"\r\n            [undoRedoCellEditingLimit]=200 [suppressRowClickSelection]=true [frameworkComponents]=\"frameworkComponents\" [components]=\"components\"\r\n            rowSelection=\"multiple\" multiSortKey=\"key\" (filterModified)=\"onFilterModified()\"\r\n            (cellEditingStopped)=\"onCellEditingStopped($event)\" (cellValueChanged)=\"onCellValueChanged($event)\"\r\n            (gridReady)=\"onGridReady($event)\" (firstDataRendered)=\"firstDataRendered()\">\r\n        </ag-grid-angular>\r\n    </div>\r\n</div>",
                 styles: ["@charset \"UTF-8\";input,label{display:inline-block;margin:5px 5px 5px 10px}.mat-flat-button.mat-orange,.mat-icon.mat-orange,.mat-mini-fab.mat-orange,.mat-raised-button.mat-orange{background-color:#ff9300!important;color:#fff!important}.mat-flat-button.mat-orange:disabled,.mat-icon.mat-orange:disabled,.mat-mini-fab.mat-orange:disabled,.mat-raised-button.mat-orange:disabled{background:#ffc97f!important;color:#fff!important}.mat-flat-button.mat-green,.mat-icon.mat-green,.mat-mini-fab.mat-green,.mat-raised-button.mat-green{background-color:#68a225!important;color:#fff!important}.mat-flat-button.mat-green:disabled,.mat-icon.mat-green:disabled,.mat-mini-fab.mat-green:disabled,.mat-raised-button.mat-green:disabled{background-color:#83976c!important;color:#fff!important}.mat-flat-button.mat-red,.mat-icon.mat-red,.mat-mini-fab.mat-red,.mat-raised-button.mat-red{background-color:#bf0000!important;color:#fff!important}.mat-flat-button.mat-red:disabled,.mat-icon.mat-red:disabled,.mat-mini-fab.mat-red:disabled,.mat-raised-button.mat-red:disabled{background-color:#da8c8e!important;color:#fff!important}.validateButton{background-color:#ff9300;color:#fff;margin-top:34px!important;min-width:85px}.deleteButton,.validateButton{-ms-grid-column-align:right!important;height:40px;justify-self:right!important}.deleteButton{border:1px solid #bf0000!important;color:#bf0000;float:inherit!important;min-width:85px!important}.deleteButton:disabled{background-color:inherit!important;border:1px solid rgba(0,0,0,.26)!important;color:rgba(0,0,0,.26) solid 1px!important}.actionButton,.returnButton{border:1px solid #ff9300!important;color:#ff9300}.actionButton,.newButton,.returnButton,.saveButton{-ms-grid-column-align:right!important;float:inherit!important;height:40px;justify-self:right!important;min-width:85px!important}.newButton,.saveButton{background-color:#68a225;color:#fff}.editDivBtns{height:30px!important;line-height:30px!important;margin-left:10px;text-align:start;width:130px}.actionsDivBtns{height:50px;text-align:end;width:calc(100% - 140px)}.actionsDivBtns,.editDivBtns{display:inline-block!important}.actionsDivBtns .searchGenericInput{display:inline-block!important;height:41px!important;margin:0 5px 5px 10px!important;width:45%!important}.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar-thumb{background:#eee}\u200B .ag-body-viewport.ag-layout-normal ::-webkit-scrollbar{height:2em;width:2em}.ag-body-viewport.ag-layout-normal ::-webkit-scrollbar-button{background:#ccc}.ag-body-viewport.ag-layout-normal::-webkit-scrollbar-track-piece{background:#888}.mini-fab{height:28px!important;line-height:22px!important;margin-right:3px!important;margin-top:7px!important;width:28px!important}.mini-fab .mat-button-wrapper{height:24px!important;line-height:22px!important;padding:1px 0!important;width:24px!important}.mini-fab .mat-button-wrapper .mat-icon{font-size:20px;line-height:22px;padding-right:0}.toogleButton{align-items:center;height:40px;margin-right:10px;vertical-align:bottom}"]
             }]
     }], function () { return [{ type: ɵngcc6.MatDialog }, { type: ɵngcc5.TranslateService }, { type: ɵngcc0.ElementRef }]; }, { frameworkComponents: [{
+            type: Input
+        }], components: [{
             type: Input
         }], remove: [{
             type: Output
@@ -1676,6 +1738,8 @@ DataGridComponent.propDecorators = {
             type: Input
         }], addFieldRestriction: [{
             type: Input
+        }], allNewElements: [{
+            type: Input
         }], getAgGridState: [{
             type: Output
         }] }); })();
@@ -1735,6 +1799,8 @@ if (false) {
     /** @type {?} */
     DataGridComponent.prototype.frameworkComponents;
     /** @type {?} */
+    DataGridComponent.prototype.components;
+    /** @type {?} */
     DataGridComponent.prototype.columnDefs;
     /** @type {?} */
     DataGridComponent.prototype.getAll;
@@ -1782,6 +1848,8 @@ if (false) {
     DataGridComponent.prototype.hideSearchReplaceButton;
     /** @type {?} */
     DataGridComponent.prototype.addFieldRestriction;
+    /** @type {?} */
+    DataGridComponent.prototype.allNewElements;
     /** @type {?} */
     DataGridComponent.prototype.remove;
     /** @type {?} */
@@ -1976,6 +2044,7 @@ class DialogGridComponent {
         this.dialogRef = dialogRef;
         this.getAllRows = new Subject();
         this.allRowsReceived = [];
+        this.orderTable = [];
         this.joinTables = new EventEmitter();
         // this.nonEditable = true;
         this.tablesReceivedCounter = 0;
@@ -2023,12 +2092,12 @@ class DialogGridComponent {
     }
 }
 DialogGridComponent.ɵfac = function DialogGridComponent_Factory(t) { return new (t || DialogGridComponent)(ɵngcc0.ɵɵdirectiveInject(ɵngcc6.MatDialogRef)); };
-DialogGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DialogGridComponent, selectors: [["app-dialog-grid"]], outputs: { joinTables: "joinTables" }, decls: 11, vars: 8, consts: [["mat-dialog-title", "", 1, "titleDialog"], [1, "dialogConent"], ["class", "appDialogDataGridDiv", 3, "ngStyle", 4, "ngFor", "ngForOf"], ["mat-dialog-actions", "", "align", "end"], ["mat-flat-button", "", 1, "returnButton", 3, "click"], ["mat-flat-button", "", "cdkFocusInitial", "", 1, "saveButton", 3, "click"], [1, "appDialogDataGridDiv", 3, "ngStyle"], [3, "columnDefs", "themeGrid", "changeHeightButton", "defaultHeight", "getAll", "globalSearch", "singleSelection", "title", "nonEditable", "eventGetSelectedRowsSubscription", "getSelectedRows"]], template: function DialogGridComponent_Template(rf, ctx) { if (rf & 1) {
+DialogGridComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DialogGridComponent, selectors: [["app-dialog-grid"]], outputs: { joinTables: "joinTables" }, decls: 11, vars: 8, consts: [["mat-dialog-title", "", 1, "titleDialog"], [1, "dialogConent"], ["class", "appDialogDataGridDiv", 3, "ngStyle", 4, "ngFor", "ngForOf"], ["mat-dialog-actions", "", "align", "end"], ["mat-flat-button", "", 1, "returnButton", 3, "click"], ["mat-flat-button", "", "cdkFocusInitial", "", 1, "saveButton", 3, "click"], [1, "appDialogDataGridDiv", 3, "ngStyle"], [3, "columnDefs", "themeGrid", "changeHeightButton", "defaultHeight", "getAll", "globalSearch", "singleSelection", "title", "defaultColumnSorting", "nonEditable", "eventGetSelectedRowsSubscription", "getSelectedRows"]], template: function DialogGridComponent_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵelementStart(0, "h5", 0);
         ɵngcc0.ɵɵtext(1);
         ɵngcc0.ɵɵelementEnd();
         ɵngcc0.ɵɵelementStart(2, "mat-dialog-content", 1);
-        ɵngcc0.ɵɵtemplate(3, DialogGridComponent_div_3_Template, 2, 13, "div", 2);
+        ɵngcc0.ɵɵtemplate(3, DialogGridComponent_div_3_Template, 2, 14, "div", 2);
         ɵngcc0.ɵɵelementEnd();
         ɵngcc0.ɵɵelementStart(4, "div", 3);
         ɵngcc0.ɵɵelementStart(5, "button", 4);
@@ -2063,7 +2132,7 @@ DialogGridComponent.propDecorators = {
         type: Component,
         args: [{
                 selector: 'app-dialog-grid',
-                template: "<h5 mat-dialog-title class=\"titleDialog\">{{title}}</h5>\r\n<mat-dialog-content class=\"dialogConent\">\r\n  <div *ngFor=\"let getAll of getAllsTable; let i = index\" class=\"appDialogDataGridDiv\"  [ngStyle]=\"{'margin-top': i>0?'100px':'0px'}\">\r\n    <app-data-grid \r\n    [columnDefs]=\"columnDefsTable[i]\" [themeGrid]='themeGrid' [changeHeightButton]='changeHeightButton' [defaultHeight]='heightByDefault'  [getAll]='getAll' [globalSearch]=true [singleSelection]=\"singleSelectionTable[i]\"\r\n    [title]=\"titlesTable[i]\" [nonEditable]='nonEditable' [eventGetSelectedRowsSubscription]=\"getAllRows.asObservable()\" (getSelectedRows)='joinRowsReceived($event)' >\r\n    </app-data-grid>\r\n  </div>\r\n</mat-dialog-content>\r\n<div mat-dialog-actions align=\"end\">\r\n  <button mat-flat-button class=\"returnButton\" (click)=\"closeDialog()\">{{\"cancel\" | translate}}</button>\r\n  <button mat-flat-button class=\"saveButton\" (click)=\"getAllSelectedRows()\" cdkFocusInitial>{{\"add\" | translate}}</button>\r\n</div>\r\n\r\n",
+                template: "<h5 mat-dialog-title class=\"titleDialog\">{{title}}</h5>\r\n<mat-dialog-content class=\"dialogConent\">\r\n  <div *ngFor=\"let getAll of getAllsTable; let i = index\" class=\"appDialogDataGridDiv\"  [ngStyle]=\"{'margin-top': i>0?'100px':'0px'}\">\r\n    <app-data-grid \r\n    [columnDefs]=\"columnDefsTable[i]\" [themeGrid]='themeGrid' [changeHeightButton]='changeHeightButton' [defaultHeight]='heightByDefault'  [getAll]='getAll' [globalSearch]=true [singleSelection]=\"singleSelectionTable[i]\"\r\n    [title]=\"titlesTable[i]\" [defaultColumnSorting]='orderTable.length>=i?orderTable[i]:null' [nonEditable]='nonEditable' [eventGetSelectedRowsSubscription]=\"getAllRows.asObservable()\" (getSelectedRows)='joinRowsReceived($event)' >\r\n    </app-data-grid>\r\n  </div>\r\n</mat-dialog-content>\r\n<div mat-dialog-actions align=\"end\">\r\n  <button mat-flat-button class=\"returnButton\" (click)=\"closeDialog()\">{{\"cancel\" | translate}}</button>\r\n  <button mat-flat-button class=\"saveButton\" (click)=\"getAllSelectedRows()\" cdkFocusInitial>{{\"add\" | translate}}</button>\r\n</div>\r\n\r\n",
                 styles: [".dialogConent{height:100%;margin:inherit!important;max-height:60vh!important;overflow:auto;padding:inherit!important;width:100%}.titleDialog{margin-bottom:15px!important;margin-top:inherit!important}"]
             }]
     }], function () { return [{ type: ɵngcc6.MatDialogRef }]; }, { joinTables: [{
@@ -2094,6 +2163,8 @@ if (false) {
     DialogGridComponent.prototype.singleSelectionTable;
     /** @type {?} */
     DialogGridComponent.prototype.titlesTable;
+    /** @type {?} */
+    DialogGridComponent.prototype.orderTable;
     /** @type {?} */
     DialogGridComponent.prototype.addButtonClickedSubscription;
     /** @type {?} */
@@ -2312,11 +2383,12 @@ class FileDatabase {
     get data() { return this.dataChange.value; }
     /**
      * @param {?} dataObj
+     * @param {?} allNewElements
      * @return {?}
      */
-    initialize(dataObj) {
+    initialize(dataObj, allNewElements) {
         /** @type {?} */
-        const data = this.buildFileTree(dataObj, 0);
+        const data = this.buildFileTree(dataObj, 0, allNewElements);
         // Notify the change.
         this.dataChange.next(data);
     }
@@ -2325,9 +2397,10 @@ class FileDatabase {
      * The return value is the list of `FileNode`.
      * @param {?} arrayTreeNodes
      * @param {?} level
+     * @param {?} allNewElements
      * @return {?}
      */
-    buildFileTree(arrayTreeNodes, level) {
+    buildFileTree(arrayTreeNodes, level, allNewElements) {
         /** @type {?} */
         var map = {};
         if (arrayTreeNodes.length === 0) {
@@ -2349,6 +2422,15 @@ class FileDatabase {
                 var obj = treeNode;
                 obj.children = [];
                 obj.type = (treeNode.isFolder) ? "folder" : "node";
+                if (allNewElements) {
+                    obj.status = 'pendingCreation';
+                    if (obj.id) {
+                        obj.id = obj.id * -1;
+                    }
+                    if (obj.parent) {
+                        obj.parent = obj.parent * -1;
+                    }
+                }
                 if (!map[obj.id]) {
                     map[obj.id] = obj;
                 }
@@ -2678,7 +2760,7 @@ class DataTreeComponent {
         this.getAll()
             .subscribe((items) => {
             this.treeData = items;
-            this.database.initialize(this.treeData);
+            this.database.initialize(this.treeData, this.allNewElements);
             this.database.dataChange.subscribe(data => this.rebuildTreeForData([data]));
         });
     }
@@ -2868,9 +2950,11 @@ class DataTreeComponent {
         this.dataSource.data = [];
         this.dataSource.data = data;
         this.treeControl.expansionModel.selected.forEach((nodeAct) => {
-            /** @type {?} */
-            const node = this.treeControl.dataNodes.find((n) => n.id === nodeAct.id);
-            this.treeControl.expand(node);
+            if (nodeAct) {
+                /** @type {?} */
+                const node = this.treeControl.dataNodes.find((n) => n.id === nodeAct.id);
+                this.treeControl.expand(node);
+            }
         });
     }
     /**
@@ -3032,7 +3116,7 @@ DataTreeComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: DataTreeComponent,
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.emptyItem = _t.first);
-    } }, inputs: { eventNodeUpdatedSubscription: "eventNodeUpdatedSubscription", eventCreateNodeSubscription: "eventCreateNodeSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", eventRefreshSubscription: "eventRefreshSubscription", getAll: "getAll" }, outputs: { emitNode: "emitNode", createNode: "createNode", createFolder: "createFolder", emitAllNodes: "emitAllNodes" }, features: [ɵngcc0.ɵɵProvidersFeature([FileDatabase])], decls: 17, vars: 15, consts: [["mat-flat-button", "", "type", "button", "type", "button", 3, "title", "click"], ["fontSet", "material-icons-round"], [3, "dataSource", "treeControl"], ["matTreeNodeToggle", "", "matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend", 4, "matTreeNodeDef"], ["matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend", 4, "matTreeNodeDef", "matTreeNodeDefWhen"], ["emptyItem", ""], ["matTreeNodeToggle", "", "matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend"], ["mat-icon-button", "", "disabled", ""], ["class", "type-icon", 4, "ngIf"], [4, "ngIf"], ["mat-icon-button", "", 3, "click", 4, "ngIf"], [1, "type-icon"], ["mat-icon-button", "", 3, "click"], ["matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend"], ["mat-icon-button", "", "matTreeNodeToggle", "", 3, "click"], [1, "mat-icon-rtl-mirror"]], template: function DataTreeComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { eventNodeUpdatedSubscription: "eventNodeUpdatedSubscription", eventCreateNodeSubscription: "eventCreateNodeSubscription", eventGetAllRowsSubscription: "eventGetAllRowsSubscription", eventRefreshSubscription: "eventRefreshSubscription", getAll: "getAll", allNewElements: "allNewElements" }, outputs: { emitNode: "emitNode", createNode: "createNode", createFolder: "createFolder", emitAllNodes: "emitAllNodes" }, features: [ɵngcc0.ɵɵProvidersFeature([FileDatabase])], decls: 17, vars: 15, consts: [["mat-flat-button", "", "type", "button", "type", "button", 3, "title", "click"], ["fontSet", "material-icons-round"], [3, "dataSource", "treeControl"], ["matTreeNodeToggle", "", "matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend", 4, "matTreeNodeDef"], ["matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend", 4, "matTreeNodeDef", "matTreeNodeDefWhen"], ["emptyItem", ""], ["matTreeNodeToggle", "", "matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend"], ["mat-icon-button", "", "disabled", ""], ["class", "type-icon", 4, "ngIf"], [4, "ngIf"], ["mat-icon-button", "", 3, "click", 4, "ngIf"], [1, "type-icon"], ["mat-icon-button", "", 3, "click"], ["matTreeNodePadding", "", "draggable", "true", 3, "ngClass", "dragstart", "dragover", "drop", "dragend"], ["mat-icon-button", "", "matTreeNodeToggle", "", 3, "click"], [1, "mat-icon-rtl-mirror"]], template: function DataTreeComponent_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵelementStart(0, "button", 0);
         ɵngcc0.ɵɵlistener("click", function DataTreeComponent_Template_button_click_0_listener() { return ctx.treeControl.expandAll(); });
         ɵngcc0.ɵɵpipe(1, "translate");
@@ -3083,6 +3167,7 @@ DataTreeComponent.propDecorators = {
     eventGetAllRowsSubscription: [{ type: Input }],
     eventRefreshSubscription: [{ type: Input }],
     getAll: [{ type: Input }],
+    allNewElements: [{ type: Input }],
     emptyItem: [{ type: ViewChild, args: ['emptyItem',] }]
 };
 /*@__PURE__*/ (function () { ɵngcc0.ɵsetClassMetadata(DataTreeComponent, [{
@@ -3110,6 +3195,8 @@ DataTreeComponent.propDecorators = {
         }], eventRefreshSubscription: [{
             type: Input
         }], getAll: [{
+            type: Input
+        }], allNewElements: [{
             type: Input
         }], emptyItem: [{
             type: ViewChild,
@@ -3160,6 +3247,8 @@ if (false) {
     DataTreeComponent.prototype.treeData;
     /** @type {?} */
     DataTreeComponent.prototype.getAll;
+    /** @type {?} */
+    DataTreeComponent.prototype.allNewElements;
     /** @type {?} */
     DataTreeComponent.prototype.dragNode;
     /** @type {?} */

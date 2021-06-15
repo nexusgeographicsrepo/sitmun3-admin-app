@@ -35,6 +35,7 @@ export declare class DataGridComponent implements OnInit {
     eventSaveAgGridStateSubscription: Observable<boolean>;
     eventAddItemsSubscription: Observable<boolean>;
     frameworkComponents: any;
+    components: any;
     columnDefs: any[];
     getAll: () => Observable<any>;
     discardChangesButton: boolean;
@@ -59,6 +60,7 @@ export declare class DataGridComponent implements OnInit {
     hideDuplicateButton: boolean;
     hideSearchReplaceButton: boolean;
     addFieldRestriction: any;
+    allNewElements: any;
     remove: EventEmitter<any[]>;
     new: EventEmitter<number>;
     add: EventEmitter<number>;
@@ -73,6 +75,7 @@ export declare class DataGridComponent implements OnInit {
     ngOnInit(): void;
     firstDataRendered(): void;
     onGridReady(params: any): void;
+    getDatePicker(): () => void;
     areRowsSelected(): Boolean;
     emitSelectedRows(): void;
     emitAllRows(): void;
@@ -100,7 +103,7 @@ export declare class DataGridComponent implements OnInit {
     getColumnIndexByColId(api: ColumnApi, colId: string): number;
     paintCells(params: any, changesMap: Map<number, Map<string, number>>): void;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<DataGridComponent, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "frameworkComponents": "frameworkComponents"; "eventRefreshSubscription": "eventRefreshSubscription"; "eventGetSelectedRowsSubscription": "eventGetSelectedRowsSubscription"; "eventGetAllRowsSubscription": "eventGetAllRowsSubscription"; "eventSaveAgGridStateSubscription": "eventSaveAgGridStateSubscription"; "eventAddItemsSubscription": "eventAddItemsSubscription"; "columnDefs": "columnDefs"; "getAll": "getAll"; "discardChangesButton": "discardChangesButton"; "discardNonReverseStatus": "discardNonReverseStatus"; "id": "id"; "undoButton": "undoButton"; "defaultColumnSorting": "defaultColumnSorting"; "redoButton": "redoButton"; "applyChangesButton": "applyChangesButton"; "deleteButton": "deleteButton"; "newButton": "newButton"; "actionButton": "actionButton"; "addButton": "addButton"; "globalSearch": "globalSearch"; "changeHeightButton": "changeHeightButton"; "defaultHeight": "defaultHeight"; "themeGrid": "themeGrid"; "singleSelection": "singleSelection"; "nonEditable": "nonEditable"; "title": "title"; "hideExportButton": "hideExportButton"; "hideDuplicateButton": "hideDuplicateButton"; "hideSearchReplaceButton": "hideSearchReplaceButton"; "addFieldRestriction": "addFieldRestriction"; }, { "remove": "remove"; "new": "new"; "add": "add"; "discardChanges": "discardChanges"; "sendChanges": "sendChanges"; "getSelectedRows": "getSelectedRows"; "duplicate": "duplicate"; "getAllRows": "getAllRows"; "gridModified": "gridModified"; "getAgGridState": "getAgGridState"; }, never, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DataGridComponent, "app-data-grid", never, { "frameworkComponents": "frameworkComponents"; "components": "components"; "eventRefreshSubscription": "eventRefreshSubscription"; "eventGetSelectedRowsSubscription": "eventGetSelectedRowsSubscription"; "eventGetAllRowsSubscription": "eventGetAllRowsSubscription"; "eventSaveAgGridStateSubscription": "eventSaveAgGridStateSubscription"; "eventAddItemsSubscription": "eventAddItemsSubscription"; "columnDefs": "columnDefs"; "getAll": "getAll"; "discardChangesButton": "discardChangesButton"; "discardNonReverseStatus": "discardNonReverseStatus"; "id": "id"; "undoButton": "undoButton"; "defaultColumnSorting": "defaultColumnSorting"; "redoButton": "redoButton"; "applyChangesButton": "applyChangesButton"; "deleteButton": "deleteButton"; "newButton": "newButton"; "actionButton": "actionButton"; "addButton": "addButton"; "globalSearch": "globalSearch"; "changeHeightButton": "changeHeightButton"; "defaultHeight": "defaultHeight"; "themeGrid": "themeGrid"; "singleSelection": "singleSelection"; "nonEditable": "nonEditable"; "title": "title"; "hideExportButton": "hideExportButton"; "hideDuplicateButton": "hideDuplicateButton"; "hideSearchReplaceButton": "hideSearchReplaceButton"; "addFieldRestriction": "addFieldRestriction"; "allNewElements": "allNewElements"; }, { "remove": "remove"; "new": "new"; "add": "add"; "discardChanges": "discardChanges"; "sendChanges": "sendChanges"; "getSelectedRows": "getSelectedRows"; "duplicate": "duplicate"; "getAllRows": "getAllRows"; "gridModified": "gridModified"; "getAgGridState": "getAgGridState"; }, never, never>;
 }
 
 //# sourceMappingURL=data-grid.component.d.ts.map

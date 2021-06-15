@@ -25,6 +25,8 @@
   "status":"Estado",
   "value": "Valor",
   "statusOK": "Sin cambios",
+  "notAvailable": "No disponible",
+  "pendingRegistration": "Pendiente registrar",
   "search/replace": "Buscar/Reemplazar",
   "selectType": "Selecciona el tipo",
   "ok-created": "Los elementos se han creado correctamente",
@@ -77,6 +79,7 @@
     "application": "Aplicación",
     "taskGroup": "Grupo tarea",
     "status": "Estado",
+    "editionType": "Tipo de edición",
     "cartographyTableWFT": "Tabla de cartografía(WFS-T)",
     "dataTable": "Tabla de datos",
     "relationTable": "Tabla de relación",
@@ -100,7 +103,7 @@
     "user": "Usuario",
     "firstname": "Nombre",
     "name": "Nombre",
-    "lastname": "Apellido",
+    "lastname": "Apellidos",
     "administrator": "Administrador",
     "blocked": "Bloqueado",
     "password": "Contraseña",
@@ -121,7 +124,8 @@
     "code": "Código",
     "status": "Estado",
     "appliesToChildrenTerritories" : "Aplicado a los hijos",
-    "childRole": "Rol hijo"
+    "childRole": "Rol hijo",
+    "passwordSet": "Contraseña introducida"
   },
   "connectionEntity": {
     "generalData": "Datos Generales",
@@ -191,8 +195,9 @@
     "field": "Camp",
     "format": "Formato",
     "municipalFilterFields": "Campo para filtro municipal",
-    "filterInfoByMunicipality": "Filtrar por municipio la info",
-    "filterSpatialSeleciontByMunicipality": "Filtrar por municipio la selección espacial",
+    "applyFilterToGetMap" : "Filtrar al get map",
+    "filterInfoByMunicipality": "Filtrar la información",
+    "filterSpatialSeleciontByMunicipality": "Filtrar la selección espacial",
     "information": "Información",
     "defaultInformation": "Información por defecto",
     "informationLayer": "Capa información",
@@ -207,10 +212,12 @@
     "layer": "Capa",
     "connection":"Conexión",
     "territorialFilter": "Filtro territorial",
+    "filters": "Filtros",
     "value": "Valor",
     "valueType": "Tipo valor",
     "typeId": "Tipo Id",
-    "required": "Obligatorio"
+    "required": "Obligatorio",
+    "treeName": "Nombre árbol"
   },
   "layersPermitsEntity": {
     "generalData": "Datos Generales",

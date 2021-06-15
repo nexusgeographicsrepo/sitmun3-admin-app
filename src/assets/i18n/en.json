@@ -25,6 +25,8 @@
   "status":"Status",
   "value": "Value",
   "statusOK": "Without changes",
+  "notAvailable": "Not available",
+  "pendingRegistration": "Pendent registration",
   "search/replace": "Search/Replace",
   "selectType": "Select type",
   "ok-created": "Items created successfully",
@@ -77,6 +79,7 @@
     "application": "Application",
     "taskGroup": "Task group",
     "status": "Status",
+    "editionType": "Edition type",
     "cartographyTableWFT": "Cartography table (WFS-T)",
     "dataTable": "Data table",
     "relationTable": "Relationship table",
@@ -121,7 +124,8 @@
     "code": "Code",
     "status": "Status",
     "appliesToChildrenTerritories" : "Applied to children",
-    "childRole": "Children role"
+    "childRole": "Children role",
+    "passwordSet": "Password set"
   },
   "connectionEntity": {
     "generalData": "General Data",
@@ -191,8 +195,9 @@
     "field": "Field",
     "format": "Format",
     "municipalFilterFields": "Field for municipal filter",
-    "filterInfoByMunicipality": "Filter info by municipality ",
-    "filterSpatialSeleciontByMunicipality": "Filter spatial selection by municipality",
+    "applyFilterToGetMap" : "Filter at get map",
+    "filterInfoByMunicipality": "Filter info ",
+    "filterSpatialSeleciontByMunicipality": "Filter spatial selection",
     "information": "Information",
     "defaultInformation": "Default information",
     "informationLayer": "Information Layer",
@@ -207,10 +212,12 @@
     "layer": "Layer",
     "connection":"Connection",
     "territorialFilter": "Territorial filter",
+    "filters": "Filters",
     "value": "Value",
     "valueType": "Value type",
     "typeId": "Id type",
-    "required": "Required"
+    "required": "Required",
+    "treeName": "Tree name"
   },
   "layersPermitsEntity": {
     "generalData": "General Data",

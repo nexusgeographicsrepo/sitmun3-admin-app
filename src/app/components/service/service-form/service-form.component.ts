@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService, CartographyService, Translation, TranslationService, Connection, Cartography, ServiceParameterService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, CartographyService, Translation, TranslationService, Connection, Cartography, ServiceParameterService, CapabilitiesService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -82,6 +82,7 @@ export class ServiceFormComponent implements OnInit {
     public dialog: MatDialog,
     public cartographyService: CartographyService,
     public serviceParameterService: ServiceParameterService,
+    public capabilitiesService: CapabilitiesService
 
   ) {
     this.initializeServiceForm();
@@ -276,6 +277,11 @@ export class ServiceFormComponent implements OnInit {
 
   getCapabilitiesDataService(refresh?){
     try{
+
+      // this.capabilitiesService.getInfo(this.serviceForm.value.serviceURL).subscribe(result => {
+      //   debugger;
+      // })
+
     this.getCapabilitiesLayers=[];
     this.http.get(`${this.serviceForm.value.serviceURL}?request=GetCapabilities`, { responseType: 'text' }).subscribe(resp => {
      

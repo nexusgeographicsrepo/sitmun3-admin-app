@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationComponent } from './application.component';
-import { ApplicationService,CodeListService,TranslationService,ResourceService,ExternalService } from 'dist/sitmun-frontend-core/';
+import { ApplicationService, CodeListService, TranslationService, ResourceService, ExternalService, Role } from 'dist/sitmun-frontend-core/';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,6 +8,7 @@ import { MaterialModule } from '../../material-module';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { Application } from '@sitmun/frontend-core';
 
 describe('ApplicationComponent', () => {
   let component: ApplicationComponent;
@@ -33,3 +34,7 @@ describe('ApplicationComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+
+
+

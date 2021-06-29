@@ -8,7 +8,6 @@ import { MaterialModule } from '../../material-module';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { Application } from '@sitmun/frontend-core';
 
 describe('ApplicationComponent', () => {
   let component: ApplicationComponent;

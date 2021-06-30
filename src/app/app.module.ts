@@ -38,7 +38,6 @@ import { LayersPermitsComponent } from './components/layers-permits/layers-permi
 import { TerritoryComponent } from './components/territory/territory.component';
 import { UserComponent } from './components/user/user.component';
 import { ApplicationComponent } from './components/application/application.component';
-import { IndexComponent } from './components/index/index.component';
 import { RoleComponent } from './components/role/role.component';
 import { ToolbarComponent } from './components/shared/toolbar/toolbar.component';
 import { SideMenuComponent } from './components/shared/side-menu/side-menu.component';
@@ -129,7 +128,6 @@ import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
     TerritoryComponent,
     UserComponent,
     ApplicationComponent,
-    IndexComponent,
     SideMenuComponent,
     RoleComponent,
     ToolbarComponent,

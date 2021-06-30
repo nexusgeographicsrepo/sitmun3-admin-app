@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { IndexComponent } from './components/index/index.component';
 import { ConnectionComponent } from './components/connection/connection.component';
 import { ServiceComponent } from './components/service/service.component';
 import { LayersComponent } from './components/layers/layers.component';
@@ -43,7 +42,6 @@ import { TasksEditionSearchViewComponent } from './components/tasks-edition-sear
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 
 export const APP_ROUTES: Routes = [
-    {path: 'index', component: IndexComponent},
     {path: 'dashboard', component: DashboardComponent},
     {path: 'connection', component: ConnectionComponent, canDeactivate: [CanDeactivateGuard]},
     {path: 'connection/:id/connectionForm', component: ConnectionFormComponent},

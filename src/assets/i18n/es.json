@@ -170,6 +170,7 @@
     "available": "Disponible"
   },
   "layersEntity": {
+    "source": "Source",
     "layers": "Capas",
     "name": "Nombre",
     "serviceName": "Servicio",

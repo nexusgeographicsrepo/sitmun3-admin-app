@@ -170,6 +170,7 @@
     "available": "Available"
   },
   "layersEntity": {
+    "source": "Source",
     "layers": "Layers",
     "name": "Name",
     "serviceName": "Service",

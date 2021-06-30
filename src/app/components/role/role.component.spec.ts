@@ -61,14 +61,4 @@ describe('RoleComponent', () => {
     expect(externalService).toBeTruthy();
   });
 
-  // let role:Role = new Application();
-  // let spy: any;
-  // role.name="Nom";
-  // role.id = 1;
-  // role.description = "Description"
-  
-
-  // it('should update', () => {
-  //   spy=component.applyChanges([role])
-  // })
 });

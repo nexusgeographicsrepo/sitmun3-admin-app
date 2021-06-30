@@ -30,6 +30,11 @@ describe('RoleFormComponent', () => {
   let resourceService: ResourceService;
   let externalService: ExternalService;
 
+  let injector: TestBed;
+  let service: RoleService;
+  let httpMock: HttpClient;
+
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RoleFormComponent ],
@@ -55,6 +60,12 @@ describe('RoleFormComponent', () => {
     taskService= TestBed.inject(TaskService);
     resourceService= TestBed.inject(ResourceService);
     externalService= TestBed.inject(ExternalService);
+
+    injector = getTestBed();
+    // service= TestBed.inject(RoleService);
+    // service= injector.get(RoleService);
+    httpMock= TestBed.inject(HttpClient);
+    service = new RoleService(injector,httpMock)
     fixture.detectChanges();
     
   });
@@ -103,6 +114,24 @@ describe('RoleFormComponent', () => {
     expect(externalService).toBeTruthy();
   });
 
+  // it('#getObservableValue should return value from observable',
+  // (done: DoneFn) => {
+  //   let role: Role =  new Role();;
+  //   role.id=1;
+  //   role.name="Name";
+  //   role.description="Description"; 
+  //   // let httpClientSpy: { get: jasmine.Spy };
+  //   // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+  //   // let httpMock = getTestBed().get(HttpClientModule)
+  //   // let service: RoleService = new RoleService(TestBed.get(Injector), httpMock);
+
+  // service.save(role).subscribe(value => {
+  //   expect(value).toBe(role);
+  //   done();
+  // });
+
+  //   // });
+  // })
 
   // describe('RoleService', () => {
 
@@ -121,7 +150,7 @@ describe('RoleFormComponent', () => {
   //     httpMock= TestBed.inject(HttpClient);
   //     // httpMock= injector.get(HttpTestingController);
   //     service = new RoleService(injector,httpMock)
-  //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+  //     // jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
 
   //   });
     
@@ -142,8 +171,7 @@ describe('RoleFormComponent', () => {
   //   //   expect(value).toBe(role);
   //   //   done();
   //   // });
-  // });
-  // })
+
 
 });
 

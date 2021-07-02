@@ -173,12 +173,6 @@ export class TreesFormComponent implements OnInit {
     else{
       let newMap: Map<string,Translation> = this.utils.createTranslationsList(column)
       this.utils.updateTranslations(newMap, [translation]);
-      // let newTranslation: NodeTranslation = {catalan: null, spanish: null, english:null};
-      // if(translation.languageName==config.languagesObjects.catalan.name) {newTranslation.catalan=translation; }
-      // else if(translation.languageName==config.languagesObjects.spanish.name) {newTranslation.spanish=translation; }
-      // else if(translation.languageName==config.languagesObjects.english.name) {newTranslation.english=translation; }
-      // else if(translation.languageName==config.languagesObjects.aranese.name) {newTranslation.aranese=translation; }
-      // else if(translation.languageName==config.languagesObjects.french.name) {newTranslation.french=translation; }
       map.set(translation.element,newMap);
     }
   }
@@ -241,19 +235,6 @@ export class TreesFormComponent implements OnInit {
       this.treeNodeForm.patchValue({nameTranslationsModified : true})
     }
 
-    // dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanNameTranslation,
-    //    this.treeNodeForm.value.spanishNameTranslation, this.treeNodeForm.value.englishNameTranslation, this.treeNodeForm.value.araneseNameTranslation, this.treeNodeForm.value.frenchNameTranslation, config.translationColumns.treeNodeName);
-    // if(dialogResult!=null){
-    //   this.treeNodeForm.patchValue({
-    //    catalanNameTranslation: dialogResult[0],
-    //    spanishNameTranslation: dialogResult[1],
-    //    englishNameTranslation: dialogResult[2],
-    //    araneseNameTranslation: dialogResult[3],
-    //    frenchNameTranslation: dialogResult[4],
-    //    nameTranslationsModified: true,
-
-    //   })
-    // }
   }
 
   async onDescriptionTranslationButtonClicked()
@@ -274,20 +255,7 @@ export class TreesFormComponent implements OnInit {
     if(dialogResult && dialogResult.event == "Accept"){
       this.treeNodeForm.patchValue({descriptionTranslationsModified : true})
     }
-    // let dialogResult = null
-    // dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanDescriptionTranslation,
-    //   this.treeNodeForm.value.spanishDescriptionTranslation, this.treeNodeForm.value.englishDescriptionTranslation,
-    //    this.treeNodeForm.value.araneseDescriptionTranslation, this.treeNodeForm.value.frenchDescriptionTranslation, config.translationColumns.treeNodeDescription);
-    // if(dialogResult!=null){
-    //   this.treeNodeForm.patchValue({
-    //     catalanDescriptionTranslation: dialogResult[0],
-    //     spanishDescriptionTranslation: dialogResult[1],
-    //     englishDescriptionTranslation: dialogResult[2],
-    //     araneseDescriptionTranslation: dialogResult[3],
-    //     frenchDescriptionTranslation: dialogResult[4],
-    //     descriptionTranslationsModified: true,
-    //    })
-    // }
+ 
   }
 
   getAllCartographies = (): Observable<any> => {
@@ -359,22 +327,18 @@ export class TreesFormComponent implements OnInit {
       type:currentType
     })
 
-    // if(! node.nameTranslationsModified){
       if(this.nameTranslations.has(node.id)){
         let translations = this.nameTranslations.get(node.id);
         this.treeNodeForm.patchValue({
           nameTranslations: translations
         })
       }
-    // }
 
-    // if(! node.descriptionTranslationsModified){
       if(this.descriptionTranslations.has(node.id)){
         let translations = this.descriptionTranslations.get(node.id);
         this.treeNodeForm.patchValue({
           descriptionTranslations: translations
         })
-      // }
     }
 
   }

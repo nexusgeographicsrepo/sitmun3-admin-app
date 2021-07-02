@@ -320,7 +320,9 @@ export class UtilsService {
 
   createTranslationsList(columnName:string): Map<string, Translation> {
     let translationsList: Map<string, Translation> = new Map<string, Translation>();
-    config.languagesToUse.forEach(language => {
+
+    let languagesToUse = config.languagesToUse?config.languagesToUse:JSON.parse(localStorage.getItem('languages'));
+    languagesToUse.forEach(language => {
       let currentTranslation: Translation = new Translation();
       currentTranslation.translation = null;
       currentTranslation.column = columnName;

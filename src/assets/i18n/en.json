@@ -51,11 +51,11 @@
   "caution": "Caution",
   "atention": "Atention",
   "lang": {
-    "catalan": "Catalan",
-    "spanish": "Spanish",
-    "english": "English",
-    "aranese": "Aranese",
-    "french":"French"
+    "Catalan": "Catalan",
+    "Spanish": "Spanish",
+    "English": "English",
+    "Aranese": "Aranese",
+    "French":"French"
   },
   "sideMenu": {
     "basics": "Basics",

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Principal, LoginService, AuthService, LanguageService } from 'dist/sitmun-frontend-core/';
+import { Principal, LoginService, AuthService, LanguageService, ConfigurationParametersService } from 'dist/sitmun-frontend-core/';
 import { config } from 'src/config';
 
 @Component({
@@ -23,25 +23,18 @@ export class AppComponent {
     /** Identity service */public principal: Principal,
     /** Login service */public loginService: LoginService,
     /** Auth service */public authService: AuthService,
-    /** Language service */public languageService: LanguageService
+    /** Language service */public languageService: LanguageService,
+    /** Configuration parameters service */public configurationParametersService: ConfigurationParametersService
     ) {
     this.translate = trans;
 
-    this.translate.addLangs(['es', 'ca', 'es']);
-    let navigatorLang = config.languages.find(element => element.id === window.navigator.language);
-    let defaultLang = config.defaultLang;
-    if (navigatorLang != undefined) {
-      defaultLang = window.navigator.language
-    }
-    if(localStorage.lang != undefined)
-    {
-      this.translate.setDefaultLang(localStorage.lang);
-      this.translate.use(localStorage.lang);
-    }
-    else{
-      this.translate.setDefaultLang(defaultLang);
-      this.translate.use(defaultLang);
-    }
+    this.translate.addLangs(['es', 'ca', 'es', 'fr']);
+    // let navigatorLang = config.languages.find(element => element.id === window.navigator.language);
+    // let defaultLang = config.defaultLang;
+    // if (navigatorLang != undefined) {
+    //   defaultLang = window.navigator.language
+    // }
+
     
   }
 
@@ -69,6 +62,7 @@ export class AppComponent {
         this.currentAccount = account;
       });
     }
+    this.loadConfiguration();
     this.loadLanguages();
   }
 
@@ -87,6 +81,27 @@ export class AppComponent {
   
         }
       )
+    }
+
+    async loadConfiguration(){
+        this.configurationParametersService.getAll().subscribe(
+          async result => {
+            console.log(result);
+            // if(localStorage.lang != undefined)
+            // {
+            //   this.translate.setDefaultLang(localStorage.lang);
+            //   this.translate.use(localStorage.lang);
+            // }
+            // else{
+              let defaultLang = result.find(element => element.name == 'language.default' )
+              if(defaultLang){
+                this.translate.setDefaultLang(defaultLang.value);
+                this.translate.use(defaultLang.value);
+              }
+
+            // }
+          }
+        )
     }
 
 }

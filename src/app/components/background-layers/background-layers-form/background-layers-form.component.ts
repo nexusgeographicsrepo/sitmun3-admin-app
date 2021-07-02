@@ -27,11 +27,13 @@ export class BackgroundLayersFormComponent implements OnInit {
   spanishNameTranslation: Translation = null;
   englishNameTranslation: Translation = null;
   araneseNameTranslation: Translation = null;
+  frenchNameTranslation: Translation = null;
 
   catalanDescriptionTranslation: Translation = null;
   spanishDescriptionTranslation: Translation = null;
   englishDescriptionTranslation: Translation = null;
   araneseDescriptionTranslation: Translation = null;
+  frenchDescriptionTranslation: Translation = null;
 
   
   permissionGroups: Array<any> = [];
@@ -173,6 +175,14 @@ export class BackgroundLayersFormComponent implements OnInit {
                         this.araneseDescriptionTranslation=translation
                       }
                     }
+                    if(translation.languageName == config.languagesObjects.french.name){
+                      if(translation.column == config.translationColumns.backgroundName){
+                        this.frenchNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.backgroundDescription){
+                        this.frenchDescriptionTranslation=translation
+                      }
+                    }
                   });
                 }
           
@@ -280,26 +290,28 @@ export class BackgroundLayersFormComponent implements OnInit {
   async onNameTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, config.translationColumns.backgroundName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, this.frenchNameTranslation, config.translationColumns.backgroundName);
     if(dialogResult!=null){
       this.nameTranslationsModified=true;
       this.catalanNameTranslation=dialogResult[0];
       this.spanishNameTranslation=dialogResult[1];
       this.englishNameTranslation=dialogResult[2];
       this.araneseNameTranslation=dialogResult[3];
+      this.frenchNameTranslation=dialogResult[4];
     }
   }
 
   async onDescriptionTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, this.araneseDescriptionTranslation, config.translationColumns.backgroundDescription);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanDescriptionTranslation, this.spanishDescriptionTranslation, this.englishDescriptionTranslation, this.araneseDescriptionTranslation, this.frenchDescriptionTranslation, config.translationColumns.backgroundDescription);
     if(dialogResult!=null){
       this.descriptionTranslationsModified=true;
       this.catalanDescriptionTranslation=dialogResult[0];
       this.spanishDescriptionTranslation=dialogResult[1];
       this.englishDescriptionTranslation=dialogResult[2];
       this.araneseDescriptionTranslation=dialogResult[3];
+      this.frenchDescriptionTranslation=dialogResult[4];
     }
   }
 
@@ -544,6 +556,7 @@ export class BackgroundLayersFormComponent implements OnInit {
             this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
             this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
             this.araneseNameTranslation = await this.utils.saveTranslation(resp.id,this.araneseNameTranslation);
+            this.frenchNameTranslation = await this.utils.saveTranslation(resp.id,this.frenchNameTranslation);
             this.nameTranslationsModified = false;
           }
           if(this.descriptionTranslationsModified){
@@ -551,6 +564,7 @@ export class BackgroundLayersFormComponent implements OnInit {
             this.spanishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.spanishDescriptionTranslation);
             this.englishDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.englishDescriptionTranslation);
             this.araneseDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.araneseDescriptionTranslation);
+            this.frenchDescriptionTranslation = await this.utils.saveTranslation(resp.id,this.frenchDescriptionTranslation);
 
             this.descriptionTranslationsModified = false;
           }

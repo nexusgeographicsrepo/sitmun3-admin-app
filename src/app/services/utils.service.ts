@@ -316,7 +316,7 @@ export class UtilsService {
 
   //Translation
 
-  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, araneseTranslation, column): Promise<any[]>{
+  async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, araneseTranslation, frenchTranslation, column): Promise<any[]>{
 
   
 
@@ -325,6 +325,7 @@ export class UtilsService {
     if(spanishTranslation!= null) { dialogRef.componentInstance.spanishValue=spanishTranslation.translation };
     if(englishTranslation!= null) { dialogRef.componentInstance.englishValue=englishTranslation.translation };
     if(araneseTranslation!= null) { dialogRef.componentInstance.araneseValue=araneseTranslation.translation };
+    if(frenchTranslation!= null) { dialogRef.componentInstance.frenchValue=frenchTranslation.translation };
 
     let translationsResult = null;
 
@@ -372,9 +373,19 @@ export class UtilsService {
               araneseTranslation.column=column;
               araneseTranslation.language=config.languagesObjects.aranese;
             }
+  
+            if(frenchTranslation != null){
+              frenchTranslation.translation= result.data.frenchValue 
+            }
+            else{
+              frenchTranslation= new Translation();
+              frenchTranslation.translation= result.data.frenchValue;
+              frenchTranslation.column=column;
+              frenchTranslation.language=config.languagesObjects.french;
+            }
             console.log(result.data);
   
-            translationsResult=[catalanTranslation,spanishTranslation,englishTranslation,araneseTranslation]
+            translationsResult=[catalanTranslation,spanishTranslation,englishTranslation,araneseTranslation, frenchTranslation]
 
           }
         }

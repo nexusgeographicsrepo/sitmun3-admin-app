@@ -33,11 +33,13 @@ export class ApplicationFormComponent implements OnInit {
   spanishNameTranslation: Translation = null;
   englishNameTranslation: Translation = null;
   araneseNameTranslation: Translation = null;
+  frenchNameTranslation: Translation = null;
 
   catalanTitleTranslation: Translation = null;
   spanishTitleTranslation: Translation = null;
   englishTitleTranslation: Translation = null;
   araneseTitleTranslation: Translation = null;
+  frenchTitleTranslation: Translation = null;
 
   situationMapList: Array<any> = [];
   parametersTypes: Array<any> = [];
@@ -241,6 +243,14 @@ export class ApplicationFormComponent implements OnInit {
                         this.araneseTitleTranslation=translation
                       }
                     }
+                    if(translation.languageName == config.languagesObjects.french.name){
+                      if(translation.column == config.translationColumns.applicationName){
+                        this.frenchNameTranslation=translation
+                      }
+                      else if(translation.column == config.translationColumns.applicationTitle){
+                        this.frenchTitleTranslation=translation
+                      }
+                    }
                   });
                 }
           
@@ -413,26 +423,28 @@ export class ApplicationFormComponent implements OnInit {
   async onNameTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, config.translationColumns.applicationName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanNameTranslation, this.spanishNameTranslation, this.englishNameTranslation, this.araneseNameTranslation, this.frenchNameTranslation, config.translationColumns.applicationName);
     if(dialogResult!=null){
       this.nameTranslationsModified=true;
       this.catalanNameTranslation=dialogResult[0];
       this.spanishNameTranslation=dialogResult[1];
       this.englishNameTranslation=dialogResult[2];
       this.araneseNameTranslation=dialogResult[3];
+      this.frenchNameTranslation=dialogResult[4];
     }
   }
 
   async onTitleTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanTitleTranslation, this.spanishTitleTranslation, this.englishTitleTranslation, this.araneseTitleTranslation, config.translationColumns.applicationTitle);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTitleTranslation, this.spanishTitleTranslation, this.englishTitleTranslation, this.araneseTitleTranslation, this.frenchTitleTranslation, config.translationColumns.applicationTitle);
     if(dialogResult!=null){
       this.titleTranslationsModified=true;
       this.catalanTitleTranslation=dialogResult[0];
       this.spanishTitleTranslation=dialogResult[1];
       this.englishTitleTranslation=dialogResult[2];
-      this.araneseNameTranslation=dialogResult[3];
+      this.araneseTitleTranslation=dialogResult[3];
+      this.frenchTitleTranslation=dialogResult[4];
     }
   }
 
@@ -994,6 +1006,7 @@ export class ApplicationFormComponent implements OnInit {
             this.spanishNameTranslation = await this.utils.saveTranslation(resp.id,this.spanishNameTranslation);
             this.englishNameTranslation = await this.utils.saveTranslation(resp.id,this.englishNameTranslation);
             this.araneseNameTranslation = await this.utils.saveTranslation(resp.id,this.araneseNameTranslation);
+            this.frenchNameTranslation = await this.utils.saveTranslation(resp.id,this.frenchNameTranslation);
             this.nameTranslationsModified = false;
           }
           if(this.titleTranslationsModified){
@@ -1001,6 +1014,7 @@ export class ApplicationFormComponent implements OnInit {
             this.spanishTitleTranslation = await this.utils.saveTranslation(resp.id,this.spanishTitleTranslation);
             this.englishTitleTranslation = await this.utils.saveTranslation(resp.id,this.englishTitleTranslation);
             this.araneseTitleTranslation = await this.utils.saveTranslation(resp.id,this.araneseTitleTranslation);
+            this.frenchTitleTranslation = await this.utils.saveTranslation(resp.id,this.frenchTitleTranslation);
 
             this.titleTranslationsModified = false;
           }

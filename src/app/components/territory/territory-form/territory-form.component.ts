@@ -27,6 +27,7 @@ export class TerritoryFormComponent implements OnInit {
   spanishTranslation: Translation = null;
   englishTranslation: Translation = null;
   araneseTranslation: Translation = null;
+  frenchTranslation: Translation = null;
 
   //Form
   themeGrid: any = config.agGridTheme;
@@ -200,8 +201,10 @@ export class TerritoryFormComponent implements OnInit {
                     if(translation.languageName == config.languagesObjects.aranese.name){
                       this.araneseTranslation=translation
                     }
+                    if(translation.languageName == config.languagesObjects.french.name){
+                      this.frenchTranslation=translation
+                    }
                   });
-                  console.log(this.catalanTranslation);
                 }
           
                 );;
@@ -389,13 +392,14 @@ export class TerritoryFormComponent implements OnInit {
   async onTranslationButtonClicked()
   {
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, this.araneseTranslation, config.translationColumns.territoryName);
+    dialogResult = await this.utils.openTranslationDialog(this.catalanTranslation, this.spanishTranslation, this.englishTranslation, this.araneseTranslation, this.frenchTranslation, config.translationColumns.territoryName);
     if(dialogResult!=null){
       this.translationsModified=true;
       this.catalanTranslation=dialogResult[0];
       this.spanishTranslation=dialogResult[1];
       this.englishTranslation=dialogResult[2];
       this.araneseTranslation=dialogResult[3];
+      this.frenchTranslation=dialogResult[4];
     }
   }
 
@@ -1190,6 +1194,7 @@ export class TerritoryFormComponent implements OnInit {
               this.spanishTranslation = await this.utils.saveTranslation(resp.id,this.spanishTranslation);
               this.englishTranslation = await this.utils.saveTranslation(resp.id,this.englishTranslation);
               this.araneseTranslation = await this.utils.saveTranslation(resp.id,this.araneseTranslation);
+              this.frenchTranslation = await this.utils.saveTranslation(resp.id,this.frenchTranslation);
               this.translationsModified = false;
             }
 

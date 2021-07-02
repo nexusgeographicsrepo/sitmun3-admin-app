@@ -74,9 +74,6 @@ export class AppComponent {
 
      //Load from server all languages that we will use
      async loadLanguages(){
-      let catalanLanguage = null;
-      let spanishLanguage = null;
-      let englishLanguage = null;
       this.languageService.getAll().subscribe(
         async result => {
           console.log(result);
@@ -85,6 +82,7 @@ export class AppComponent {
             if(language.shortname == 'es') { config.languagesObjects.spanish= language }
             if(language.shortname == 'en') { config.languagesObjects.english= language }
             if(language.shortname == 'oc-aranes') { config.languagesObjects.aranese= language }
+            if(language.shortname == 'fr') { config.languagesObjects.french= language }
           });
   
         }

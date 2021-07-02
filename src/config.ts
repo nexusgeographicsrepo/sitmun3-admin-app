@@ -70,7 +70,8 @@ export const config = {
     catalan: null,
     spanish: null,
     english: null,
-    aranese: null
+    aranese: null,
+    french: null,
   },
   translationColumns: {
     cartographyDescription : 'GEO_ABSTRACT',

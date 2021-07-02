@@ -30,8 +30,8 @@ export class TreesFormComponent implements OnInit {
   //Translations
   nameTranslationsModified: boolean = false;
   descriptionTranslationsModified: boolean = false;
-  nameTranslations: Map<number, NodeTranslation> = new Map<number, NodeTranslation>();
-  descriptionTranslations: Map<number, NodeTranslation> = new Map<number, NodeTranslation>();
+  nameTranslations: Map<number, Map<string, Translation>> = new Map<number, Map<string, Translation>>();
+  descriptionTranslations: Map<number, Map<string, Translation>> = new Map<number, Map<string, Translation>>();
   
   treeNameTranslationMap: Map<string, Translation>;
   treeDescriptionTranslationMap: Map<string, Translation>;
@@ -45,6 +45,8 @@ export class TreesFormComponent implements OnInit {
   treeToEdit: Tree;
   dataLoaded: Boolean = false;
   currentNodeIsFolder: Boolean;
+  currentNodeName: string;
+  currentNodeDescription: string;
   newElement: Boolean = false;
   duplicateToDo = false;
   sendNodeUpdated: Subject<any> = new Subject <any>();
@@ -124,7 +126,7 @@ export class TreesFormComponent implements OnInit {
                     treeDescriptionTranslations.push(translation)
                   }
                   else if (translation.column == config.translationColumns.treeNodeDescription || translation.column == config.translationColumns.treeNodeName){
-                    this.saveTreeNodeTranslation(translation);
+                    this.saveTreeNodeTranslation(translation, translation.column);
                   }
   
                 });
@@ -154,35 +156,30 @@ export class TreesFormComponent implements OnInit {
 
   }
 
-  saveTreeNodeTranslation(translation){
+  saveTreeNodeTranslation(translation,column){
     if(translation.column == config.translationColumns.treeNodeName ){
-      this.storeTranslationInMap(translation,this.nameTranslations)
+      this.storeTranslationInMap(translation,this.nameTranslations, column)
     }
     else if(translation.column == config.translationColumns.treeNodeDescription){
-      this.storeTranslationInMap(translation,this.descriptionTranslations)
+      this.storeTranslationInMap(translation,this.descriptionTranslations, column)
     }
   }
 
-  private storeTranslationInMap(translation, map:Map<Number,NodeTranslation>){
+  private storeTranslationInMap(translation, map:Map<Number,Map<string, Translation>>, column:string){
     let currentTranslation = map.get(translation.element)
     if(currentTranslation != undefined){
-      console.log(currentTranslation)
-      if(translation.languageName==config.languagesObjects.catalan.name) {currentTranslation.catalan=translation; }
-      else if(translation.languageName==config.languagesObjects.spanish.name) {currentTranslation.spanish=translation; }
-      else if(translation.languageName==config.languagesObjects.english.name) {currentTranslation.english=translation; }
-      else if(translation.languageName==config.languagesObjects.aranese.name) {currentTranslation.aranese=translation; }
-      else if(translation.languageName==config.languagesObjects.french.name) {currentTranslation.french=translation; }
-      map.set(translation.element,currentTranslation);
+      this.utils.updateTranslations(currentTranslation,[translation])
     }
     else{
-      let newTranslation: NodeTranslation = {catalan: null, spanish: null, english:null};
-      if(translation.languageName==config.languagesObjects.catalan.name) {newTranslation.catalan=translation; }
-      else if(translation.languageName==config.languagesObjects.spanish.name) {newTranslation.spanish=translation; }
-      else if(translation.languageName==config.languagesObjects.english.name) {newTranslation.english=translation; }
-      else if(translation.languageName==config.languagesObjects.aranese.name) {newTranslation.aranese=translation; }
-      else if(translation.languageName==config.languagesObjects.french.name) {newTranslation.french=translation; }
-      map.set(translation.element,newTranslation);
-      console.log(newTranslation);
+      let newMap: Map<string,Translation> = this.utils.createTranslationsList(column)
+      this.utils.updateTranslations(newMap, [translation]);
+      // let newTranslation: NodeTranslation = {catalan: null, spanish: null, english:null};
+      // if(translation.languageName==config.languagesObjects.catalan.name) {newTranslation.catalan=translation; }
+      // else if(translation.languageName==config.languagesObjects.spanish.name) {newTranslation.spanish=translation; }
+      // else if(translation.languageName==config.languagesObjects.english.name) {newTranslation.english=translation; }
+      // else if(translation.languageName==config.languagesObjects.aranese.name) {newTranslation.aranese=translation; }
+      // else if(translation.languageName==config.languagesObjects.french.name) {newTranslation.french=translation; }
+      map.set(translation.element,newMap);
     }
   }
 
@@ -214,18 +211,12 @@ export class TreesFormComponent implements OnInit {
       isFolder: new FormControl(null, []),
       type: new FormControl(null, []),
       order: new FormControl(null, []),
-      catalanNameTranslation: new FormControl(null, []),
-      spanishNameTranslation: new FormControl(null, []),
-      englishNameTranslation: new FormControl(null, []),
-      araneseNameTranslation: new FormControl(null, []),
-      frenchNameTranslation: new FormControl(null, []),
-      catalanDescriptionTranslation: new FormControl(null, []),
-      spanishDescriptionTranslation: new FormControl(null, []),
-      englishDescriptionTranslation: new FormControl(null, []),
-      araneseDescriptionTranslation: new FormControl(null, []),
-      frenchDescriptionTranslation: new FormControl(null, []),
+      nameTranslations: new FormControl(null, []),
+      descriptionTranslations: new FormControl(null, []),
       nameTranslationsModified: new FormControl(null, []),
       descriptionTranslationsModified: new FormControl(null, []),
+      nameFormModified: new FormControl(null, []),
+      descriptionFormModified: new FormControl(null, []),
       status: new FormControl(null, []),
       cartographyName: new FormControl(null, []),
       
@@ -243,20 +234,26 @@ export class TreesFormComponent implements OnInit {
 
   async onTreeNodeNameTranslationButtonClicked()
   {
-    let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanNameTranslation,
-       this.treeNodeForm.value.spanishNameTranslation, this.treeNodeForm.value.englishNameTranslation, this.treeNodeForm.value.araneseNameTranslation, this.treeNodeForm.value.frenchNameTranslation, config.translationColumns.treeNodeName);
-    if(dialogResult!=null){
-      this.treeNodeForm.patchValue({
-       catalanNameTranslation: dialogResult[0],
-       spanishNameTranslation: dialogResult[1],
-       englishNameTranslation: dialogResult[2],
-       araneseNameTranslation: dialogResult[3],
-       frenchNameTranslation: dialogResult[4],
-       nameTranslationsModified: true,
 
-      })
+    let dialogResult = null
+    dialogResult = await this.utils.openTranslationDialog2(this.treeNodeForm.value.nameTranslations);
+    if(dialogResult && dialogResult.event == "Accept"){
+      this.treeNodeForm.patchValue({nameTranslationsModified : true})
     }
+
+    // dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanNameTranslation,
+    //    this.treeNodeForm.value.spanishNameTranslation, this.treeNodeForm.value.englishNameTranslation, this.treeNodeForm.value.araneseNameTranslation, this.treeNodeForm.value.frenchNameTranslation, config.translationColumns.treeNodeName);
+    // if(dialogResult!=null){
+    //   this.treeNodeForm.patchValue({
+    //    catalanNameTranslation: dialogResult[0],
+    //    spanishNameTranslation: dialogResult[1],
+    //    englishNameTranslation: dialogResult[2],
+    //    araneseNameTranslation: dialogResult[3],
+    //    frenchNameTranslation: dialogResult[4],
+    //    nameTranslationsModified: true,
+
+    //   })
+    // }
   }
 
   async onDescriptionTranslationButtonClicked()
@@ -271,20 +268,26 @@ export class TreesFormComponent implements OnInit {
   
   async onTreeNodeDescriptionTranslationButtonClicked()
   {
+    
     let dialogResult = null
-    dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanDescriptionTranslation,
-      this.treeNodeForm.value.spanishDescriptionTranslation, this.treeNodeForm.value.englishDescriptionTranslation,
-       this.treeNodeForm.value.araneseDescriptionTranslation, this.treeNodeForm.value.frenchDescriptionTranslation, config.translationColumns.treeNodeDescription);
-    if(dialogResult!=null){
-      this.treeNodeForm.patchValue({
-        catalanDescriptionTranslation: dialogResult[0],
-        spanishDescriptionTranslation: dialogResult[1],
-        englishDescriptionTranslation: dialogResult[2],
-        araneseDescriptionTranslation: dialogResult[3],
-        frenchDescriptionTranslation: dialogResult[4],
-        descriptionTranslationsModified: true,
-       })
+    dialogResult = await this.utils.openTranslationDialog2(this.treeNodeForm.value.descriptionTranslations);
+    if(dialogResult && dialogResult.event == "Accept"){
+      this.treeNodeForm.patchValue({descriptionTranslationsModified : true})
     }
+    // let dialogResult = null
+    // dialogResult = await this.utils.openTranslationDialog(this.treeNodeForm.value.catalanDescriptionTranslation,
+    //   this.treeNodeForm.value.spanishDescriptionTranslation, this.treeNodeForm.value.englishDescriptionTranslation,
+    //    this.treeNodeForm.value.araneseDescriptionTranslation, this.treeNodeForm.value.frenchDescriptionTranslation, config.translationColumns.treeNodeDescription);
+    // if(dialogResult!=null){
+    //   this.treeNodeForm.patchValue({
+    //     catalanDescriptionTranslation: dialogResult[0],
+    //     spanishDescriptionTranslation: dialogResult[1],
+    //     englishDescriptionTranslation: dialogResult[2],
+    //     araneseDescriptionTranslation: dialogResult[3],
+    //     frenchDescriptionTranslation: dialogResult[4],
+    //     descriptionTranslationsModified: true,
+    //    })
+    // }
   }
 
   getAllCartographies = (): Observable<any> => {
@@ -326,6 +329,10 @@ export class TreesFormComponent implements OnInit {
     }
     console.log(node);
     let status="Modified"
+    let nameTranslationsModified = node.nameTranslationsModified?true:false;
+    let descriptionTranslationsModified = node.descriptionTranslationsModified?true:false;
+    let nameFormModified = node.nameFormModified?true:false;
+    let descriptionFormModified = node.descriptionFormModified?true:false;
     if(node.id < 0) { status = "pendingCreation"}
     this.treeNodeForm.patchValue({
       id: node.id,
@@ -342,46 +349,32 @@ export class TreesFormComponent implements OnInit {
       children: node.children,
       parent: node.parent,
       isFolder: node.isFolder,
-      nameTranslationsModified: false,
-      descriptionTranslationsModified: false,
-      catalanNameTranslation: node.catalanNameTranslation,
-      spanishNameTranslation: node.spanishNameTranslation,
-      englishNameTranslation: node.englishNameTranslation,
-      araneseNameTranslation: node.araneseNameTranslation,
-      frenchNameTranslation: node.frenchNameTranslation,
-      catalanDescriptionTranslation: node.catalanDescriptionTranslation,
-      spanishDescriptionTranslation: node.spanishDescriptionTranslation,
-      englishDescriptionTranslation: node.englishDescriptionTranslation,
-      araneseDescriptionTranslation: node.araneseDescriptionTranslation,
-      frenchDescriptionTranslation: node.frenchDescriptionTranslation,
+      nameTranslationsModified: nameTranslationsModified,
+      descriptionTranslationsModified: descriptionTranslationsModified,
+      nameFormModified :nameFormModified,
+      descriptionFormModified :descriptionFormModified,
+      nameTranslations: node.nameTranslations,
+      descriptionTranslations: node.descriptionTranslations,
       status: status,
       type:currentType
     })
 
-    if(! node.nameTranslationsModified){
+    // if(! node.nameTranslationsModified){
       if(this.nameTranslations.has(node.id)){
         let translations = this.nameTranslations.get(node.id);
         this.treeNodeForm.patchValue({
-          catalanNameTranslation: translations.catalan,
-          spanishNameTranslation: translations.spanish,
-          englishNameTranslation: translations.english,
-          araneseNameTranslation: translations.aranese,
-          frenchNameTranslation: translations.french,
+          nameTranslations: translations
         })
       }
-    }
+    // }
 
-    if(! node.descriptionTranslationsModified){
+    // if(! node.descriptionTranslationsModified){
       if(this.descriptionTranslations.has(node.id)){
         let translations = this.descriptionTranslations.get(node.id);
         this.treeNodeForm.patchValue({
-          catalanDescriptionTranslation: translations.catalan,
-          spanishDescriptionTranslation: translations.spanish,
-          englishDescriptionTranslation: translations.english,
-          araneseDescriptionTranslation: translations.aranese,
-          frenchDescriptionTranslation: translations.french,
+          descriptionTranslations: translations
         })
-      }
+      // }
     }
 
   }
@@ -582,26 +575,25 @@ export class TreesFormComponent implements OnInit {
               promises.push(new Promise((resolve, reject) => {
               this.treeNodeService.save(treeNodeObj).subscribe(
                 async result => {
-                  if(tree.nameTranslationsModified){
-                    let translation = this.nameTranslations.get(tree.id);
-                    translation.catalan= await this.utils.saveTranslation(result.id,translation.catalan);
-                    translation.spanish= await this.utils.saveTranslation(result.id,translation.spanish);
-                    translation.english = await this.utils.saveTranslation(result.id,translation.english);
-                    translation.aranese = await this.utils.saveTranslation(result.id,translation.aranese);
-                    translation.french = await this.utils.saveTranslation(result.id,translation.french);
-                    this.nameTranslations.set(result.id,translation);
+                  let nameTranslationMap = this.nameTranslations.get(tree.id);
+                  if(nameTranslationMap){
+                    this.utils.saveTranslation2(result.id, nameTranslationMap, result.name, tree.nameTranslationsModified);
                     tree.nameTranslationModified = false;
                   }
-
-                  if(tree.descriptionTranslationsModified){
-                    let translation = this.descriptionTranslations.get(tree.id);
-                    translation.catalan= await this.utils.saveTranslation(result.id,translation.catalan);
-                    translation.spanish= await this.utils.saveTranslation(result.id,translation.spanish);
-                    translation.english = await this.utils.saveTranslation(result.id,translation.english);
-                    translation.aranese = await this.utils.saveTranslation(result.id,translation.aranese);
-                    translation.french = await this.utils.saveTranslation(result.id,translation.french);
-                    this.descriptionTranslations.set(result.id,translation);
-                    tree.descriptionTranslationsModified= false;
+                  else if(tree.nameFormModified){
+                    let map = this.utils.createTranslationsList(config.translationColumns.treeNodeName);
+                    this.utils.saveTranslation2(result.id, map, tree.name, false);
+                    this.nameTranslations.set(result.id,map);
+                  }
+                  let descriptionTranslationMap = this.descriptionTranslations.get(tree.id);
+                  if(descriptionTranslationMap){
+                    this.utils.saveTranslation2(result.id, descriptionTranslationMap, result.description, tree.nameTranslationsModified);
+                    tree.descriptionTranslationsModified = false;
+                  }
+                  else if(tree.descriptionFormModified){
+                    let map = this.utils.createTranslationsList(config.translationColumns.treeNodeDescription);
+                    this.utils.saveTranslation2(result.id, map, tree.description, false);
+                    this.descriptionTranslations.set(result.id,map);
                   }
                   let oldId=tree.id;
                   treesToUpdate.splice(i,1);
@@ -679,27 +671,16 @@ export class TreesFormComponent implements OnInit {
       })
     }
 
-    let newNameTranslation: NodeTranslation = null;
-    let newDescriptionTranslation: NodeTranslation = null;
+
+    let newNameTranslation: Map<string, Translation> = null;
+    let newDescriptionTranslation: Map<string, Translation> = null;
 
     if(this.treeNodeForm.value.nameTranslationsModified){
-      newNameTranslation ={
-        catalan: this.treeNodeForm.value.catalanNameTranslation,
-        spanish: this.treeNodeForm.value.spanishNameTranslation,
-        english: this.treeNodeForm.value.englishNameTranslation,
-        aranese: this.treeNodeForm.value.araneseNameTranslation,
-        french: this.treeNodeForm.value.frenchNameTranslation,
-      }
+      newNameTranslation = this.treeNodeForm.value.nameTranslations
     }
 
     if(this.treeNodeForm.value.descriptionTranslationsModified){
-      newDescriptionTranslation ={
-        catalan: this.treeNodeForm.value.catalanDescriptionTranslation,
-        spanish: this.treeNodeForm.value.spanishDescriptionTranslation,
-        english: this.treeNodeForm.value.englishDescriptionTranslation,
-        aranese: this.treeNodeForm.value.araneseDescriptionTranslation,
-        french: this.treeNodeForm.value.frenchDescriptionTranslation,
-      }
+      newDescriptionTranslation =  this.treeNodeForm.value.descriptionTranslations
     }
   
     if(this.newElement) {
@@ -708,14 +689,42 @@ export class TreesFormComponent implements OnInit {
       })
       console.log(this.treeNodeForm.value);
       if(newNameTranslation){ this.nameTranslations.set(this.idFictitiousCounter,newNameTranslation) }
+      else {
+        if(this.treeNodeForm.value.description && this.treeNodeForm.value.description != this.currentNodeDescription){
+          this.treeNodeForm.patchValue({
+            descriptionFormModified: true
+          })
+        }
+      }
       if(newDescriptionTranslation){ this.descriptionTranslations.set(this.idFictitiousCounter,newDescriptionTranslation) }
-      
+      else {
+        if(this.treeNodeForm.value.name && this.treeNodeForm.value.name != this.currentNodeName){
+          this.treeNodeForm.patchValue({
+            nameFormModified: true
+          })
+        }
+      }
+
       this.idFictitiousCounter--;
       this.createNodeEvent.next(this.treeNodeForm.value);
     }
     else{ 
       if(newNameTranslation){ this.nameTranslations.set(this.treeNodeForm.value.id,newNameTranslation) }
+      else {
+        if(this.treeNodeForm.value.description && this.treeNodeForm.value.description != this.currentNodeDescription){
+          this.treeNodeForm.patchValue({
+            descriptionFormModified: true
+          })
+        }
+      }
       if(newDescriptionTranslation){ this.descriptionTranslations.set(this.treeNodeForm.value.id,newDescriptionTranslation) }
+      else {
+        if(this.treeNodeForm.value.name && this.treeNodeForm.value.name != this.currentNodeName){
+          this.treeNodeForm.patchValue({
+            nameFormModified: true
+          })
+        }
+      }
       this.updateNode() 
     }
 

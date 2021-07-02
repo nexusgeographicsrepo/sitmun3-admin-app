@@ -461,14 +461,20 @@ export class UtilsService {
           value.element = id;
           value.translation = internationalValue;
           promises.push(new Promise((resolve, reject) => {
-            this.translationService.save(value).subscribe(result => { resolve(true) })
+            this.translationService.save(value).subscribe(result => {
+               translationMap.set(key,result)
+               resolve(true) 
+              })
           }));
       }
       else if(modifications){
         if(value && value.translation) {
            value.element = id 
            promises.push(new Promise((resolve, reject) => {
-            this.translationService.save(value).subscribe(result => { resolve(true) })
+            this.translationService.save(value).subscribe(result => {
+              translationMap.set(key,result)
+              resolve(true) 
+              })
           }));
           }
       }

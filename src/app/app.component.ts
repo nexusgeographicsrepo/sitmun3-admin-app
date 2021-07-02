@@ -35,6 +35,12 @@ export class AppComponent {
     //   defaultLang = window.navigator.language
     // }
 
+    if(localStorage.getItem('lang') != undefined)
+    {
+      this.translate.setDefaultLang(localStorage.getItem('lang'));
+      this.translate.use(localStorage.getItem('lang'));
+    }
+
     
   }
 
@@ -57,6 +63,7 @@ export class AppComponent {
 
   /** On component init, get logged user account*/
   ngOnInit() {
+
     if(this.authService.getToken()){
       this.principal.identity().then((account) => {
         this.currentAccount = account;
@@ -68,40 +75,43 @@ export class AppComponent {
 
      //Load from server all languages that we will use
      async loadLanguages(){
-       let languagesToUse = [];
-      this.languageService.getAll().subscribe(
+      await this.languageService.getAll().subscribe(
         async result => {
           console.log(result);
           result.forEach(language => {
-            languagesToUse.push(language.shortname);
             if(language.shortname == 'ca')  { config.languagesObjects.catalan=language; }
             if(language.shortname == 'es') { config.languagesObjects.spanish= language }
             if(language.shortname == 'en') { config.languagesObjects.english= language }
             if(language.shortname == 'oc-aranes') { config.languagesObjects.aranese= language }
             if(language.shortname == 'fr') { config.languagesObjects.french= language }
           });
+          if(! localStorage.getItem(('languages'))){
+            localStorage.setItem('languages', JSON.stringify(result));
+          }
+
           config.languagesToUse = result;
         }
       )
     }
 
     async loadConfiguration(){
+
         this.configurationParametersService.getAll().subscribe(
           async result => {
             console.log(result);
-            // if(localStorage.lang != undefined)
-            // {
-            //   this.translate.setDefaultLang(localStorage.lang);
-            //   this.translate.use(localStorage.lang);
-            // }
-            // else{
+
               let defaultLang = result.find(element => element.name == 'language.default' )
               if(defaultLang){
-                this.translate.setDefaultLang(defaultLang.value);
-                this.translate.use(defaultLang.value);
+                config.defaultLang = defaultLang.value;
+
+                if(!localStorage.getItem('lang')){
+                  this.translate.setDefaultLang(defaultLang.value);
+                  this.translate.use(defaultLang.value);
+                }
+
               }
 
-            // }
+            
           }
         )
     }

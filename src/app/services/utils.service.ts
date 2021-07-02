@@ -90,14 +90,16 @@ export class UtilsService {
     this.location.back();
   }
 
-  getCodeListValues(valueList) {
+  getCodeListValues(valueList, notTraduction?) {
     let params2: HalParam[] = [];
     let codelistLangValue = config.defaultLang;
     if(localStorage.lang) { codelistLangValue=localStorage.lang }
     let param: HalParam = { key: 'codeListName', value: valueList }
-    let param2: HalParam = { key: 'lang', value: codelistLangValue }
     params2.push(param);
-    params2.push(param2);
+    if(!notTraduction){
+      let param2: HalParam = { key: 'lang', value: codelistLangValue }
+      params2.push(param2);
+    }
     let query: HalOptions = { params: params2 };
 
     return this.codeListService.getAll(query);
@@ -316,13 +318,56 @@ export class UtilsService {
 
   //Translation
 
-  // createTranslationsList(columnName:string){
-  //   config.languagesToUse.forEach(language => {
-      
-  //   });
-  // }
+  createTranslationsList(columnName:string): Map<string, Translation> {
+    let translationsList: Map<string, Translation> = new Map<string, Translation>();
+
+    let languagesToUse = config.languagesToUse?config.languagesToUse:JSON.parse(localStorage.getItem('languages'));
+    languagesToUse.forEach(language => {
+      let currentTranslation: Translation = new Translation();
+      currentTranslation.translation = null;
+      currentTranslation.column = columnName;
+      currentTranslation.language = language;
+      translationsList.set(language.shortname, currentTranslation);
+    });
+    return translationsList;
+  }
+
+  async openTranslationDialog2(translationsMap: Map<string, Translation>){
+    const dialogRef = this.dialog.open(DialogTranslationComponent, { panelClass: 'translateDialogs' });
+    dialogRef.componentInstance.translationsMap=translationsMap;
+    dialogRef.componentInstance.languageByDefault=config.defaultLang;
+    dialogRef.componentInstance.languagesAvailables=config.languagesToUse;
+
+    let result = null;
+    result= await dialogRef.afterClosed().toPromise();
+    if(result) { return result }
+    else { return null } 
+
+  }
+
+  updateTranslations(translationsMap: Map<string,Translation>, translations:Array<Translation> ){
+    translations.forEach(translation => {
+      if(translation.languageName == config.languagesObjects.catalan.name){
+        translationsMap.set('ca',translation) 
+      }
+      else if(translation.languageName == config.languagesObjects.spanish.name){
+        translationsMap.set('es',translation) 
+      }
+      else if(translation.languageName == config.languagesObjects.english.name){
+        translationsMap.set('en',translation) 
+      }
+      else if(translation.languageName == config.languagesObjects.aranese.name){
+        translationsMap.set('oc-aranes',translation) 
+      }
+      else if(translation.languageName == config.languagesObjects.french.name){
+        translationsMap.set('fr',translation) 
+      }
+    });
+    return translationsMap;
+  }
 
   async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, araneseTranslation, frenchTranslation, column): Promise<any[]>{
+
 
   
 
@@ -408,6 +453,41 @@ export class UtilsService {
     else {
       return null;
     }
+  }
+
+  async saveTranslation2(id, translationMap: Map<string, Translation>, internationalValue, modifications: boolean){
+    let defaultLanguage = config.defaultLang;
+    const promises: Promise<any>[] = [];
+    translationMap.forEach(async (value: Translation, key: string) => {
+      if(key == defaultLanguage && internationalValue) {
+          value.element = id;
+          value.translation = internationalValue;
+          promises.push(new Promise((resolve, reject) => {
+            this.translationService.save(value).subscribe(result => {
+               translationMap.set(key,result)
+               resolve(true) 
+              })
+          }));
+      }
+      else if(modifications){
+        if(value && value.translation) {
+           value.element = id 
+           promises.push(new Promise((resolve, reject) => {
+            this.translationService.save(value).subscribe(result => {
+              translationMap.set(key,result)
+              resolve(true) 
+              })
+          }));
+          }
+      }
+
+
+    });
+
+    Promise.all(promises).then(() => {
+      return translationMap;
+    });
+
   }
 
 

@@ -613,6 +613,7 @@ export class ServiceFormComponent implements OnInit {
         })
 
         this.utils.saveTranslation2(resp.id, this.translationMap, this.serviceToEdit.description, this.translationsModified);
+        this.translationsModified = false;
         this.getAllElementsEventParameters.next(true);
         this.getAllElementsEventLayers.next(true);
       },

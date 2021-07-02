@@ -1168,6 +1168,7 @@ export class TerritoryFormComponent implements OnInit {
 
 
             this.utils.saveTranslation2(resp.id, this.translationMap, this.territoryToEdit.name, this.translationsModified);
+            this.translationsModified = false;
             this.getAllElementsEventCartographies.next(true);
             this.getAllElementsEventTasks.next(true);
             this.getAllElementsEventTerritoriesMemberOf.next(true);

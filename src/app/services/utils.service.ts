@@ -316,6 +316,12 @@ export class UtilsService {
 
   //Translation
 
+  // createTranslationsList(columnName:string){
+  //   config.languagesToUse.forEach(language => {
+      
+  //   });
+  // }
+
   async openTranslationDialog(catalanTranslation, spanishTranslation, englishTranslation, araneseTranslation, frenchTranslation, column): Promise<any[]>{
 
   

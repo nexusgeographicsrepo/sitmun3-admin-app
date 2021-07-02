@@ -68,17 +68,19 @@ export class AppComponent {
 
      //Load from server all languages that we will use
      async loadLanguages(){
+       let languagesToUse = [];
       this.languageService.getAll().subscribe(
         async result => {
           console.log(result);
           result.forEach(language => {
+            languagesToUse.push(language.shortname);
             if(language.shortname == 'ca')  { config.languagesObjects.catalan=language; }
             if(language.shortname == 'es') { config.languagesObjects.spanish= language }
             if(language.shortname == 'en') { config.languagesObjects.english= language }
             if(language.shortname == 'oc-aranes') { config.languagesObjects.aranese= language }
             if(language.shortname == 'fr') { config.languagesObjects.french= language }
           });
-  
+          config.languagesToUse = result;
         }
       )
     }

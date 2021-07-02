@@ -73,6 +73,7 @@ export const config = {
     aranese: null,
     french: null,
   },
+  languagesToUse: null,
   translationColumns: {
     cartographyDescription : 'GEO_ABSTRACT',
     territoryName : 'TER_NAME',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Territory, TerritoryService,UserPositionService, TranslationService, Translation, TaskAvailabilityService, TerritoryGroupTypeService, CartographyAvailabilityService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task, TaskAvailability } from 'dist/sitmun-frontend-core/';
+import { Territory, TerritoryService, UserPositionService, TranslationService, Translation, TaskAvailabilityService, TerritoryGroupTypeService, CartographyAvailabilityService, UserService, RoleService, CartographyService, TaskService, UserConfigurationService, HalOptions, HalParam, User, Role, Cartography, Task, TaskAvailability, TerritoryTypeService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { Observable, of, Subject } from 'rxjs';
@@ -34,6 +34,7 @@ export class TerritoryFormComponent implements OnInit {
   territoryID = -1;
   duplicateID = -1;
   territoryGroups: Array<any> = [];
+  territoryTypes: Array<any> = [];
   extensions: Array<string>;
   dataLoaded: Boolean = false;
   idGroupType: any;
@@ -95,6 +96,7 @@ export class TerritoryFormComponent implements OnInit {
     private userService: UserService,
     private roleService: RoleService,
     private territoryGroupTypeService: TerritoryGroupTypeService,
+    private territoryTypeService: TerritoryTypeService,
     private cartographyService: CartographyService,
     private cartographyAvailabilityService: CartographyAvailabilityService,
     private taskAvailabilityService: TaskAvailabilityService,
@@ -128,6 +130,16 @@ export class TerritoryFormComponent implements OnInit {
         }
       )
     }));
+
+    promises.push(new Promise((resolve, reject) => {
+      this.territoryTypeService.getAll().subscribe(
+        resp => {
+          this.territoryTypes.push(...resp);
+          resolve(true);
+        }
+      )
+    }));
+
     promises.push(new Promise((resolve, reject) => {
       this.utils.getCodeListValues('territory.scope').subscribe(
         resp => {
@@ -214,7 +226,8 @@ export class TerritoryFormComponent implements OnInit {
         else {
           this.territoryForm.patchValue({
             blocked: false,
-            groupType: this.territoryGroups[this.territoryGroups.length -1].id,
+            groupType : this.territoryGroups[0].id,
+            // groupType: this.territoryGroups[this.territoryGroups.length -1].id,
             scope: this.scopeTypes[0].value
           });
           this.dataLoaded = true;
@@ -1203,7 +1216,7 @@ export class TerritoryFormComponent implements OnInit {
           this.terrritoryObj.territorialAuthorityAddress = this.territoryForm.value.territorialAuthorityAddress,
           this.terrritoryObj.territorialAuthorityLogo = this.territoryForm.value.territorialAuthorityLogo,
           this.terrritoryObj.scope = this.territoryForm.value.scope,
-          this.terrritoryObj.groupType = groupType,
+          this.terrritoryObj.type = groupType,
           this.terrritoryObj.extent = this.territoryForm.value.extent,
           this.terrritoryObj.note = this.territoryForm.value.note,
           this.terrritoryObj.blocked = this.territoryForm.value.blocked,

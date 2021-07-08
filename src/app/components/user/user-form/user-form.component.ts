@@ -57,6 +57,9 @@ export class UserFormComponent implements OnInit {
   rolesToUpdate: Role[] = [];
   dataUpdatedEvent: Subject<boolean> = new Subject<boolean>();
 
+  
+  userPositionTypes: Array<any> = [];
+  userPositionTypesDescription: Array<any> = [];
 
 
 
@@ -76,6 +79,61 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const promises: Promise<any>[] = [];
+
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('userPosition.type').subscribe(
+        resp => {
+          resp.forEach(element => {
+            this.userPositionTypes.push(element);
+            this.userPositionTypesDescription.push(element.description);
+          });
+          resolve(true);
+        }
+      )
+    }));
+
+    this.columnDefsPermits = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getIdColumnDef(),
+      this.utils.getNonEditableColumnDef('userEntity.territory', 'territory'),
+      this.utils.getNonEditableColumnDef('userEntity.role', 'role'),
+      this.utils.getBooleanColumnDef('userEntity.appliesToChildrenTerritories', 'appliesToChildrenTerritories', true),
+      this.utils.getStatusColumnDef()
+    ];
+
+    this.columnDefsData = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getNonEditableColumnDef('userEntity.territory', 'territoryName'),
+      this.utils.getEditableColumnDef('userEntity.position', 'name'),
+      this.utils.getEditableColumnDef('userEntity.organization', 'organization'),
+      this.utils.getEditableColumnDef('userEntity.mail', 'email'),
+      // this.utils.getEditableColumnDef('userEntity.type', 'type'),
+      this.utils.getSelectColumnDef('userEntity.type', 'type',true,this.userPositionTypesDescription, true, this.userPositionTypes),
+      this.utils.getDateColumnDef('userEntity.expirationDate', 'expirationDate',true),
+      this.utils.getDateColumnDef('userEntity.dataCreated', 'createdDate'),
+      this.utils.getStatusColumnDef()
+    ];
+
+    this.columnDefsTerritoryDialog = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getIdColumnDef(),
+      this.utils.getNonEditableColumnDef('userEntity.code', 'code'),
+      this.utils.getNonEditableColumnDef('userEntity.name', 'name'),
+
+    ];
+
+    this.columnDefsRolesDialog = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getIdColumnDef(),
+      this.utils.getNonEditableColumnDef('userEntity.name', 'name'),
+      this.utils.getBooleanColumnDef('userEntity.appliesToChildrenTerritories', 'appliesToChildrenTerritories', true),
+    ];
+
+
+    Promise.all(promises).then(() => { 
+
     this.activatedRoute.params.subscribe(params => {
       this.userID = +params.id;
       if(params.idDuplicate) { this.duplicateID = +params.idDuplicate; }
@@ -133,43 +191,10 @@ export class UserFormComponent implements OnInit {
 
       });
 
+    })
 
-    this.columnDefsPermits = [
-      this.utils.getSelCheckboxColumnDef(),
-      this.utils.getIdColumnDef(),
-      this.utils.getNonEditableColumnDef('userEntity.territory', 'territory'),
-      this.utils.getNonEditableColumnDef('userEntity.role', 'role'),
-      this.utils.getBooleanColumnDef('userEntity.appliesToChildrenTerritories', 'appliesToChildrenTerritories', true),
-      this.utils.getStatusColumnDef()
-    ];
 
-    this.columnDefsData = [
-      this.utils.getSelCheckboxColumnDef(),
-      this.utils.getNonEditableColumnDef('userEntity.territory', 'territoryName'),
-      this.utils.getEditableColumnDef('userEntity.position', 'name'),
-      this.utils.getEditableColumnDef('userEntity.organization', 'organization'),
-      this.utils.getEditableColumnDef('userEntity.mail', 'email'),
-      this.utils.getEditableColumnDef('userEntity.type', 'type'),
-      this.utils.getDateColumnDef('userEntity.expirationDate', 'expirationDate',true),
-      this.utils.getDateColumnDef('userEntity.dataCreated', 'createdDate'),
-      this.utils.getStatusColumnDef()
-    ];
-
-    this.columnDefsTerritoryDialog = [
-      this.utils.getSelCheckboxColumnDef(),
-      this.utils.getIdColumnDef(),
-      this.utils.getNonEditableColumnDef('userEntity.code', 'code'),
-      this.utils.getNonEditableColumnDef('userEntity.name', 'name'),
-
-    ];
-
-    this.columnDefsRolesDialog = [
-      this.utils.getSelCheckboxColumnDef(),
-      this.utils.getIdColumnDef(),
-      this.utils.getNonEditableColumnDef('userEntity.name', 'name'),
-      this.utils.getBooleanColumnDef('userEntity.appliesToChildrenTerritories', 'appliesToChildrenTerritories', true),
-    ];
-
+  
   }
 
 
@@ -512,6 +537,13 @@ export class UserFormComponent implements OnInit {
           territory.expirationDate=date.toISOString();
           console.log(territory.expirationDate)
         }
+
+        if(territory.type)
+        {
+          let currentType = this.userPositionTypes.find(element => element.description == territory.type);
+          if(currentType) { territory.type= currentType.value }
+        }
+
         // if(territory.status == 'pendingCreation'){
         //   let item ={
         //     createdDate: new Date(),

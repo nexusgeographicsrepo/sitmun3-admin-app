@@ -89,6 +89,15 @@
         </mat-form-field>
       </div>
 
+      
+      <div class="MidColFormDiv">
+        <label class="formLabel" id="right-column">
+          {{'territoryEntity.blocked' | translate}}
+        </label>
+        <mat-checkbox formControlName="blocked"> </mat-checkbox>
+      </div>
+
+
     </div>
     <div class="rowFormDiv">
       <div class="HalfMidLargeColFormDiv">
@@ -137,13 +146,6 @@
         <mat-form-field appearance="outline">
           <textarea matInput type="text" formControlName="note"> </textarea>
         </mat-form-field>
-      </div>
-
-      <div class="MidColFormDiv">
-        <label class="formLabel" id="right-column">
-          {{'territoryEntity.blocked' | translate}}
-        </label>
-        <mat-checkbox formControlName="blocked"> </mat-checkbox>
       </div>
 
     </div>

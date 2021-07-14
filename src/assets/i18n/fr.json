@@ -314,6 +314,7 @@
     "email": "Courrier",
     "address": "Addresse",
     "groupType": "Type de groupe",
+    "territoryType": "Type",
     "extent": "Extension",
     "note": "Observations",
     "logo": "Logo",

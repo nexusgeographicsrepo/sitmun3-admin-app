@@ -316,6 +316,7 @@
     "email": "Mail",
     "address": "Address",
     "groupType": "Group Type",
+    "territoryType": "Type",
     "extent": "Extension",
     "note": "Observations",
     "logo": "Logo",

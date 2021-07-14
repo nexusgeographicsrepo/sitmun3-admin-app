@@ -316,6 +316,7 @@
     "email": "Correu",
     "address": "Direcció",
     "groupType": "Grup tipus",
+    "territoryType": "Tipus",
     "extent": "Extensió",
     "note": "Observacions",
     "logo": "Logo",

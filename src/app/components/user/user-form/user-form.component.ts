@@ -263,6 +263,7 @@ export class UserFormComponent implements OnInit {
     const promisesCurrentUserConf: Promise<any>[] = [];
     const promisesCheckTerritories: Promise<any>[] = [];
     const promisesTerritories: Promise<any>[] = [];
+    let showDialog = false;
     // data.forEach(userConf => {
     for(let i = 0; i<data.length; i++){
       let userConf= data[i];
@@ -270,7 +271,7 @@ export class UserFormComponent implements OnInit {
       if (userConf.status === 'pendingCreation' || (userConf.status === 'pendingModify' && !userConf._links)) {
 
         let item;
-        
+
 
         let itemTerritory;
 
@@ -367,7 +368,7 @@ export class UserFormComponent implements OnInit {
           index = data.findIndex(element => element.roleId === item.role.id && element.territoryId === item.territory.id &&
             element.appliesToChildrenTerritories === item.appliesToChildrenTerritories && !element.new)
 
-          let indexTerritory = data.findIndex(element => element.territoryId === userConf.territoryComplete.id && !element.new )
+          let indexTerritory = data.findIndex(element => element.territoryId === userConf.territoryComplete.id && !element.new && element.status == 'pendingCreation' && !element._links)
 
           if(index === -1) {
             userConf.new = false;
@@ -376,6 +377,30 @@ export class UserFormComponent implements OnInit {
 
           if(indexTerritory === -1 && !territoriesToAdd.includes(userConf.territoryId))
           {
+            userConf.new = false;
+            promisesCheckTerritories.push(new Promise((resolve, reject) => {
+              this.userPositionService.getAll()
+              .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory && elem.userId === this.userID )
+              )).subscribe(data => {
+                if(data.length == 0){
+                  if(!territoriesToAdd.includes(userConf.territoryId)){
+                    territoriesToAdd.push(userConf.territoryId);
+                    itemTerritory = {
+                      territory: userConf.territoryComplete,
+                      user: this.userToEdit,
+                      id: null,
+                      _links: null,
+                    }
+                    promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.save(itemTerritory).subscribe((resp) => { resolve(true) }) }));
+                  }
+
+
+
+                }
+                  // promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.remove(data[0]).subscribe((resp) => { resolve(true) }) }));
+                resolve(true);
+              })
+            }));
             territoriesToAdd.push(userConf.territoryId)
             itemTerritory = {
               territory: userConf.territoryComplete,
@@ -456,16 +481,17 @@ export class UserFormComponent implements OnInit {
         let indexTerritory = data.findIndex(element =>  element.territoryId === userConf.territoryId && element.status !== 'pendingDelete' )
         if(indexTerritory === -1 && !territoriesToDelete.includes(userConf.territoryId))
         {
+          showDialog = true;
           territoriesToDelete.push(userConf.territoryId)
-          promisesCheckTerritories.push(new Promise((resolve, reject) => {
-            this.userPositionService.getAll()
-            .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory && elem.userId === this.userID )
-            )).subscribe(data => {
-              console.log(data);
-                promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.remove(data[0]).subscribe((resp) => { resolve(true) }) }));
-              resolve(true);
-            })
-          }));
+          // promisesCheckTerritories.push(new Promise((resolve, reject) => {
+          //   this.userPositionService.getAll()
+          //   .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory && elem.userId === this.userID )
+          //   )).subscribe(data => {
+          //     console.log(data);
+          //       promisesTerritories.push(new Promise((resolve, reject) => { this.userPositionService.remove(data[0]).subscribe((resp) => { resolve(true) }) }));
+          //     resolve(true);
+          //   })
+          // }));
 
         }
 
@@ -473,17 +499,6 @@ export class UserFormComponent implements OnInit {
         }
     };
 
-
-    // usersConfToCreate.forEach(newElement => {
-    //   promises.push(new Promise((resolve, reject) => { this.userConfigurationService.save(newElement).subscribe((resp) => { resolve(true) }) }));
-    // });
-
-    // usersConfDelete.forEach(deletedElement => {
-    //   if (deletedElement._links) {
-    //     promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(deletedElement).subscribe((resp) => { resolve(true) }) }));
-
-    //   }
-    // });
 
           
     Promise.all([...promises,...promisesDuplicate]).then(() => {
@@ -495,6 +510,7 @@ export class UserFormComponent implements OnInit {
     Promise.all([...promisesTerritories,...promisesDuplicate,...promisesCheckTerritories]).then(() => {
       Promise.all(promisesTerritories).then(() => {
         this.dataUpdatedEventTerritoryData.next(true);
+        if(showDialog) {this.showNoRelationshipwithPermissions();}
       });
     });
 
@@ -529,6 +545,7 @@ export class UserFormComponent implements OnInit {
 
   getAllRowsDataTerritories(data: any[]) {
     let territoriesToEdit = [];
+    const promises: Promise<any>[] = [];
     data.forEach(territory => {
       if (territory.status === 'pendingModify' || territory.status === 'pendingCreation') {
         if(territory.expirationDate != null)
@@ -553,15 +570,15 @@ export class UserFormComponent implements OnInit {
         //   territoriesToEdit.push(item)  
         //   //      item.territory = item.territory._links.self.href;
         // }
-          territoriesToEdit.push(territory)   
+        promises.push(new Promise((resolve, reject) => { this.userPositionService.save(territory).subscribe((resp) => { resolve(true) }) }));
+
         
 
        }
-    });
+       else if(territory.status === 'pendingDelete'){
+        promises.push(new Promise((resolve, reject) => { this.userPositionService.remove(territory).subscribe((resp) => { resolve(true) }) }));
 
-    const promises: Promise<any>[] = [];
-    territoriesToEdit.forEach(editedElement => {
-      promises.push(new Promise((resolve, reject) => { this.userPositionService.save(editedElement).subscribe((resp) => { resolve(true) }) }));
+       }
     });
 
     Promise.all(promises).then(() => {
@@ -807,6 +824,14 @@ export class UserFormComponent implements OnInit {
     }
 
 
+  }
+
+  showNoRelationshipwithPermissions(){
+    const dialogRef = this.dialog.open(DialogMessageComponent);
+    dialogRef.componentInstance.title = this.utils.getTranslate("atention")
+    dialogRef.componentInstance.message = this.utils.getTranslate("permissionsNoRelationship")
+    dialogRef.componentInstance.hideCancelButton = true;
+    dialogRef.afterClosed().subscribe();
   }
 
 

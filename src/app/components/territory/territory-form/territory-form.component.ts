@@ -591,21 +591,21 @@ export class TerritoryFormComponent implements OnInit {
       if (userConf.status === 'pendingDelete' && userConf._links  && !userConf.new ) {
         promises.push(new Promise((resolve, reject) => { this.userConfigurationService.remove(userConf).subscribe((resp) => { resolve(true) }) }));
 
-        let indexUserPosition = data.findIndex(element =>  element.userId === userConf.userId && element.status !== 'pendingDelete' );
+        // let indexUserPosition = data.findIndex(element =>  element.userId === userConf.userId && element.status !== 'pendingDelete' );
 
-        if(indexUserPosition == -1 && !usersPositionToDelete.includes(userConf.userId)){
-          usersPositionToDelete.push(userConf.userId);
-            promises.push(new Promise((resolve, reject) => {
-            this.userPositionService.getAll()
-            .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory && elem.userId === userConf.userId )
-            )).subscribe(data => {
-              console.log(data);
-              promises.push(new Promise((resolve, reject) => { this.userPositionService.remove(data[0]).subscribe((resp) => { resolve(true) }) }));
-              resolve(true);
-            })
-          }));
+        // if(indexUserPosition == -1 && !usersPositionToDelete.includes(userConf.userId)){
+        //   usersPositionToDelete.push(userConf.userId);
+        //     promises.push(new Promise((resolve, reject) => {
+        //     this.userPositionService.getAll()
+        //     .pipe(map((data: any[]) => data.filter(elem => elem.territoryName === userConf.territory && elem.userId === userConf.userId )
+        //     )).subscribe(data => {
+        //       console.log(data);
+        //       promises.push(new Promise((resolve, reject) => { this.userPositionService.remove(data[0]).subscribe((resp) => { resolve(true) }) }));
+        //       resolve(true);
+        //     })
+        //   }));
 
-        }
+        // }
 
 
       }

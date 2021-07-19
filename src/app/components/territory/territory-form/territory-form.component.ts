@@ -1018,6 +1018,7 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.territories');
     dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable = false;
 
 
@@ -1055,6 +1056,7 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsTerritoriesDialog];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = 'Territories';
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.titlesTable = ['Territories'];
     dialogRef.componentInstance.nonEditable = false;
 
@@ -1083,6 +1085,8 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.layers');
     dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.fieldRestrictionWithDifferentName = ['cartographyId'];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable = false;
 
     dialogRef.afterClosed().subscribe(result => {
@@ -1131,6 +1135,8 @@ export class TerritoryFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate('territoryEntity.tasks');
     dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.fieldRestrictionWithDifferentName = ['taskId'];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable = false;
 
     dialogRef.afterClosed().subscribe(result => {

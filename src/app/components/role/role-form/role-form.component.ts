@@ -474,6 +474,7 @@ export class RoleFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid=this.themeGrid;
     dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.permissiongroupLayersConfiguration');
     dialogRef.componentInstance.titlesTable=[''];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -505,6 +506,7 @@ export class RoleFormComponent implements OnInit {
       dialogRef.componentInstance.themeGrid=this.themeGrid;
       dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.tasks');
       dialogRef.componentInstance.titlesTable=[''];
+      dialogRef.componentInstance.currentData=[data];
       dialogRef.componentInstance.nonEditable=false;
       
   
@@ -555,6 +557,7 @@ export class RoleFormComponent implements OnInit {
       dialogRef.componentInstance.themeGrid=this.themeGrid;
       dialogRef.componentInstance.title=this.utils.getTranslate('roleEntity.applications');
       dialogRef.componentInstance.titlesTable=[''];
+      dialogRef.componentInstance.currentData=[data];
       dialogRef.componentInstance.nonEditable=false;
       
   

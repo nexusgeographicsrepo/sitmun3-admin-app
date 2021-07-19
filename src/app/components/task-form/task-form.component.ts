@@ -833,7 +833,7 @@ export class TaskFormComponent implements OnInit {
 
   }
 
-  openPopupDialog(field, data, columns, label, checkbox, status, singleSelection, index ){
+  openPopupDialog(field, data, columns, label, checkbox, status, singleSelection, index, currentData ){
 
     let getAllfunction = this.getDataTable(data)
 
@@ -843,6 +843,7 @@ export class TaskFormComponent implements OnInit {
     dialogRef.componentInstance.orderTable = [this.defaultColumnsSorting[index]];
     dialogRef.componentInstance.columnDefsTable = [this.generateColumnDefs(columns,checkbox, status)];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.currentData = [currentData];
     dialogRef.componentInstance.title = this.utils.getTranslate(label);
     dialogRef.componentInstance.titlesTable = [""];
 

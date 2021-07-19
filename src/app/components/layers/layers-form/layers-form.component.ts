@@ -1148,6 +1148,8 @@ export class LayersFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.territory');
     dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.fieldRestrictionWithDifferentName = ['territoryId'];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable = false;
 
 
@@ -1171,6 +1173,7 @@ export class LayersFormComponent implements OnInit {
         id: null,
         territoryId: element.id,
         territoryCode: element.code,
+        code:element.code,
         territoryName: element.name,
         createdDate: element.createdDate,
         owner: null,
@@ -1204,6 +1207,7 @@ export class LayersFormComponent implements OnInit {
     dialogRef.componentInstance.orderTable = ['name'];
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.permissiongroupLayersConfiguration');
     dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable = false;
 
 
@@ -1236,6 +1240,7 @@ export class LayersFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid = this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.nodes');
     dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable = false;
 
 

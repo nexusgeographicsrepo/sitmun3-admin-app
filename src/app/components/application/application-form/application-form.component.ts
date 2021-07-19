@@ -806,6 +806,7 @@ export class ApplicationFormComponent implements OnInit {
       dialogRef.componentInstance.themeGrid=this.themeGrid;
       dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.roles");
       dialogRef.componentInstance.titlesTable=[''];
+      dialogRef.componentInstance.currentData=[data];
       dialogRef.componentInstance.nonEditable=false;
       
   
@@ -836,6 +837,7 @@ export class ApplicationFormComponent implements OnInit {
     dialogRef.componentInstance.themeGrid=this.themeGrid;
     dialogRef.componentInstance.title = this.utils.getTranslate("applicationEntity.background");
     dialogRef.componentInstance.titlesTable=[''];
+    dialogRef.componentInstance.currentData=[data];
     dialogRef.componentInstance.nonEditable=false;
     
 
@@ -889,6 +891,7 @@ export class ApplicationFormComponent implements OnInit {
       dialogRef.componentInstance.themeGrid=this.themeGrid;
       dialogRef.componentInstance.title=this.utils.getTranslate("applicationEntity.tree");
       dialogRef.componentInstance.titlesTable=[''];
+      dialogRef.componentInstance.currentData=[data];
       dialogRef.componentInstance.nonEditable=false;
       
   

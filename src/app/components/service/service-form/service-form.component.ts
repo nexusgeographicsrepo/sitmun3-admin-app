@@ -296,7 +296,6 @@ export class ServiceFormComponent implements OnInit {
   }
 
   changeServiceDataByCapabilities(refresh?){
-  
     let data=this.serviceCapabilitiesData.WMT_MS_Capabilities!=undefined?this.serviceCapabilitiesData.WMT_MS_Capabilities:this.serviceCapabilitiesData.WMS_Capabilities
     if (data!=undefined ){
       if(data.Capability && data.Capability.Layer.SRS !== null && data.Capability.Layer.SRS !== undefined) {
@@ -305,8 +304,12 @@ export class ServiceFormComponent implements OnInit {
           this.projections.push(projection);
         });
       }
-      if(data.Capability.Layer.Layer.length>0){
-        data.Capability.Layer.Layer.forEach(lyr => {
+      let capability = data.Capability.Layer;
+      while(capability.Layer != null && capability.Layer != undefined){
+        capability=capability.Layer;
+      }
+      if(capability.length>0){
+        capability.forEach(lyr => {
           let layersLyr;
           if(Array.isArray(lyr.Name)){
             layersLyr=lyr.Name;
@@ -321,11 +324,13 @@ export class ServiceFormComponent implements OnInit {
           cartography.layers=layersLyr;
           if(lyr){
             if(lyr.MetadataURL!=undefined){
-              cartography.metadataURL=lyr.MetadataURL[0].OnlineResource['xlink:href']
+              let metadataURL= Array.isArray(lyr.MetadataURL)?lyr.MetadataURL[0]:lyr.MetadataURL
+              cartography.metadataURL=metadataURL.OnlineResource['xlink:href']
             }
   
             if(lyr.Style && lyr.Style[0] && lyr.Style[0].LEGENDURL!=undefined){
-              cartography.legendURL=lyr.STYLE[0].legendURL.OnlineResource['xlink:href']
+              let style= Array.isArray(lyr.STYLE)?lyr.STYLE[0]:lyr.STYLE
+              cartography.legendURL=style.legendURL.OnlineResource['xlink:href']
             }
           }
 
@@ -335,6 +340,33 @@ export class ServiceFormComponent implements OnInit {
       if(data.Service && data.Service.Abstract && data.Service.Abstract.length>0){
         let auxDescription;
         if(Array.isArray(data.Service.Abstract)){
+          console.log(data.Service.Abstract)
+          let translationsModified = false;
+          const languages= localStorage.getItem('languages')
+          // for(let i=0; i<data.Service.Abstract.length; i++){
+            data.Service.Abstract.forEach(translation => {
+              let languageShortname: string = translation['xml:lang']
+              let index = languageShortname.indexOf("-");
+              if(index != -1){
+                languageShortname= languageShortname.substring(0,index);
+              } 
+              if(languageShortname == config.defaultLang){
+                auxDescription=translation.content;
+              }
+              else{
+                if((this.translationMap.has(languageShortname))){
+                  let currentTranslation =  this.translationMap.get(languageShortname);
+                  let translationReduced = translation.content.substring(0,250);
+                  if (currentTranslation.translation != translationReduced){
+                    currentTranslation.translation = translationReduced; 
+                    this.translationsModified = true;
+                  }
+                }
+              }
+
+            });
+
+
           auxDescription =data.Service.Abstract.find(element => element['xml:lang'].includes(config.defaultLang));
           if(!auxDescription) { auxDescription=data.Service.Abstract[0].content }
         }

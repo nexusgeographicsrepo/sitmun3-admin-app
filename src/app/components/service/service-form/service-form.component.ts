@@ -308,8 +308,10 @@ export class ServiceFormComponent implements OnInit {
       while(capability.Layer != null && capability.Layer != undefined){
         capability=capability.Layer;
       }
-      if(capability.length>0){
-        capability.forEach(lyr => {
+      let layersTable= [];
+      this.getLayersCapabilities(capability,layersTable);
+      if(layersTable.length>0){
+        layersTable.forEach(lyr => {
           let layersLyr;
           if(Array.isArray(lyr.Name)){
             layersLyr=lyr.Name;
@@ -341,8 +343,6 @@ export class ServiceFormComponent implements OnInit {
         let auxDescription;
         if(Array.isArray(data.Service.Abstract)){
           console.log(data.Service.Abstract)
-          let translationsModified = false;
-          const languages= localStorage.getItem('languages')
           // for(let i=0; i<data.Service.Abstract.length; i++){
             data.Service.Abstract.forEach(translation => {
               let languageShortname: string = translation['xml:lang']
@@ -384,6 +384,23 @@ export class ServiceFormComponent implements OnInit {
 
     this.capabilitiesLoaded=true;
     if(refresh){this.dataUpdatedEventLayers.next(true) }
+  }
+
+  private getLayersCapabilities(lyrTable, tableToSave){
+    if(Array.isArray(lyrTable)){
+      lyrTable.forEach(layer => {
+        if(layer.Layer != null && layer.Layer != undefined){
+          this.getLayersCapabilities(layer.Layer, tableToSave)
+        }
+        else{
+          tableToSave.push(layer);
+        }
+      });
+    }
+    else{
+      tableToSave.push(lyrTable);
+    }
+
   }
 
   async onTranslationButtonClicked()
@@ -529,11 +546,7 @@ export class ServiceFormComponent implements OnInit {
           capabilityLayer.status="unregisteredLayer"
           finalCartographies.push(capabilityLayer);
       })
-
-
-
       return of(finalCartographies);
-
     }
 
   }
@@ -639,9 +652,6 @@ export class ServiceFormComponent implements OnInit {
   }
 
    onSaveButtonClicked(){
-    // this.serviceForm.patchValue({
-    //   supportedSRS: this.projections.join(';')
-    // })
     if(this.serviceForm.valid)
     {
 
@@ -654,7 +664,7 @@ export class ServiceFormComponent implements OnInit {
       this.serviceForm.patchValue({
         supportedSRS: this.projections
       })
-    console.log(this.serviceForm.value);
+      console.log(this.serviceForm.value);
       this.serviceService.save(this.serviceForm.value)
       .subscribe(async resp => {
         console.log(resp);
@@ -677,12 +687,6 @@ export class ServiceFormComponent implements OnInit {
   	else{
       this.utils.showRequiredFieldsError();
     }
-
-
-
   }
-
-
-
 
 }

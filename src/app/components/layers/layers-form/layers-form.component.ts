@@ -54,28 +54,28 @@ export class LayersFormComponent implements OnInit {
   //Grids
   themeGrid: any = config.agGridTheme;
   columnDefsParameters: any[];
-  getAllElementsEventParameters: Subject<boolean> = new Subject<boolean>();
+  getAllElementsEventParameters: Subject<string> = new Subject<string>();
   dataUpdatedEventParameters: Subject<boolean> = new Subject<boolean>();
 
   columnDefsSpatialConfigurations: any[];
-  getAllElementsEventSpatialConfigurations: Subject<boolean> = new Subject<boolean>();
+  getAllElementsEventSpatialConfigurations: Subject<string> = new Subject<string>();
   dataUpdatedEventSpatialConfigurations: Subject<boolean> = new Subject<boolean>();
 
   columnDefsTerritorialFilter: any[];
-  getAllElementsTerritorialFilter: Subject<boolean> = new Subject<boolean>();
+  getAllElementsTerritorialFilter: Subject<string> = new Subject<string>();
   dataUpdatedEventTerritorialFilter: Subject<boolean> = new Subject<boolean>();
 
 
   columnDefsTerritories: any[];
-  getAllElementsEventTerritories: Subject<boolean> = new Subject<boolean>();
+  getAllElementsEventTerritories: Subject<string> = new Subject<string>();
   dataUpdatedEventTerritories: Subject<boolean> = new Subject<boolean>();
 
   columnDefsLayersConfiguration: any[];
-  getAllElementsEventLayersConfigurations: Subject<boolean> = new Subject<boolean>();
+  getAllElementsEventLayersConfigurations: Subject<string> = new Subject<string>();
   dataUpdatedEventLayersConfiguration: Subject<boolean> = new Subject<boolean>();
 
   columnDefsNodes: any[];
-  getAllElementsEventNodes: Subject<boolean> = new Subject<boolean>();
+  getAllElementsEventNodes: Subject<string> = new Subject<string>();
   dataUpdatedEventNodes: Subject<boolean> = new Subject<boolean>();
 
 
@@ -664,7 +664,14 @@ export class LayersFormComponent implements OnInit {
       ));
 
   }
-  getAllRowsParameters(data: any[], parameterApplyFilterToGetMap: boolean) {
+
+  getAllRowsParameters(event, parameterApplyFilterToGetMap: boolean){
+    if(event.event == "save"){
+      this.saveParameters(event.data, parameterApplyFilterToGetMap);
+    }
+  }
+
+  saveParameters(data: any[], parameterApplyFilterToGetMap: boolean) {
     console.log(data);
     let parameterToSave = [];
     let parameterToDelete = [];
@@ -777,7 +784,14 @@ export class LayersFormComponent implements OnInit {
       .pipe(map(data => data['_embedded']['cartography-filters']));
 
   }
-  getAllRowsTerritorialFilters(data: any[]) {
+
+  getAllRowsTerritorialFilters(event){
+    if(event.event == "save"){
+      this.saveTerritorialFilters(event.data);
+    }
+  }
+
+  saveTerritorialFilters(data: any[]) {
     console.log(data);
     let territorialFilterToSave = [];
     let territorialFilterToDelete = [];
@@ -848,9 +862,13 @@ export class LayersFormComponent implements OnInit {
 
   }
 
-  getAllRowsTerritories(data: any[]) {
-    let territoriesToCreate = [];
-    let territoriesToDelete = [];
+  getAllRowsTerritories(event){
+    if(event.event == "save"){
+      this.saveTerritories(event.data);
+    }
+  }
+
+  saveTerritories(data: any[]) {
     const promises: Promise<any>[] = [];
     data.forEach(territory => {
       territory.cartography = this.layerToEdit;
@@ -928,9 +946,13 @@ export class LayersFormComponent implements OnInit {
       .pipe(map(data => data['_embedded']['cartography-groups']));
   }
 
+  getAllRowsLayersConfiguration(event){
+    if(event.event == "save"){
+      this.saveLayersConfiguration(event.data);
+    }
+  }
 
-
-  getAllRowsLayersConfiguration(data: any[]) {
+  saveLayersConfiguration(data: any[]) {
     let dataChanged = false;
     const promises: Promise<any>[] = [];
     let layersConfigurationToPut = [];
@@ -980,10 +1002,15 @@ export class LayersFormComponent implements OnInit {
       .pipe(map(data => data['_embedded']['tree-nodes']));
   }
 
-  getAllRowsNodes(data: any[]) {
+  getAllRowsNodes(event){
+    if(event.event == "save"){
+      this.saveNodes(event.data);
+    }
+  }
 
-    let nodesToPut = [];
-    let nodesToDelete = [];
+
+  saveNodes(data: any[]) {
+
     const promises: Promise<any>[] = [];
     data.forEach(node => {
      
@@ -1332,49 +1359,15 @@ export class LayersFormComponent implements OnInit {
             id: resp.id,
             _links: resp._links
           })
-
-
-          // if(!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection){
-          //   if(this.parameteApplyFilterToGetMap != null)
-          //   {
-          //     this.parameteApplyFilterToGetMap.status="pendingDelete"       
-          //     this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)   
-          //     this.layerForm.patchValue({
-          //       applyFilterToGetMap: null
-          //     })
-          //     this.parameteApplyFilterToGetMap = null;
-          //   }
-          // }
-          // else{
-          //   if(this.parameteApplyFilterToGetMap != null)
-          //   {
-          //     this.parameteApplyFilterToGetMap.value=this.layerForm.value.applyFilterToGetMap
-          //     this.parameteApplyFilterToGetMap.status="pendingModify"           
-          //     this.getAllRowsParameters([this.parameteApplyFilterToGetMap],true)  
-          //   }
-          //   else{
-          //     let item = {
-          //       id: null,
-          //       name: "FILTRO",
-          //       type: "FILTRO",
-          //       order: 0,
-          //       format: null,
-          //       status: "pendingCreation",
-          //       value: this.layerForm.value.applyFilterToGetMap
-          //     }
-          //     this.getAllRowsParameters([item],true)   
-          //   }
-          // }
-
           this.firstSaveDone=true;
           this.utils.saveTranslation(resp.id, this.translationMap, this.layerToEdit.description, this.translationsModified);
           this.translationsModified = false;
 
-          this.getAllElementsEventParameters.next(true);
-          this.getAllElementsEventSpatialConfigurations.next(true);
-          this.getAllElementsTerritorialFilter.next(true);
-          this.getAllElementsEventTerritories.next(true);
-          this.getAllElementsEventLayersConfigurations.next(true);
+          this.getAllElementsEventParameters.next('save');
+          this.getAllElementsEventSpatialConfigurations.next('save');
+          this.getAllElementsTerritorialFilter.next('save');
+          this.getAllElementsEventTerritories.next('save');
+          this.getAllElementsEventLayersConfigurations.next('save');
           // this.getAllElementsEventNodes.next(true);
           this.dataUpdatedEventNodes.next(true);
 

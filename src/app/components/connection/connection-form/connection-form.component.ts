@@ -37,7 +37,7 @@ export class ConnectionFormComponent implements OnInit {
   getAllElementsEventCartographies: Subject<boolean> = new Subject<boolean>();
 
   columnDefsTasks: any[];
-  getAllElementsEventTasks: Subject<boolean> = new Subject<boolean>();
+  getAllElementsEventTasks: Subject<string> = new Subject<string>();
   dataUpdatedEventTasks: Subject<boolean> = new Subject<boolean>();
   //Dialog
   columnDefsCartographiesDialog: any[];
@@ -237,8 +237,14 @@ export class ConnectionFormComponent implements OnInit {
 
   }
 
+  getAllRowsTasks(event){
+    if(event.event == "save"){
+      this.saveTasks(event.data);
+    }
+  }
 
-  getAllRowsTasks(data: any[]) {
+
+  saveTasks(data: any[]) {
     let dataChanged = false;
     let tasksToPut = [];
     const promises: Promise<any>[] = [];
@@ -364,7 +370,7 @@ export class ConnectionFormComponent implements OnInit {
             _links: result._links
           })
           //this.getAllElementsEventCartographies.next(true);
-          this.getAllElementsEventTasks.next(true);
+          this.getAllElementsEventTasks.next('save');
         },
         error => {
           console.log(error);

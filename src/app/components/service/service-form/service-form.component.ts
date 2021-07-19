@@ -47,11 +47,11 @@ export class ServiceFormComponent implements OnInit {
   //Grids
   themeGrid: any = config.agGridTheme;
   columnDefsParameters: any[];
-  getAllElementsEventParameters: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventParameters: Subject<string> = new Subject <string>();
   dataUpdatedEventParameters: Subject<boolean> = new Subject<boolean>();
 
   columnDefsLayers: any[];
-  getAllElementsEventLayers: Subject<boolean> = new Subject <boolean>();
+  getAllElementsEventLayers: Subject<string> = new Subject <string>();
   dataUpdatedEventLayers: Subject<boolean> = new Subject<boolean>();
 
   //Dialogs
@@ -386,9 +386,14 @@ export class ServiceFormComponent implements OnInit {
       .pipe(map(data => data[`_embedded`][`service-parameters`]));
   }
 
+  getAllRowsParameters(event){
+    if(event.event == "save"){
+      this.saveParameters(event.data);
+    }
+  }
 
 
-  getAllRowsParameters(data: any[] )
+  saveParameters(data: any[] )
   {
     let parameterToSave = [];
     let parameterToDelete = [];
@@ -502,9 +507,13 @@ export class ServiceFormComponent implements OnInit {
   }
 
 
+  getAllRowsLayers(event){
+    if(event.event == "save"){
+      this.saveLayers(event.data);
+    }
+  }
 
-
-  getAllRowsLayers(data: any[] )
+  saveLayers(data: any[] )
   {
     const promises: Promise<any>[] = [];
     data.forEach(cartography => {
@@ -626,8 +635,8 @@ export class ServiceFormComponent implements OnInit {
 
         this.utils.saveTranslation(resp.id, this.translationMap, this.serviceToEdit.description, this.translationsModified);
         this.translationsModified = false;
-        this.getAllElementsEventParameters.next(true);
-        this.getAllElementsEventLayers.next(true);
+        this.getAllElementsEventParameters.next('save');
+        this.getAllElementsEventLayers.next('save');
       },
       error=> {
         console.log(error);

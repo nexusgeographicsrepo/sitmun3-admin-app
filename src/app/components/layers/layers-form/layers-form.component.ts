@@ -665,6 +665,8 @@ export class LayersFormComponent implements OnInit {
       width: new FormControl(null, []),
       height: new FormControl(null, []),
       url: new FormControl(null, []),
+      defaultStyle: new FormControl(null, []),
+      
     })
   }
 
@@ -842,7 +844,8 @@ export class LayersFormComponent implements OnInit {
 
   saveStyles(data: any[]) {
     console.log(data);
-    let index = data.findIndex(element => element.status === 'pendingModify' && element.defaultStyle);
+    let index = data.findIndex(element => (element.status === 'pendingModify' ||
+     element.status === 'pendingCreation') && element.defaultStyle);
     let styleToModifyTheLast = null;
     if(index != -1){
       styleToModifyTheLast=data[index];
@@ -852,8 +855,8 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(style => {
       if (style.status === 'pendingCreation' || style.status === 'pendingModify') {
+        style.cartography = this.layerToEdit; 
         if(style.status === 'pendingCreation'  || style.new) {
-          style.cartography = this.layerToEdit; 
           style._links = null;
           style.id = null;
         }
@@ -879,8 +882,8 @@ export class LayersFormComponent implements OnInit {
         this.dataUpdatedEventStyles.next(true);
       }
       else{
+        styleToModifyTheLast.cartography = this.layerToEdit; 
         if(styleToModifyTheLast.new){
-          styleToModifyTheLast.cartography = this.layerToEdit; 
           styleToModifyTheLast._links = null;
           styleToModifyTheLast.id = null;
           if(styleToModifyTheLast.format)
@@ -1345,7 +1348,7 @@ export class LayersFormComponent implements OnInit {
         onlineResource: style.url,
         format: style.format
       }
-      style.defaultStyle = false;
+      style.defaultStyle = style.defaultStyle?true:false;
       delete style.width;
       delete style.height;
       delete style.url;

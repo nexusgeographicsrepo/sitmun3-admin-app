@@ -2,14 +2,14 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory, CartographyGroup, CartographyAvailabilityService, CartographyParameterService, HalParam, HalOptions, Cartography, TreeNode, TranslationService, Translation } from 'dist/sitmun-frontend-core/';
+import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory, CartographyGroup, CartographyAvailabilityService, CartographyParameterService, HalParam, HalOptions, Cartography, TreeNode, TranslationService, Translation, CartographyStyleService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { config } from 'src/config';
-import { DialogFormComponent, DialogGridComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogFormComponent, DialogGridComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import { iterateExtend } from '@syncfusion/ej2-angular-grids';
 
@@ -65,6 +65,10 @@ export class LayersFormComponent implements OnInit {
   getAllElementsTerritorialFilter: Subject<string> = new Subject<string>();
   dataUpdatedEventTerritorialFilter: Subject<boolean> = new Subject<boolean>();
 
+  columnDefsStyles: any[];
+  getAllElementsEventStyles: Subject<string> = new Subject<string>();
+  dataUpdatedEventStyles: Subject<boolean> = new Subject<boolean>();
+
 
   columnDefsTerritories: any[];
   getAllElementsEventTerritories: Subject<string> = new Subject<string>();
@@ -82,6 +86,7 @@ export class LayersFormComponent implements OnInit {
   //Dialog
   columnDefsParametersDialog: any[];
   public parameterForm: FormGroup;
+  public styleForm: FormGroup;
   addElementsEventParameters: Subject<any[]> = new Subject<any[]>();
   @ViewChild('newParameterDialog', {
     static: true
@@ -95,6 +100,10 @@ export class LayersFormComponent implements OnInit {
     static: true
   }) private newTerritorialFilterDialog: TemplateRef<any>;
 
+  @ViewChild('newStyleDialog', {
+    static: true
+  }) private newStyleDialog: TemplateRef<any>;
+
   columnDefsCartographyGroupsDialog: any[];
   addElementsEventCartographyGroups: Subject<any[]> = new Subject<any[]>();
 
@@ -102,6 +111,9 @@ export class LayersFormComponent implements OnInit {
 
   public territorialFilterForm: FormGroup;
   addElementsTerritorialFilter: Subject<any[]> = new Subject<any[]>();
+
+  public stylesForm: FormGroup;
+  addElementsEventStyles: Subject<any[]> = new Subject<any[]>();
 
   columnDefsTerritoriesDialog: any[];
   addElementsEventTerritories: Subject<any[]> = new Subject<any[]>();
@@ -120,6 +132,7 @@ export class LayersFormComponent implements OnInit {
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
     private cartographyParameterService: CartographyParameterService,
+    private cartographyStyleService: CartographyStyleService,
     private cartographyFilterService: CartographyFilterService,
     private treeNodeService: TreeNodeService,
     private territoryService: TerritoryService,
@@ -129,6 +142,7 @@ export class LayersFormComponent implements OnInit {
   ) {
     this.initializeLayersForm();
     this.initializeParameterForm();
+    this.initializeStyleForm();
     this.initializeTerritorialFilterForm();
 
   }
@@ -453,7 +467,6 @@ export class LayersFormComponent implements OnInit {
       this.utils.getEditableColumnDef('layersEntity.column', 'name'),
       this.utils.getEditableColumnDef('layersEntity.label', 'value'),
       // this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
-      
       this.utils.getSelectColumnDef('layersEntity.format', 'format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
       this.utils.getEditableColumnDef('layersEntity.order', 'order'),
       this.utils.getSelectColumnDef('layersEntity.type', 'type',true,this.parameterTypesDescription),
@@ -477,6 +490,21 @@ export class LayersFormComponent implements OnInit {
       this.utils.getEditableColumnDef('layersEntity.type', 'type'),
       this.utils.getEditableColumnDef('layersEntity.valueType', 'valueType'),
       this.utils.getEditableColumnDef('layersEntity.column', 'column'),
+      this.utils.getStatusColumnDef()
+    ];
+
+    this.columnDefsStyles = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getEditableColumnDef('layersEntity.name', 'name'),
+      this.utils.getEditableColumnDef('layersEntity.title', 'title'),
+      this.utils.getEditableColumnDef('layersEntity.description', 'description'),
+      this.utils.getSelectColumnDef('layersEntity.format', 'legendURL.format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
+      // this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
+      // this.utils.getSelectColumnDef('layersEntity.format', 'format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
+      this.utils.getEditableColumnDef('layersEntity.width', 'legendURL.width'),
+      this.utils.getEditableColumnDef('layersEntity.height', 'legendURL.height'),
+      this.utils.getEditableColumnDef('layersEntity.url', 'legendURL.onlineResource'),
+      this.utils.getBooleanColumnDef('layersEntity.defaultStyle', 'defaultStyle', true),
       this.utils.getStatusColumnDef()
     ];
 
@@ -628,6 +656,18 @@ export class LayersFormComponent implements OnInit {
     })
   }
 
+  initializeStyleForm(): void {
+    this.styleForm = new FormGroup({
+      name: new FormControl(null, [Validators.required]),
+      title: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, []),
+      format: new FormControl(null, []),
+      width: new FormControl(null, []),
+      height: new FormControl(null, []),
+      url: new FormControl(null, []),
+    })
+  }
+
 
   initializeTerritorialFilterForm(): void {
     this.territorialFilterForm = new FormGroup({
@@ -764,6 +804,114 @@ export class LayersFormComponent implements OnInit {
       ));
 
   }
+
+  
+  // ******** Styles ******** //
+
+  getAllStyles = () => {
+
+    if (this.layerID == -1 && this.duplicateID == -1) 
+    {
+      const aux: Array<any> = [];
+      return of(aux);
+    }
+
+    var urlReq = `${this.layerToEdit._links.styles.href}`
+    if (this.layerToEdit._links.styles.templated) {
+      var url = new URL(urlReq.split("{")[0]);
+      url.searchParams.append("projection", "view")
+      urlReq = url.toString();
+    }
+   
+    return (this.http.get(urlReq))
+       .pipe(map(data => data['_embedded']['cartography-styles']));
+
+  }
+
+  getAllRowsStyles(event){
+    if(event.event == "save"){
+      let stylesByDefault = event.data.filter(d => d.defaultStyle).length;
+      if(stylesByDefault > 1){
+        this.showStylesError();
+      }
+      else{
+        this.saveStyles(event.data)
+      }
+    }
+  }
+
+  saveStyles(data: any[]) {
+    console.log(data);
+    let index = data.findIndex(element => element.status === 'pendingModify' && element.defaultStyle);
+    let styleToModifyTheLast = null;
+    if(index != -1){
+      styleToModifyTheLast=data[index];
+      data.splice(index, 1)
+
+    }
+    const promises: Promise<any>[] = [];
+    data.forEach(style => {
+      if (style.status === 'pendingCreation' || style.status === 'pendingModify') {
+        if(style.status === 'pendingCreation'  || style.new) {
+          style.cartography = this.layerToEdit; 
+          style._links = null;
+          style.id = null;
+        }
+        if(style.status === 'pendingModify'){
+
+          if(style.format)
+          {
+            let currentFormat = this.parameterFormatTypes.find(element => element.description == style.format);
+            if(currentFormat) { style.format= currentFormat.value }
+          }
+  
+        }
+        promises.push(new Promise((resolve, reject) => { this.cartographyStyleService.save(style).subscribe((resp) => { resolve(true) }) }));
+      }
+      if (style.status === 'pendingDelete' && style._links && !style.new ) {
+        promises.push(new Promise((resolve, reject) => { this.cartographyStyleService.remove(style).subscribe((resp) => { resolve(true) }) }));
+
+        }
+    });
+
+    Promise.all(promises).then(() => {
+      if(index == -1){
+        this.dataUpdatedEventStyles.next(true);
+      }
+      else{
+        if(styleToModifyTheLast.new){
+          styleToModifyTheLast.cartography = this.layerToEdit; 
+          styleToModifyTheLast._links = null;
+          styleToModifyTheLast.id = null;
+          if(styleToModifyTheLast.format)
+          {
+            let currentFormat = this.parameterFormatTypes.find(element => element.description == styleToModifyTheLast.format);
+            if(currentFormat) { styleToModifyTheLast.format= currentFormat.value }
+          }
+        }
+        this.cartographyStyleService.save(styleToModifyTheLast).subscribe((resp) => {
+          this.dataUpdatedEventStyles.next(true);
+        })
+      }
+    });
+
+
+  }
+
+  duplicateStyles(data) {
+    let stylesToDuplicate = []
+    data.forEach(style => {
+      let newStyle = { ...style };
+      newStyle.name = this.utils.getTranslate('copy_').concat(newStyle.name),
+      newStyle.id = null;
+      newStyle._links = null;
+      stylesToDuplicate.push(newStyle);
+    });
+
+    this.addElementsEventParameters.next(stylesToDuplicate);
+
+  }
+
 
 
   // ******** Territorial Filters  ******** //
@@ -1159,6 +1307,54 @@ export class LayersFormComponent implements OnInit {
   }
 
 
+  // ******** Style Dialog  ******** //
+
+  openStylesDialog(data: any) {
+
+
+
+    this.styleForm.patchValue({
+      format: this.parameterFormatTypes[0].value
+    })
+    const dialogRef = this.dialog.open(DialogFormComponent);
+    dialogRef.componentInstance.HTMLReceived = this.newStyleDialog;
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.style');
+    dialogRef.componentInstance.form = this.styleForm;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          
+          let item = this.styleForm.value;
+          this.addElementsEventStyles.next([this.adaptCreatedStyle(item)])
+          console.log(this.parameterForm.value)
+          this.styleForm.reset();
+        }
+      }
+      this.styleForm.reset();
+    });
+
+  }
+
+  private adaptCreatedStyle(style){
+      style.legendURL = {
+        width: style.width,
+        height: style.height,
+        onlineResource: style.url,
+        format: style.format
+      }
+      style.defaultStyle = false;
+      delete style.width;
+      delete style.height;
+      delete style.url;
+      delete style.format;
+  
+      return style
+  
+  }
+
   // ******** Territory Dialog  ******** //
 
   getAllTerritoriesDialog = () => {
@@ -1368,6 +1564,7 @@ export class LayersFormComponent implements OnInit {
           this.getAllElementsTerritorialFilter.next('save');
           this.getAllElementsEventTerritories.next('save');
           this.getAllElementsEventLayersConfigurations.next('save');
+          this.getAllElementsEventStyles.next('save');
           // this.getAllElementsEventNodes.next(true);
           this.dataUpdatedEventNodes.next(true);
 
@@ -1379,4 +1576,14 @@ export class LayersFormComponent implements OnInit {
     }
 
   }
+
+
+  showStylesError() {
+    const dialogRef = this.dialog.open(DialogMessageComponent);
+    dialogRef.componentInstance.title = "Error"
+    dialogRef.componentInstance.message = this.utils.getTranslate("errorMoreThanOneStyleByDefault")
+    dialogRef.componentInstance.hideCancelButton = true;
+    dialogRef.afterClosed().subscribe();
+  }
+
 }

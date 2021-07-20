@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService, CartographyService, Translation, TranslationService, Connection, Cartography, ServiceParameterService, CapabilitiesService } from 'dist/sitmun-frontend-core/';
+import { ServiceService, CartographyService, Translation, TranslationService, Connection, Cartography, ServiceParameterService, CapabilitiesService, CartographyStyleService, CartographyFilterService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -80,6 +80,7 @@ export class ServiceFormComponent implements OnInit {
     public dialog: MatDialog,
     public cartographyService: CartographyService,
     public serviceParameterService: ServiceParameterService,
+    public cartographyStyleService: CartographyStyleService,
     public capabilitiesService: CapabilitiesService
 
   ) {
@@ -313,10 +314,12 @@ export class ServiceFormComponent implements OnInit {
       if(layersTable.length>0){
         layersTable.forEach(lyr => {
           let layersLyr;
+          let styles = [];
           if(Array.isArray(lyr.Name)){
             layersLyr=lyr.Name;
           }
           else{
+            if(!isNaN(lyr.Name)) { lyr.Name=lyr.Name.toString() }
             layersLyr=lyr.Name.split(",");
           }
           if(!layersLyr) { layersLyr = [] }
@@ -324,6 +327,17 @@ export class ServiceFormComponent implements OnInit {
           cartography.name= lyr.Title;
           cartography.description=lyr.Abstract;
           cartography.layers=layersLyr;
+          if(lyr.Style){
+            if(Array.isArray(lyr.Style)) {
+               lyr.Style[0].defaultStyle=true;
+               styles.push(...lyr.Style)
+              }
+            else {
+               lyr.Style.defaultStyle=true 
+               styles.push(lyr.Style)
+              }
+            cartography.styles= styles;
+          }
           if(lyr){
             if(lyr.MetadataURL!=undefined){
               let metadataURL= Array.isArray(lyr.MetadataURL)?lyr.MetadataURL[0]:lyr.MetadataURL
@@ -561,6 +575,7 @@ export class ServiceFormComponent implements OnInit {
   saveLayers(data: any[] )
   {
     const promises: Promise<any>[] = [];
+    const promisesStyles: Promise<any>[] = [];
     data.forEach(cartography => {
         if (cartography.status === 'notAvailable' && !cartography.blocked) {
           cartography.blocked=true;
@@ -571,7 +586,44 @@ export class ServiceFormComponent implements OnInit {
           cartography.blocked= false;
           cartography.queryableFeatureAvailable= false;
           cartography.queryableFeatureEnabled= false;
-          promises.push(new Promise((resolve, reject) => { this.cartographyService.save(cartography).subscribe((resp) => { resolve(true) }) }));
+          let styles = cartography.styles;
+          delete cartography.styles;
+          promises.push(new Promise((resolve, reject) => {
+             this.cartographyService.save(cartography).subscribe((resp) => {
+               if(styles && styles.length>0){
+                 styles.forEach(style => {
+                   console.log(styles)
+                   style.cartography=resp;
+                   if(style.Name){
+                    style.name=style.Name;
+                    delete style.Name;
+                   }
+
+                   if(style.Abstract){
+                    style.description=style.Abstract;
+                    delete style.Abstract;
+                   }
+
+                   if(style.Title){
+                    style.title=style.Title
+                    delete style.Title;
+                   }
+                   if(style.LegendURL){
+                    style.legendURL= {
+                      format: style.LegendURL.Format,
+                      // onlineResource: style.LegendURL.OnlineResource,
+                      height: style.LegendURL.height,
+                      width: style.LegendURL.width
+                    }
+                    delete style.LegendURL.OnlineResource;
+                   }
+
+                   promisesStyles.push(new Promise((resolve, reject) => { this.cartographyStyleService.save(style).subscribe((resp) => { resolve(true) }) }));
+                 });
+               }
+                resolve(true) 
+              }) 
+            }));
         }
         
         // layersToPut.push(cartography._links.self.href)
@@ -579,10 +631,9 @@ export class ServiceFormComponent implements OnInit {
     });
 
     Promise.all(promises).then(() => {
-        this.dataUpdatedEventLayers.next(true)
-        // let url=this.serviceToEdit._links.layers.href.split('{', 1)[0];
-        // this.utils.updateUriList(url,layersToPut, this.dataUpdatedEventLayers)
-
+        Promise.all(promisesStyles).then(() => {
+          this.dataUpdatedEventLayers.next(true)
+        })
     });
   }
 

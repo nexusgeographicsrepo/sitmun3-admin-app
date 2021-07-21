@@ -153,7 +153,7 @@
     </div>
 
     <div class="rowFormDiv">
-      <div class="colFormDiv">
+      <div class="colFormDivTwoSelectors">
         <label class="formLabel">
           {{'layersEntity.description' | translate}}
         </label>
@@ -163,11 +163,18 @@
         </mat-form-field>
       </div>
 
-      <div class="colFormDiv">
+      <div class="HalfMidLargeColFormDiv">
         <label class="formLabel">
           {{'layersEntity.available' | translate}}
         </label>
         <mat-checkbox formControlName="blocked"> </mat-checkbox>
+      </div>
+
+      <div class="HalfMidLargeColFormDiv">
+        <label class="formLabel">
+          {{'layersEntity.useAllStyles' | translate}}
+        </label>
+        <mat-checkbox formControlName="useAllStyles"> </mat-checkbox>
       </div>
     </div>
 
@@ -770,8 +777,18 @@
           </mat-form-field>
         </div>
 
-        
+
         <div class="colFormDiv">
+          <label class="formLabel">
+            {{'layersEntity.format' | translate}}
+          </label>
+          <mat-form-field appearance="outline">
+            <input matInput type="text" formControlName="format">
+          </mat-form-field>
+        </div>
+
+        
+        <!-- <div class="colFormDiv">
           <label class="formLabel ">
             {{'layersEntity.format' | translate}}
           </label>
@@ -782,7 +799,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
 
 
       </div>

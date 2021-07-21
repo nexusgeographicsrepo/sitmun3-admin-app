@@ -319,6 +319,7 @@ export class LayersFormComponent implements OnInit {
                 spatialSelectionService: this.layerToEdit.spatialSelectionServiceId,
                 selectableLayers: selectableLayers,
                 spatialSelectionConnection: "",
+                useAllStyles: this.layerToEdit.useAllStyles,
                 _links: this.layerToEdit._links
               });
 
@@ -443,6 +444,7 @@ export class LayersFormComponent implements OnInit {
             geometryType: this.geometryTypes[0].value,
             legendType: this.legendTypes[0].value,
             queryableFeatureEnabled: false,
+            useAllStyles: false,
           })
           this.layerForm.get('geometryType').disable();
           // this.layerForm.get('applyFilterToGetMap').disable();
@@ -498,7 +500,8 @@ export class LayersFormComponent implements OnInit {
       this.utils.getEditableColumnDef('layersEntity.name', 'name'),
       this.utils.getEditableColumnDef('layersEntity.title', 'title'),
       this.utils.getEditableColumnDef('layersEntity.description', 'description'),
-      this.utils.getSelectColumnDef('layersEntity.format', 'legendURL.format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
+      this.utils.getEditableColumnDef('layersEntity.format', 'legendURL.format'),
+      // this.utils.getSelectColumnDef('layersEntity.format', 'legendURL.format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
       // this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
       // this.utils.getSelectColumnDef('layersEntity.format', 'format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
       this.utils.getEditableColumnDef('layersEntity.width', 'legendURL.width'),
@@ -641,6 +644,7 @@ export class LayersFormComponent implements OnInit {
       spatialSelectionService: new FormControl(null, [Validators.required]),
       selectableLayers: new FormControl(null, [Validators.required]),
       spatialSelectionConnection: new FormControl(null, []),
+      useAllStyles: new FormControl(null, []),
       _links: new FormControl(null, []),
     });
   }
@@ -855,7 +859,9 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(style => {
       if (style.status === 'pendingCreation' || style.status === 'pendingModify') {
-        style.cartography = this.layerToEdit; 
+        if(! style._links){
+          style.cartography = this.layerToEdit; 
+        }
         if(style.status === 'pendingCreation'  || style.new) {
           style._links = null;
           style.id = null;
@@ -882,7 +888,10 @@ export class LayersFormComponent implements OnInit {
         this.dataUpdatedEventStyles.next(true);
       }
       else{
-        styleToModifyTheLast.cartography = this.layerToEdit; 
+        if(! styleToModifyTheLast._links){
+          styleToModifyTheLast.cartography = this.layerToEdit; 
+        }
+
         if(styleToModifyTheLast.new){
           styleToModifyTheLast._links = null;
           styleToModifyTheLast.id = null;
@@ -1316,9 +1325,9 @@ export class LayersFormComponent implements OnInit {
 
 
 
-    this.styleForm.patchValue({
-      format: this.parameterFormatTypes[0].value
-    })
+    // this.styleForm.patchValue({
+    //   format: this.parameterFormatTypes[0].value
+    // })
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived = this.newStyleDialog;
     dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.style');
@@ -1534,6 +1543,7 @@ export class LayersFormComponent implements OnInit {
       cartography.applyFilterToGetFeatureInfo= (this.layerForm.value.applyFilterToGetFeatureInfo == null)? false:this.layerForm.value.applyFilterToGetFeatureInfo ;
       cartography.applyFilterToSpatialSelection= (this.layerForm.value.applyFilterToSpatialSelection == null)? false:this.layerForm.value.applyFilterToSpatialSelection ;
       cartography.queryableFeatureEnabled = this.layerForm.value.queryableFeatureEnabled;
+      cartography.useAllStyles = this.layerForm.value.useAllStyles; 
 
       if(cartography.queryableFeatureAvailable == null) { cartography.queryableFeatureAvailable = false }
       else {cartography.queryableFeatureAvailable = this.layerForm.value.queryableFeatureAvailable };//

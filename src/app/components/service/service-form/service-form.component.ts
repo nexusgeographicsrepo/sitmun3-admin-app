@@ -329,11 +329,9 @@ export class ServiceFormComponent implements OnInit {
           cartography.layers=layersLyr;
           if(lyr.Style){
             if(Array.isArray(lyr.Style)) {
-               lyr.Style[0].defaultStyle=true;
                styles.push(...lyr.Style)
               }
             else {
-               lyr.Style.defaultStyle=true 
                styles.push(lyr.Style)
               }
             cartography.styles= styles;
@@ -591,34 +589,11 @@ export class ServiceFormComponent implements OnInit {
           promises.push(new Promise((resolve, reject) => {
              this.cartographyService.save(cartography).subscribe((resp) => {
                if(styles && styles.length>0){
+                 this.setStyleByDefault(styles);
                  styles.forEach(style => {
-                   console.log(styles)
-                   style.cartography=resp;
-                   if(style.Name){
-                    style.name=style.Name;
-                    delete style.Name;
-                   }
-
-                   if(style.Abstract){
-                    style.description=style.Abstract;
-                    delete style.Abstract;
-                   }
-
-                   if(style.Title){
-                    style.title=style.Title
-                    delete style.Title;
-                   }
-                   if(style.LegendURL){
-                    style.legendURL= {
-                      format: style.LegendURL.Format,
-                      // onlineResource: style.LegendURL.OnlineResource,
-                      height: style.LegendURL.height,
-                      width: style.LegendURL.width
-                    }
-                    delete style.LegendURL.OnlineResource;
-                   }
-
-                   promisesStyles.push(new Promise((resolve, reject) => { this.cartographyStyleService.save(style).subscribe((resp) => { resolve(true) }) }));
+                  console.log(styles)
+                  style= this.styleTreactment(style,resp);
+                  promisesStyles.push(new Promise((resolve, reject) => { this.cartographyStyleService.save(style).subscribe((resp) => { resolve(true) }) }));
                  });
                }
                 resolve(true) 
@@ -635,6 +610,59 @@ export class ServiceFormComponent implements OnInit {
           this.dataUpdatedEventLayers.next(true)
         })
     });
+  }
+
+  private setStyleByDefault(styles){
+    let styleByDefaultFound = false;
+    styles.forEach(style => {
+      if(style.defaultStyle){
+        if(styleByDefaultFound) { style.defaultStyle=false }
+        else { styleByDefaultFound = true }
+      }
+      else{
+        style.defaultStyle=false;
+      }
+      
+    });
+    if(!styleByDefaultFound) styles[0].defaultStyle = true;
+
+    // return styles;
+  }
+
+  private styleTreactment(style, cartography){
+    style.cartography=cartography;
+    if(style.Name){
+     style.name=style.Name;
+     delete style.Name;
+    }
+
+    if(style.Abstract){
+     style.description=style.Abstract;
+     delete style.Abstract;
+    }
+
+    if(style.Title){
+     style.title=style.Title
+     delete style.Title;
+    }
+    if(style.LegendURL){
+     let onlineResource;
+     if(style.LegendURL.OnlineResource){
+      if(style.LegendURL.OnlineResource['xlink:href']) { onlineResource = style.LegendURL.OnlineResource['xlink:href']  }
+      else if(style.LegendURL.OnlineResource['xlink:link']) { onlineResource = style.LegendURL.OnlineResource['xlink:link']  }
+      else if(style.LegendURL.OnlineResource['xlink:type']) { onlineResource = style.LegendURL.OnlineResource['xlink:type']  }
+     }
+
+     style.legendURL= {
+       format: style.LegendURL.Format,
+       onlineResource: onlineResource,
+       height: style.LegendURL.height,
+       width: style.LegendURL.width
+     }
+     delete style.LegendURL;
+    }
+
+    return style;
   }
 
   // ******** Parameters Dialog  ******** //

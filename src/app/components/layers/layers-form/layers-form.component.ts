@@ -374,23 +374,16 @@ export class LayersFormComponent implements OnInit {
                 urlReq = url.toString();
               }
 
-              if(this.layerToEdit.applyFilterToGetMap == null || this.layerToEdit.applyFilterToGetFeatureInfo == null || this.layerToEdit.applyFilterToSpatialSelection == null)
+              if( this.layerToEdit.applyFilterToGetFeatureInfo == null || this.layerToEdit.applyFilterToSpatialSelection == null)
               {
                 this.http.get(urlReq).pipe(
-                  map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "FILTRO" || elem.type == "FILTRO_INFO" || elem.type == "FILTRO_ESPACIAL")
+                  map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "FILTRO_INFO" || elem.type == "FILTRO_ESPACIAL")
                   ))
                   .subscribe(result => {
                     console.log(result)
                     result.forEach(element => {
                       let value;
-  
-                      // if (element.type === 'FILTRO' && this.layerToEdit.applyFilterToGetMap == null ) {
-                      //   value = (true == element.value)
-                      //   this.parameteApplyFilterToGetMap=element;
-                      //   this.layerForm.patchValue({
-                      //     applyFilterToGetMap: value
-                      //   })
-                      // }
+
                       if (element.type === 'FILTRO_INFO' && this.layerToEdit.applyFilterToGetFeatureInfo == null) {
                         value = (true == element.value)
                         this.layerForm.patchValue({
@@ -406,9 +399,8 @@ export class LayersFormComponent implements OnInit {
                     });
   
   
-                    // if ((!this.layerForm.value.applyFilterToGetFeatureInfo && !this.layerForm.value.applyFilterToSpatialSelection)) {
-                    //   { this.layerForm.get('applyFilterToGetMap').disable(); }
-                    // }
+
+                    
                   });
               }
               

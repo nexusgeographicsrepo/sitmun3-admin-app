@@ -798,7 +798,7 @@ export class LayersFormComponent implements OnInit {
     }
 
     return (this.http.get(urlReq))
-      .pipe(map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "INFOSELECT")
+      .pipe(map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "EDIT")
       ));
 
   }
@@ -1253,7 +1253,7 @@ export class LayersFormComponent implements OnInit {
       if (result) {
         if (result.event === 'Add') {
           let item = this.parameterForm.value;
-          item.type = "INFOSELECT"
+          item.type = "EDIT"
           this.addElementsEventSpatialConfigurations.next([item])
           console.log(this.parameterForm.value)
         }

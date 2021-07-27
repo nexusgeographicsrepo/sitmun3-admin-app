@@ -330,6 +330,11 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
+  duplicate(data, index){
+    let elementsToDuplicate= this.utils.duplicateParameter(data,'name', true, true);
+    this.addelements[index].next(elementsToDuplicate)
+  } 
+
   getAllRowsTable(event, index, linkName ){
     if(event.event == "save"){
       this.saveTable(event.data, index, linkName);

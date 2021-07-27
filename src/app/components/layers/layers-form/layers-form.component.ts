@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory, CartographyGroup, CartographyAvailabilityService, CartographyParameterService, HalParam, HalOptions, Cartography, TreeNode, TranslationService, Translation, CartographyStyleService } from 'dist/sitmun-frontend-core/';
+import { CartographyService, ServiceService, CartographyFilterService, TerritoryTypeService, ConnectionService, TreeNodeService, CartographyGroupService, TerritoryService, Territory, CartographyGroup, CartographyAvailabilityService, CartographyParameterService, HalParam, HalOptions, Cartography, TreeNode, TranslationService, Translation, CartographyStyleService, CartographySpatialSelectionParameterService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -46,8 +46,14 @@ export class LayersFormComponent implements OnInit {
 
   parameterFormatTypes: Array<any> = [];
   parameterFormatTypesDescription: Array<any> = [];
+
+  spatialSelectionParameterFormatTypes: Array<any> = [];
+  spatialSelectionParameterFormatTypesDescription: Array<any> = [];
+
   parameterTypes: Array<any> = [];
   parameterTypesDescription: Array<any> = [];
+  spatialSelectionParameterTypes: Array<any> = [];
+  spatialSelectionParameterTypesDescription: Array<any> = [];
 
 
 
@@ -132,6 +138,7 @@ export class LayersFormComponent implements OnInit {
     private cartographyGroupService: CartographyGroupService,
     private cartograhyAvailabilityService: CartographyAvailabilityService,
     private cartographyParameterService: CartographyParameterService,
+    private cartographySpatialSelectionParameterService: CartographySpatialSelectionParameterService,
     private cartographyStyleService: CartographyStyleService,
     private cartographyFilterService: CartographyFilterService,
     private treeNodeService: TreeNodeService,
@@ -196,6 +203,18 @@ export class LayersFormComponent implements OnInit {
     }));
 
     promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('cartographySpatialSelectionParameter.type').subscribe(
+        resp => {
+          resp.forEach(element => {
+            this.spatialSelectionParameterTypes.push(element);
+            this.spatialSelectionParameterTypesDescription.push(element.description)
+          });          
+          resolve(true);
+        }
+      )
+    }));
+
+    promises.push(new Promise((resolve, reject) => {
       this.utils.getCodeListValues('cartographyFilter.type').subscribe(
         resp => {
           this.filterTypes.push(...resp);
@@ -231,6 +250,18 @@ export class LayersFormComponent implements OnInit {
           resp.forEach(element => {
             this.parameterFormatTypes.push(element);
             this.parameterFormatTypesDescription.push(element.description);
+          });
+          resolve(true);
+        }
+      )
+    }));
+
+    promises.push(new Promise((resolve, reject) => {
+      this.utils.getCodeListValues('cartographySpatialSelectionParameter.format').subscribe(
+        resp => {
+          resp.forEach(element => {
+            this.spatialSelectionParameterFormatTypes.push(element);
+            this.spatialSelectionParameterFormatTypesDescription.push(element.description);
           });
           resolve(true);
         }
@@ -460,7 +491,6 @@ export class LayersFormComponent implements OnInit {
       this.utils.getSelCheckboxColumnDef(),
       this.utils.getEditableColumnDef('layersEntity.column', 'name'),
       this.utils.getEditableColumnDef('layersEntity.label', 'value'),
-      // this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
       this.utils.getSelectColumnDef('layersEntity.format', 'format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
       this.utils.getEditableColumnDef('layersEntity.order', 'order'),
       this.utils.getSelectColumnDef('layersEntity.type', 'type',true,this.parameterTypesDescription),
@@ -473,7 +503,8 @@ export class LayersFormComponent implements OnInit {
       this.utils.getEditableColumnDef('layersEntity.column', 'name'),
       this.utils.getEditableColumnDef('layersEntity.label', 'value'),
       // this.utils.getFormattedColumnDef('layersEntity.format', this.parameterFormatTypes, 'format'),
-      this.utils.getSelectColumnDef('layersEntity.format', 'format',true,this.parameterFormatTypesDescription, true, this.parameterFormatTypes),
+      this.utils.getSelectColumnDef('layersEntity.format', 'format',true,this.spatialSelectionParameterFormatTypesDescription, true, this.spatialSelectionParameterFormatTypes),
+      this.utils.getSelectColumnDef('layersEntity.type', 'type',true,this.spatialSelectionParameterTypesDescription, true, this.spatialSelectionParameterTypes),
       this.utils.getStatusColumnDef()
     ];
 
@@ -698,21 +729,19 @@ export class LayersFormComponent implements OnInit {
     }
 
     return (this.http.get(urlReq))
-      .pipe(map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "INFO")
+      .pipe(map(data => data['_embedded']['cartography-parameters'] //.filter(elem => elem.type == "INFO")
       ));
 
   }
 
-  getAllRowsParameters(event, parameterApplyFilterToGetMap: boolean){
+  getAllRowsParameters(event, spatialSelection: boolean){
     if(event.event == "save"){
-      this.saveParameters(event.data, parameterApplyFilterToGetMap);
+      this.saveParameters(event.data, spatialSelection);
     }
   }
 
-  saveParameters(data: any[], parameterApplyFilterToGetMap: boolean) {
+  saveParameters(data: any[], spatialSelection: boolean) {
     console.log(data);
-    let parameterToSave = [];
-    let parameterToDelete = [];
     const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
@@ -735,8 +764,13 @@ export class LayersFormComponent implements OnInit {
           }
 
         }
-        promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
-        parameterToSave.push(parameter)
+        if(spatialSelection){
+          promises.push(new Promise((resolve, reject) => { this.cartographySpatialSelectionParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
+
+        }
+        else{
+          promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
+        }
       }
       if (parameter.status === 'pendingDelete' && parameter._links && !parameter.new ) {
         promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));
@@ -745,41 +779,27 @@ export class LayersFormComponent implements OnInit {
     });
 
     Promise.all(promises).then(() => {
-      if(!parameterApplyFilterToGetMap)
-      {
-        this.dataUpdatedEventParameters.next(true);
-        this.dataUpdatedEventSpatialConfigurations.next(true);
-      }
+      if(spatialSelection) {this.dataUpdatedEventSpatialConfigurations.next(true); }
+      else {this.dataUpdatedEventParameters.next(true); }        
     });
 
 
   }
 
-  duplicateParameters(data) {
-    let parametersToDuplicate = []
-    data.forEach(parameter => {
-      let newParameter = { ...parameter };
-      newParameter.name = this.utils.getTranslate('copy_').concat(newParameter.name),
-      newParameter.id = null;
-      newParameter._links = null;
-      parametersToDuplicate.push(newParameter);
-    });
+  duplicateParameters(data, spatialSelection: boolean) {
+    let parametersToDuplicate = this.utils.duplicateParameter(data,'name');
+    // data.forEach(parameter => {
+    //   let newParameter = { ...parameter };
+    //   newParameter.name = this.utils.getTranslate('copy_').concat(newParameter.name),
+    //   newParameter.id = null;
+    //   newParameter._links = null;
+    //   parametersToDuplicate.push(newParameter);
+    // });
 
-    this.addElementsEventParameters.next(parametersToDuplicate);
+    if(spatialSelection) { this.addElementsEventSpatialConfigurations.next(parametersToDuplicate); }
+    else { this.addElementsEventParameters.next(parametersToDuplicate); }  
 
-  }
 
-  duplicateSpatialSelections(data) {
-    let spatialSelectionsToDuplicate = []
-    data.forEach(spatialSelection => {
-      let newSpatialSelection = { ...spatialSelection };
-      newSpatialSelection.name = this.utils.getTranslate('copy_').concat(newSpatialSelection.name),
-        newSpatialSelection.id = null;
-        newSpatialSelection._links = null;
-        spatialSelectionsToDuplicate.push(newSpatialSelection);
-    });
-
-    this.addElementsEventSpatialConfigurations.next(spatialSelectionsToDuplicate);
 
   }
 
@@ -790,15 +810,15 @@ export class LayersFormComponent implements OnInit {
       const aux: Array<any> = [];
       return of(aux);
     }
-    var urlReq = `${this.layerToEdit._links.parameters.href}`
-    if (this.layerToEdit._links.parameters.templated) {
+    var urlReq = `${this.layerToEdit._links.spatialSelectionParameters.href}`
+    if (this.layerToEdit._links.spatialSelectionParameters.templated) {
       var url = new URL(urlReq.split("{")[0]);
       url.searchParams.append("projection", "view")
       urlReq = url.toString();
     }
 
     return (this.http.get(urlReq))
-      .pipe(map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "EDIT")
+      .pipe(map(data => data['_embedded']['cartography-spatial-selection-parameters'] //.filter(elem => elem.type == "EDIT")
       ));
 
   }
@@ -903,17 +923,8 @@ export class LayersFormComponent implements OnInit {
   }
 
   duplicateStyles(data) {
-    let stylesToDuplicate = []
-    data.forEach(style => {
-      let newStyle = { ...style };
-      newStyle.name = this.utils.getTranslate('copy_').concat(newStyle.name),
-      newStyle.id = null;
-      newStyle._links = null;
-      stylesToDuplicate.push(newStyle);
-    });
-
-    this.addElementsEventParameters.next(stylesToDuplicate);
-
+    let stylesToDuplicate = this.utils.duplicateParameter(data,'name');
+    this.addElementsEventStyles.next(stylesToDuplicate);
   }
 
 
@@ -981,16 +992,8 @@ export class LayersFormComponent implements OnInit {
   }
 
   duplicateTerritorialFilters(data) {
-    let territorialFiltersToDuplicate = []
-    data.forEach(territorialFilter => {
-      let newTerritorialFilter = { ...territorialFilter };
-      newTerritorialFilter.name = this.utils.getTranslate('copy_').concat(newTerritorialFilter.name),
-        newTerritorialFilter.id = null;
-        // newTerritorialFilter._links = null;
-        territorialFiltersToDuplicate.push(newTerritorialFilter);
-    });
-    if(this)
-    this.addElementsEventParameters.next(territorialFiltersToDuplicate);
+    let territorialFiltersToDuplicate = this.utils.duplicateParameter(data,'name')
+    this.addElementsTerritorialFilter.next(territorialFiltersToDuplicate);
 
   }
 
@@ -1253,7 +1256,6 @@ export class LayersFormComponent implements OnInit {
       if (result) {
         if (result.event === 'Add') {
           let item = this.parameterForm.value;
-          item.type = "EDIT"
           this.addElementsEventSpatialConfigurations.next([item])
           console.log(this.parameterForm.value)
         }

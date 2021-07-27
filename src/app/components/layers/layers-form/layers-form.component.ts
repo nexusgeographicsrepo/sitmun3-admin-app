@@ -788,14 +788,6 @@ export class LayersFormComponent implements OnInit {
 
   duplicateParameters(data, spatialSelection: boolean) {
     let parametersToDuplicate = this.utils.duplicateParameter(data,'name');
-    // data.forEach(parameter => {
-    //   let newParameter = { ...parameter };
-    //   newParameter.name = this.utils.getTranslate('copy_').concat(newParameter.name),
-    //   newParameter.id = null;
-    //   newParameter._links = null;
-    //   parametersToDuplicate.push(newParameter);
-    // });
-
     if(spatialSelection) { this.addElementsEventSpatialConfigurations.next(parametersToDuplicate); }
     else { this.addElementsEventParameters.next(parametersToDuplicate); }  
 

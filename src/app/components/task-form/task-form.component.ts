@@ -424,15 +424,15 @@ export class TaskFormComponent implements OnInit {
   saveAvailabilities(data: any[], index){
     const promises: Promise<any>[] = [];
     data.forEach(territory => {
-      if (territory.status === 'pendingDelete' && territory._links  && !territory.new ) {
+      if (territory.status === 'pendingDelete' && territory._links  && !territory.newItem ) {
         promises.push(new Promise((resolve, reject) => { this.taskAvailabilityService.remove(territory).subscribe((resp) => { resolve(true) }) }));
         //  tasksToDelete.push(task) 
         }
       if (territory.status === 'pendingCreation') {
         territory.task=this.taskToEdit;
-        let index = data.findIndex(element => element.territoryId === territory.id && !element.new)
+        let index = data.findIndex(element => element.territoryId === territory.id && !element.newItem)
         if (index === -1) {
-          territory.new = false;
+          territory.newItem = false;
           let taskToCreate: TaskAvailability = new TaskAvailability();
           taskToCreate.task = this.taskToEdit;
           taskToCreate.territory = territory;

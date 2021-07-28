@@ -713,9 +713,22 @@ export class LayersFormComponent implements OnInit {
   saveParameters(data: any[], spatialSelection: boolean) {
     console.log(data);
     const promises: Promise<any>[] = [];
+    let formatsList, typesList, service, event;
+    if(spatialSelection){
+      formatsList = this.spatialSelectionParameterFormatTypes;
+      typesList = this.spatialSelectionParameterTypes
+      service = this.cartographySpatialSelectionParameterService;
+      event = this.dataUpdatedEventSpatialConfigurations;
+    }
+    else{
+      formatsList = this.parameterFormatTypes;
+      typesList = this.parameterTypes
+      service = this.cartographyParameterService;
+      event = this.dataUpdatedEventParameters;
+    }
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if(parameter.status === 'pendingCreation'  || parameter.new) {
+        if(parameter.status === 'pendingCreation'  || parameter.newItem) {
            parameter.cartography = this.layerToEdit; 
            parameter._links = null;
            parameter.id = null;
@@ -724,33 +737,32 @@ export class LayersFormComponent implements OnInit {
 
           if(parameter.format)
           {
-            let currentFormat = this.parameterFormatTypes.find(element => element.description == parameter.format);
+            let currentFormat = formatsList.find(element => element.description == parameter.format);
             if(currentFormat) { parameter.format= currentFormat.value }
           }
   
           if(parameter.type){
-            let currentType = this.parameterTypes.find(element => element.description == parameter.type);
+            let currentType = typesList.find(element => element.description == parameter.type);
             if(currentType) { parameter.type= currentType.value }
           }
 
         }
         if(spatialSelection){
-          promises.push(new Promise((resolve, reject) => { this.cartographySpatialSelectionParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
+          promises.push(new Promise((resolve, reject) => { service.save(parameter).subscribe((resp) => { resolve(true) }) }));
 
         }
         else{
-          promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
+          promises.push(new Promise((resolve, reject) => { service.save(parameter).subscribe((resp) => { resolve(true) }) }));
         }
       }
-      if (parameter.status === 'pendingDelete' && parameter._links && !parameter.new ) {
-        promises.push(new Promise((resolve, reject) => { this.cartographyParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));
+      if (parameter.status === 'pendingDelete' && parameter._links && !parameter.newItem ) {
+        promises.push(new Promise((resolve, reject) => { service.remove(parameter).subscribe((resp) => { resolve(true) }) }));
 
         }
     });
 
     Promise.all(promises).then(() => {
-      if(spatialSelection) {this.dataUpdatedEventSpatialConfigurations.next(true); }
-      else {this.dataUpdatedEventParameters.next(true); }        
+      event.next(true);    
     });
 
 
@@ -836,7 +848,7 @@ export class LayersFormComponent implements OnInit {
         if(! style._links){
           style.cartography = this.layerToEdit; 
         }
-        if(style.status === 'pendingCreation'  || style.new) {
+        if(style.status === 'pendingCreation'  || style.newItem) {
           style._links = null;
           style.id = null;
         }
@@ -851,7 +863,7 @@ export class LayersFormComponent implements OnInit {
         }
         promises.push(new Promise((resolve, reject) => { this.cartographyStyleService.save(style).subscribe((resp) => { resolve(true) }) }));
       }
-      if (style.status === 'pendingDelete' && style._links && !style.new ) {
+      if (style.status === 'pendingDelete' && style._links && !style.newItem ) {
         promises.push(new Promise((resolve, reject) => { this.cartographyStyleService.remove(style).subscribe((resp) => { resolve(true) }) }));
 
         }
@@ -866,7 +878,7 @@ export class LayersFormComponent implements OnInit {
           styleToModifyTheLast.cartography = this.layerToEdit; 
         }
 
-        if(styleToModifyTheLast.new){
+        if(styleToModifyTheLast.newItem){
           styleToModifyTheLast._links = null;
           styleToModifyTheLast.id = null;
           if(styleToModifyTheLast.format)
@@ -923,7 +935,7 @@ export class LayersFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(territoryFilter => {
       if (territoryFilter.status === 'pendingCreation' || territoryFilter.status === 'pendingModify') {
-        if(territoryFilter.status === 'pendingCreation'  || territoryFilter.new) {
+        if(territoryFilter.status === 'pendingCreation'  || territoryFilter.newItem) {
           territoryFilter.cartography = this.layerToEdit; 
           if(!territoryFilter.territorialLevel){
             let territorialLevel= this.filterTypeIds.find(x => x.id===territoryFilter.terrorialLevelId )
@@ -939,7 +951,7 @@ export class LayersFormComponent implements OnInit {
         promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.save(territoryFilter).subscribe((resp) => { resolve(true) }) }));
 
       }
-      if (territoryFilter.status === 'pendingDelete' && territoryFilter._links && !territoryFilter.new ) {
+      if (territoryFilter.status === 'pendingDelete' && territoryFilter._links && !territoryFilter.newItem ) {
         //  territorialFilterToDelete.push(territoryFilter) 
          promises.push(new Promise((resolve, reject) => { this.cartographyFilterService.remove(territoryFilter).subscribe((resp) => { resolve(true) }) }));
 
@@ -990,8 +1002,8 @@ export class LayersFormComponent implements OnInit {
     data.forEach(territory => {
       territory.cartography = this.layerToEdit;
       if (territory.status === 'pendingCreation') {
-        let index = data.findIndex(element => element.territoryCode === territory.territoryCode && !element.new)
-        territory.new = false;
+        let index = data.findIndex(element => element.territoryCode === territory.territoryCode && !element.newItem)
+        territory.newItem = false;
         if (index === -1) {
           if(territory._links){
             territory.id=null;
@@ -1017,7 +1029,7 @@ export class LayersFormComponent implements OnInit {
 
         }
       }
-      if (territory.status === 'pendingDelete' && territory._links && !territory.new ) {
+      if (territory.status === 'pendingDelete' && territory._links && !territory.newItem ) {
         promises.push(new Promise((resolve, reject) => { this.cartograhyAvailabilityService.remove(territory).subscribe((resp) => { resolve(true) }) }));
 
         //  territoriesToDelete.push(territory) 
@@ -1077,7 +1089,7 @@ export class LayersFormComponent implements OnInit {
 
       if (layer.status !== 'pendingDelete') {
         if (layer.status === 'pendingModify') {
-          if(layer.new){ dataChanged = true; }
+          if(layer.newItem){ dataChanged = true; }
           promises.push(new Promise((resolve, reject) => { this.cartographyGroupService.update(layer).subscribe((resp) => { resolve(true) }) }));
 
         }
@@ -1148,7 +1160,7 @@ export class LayersFormComponent implements OnInit {
 
         //  nodesToPut.push(nodeAct) 
         }
-      else if (node.status === 'pendingDelete'  && !node.new ) {
+      else if (node.status === 'pendingDelete'  && !node.newItem ) {
         //  nodesToDelete.push(nodeAct) 
         promises.push(new Promise((resolve, reject) => { this.treeNodeService.remove(node).subscribe((resp) => { resolve(true) }) }));
 
@@ -1189,7 +1201,6 @@ export class LayersFormComponent implements OnInit {
         if (result.event === 'Add') {
           
           let item = this.parameterForm.value;
-          // item.type = "INFO"
           this.addElementsEventParameters.next([item])
           console.log(this.parameterForm.value)
           this.parameterForm.reset();

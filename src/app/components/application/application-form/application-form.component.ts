@@ -443,7 +443,7 @@ export class ApplicationFormComponent implements OnInit {
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
           parameter.application=this.applicationToEdit} //If is new, you need the application link
-          if(parameter.status === 'pendingCreation' || parameter.new){
+          if(parameter.status === 'pendingCreation' || parameter.newItem){
             parameter._links=null;
             parameter.id = null;
           }
@@ -451,7 +451,7 @@ export class ApplicationFormComponent implements OnInit {
           promises.push(new Promise((resolve, reject) => { this.applicationParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
 
       
-      if(parameter.status === 'pendingDelete' && parameter._links && !parameter.new) {
+      if(parameter.status === 'pendingDelete' && parameter._links && !parameter.newItem) {
         // parameterToDelete.push(parameter) 
         promises.push(new Promise((resolve, reject) => { this.applicationParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));
 
@@ -549,7 +549,7 @@ export class ApplicationFormComponent implements OnInit {
       if(role.status!== 'pendingDelete') {
         if (role.status === 'pendingModify') {
           promises.push(new Promise((resolve, reject) => { this.roleService.update(role).subscribe((resp) => { resolve(true) }) }));
-          if(role.new){ dataChanged = true; }
+          if(role.newItem){ dataChanged = true; }
         }
         else if(role.status === 'pendingCreation') {
           dataChanged = true;
@@ -609,9 +609,9 @@ export class ApplicationFormComponent implements OnInit {
     data.forEach(background => {
       if (background.status === 'pendingCreation') {
 
-        let index= data.findIndex(element => element.backgroundDescription === background.backgroundDescription && element.backgroundName === background.backgroundName && !element.new )
+        let index= data.findIndex(element => element.backgroundDescription === background.backgroundDescription && element.backgroundName === background.backgroundName && !element.newItem )
         if (index === -1){
-          background.new=false;
+          background.newItem=false;
           background.application= this.applicationToEdit;
           if(background._links){ //Duplicate
             let urlReqBackground = `${background._links.background.href}`
@@ -637,7 +637,7 @@ export class ApplicationFormComponent implements OnInit {
           }
         }
       }
-      if(background.status === 'pendingDelete' && !background.new ) {
+      if(background.status === 'pendingDelete' && !background.newItem ) {
         // backgroundsToDelete.push(background) 
         promises.push(new Promise((resolve, reject) => { this.applicationBackgroundService.remove(background).subscribe((resp) => { resolve(true) }) }));
 
@@ -709,7 +709,7 @@ export class ApplicationFormComponent implements OnInit {
       if(tree.status!== 'pendingDelete') {
         if (tree.status === 'pendingModify') {
           // treesModified.push(tree);
-          if(tree.new){ dataChanged = true; }
+          if(tree.newItem){ dataChanged = true; }
           promises.push(new Promise((resolve, reject) => { this.treeService.update(tree).subscribe((resp) => { resolve(true) }) }));
         }
         else if (tree.status === 'pendingCreation'){
@@ -851,7 +851,7 @@ export class ApplicationFormComponent implements OnInit {
         if(result.event==='Add') {
           result.data[0].forEach(element => {
             element.id=null;
-            element.new=true;
+            element.newItem=true;
           });
           this.addElementsEventBackground.next(this.adaptNewBackgrounds(result.data[0]))
         }         

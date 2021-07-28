@@ -461,14 +461,14 @@ export class ServiceFormComponent implements OnInit {
     const promises: Promise<any>[] = [];
     data.forEach(parameter => {
       if (parameter.status === 'pendingCreation' || parameter.status === 'pendingModify') {
-        if(parameter.status === 'pendingCreation'  || parameter.new){
+        if(parameter.status === 'pendingCreation'  || parameter.newItem){
             parameter.id = null;
             parameter._links=null;
             parameter.service=this.serviceToEdit
           } //If is new, you need the service link
           promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.save(parameter).subscribe((resp) => { resolve(true) }) }));
         }
-      if(parameter.status === 'pendingDelete' && parameter._links  && !parameter.new ) {
+      if(parameter.status === 'pendingDelete' && parameter._links  && !parameter.newItem ) {
         promises.push(new Promise((resolve, reject) => {  this.serviceParameterService.remove(parameter).subscribe((resp) => { resolve(true) }) }));    
         // parameterToDelete.push(parameter) 
       }

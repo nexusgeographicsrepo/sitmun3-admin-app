@@ -404,36 +404,6 @@ export class LayersFormComponent implements OnInit {
                 url.searchParams.append("projection", "view")
                 urlReq = url.toString();
               }
-
-              if( this.layerToEdit.applyFilterToGetFeatureInfo == null || this.layerToEdit.applyFilterToSpatialSelection == null)
-              {
-                this.http.get(urlReq).pipe(
-                  map(data => data['_embedded']['cartography-parameters'].filter(elem => elem.type == "FILTRO_INFO" || elem.type == "FILTRO_ESPACIAL")
-                  ))
-                  .subscribe(result => {
-                    console.log(result)
-                    result.forEach(element => {
-                      let value;
-
-                      if (element.type === 'FILTRO_INFO' && this.layerToEdit.applyFilterToGetFeatureInfo == null) {
-                        value = (true == element.value)
-                        this.layerForm.patchValue({
-                          applyFilterToGetFeatureInfo: value
-                        })
-                      }
-                      else if (element.type === 'FILTRO_ESPACIAL' && this.layerToEdit.applyFilterToSpatialSelection == null) {
-                        value = (true == element.value)
-                        this.layerForm.patchValue({
-                          applyFilterToSpatialSelection: value
-                        })
-                      }
-                    });
-  
-  
-
-                    
-                  });
-              }
               
               if (!this.layerToEdit.thematic) { this.layerForm.get('geometryType').disable(); }
               if (!this.layerToEdit.queryableFeatureEnabled){
@@ -1525,9 +1495,9 @@ export class LayersFormComponent implements OnInit {
       cartography.legendURL = this.layerForm.value.legendUrl;
       cartography.description = this.layerForm.value.description;
       cartography.datasetURL= this.layerForm.value.datasetURL; //
-      cartography.applyFilterToGetMap= this.layerForm.value.applyFilterToGetMap;
-      cartography.applyFilterToGetFeatureInfo= (this.layerForm.value.applyFilterToGetFeatureInfo == null)? false:this.layerForm.value.applyFilterToGetFeatureInfo ;
-      cartography.applyFilterToSpatialSelection= (this.layerForm.value.applyFilterToSpatialSelection == null)? false:this.layerForm.value.applyFilterToSpatialSelection ;
+      cartography.applyFilterToGetMap= (this.layerForm.value.applyFilterToGetMap)? true:false;
+      cartography.applyFilterToGetFeatureInfo= (this.layerForm.value.applyFilterToGetFeatureInfo)? true:false;
+      cartography.applyFilterToSpatialSelection= (this.layerForm.value.applyFilterToSpatialSelection)? true:false;
       cartography.queryableFeatureEnabled = this.layerForm.value.queryableFeatureEnabled;
       cartography.useAllStyles = this.layerForm.value.useAllStyles; 
 

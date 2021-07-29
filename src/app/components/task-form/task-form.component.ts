@@ -356,9 +356,19 @@ export class TaskFormComponent implements OnInit {
           }
         }
       }
+
+      if(!this.savedTask.properties){
+        this.savedTask.properties={};
+        this.savedTask.properties[sqlElement.mainFormElement]=this.savedTask[sqlElement.mainFormElement]; 
+      }
+      else{
+        this.savedTask.properties[sqlElement.mainFormElement]=this.savedTask[sqlElement.mainFormElement]; 
+      }
+
       sqlElement.tableElements=result;
       sqlElement.modifications=false;
       sqlElement.toSave=false;
+      this.putParametersOnProperties(data);
       if(toSave){
         this.saveTask();
         // this.getAllElementsEvent.forEach(element => {
@@ -371,28 +381,29 @@ export class TaskFormComponent implements OnInit {
     else{
     //We are saving
     if(linkName=='parameters'){
-      if(data.length>0){
-        let newData = [];
-        data.forEach(element => {
-          if(element.status!= 'pendingDelete'){
-            delete element.status;
-            delete element.newItem;
-            if(element.order){ element.order=parseInt(element.order) }
-            newData.push((element));
+      this.putParametersOnProperties(data);
+      // if(data.length>0){
+      //   let newData = [];
+      //   data.forEach(element => {
+      //     if(element.status!= 'pendingDelete'){
+      //       delete element.status;
+      //       delete element.newItem;
+      //       if(element.order){ element.order=parseInt(element.order) }
+      //       newData.push((element));
   
-          }
-        });
-        if(!this.savedTask.properties){
-          this.savedTask.properties={
-            parameters:newData
-          }      
-        }
-        else{
-          this.savedTask.properties.parameters=newData;
-        }
-        this.parametersTable = [];
-        this.parametersTable.push(...newData);
-      }
+      //     }
+      //   });
+      //   if(!this.savedTask.properties){
+      //     this.savedTask.properties={
+      //       parameters:newData
+      //     }      
+      //   }
+      //   else{
+      //     this.savedTask.properties.parameters=newData;
+      //   }
+      //   this.parametersTable = [];
+      //   this.parametersTable.push(...newData);
+      // }
       this.currentTablesSaved++;
       this.saveTask();
     }
@@ -407,6 +418,31 @@ export class TaskFormComponent implements OnInit {
 
 
 
+    }
+  }
+
+  putParametersOnProperties(data){
+    if(data.length>0){
+      let newData = [];
+      data.forEach(element => {
+        if(element.status!= 'pendingDelete'){
+          delete element.status;
+          delete element.newItem;
+          if(element.order){ element.order=parseInt(element.order) }
+          newData.push((element));
+
+        }
+      });
+      if(!this.savedTask.properties){
+        this.savedTask.properties={
+          parameters:newData
+        }      
+      }
+      else{
+        this.savedTask.properties.parameters=newData;
+      }
+      this.parametersTable = [];
+      this.parametersTable.push(...newData);
     }
   }
 
@@ -844,7 +880,7 @@ export class TaskFormComponent implements OnInit {
 
   }
 
-  openPopupDialog(field, data, columns, label, checkbox, status, singleSelection, index, currentData ){
+  openPopupDialog(field, data, columns, label, checkbox, status, singleSelection, index, currentData, ignoreCurrentData? ){
 
     let getAllfunction = this.getDataTable(data)
 
@@ -854,7 +890,7 @@ export class TaskFormComponent implements OnInit {
     dialogRef.componentInstance.orderTable = [this.defaultColumnsSorting[index]];
     dialogRef.componentInstance.columnDefsTable = [this.generateColumnDefs(columns,checkbox, status)];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.currentData = [currentData];
+    dialogRef.componentInstance.currentData = ignoreCurrentData?[]:[currentData];
     dialogRef.componentInstance.title = this.utils.getTranslate(label);
     dialogRef.componentInstance.titlesTable = [""];
 

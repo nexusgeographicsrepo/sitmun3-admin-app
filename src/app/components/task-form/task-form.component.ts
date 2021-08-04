@@ -336,12 +336,13 @@ export class TaskFormComponent implements OnInit {
   } 
 
   getAllRowsTable(event, index, linkName ){
-    if(event.event == "save"){
-      this.saveTable(event.data, index, linkName);
+    if(event.event == "save" || "addParameter"){
+      let saveParameters= event.event == "save";
+      this.saveTable(event.data, index, linkName, saveParameters);
     }
   }
 
-  saveTable(data: any[], index, linkName )
+  saveTable(data: any[], index, linkName, saveParameters? )
   {
     let sqlElement = this.sqlElementModification[index];
     sqlElement.tableElements=[];
@@ -368,7 +369,9 @@ export class TaskFormComponent implements OnInit {
       sqlElement.tableElements=result;
       sqlElement.modifications=false;
       sqlElement.toSave=false;
-      this.putParametersOnProperties(data);
+      if(saveParameters){
+        this.putParametersOnProperties(data);
+      }
       if(toSave){
         this.saveTask();
         // this.getAllElementsEvent.forEach(element => {
@@ -750,7 +753,7 @@ export class TaskFormComponent implements OnInit {
           else { this.taskForm.addControl("_links",new FormControl(result._links,[])); }
 
           this.taskToEdit=result;
-          if(this.indexParameter > 0){
+          if(this.indexParameter >= 0){
             this.refreshElements[this.indexParameter].next(true);
           }
 
@@ -928,7 +931,7 @@ export class TaskFormComponent implements OnInit {
           if(this.formSQLElement[index] !== null ){
             this.sqlElementModification[index].modifications=true;
             // this.sqlElementModification[index].tableElements.splice(this.forms[index].get(this.sqlElementModification[index].element).value,1)
-            this.getAllElementsEvent[index].next('save')
+            this.getAllElementsEvent[index].next('addParameter')
           }
           
         }

@@ -336,24 +336,29 @@ export class TaskFormComponent implements OnInit {
   } 
 
   getAllRowsTable(event, index, linkName ){
-    if(event.event == "save" || "addParameter"){
-      let saveParameters= event.event == "save";
-      this.saveTable(event.data, index, linkName, saveParameters);
+    let saveParameters= event.event == "saveParameters";
+
+    if(event.event == "saveParameters" || event.event == "addParameter"){
+      this.manageParameters(event.data, index, linkName, saveParameters);
+    }
+
+
+    if(event.event == "save" ){
+      this.saveTable(event.data, index, linkName);
     }
   }
 
-  saveTable(data: any[], index, linkName, saveParameters? )
-  {
+  manageParameters(data: any[], index, linkName, saveParameters?){
     let sqlElement = this.sqlElementModification[index];
     sqlElement.tableElements=[];
     let toSave: boolean = sqlElement.toSave;
-    if(sqlElement.modifications || sqlElement.toSave){
+    if(sqlElement.modifications || sqlElement.toSave || saveParameters){
       let result = [];
       for (const element of data) {
         if(element.status!= "pendingDelete"){
           result.push(element[sqlElement.element])
           if(toSave){
-            this.savedTask[sqlElement.mainFormElement]= this.savedTask[sqlElement.mainFormElement].replace(element[sqlElement.element], element["value"]);
+            // this.savedTask[sqlElement.mainFormElement]= this.savedTask[sqlElement.mainFormElement].replace(element[sqlElement.element], element["value"]);
           }
         }
       }
@@ -372,41 +377,20 @@ export class TaskFormComponent implements OnInit {
       if(saveParameters){
         this.putParametersOnProperties(data);
       }
-      if(toSave){
+      if(toSave || saveParameters){
         this.saveTask();
-        // this.getAllElementsEvent.forEach(element => {
-        //   element.next(true);
-        // });
       }
       
 
     }
-    else{
+  }
+
+  saveTable(data: any[], index, linkName )
+  {
+
     //We are saving
     if(linkName=='parameters'){
       this.putParametersOnProperties(data);
-      // if(data.length>0){
-      //   let newData = [];
-      //   data.forEach(element => {
-      //     if(element.status!= 'pendingDelete'){
-      //       delete element.status;
-      //       delete element.newItem;
-      //       if(element.order){ element.order=parseInt(element.order) }
-      //       newData.push((element));
-  
-      //     }
-      //   });
-      //   if(!this.savedTask.properties){
-      //     this.savedTask.properties={
-      //       parameters:newData
-      //     }      
-      //   }
-      //   else{
-      //     this.savedTask.properties.parameters=newData;
-      //   }
-      //   this.parametersTable = [];
-      //   this.parametersTable.push(...newData);
-      // }
       this.currentTablesSaved++;
       this.saveTask();
     }
@@ -421,7 +405,7 @@ export class TaskFormComponent implements OnInit {
 
 
 
-    }
+    
   }
 
   putParametersOnProperties(data){
@@ -673,8 +657,10 @@ export class TaskFormComponent implements OnInit {
       if(keysTextAreaNotNull.length>0){
         let markResult = this.markIndexSqlElementToBeSaved(this.properties.tables, keysTextAreaNotNull)
         console.log(markResult)
+
         markResult.forEach(tableIndex => {
-          this.getAllElementsEvent[tableIndex].next('save')
+          let event = tableIndex == this.indexParameter?'saveParameters':'save'
+          this.getAllElementsEvent[tableIndex].next(event)
         });
       }
       else{
@@ -682,7 +668,7 @@ export class TaskFormComponent implements OnInit {
           this.saveTask()
         }
         else{
-          this.getAllElementsEvent[this.indexParameter].next('save');
+          this.getAllElementsEvent[this.indexParameter].next('saveParameters');
         }
       }
       console.log(this.savedTask);

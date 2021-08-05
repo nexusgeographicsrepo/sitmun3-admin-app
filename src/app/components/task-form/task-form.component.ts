@@ -231,7 +231,6 @@ export class TaskFormComponent implements OnInit {
             await this.setDynamicSelectorValue(values[i][`selector`][`queryParams`], values[i][`selector`][`data`], values[i][`label`])
           }
           else{
-            console.log(values[i][`selector`][`data`])
             this.setSelectorToNeeded(values[i][`selector`][`data`])
           }
         }
@@ -528,7 +527,7 @@ export class TaskFormComponent implements OnInit {
     let formKeys=Object.keys(this.properties.form.elements)
     for (const key of formKeys) {
       let keySpecification = this.properties.form.elements[key]
-      if(keySpecification.control==="selectorPopup"){
+      if(keySpecification.control==="selectorPopup" || (keySpecification.control==="selector" && this.taskToEdit._links[key])){
         var urlReq = `${this.taskToEdit._links[key].href}`
         if (this.taskToEdit._links[key].templated) {
           var url = new URL(urlReq.split("{")[0]);
@@ -537,7 +536,16 @@ export class TaskFormComponent implements OnInit {
         }
         let value= await (this.http.get(urlReq)).toPromise();
         // let value= await (this.http.get(urlReq)).pipe(map(data => data['_embedded'][key])).toPromise();
-        this.taskForm.get(key).setValue(value)
+        if(value){
+          if(keySpecification.control==="selectorPopup"){
+            this.taskForm.get(key).setValue(value)
+          }
+          else{
+            this.taskForm.get(key).setValue(value[keySpecification.selector.value]);
+          }
+        }
+
+
       }
 
 
@@ -786,7 +794,7 @@ export class TaskFormComponent implements OnInit {
       delete this.savedTask['scope'];
       delete this.savedTask['path'];
     }
-    else if(this.taskTypeName == 'Query' || this.taskTypeName== 'More info' ){
+    else if(this.taskTypeName == 'Query' || this.taskTypeName== 'More info' || this.taskTypeName== 'Locator' ){
       this.savedTask.properties={
         command: this.savedTask['value'],
         scope: this.savedTask['scope'].value,
@@ -795,11 +803,14 @@ export class TaskFormComponent implements OnInit {
       delete this.savedTask['scope'];
     
     }
-    else if(this.taskTypeName == 'Extraction (FME)' ){
-      let layers = this.savedTask['layers']?this.savedTask['layers'].split(','):null;
-      this.savedTask.properties={
-        layers: layers
+    else if(this.taskTypeName == 'Extraction (FME)' || this.taskTypeName == 'Report' ){
+      let key =this.taskTypeName == 'Extraction (FME)'?'layers':'layer'
+      if(!Array.isArray(this.savedTask[key])){
+        let layers = this.savedTask[key]?this.savedTask[key].split(','):null;
+        this.savedTask.properties={};
+        this.savedTask.properties[key]=layers;
       }
+
     }
 
   }

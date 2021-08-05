@@ -739,6 +739,7 @@ export class TaskFormComponent implements OnInit {
           else { this.taskForm.addControl("_links",new FormControl(result._links,[])); }
 
           this.taskToEdit=result;
+          this.taskID = result.id;
           if(this.indexParameter >= 0){
             this.refreshElements[this.indexParameter].next(true);
           }

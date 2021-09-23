@@ -1297,7 +1297,7 @@ export class LayersFormComponent implements OnInit {
     // })
     const dialogRef = this.dialog.open(DialogFormComponent);
     dialogRef.componentInstance.HTMLReceived = this.newStyleDialog;
-    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.style');
+    dialogRef.componentInstance.title = this.utils.getTranslate('layersEntity.styles');
     dialogRef.componentInstance.form = this.styleForm;
 
 

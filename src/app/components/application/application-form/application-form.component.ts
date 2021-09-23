@@ -176,12 +176,14 @@ export class ApplicationFormComponent implements OnInit {
                 title: this.applicationToEdit.title,
                 jspTemplate: this.applicationToEdit.jspTemplate,
                 theme: this.applicationToEdit.theme,
-                situationMap: this.applicationToEdit.situationMapId,
+                situationMap: this.applicationToEdit.situationMapId?this.applicationToEdit.situationMapId:this.situationMapList[0].id,
                 scales: this.applicationToEdit.scales,
                 srs: this.applicationToEdit.srs,
                 treeAutoRefresh: this.applicationToEdit.treeAutoRefresh,
                 _links: this.applicationToEdit._links
               });
+
+              debugger;
 
               if(this.applicationID !== -1){
                 this.applicationForm.patchValue({

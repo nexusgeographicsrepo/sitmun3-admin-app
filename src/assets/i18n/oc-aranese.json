@@ -173,6 +173,7 @@
     "available": "Disponible"
   },
   "layersEntity": {
+    "roles":"Rols",
     "source": "Origen",
     "layers": "Capes",
     "name": "Nom",
@@ -286,6 +287,7 @@
     "name": "Nom",
     "description": "Descripció",
     "type": "Tipus",
+    "order": "Ordre",
     "theme": "Tema",
     "srs": "Projecció",
     "supportedSRS": "Projeccions",

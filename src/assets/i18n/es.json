@@ -173,6 +173,7 @@
     "available": "Disponible"
   },
   "layersEntity": {
+    "roles": "Roles",
     "source": "Origen",
     "layers": "Capas",
     "name": "Nombre",
@@ -285,6 +286,7 @@
     "application": "Aplicación",
     "name": "Nombre",
     "description": "Descripción",
+    "order": "Orden",
     "type": "Tipo",
     "theme": "Tema",
     "srs": "Projección",

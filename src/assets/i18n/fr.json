@@ -171,6 +171,7 @@
     "available": "Disponible"
   },
   "layersEntity": {
+    "roles":"Rôles",
     "source": "Origine",
     "layers": "Calques",
     "name": "Nom",
@@ -285,6 +286,7 @@
     "description": "Description",
     "type": "Tapez",
     "theme": "Thème",
+    "order": "Commander",
     "srs": "Projection",
     "supportedSRS": "Projections",
     "serviceURL": "Url",

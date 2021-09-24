@@ -173,6 +173,7 @@
     "available": "Available"
   },
   "layersEntity": {
+    "roles":"Roles",
     "source": "Source",
     "layers": "Layers",
     "name": "Name",
@@ -285,6 +286,7 @@
     "application": "Application",
     "name": "Name",
     "description": "Description",
+    "order": "Order",
     "type": "Type",
     "theme": "Theme",
     "srs": "Projection",

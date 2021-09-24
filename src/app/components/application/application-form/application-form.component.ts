@@ -183,8 +183,6 @@ export class ApplicationFormComponent implements OnInit {
                 _links: this.applicationToEdit._links
               });
 
-              debugger;
-
               if(this.applicationID !== -1){
                 this.applicationForm.patchValue({
                   id: this.applicationID,

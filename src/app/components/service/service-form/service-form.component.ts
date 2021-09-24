@@ -11,7 +11,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
 import { config } from 'src/config';
-import { DialogGridComponent, DialogFormComponent } from 'dist/sitmun-frontend-gui/';
+import { DialogGridComponent, DialogFormComponent, DialogMessageComponent } from 'dist/sitmun-frontend-gui/';
 import { MatDialog } from '@angular/material/dialog';
 import * as xml2js from 'xml2js';
 
@@ -579,6 +579,20 @@ export class ServiceFormComponent implements OnInit {
       })
       return of(finalCartographies);
     }
+
+  }
+
+  private onDataCapabilitiesButtonClicked(){
+    const dialogRef = this.dialog.open(DialogMessageComponent);
+    dialogRef.componentInstance.title = this.utils.getTranslate("caution");
+    dialogRef.componentInstance.message = this.utils.getTranslate("getCapabilitiesMessage");
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Accept') {
+          this.getCapabilitiesDataService(true);
+        }
+      }
+    });
 
   }
 

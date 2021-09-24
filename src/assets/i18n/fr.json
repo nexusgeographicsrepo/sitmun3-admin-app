@@ -50,6 +50,7 @@
   "caution": "Attention",
   "atention": "Attention",
   "permissionsNoRelationship": "L'utilisateur déjà n'a pas aucune relation avec ce territoire à travers les permissions",
+  "getCapabilitiesMessage" : "S'ils s'obtiennent les données du service, se modifieront les données ne gardées de la table et quelques champs du formulaire, veux continuer?",
   "lang": {
     "Catalan": "Catalan",
     "Spanish": "Espagnol",

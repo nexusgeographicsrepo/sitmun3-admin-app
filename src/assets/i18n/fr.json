@@ -235,6 +235,7 @@
     "defaultStyle": "Style par défaut"
   },
   "layersPermitsEntity": {
+    "applications":"Applications",
     "generalData": "Données générales",
     "layersPermits": "Autorisations sur les calques",
     "name": "Nom",

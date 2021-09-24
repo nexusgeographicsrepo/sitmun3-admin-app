@@ -237,6 +237,7 @@
     "defaultStyle": "Estilo por defecto"
   },
   "layersPermitsEntity": {
+    "applications": "Aplicaciones",
     "generalData": "Datos Generales",
     "layersPermits": "Permisos sobre las capas",
     "name": "Nombre",

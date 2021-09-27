@@ -252,6 +252,7 @@
   },
   "treesEntity": {
     "generalData": "Datos Generales",
+    "serviceName":"Servicio",
     "trees": "Árboles",
     "name": "Nombre",
     "status": "Estado",

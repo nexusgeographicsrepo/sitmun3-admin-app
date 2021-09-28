@@ -487,7 +487,8 @@
     "Location view": "Vista de búsqueda",
     "Thematic": "Thematic",
     "Extraction (FME)" :"Extraction FME",
-    "Basic": "General"
+    "Basic": "General",
+    "url": "Url"
   },
   "tasksQueryEntity": {
     "generalData": "Données générales",

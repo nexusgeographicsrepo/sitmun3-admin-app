@@ -486,7 +486,8 @@
     "Cartography table (WFS)": "Edición",
     "Thematic": "Temático",
     "Extraction (FME)" :"Extracción FME",
-    "Basic": "General"
+    "Basic": "General",
+    "url": "Url"
   },
   "tasksQueryEntity": {
     "generalData": "Datos Generales",

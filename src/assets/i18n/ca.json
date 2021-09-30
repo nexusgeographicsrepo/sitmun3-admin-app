@@ -12,6 +12,7 @@
   "edit": "Edita",
   "validate": "Valida",
   "update": "Actualitza",
+  "loadGroupLayers": "Carregar des de servei",
   "save": "Desa",
   "close": "Tancar",
   "redo": "Refer",
@@ -264,7 +265,8 @@
     "datasetURL": "URL dataset",
     "description":"Descripció",
     "configuration" : "Configuració",
-    "image": "Imatge"
+    "image": "Imatge",
+    "services":"Serveis"
   },
   "taskGroupEntity": {
     "generalData": "Dades Generals",

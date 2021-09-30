@@ -199,7 +199,7 @@ export class TreesFormComponent implements OnInit {
     dialogRef.componentInstance.singleSelectionTable = [true];
     dialogRef.componentInstance.columnDefsTable = [this.columnDefsServices];
     dialogRef.componentInstance.themeGrid = this.themeGrid;
-    dialogRef.componentInstance.title = this.utils.getTranslate('treeEntity.services');
+    dialogRef.componentInstance.title = this.utils.getTranslate('treesEntity.services');
     dialogRef.componentInstance.titlesTable = [''];
     dialogRef.componentInstance.nonEditable = false;
 

@@ -12,6 +12,7 @@
   "edit": "Edit",
   "validate": "Validate",
   "update": "Update",
+  "loadGroupLayers": "Load from service",
   "save": "Save",
   "close": "Close",
   "redo": "Redo",
@@ -264,7 +265,8 @@
     "datasetURL": "Dataset URL",
     "description":"Description",
     "configuration" : "Configuration",
-    "image": "Image"
+    "image": "Image",
+    "services":"Services"
   },
   "taskGroupEntity": {
     "generalData": "General Data",

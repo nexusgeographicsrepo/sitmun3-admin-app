@@ -12,6 +12,7 @@
   "validate": "Valider",
   "update": "Mettre à jour",
   "save": "Enregistrer",
+  "loadGroupLayers": "Charger depuis service",
   "close": "Fermer",
   "redo": "Refaire",
   "undo": "Annuler",
@@ -262,7 +263,8 @@
     "datasetURL": "URL de l'ensemble de données",
     "description":"Description",
     "configuration" : "Configuration",
-    "image": "Image"
+    "image": "Image",
+    "services":"Services"
   },
   "taskGroupEntity": {
     "generalData": "Données générales",

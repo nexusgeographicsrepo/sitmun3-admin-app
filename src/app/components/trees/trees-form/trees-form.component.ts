@@ -52,6 +52,9 @@ export class TreesFormComponent implements OnInit {
   columnDefsCartographies: any[];
   columnDefsServices: any[];
 
+  filterOptions = [{value:'UNDEFINED', description: 'UNDEFINED'}, {value:true, description: 'TRUE'},{value:false, description: 'FALSE'}]
+  
+
   servicesList = [];
   layersList = [];
 
@@ -369,6 +372,9 @@ export class TreesFormComponent implements OnInit {
       isFolder: new FormControl(null, []),
       type: new FormControl(null, []),
       order: new FormControl(null, []),
+      filterGetFeatureInfo: new FormControl("UNDEFINED", []),
+      filterGetMap: new FormControl("UNDEFINED", []),
+      filterSelectable: new FormControl("UNDEFINED", []),
       nameTranslations: new FormControl(null, []),
       descriptionTranslations: new FormControl(null, []),
       nameTranslationsModified: new FormControl(null, []),
@@ -455,6 +461,7 @@ export class TreesFormComponent implements OnInit {
   }
 
   nodeReceived(node) {
+    console.log(node);
     this.newElement = false;
     let currentType;
     if (node.isFolder) {
@@ -492,6 +499,9 @@ export class TreesFormComponent implements OnInit {
       descriptionFormModified: descriptionFormModified,
       nameTranslations: node.nameTranslations,
       descriptionTranslations: node.descriptionTranslations,
+      filterGetFeatureInfo: (node.filterGetFeatureInfo == null || node.filterGetFeatureInfo == undefined)?"UNDEFINED":node.filterGetFeatureInfo,
+      filterGetMap: (node.filterGetMap == null || node.filterGetMap == undefined)?"UNDEFINED":node.filterGetMap,
+      filterSelectable: (node.filterSelectable == null || node.filterSelectable == undefined)?"UNDEFINED":node.filterSelectable,
       status: status,
       type: currentType
     })
@@ -523,7 +533,10 @@ export class TreesFormComponent implements OnInit {
       isFolder: false,
       order: null,
       children: [],
-      status: "pendingCreation"
+      status: "pendingCreation",
+      filterGetFeatureInfo: "UNDEFINED",
+      filterGetMap: "UNDEFINED",
+      filterSelectable: "UNDEFINED",
     })
 
   }
@@ -627,6 +640,9 @@ export class TreesFormComponent implements OnInit {
         treeNodeObj.metadataURL = tree.metadataURL;
         treeNodeObj.description = tree.description;
         treeNodeObj.tree = this.treeToEdit;
+        treeNodeObj.filterGetFeatureInfo = tree.filterGetFeatureInfo;
+        treeNodeObj.filterGetMap = tree.filterGetMap;
+        treeNodeObj.filterSelectable = tree.filterSelectable;
 
 
 
@@ -782,6 +798,15 @@ export class TreesFormComponent implements OnInit {
       this.treeNodeForm.patchValue({
         cartographyName: cartography.name
       })
+      if(this.treeNodeForm.get('filterGetFeatureInfo').value == "UNDEFINED"){
+        this.treeNodeForm.get('filterGetFeatureInfo').patchValue(null);
+      }
+      if(this.treeNodeForm.get('filterGetMap').value == "UNDEFINED"){
+        this.treeNodeForm.get('filterGetMap').patchValue(null);
+      }
+      if(this.treeNodeForm.get('filterSelectable').value == "UNDEFINED"){
+        this.treeNodeForm.get('filterSelectable').patchValue(null);
+      }
     }
 
 

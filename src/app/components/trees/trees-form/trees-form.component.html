@@ -52,6 +52,37 @@
     </div>
   </form>
 </div>
+<div class="tableDiv" *ngIf=" dataLoaded">
+<mat-accordion multi *ngIf="dataLoaded">
+
+  <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
+    <mat-expansion-panel-header class="agGridExpansionPanelTitle">
+      <mat-panel-title>
+        {{ "layersPermitsEntity.applications" | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+  <ng-template matExpansionPanelContent>
+    <div class="appDataGridEditDiv">
+      <app-data-grid [changeHeightButton]="true" [allNewElements]="treeID == -1"
+        [columnDefs]="columnDefsApplication" [themeGrid]='themeGrid' [getAll]='getAllApplications'
+        [eventAddItemsSubscription]='addElementsEventApplication.asObservable()'
+        [eventGetAllRowsSubscription]='getAllElementsEventApplication.asObservable()'
+        [eventRefreshSubscription]='dataUpdatedEventApplication.asObservable()' [discardChangesButton]=true
+        [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=true [hideDuplicateButton]=true
+        defaultColumnSorting="order" (getAllRows)="getAllRowsApplication($event)" [actionButton]=true
+        (add)="openApplicationsDialog($event)"> </app-data-grid>
+    </div>
+  </ng-template>
+
+</mat-expansion-panel>
+
+
+</mat-accordion>
+
+</div>
+
+
 <div class="formDiv">
   <div class="formHeader">
     <h5> {{'treesEntity.configuration' | translate}} </h5>

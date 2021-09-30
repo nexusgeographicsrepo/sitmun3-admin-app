@@ -4,7 +4,7 @@ import { TreesFormComponent } from './trees-form.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { TreeService, TreeNodeService, CartographyService, CodeListService,TranslationService, ResourceService, ExternalService, ServiceService, CapabilitiesService  } from 'dist/sitmun-frontend-core/';
+import { TreeService, TreeNodeService, CartographyService, CodeListService,TranslationService, ResourceService, ExternalService, ServiceService, CapabilitiesService, ApplicationService  } from 'dist/sitmun-frontend-core/';
 import { ExternalConfigurationService } from 'src/app/ExternalConfigurationService';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SitmunFrontendGuiModule } from 'dist/sitmun-frontend-gui/';
@@ -16,6 +16,7 @@ describe('TreesFormComponent', () => {
   let treeService: TreeService;
   let treeNodeService: TreeNodeService;
   let cartographyService: CartographyService;
+  let applicationService: ApplicationService;
   let serviceService: ServiceService;
   let capabilitiesService: CapabilitiesService;
   let codeListService: CodeListService;
@@ -28,7 +29,7 @@ describe('TreesFormComponent', () => {
       declarations: [ TreesFormComponent ],
       imports: [HttpClientTestingModule, SitmunFrontendGuiModule, RouterTestingModule,
          RouterModule.forRoot([]), MaterialModule, MatIconTestingModule],
-      providers: [TreeService,TreeNodeService, ServiceService, CapabilitiesService, CartographyService, CodeListService,TranslationService, ResourceService, ExternalService ,
+      providers: [TreeService,TreeNodeService, ApplicationService, ServiceService, CapabilitiesService, CartographyService, CodeListService,TranslationService, ResourceService, ExternalService ,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }, ]
     })
     .compileComponents();
@@ -40,6 +41,7 @@ describe('TreesFormComponent', () => {
     treeService= TestBed.inject(TreeService);
     treeNodeService= TestBed.inject(TreeNodeService);
     cartographyService= TestBed.inject(CartographyService);
+    applicationService= TestBed.inject(ApplicationService);
     serviceService= TestBed.inject(ServiceService);
     capabilitiesService= TestBed.inject(CapabilitiesService);
     codeListService= TestBed.inject(CodeListService);
@@ -63,6 +65,10 @@ describe('TreesFormComponent', () => {
   
   it('should instantiate serviceService', () => {
     expect(serviceService).toBeTruthy();
+  });
+  
+  it('should instantiate applicationService', () => {
+    expect(applicationService).toBeTruthy();
   });
 
   it('should instantiate codeListService', () => {

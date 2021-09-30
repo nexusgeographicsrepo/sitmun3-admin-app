@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TreeService, TreeNodeService, Translation, TranslationService, CartographyService, Tree, TreeNode, Cartography, ServiceService, CapabilitiesService } from 'dist/sitmun-frontend-core/';
+import { TreeService, TreeNodeService, Translation, TranslationService, CartographyService, Tree, TreeNode, Cartography, ServiceService, CapabilitiesService, ApplicationService } from 'dist/sitmun-frontend-core/';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../services/utils.service';
 import { map } from 'rxjs/operators';
@@ -30,6 +30,13 @@ export class TreesFormComponent implements OnInit {
 
   treeNameTranslationMap: Map<string, Translation>;
   treeDescriptionTranslationMap: Map<string, Translation>;
+
+  columnDefsApplication: any[];
+  addElementsEventApplication: Subject<any[]> = new Subject<any[]>();
+  dataUpdatedEventApplication: Subject<boolean> = new Subject<boolean>();
+
+  columnDefsApplicationDialog: any[];
+  getAllElementsEventApplication: Subject<string> = new Subject<string>();
 
   themeGrid: any = config.agGridTheme;
   treeID: number = -1;
@@ -69,7 +76,8 @@ export class TreesFormComponent implements OnInit {
     public utils: UtilsService,
     public dialog: MatDialog,
     public serviceService: ServiceService,
-    public capabilitiesService: CapabilitiesService
+    public capabilitiesService: CapabilitiesService,
+    public applicationService: ApplicationService
   ) {
 
     this.initializeTreesForm();
@@ -91,7 +99,19 @@ export class TreesFormComponent implements OnInit {
       this.utils.getEditableColumnDef('serviceEntity.serviceURL', 'serviceURL'),
       this.utils.getEditableColumnDef('serviceEntity.supportedSRS', 'supportedSRS'),
       this.utils.getDateColumnDef('serviceEntity.createdDate', 'createdDate')
+    ];
 
+    this.columnDefsApplication = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getIdColumnDef(),
+      this.utils.getEditableColumnDef('treesEntity.name', 'name'),
+      this.utils.getStatusColumnDef()
+    ];
+
+    this.columnDefsApplicationDialog = [
+      this.utils.getSelCheckboxColumnDef(),
+      this.utils.getIdColumnDef(),
+      this.utils.getNonEditableColumnDef('layersPermitsEntity.name', 'name'),
     ];
 
     this.treeNameTranslationMap = this.utils.createTranslationsList(config.translationColumns.treeName);
@@ -620,6 +640,7 @@ export class TreesFormComponent implements OnInit {
 
         let mapNewIdentificators: Map<number, any[]> = new Map<number, any[]>();
         const promises: Promise<any>[] = [];
+        this.getAllElementsEventApplication.next('save');
         this.updateAllTrees(data, 0, mapNewIdentificators, promises, null, null);
         this.refreshTreeEvent.next(true)
       },
@@ -889,5 +910,100 @@ export class TreesFormComponent implements OnInit {
     this.currentNodeIsFolder = undefined;
     this.treeNodeForm.reset();
   }
+
+    // ******** Applications ******** //
+
+    getAllApplications = (): Observable<any> => {
+
+      if (this.treeID == -1 && this.duplicateID == -1) {
+        const aux: Array<any> = [];
+        return of(aux);
+      }
+  
+      var urlReq = `${this.treeToEdit._links.availableApplications.href}`
+      if (this.treeToEdit._links.availableApplications.templated) {
+        var url = new URL(urlReq.split("{")[0]);
+        url.searchParams.append("projection", "view")
+        urlReq = url.toString();
+      }
+
+      console.log(urlReq);
+  
+      return (this.http.get(urlReq))
+        .pipe(map(data => data['_embedded']['applications']));
+  
+  
+    }
+  
+    getAllRowsApplication(event) {
+      if (event.event == "save") {
+        this.saveApplications(event.data);
+      }
+    }
+
+
+  saveApplications(data: any[]) {
+    let dataChanged = false;
+    let applicationsToPut = [];
+    const promises: Promise<any>[] = [];
+
+    data.forEach(application => {
+      if (application.status !== 'pendingDelete') {
+        if (application.status === 'pendingModify') {
+          if (application.newItem) { dataChanged = true; }
+          promises.push(new Promise((resolve, reject) => { this.applicationService.update(application).subscribe((resp) => { resolve(true) }) }));
+        }
+        else if (application.status === 'pendingCreation') {
+          dataChanged = true;
+        }
+        applicationsToPut.push(application._links.self.href)
+      }
+      else { dataChanged = true }
+    });
+
+
+    Promise.all(promises).then(() => {
+      if (dataChanged) {
+        let url = this.treeToEdit._links.availableApplications.href.split('{', 1)[0];
+        this.utils.updateUriList(url, applicationsToPut, this.dataUpdatedEventApplication)
+      }
+      else { this.dataUpdatedEventApplication.next(true); }
+    });
+
+  }
+
+  openApplicationsDialog(data: any) {
+    const dialogRef = this.dialog.open(DialogGridComponent, { panelClass: 'gridDialogs' });
+    dialogRef.componentInstance.orderTable = ['name'];
+    dialogRef.componentInstance.getAllsTable = [this.getAllApplicationDialog];
+    dialogRef.componentInstance.singleSelectionTable = [false];
+    dialogRef.componentInstance.columnDefsTable = [this.columnDefsApplicationDialog];
+    dialogRef.componentInstance.themeGrid = this.themeGrid;
+    dialogRef.componentInstance.title = this.utils.getTranslate("layersPermitsEntity.applications");
+    dialogRef.componentInstance.titlesTable = [''];
+    dialogRef.componentInstance.currentData = [data];
+    dialogRef.componentInstance.fieldRestrictionWithDifferentName = ['applicationName'];
+    dialogRef.componentInstance.addFieldRestriction = ['name'];
+    dialogRef.componentInstance.nonEditable = false;
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'Add') {
+          this.addElementsEventApplication.next(result.data[0])
+        }
+      }
+
+    });
+
+  }
+
+  getAllApplicationDialog = () => {
+
+    return this.applicationService.getAll();
+  }
+
+
 }
 

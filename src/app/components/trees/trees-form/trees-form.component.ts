@@ -322,7 +322,7 @@ export class TreesFormComponent implements OnInit {
     if (!cartography) { return null }
 
     newNode.cartography = cartography;
-    newNode.cartographyName = cartography.Name;
+    newNode.cartographyName = cartography.name;
     newNode.active = false;
     newNode.isFolder = false;
     return newNode;
@@ -383,6 +383,8 @@ export class TreesFormComponent implements OnInit {
       descriptionFormModified: new FormControl(null, []),
       status: new FormControl(null, []),
       cartographyName: new FormControl(null, []),
+      oldCartography: new FormControl(null, []),
+      
 
     })
   }
@@ -484,6 +486,8 @@ export class TreesFormComponent implements OnInit {
       tooltip: node.tooltip,
       order: node.order,
       cartography: node.cartographyName,
+      cartographyName: node.cartographyName,
+      oldCartography: node.cartography,
       radio: node.radio,
       description: node.description,
       datasetURL: node.datasetURL,
@@ -772,7 +776,7 @@ export class TreesFormComponent implements OnInit {
 
 
   getSelectedRowsCartographies(data: any[]) {
-    if ((data.length <= 0 && this.treeNodeForm.value.cartography == null) && !this.currentNodeIsFolder) {
+    if ((data.length <= 0 && this.treeNodeForm.value.cartographyName == null) && !this.currentNodeIsFolder) {
       const dialogRef = this.dialog.open(DialogMessageComponent);
       dialogRef.componentInstance.title = this.utils.getTranslate("Error");
       dialogRef.componentInstance.hideCancelButton = true;
@@ -780,7 +784,7 @@ export class TreesFormComponent implements OnInit {
       dialogRef.afterClosed().subscribe();
     }
     else {
-      if (this.treeNodeForm.value.cartography !== null && data.length <= 0) {
+      if (this.treeNodeForm.value.cartographyName !== null && data.length <= 0) {
         this.updateTreeLeft(null)
       }
       else {
@@ -800,6 +804,17 @@ export class TreesFormComponent implements OnInit {
         cartographyName: cartography.name
       })
 
+    }
+    else{
+      if(!this.treeNodeForm.get('isFolder').value){
+        let oldCartography = this.treeNodeForm.get('oldCartography').value;
+        if(oldCartography){
+          this.treeNodeForm.patchValue({
+            cartography: oldCartography,
+            cartographyName: oldCartography.name
+          })
+        }
+      }
     }
 
     if(!this.treeNodeForm.get('isFolder').value){

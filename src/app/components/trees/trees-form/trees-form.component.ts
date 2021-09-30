@@ -792,11 +792,10 @@ export class TreesFormComponent implements OnInit {
 
   updateTreeLeft(cartography) {
 
-
+    this.treeNodeForm.patchValue({
+      cartography: cartography
+    })
     if (cartography != null) {
-      this.treeNodeForm.patchValue({
-        cartography: cartography
-      })
       this.treeNodeForm.patchValue({
         cartographyName: cartography.name
       })

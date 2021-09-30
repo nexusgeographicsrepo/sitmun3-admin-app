@@ -791,13 +791,19 @@ export class TreesFormComponent implements OnInit {
   }
 
   updateTreeLeft(cartography) {
-    this.treeNodeForm.patchValue({
-      cartography: cartography
-    })
+
+
     if (cartography != null) {
+      this.treeNodeForm.patchValue({
+        cartography: cartography
+      })
       this.treeNodeForm.patchValue({
         cartographyName: cartography.name
       })
+
+    }
+
+    if(!this.treeNodeForm.get('isFolder').value){
       if(this.treeNodeForm.get('filterGetFeatureInfo').value == "UNDEFINED"){
         this.treeNodeForm.get('filterGetFeatureInfo').patchValue(null);
       }

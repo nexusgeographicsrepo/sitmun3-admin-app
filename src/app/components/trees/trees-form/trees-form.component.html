@@ -178,7 +178,7 @@
           <mat-form-field appearance="outline">
             <mat-select matInput formControlName="filterGetFeatureInfo" class="form-control">
               <mat-option [value]="option.value" *ngFor="let option of filterOptions">
-                {{ option.description}}
+                {{ option.description | translate}}
               </mat-option>
             </mat-select>
           </mat-form-field> 
@@ -192,7 +192,7 @@
           <mat-form-field appearance="outline">
               <mat-select matInput formControlName="filterGetMap" class="form-control">
                 <mat-option [value]="option.value" *ngFor="let option of filterOptions">
-                  {{ option.description}}
+                  {{ option.description | translate}}
                 </mat-option>
               </mat-select>
             </mat-form-field> 
@@ -209,7 +209,7 @@
             <mat-form-field appearance="outline">
               <mat-select matInput formControlName="filterSelectable" class="form-control">
                 <mat-option [value]="option.value" *ngFor="let option of filterOptions">
-                  {{ option.description}}
+                  {{ option.description | translate}}
                 </mat-option>
               </mat-select>
             </mat-form-field> 

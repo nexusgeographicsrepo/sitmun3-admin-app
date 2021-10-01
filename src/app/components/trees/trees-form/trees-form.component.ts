@@ -59,7 +59,7 @@ export class TreesFormComponent implements OnInit {
   columnDefsCartographies: any[];
   columnDefsServices: any[];
 
-  filterOptions = [{value:'UNDEFINED', description: 'UNDEFINED'}, {value:true, description: 'TRUE'},{value:false, description: 'FALSE'}]
+  filterOptions = [{value:'UNDEFINED', description: 'UNDEFINED'}, {value:true, description: 'YES'},{value:false, description: 'NO'}]
   
 
   servicesList = [];

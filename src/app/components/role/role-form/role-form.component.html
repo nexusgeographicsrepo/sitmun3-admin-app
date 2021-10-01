@@ -50,7 +50,7 @@
 <div class="tableDiv" *ngIf="dataLoaded">
   <mat-accordion  multi>
 
-    <!-- Users table 
+    <!-- Users table  -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">
       <mat-expansion-panel-header class="agGridExpansionPanelTitle">
         <mat-panel-title>
@@ -61,7 +61,7 @@
       <ng-template matExpansionPanelContent>
         <div class="appDataGridEditDiv">
             <app-data-grid [changeHeightButton]="true" [columnDefs]="columnDefsUsers" [themeGrid]='themeGrid' [getAll]='getAllUsers'  
-            [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' 
+            [eventRefreshSubscription]='dataUpdatedEvent.asObservable()' [addFieldRestriction]="['territoryId', 'roleId', 'userId']"
             [eventAddItemsSubscription]='addElementsEventUsers.asObservable()'[eventGetAllRowsSubscription]='getAllElementsEventUsers.asObservable()' 
             [eventRefreshSubscription]='dataUpdatedEventUsers.asObservable()'[discardChangesButton]=true [redoButton]=true [undoButton]=true  
             [deleteButton]=true [addButton]=true [hideDuplicateButton]=true [actionButton]=true (add)="openUsersDialog($event)"
@@ -69,7 +69,7 @@
         </div>
 
       </ng-template>
-    </mat-expansion-panel>-->
+    </mat-expansion-panel>
 
     <!-- Cartography Groups table -->
     <mat-expansion-panel [expanded]="true" class="agGridExpansionPanel">

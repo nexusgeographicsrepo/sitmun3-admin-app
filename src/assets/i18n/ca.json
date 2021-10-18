@@ -197,7 +197,7 @@
     "territory": "Territori",
     "code": "Codi",
     "administrator": "Administrador",
-    "parametersConfiguration": "Configuració de paràmetres",
+    "parametersConfiguration": "Configuració dels atributs alfanumèrics de la capa",
     "spatialSelection": "Selecció espacial",
     "groupCartographyLayersConfiguration": "Configuració de capes per grups de cartografia",
     "permissiongroupLayersConfiguration": "Configuració de permisos sobre capes",

@@ -195,7 +195,7 @@
     "territory": "Territoire",
     "code": "Code",
     "administrator": "Administrateur",
-    "parametersConfiguration": "Configuration des paramètres",
+    "parametersConfiguration": "Configuration des attributs alphanumériques de la couche",
     "spatialSelection": "Sélection spatiale",
     "groupCartographyLayersConfiguration": "Configuration des couches par groupe de cartographie",
     "permissiongroupLayersConfiguration": "Configuration des autorisations de couche",

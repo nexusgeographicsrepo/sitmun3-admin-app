@@ -197,7 +197,7 @@
     "territory": "Territorio",
     "code": "Código",
     "administrator": "Administrador",
-    "parametersConfiguration": "Configuración de parámetros",
+    "parametersConfiguration": "Configuración de los atributos alfanuméricos de la capa",
     "spatialSelection": "Selección espacial",
     "groupCartographyLayersConfiguration": "Configuración de capas por grupos de cartografía",
     "permissiongroupLayersConfiguration": "Configuración de permisos sobre capas",

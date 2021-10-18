@@ -197,7 +197,7 @@
     "territory": "Territory",
     "code": "Code",
     "administrator": "Administrator",
-    "parametersConfiguration": "Parameter configuration",
+    "parametersConfiguration": "Layer Alphanumeric Attributes Configuration",
     "spatialSelection": "Spatial Selection",
     "groupCartographyLayersConfiguration": "Layer configuration by cartography group",
     "permissiongroupLayersConfiguration": "Layer permissions configuration",

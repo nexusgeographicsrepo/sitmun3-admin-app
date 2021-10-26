@@ -697,7 +697,6 @@ export class LayersFormComponent implements OnInit {
           let layersName = this.layerForm.get('selectableLayers').value
           if (service && service.serviceURL && layersName) {
             let url: string = service.serviceURL;
-            // let url:string =this.layerForm.value.datasetURL;
             if (!url.includes('request=DescribeFeatureType')) {
               if (url[url.length - 1] != '?') { url += "?" }
 
@@ -709,7 +708,6 @@ export class LayersFormComponent implements OnInit {
               }
             }, error => {
               console.log(error)
-              // this.capabilitiesLoaded=true;
             })
           }
 
@@ -721,9 +719,7 @@ export class LayersFormComponent implements OnInit {
 
     }
     catch (err) {
-      this.utils.showErrorMessage("ERROR")
-      // this.capabilitiesLoaded=true;
-
+      this.utils.showErrorMessage(err)
     };
   }
 

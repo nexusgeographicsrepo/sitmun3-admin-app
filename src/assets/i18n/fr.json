@@ -56,6 +56,7 @@
   "atention": "Attention",
   "permissionsNoRelationship": "L'utilisateur déjà n'a pas aucune relation avec ce territoire à travers les permissions",
   "getCapabilitiesMessage" : "S'ils s'obtiennent les données du service, se modifieront les données ne gardées de la table et quelques champs du formulaire, veux continuer?",
+  "getInfoMessage": "Veux vider la table de paramètres?",
   "lang": {
     "Catalan": "Catalan",
     "Spanish": "Espagnol",
@@ -184,6 +185,7 @@
     "source": "Origine",
     "layers": "Calques",
     "name": "Nom",
+    "load": "Charge",
     "serviceName": "Service",
     "order": "Commander",
     "createdDate": "Date de création",

@@ -57,6 +57,7 @@
   "permissionsNoRelationship" : "The user no longer has any relationship with that territory through the Permissions",
   "getCapabilitiesMessage": "If the data from the service is obtained, unsaved data from the table and some fields from the form will be modified, do you want to continue?",
   "caution": "Caution",
+  "getInfoMessage": "Do you want to empty parameter table?",
   "atention": "Atention",
   "lang": {
     "Catalan": "Catalan",
@@ -188,6 +189,7 @@
     "name": "Name",
     "serviceName": "Service",
     "order": "Order",
+    "load": "Load",
     "createdDate": "Created date",
     "minimumScale": "Min Scale",
     "maximumScale": "Max Scale",

@@ -201,7 +201,7 @@
             [eventAddItemsSubscription]='addElementsEventLayers.asObservable()'
             [eventGetAllRowsSubscription]='getAllElementsEventLayers.asObservable()'
             [eventRefreshSubscription]='dataUpdatedEventLayers.asObservable()' [discardChangesButton]=false
-            [redoButton]=true [undoButton]=true [deleteButton]=false [addButton]=false [hideDuplicateButton]=true
+            [redoButton]=true [undoButton]=true [deleteButton]=true [addButton]=false [hideDuplicateButton]=true
             [registerButton]=true newStatusRegister="pendingRegistration"
             (getAllRows)="getAllRowsLayers($event)" defaultColumnSorting="name" [actionButton]=true (add)="openCartographyDialog($event)">
           </app-data-grid>

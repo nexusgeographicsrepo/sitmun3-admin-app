@@ -652,6 +652,9 @@ export class ServiceFormComponent implements OnInit {
               }) 
             }));
         }
+        else if(cartography.status === 'pendingDelete' && cartography._links){
+          promisesStyles.push(new Promise((resolve, reject) => { this.cartographyStyleService.remove(cartography).subscribe((resp) => { resolve(true) }) }));
+        }
         
         // layersToPut.push(cartography._links.self.href)
     

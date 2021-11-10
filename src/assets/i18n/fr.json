@@ -275,7 +275,11 @@
     "description":"Description",
     "configuration" : "Configuration",
     "image": "Image",
-    "services":"Services"
+    "services":"Services",
+    "style": "Style",
+    "styles": "Styles",
+    "styleError": "Le style de n.ud doit correspondre à un style de calque sélectionné, si le calque n'a pas de style, il doit être vide." 
+
   },
   "taskGroupEntity": {
     "generalData": "Données générales",

@@ -277,7 +277,10 @@
     "description":"Descripció",
     "configuration" : "Configuració",
     "image": "Imatge",
-    "services":"Serveis"
+    "services":"Serveis",
+    "style": "Estil",
+    "styles": "Estils",
+    "styleError": "L'estil del node ha de coincidir amb un estil de la capa seleccionada, en cas que la capa no tingui cap estil, aquest haurà d'estar buit."
   },
   "taskGroupEntity": {
     "generalData": "Dades Generals",

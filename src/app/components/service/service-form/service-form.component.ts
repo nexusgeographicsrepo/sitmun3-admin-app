@@ -154,9 +154,9 @@ export class ServiceFormComponent implements OnInit {
                 _links: this.serviceToEdit._links
               });
 
-              let currentType = this.serviceTypes.find(element => element.id == this.serviceToEdit.type);
+              let currentType = this.serviceTypes.find(element => element.value == this.serviceToEdit.type);
               if(currentType){
-                if(currentType.value != 'WMS') { this.tableLoadButtonDisabled = true }
+                this.tableLoadButtonDisabled=currentType.value == 'WMS'? false:true
               }
 
 

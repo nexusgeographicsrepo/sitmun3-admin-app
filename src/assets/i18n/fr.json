@@ -12,6 +12,7 @@
   "validate": "Valider",
   "update": "Mettre à jour",
   "save": "Enregistrer",
+  "load":"Charge",
   "ALL": "Tous",
   "loadGroupLayers": "Charger depuis service",
   "UNDEFINED":"Indéfini",

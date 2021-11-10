@@ -13,6 +13,7 @@
   "update": "Mettre à jour",
   "save": "Enregistrer",
   "load":"Charge",
+  "update_layers":"mise à jour des calques",
   "ALL": "Tous",
   "loadGroupLayers": "Charger depuis service",
   "UNDEFINED":"Indéfini",

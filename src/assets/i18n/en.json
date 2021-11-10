@@ -19,6 +19,7 @@
   "NO": "No",
   "save": "Save",
   "load":"Load",
+  "update_layers": "Update layers",
   "close": "Close",
   "redo": "Redo",
   "undo": "Undo",

@@ -344,7 +344,7 @@ export class TreesFormComponent implements OnInit {
 
     newNode.cartography = cartography;
     newNode.cartographyName = cartography.name;
-    newNode.active = false;
+    newNode.active = true;
     newNode.isFolder = false;
     return newNode;
   }
@@ -386,7 +386,7 @@ export class TreesFormComponent implements OnInit {
       datasetURL: new FormControl(null, []),
       metadataURL: new FormControl(null, []),
       description: new FormControl(null, []),
-      active: new FormControl(null, []),
+      active: new FormControl(true, []),
       _links: new FormControl(null, []),
       children: new FormControl(null, []),
       parent: new FormControl(null, []),
@@ -566,6 +566,7 @@ export class TreesFormComponent implements OnInit {
       filterGetFeatureInfo: "UNDEFINED",
       filterGetMap: "UNDEFINED",
       filterSelectable: "UNDEFINED",
+      active:true
     })
 
   }

@@ -839,7 +839,7 @@ export class TreesFormComponent implements OnInit {
     else if( !this.currentNodeIsFolder && data.length >0 && this.checkIfStyleIsInvalid(this.treeNodeForm.get('style').value, data[0].stylesNames)){
       this.showStyleError();
     }
-    else if(cartography && this.checkIfStyleIsInvalid(this.treeNodeForm.get('style').value, cartography['stylesNames'])){
+    else if(cartography && this.checkIfStyleIsInvalid(this.treeNodeForm.get('style').value, cartography.stylesNames)){
         this.showStyleError();
     }
     else {

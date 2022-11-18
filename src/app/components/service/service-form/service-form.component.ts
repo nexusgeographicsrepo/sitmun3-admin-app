@@ -332,7 +332,6 @@ export class ServiceFormComponent implements OnInit {
   changeServiceDataByCapabilities(refresh?, ignoreForm?) {
     let data = this.serviceCapabilitiesData.WMT_MS_Capabilities != undefined ? this.serviceCapabilitiesData.WMT_MS_Capabilities : this.serviceCapabilitiesData.WMS_Capabilities
 
-    console.log(data);
     if (data != undefined) {
       if (data.Capability) {
         let capabilitiesList = null;
